@@ -17,8 +17,8 @@
 // */
 ClassLoader::addNamespaces(array
 (
-	'c4g\projects',
-    'c4g\projects\database'
+	'\c4g\projects',
+    '\c4g\projects\database'
 ));
 //
 //
@@ -223,10 +223,10 @@ ClassLoader::addClasses(array
 //    'c4g\projects\C4GBrickModuleParent'     => 'system/modules/con4gis_projects/classes/framework/C4GBrickModuleParent.php',
 //
 //    //Models
-    'c4g\projects\C4gProjectsLogbookModel'  => 'system/modules/con4gis_projects/models/C4gProjectsLogbookModel.php',
-    'c4g\projects\C4gProjectsModel'         => 'system/modules/con4gis_projects/models/C4gProjectsModel.php',
-    'c4g\projects\C4gProjectMapDataModel'   => 'system/modules/con4gis_projects/models/C4gProjectMapDataModel.php',
-//
+//    '\c4g\projects\C4gProjectsLogbookModel'  => 'system/modules/con4gis_projects/models/C4gProjectsLogbookModel.php',
+//    '\c4g\projects\C4gProjectsModel'         => 'system/modules/con4gis_projects/models/C4gProjectsModel.php',
+//    '\c4g\projects\C4gProjectMapDataModel'   => 'system/modules/con4gis_projects/models/C4gProjectMapDataModel.php',
+////
 //    // Services
     'C4GBrickAjaxApi'       => 'system/modules/con4gis_projects/modules/api/C4GBrickAjaxApi.php',
 //	'c4g\projects\C4GEditorTabApi'		=> 'system/modules/con4gis_projects/modules/api/C4GEditorTabApi.php',

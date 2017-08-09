@@ -509,7 +509,7 @@ class C4GBrickModuleParent extends \Module
 
         // check if we need Contao 4 routing
         if (class_exists('\con4gis\ApiBundle\Controller\ApiController') &&  (version_compare( VERSION, '4', '>=' ))) {
-            $data['ajaxUrl']    = "con4gis/api/c4g_brick_ajax";
+            $data['ajaxUrl']    = "con4gis/brick_ajax_api";
         } else {
             $data['ajaxUrl']    = "system/modules/con4gis_core/api/index.php/c4g_brick_ajax";
         }

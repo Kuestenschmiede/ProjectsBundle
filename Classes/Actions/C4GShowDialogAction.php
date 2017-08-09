@@ -15,6 +15,7 @@ namespace con4gis\ProjectBundle\Classes\Actions;
 use con4gis\ProjectBundle\Classes\Common\C4GBrickCommon;
 use con4gis\ProjectBundle\Classes\Common\C4GBrickConst;
 use con4gis\ProjectBundle\Classes\Dialogs\C4GBrickDialog;
+use con4gis\ProjectBundle\Classes\Models\C4gProjectsModel;
 use con4gis\ProjectBundle\Classes\Views\C4GBrickView;
 use con4gis\ProjectBundle\Classes\Views\C4GBrickViewType;
 
@@ -302,30 +303,32 @@ class C4GShowDialogAction extends C4GBrickDialogAction
 //
 //        }
 
+        // TODO zum laufen kriegen
 //        $project_id = $this->project_id;
-        if (($viewType != C4GBrickViewType::GROUPPROJECT) && $projectId) {
-            $project = \c4g\projects\C4gProjectsModel::findByPk($projectId);
-            if ($project) {
-                $groupKeyField = $viewParams->getGroupKeyField();
-                if ($project->$groupKeyField) {
-                    $dialogParams->setGroupId($project->$groupKeyField);
-                }
+//        if (($viewType != C4GBrickViewType::GROUPPROJECT) && $projectId) {
+//            $project = C4gProjectsModel::findByPk($projectId);
+//            if ($project) {
+//                $groupKeyField = $viewParams->getGroupKeyField();
+//                if ($project->$groupKeyField) {
+//                    $dialogParams->setGroupId($project->$groupKeyField);
+//                }
+//
+//                $dialogParams->setFrozen($project->is_frozen);
+//                $project_headline = '<div class="c4g_brick_headtext"> Aktives Projekt: <b>'.$project->caption.'</b></div>';
+//            }
+//        }
 
-                $dialogParams->setFrozen($project->is_frozen);
-                $project_headline = '<div class="c4g_brick_headtext"> Aktives Projekt: <b>'.$project->caption.'</b></div>';
-            }
-        }
-
-        if (!$project) {
-            if ($viewType == C4GBrickViewType::GROUPPROJECT) {
-                if ($id) {
-                    $project = \c4g\projects\C4gProjectsModel::findByPk($id);
-                    if ($project && $dialogParams) {
-                        $dialogParams->setFrozen($project->is_frozen);
-                    }
-                }
-            }
-        }
+        // TODO projectsmodel zum laufen kriegen
+//        if (!$project) {
+//            if ($viewType == C4GBrickViewType::GROUPPROJECT) {
+//                if ($id) {
+//                    $project = C4gProjectsModel::findByPk($id);
+//                    if ($project && $dialogParams) {
+//                        $dialogParams->setFrozen($project->is_frozen);
+//                    }
+//                }
+//            }
+//        }
 
         if (C4GBrickView::isWithGroup($viewType)) {
 
