@@ -12,6 +12,10 @@
 
 namespace con4gis\ProjectBundle\Classes\Actions;
 
+use con4gis\ProjectBundle\Classes\Dialogs\C4GBrickDialog;
+use con4gis\ProjectBundle\Classes\Models\C4gProjectsModel;
+use con4gis\ProjectBundle\Classes\Views\C4GBrickViewType;
+
 class C4GCloseDialogAction extends C4GBrickDialogAction
 {
     public function run()
@@ -35,10 +39,11 @@ class C4GCloseDialogAction extends C4GBrickDialogAction
                 $is_frozen = $dbValues->is_frozen;
             }
         } else if ($project_id) {
-            $project = \c4g\projects\C4gProjectsModel::findByPk($project_id);
-            if ($project) {
-                $is_frozen = $project->is_frozen;
-            }
+            // TODO projects model fixen
+//            $project = C4gProjectsModel::findByPk($project_id);
+//            if ($project) {
+//                $is_frozen = $project->is_frozen;
+//            }
         }
 
         if ($viewType == C4GBrickViewType::GROUPPROJECT) {
