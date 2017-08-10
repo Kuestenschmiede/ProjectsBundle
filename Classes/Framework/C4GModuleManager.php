@@ -19,15 +19,6 @@ class C4GModuleManager
      * @var array
      */
     private $moduleMap = array();
-    private static $instance = null;
-
-    public static function getInstance()
-    {
-        if (!self::$instance) {
-            self::$instance = new C4GModuleManager();
-        }
-        return self::$instance;
-    }
 
     public function getC4gFrontendModule($id, $request)
     {
@@ -68,7 +59,6 @@ class C4GModuleManager
         }
 
         $strClass = Module::findClass($objModule->type);
-//        $strClass = $this->findFrontendModule($objModule->type);
 
         // Return if the class does not exist
         if (!class_exists($strClass)) {
@@ -87,6 +77,7 @@ class C4GModuleManager
         if (!$this->moduleMap[$id]) {
             $objModule->typePrefix = 'mod_';
             $objModule = new $strClass($objModule);
+            $this->moduleMap[$id] = $objModule;
         } else {
             $objModule = $this->moduleMap[$id];
         }

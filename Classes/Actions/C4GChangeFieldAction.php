@@ -9,38 +9,52 @@
 namespace con4gis\ProjectBundle\Classes\Actions;
 
 
+use con4gis\ProjectBundle\Classes\Fieldlist\C4GBrickField;
+
 class C4GChangeFieldAction extends C4GBrickAction
 {
+    private $module = null;
+
+    /**
+     * C4GChangeFieldAction constructor.
+     * @param $dialogParams
+     * @param $listParams
+     * @param $fieldList
+     * @param $putVars
+     * @param $brickDatabase
+     * @param $module
+     */
+    public function __construct($dialogParams, $listParams, $fieldList, $putVars, $brickDatabase, $module)
+    {
+        parent::__construct($dialogParams, $listParams, $fieldList, $putVars, $brickDatabase);
+        $this->module = $module;
+    }
+
 
     public function run()
     {
-        $dialogParams = $this->getDialogParams();
         $fieldList = $this->getFieldList();
-        $listParams = $this->getListParams();
-        $putVars = $this->getPutVars();
-        $brickDatabase = $this->getBrickDatabase();
-        // check for each field if there is an entry in the post array
-        // TODO check if we can use this in PHP 5
-        /* @var C4GBrickField $field */
-        foreach($fieldList as $field) {
-            if ($_POST['c4g_' . $field->getFieldName()]) {
-                $changes = $_POST['c4g_' . $field->getFieldName()];
-                foreach($changes as $property=>$value) {
-                    // TODO check with longer property names, in cases like setFieldName
-                    $setter = 'set' . ucfirst($property);
-                    $value = $this->checkVal($value);
-                    $field->$setter($value);
-                }
-            }
-        }
+        $changeHandler = $this->module->getDialogChangeHandler();
+        $changes = $this->getChangesFromPost($fieldList);
+        $fieldList = $changeHandler->applyChanges($changes, $fieldList, $this->module->getBrickKey());
         return $fieldList;
     }
 
-    private function checkVal($value) {
-        if ($value === "true" || $value === "false") {
-            return filter_var($value, FILTER_VALIDATE_BOOLEAN);
-        } else {
-            return $value;
+    /**
+     * Checks the global $_POST array if there are any entries for fields from the fieldlist.
+     * If yes, they are stored in the returned array, with the fieldName as key.
+     * @param $fieldList
+     * @return array
+     */
+    private function getChangesFromPost($fieldList)
+    {
+        $changes = array();
+        /* @var C4GBrickField $field */
+        foreach ($fieldList as $field) {
+            if ($_POST['c4g_' . $field->getFieldName()]) {
+                $changes[$field->getFieldName()] = $_POST['c4g_' . $field->getFieldName()];
+            }
         }
+        return $changes;
     }
 }

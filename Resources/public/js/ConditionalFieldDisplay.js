@@ -90,13 +90,13 @@ function ConditionalFieldDisplay(moduleId) {
           }
         }
       }
-      // TODO requests zusammenführen, nicht für jedes feld einen request senden
     }
     sendChanges(changes);
   };
 
   var sendChanges = function(changes) {
-    var ajaxUrl = apiBaseUrl + '/c4g_brick_ajax/' + scope.moduleId + '/changefield';
+    var ajaxUrl = 'con4gis/brick_ajax_api/';
+    ajaxUrl = ajaxUrl + scope.moduleId + '/changefield';
     jQuery.post(ajaxUrl, changes, function(data) {
       console.log("lolol");
     });

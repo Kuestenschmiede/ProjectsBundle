@@ -326,7 +326,9 @@ abstract class C4GBrickAction
             case C4GBrickActionType::ACTION_CANCELPARENTSELECT:
             case C4GBrickActionType::ACTION_CANCELPARENTFILTER:
                 $action = new C4GCancelDialogAction($dialogParams, $listParams, $fieldList, $putVars, $brickDatabase);
-                return $action->run();
+                $return = $action->run();
+                $module->getDialogChangeHandler()->clearSession($module->getBrickKey());
+                return $return;
             case C4GBrickActionType::ACTION_FREEZEDIALOG:
                 $action = new C4GFreezeDialogAction($dialogParams, $listParams, $fieldList, $putVars, $brickDatabase);
                 return $action->run();
@@ -351,11 +353,15 @@ abstract class C4GBrickAction
             case C4GBrickActionType::ACTION_SAVEDIALOG:
                 $action = new C4GSaveDialogAction($dialogParams, $listParams, $fieldList, $putVars, $brickDatabase);
                 $action->setModule($module);
-                return $action->run();
+                $return = $action->run();
+                $module->getDialogChangeHandler()->clearSession($module->getBrickKey());
+                return $return;
             case C4GBrickActionType::ACTION_SAVEANDNEWDIALOG:
                 $action = new C4GSaveDialogAction($dialogParams, $listParams, $fieldList, $putVars, $brickDatabase);
                 $action->setAndNew(true);
-                return $action->run();
+                $return = $action->run();
+                $module->getDialogChangeHandler()->clearSession($module->getBrickKey());
+                return $return;
             case C4GBrickActionType::ACTION_SAVEANDREDIRECTDIALOG:
                 $action = new C4GSaveDialogAction($dialogParams, $listParams, $fieldList, $putVars, $brickDatabase);
                 $action->setWithRedirect(true);
@@ -367,7 +373,13 @@ abstract class C4GBrickAction
                 $action = new C4GConfirmArchiveAction($dialogParams, $listParams, $fieldList, $putVars, $brickDatabase);
                 return $action->run();
             case C4GBrickActionType::ACTION_CONFIRMACTIVATION:
-                $action = new C4GConfirmActivationAction($dialogParams, $listParams, $fieldList, $putVars, $brickDatabase);
+                $action = new C4GConfirmActivationAction(
+                    $dialogParams,
+                    $listParams,
+                    $fieldList,
+                    $putVars,
+                    $brickDatabase
+                );
                 $action->setModule($module);
                 return $action->run();
             case C4GBrickActionType::ACTION_CONFIRMFREEZE:
@@ -379,35 +391,69 @@ abstract class C4GBrickAction
             case C4GBrickActionType::IDENTIFIER_LIST:
                 if (C4GBrickView::isWithoutList($viewType) || ($id > 0)) {
                     $action = new C4GShowDialogAction($dialogParams, $listParams, $fieldList, $putVars, $brickDatabase);
-                    return $action->run();
+                    $return = $action->run();
+                    $module->getDialogChangeHandler()->clearSession($module->getBrickKey());
+                    return $return;
                     break;
                 } else {
                     $action = new C4GShowListAction($dialogParams, $listParams, $fieldList, $putVars, $brickDatabase);
-                    return $action->run();
+                    $return = $action->run();
+                    $module->getDialogChangeHandler()->clearSession($module->getBrickKey());
+                    return $return;
                     break;
                 }
                 break;
             case C4GBrickActionType::ACTION_SELECTGROUP:
-                $action = new C4GSelectGroupDialogAction($dialogParams, $listParams, $fieldList, $putVars, $brickDatabase);
+                $action = new C4GSelectGroupDialogAction(
+                    $dialogParams,
+                    $listParams,
+                    $fieldList,
+                    $putVars,
+                    $brickDatabase
+                );
                 return $action->run();
                 break;
             case C4GBrickActionType::ACTION_SELECTPROJECT:
-                $action = new C4GSelectProjectDialogAction($dialogParams, $listParams, $fieldList, $putVars, $brickDatabase);
+                $action = new C4GSelectProjectDialogAction(
+                    $dialogParams,
+                    $listParams,
+                    $fieldList,
+                    $putVars,
+                    $brickDatabase
+                );
                 return $action->run();
                 break;
             case C4GBrickActionType::ACTION_SELECTPARENT:
-                $action = new C4GSelectParentDialogAction($dialogParams, $listParams, $fieldList, $putVars, $brickDatabase);
+                $action = new C4GSelectParentDialogAction(
+                    $dialogParams,
+                    $listParams,
+                    $fieldList,
+                    $putVars,
+                    $brickDatabase
+                );
                 return $action->run();
                 break;
             case C4GBrickActionType::ACTION_FILTER:
-                $action = new C4GShowFilterDialogAction($dialogParams, $listParams, $fieldList, $putVars, $brickDatabase);
+                $action = new C4GShowFilterDialogAction(
+                    $dialogParams,
+                    $listParams,
+                    $fieldList,
+                    $putVars,
+                    $brickDatabase
+                );
                 return $action->run();
                 break;
             case C4GBrickActionType::ACTION_CONFIRMSELECT:
                 //TODO [MEi, 10.03.2015] Mit Leben füllen
                 break;
             case C4GBrickActionType::ACTION_CONFIRMGROUPSELECT:
-                $action = new C4GConfirmGroupSelectAction($dialogParams, $listParams, $fieldList, $putVars, $brickDatabase);
+                $action = new C4GConfirmGroupSelectAction(
+                    $dialogParams,
+                    $listParams,
+                    $fieldList,
+                    $putVars,
+                    $brickDatabase
+                );
                 return $action->run();
                 break;
             case C4GBrickActionType::ACTION_CONFIRMPROJECTSELECT:
@@ -438,7 +484,14 @@ abstract class C4GBrickAction
                 $action = new C4GLoginRedirectAction($dialogParams, $listParams, $fieldList, $putVars, $brickDatabase);
                 return $action->run();
             case C4GBrickActionType::ACTION_CHANGEFIELD:
-                $action = new C4GChangeFieldAction($dialogParams, $listParams, $fieldList, $putVars, $brickDatabase);
+                $action = new C4GChangeFieldAction(
+                    $dialogParams,
+                    $listParams,
+                    $fieldList,
+                    $putVars,
+                    $brickDatabase,
+                    $module
+                );
                 // TODO nach run eventuell $fieldList von $module setzen wegen referenzen
                 $newFieldList = $action->run();
                 $module->setFieldList($newFieldList);

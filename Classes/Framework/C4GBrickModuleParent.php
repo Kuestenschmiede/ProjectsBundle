@@ -25,6 +25,7 @@ use con4gis\ProjectBundle\Classes\Database\C4GBrickDatabase;
 use con4gis\ProjectBundle\Classes\Database\C4GBrickDatabaseParams;
 use con4gis\ProjectBundle\Classes\Database\C4GBrickDatabaseType;
 use con4gis\ProjectBundle\Classes\Dialogs\C4GBrickDialogParams;
+use con4gis\ProjectBundle\Classes\Dialogs\C4GDialogChangeHandler;
 use con4gis\ProjectBundle\Classes\Lists\C4GBrickListParams;
 use con4gis\ProjectBundle\Classes\Views\C4GBrickView;
 use con4gis\ProjectBundle\Classes\Views\C4GBrickViewParams;
@@ -89,6 +90,7 @@ class C4GBrickModuleParent extends \Module
     protected $brickDatabase        = null; //brick database functions
     protected $listParams           = null; //list based params (needed for list and tiles -> see C4GBrickListParams)
     protected $dialogParams         = null; //dialog based params (needed by dialogs -> see C4GBrickDialogParams)
+    protected $dialogChangeHandler  = null;
     protected $putVars              = null; //default dialog values
     protected $viewParams           = null; //view based params (needed for list, tiles and dialogs -> see C4gBrickViewParams)
 
@@ -330,7 +332,8 @@ class C4GBrickModuleParent extends \Module
             $result = $this->addFields();
             if ($result) {
                 $this->fieldList = $result;
-                $this->initialFieldList = $result;
+                $this->dialogChangeHandler = new C4GDialogChangeHandler();
+                $this->fieldList = $this->dialogChangeHandler->reapplyChanges($this->brickKey, $this->fieldList);
             }
             if ($this->fieldList && $putVars) {
 //                $this->setInitialValues($putVars);
@@ -991,4 +994,29 @@ class C4GBrickModuleParent extends \Module
         $this->parentCaption = $singular;
         $this->parentCaptionPlural = $plural;
     }
+
+    /**
+     * @return null
+     */
+    public function getDialogChangeHandler()
+    {
+        return $this->dialogChangeHandler;
+    }
+
+    /**
+     * @param null $dialogChangeHandler
+     */
+    public function setDialogChangeHandler($dialogChangeHandler)
+    {
+        $this->dialogChangeHandler = $dialogChangeHandler;
+    }
+
+    /**
+     * @return string
+     */
+    public function getBrickKey(): string
+    {
+        return $this->brickKey;
+    }
+
 }
