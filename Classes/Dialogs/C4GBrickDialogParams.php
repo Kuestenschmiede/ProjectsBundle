@@ -87,6 +87,7 @@ class C4GBrickDialogParams
     private $onloadScript = ''; // javascript code that should be executed when the dialog is loaded
     private $beforeSaveAction = null; // see C4GBeforeDialogSave
     private $additionalHeadText = '';
+    private $isWithEmptyParentOption = false;
 
     /**
      * C4GBrickDialogParams constructor.
@@ -1313,6 +1314,22 @@ class C4GBrickDialogParams
     public function setAdditionalHeadText($additionalHeadText)
     {
         $this->additionalHeadText = $additionalHeadText;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isWithEmptyParentOption(): bool
+    {
+        return $this->isWithEmptyParentOption;
+    }
+
+    /**
+     * @param bool $isWithEmptyParentOption
+     */
+    public function setIsWithEmptyParentOption(bool $isWithEmptyParentOption)
+    {
+        $this->isWithEmptyParentOption = $isWithEmptyParentOption;
     }
 
 }

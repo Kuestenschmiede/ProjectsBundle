@@ -7,6 +7,8 @@
  */
 namespace con4gis\ProjectBundle\Classes\Dialogs;
 
+use con4gis\ProjectBundle\Classes\Actions\C4GBrickActionType;
+use con4gis\ProjectBundle\Classes\Fieldtypes\C4GSelectField;
 use Contao\System;
 use Eden\CustomerBundle\classes\contao\modules\EdenCustomerAddresses;
 
@@ -89,6 +91,10 @@ class C4GBrickSelectParentDialog extends C4GBrickDialog
 //        $parentField->setType(C4GBrickFieldType::SELECT);
         $parentField->setSortColumn(false);
         $parentField->setTableColumn(false);
+        if ($dialogParams->isWithEmptyParentOption()) {
+            $parentField->setWithEmptyOption(true);
+            $parentField->setEmptyOptionLabel('Alle ' . $parentCaptionPlural);
+        }
         $parentField->setSize(1);
         $parentField->setOptions($parentlist);
         $parentField->setChosen(true);

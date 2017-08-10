@@ -12,6 +12,8 @@
 
 namespace con4gis\ProjectBundle\Classes\Actions;
 
+use con4gis\ProjectBundle\Classes\Dialogs\C4GBrickDialog;
+
 class C4GShowMessageChangesDialogAction extends C4GBrickDialogAction
 {
     private $changes = null;

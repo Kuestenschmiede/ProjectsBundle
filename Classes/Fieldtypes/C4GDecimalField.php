@@ -13,7 +13,10 @@
 
 namespace con4gis\ProjectBundle\Classes\Fieldtypes;
 
+use con4gis\ProjectBundle\Classes\Common\C4GBrickCommon;
+use con4gis\ProjectBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectBundle\Classes\Fieldlist\C4GBrickField;
+use con4gis\ProjectBundle\Classes\Fieldlist\C4GBrickFieldCompare;
 
 class C4GDecimalField extends C4GBrickField
 {
@@ -113,17 +116,17 @@ class C4GDecimalField extends C4GBrickField
                     $dbValue = $dbValues->$fieldName;
                     $maximum_fieldname =$fieldName.'_maximum';
                     if ($dbValue !== 0 && !($dbValue > $dlgValue && $dbValue < $dlgValues[$maximum_fieldname])) {
-                        $result = new \c4g\projects\C4GBrickFieldCompare($this, $dbValue, $dlgValue);
+                        $result = new C4GBrickFieldCompare($this, $dbValue, $dlgValue);
                     }
                 } else if ($this->isSearchMaximumField() && $dbValue !== 0) {
                     if ($dbValue > $dlgValue) {
-                        $result = new \c4g\projects\C4GBrickFieldCompare($this, $dbValue, $dlgValue);
+                        $result = new C4GBrickFieldCompare($this, $dbValue, $dlgValue);
                     }
                 }
             }
         }
         else if (strcmp($dbValue, $dlgValue) != 0) {
-            $result = new \c4g\projects\C4GBrickFieldCompare($this, $dbValue, $dlgValue);
+            $result = new C4GBrickFieldCompare($this, $dbValue, $dlgValue);
         }
         return $result;
     }

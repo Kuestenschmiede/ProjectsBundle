@@ -109,10 +109,23 @@ class C4GShowListAction extends C4GBrickDialogAction
                 }
             }
 
-            if ( $listParams->checkButtonVisibility(C4GBrickConst::BUTTON_PARENT) && ( ($parentId == null) || ($parentId == -1))) {
-                $action = new C4GSelectParentDialogAction($dialogParams, $listParams, $fieldList, $putVars, $brickDatabase);
+            if ($listParams->checkButtonVisibility(C4GBrickConst::BUTTON_PARENT) &&
+                !$dialogParams->isWithEmptyParentOption() &&
+                (($parentId == null) || ($parentId == -1))) {
+                $action = new C4GSelectParentDialogAction(
+                    $dialogParams,
+                    $listParams,
+                    $fieldList,
+                    $putVars,
+                    $brickDatabase
+                );
                 return $action->run();
-            } else if ( $listParams->checkButtonVisibility(C4GBrickConst::BUTTON_PARENT) && (($viewType == C4GBrickViewType::PROJECTPARENTBASED) || ($viewType == C4GBrickViewType::GROUPPARENTVIEW) || ($viewType == C4GBrickViewType::PROJECTPARENTVIEW) || ($viewType == C4GBrickViewType::GROUPPARENTBASED))){
+            } elseif ($listParams->checkButtonVisibility(C4GBrickConst::BUTTON_PARENT)
+                    && $dialogParams->isWithEmptyParentOption()
+                    && (($viewType == C4GBrickViewType::PROJECTPARENTBASED)
+                    || ($viewType == C4GBrickViewType::GROUPPARENTVIEW)
+                    || ($viewType == C4GBrickViewType::PROJECTPARENTVIEW)
+                    || ($viewType == C4GBrickViewType::GROUPPARENTBASED))) {
                 $parent = $parentModel::findByPk($parentId);
                 if ($parent) {
                     $caption = $parent->caption;
@@ -121,7 +134,7 @@ class C4GShowListAction extends C4GBrickDialogAction
                     }
                     if ($parentCaptionFields && is_array($parentCaptionFields)) {
                         $caption = '';
-                        foreach($parentCaptionFields as $key=>$value) {
+                        foreach ($parentCaptionFields as $key => $value) {
                             if (strlen($value) == 1) {
                                 if ($value == ')') {
                                     //if there is no bracketed value remove brackets
@@ -140,7 +153,7 @@ class C4GShowListAction extends C4GBrickDialogAction
                     }
 
                     $parent_headline = '<div class="c4g_brick_headtext"> '.$parentCaption.': <b>'.$caption.'</b></div>';
-                } else {
+                } elseif (!$dialogParams->isWithEmptyParentOption()) {
                     \Session::getInstance()->set("c4g_brick_parent_id", '');
 
                     //ToDo language
@@ -187,7 +200,11 @@ class C4GShowListAction extends C4GBrickDialogAction
                                     unset($elements->headline);
                                 }
                             } else {
-                                $elements = $brickDatabase->findBy($pid_field, $parentId);
+                                if ($dialogParams->isWithEmptyParentOption() && $parentId == -1) {
+                                    $elements = $brickDatabase->findBy($viewParams->getGroupKeyField(), $groupId);
+                                } else {
+                                    $elements = $brickDatabase->findBy($pid_field, $parentId);
+                                }
                             }
                         }
                         else {
@@ -256,9 +273,7 @@ class C4GShowListAction extends C4GBrickDialogAction
                 default:
                     break;
             }
-        }
-        catch (Exception $e)
-        {
+        } catch (Exception $e) {
             $elements = null;
         }
 
@@ -275,17 +290,17 @@ class C4GShowListAction extends C4GBrickDialogAction
             $content = $dialogParams->getC4gMap();
         }
 
-
         $headtext = $dialogParams->getHeadline();
         if ($listParams->getHeadline()) {
             $headtext = $listParams->getHeadline();
-        } else if ( ($group_headline) && ($project_headline) && ($parent_headline)) {
-            $headtext = $headtext . \c4g\C4GHTMLFactory::lineBreak() . $group_headline . $project_headline . $parent_headline;
-        } else if ( ($group_headline) && ($project_headline)){
+        } elseif (($group_headline) && ($project_headline) && ($parent_headline)) {
+            $headtext = $headtext . \c4g\C4GHTMLFactory::lineBreak() .
+                $group_headline . $project_headline . $parent_headline;
+        } elseif (($group_headline) && ($project_headline)) {
             $headtext = $headtext.\c4g\C4GHTMLFactory::lineBreak().$group_headline.$project_headline;
-        } else if ( ($group_headline) && ($parent_headline)){
+        } elseif (($group_headline) && ($parent_headline)) {
             $headtext = $headtext.\c4g\C4GHTMLFactory::lineBreak().$group_headline.$parent_headline;
-        } else if ($group_headline) {
+        } elseif ($group_headline) {
             $headtext = $headtext.\c4g\C4GHTMLFactory::lineBreak().$group_headline;
         }
         if ($list_headline) {
@@ -295,7 +310,7 @@ class C4GShowListAction extends C4GBrickDialogAction
 
 
         $renderMode = $listParams->getRenderMode();
-        switch($renderMode) {
+        switch ($renderMode) {
             case C4GBrickRenderMode::LISTBASED:
                 $result = C4GBrickList::showC4GTableList(
                     $brickCaptionPlural,
@@ -307,7 +322,8 @@ class C4GShowListAction extends C4GBrickDialogAction
                     $id,
                     $captionField,
                     $parentCaption,
-                    $listParams);
+                    $listParams
+                );
                 break;
             case C4GBrickRenderMode::TILEBASED:
                 //ToDo Der Funktionsumfang von TILEBASED muss immer an LISTBASED angepasst sein. Bitte nachziehen.
@@ -321,11 +337,10 @@ class C4GShowListAction extends C4GBrickDialogAction
                     $listParams,
                     $captionField,
                     $parentCaption,
-                    $withLabels);
+                    $withLabels
+                );
                 break;
         }
-
         return $result;
-
     }
 }

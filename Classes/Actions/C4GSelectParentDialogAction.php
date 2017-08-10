@@ -12,11 +12,13 @@
 
 namespace con4gis\ProjectBundle\Classes\Actions;
 
+use con4gis\ProjectBundle\Classes\Dialogs\C4GBrickSelectParentDialog;
+
 class C4GSelectParentDialogAction extends C4GBrickDialogAction
 {
     public function run()
     {
-        $dialog = new \c4g\projects\C4GBrickSelectParentDialog($this->getDialogParams());
+        $dialog = new C4GBrickSelectParentDialog($this->getDialogParams());
         return $dialog->show();
     }
 }

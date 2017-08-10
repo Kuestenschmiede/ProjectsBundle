@@ -23,6 +23,7 @@ class C4GSelectField extends C4GBrickField
     private $chosen = false;
     private $minChosenCount = 7;
     private $placeholder = ''; // GUI placeholder text
+    private $emptyOptionLabel = '';
 
 
     public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = array())
@@ -79,7 +80,7 @@ class C4GSelectField extends C4GBrickField
         if ($this->isWithEmptyOption()) {
             $fieldOptions = $this->getOptions();
             if ($fieldOptions) {
-                array_unshift($fieldOptions,array('id' => '', 'name' => ''));
+                array_unshift($fieldOptions, array('id' => '-1', 'name' => $this->emptyOptionLabel));
 //                $fieldOptions[-1] = array('id' => '', 'name' => '');
                 $this->setOptions($fieldOptions);
             }
@@ -317,4 +318,19 @@ class C4GSelectField extends C4GBrickField
         $this->placeholder = $placeholder;
     }
 
+    /**
+     * @return string
+     */
+    public function getEmptyOptionLabel(): string
+    {
+        return $this->emptyOptionLabel;
+    }
+
+    /**
+     * @param string $emptyOptionLabel
+     */
+    public function setEmptyOptionLabel(string $emptyOptionLabel)
+    {
+        $this->emptyOptionLabel = $emptyOptionLabel;
+    }
 }
