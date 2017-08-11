@@ -18,7 +18,7 @@ use con4gis\ProjectBundle\Classes\Fieldlist\C4GBrickField;
 
 /**
  * Class C4GHeadlineField
- * @package c4g\projects
+ * @package con4gis\ProjectBundle\Classes\Fieldtypes
  */
 class C4GHeadlineField extends C4GBrickField
 {
@@ -49,7 +49,8 @@ class C4GHeadlineField extends C4GBrickField
             $headline_count = 0;
             $tablist = array();
             foreach($fieldList as $field) {
-                if ((get_class($field) == 'c4g\projects\C4GHeadlineField') && ($field->isFormField())) {
+                if ((get_class($field) == 'con4gis\ProjectBundle\Classes\Fieldtypes\C4GHeadlineField')
+                    && ($field->isFormField())) {
                     $headline_count++;
                     $tablist[] = $field;
                 }
@@ -60,7 +61,21 @@ class C4GHeadlineField extends C4GBrickField
                 $headlineText = $headline_count.'. '.$headlineText;
             }
 
-            $headline = '<h2 class="c4g_brick_headline" '.$condition['conditionPrepare'].'>' . $headlineText . '</h2>';
+            $headline =
+                '<h2 class="c4g_brick_headline" '.$condition['conditionPrepare'].'>' . $headlineText . '</h2>';
+            $class = 'formdata ';
+            $headline =
+                '<div id="c4g_condition" '
+                . $class
+                . $condition['conditionName']
+                . $condition['conditionType']
+                . $condition['conditionValue']
+                . $condition['conditionFunction']
+                . $condition['conditionDisable']
+                . '>'
+                . $headline
+                . $this->additionalHeaderText
+                . '</div>';
             if ($dialogParams->isAccordion()) {
                 if ($dialogParams->getAccordionCounter() > 0) {
                     if ($dialogParams->getAccordionCounter() >= $headline_count) {
@@ -82,6 +97,19 @@ class C4GHeadlineField extends C4GBrickField
 
                 $dialogParams->setAccordionCounter($dialogParams->getAccordionCounter()+1);
                 $headline = '<h3 class="c4g_brick_headline ui-accordion-header ui-corner-top ui-accordion-icons c4gGuiCollapsible_trigger_target"><a href="#">' . $this->getTitle() . '</a></h3>';
+                $class = 'formdata ';
+                $headline =
+                    '<div id="c4g_condition" '
+                    . $class
+                    . $condition['conditionName']
+                    . $condition['conditionType']
+                    . $condition['conditionValue']
+                    . $condition['conditionFunction']
+                    . $condition['conditionDisable']
+                    . '>'
+                    . $headline
+                    . $this->additionalHeaderText
+                    . '</div>';
             } else if ($dialogParams->isTabContent()) {
                 $tabField = "c4g_tab_".$dialogParams->getTabContentCounter()."_content";
                 if ($dialogParams->getTabContentCounter() > 0) {
@@ -95,7 +123,7 @@ class C4GHeadlineField extends C4GBrickField
                     }
                     $headline = '';
                 } else {
-                    $tabContainer = '<div class="c4gGuiTabContainer  '.$condition['conditionPrepare'].' ui-tabs ui-corner-all ui-widget ui-widget-content"><ul class="c4gGuiTabLinks ui-widget ui-tabs-nav ui-corner-all">';
+                    $tabContainer = '<div class="c4gGuiTabContainer ui-tabs ui-corner-all ui-widget ui-widget-content"><ul class="c4gGuiTabLinks ui-widget ui-tabs-nav ui-corner-all">';
                     $idx = 0;
                     foreach ($tablist as $tab) {
                         $tabFieldValue = "c4g_tab_".$idx;
@@ -115,20 +143,10 @@ class C4GHeadlineField extends C4GBrickField
                 $dialogParams->setTabContentCounter($dialogParams->getTabContentCounter()+1);
             }
 
-            $additionalHeaderText ='';
-
             $result =
                 $accordion
                 . $tabContainer
-                . '<div id="c4g_condition" '
-                . $condition['conditionName']
-                . $condition['conditionType']
-                . $condition['conditionValue']
-                . $condition['conditionDisable']
-                . '>'
                 . $headline
-                . $additionalHeaderText
-                . '</div>'
                 . $accordion_content
                 . $tabContent;
         }
