@@ -68,7 +68,7 @@ class C4GBrickListParams
                 $buttons[] = new C4GBrickButton(C4GBrickConst::BUTTON_ADD);
             }
 
-            if (C4GBrickView::isWithGroup($viewType) && ($this->groupCount > 1)) {
+            if (C4GBrickView::isWithGroup($viewType)) {
                 $buttons[] = new C4GBrickButton(C4GBrickConst::BUTTON_GROUP);
             }
 

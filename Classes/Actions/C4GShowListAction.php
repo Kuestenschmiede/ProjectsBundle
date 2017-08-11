@@ -60,32 +60,28 @@ class C4GShowListAction extends C4GBrickDialogAction
         $project_headline = '';
         $parent_headline = '';
 
-
         if ((C4GBrickView::isGroupBased($viewType)) ||
             (C4GBrickView::isProjectBased($viewType)) ||
-            (C4GBrickView::isProjectParentBased($viewType)))
-        {
+            (C4GBrickView::isProjectParentBased($viewType))) {
             $onlyGroupId = $this->getOnlyOneGroupId($memberId, $brickKey);
-            if ($onlyGroupId == -1) {
-                $action = new C4GSelectGroupDialogAction($dialogParams, $listParams, $fieldList, $putVars, $brickDatabase);
+            if ($listParams->checkButtonVisibility(C4GBrickConst::BUTTON_GROUP) && (($groupId == null)
+                    || ($groupId == -1)) && ($onlyGroupId == -1)) {
+                $action = new C4GSelectGroupDialogAction(
+                    $dialogParams,
+                    $listParams,
+                    $fieldList,
+                    $putVars,
+                    $brickDatabase
+                );
                 return $action->run();
             } else {
-                $groupId = $onlyGroupId;
-                $this->dialogParams->setGroupId($onlyGroupId);
-                \Session::getInstance()->set("c4g_brick_group_id", $onlyGroupId);
+                if ($onlyGroupId != -1) {
+                    $groupId = $onlyGroupId;
+                    $this->dialogParams->setGroupId($onlyGroupId);
+                    $this->listParams->deleteButton(C4GBrickConst::BUTTON_GROUP);
+                }
+                \Session::getInstance()->set("c4g_brick_group_id", $groupId);
             }
-
-//ToDo checkButtonVisibility prüfen
-//            if ( $listParams->checkButtonVisibility(C4GBrickConst::BUTTON_GROUP) && ( ($groupId == null) || ($groupId == -1))) {
-//                if ($onlyGroupId == -1) {
-//                    $action = new C4GSelectGroupDialogAction($dialogParams, $listParams, $fieldList, $putVars, $brickDatabase);
-//                    return $action->run();
-//                } else {
-//                    $groupId = $onlyGroupId;
-//                    $this->dialogParams->setGroupId($onlyGroupId);
-//                    \Session::getInstance()->set("c4g_brick_group_id", $onlyGroupId);
-//                }
-//            }
 
             $group = \MemberGroupModel::findByPk($groupId);
             if ($group) {
