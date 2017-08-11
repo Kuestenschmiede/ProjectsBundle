@@ -121,7 +121,6 @@ class C4GShowListAction extends C4GBrickDialogAction
                 );
                 return $action->run();
             } elseif ($listParams->checkButtonVisibility(C4GBrickConst::BUTTON_PARENT)
-                    && $dialogParams->isWithEmptyParentOption()
                     && (($viewType == C4GBrickViewType::PROJECTPARENTBASED)
                     || ($viewType == C4GBrickViewType::GROUPPARENTVIEW)
                     || ($viewType == C4GBrickViewType::PROJECTPARENTVIEW)
