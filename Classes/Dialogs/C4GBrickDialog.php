@@ -11,6 +11,7 @@
  */
 
 namespace con4gis\ProjectBundle\Classes\Dialogs;
+
 use c4g\C4GUtils;
 use con4gis\ProjectBundle\Classes\Actions\C4GBrickActionType;
 use con4gis\ProjectBundle\Classes\Buttons\C4GBrickButton;

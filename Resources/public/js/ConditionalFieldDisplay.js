@@ -98,7 +98,6 @@ function ConditionalFieldDisplay(moduleId) {
     var ajaxUrl = 'con4gis/brick_ajax_api/';
     ajaxUrl = ajaxUrl + scope.moduleId + '/changefield';
     jQuery.post(ajaxUrl, changes, function(data) {
-      console.log("lolol");
     });
   }
 }
