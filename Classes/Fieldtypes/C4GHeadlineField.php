@@ -60,7 +60,7 @@ class C4GHeadlineField extends C4GBrickField
                 $headlineText = $headline_count.'. '.$headlineText;
             }
 
-            $headline = '<h2 class="c4g_brick_headline">' . $headlineText . '</h2>';
+            $headline = '<h2 class="c4g_brick_headline" '.$condition['conditionPrepare'].'>' . $headlineText . '</h2>';
             if ($dialogParams->isAccordion()) {
                 if ($dialogParams->getAccordionCounter() > 0) {
                     if ($dialogParams->getAccordionCounter() >= $headline_count) {
@@ -95,7 +95,7 @@ class C4GHeadlineField extends C4GBrickField
                     }
                     $headline = '';
                 } else {
-                    $tabContainer = '<div class="c4gGuiTabContainer ui-tabs ui-corner-all ui-widget ui-widget-content"><ul class="c4gGuiTabLinks ui-widget ui-tabs-nav ui-corner-all">';
+                    $tabContainer = '<div class="c4gGuiTabContainer  '.$condition['conditionPrepare'].' ui-tabs ui-corner-all ui-widget ui-widget-content"><ul class="c4gGuiTabLinks ui-widget ui-tabs-nav ui-corner-all">';
                     $idx = 0;
                     foreach ($tablist as $tab) {
                         $tabFieldValue = "c4g_tab_".$idx;
