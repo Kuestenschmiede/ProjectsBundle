@@ -12,6 +12,11 @@
 
 namespace con4gis\ProjectBundle\Classes\Actions;
 
+use con4gis\ProjectBundle\Classes\Common\C4GBrickCommon;
+use con4gis\ProjectBundle\Classes\Dialogs\C4GBrickDialog;
+use con4gis\ProjectBundle\Classes\Logs\C4GLogEntryType;
+use con4gis\ProjectBundle\Classes\Views\C4GBrickViewType;
+
 class C4GConfirmDeleteAction extends C4GBrickDialogAction
 {
     public function run()
@@ -80,8 +85,8 @@ class C4GConfirmDeleteAction extends C4GBrickDialogAction
             return $action->run();
         }
 
-        $notifications = \c4g\projects\C4GBrickDialog::getButtonNotifications(
-            \c4g\projects\C4GBrickActionType::ACTION_DELETEDIALOG,
+        $notifications = C4GBrickDialog::getButtonNotifications(
+            C4GBrickActionType::ACTION_DELETEDIALOG,
             $dialogParams, $dbValues);
         if ($dialogParams->isWithNotification()) {
             $this->sendNotifications($notifications, $dlgValues, $fieldList, $memberId, $dbValues);
