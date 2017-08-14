@@ -233,7 +233,8 @@ class C4GBrickModuleParent extends \Module
      *
      * initialize global objects
      */
-    protected function initBrickModule($id) {
+    protected function initBrickModule($id)
+    {
         //loading language files
         $this->loadLanguageFiles();
 

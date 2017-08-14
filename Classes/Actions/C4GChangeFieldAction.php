@@ -36,7 +36,7 @@ class C4GChangeFieldAction extends C4GBrickAction
         $fieldList = $this->getFieldList();
         $changeHandler = $this->module->getDialogChangeHandler();
         $changes = $this->getChangesFromPost($fieldList);
-        $fieldList = $changeHandler->applyChanges($changes, $fieldList, $this->module->getBrickKey());
+        $fieldList = $changeHandler->applyChanges($changes, $fieldList, $this->module->getBrickKey(), true);
         return $fieldList;
     }
 

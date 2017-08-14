@@ -12,7 +12,6 @@ use con4gis\ProjectBundle\Classes\Fieldlist\C4GBrickField;
 
 class C4GDialogChangeHandler
 {
-    // TODO kill session for module key on dialog close/save
     /**
      * Reads the incoming changes from the changes array and applies them to the correct field from the
      * passed fieldList. The changes are then saved into the session for persisting them through multiple
@@ -37,7 +36,7 @@ class C4GDialogChangeHandler
                 }
             }
         }
-        if ($save) {
+        if ($save && $changes) {
             $this->saveChangesToSession($changes, $moduleKey);
         }
         return $fieldList;
@@ -50,6 +49,13 @@ class C4GDialogChangeHandler
      */
     private function saveChangesToSession($changes, $moduleKey)
     {
+        // load changes from session
+        $oldChanges = \Session::getInstance()->get($moduleKey . '_fieldChanges');
+        // merge with new ones
+        if ($oldChanges) {
+            $changes = array_merge($changes, $oldChanges);
+        }
+        // store new changes
         \Session::getInstance()->set($moduleKey . '_fieldChanges', $changes);
     }
 

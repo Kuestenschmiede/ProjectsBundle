@@ -43,20 +43,22 @@ function ConditionalFieldDisplay(moduleId) {
       } else {
         scope.isDisplayed = value === scope.valueForDisplay;
       }
-      setFieldDisplay(scope.fields, scope.isDisplayed ? "" : "none", isMandatory);
+      return setFieldDisplay(scope.fields, scope.isDisplayed ? "" : "none", isMandatory);
     };
     this.condition.callbacks.push(callback);
     this.condition.onchange = function(event) {
+      var changes = {};
       for (var key in this.callbacks) {
         if (this.callbacks.hasOwnProperty(key)) {
           var value = this.value;
           if (value) {
-            this.callbacks[key]();
+            jQuery.extend(changes, this.callbacks[key]());
           }
         }
       }
+      console.log(changes);
+      sendChanges(changes);
     };
-    callback();
   };
   var setFieldDisplay = function(fieldlist, value, isMandatory) {
     var field,
@@ -91,7 +93,7 @@ function ConditionalFieldDisplay(moduleId) {
         }
       }
     }
-    sendChanges(changes);
+    return changes;
   };
 
   var sendChanges = function(changes) {
@@ -104,6 +106,7 @@ function ConditionalFieldDisplay(moduleId) {
 var initDisplayConditions = function(moduleId) {
   var field, condition, displayValue;
   var fields = document.querySelectorAll('[data-condition-field]');
+  var conditions = [];
   for (var key in fields) {
     if (fields) {
       if (fields.hasOwnProperty(key)) {
@@ -113,9 +116,22 @@ var initDisplayConditions = function(moduleId) {
           displayValue = field.getAttribute('data-condition-value');
           var conditional = new ConditionalFieldDisplay(moduleId);
           conditional.create([field], document.getElementById(condition), displayValue, true);
+          for (var i = 0; i <= conditions.length; i++) {
+            if (conditions[i] && conditions[i] === condition) {
+              // field already added to array
+              break;
+            } else if (i === conditions.length) {
+              conditions.push(condition);
+              break;
+            }
+          }
           field.setAttribute('data-condition-handled', true);
         }
       }
     }
+  }
+  console.log(conditions);
+  for (i = 0; i < conditions.length; i++) {
+    document.getElementById(conditions[i]).onchange();
   }
 };

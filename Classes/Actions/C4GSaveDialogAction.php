@@ -56,10 +56,12 @@ class C4GSaveDialogAction extends C4GBrickDialogAction
             if (!$dialogParams->isSaveOnMandatory() && !$dialogParams->isSaveWithoutMessages()) {
                 if ($mandatoryCheckResult instanceof C4GBrickField) {
                     if ($mandatoryCheckResult->getSpecialMandatoryMessage() != '') {
-                        return array('usermessage' => $mandatoryCheckResult->getSpecialMandatoryMessage(), 'title' => $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_MANDATORY_TITLE']);
+                        return array('usermessage' => $mandatoryCheckResult->getSpecialMandatoryMessage(),
+                            'title' => $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_MANDATORY_TITLE']);
                     }
                 }
-                return array('usermessage' => $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_MANDATORY'], 'title' => $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_MANDATORY_TITLE']);
+                return array('usermessage' => $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_MANDATORY'],
+                    'title' => $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_MANDATORY_TITLE']);
             }
         }
 
