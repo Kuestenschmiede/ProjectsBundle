@@ -56,7 +56,6 @@ function ConditionalFieldDisplay(moduleId) {
           }
         }
       }
-      console.log(changes);
       sendChanges(changes);
     };
   };
@@ -130,7 +129,6 @@ var initDisplayConditions = function(moduleId) {
       }
     }
   }
-  console.log(conditions);
   for (i = 0; i < conditions.length; i++) {
     document.getElementById(conditions[i]).onchange();
   }
