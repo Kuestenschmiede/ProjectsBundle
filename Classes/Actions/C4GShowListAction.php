@@ -197,6 +197,7 @@ class C4GShowListAction extends C4GBrickDialogAction
                             } else {
                                 if ($dialogParams->isWithEmptyParentOption() && $parentId == -1) {
                                     $elements = $brickDatabase->findBy($viewParams->getGroupKeyField(), $groupId);
+                                    $this->listParams->deleteButton(C4GBrickConst::BUTTON_ADD);
                                 } else {
                                     $elements = $brickDatabase->findBy($pid_field, $parentId);
                                 }
