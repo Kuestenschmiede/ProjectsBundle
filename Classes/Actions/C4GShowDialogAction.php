@@ -73,6 +73,7 @@ class C4GShowDialogAction extends C4GBrickDialogAction
                     if ($pid && $element->$pid) {
                         $parentIdField = $element->$pid;
                         $dialogParams->setParentIdField($parentIdField);
+                        $parentId = $element->$pid;
                     }
                 }
             }
