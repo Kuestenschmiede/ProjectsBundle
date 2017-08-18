@@ -106,6 +106,7 @@ abstract class C4GBrickField
     private $conditionalDisplay = false; // set true if field should be hidden dependent on the value of another field
     private $conditionalFieldName = null; // the fieldname of the field which is the condition
     private $displayValue = null; // the value of the condition field at which this field will be displayed
+    private $removeWithEmptyCondition = false; // soll das Feld ohne Conditions ausgeblendet werden (valueSwitch)
 
     /**
      * C4GBrickField constructor.
@@ -250,6 +251,10 @@ abstract class C4GBrickField
 
             //alle Feldbedingungen werden durchlaufen
             foreach ($conditions as $condition) {
+                if (empty($condition)) {
+                    continue;
+                }
+
                 $conditionField = $condition->getFieldName(); //Feldname von dem schaltenden Feld
                 $conditionValue = $condition->getValue(); //Feldvalue von dem schaltenden Feld
 
@@ -388,10 +393,14 @@ abstract class C4GBrickField
             $conditionResult = $this->checkCondition($fieldList, $data, $conditions);
 
             if (!$conditionResult) {
-                $conditionPrepare = 'style="display:none;"';
+                $conditionPrepare = 'style="display: none;"';
             }
 
             foreach ($conditions as $condition) {
+                if (empty($condition)) {
+                    continue;
+                }
+
                 if (!empty($conditionname) OR $conditionname == '0') {
                     $conditionname .= '~' . $condition->getFieldName();
                     $conditionvalue .= '~' . $condition->getValue();
@@ -411,6 +420,8 @@ abstract class C4GBrickField
             } else {
                 $conditiondisable = 'false';
             }
+        } else if ($this->isRemoveWithEmptyCondition()) {
+            $conditionPrepare = 'style="display: none;"';
         }
 
         return array(
@@ -1839,4 +1850,20 @@ abstract class C4GBrickField
         $this->display = $display;
     }
 
+    /**
+     * @return bool
+     */
+    public function isRemoveWithEmptyCondition()
+    {
+        return $this->removeWithEmptyCondition;
+    }
+
+    /**
+     * @param bool $removeWithEmptyCondition
+     */
+    public function setRemoveWithEmptyCondition($removeWithEmptyCondition)
+    {
+        $this->removeWithEmptyCondition = $removeWithEmptyCondition;
+    }
+    
 }

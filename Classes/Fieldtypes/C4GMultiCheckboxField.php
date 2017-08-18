@@ -75,19 +75,23 @@ class C4GMultiCheckboxField extends C4GBrickField
 
             $spanStart = '';
             $spanEnd = '';
-            if($this->isModernStyle() == false){
-                $div =  '<div class="c4g_multicheckbox" ';
-                $spanStart =  '<span class="c4g_checkbox">';
-                $spanEnd = '</span>';
-            } else {
-                $div = '<div class="c4g_multicheckbox_modern" ';
-            }
-
-            $result = $div
+            $conditionStart =
+                '<div id="c4g_condition" '
+                . 'class="formdata"'
                 . $condition['conditionName']
                 . $condition['conditionType']
                 . $condition['conditionValue']
-                . $condition['conditionDisable'] . '>';
+                . $condition['conditionDisable']
+                . '>';
+            if($this->isModernStyle() == false){
+                $div =  $conditionStart.'<div class="c4g_multicheckbox formdata" '.$condition['conditionPrepare'];
+                $spanStart =  '<span class="c4g_checkbox">';
+                $spanEnd = '</span>';
+            } else {
+                $div = $conditionStart.'<div class="c4g_multicheckbox_modern formdata" '.$condition['conditionPrepare'];
+            }
+
+            $result = $div;
             $result .= $this->addC4GFieldLabel($id, $title, $this->isMandatory(), $condition, $fieldList, $data, $dialogParams);
 
             $viewType = $dialogParams->getViewType();
@@ -115,7 +119,7 @@ class C4GMultiCheckboxField extends C4GBrickField
             }
 
 
-            $required .= ' style="display:none;"';
+            //$required .= ' style="display:none;"';
 
             foreach ($options as $option) {
                 $option_id = $option['id'];
@@ -124,13 +128,14 @@ class C4GMultiCheckboxField extends C4GBrickField
                 }
                 $type_caption = $option['name'];
                 $optionId = $this->getFieldName() . '|' . $option_id;
+                $condition['conditionPrepare'] = '';
                 $result .= $spanStart.
                    '<input type="checkbox" id="c4g_' . $optionId . '" ' . $required . ' class="formdata c4g_display_none" size="' . $size . '" name="' . $optionId . '" value="' . $optionId . '"' .
                     ($values && isset($values[$option_id]) ? ' checked="checked"' : '') . '">' . $this->addC4GFieldLabel('c4g_' . $optionId, $type_caption, false, $condition, $fieldList, $data, $dialogParams, false, true)
                     .$spanEnd;
             }
             $result .= $description;
-            $result .= '</div>';
+            $result .= '</div><br></div>';
         }
 
         return $result;

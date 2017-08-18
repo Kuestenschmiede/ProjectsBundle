@@ -970,7 +970,7 @@ function checkC4GTab() {
                 }
 
                 //ToDo minValue optimization
-                if (isVisible > 5) {
+                if (isVisible > 7) {
                     hide = false;
                 }
             }

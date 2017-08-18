@@ -103,8 +103,11 @@ class C4GBrickCommon
     public static function deleteFile($file)
     {
         if ($file) {
+            $file = TL_ROOT . '/' . $file;
             try {
-                unlink(TL_ROOT . '/' . $file);
+                if (file_exists($file)) {
+                    unlink($file);
+                }
             } catch (Exception $e) {
                 \System::log('File delete Exception: ' . $e, __CLASS__ . '::' . __FUNCTION__, TL_ERROR);
             }
@@ -220,17 +223,19 @@ class C4GBrickCommon
     {
         $resultList = array();
 
-        $groups = \c4g\MemberGroupModel::getGroupListForMember($memberId);
-        foreach ($groups as $group) {
-            $rights = \c4g\MemberGroupModel::getMemberRightsInGroup($group->id, $memberId);
-            if ($rights) {
-                foreach ($rights as $right) {
-                    if ($right == $brickKey) {
-                        $resultList[] = $group;
-                        break;
+        if ($GLOBALS['con4gis_groups_extension']['installed']) {
+            $groups = \c4g\MemberGroupModel::getGroupListForMember($memberId);
+            foreach ($groups as $group) {
+                $rights = \c4g\MemberGroupModel::getMemberRightsInGroup($group->id, $memberId);
+                if ($rights) {
+                    foreach ($rights as $right) {
+                        if ($right == $brickKey) {
+                            $resultList[] = $group;
+                            break;
+                        }
                     }
-                }
-            };
+                };
+            }
         }
 
         return $resultList;

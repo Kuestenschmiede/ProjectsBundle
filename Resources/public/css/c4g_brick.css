@@ -492,8 +492,9 @@ label.c4g_multicheckbox{
     margin-left: 0.0%;
 }
 .c4g_multicheckbox_modern{
-    /*margin-left: 2.5%;*/
+    margin-left: 2.5%;
     margin-right: 2.5%;
+    font-weight: bold;
 }
 .c4g_brick_dialog input[type='checkbox'] + label {
     display: inline-block;

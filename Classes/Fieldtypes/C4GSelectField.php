@@ -176,6 +176,10 @@ class C4GSelectField extends C4GBrickField
         if (($conditions) && ($this->getConditionType() != C4GBrickConditionType::BOOLSWITCH)) {
             $found = false;
             foreach($conditions as $condition) {
+                if (empty($condition)) {
+                    continue;
+                }
+
                 if ($condition->getType() == C4GBrickConditionType::VALUESWITCH) {
                     $conditionField = $condition->getFieldName();
                     $conditionValue = $condition->getValue();
