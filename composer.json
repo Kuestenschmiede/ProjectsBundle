@@ -1,0 +1,31 @@
+{
+  "name": "con4gis/con4gis_projects",
+  "description": "con4gis developer framework for building contao frontend modules",
+  "keywords": ["con4gis", "projects", "contao", "c4g"],
+  "type": "contao-module",
+  "homepage": "https://con4gis.org",
+  "license": "LGPL-3.0+",
+  "authors":[
+    {
+      "name":"Küstenschmiede GmbH Software & Design",
+      "homepage":"https://kuestenschmiede.de"
+    }
+  ],
+  "require": {
+    "con4gis/CoreBundle": "~1.9",
+    "con4gis/con4gis_core": "~1.9",
+  },
+  "support": {
+    "issues": "https://github.com/Kuestenschmiede/con4gis_projects/issues"
+  },
+  "autoload": {
+    "classmap": [""]
+  },
+  "extra": {
+    "contao": {
+      "sources": {
+        "": "system/modules/con4gis_projects"
+      }
+    }
+  }
+}
