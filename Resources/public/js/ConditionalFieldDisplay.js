@@ -1,9 +1,9 @@
 /**
  * Eden
- * @version   2.0.0
+ * @version   php 7
  * @package   eden
  * @author    eden authors (see "authors.txt")
- * @copyright Küstenschmiede GmbH Software & Design 2016 - 2017.
+ * @copyright Küstenschmiede GmbH Software & Design 2017
  * @link      https://www.kuestenschmiede.de
  */
 function ConditionalFieldDisplay(moduleId) {

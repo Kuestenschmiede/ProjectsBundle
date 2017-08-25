@@ -2,7 +2,7 @@
 /**
  * con4gis - the gis-kit
  *
- * @version   php 5
+ * @version   php 7
  * @package   con4gis
  * @author    con4gis contributors (see "authors.txt")
  * @license   GNU/LGPL http://opensource.org/licenses/lgpl-3.0.html
@@ -176,6 +176,10 @@ class C4GSelectField extends C4GBrickField
         if (($conditions) && ($this->getConditionType() != C4GBrickConditionType::BOOLSWITCH)) {
             $found = false;
             foreach($conditions as $condition) {
+                if (empty($condition)) {
+                    continue;
+                }
+
                 if ($condition->getType() == C4GBrickConditionType::VALUESWITCH) {
                     $conditionField = $condition->getFieldName();
                     $conditionValue = $condition->getValue();

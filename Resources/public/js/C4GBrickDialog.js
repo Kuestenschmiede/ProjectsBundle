@@ -1,7 +1,7 @@
 /*
  * con4gis - the gis-kit
  *
- * @version   php 5
+ * @version   php 7
  * @package   con4gis
  * @author    con4gis contributors (see "authors.txt")
  * @license   GNU/LGPL http://opensource.org/licenses/lgpl-3.0.html
@@ -970,7 +970,7 @@ function checkC4GTab() {
                 }
 
                 //ToDo minValue optimization
-                if (isVisible > 5) {
+                if (isVisible > 7) {
                     hide = false;
                 }
             }
