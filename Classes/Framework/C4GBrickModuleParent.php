@@ -111,6 +111,7 @@ class C4GBrickModuleParent extends \Module
     protected $permalink_field      = null; //using another field for permalink (default: id field)
     protected $permalink_name       = null; //for setting an own get param
     protected $permalinkModelClass  = null; //if table filled by modelListFunction
+    protected $loadUrlClear         = false; // if true, a js script will be loaded and trim the urls to remove the states
 
     /**
      * module class function to get fields
@@ -446,11 +447,14 @@ class C4GBrickModuleParent extends \Module
         if ($this->brickStyle) {
             $GLOBALS['TL_CSS']['c4g_brick_style_'.$this->name] = $this->brickStyle;
         }
+        if ($this->loadUrlClear) {
+            $GLOBALS['TL_JAVASCRIPT'][] = 'bundles/con4gisproject/js/ClearBrowserUrl.js';
+        }
 
         $GLOBALS['TL_JAVASCRIPT'][] = 'bundles/con4gisproject/js/C4GBrickDialog.js';
 
         $GLOBALS['TL_JAVASCRIPT'][] = 'bundles/con4gisproject/js/ConditionalFieldDisplay.js';
-        $GLOBALS['TL_JAVASCRIPT'][] = 'bundles/con4gisproject/js/AjaxAutocomplete.js';
+//        $GLOBALS['TL_JAVASCRIPT'][] = 'bundles/con4gisproject/js/AjaxAutocomplete.js';
 
         if ($this->brickScript) {
             $GLOBALS['TL_JAVASCRIPT']['c4g_brick_script_'.$this->name] = $this->brickScript;
@@ -1018,6 +1022,22 @@ class C4GBrickModuleParent extends \Module
     public function getBrickKey(): string
     {
         return $this->brickKey;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isLoadUrlClear(): bool
+    {
+        return $this->loadUrlClear;
+    }
+
+    /**
+     * @param bool $loadUrlClear
+     */
+    public function setLoadUrlClear(bool $loadUrlClear)
+    {
+        $this->loadUrlClear = $loadUrlClear;
     }
 
 }
