@@ -461,7 +461,10 @@ abstract class C4GBrickAction
                 return $action->run();
             case C4GBrickActionType::ACTION_CONFIRMPARENTSELECT:
                 $action = new C4GSetParentIdAction($dialogParams, $listParams, $fieldList, $putVars, $brickDatabase);
-                return $action->run();
+                $listAction = $action->run();
+                $module->setFieldList($module->addFields());
+                $listAction->setFieldList($module->getFieldList());
+                return $listAction->run();
             case C4GBrickActionType::ACTION_CONFIRMPARENTFILTER:
                 $action = new C4GSetFilterAction($dialogParams, $listParams, $fieldList, $putVars, $brickDatabase);
                 return $action->run();

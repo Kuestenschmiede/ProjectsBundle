@@ -25,6 +25,6 @@ class C4GSetParentIdAction extends C4GBrickDialogAction
 
         $dialogParams->setId(-1);
         $action = new C4GShowListAction($dialogParams, $this->getListParams(), $this->getFieldList(), $this->getPutVars(), $this->getBrickDatabase());
-        return $action->run();
+        return $action;
     }
 }
