@@ -330,7 +330,7 @@ class C4GBrickDialogParams
         $this->frozen = $frozen;
     }
 
-    public function addButton($type, $caption='', $visible=true, $enabled=true, $action = '', $accesskey = '', $defaultByEnter = false, $notification = null, $condition = null) {
+    public function addButton($type, $caption='', $visible=true, $enabled=true, $action = '', $accesskey = '', $defaultByEnter = false, $notification = null, $condition = null, $additionalClass = '') {
 
         $exists = false;
         if ($caption == '') {
@@ -353,6 +353,7 @@ class C4GBrickDialogParams
                     $btn->setDefaultByEnter($defaultByEnter);
                     $btn->setNotification($notification);
                     $btn->setCondition($condition);
+                    $btn->setAdditionalCssClass($additionalClass);
                     $button = $btn;
                     $exists = true;
                     break;
@@ -362,7 +363,7 @@ class C4GBrickDialogParams
 
         if (!$exists) {
             $button = new C4GBrickButton(
-                $type, $caption, $visible, $enabled, $action, $accesskey, $defaultByEnter, $notification, $condition);
+                $type, $caption, $visible, $enabled, $action, $accesskey, $defaultByEnter, $notification, $condition, $additionalClass);
             $this->buttons[] = $button;
         }
 

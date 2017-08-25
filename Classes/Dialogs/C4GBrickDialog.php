@@ -441,6 +441,9 @@ class C4GBrickDialog
         if ($button->isDefaultByEnter()) {
             $class = 'c4gGuiAction c4gGuiDefaultAction';
         }
+        if ($button->getAdditionalCssClass()) {
+            $class .= ' ' . $button->getAdditionalCssClass();
+        }
 
         return array(
             'action' => $action,

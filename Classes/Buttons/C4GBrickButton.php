@@ -26,6 +26,7 @@ class C4GBrickButton
     private $defaultByEnter = false;
     private $notification = null;
     private $condition = null; //see BrickCondition boolSwitch
+    private $additionalCssClass = '';
 
     /**
      * C4GBrickButton constructor.
@@ -34,7 +35,7 @@ class C4GBrickButton
      * @param bool $visible
      * @param bool $enabled
      */
-    public function __construct($type, $caption='', $visible=true, $enabled=true, $action='', $accesskey='', $defaultByEnter=false, $notification=null, $condition=null)
+    public function __construct($type, $caption='', $visible=true, $enabled=true, $action='', $accesskey='', $defaultByEnter=false, $notification=null, $condition=null, $additionalClass = '')
     {
         if ($caption == '') {
             $caption = $this->getTypeCaption($type);
@@ -53,6 +54,7 @@ class C4GBrickButton
         $this->defaultByEnter = $defaultByEnter;
         $this->notification = $notification;
         $this->condition = $condition;
+        $this->additionalCssClass = $additionalClass;
     }
 
     /**
@@ -381,5 +383,21 @@ class C4GBrickButton
     public function setCondition($condition)
     {
         $this->condition = $condition;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAdditionalCssClass(): string
+    {
+        return $this->additionalCssClass;
+    }
+
+    /**
+     * @param string $additionalCssClass
+     */
+    public function setAdditionalCssClass(string $additionalCssClass)
+    {
+        $this->additionalCssClass = $additionalCssClass;
     }
 }
