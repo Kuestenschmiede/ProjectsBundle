@@ -195,6 +195,8 @@ class C4GBrickDatabase
             $entity = $this->contaoToEntity($set);
             $this->entityManager->persist($entity);
             $this->entityManager->flush();
+            $result['insertId'] = $entity->getId();
+            return $result;
         } else {
             $tableName = $this->params->getTableName();
             $database = $this->params->getDatabase();
@@ -213,8 +215,6 @@ class C4GBrickDatabase
             $result['insertId'] = $objInsertStmt->insertId;
             return $result;
         }
-
-        return false;
     }
 
     /**

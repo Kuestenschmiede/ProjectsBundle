@@ -124,7 +124,7 @@ class C4GBrickModuleParent extends \Module
     /**
      * module class function after saving
      */
-    public function afterSaveAction($changes)
+    public function afterSaveAction($changes, $insertId)
     {
         //to run code in your module class after saving
     }

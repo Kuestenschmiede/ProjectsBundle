@@ -135,7 +135,7 @@ class C4GSaveDialogAction extends C4GBrickDialogAction
         }
 
         if ($this->module) {
-            $this->module->afterSaveAction($changes);
+            $this->module->afterSaveAction($changes, $result['insertId']);
         }
 
         C4GBrickCommon::logEntry($dialogId,
