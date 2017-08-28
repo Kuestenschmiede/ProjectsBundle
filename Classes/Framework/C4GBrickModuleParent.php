@@ -116,7 +116,7 @@ class C4GBrickModuleParent extends \Module
     /**
      * module class function to get fields
      */
-    protected function addFields()
+    public function addFields()
     {
         //to fill $this->fieldList in your module class
     }

@@ -20,6 +20,7 @@ use con4gis\ProjectBundle\Classes\Logs\C4GLogEntryType;
 use con4gis\ProjectBundle\Classes\Notifications\C4GBrickNotification;
 use con4gis\ProjectBundle\Classes\Views\C4GBrickView;
 use con4gis\ProjectBundle\Classes\Views\C4GBrickViewType;
+use NotificationCenter\Model\Notification;
 
 class C4GSaveDialogAction extends C4GBrickDialogAction
 {
@@ -118,14 +119,14 @@ class C4GSaveDialogAction extends C4GBrickDialogAction
         if ($withNotification && ($newId || $notifyOnChanges)) {
             $notification_array = unserialize($notification_type);
             if(sizeof($notification_array) == 1 ) {
-                $objNotification = \NotificationCenter\Model\Notification::findByPk($notification_array);
+                $objNotification = Notification::findByPk($notification_array);
                 if ($objNotification !== null) {
                     $arrTokens = C4GBrickNotification::getArrayTokens($dlgValues,$fieldList);
                     $objNotification->send($arrTokens);
                 }
             } else {
                 foreach ($notification_array as $notification) {
-                    $objNotification = \NotificationCenter\Model\Notification::findByPk($notification);
+                    $objNotification = Notification::findByPk($notification);
                     if ($objNotification !== null) {
                         $arrTokens = C4GBrickNotification::getArrayTokens($dlgValues, $fieldList);
                         $objNotification->send($arrTokens);
@@ -134,7 +135,7 @@ class C4GSaveDialogAction extends C4GBrickDialogAction
             }
         }
 
-        if ($this->module) {
+        if ($this->module && $result) {
             $this->module->afterSaveAction($changes, $result['insertId']);
         }
 
