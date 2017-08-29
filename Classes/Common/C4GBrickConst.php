@@ -40,6 +40,7 @@ class C4GBrickConst {
     const BUTTON_SAVE            = 'SAVE';
     const BUTTON_SAVE_AND_NEW    = 'SAVE_AND_NEW';
     const BUTTON_SAVE_AND_REDIRECT = 'SAVE_AND_REDIRECT';
+    const BUTTON_TICKET          = 'TICKET';
     const BUTTON_BOOKING_SAVE    = 'BOOKING_SAVE';
     const BUTTON_BOOKING_CHANGE  = 'BOOKING_CHANGE';
     const BUTTON_ARCHIVE         = 'ARCHIVE';

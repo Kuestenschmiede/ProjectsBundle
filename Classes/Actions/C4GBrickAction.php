@@ -366,6 +366,9 @@ abstract class C4GBrickAction
                 $action = new C4GSaveDialogAction($dialogParams, $listParams, $fieldList, $putVars, $brickDatabase);
                 $action->setWithRedirect(true);
                 return $action->run();
+            case C4GBrickActionType::ACTION_TICKET:
+                $action = new C4GTicketDialogAction();
+                return $action->run();
             case C4GBrickActionType::ACTION_CONFIRMMESSAGE:
                 $action = new C4GConfirmMessageAction($dialogParams, $listParams, $fieldList, $putVars, $brickDatabase);
                 return $action->run();

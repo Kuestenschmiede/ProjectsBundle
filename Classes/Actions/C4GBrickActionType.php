@@ -41,6 +41,7 @@ class C4GBrickActionType
     const ACTION_SAVEDIALOG   = 'savedialog';
     const ACTION_SAVEANDNEWDIALOG   = 'saveandnewdialog';
     const ACTION_SAVEANDREDIRECTDIALOG   = 'saveandredirectdialog';
+    const ACTION_TICKET = 'ticket';
     const ACTION_SEARCH = 'search';
     const ACTION_EXPORT = 'export';
     const ACTION_PRINT  = 'print';

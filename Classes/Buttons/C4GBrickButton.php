@@ -90,6 +90,9 @@ class C4GBrickButton
             case C4GBrickConst::BUTTON_SAVE:
                 $caption = $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['SAVE'];
                 break;
+            case C4GBrickConst::BUTTON_TICKET:
+                $caption = $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['TICKET'];
+                break;
             case C4GBrickConst::BUTTON_SAVE_AND_NEW:
                 $caption = $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['SAVE_AND_NEW'];
                 break;
@@ -183,6 +186,9 @@ class C4GBrickButton
                 break;
             case C4GBrickConst::BUTTON_SAVE:
                 $action = C4GBrickActionType::ACTION_SAVEDIALOG;
+                break;
+            case C4GBrickConst::BUTTON_TICKET:
+                $action = C4GBrickActionType::ACTION_TICKET;
                 break;
             case C4GBrickConst::BUTTON_SAVE_AND_NEW:
                 $action = C4GBrickActionType::ACTION_SAVEANDNEWDIALOG;

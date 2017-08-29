@@ -499,6 +499,11 @@ class C4GBrickDialog
             $button_save_and_redirect = $dialogParams->getButton($type_save_and_redirect);
             $result[] = static::addButtonArray($button_save_and_redirect, $dbValues->id);
         }
+        $type_ticket = C4GBrickConst::BUTTON_TICKET;
+        if (($dialogParams->checkButtonVisibility($type_ticket) && (!$dialogParams->isFrozen()))) {
+            $button_ticket = $dialogParams->getButton($type_ticket);
+            $result[] = static::addButtonArray($button_ticket, $dbValues->id);
+        }
 
         //SAVE & NEW BUTTON
 //            $type_save_and_new = C4GBrickConst::BUTTON_SAVE_AND_NEW;
