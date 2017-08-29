@@ -15,6 +15,7 @@ namespace con4gis\ProjectBundle\Classes\Actions;
 use con4gis\ProjectBundle\Classes\Common\C4GBrickCommon;
 use con4gis\ProjectBundle\Classes\Common\C4GBrickConst;
 use con4gis\ProjectBundle\Classes\Dialogs\C4GBrickDialog;
+use con4gis\ProjectBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectBundle\Classes\Fieldlist\C4GBrickField;
 use con4gis\ProjectBundle\Classes\Logs\C4GLogEntryType;
 use con4gis\ProjectBundle\Classes\Notifications\C4GBrickNotification;
@@ -135,7 +136,10 @@ class C4GSaveDialogAction extends C4GBrickDialogAction
         }
 
         if ($this->module && $result) {
-            $this->module->afterSaveAction($changes, $result['insertId']);
+            $addition = $this->module->afterSaveAction($changes, $result['insertId']);
+            if ($addition && $addition instanceof C4GBrickDialogParams) {
+                $dialogParams = $addition;
+            }
         }
 
         C4GBrickCommon::logEntry($dialogId,
@@ -221,7 +225,8 @@ class C4GSaveDialogAction extends C4GBrickDialogAction
                 $return = $action->run();
             } else {
                 if (($dialogParams->isSaveWithoutClose())) {
-                    $return = true;
+                    $action = new C4GShowDialogAction($dialogParams, $this->getListParams(), $fieldList, $dlgValues, $brickDatabase);
+                    $return = $action->run();
                 } else if (C4GBrickView::isWithoutList($viewType)) {
                     $action = new C4GShowDialogAction($dialogParams, $this->getListParams(), $fieldList, $dlgValues, $brickDatabase);
                     $return = $action->run();
