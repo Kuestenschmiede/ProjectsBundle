@@ -28,6 +28,7 @@ class C4GRedirectAction extends C4GBrickDialogAction
                 if ($this->setParentIdAfterSave) {
                     $action->setSetParentIdAfterSave(true);
                 }
+                $action->setModule($this->getModule());
                 $return = $action->run();
             }
 

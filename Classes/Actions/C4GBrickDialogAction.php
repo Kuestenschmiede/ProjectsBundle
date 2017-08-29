@@ -14,6 +14,8 @@ namespace con4gis\ProjectBundle\Classes\Actions;
 
 abstract class C4GBrickDialogAction extends C4GBrickAction
 {
+    protected $module = null;
+
     protected function sendNotifications($notifications, $dlgValues, $fieldList, $memberId, $object = null) {
         if ($notifications) {
             if (sizeof($notifications) == 1) {
@@ -37,5 +39,21 @@ abstract class C4GBrickDialogAction extends C4GBrickAction
             }
         }
         return array('usermessage' => $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_DONT_SEND_NOTIFICATION'], 'title' => $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_DONT_SEND_NOTIFICATION_TITLE']);
+    }
+
+    /**
+     * @return null
+     */
+    public function getModule()
+    {
+        return $this->module;
+    }
+
+    /**
+     * @param null $module
+     */
+    public function setModule($module)
+    {
+        $this->module = $module;
     }
 }

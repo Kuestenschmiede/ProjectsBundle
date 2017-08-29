@@ -26,7 +26,6 @@ class C4GSaveDialogAction extends C4GBrickDialogAction
 {
     private $withRedirect = false;
     private $andNew = false;
-    private $module = null;
     private $setParentIdAfterSave = false;
 
     public function run()
@@ -275,22 +274,6 @@ class C4GSaveDialogAction extends C4GBrickDialogAction
     public function setAndNew($andNew)
     {
         $this->andNew = $andNew;
-    }
-
-    /**
-     * @return null
-     */
-    public function getModule()
-    {
-        return $this->module;
-    }
-
-    /**
-     * @param null $module
-     */
-    public function setModule($module)
-    {
-        $this->module = $module;
     }
 
     /**
