@@ -15,17 +15,18 @@ namespace con4gis\ProjectBundle\Classes\Actions;
 use con4gis\ProjectBundle\Classes\Common\C4GBrickCommon;
 use con4gis\ProjectBundle\Classes\Common\C4GBrickConst;
 use con4gis\ProjectBundle\Classes\Dialogs\C4GBrickDialog;
+use con4gis\ProjectBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectBundle\Classes\Fieldlist\C4GBrickField;
 use con4gis\ProjectBundle\Classes\Logs\C4GLogEntryType;
 use con4gis\ProjectBundle\Classes\Notifications\C4GBrickNotification;
 use con4gis\ProjectBundle\Classes\Views\C4GBrickView;
 use con4gis\ProjectBundle\Classes\Views\C4GBrickViewType;
+use NotificationCenter\Model\Notification;
 
 class C4GSaveDialogAction extends C4GBrickDialogAction
 {
     private $withRedirect = false;
     private $andNew = false;
-    private $module = null;
     private $setParentIdAfterSave = false;
 
     public function run()
@@ -118,14 +119,14 @@ class C4GSaveDialogAction extends C4GBrickDialogAction
         if ($withNotification && ($newId || $notifyOnChanges)) {
             $notification_array = unserialize($notification_type);
             if(sizeof($notification_array) == 1 ) {
-                $objNotification = \NotificationCenter\Model\Notification::findByPk($notification_array);
+                $objNotification = Notification::findByPk($notification_array);
                 if ($objNotification !== null) {
                     $arrTokens = C4GBrickNotification::getArrayTokens($dlgValues,$fieldList);
                     $objNotification->send($arrTokens);
                 }
             } else {
                 foreach ($notification_array as $notification) {
-                    $objNotification = \NotificationCenter\Model\Notification::findByPk($notification);
+                    $objNotification = Notification::findByPk($notification);
                     if ($objNotification !== null) {
                         $arrTokens = C4GBrickNotification::getArrayTokens($dlgValues, $fieldList);
                         $objNotification->send($arrTokens);
@@ -134,8 +135,11 @@ class C4GSaveDialogAction extends C4GBrickDialogAction
             }
         }
 
-        if ($this->module) {
-            $this->module->afterSaveAction($changes);
+        if ($this->module && $result) {
+            $addition = $this->module->afterSaveAction($changes, $result['insertId']);
+            if ($addition && $addition instanceof C4GBrickDialogParams) {
+                $dialogParams = $addition;
+            }
         }
 
         C4GBrickCommon::logEntry($dialogId,
@@ -221,7 +225,8 @@ class C4GSaveDialogAction extends C4GBrickDialogAction
                 $return = $action->run();
             } else {
                 if (($dialogParams->isSaveWithoutClose())) {
-                    $return = true;
+                    $action = new C4GShowDialogAction($dialogParams, $this->getListParams(), $fieldList, $dlgValues, $brickDatabase);
+                    $return = $action->run();
                 } else if (C4GBrickView::isWithoutList($viewType)) {
                     $action = new C4GShowDialogAction($dialogParams, $this->getListParams(), $fieldList, $dlgValues, $brickDatabase);
                     $return = $action->run();
@@ -274,22 +279,6 @@ class C4GSaveDialogAction extends C4GBrickDialogAction
     public function setAndNew($andNew)
     {
         $this->andNew = $andNew;
-    }
-
-    /**
-     * @return null
-     */
-    public function getModule()
-    {
-        return $this->module;
-    }
-
-    /**
-     * @param null $module
-     */
-    public function setModule($module)
-    {
-        $this->module = $module;
     }
 
     /**

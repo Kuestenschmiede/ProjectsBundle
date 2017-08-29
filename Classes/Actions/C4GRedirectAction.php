@@ -28,6 +28,7 @@ class C4GRedirectAction extends C4GBrickDialogAction
                 if ($this->setParentIdAfterSave) {
                     $action->setSetParentIdAfterSave(true);
                 }
+                $action->setModule($this->getModule());
                 $return = $action->run();
             }
 
@@ -36,7 +37,8 @@ class C4GRedirectAction extends C4GBrickDialogAction
 //                $return = $action->run();
 //            }
 
-            if ($this->setParentIdAfterSave && $dialogParams->getParentId()) {
+            // only set parent id if it's a new dataset, otherwise it will be set already
+            if ($this->setParentIdAfterSave && $dialogParams->getParentId() && $id == -1) {
                 $this->redirectWithAction .= $dialogParams->getParentId();
             }
             if (!$return['usermessage']) {
