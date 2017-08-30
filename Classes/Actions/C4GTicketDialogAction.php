@@ -13,10 +13,19 @@ use con4gis\ForumBundle\Resources\contao\modules\C4GForum;
 
 class C4GTicketDialogAction extends C4GBrickDialogAction
 {
+
     public function run()
     {
-        $c4gForum = C4GForum::class;
-        $c4gForum->performAction('newthread');
+
+        $Forum = new C4GForum(\ModuleModel::findByPk($this->module->forum));
+        $this->dialogParams->setRedirectSite($this->module->redirectsite);
+        $this->dialogParams->setRedirectWithSaving(true);
+        $redirect = new C4GRedirectAction($this->dialogParams,$this->listParams,$this->fieldList,$this->putVars,$this->brickDatabase);
+        $action ='ticket';
+        $action .=':'.$this->module->forum.':'.$this->dialogParams->getId().':'.$this->dialogParams->getGroupId();
+        $redirect->setRedirectWithAction('state='.$action);
+        return $redirect->run();
+
     }
 
 }

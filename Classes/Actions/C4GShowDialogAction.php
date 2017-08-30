@@ -277,6 +277,16 @@ class C4GShowDialogAction extends C4GBrickDialogAction
             }
         }
 
+        if ($viewType === C4GBrickViewType::GROUPBASED && $modelListFunction) {
+            $function = $modelListFunction;
+            $database = $brickDatabase->getParams()->getDatabase();
+            //Todo überarbeiten brickDatabase
+            $modelClass = $brickDatabase->getParams()->getModelClass();
+            $model = $modelClass;
+            $elements = $model::$function($groupId, $database, $this->getListParams(), $brickDatabase);
+            $element = $elements->$id;
+        }
+
         //ToDo Weitere ViewTypes überprüfen
         if ($viewType != C4GBrickViewType::PROJECTPARENTFORMCOPY) {
             $uuid = $this->getElementUuid($element->uuid);
