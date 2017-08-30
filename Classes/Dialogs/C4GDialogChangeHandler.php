@@ -53,6 +53,13 @@ class C4GDialogChangeHandler
         $oldChanges = \Session::getInstance()->get($moduleKey . '_fieldChanges');
         // merge with new ones
         if ($oldChanges) {
+            foreach ($changes as $key => $arrValue) {
+                // $key is the fieldname
+                // $arrValue is $key = property, $value display value
+                if ($oldChanges[$key]) {
+                    unset($oldChanges[$key]);
+                }
+            }
             $changes = array_merge($changes, $oldChanges);
         }
         // store new changes
