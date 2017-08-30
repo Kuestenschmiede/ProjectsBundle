@@ -354,7 +354,9 @@ abstract class C4GBrickAction
                 $action = new C4GSaveDialogAction($dialogParams, $listParams, $fieldList, $putVars, $brickDatabase);
                 $action->setModule($module);
                 $return = $action->run();
-                $module->getDialogChangeHandler()->clearSession($module->getBrickKey());
+                if (!$dialogParams->isSaveWithoutClose()) {
+                    $module->getDialogChangeHandler()->clearSession($module->getBrickKey());
+                }
                 return $return;
             case C4GBrickActionType::ACTION_SAVEANDNEWDIALOG:
                 $action = new C4GSaveDialogAction($dialogParams, $listParams, $fieldList, $putVars, $brickDatabase);
@@ -495,7 +497,6 @@ abstract class C4GBrickAction
                     $brickDatabase,
                     $module
                 );
-                // TODO nach run eventuell $fieldList von $module setzen wegen referenzen
                 $newFieldList = $action->run();
                 $module->setFieldList($newFieldList);
                 return $newFieldList;

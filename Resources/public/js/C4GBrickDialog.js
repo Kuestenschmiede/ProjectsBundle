@@ -983,6 +983,7 @@ function checkC4GTab() {
 
         }
 
+        // TODO hier liegt das Problem mit den verschwindenen Tabs, JS debugging!
         for(i=0; i<=hideElements.length; i++)
         {
             jQuery(hideElements[i]).hide();
@@ -1005,4 +1006,16 @@ function checkC4GTab() {
             }
         }
     }
+}
+
+function replaceC4GDialog(dialogId) {
+  // check if there exists a dialog div with id and without id
+  // in that case, throw away the div without dialogId
+  if (dialogId !== -1) {
+    var oldDialog = document.getElementById('c4gGuiDialogbrickdialog');
+    var newDialog = document.getElementById('c4gGuiDialogbrickdialog' + dialogId);
+    if (oldDialog && newDialog) {
+      oldDialog.parentNode.removeChild(oldDialog);
+    }
+  }
 }
