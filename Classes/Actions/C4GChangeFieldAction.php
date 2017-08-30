@@ -30,7 +30,6 @@ class C4GChangeFieldAction extends C4GBrickAction
         $this->module = $module;
     }
 
-
     public function run()
     {
         $fieldList = $this->getFieldList();

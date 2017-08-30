@@ -242,7 +242,7 @@ class C4GBrickDialog
             ' ui-widget ui-widget-content ui-corner-bottom">'.C4GHTMLFactory::lineBreak();
 
         $GLOBALS['c4g']['brickdialog']['include']['js'][] = 'jQuery(".chzn-select").chosen();';
-
+        $GLOBALS['c4g']['brickdialog']['include']['js'][] = 'replaceC4GDialog(' . $dialogParams->getId() . ');';
         if ($dialogParams->isWithTabContentCheck()) {
             $GLOBALS['c4g']['brickdialog']['include']['js'][] = 'checkC4GTab();';
         }
