@@ -1,0 +1,717 @@
+.c4gGuiDialogTitle {
+    background: none;
+    border: none;
+}
+.c4gGuiDialogTitle h1
+{
+    float: left;
+    margin-top: 0px;
+    margin-right: 0px;
+    margin-left: 0px;
+    margin-bottom: 0px;
+    padding-top: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-bottom: 0px;
+}
+.c4gGuiDialogTitle button
+{
+    float: right;
+    margin-top: 4px;
+    margin-left: 4px;
+    margin-right: 4px;
+    height: 21px;
+}
+.c4gGuiDialogTitle input
+{
+    float: right;
+    margin-top: 4px;
+    height: 21px;
+    margin-right: 4px;
+    margin-left: 4px;
+}
+input:invalid {
+    /*border-color: #ab2c29;*/
+    border-right-color: #ab2c29;
+}
+.c4gGuiDialogTitle select.c4g_filter {
+    float: right;
+    margin-top: 4px;
+    height: 21px;
+    margin-right: 4px;
+    margin-left: 4px;
+}
+.c4gGuiDialogTitle label
+{
+    float: right;
+    margin-top: 7px;
+    height: 21px;
+    margin-right: 4px;
+    margin-left: 4px;
+    font-size: 15px;
+}
+.c4g_brick_headtext {
+    font-size: 13px;
+    font-weight: normal;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    margin-left: 0px/*2.5%*/;
+}
+.c4g_brick_headtext_highlighted {
+    font-size: 16px;
+    font-weight: normal;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    /*margin-left: 2.5%;*/
+}
+.c4g_brick_dialog input.formdata,
+.c4g_brick_dialog input.formnodata,
+.c4g_brick_dialog textarea.formdata {
+    display: block;
+    margin-bottom: .25em;
+    margin-top: .25em;
+    margin-left: 2.5%;
+    width: 95%;
+    /*border-radius: 3px;*/
+}
+.c4g_brick_dialog input[type='checkbox'] {
+    width: 1.0em;
+    vertical-align: middle;
+    border-radius: 5px;
+}
+.c4g_brick_dialog input[type='radio'] {
+    display: inline;
+    margin-right: 1.0em;
+    margin-left: .2em;
+    vertical-align:middle;
+}
+.c4g_brick_dialog .c4g_brick_radio_group {
+    border: none;
+    vertical-align: middle;
+}
+.c4g_brick_dialog .c4g_brick_radio_group .radio_element {
+    display: inline-block;
+}
+.c4g_brick_dialog .c4g_brick_radio_group label {
+    font-weight: normal;
+    margin-right: 2px;
+    padding: 0;
+    vertical-align: middle;
+}
+.c4g_brick_dialog .rb_turned input[type='radio']  {
+    display: inline;
+    margin-right: .2em;
+    margin-left: 0em;
+    vertical-align:middle;
+}
+.c4g_brick_dialog .c4g_brick_radio_group .lbl_turned {
+    font-weight: normal;
+    margin-left: 0em;
+    margin-right: 1.0em;
+    padding: 0;
+    vertical-align: middle;
+}
+.c4g_brick_dialog .c4g_brick_radio_group_wrapper{
+    margin-left: 2.5%;
+}
+.c4g_brick_dialog .c4g_brick_radio_group_wrapper label {
+    margin-left: 0px;
+}
+.c4g_brick_dialog label, .c4g_brick_select_dialog label, .c4g_brick_dialog h2 {
+    font-weight: bold;
+    margin-left: 2.5%;
+}
+.c4g_brick_dialog label strong {
+    color: #ab2c29;
+}
+.c4g_brick_dialog select,.c4g_brick_dialog .styled_select,
+.c4g_brick_select_dialog select,.c4g_brick_select_dialog .styled_select {
+    display: block;
+    width: 95.33%;
+    margin-left: 2.33%;
+    margin-bottom: .25em;
+    margin-top: .25em;
+    overflow:hidden;
+    /*border-radius: 3px;*/
+}
+.c4g_brick_dialog .chosen-container, .c4g_brick_select_dialog .chosen-container {
+    display: block;
+    width: 95.33%!important;
+    margin-left: 2.33%;
+    margin-bottom: 5px;
+    border-radius: 3px;
+    font-size: inherit;
+    text-decoration: none;
+}
+.c4g_brick_dialog .chosen-single, .c4g_brick_select_dialog .chosen-single {
+    text-decoration: none!important;
+    color: inherit!important;
+    border-radius:0px!important;
+}
+.c4g_brick_dialog .chzn-select-disabled, .c4g_brick_select_dialog .chzn-select-disabled{
+    display:none!important;
+}
+.c4g_brick_dialog .c4g_brick_table_rows select,.c4g_brick_dialog .c4g_brick_table_rows .styled_select,
+.c4g_brick_select_dialog .c4g_brick_table_rows select,.c4g_brick_select_dialog .c4g_brick_table_rows .styled_select {
+    display: block;
+    width: 95.5%;
+    margin-left: 2.5%;
+    margin-bottom: 5px;
+    overflow:hidden;
+    border-radius: 3px;
+}
+.c4g_brick_dialog textarea.formdata {
+    resize: vertical;
+}
+.c4g_dialog label {
+    font-weight: bold;
+    margin-left: 2.5%;
+}
+.c4g_brick_dialog .c4g_description {
+    font-weight: normal;
+    margin: 0 2.5%;
+    /*font-style: italic;*/
+    font-size: 0.8em;
+    color: darkslategrey;
+}
+.c4g_brick_dialog .c4g_descripton_hole {
+    margin-bottom: 4px;
+}
+.c4g_brick_dialog .c4g_brick_header_text {
+    font-weight: normal;
+    text-align: right;
+    margin: 0 2.5%;
+    font-style: italic;
+    font-size: 1.0em;
+    color: darkslategrey;
+}
+.c4g_brick_dialog .c4g_color.picker {
+    font-weight: bold;
+    margin-left: 2.5%;
+}
+.c4g_brick_dialog .c4g_color.block {
+    width: 16px;
+    height: 16px;
+}
+.c4g_brick_dialog label.cg_checkbox_label {
+    font-weight: normal;
+}
+.c4g_brick_dialog #c4g_select_label {
+    margin-top: 10px;
+}
+.c4g_brick_dialog input:required,
+.c4g_brick_dialog textarea:required,
+.c4g_brick_dialog select:required,
+.c4g_brick_dialog select:-moz-read-only {
+}
+.c4g_brick_dialog input[type='text']:disabled,
+.c4g_brick_dialog input[type='text']:-moz-read-only,
+.c4g_brick_dialog input[type='number']:disabled,
+.c4g_brick_dialog textarea:disabled,
+.c4g_brick_dialog textarea:-moz-read-only {
+    background: #d3d3d3;
+    border: 0px;
+    cursor: not-allowed;
+}
+.c4g_brick_dialog .c4g_textarea_length {
+    font-weight: normal;
+    margin: 0 2.5%;
+    font-style: italic;
+    font-size: 1.0em;
+    color: darkslategrey;
+}
+.c4g_brick_dialog select:disabled {
+    background-color:#d3d3d3;
+    border: 0px;
+    cursor: not-allowed;
+}
+.c4g_brick_dialog input[type='file'] {
+    display: block;
+    margin: 0 auto;
+    width: 95%;
+}
+.c4g_brick_dialog #cke_ckeditor {
+    display: block;
+    margin: 0 auto;
+    width: 95%;
+}
+.c4g_brick_dialog .c4g_brick_geopicker_label {
+    padding-top: 10px;
+}
+.c4g_brick_dialog #c4g_brick_geopicker {
+    width: 95%!important;
+    margin-top: 5px!important;
+    margin-left: 2.5%!important;
+}
+.c4g_brick_dialog #c4g_brick_geopicker_geox, .c4g_brick_dialog #c4g_brick_geopicker_geoy {
+    display: block;
+    margin: 0 auto;
+    margin-left: 2.5%;
+    width: 95%;
+}
+.c4g_brick_message_dialog {
+    padding: 5px;
+}
+.c4g_brick_message_dialog label, .c4g_brick_message_dialog textarea, .c4g_brick_message_dialog .c4g_description {
+    width: 95%;
+}
+.c4g_brick_dialog .c4g_reverse_address {
+}
+
+.c4g_brick_dialog #c4g_brick_geopicker_address {
+    float: left;
+    margin-left: 2.5%;
+    width: 75%;
+}
+.c4g_brick_dialog .c4g_brick_geopicker_address_without_reloadbutton {
+    float: left;
+    margin-left: 2.5%;
+    width: 95%!important;
+}
+.c4g_brick_dialog #c4g_addressUpdateButton {
+    width: 20%;
+    cursor: pointer;
+}
+div.cg_info_block {
+    margin: 5px 10px;
+    padding: 10px;
+    font-style: italic;
+
+    border: 1px solid rgba(0, 0, 0, .1);
+    background: rgba(255, 255, 255, .3);
+}
+div.cg_block {
+    margin: 5px 10px;
+    padding: 10px;
+}
+#c4g_brick .c4gGuiContentWrapper {
+    width: 100%;
+    height: 100%;
+}
+#c4g_brick .ui-widget,
+.c4gGuiDialogWrapper.ui-widget,
+.dataTables_wrapper {
+    /*font-size: 1.2em;*/
+}
+.dataTables_paginate .ui-button {
+    padding: 0!important;
+}
+#c4g_uploadButton {
+    margin-left: 2.5%;
+    margin-bottom: 4px;
+    cursor: pointer;
+}
+#c4g_uploadLink {
+    cursor: pointer;
+}
+#c4g_uploadLink a {
+    color: #000000!important;
+}
+#c4g_deleteButton {
+    margin-left: 5px;
+    padding: 1px;
+    color: #ab2c29;
+    cursor: pointer;
+    font-family: 'FontAwesome';
+}
+#c4g_deleteButton:before {
+    content: "\f00d";
+}
+#c4g_brick .c4gGuiContentWrapper,
+#c4g_brick .c4gGuiNavigation,
+#c4g_brick .c4gGuiButtons,
+#c4g_brick .c4gGuiDialogButtons {
+    padding-top: 10px;
+}
+#c4g_brick #geopickDiv, #c4g_brick #mapsDiv {
+    z-index: 1000;
+}
+
+.ol-control button {
+    font-family: 'FontAwesome';
+}
+#c4g_brick .c4g_brick_tiles {
+    text-align: center;
+    display: inline-flex;
+    /*
+    background: linear-gradient(
+            to bottom,
+            #FFF 0%,
+            #FFF 49%,
+            #F6F6F6 50%,
+            #FFF 95%,
+            #FFF 100%) repeat scroll 0% 0% transparent;
+            */
+}
+#c4g_brick .c4g_brick_tiles .c4g_tile_button  {
+    position: relative;
+    margin: 10px 10px 10px 10px;
+    max-width: 320px;
+    height: auto;
+    margin: 20px 20px 20px 20px;
+    padding: 10px;
+    -webkit-flex-basis: auto;
+    flex-basis: auto;
+    -webkit-box-shadow: 0px 0px 4px 0px rgba(90,90,90,1);
+    -moz-box-shadow: 0px 0px 4px 0px rgba(90,90,90,1);
+    box-shadow: 0px 0px 4px 0px rgba(90, 90, 90, 1);
+    overflow: hidden;
+}
+.c4g_brick_dialog .c4g_gallery {
+    text-align: center;
+    margin: 5px 10px;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-wrap: wrap;
+    flex-wrap: wrap;
+    font-style: normal;
+    font-weight: bold;
+    text-decoration: none;
+}
+.c4g_brick_dialog .c4g_tile {
+    text-align: center;
+    margin: 5px 10px 5px 10px;
+    width: 240px;
+    -webkit-flex-grow: 1;
+    flex-grow: 1;
+    -webkit-flex-basis: auto;
+    flex-basis: auto;
+    -webkit-flex-direction: column;
+    flex-direction: column;
+    font-style: normal;
+    font-weight: bold;
+    text-decoration: none;
+    background-color: #d3d3d3;
+    cursor:pointer;
+    box-shadow: 0px 0px 4px #787878;
+}
+.c4g_brick_dialog .c4g_tile .c4g_tile_label{
+
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+.c4g_brick_dialog .c4g_image {
+    text-align: center;
+    margin-left: 2.5%;
+    margin-right: 2.5%;
+    margin-bottom: 10px;
+    font-style: normal;
+    font-weight: bold;
+    text-decoration: none;
+}
+.c4g_brick_dialog .c4g_image .c4g_image_src, .c4g_brick_dialog .c4g_image .c4g_image_label, .c4g_brick_dialog .c4g_image .c4g_image_description {
+    text-align: left;
+    max-width: 100%;
+    height: auto;
+}
+.dataTables_wrapper .dataTables_info {
+    font-size: 12px!important;
+    padding-top: 0px!important;
+}
+table.dataTable.display tbody, table.dataTable thead th div.DataTables_sort_wrapper{
+    text-align: left;
+    font-size: 12px;
+}
+.dataTables_wrapper tr {
+    cursor:pointer!important;
+}
+#main .ui-widget-header {
+    margin-top: 0px!important;
+}
+.ui-dialog {
+    z-index: 750;
+}
+.c4g_brick_dialog .c4g_timefield
+{
+    border: 1px solid rgb(226, 226, 226);
+    height: 23px;
+    width: 80px;
+    margin-left: 2.5%;
+}
+.c4g_brick_dialog .c4g_timefield .timepicker.input
+{
+    float: left;
+    padding: 2px;
+    /*padding-left: 4px;*/
+    padding-right: 4px;
+    padding-bottom: 2px;
+    vertical-align: middle;
+    text-align: center;
+    height: 11px;
+    width: 49px;
+    border: 0px inset;
+    /*color: rgb(128, 128, 128);*/
+    /*font-weight: bold;*/
+}
+.c4g_brick_dialog .c4g_timefield .gettime
+{
+    width: 20px;
+    height: 24px;
+    background-image: url("../point.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    float: left;
+    border-left-color: rgb(226, 226, 226);
+    border-left-style: solid;
+    border-left-width: 1px;
+}
+.c4g_brick_dialog .c4g_timefield .gettime a
+{
+    cursor: pointer;
+    display: block;
+}
+.c4gGuiButton .c4g_tile.text
+{
+    margin-bottom: 5px;
+    padding-bottom: 4px;
+}
+.c4gGuiButton .c4g_tile.image
+{
+    margin-bottom: 5px;
+}
+.c4gGuiButton .c4g_tile.textarea
+{
+    padding-top: 4px;
+    padding-bottom: 4px;
+}
+.c4gGuiButton .c4g_tile.value {
+    font-weight: bold;
+}
+.c4gGuiDialogButtons {
+    padding-bottom: 25px;
+}
+.c4g_checkbox {
+    display: block;
+    padding-bottom: 2px;
+}
+.c4g_checkbox label{
+    margin-left: 2px;
+    white-space: nowrap;
+}
+label.c4g_multicheckbox{
+    margin-left: 2.5%;
+}
+.c4g_multicheckbox_modern{
+    margin-left: 2.5%;
+    margin-right: 2.5%;
+    font-weight: bold;
+}
+.c4g_brick_dialog input[type='checkbox'] + label {
+    display: inline-block;
+    font: normal normal normal 16px/1 FontAwesome;
+    font-size: inherit;
+    font-weight: 100;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    /*margin-left: 5px;*/
+}
+.c4g_multicheckbox input[type='checkbox']{
+    display: inline-block!important;
+}
+.c4g_multicheckbox input[type='checkbox'] + label:before{
+    display: none !important;
+}
+.c4g_multicheckbox_modern input[type="checkbox"]{
+    display: none !important;
+}
+.c4g_multicheckbox_modern input[type='checkbox'] + label:before {
+    content: "\f204";
+    margin-right: 5px;
+}
+.c4g_multicheckbox_modern input[type='checkbox']:checked + label:before {
+    content: "\f205";
+    margin-right: 5px;
+}
+/*input[type='checkbox'] + label:before{*/
+    /*content: ""!important;*/
+/*}*/
+.c4g_brick_dialog .ui-accordion-header {
+    outline: none;
+    margin-left: 0;
+    display: block;
+    cursor: pointer;
+    position: relative;
+    margin: .3em 0 0 0;
+    /*padding: .5em .5em .5em .7em;*/
+    font-size: 100%;
+    /*width: 100%;*/
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+
+.c4g_brick_dialog .ui-accordion-header a {
+    margin-left: .3em;
+}
+
+.c4gGuiAccordion .ui-icon {
+    display: inline-block;
+    vertical-align: middle;
+    margin-top: .92em;
+    position: absolute;
+    text-indent: -99999px;
+    overflow: hidden;
+    background-repeat: no-repeat;
+}
+.c4gGuiCollapsible_target {
+  /*margin-top: 16px;*/
+}
+
+.c4gGuiTabLinks {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+.c4gGuiTabLink {
+    float: left;
+    display: inline-block;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    transition: 0.3s;
+    font-size: 17px;
+    cursor: pointer;
+}
+
+.c4gGuiTabContent {
+    /*display: none;*/
+    visibility: hidden;
+    height: 0;
+    overflow: hidden;
+    max-height:0;
+    top: 0px;
+}
+
+.c4gGuiTabContainer .ui-state-active, .c4gGuiTabContainer .current {
+    visibility: inherit;
+    height: inherit;
+    max-height:inherit;
+}
+
+.c4g_brick_dialog h3 {
+    font-weight: bold;
+    margin-left: 2.5%;
+    cursor: pointer;
+}
+.c4g_brick_dialog h3 a {
+    text-decoration: none!important;
+}
+
+.c4g_tab_switch_last {
+    margin-bottom: 1em;
+}
+
+.c4g_tab_switch_right {
+    margin-right: 2.5%;
+}
+
+.c4g_tab_switch_first {
+    margin-left: 2.5%;
+    float: left;
+    margin-bottom: 1em;
+}
+
+.c4g_brick_dialog .c4g_brick_link,.c4g_brick_dialog .c4g_brick_button, .c4g_tab_switch_left {
+    margin-left: 2.5%;
+}
+.c4g_brick_dialog .c4g_brick_grid_wrapper {
+    position: relative;
+    margin: 0 auto;
+    margin-left: 2.0%;
+    width: 98%;
+}
+#c4g_brick_grid td {
+    vertical-align: top;
+}
+.c4g_brick_dialog .c4g_brick_grid_wrapper  .c4g_brick_grid_box label,
+.c4g_brick_dialog .c4g_brick_grid_wrapper  .c4g_brick_grid_box input,
+.c4g_brick_dialog .c4g_brick_grid_wrapper .c4g_brick_grid_box .formdata,
+.c4g_brick_dialog .c4g_brick_grid_wrapper .c4g_brick_grid_box p{
+    margin-left: 0px;
+    margin-right: 0px;
+    width: 100%;
+}
+.c4g_brick_dialog .c4g_brick_table_rows {
+    position: relative;
+    margin-left: 1.5%;
+    width: 98%;
+}
+.c4g_brick_dialog .c4g_brick_stopwatch{
+    position:relative;
+    margin-left: 2.5%;
+    height: 22px;
+    font-size:24px;
+}
+.mfp-iframe-holder .mfp-content {
+    width: 100%;
+    height: 100%;
+    max-width: 95%;
+    max-height: 95%;
+}
+.mfp-content video{
+    width:60%;
+    margin-left: 20%;
+    margin-right: 20%;
+}
+#c4g_brick .c4g_brick_dialog .c4gCircleButton {
+    display: block;
+    padding: 0;
+    width: 75px;
+    height: 75px;
+    border-radius: 50%!important;
+    border:5px solid;
+    overflow:hidden;
+    vertical-align: middle;
+    /*background: #4679BD;*/
+    box-shadow: 0 0 3px gray;
+}
+#c4g_brick .c4g_brick_dialog .c4gCircleButton .ui-button-text {
+    text-align: center;
+    vertical-align: middle;
+    font-size: 20px;
+    padding: auto;
+    padding-top: 25px;
+}
+.c4g_brick_dialog .c4g_brick_label {
+    border: 0;
+}
+.c4g_dialog_link {
+    margin-left: 2.5%;
+    margin-right: 2.5%;
+}
+.dataTables_scrollHeadInner {
+    padding-left: 0px!important;
+}
+.dataTable tr td {
+    text-align: left; //ToDo überprüfen und einfach konfigurierbar machen
+}
+
+.dataTable tr .c4g_list_align_right {
+    text-align: right;
+}
+
+.dataTable tr .c4g_list_align_left {
+    text-align: left;
+}
+
+input.c4g_brick_info_text {
+    background-color: inherit;
+    border: none;
+}
+.ui-widget.ui-widget-content {
+    border: 0;
+}
+
+a.c4g_tile_button:hover {
+    cursor: default;
+}
+.ui-button {
+    cursor: default;
+}
+
+.c4g_brick_headtext {
+    display: block;
+    width: 100%;
+}

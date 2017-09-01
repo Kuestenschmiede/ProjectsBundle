@@ -1,0 +1,444 @@
+<?php
+
+/**
+ * con4gis - the gis-kit
+ *
+ * @version   php 7
+ * @package   con4gis
+ * @author    con4gis contributors (see "authors.txt")
+ * @license   GNU/LGPL http://opensource.org/licenses/lgpl-3.0.html
+ * @copyright Küstenschmiede GmbH Software & Design 2011 - 2017.
+ * @link      https://www.kuestenschmiede.de
+ */
+
+namespace con4gis\ProjectsBundle\Classes\Maps;
+
+class C4GBrickMapFrontendParent extends \Frontend
+{
+
+    public function getClosePopupString() {
+        return '$.magnificPopup.close()';
+    }
+
+    /**
+     * @param $siteId
+     * @param $state
+     * @param $buttonText
+     * @param $isEditButton
+     * @param $member_id
+     * @param $brick
+     * @return string
+     */
+    public function addPopupButton($siteId, $state, $buttonText, $isEditButton, $member_id, $project_id, $brick, $group_id = null, $parent_id = null) {
+        $result = '';
+
+        //testweise weitere Werte mit übergeben.
+        if ($group_id) {
+            $state = $state.':'.$group_id;
+            if ($project_id) {
+                $state = $state.':'.$project_id;
+                if ($parent_id) {
+                    $state = $state.':'.$parent_id;
+                }
+            }
+
+        }
+
+        $link = '{{link_url::'.$siteId.'}}?state='.$state;
+
+        if ((!$isEditButton) || (\c4g\projects\C4GBrickCommon::hasMemberRightsForBrick($member_id, $project_id, $brick))) {
+            $result = '<div class = "c4g_brick_popup_button"><a onclick="' .
+                \c4g\projects\C4GBrickCommon::getPopupWindowString($link) . '"> '. $buttonText . ' </a></div>';
+        }
+
+        return $result;
+    }
+
+    /**
+     * @param $name
+     * @param $type
+     * @return string
+     */
+    public function addPopupHeader($name, $type) {
+        $result =
+            "<div class=c4g_popup_header_featurename>" . $name . "</div>" .
+            "<div class=c4g_popup_header_featuretype>" . $type . "</div>" .
+            \c4g\C4GHTMLFactory::lineBreak();
+
+        return $result;
+    }
+
+    /**
+     * @param $value
+     * @return string
+     */
+    public function backslashNToBr($value) {
+        $pos = strpos($value, "\n");
+        if ($pos !== false) {
+            return \c4g\C4GHTMLFactory::lineBreak(). nl2br($value) . \c4g\C4GHTMLFactory::lineBreak(). \c4g\C4GHTMLFactory::lineBreak();
+        }
+
+        return $value;
+    }
+
+
+    /**
+     * @param $key
+     * @return string
+     */
+    public function addPopupKeyElement($key) {
+        $result = '';
+        if ($key) {
+            $result = '<input type="hidden" id="c4g_brick_popup_id" value="'.$key.'">';
+        }
+
+        return $result;
+    }
+
+
+    /**
+     * @param $title
+     * @param $value
+     * @return string
+     */
+    public function addPopupListElement($title, $value, $space_before = false) {
+        $result = '';
+        $before = '';
+        if (($value) && ($title) && (strtolower($value) != 'unknown')) {
+            if ($space_before) {
+              $before = "<p>";
+            }
+
+            $result = $before."<li>".$title.": ".\c4g\projects\C4GBrickMapFrontendParent::backslashNToBr($value)."</li>";
+        }
+
+        return $result;
+    }
+
+    /**
+     * @param $title
+     * @param $description
+     * @return string
+     */
+    public function addPopupDescriptionElement($title, $description, $last_member_id) {
+        $result = '';
+        if (($title) && ($description)) {
+            $result = $title.":".\c4g\C4GHTMLFactory::lineBreak(). nl2br($description) . \c4g\C4GHTMLFactory::lineBreak();
+        }
+
+        if ($last_member_id) {
+            $result .= \c4g\C4GHTMLFactory::lineBreak().'Letzter Bearbeiter: '. C4GBrickCommon::getNameForMember($last_member_id).
+                \c4g\C4GHTMLFactory::lineBreak();
+        }
+
+        return $result;
+    }
+
+
+    /**
+     * @param $pid
+     * @param $id
+     * @param $key
+     * @param $type
+     * @param $name
+     * @param $layername
+     * @param $display
+     * @param $hide
+     * @param null $content
+     * @param bool $withUrl
+     * @return array
+     */
+    protected function addMapStructureElement($pid, $id, $key, $type, $name, $layername, $display, $hide, $content = null, $withUrl = false)
+    {
+        //ToDo only refresh we do not use the url
+        $arrData = array();
+        $arrData['pid'] = $pid;
+        $arrData['id'] = $id;
+        $arrData['key'] = $key;
+
+        if ($content != null) {
+            $content[0]['id'] = $id+1;
+            $content[0]['data']['position']['positionId'] = $id+1;
+            if ($withUrl) {
+                $arrData['type'] = 'ajax';
+                if ($type) {
+                    $arrData['origType'] = $type;
+                }
+            } else {
+                if ($type) {
+                    $arrData['type'] = $type;
+                } else {
+                    $arrData['type'] = 'none';
+                }
+            }
+        } else {
+            $arrData['type'] = $type;
+        }
+        $arrData['name']        = \c4g\projects\C4GBrickCommon::cutText($name, 44);
+        $arrData['layername']   = \c4g\projects\C4GBrickCommon::cutText($layername, 44);
+        $arrData['display']     = ($display && ($content != null));
+        $arrData['hide']        = $hide;
+
+        if ($content != null) {
+            $arrData['content']     = $content;
+        }
+
+        return $arrData;
+    }
+
+    /**
+     * @param $elementId
+     * @param $parentId
+     * @param $parentPid
+     * @param $parentIdent
+     * @param $type
+     * @param $name
+     * @param $layername
+     * @param $display
+     * @param $hide
+     * @param null $content
+     * @param bool $withUrl
+     * @return array
+     */
+    protected function addMapStructureElementWithIdCalc(
+            $elementId,
+            $parentId,
+            $parentPid,
+            $parentIdent,
+            $type,
+            $name,
+            $layername,
+            $display,
+            $hide,
+            $content = null,
+            $withUrl = false)
+    {
+        //ToDo only refresh we do not use the url
+        $arrData = array();
+
+        $calcId = \c4g\projects\C4GBrickCommon::calcLayerID($elementId, $parentId, $parentIdent+1);
+
+        if ($parentPid == 0) {
+            $arrData['pid'] = $parentId;//ToDo test with child['id']
+        } else {
+            $arrData['pid'] = \c4g\projects\C4GBrickCommon::calcLayerID($parentId, $parentPid, $parentIdent);
+        }
+
+        $arrData['id']  = $calcId;
+        $arrData['key'] = $calcId;
+
+        if ($content != null) {
+            $content[0]['id'] = $calcId+1;
+            $content[0]['data']['position']['positionId'] = $calcId+1;
+            if ($withUrl) {
+                $arrData['type'] = 'ajax';
+                if ($type) {
+                    $arrData['origType'] = $type;
+                }
+            } else {
+                if ($type) {
+                    $arrData['type'] = $type;
+                } else {
+                    $arrData['type'] = 'none';
+                }
+            }
+        } else {
+            $arrData['type'] = $type;
+        }
+
+
+        $arrData['name']        = \c4g\projects\C4GBrickCommon::cutText($name, 44);
+        $arrData['layername']   = \c4g\projects\C4GBrickCommon::cutText($layername, 44);
+        $arrData['display']     = ($display && ($content != null));
+        $arrData['hide']        = $hide;
+
+        if ($content != null) {
+            $arrData['content'] = $content;
+        }
+
+
+        return $arrData;
+    }
+
+    /**
+     * @param $id
+     * @param $locationStyle
+     * @param $loc_geox
+     * @param $loc_geoy
+     * @param $popupInfo
+     * @param string $label
+     * @param string $graphicTitle
+     * @return array
+     */
+    protected function addMapStructureContent($locationStyle, $loc_geox, $loc_geoy, $popupInfo, $label = '', $graphicTitle = '', $url = null, $interval = 60000)
+    {
+        $stringClass = $GLOBALS['con4gis']['stringClass'];
+        $popupInfo   = $stringClass::toHtml5($popupInfo);
+        $popupInfo   = $this->replaceInsertTags($popupInfo, false);
+        $popupInfo   = str_replace(array('{{request_token}}', '[{]', '[}]'), array(REQUEST_TOKEN, '{{', '}}'), $popupInfo);
+        $popupInfo   = $this->replaceDynamicScriptTags($popupInfo);
+        $objComments = new \Comments();
+        $popupInfo   = $objComments->parseBbCode($popupInfo);
+
+        if (($url) && ($interval != null) && ($interval > 0)) {
+           $settings = array
+            (
+                'loadAsync'    => true,
+                'refresh'      => true,
+                'interval'     => $interval,
+                'crossOrigin'  => false,
+                'boundingBox'  => false,
+            );
+
+            $content = array(
+                'id' => 0,
+                'type' => 'urlData',
+                'format' => 'GeoJSON',
+                //'origType' => 'single',
+                'locationStyle' => $locationStyle,
+                'data' => array(
+                    'url' => $url,
+                    'type' => 'Feature',
+                    'geometry' => array(
+                        'type' => 'Point',
+                        'coordinates' => array(
+                            (float) $loc_geox,
+                            (float) $loc_geoy
+                        )
+                    ),
+                    'properties' => array
+                    (
+                        'projection' => 'EPSG:4326',
+                        'positionId' => 0,
+                        'popup' => array(
+                            'content' => $popupInfo,
+                            'routing_link' => "1",
+                            'async' => false,
+                        ),
+                        'label' => $label,
+                        'graphicTitle' => $graphicTitle
+                    )
+                ),
+                'settings' => $settings,
+            );
+
+
+        } else {
+            $settings = array
+            (
+                'loadAsync'    => false,
+                'refresh'      => false,
+                'crossOrigine' => false,
+                'boundingBox'  => false
+            );
+
+            $content = array(
+                'id' => 0,
+                'type' => 'GeoJSON',
+                'format' => 'GeoJSON',
+                //'origType' => 'single',
+                'locationStyle' => $locationStyle,
+                'data' => array(
+                    'type' => 'Feature',
+                    'geometry' => array(
+                        'type' => 'Point',
+                        'coordinates' => array(
+                            (float) $loc_geox,
+                            (float) $loc_geoy
+                        )
+                    ),
+                    'properties' => array
+                    (
+                        'projection' => 'EPSG:4326',
+                        'popup' => array(
+                            'content' => $popupInfo,
+                            'routing_link' => "1",
+                            'async' => false,
+                        ),
+                        'label' => $label,
+                        'graphicTitle' => $graphicTitle
+
+                    )
+                ),
+                'settings' => $settings,
+            );
+
+        }
+
+        return array($content);
+    }
+
+    /**
+     * @param $arrData
+     * @param $arrChildData
+     */
+    protected function addMapStructureChilds($arrData, $arrChildData, $sort = true)
+    {
+        if ($arrChildData) {
+            if (!$sort) {
+                $arrSortedData = $arrChildData;
+            } else if ($arrChildData['layername'] != $arrChildData['name']) {
+                $arrSortedData = \c4g\projects\C4GBrickCommon::array_sort($arrChildData, 'layername', SORT_ASC, true);
+            } else {
+                $arrSortedData = \c4g\projects\C4GBrickCommon::array_sort($arrChildData, 'name', SORT_ASC, true);
+            }
+
+            foreach ($arrSortedData as $key=>$arrSortedDataValue) {
+                $arrSortedData[$key]['pid'] = $arrData['id'];
+                if ($arrSortedData[$key]['content'] != null) {
+                    $arrSortedData[$key]['content'][0]['id'] = $arrSortedDataValue['id'] + 1;
+                    $arrSortedData[$key]['content'][0]['data']['position']['positionId'] = $arrSortedDataValue['id'] + 1;
+                }
+            }
+
+            $size = sizeof($arrSortedData);
+            $arrData['hasChilds'] = true;
+            $arrData['display'] = ($size > 0);
+            $arrData['childsCount'] = $size;
+            $arrData['childs'] = $arrSortedData;
+
+        } else {
+            $arrData['display'] = false;
+        }
+
+        return $arrData;
+    }
+
+
+
+    /**
+     * @param $level
+     * @param $child
+     * @return array|void
+     */
+    public function addLocations($level, $child)
+    {
+        //Wird in der erbenen Klasse überschrieben.
+
+        return;
+    }
+
+
+    /**
+     * @param $value
+     * @param $entry
+     * @return string
+     */
+    public function checkDefinedForEntry($value, $entry) {
+        $result = '';
+        if ($value) {
+            $result = $entry;
+        }
+
+        return $result;
+    }
+
+    /**
+     * @param $uuid
+     */
+    public static function uuidToMapId($uuid){
+        if ($uuid) {
+
+        }
+    }
+}
