@@ -1,5 +1,5 @@
 {
-  "name": "con4gis/core",
+  "name": "con4gis/projects",
   "type": "contao-bundle",
   "description": "con4gis developer framework for building contao frontend modules",
   "keywords": ["con4gis", "projects", "contao", "c4g", "con4gisprojects", "con4gisprojectsbundle", "c4gprojects"],
