@@ -1,6 +1,6 @@
 <?php
 
-namespace eden\AreaBundle\ContaoManager;
+namespace con4gis\ProjectsBundle\ContaoManager;
 
 use con4gis\ApiBundle\Con4gisApiBundle;
 use con4gis\ProjectsBundle\con4gisProjectsBundle;
