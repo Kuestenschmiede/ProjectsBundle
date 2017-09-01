@@ -3,6 +3,7 @@
 namespace con4gis\ProjectsBundle\ContaoManager;
 
 use con4gis\ApiBundle\Con4gisApiBundle;
+use con4gis\CoreBundle\con4gisCoreBundle;
 use con4gis\ProjectsBundle\con4gisProjectsBundle;
 use Contao\CoreBundle\ContaoCoreBundle;
 use Contao\ManagerPlugin\Bundle\Config\BundleConfig;
