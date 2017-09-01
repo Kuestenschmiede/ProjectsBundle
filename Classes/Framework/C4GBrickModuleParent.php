@@ -442,18 +442,18 @@ class C4GBrickModuleParent extends \Module
             }
         }
 
-        $GLOBALS['TL_CSS']['c4g_brick_style'] = 'bundles/con4gisproject/css/c4g_brick.css';
+        $GLOBALS['TL_CSS']['c4g_brick_style'] = 'bundles/con4gisprojects/css/c4g_brick.css';
 
         if ($this->brickStyle) {
             $GLOBALS['TL_CSS']['c4g_brick_style_'.$this->name] = $this->brickStyle;
         }
         if ($this->loadUrlClear) {
-            $GLOBALS['TL_JAVASCRIPT'][] = 'bundles/con4gisproject/js/ClearBrowserUrl.js';
+            $GLOBALS['TL_JAVASCRIPT'][] = 'bundles/con4gisprojects/js/ClearBrowserUrl.js';
         }
 
-        $GLOBALS['TL_JAVASCRIPT'][] = 'bundles/con4gisproject/js/C4GBrickDialog.js';
+        $GLOBALS['TL_JAVASCRIPT'][] = 'bundles/con4gisprojects/js/C4GBrickDialog.js';
 
-        $GLOBALS['TL_JAVASCRIPT'][] = 'bundles/con4gisproject/js/ConditionalFieldDisplay.js';
+        $GLOBALS['TL_JAVASCRIPT'][] = 'bundles/con4gisprojects/js/ConditionalFieldDisplay.js';
 //        $GLOBALS['TL_JAVASCRIPT'][] = 'bundles/con4gisproject/js/AjaxAutocomplete.js';
 
         if ($this->brickScript) {
