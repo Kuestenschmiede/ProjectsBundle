@@ -10,7 +10,7 @@
  * @link      https://www.kuestenschmiede.de
  */
 
-namespace con4gis\ProjectBundle\Classes\Notifications;
+namespace con4gis\ProjectsBundle\Classes\Notifications;
 
 use c4g\MemberModel;
 

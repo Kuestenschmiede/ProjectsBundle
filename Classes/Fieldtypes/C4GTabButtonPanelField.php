@@ -11,12 +11,12 @@
  * @link      https://www.kuestenschmiede.de
  */
 
-namespace con4gis\ProjectBundle\Classes\Fieldtypes;
+namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
 
-use con4gis\ProjectBundle\Classes\Buttons\C4GBrickButton;
-use con4gis\ProjectBundle\Classes\Common\C4GBrickConst;
-use con4gis\ProjectBundle\Classes\Dialogs\C4GBrickDialogParams;
-use con4gis\ProjectBundle\Classes\Fieldlist\C4GBrickField;
+use con4gis\ProjectsBundle\Classes\Buttons\C4GBrickButton;
+use con4gis\ProjectsBundle\Classes\Common\C4GBrickConst;
+use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
+use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
 
 class C4GTabButtonPanelField extends C4GBrickField
 {

@@ -11,9 +11,9 @@
  * @link      https://www.kuestenschmiede.de
  */
 
-namespace con4gis\ProjectBundle\Classes\Fieldtypes;
+namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
 
-use con4gis\ProjectBundle\Classes\Fieldlist\C4GBrickField;
+use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
 
 class C4GDummyField extends C4GBrickField
 {

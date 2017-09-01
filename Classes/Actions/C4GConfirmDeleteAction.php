@@ -10,12 +10,12 @@
  * @link      https://www.kuestenschmiede.de
  */
 
-namespace con4gis\ProjectBundle\Classes\Actions;
+namespace con4gis\ProjectsBundle\Classes\Actions;
 
-use con4gis\ProjectBundle\Classes\Common\C4GBrickCommon;
-use con4gis\ProjectBundle\Classes\Dialogs\C4GBrickDialog;
-use con4gis\ProjectBundle\Classes\Logs\C4GLogEntryType;
-use con4gis\ProjectBundle\Classes\Views\C4GBrickViewType;
+use con4gis\ProjectsBundle\Classes\Common\C4GBrickCommon;
+use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialog;
+use con4gis\ProjectsBundle\Classes\Logs\C4GLogEntryType;
+use con4gis\ProjectsBundle\Classes\Views\C4GBrickViewType;
 
 class C4GConfirmDeleteAction extends C4GBrickDialogAction
 {

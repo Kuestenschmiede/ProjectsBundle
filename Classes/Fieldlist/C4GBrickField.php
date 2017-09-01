@@ -10,17 +10,17 @@
  * @link      https://www.kuestenschmiede.de
  */
 
-namespace con4gis\ProjectBundle\Classes\Fieldlist;
+namespace con4gis\ProjectsBundle\Classes\Fieldlist;
 
-use con4gis\ProjectBundle\Classes\Conditions\C4GBrickConditionType;
-use con4gis\ProjectBundle\Classes\Dialogs\C4GBrickDialogParams;
-use con4gis\ProjectBundle\Classes\Fieldtypes\C4GButtonField;
-use con4gis\ProjectBundle\Classes\Fieldtypes\C4GDecimalField;
-use con4gis\ProjectBundle\Classes\Fieldtypes\C4GEmailField;
-use con4gis\ProjectBundle\Classes\Fieldtypes\C4GLinkField;
-use con4gis\ProjectBundle\Classes\Fieldtypes\C4GNumberField;
-use con4gis\ProjectBundle\Classes\Fieldtypes\C4GUrlField;
-use con4gis\ProjectBundle\Classes\Views\C4GBrickViewType;
+use con4gis\ProjectsBundle\Classes\Conditions\C4GBrickConditionType;
+use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
+use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GButtonField;
+use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GDecimalField;
+use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GEmailField;
+use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GLinkField;
+use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GNumberField;
+use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GUrlField;
+use con4gis\ProjectsBundle\Classes\Views\C4GBrickViewType;
 
 abstract class C4GBrickField
 {

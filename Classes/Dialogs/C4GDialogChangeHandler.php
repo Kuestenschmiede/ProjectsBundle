@@ -6,9 +6,9 @@
  * Time: 10:20
  */
 
-namespace con4gis\ProjectBundle\Classes\Dialogs;
+namespace con4gis\ProjectsBundle\Classes\Dialogs;
 
-use con4gis\ProjectBundle\Classes\Fieldlist\C4GBrickField;
+use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
 
 class C4GDialogChangeHandler
 {

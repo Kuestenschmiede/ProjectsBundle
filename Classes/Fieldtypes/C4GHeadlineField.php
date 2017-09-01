@@ -11,14 +11,14 @@
  * @link      https://www.kuestenschmiede.de
  */
 
-namespace con4gis\ProjectBundle\Classes\Fieldtypes;
+namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
 
-use con4gis\ProjectBundle\Classes\Dialogs\C4GBrickDialogParams;
-use con4gis\ProjectBundle\Classes\Fieldlist\C4GBrickField;
+use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
+use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
 
 /**
  * Class C4GHeadlineField
- * @package con4gis\ProjectBundle\Classes\Fieldtypes
+ * @package con4gis\ProjectsBundle\Classes\Fieldtypes
  */
 class C4GHeadlineField extends C4GBrickField
 {
@@ -49,7 +49,7 @@ class C4GHeadlineField extends C4GBrickField
             $headline_count = 0;
             $tablist = array();
             foreach($fieldList as $field) {
-                if ((get_class($field) == 'con4gis\ProjectBundle\Classes\Fieldtypes\C4GHeadlineField')
+                if ((get_class($field) == 'con4gis\ProjectsBundle\Classes\Fieldtypes\C4GHeadlineField')
                     && ($field->isFormField())) {
                     $headline_count++;
                     $tablist[] = $field;

@@ -6,7 +6,7 @@
  * Date: 11.10.2016
  * Time: 10:33
  */
-namespace con4gis\ProjectBundle\Classes\Framework;
+namespace con4gis\ProjectsBundle\Classes\Framework;
 
 class C4GContainer
 {

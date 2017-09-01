@@ -1,6 +1,6 @@
 <?php
 
-namespace con4gis\ProjectBundle\Classes\Maps;
+namespace con4gis\ProjectsBundle\Classes\Maps;
 use c4g\Maps\C4gMapsModel;
 
 /**

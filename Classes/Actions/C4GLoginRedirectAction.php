@@ -10,7 +10,7 @@
  * @link      https://www.kuestenschmiede.de
  */
 
-namespace con4gis\ProjectBundle\Classes\Actions;
+namespace con4gis\ProjectsBundle\Classes\Actions;
 
 class C4GLoginRedirectAction extends C4GBrickDialogAction
 {

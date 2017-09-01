@@ -10,7 +10,7 @@
  * @link      https://www.kuestenschmiede.de
  */
 
-namespace con4gis\ProjectBundle\Classes\Actions;
+namespace con4gis\ProjectsBundle\Classes\Actions;
 
 /**
  * Class C4GSendNotificationAction

@@ -6,10 +6,10 @@
  * Time: 14:02
  */
 
-namespace con4gis\ProjectBundle\Classes\Actions;
+namespace con4gis\ProjectsBundle\Classes\Actions;
 
 
-use con4gis\ProjectBundle\Classes\Fieldlist\C4GBrickField;
+use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
 
 class C4GChangeFieldAction extends C4GBrickAction
 {

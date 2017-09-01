@@ -11,10 +11,10 @@
  * @link      https://www.kuestenschmiede.de
  */
 
-namespace con4gis\ProjectBundle\Classes\Fieldtypes;
+namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
 
-use con4gis\ProjectBundle\Classes\Dialogs\C4GBrickDialogParams;
-use con4gis\ProjectBundle\Classes\Fieldlist\C4GBrickField;
+use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
+use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
 
 class C4GPermalinkField extends C4GBrickField
 {

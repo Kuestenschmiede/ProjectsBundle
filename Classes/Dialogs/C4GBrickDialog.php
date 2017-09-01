@@ -10,36 +10,36 @@
  * @link      https://www.kuestenschmiede.de
  */
 
-namespace con4gis\ProjectBundle\Classes\Dialogs;
+namespace con4gis\ProjectsBundle\Classes\Dialogs;
 
 use c4g\C4GHTMLFactory;
 use c4g\C4GUtils;
-use con4gis\ProjectBundle\Classes\Actions\C4GBrickActionType;
-use con4gis\ProjectBundle\Classes\Buttons\C4GBrickButton;
-use con4gis\ProjectBundle\Classes\Common\C4GBrickCommon;
-use con4gis\ProjectBundle\Classes\Common\C4GBrickConst;
-use con4gis\ProjectBundle\Classes\Conditions\C4GBrickConditionType;
-use con4gis\ProjectBundle\Classes\Fieldlist\C4GBrickField;
-use con4gis\ProjectBundle\Classes\Fieldlist\C4GBrickFieldCompare;
-use con4gis\ProjectBundle\Classes\Fieldlist\C4GBrickFieldType;
-use con4gis\ProjectBundle\Classes\Fieldtypes\C4GCheckboxField;
-use con4gis\ProjectBundle\Classes\Fieldtypes\C4GDateTimeLocationField;
-use con4gis\ProjectBundle\Classes\Fieldtypes\C4GDecimalField;
-use con4gis\ProjectBundle\Classes\Fieldtypes\C4GEmailField;
-use con4gis\ProjectBundle\Classes\Fieldtypes\C4GFileField;
-use con4gis\ProjectBundle\Classes\Fieldtypes\C4GGeopickerField;
-use con4gis\ProjectBundle\Classes\Fieldtypes\C4GGridField;
-use con4gis\ProjectBundle\Classes\Fieldtypes\C4GHeadlineField;
-use con4gis\ProjectBundle\Classes\Fieldtypes\C4GKeyField;
-use con4gis\ProjectBundle\Classes\Fieldtypes\C4GMultiCheckboxField;
-use con4gis\ProjectBundle\Classes\Fieldtypes\C4GNumberField;
-use con4gis\ProjectBundle\Classes\Fieldtypes\C4GPostalField;
-use con4gis\ProjectBundle\Classes\Fieldtypes\C4GRadioGroupField;
-use con4gis\ProjectBundle\Classes\Fieldtypes\C4GSelectField;
-use con4gis\ProjectBundle\Classes\Fieldtypes\C4GTelField;
-use con4gis\ProjectBundle\Classes\Fieldtypes\C4GUrlField;
-use con4gis\ProjectBundle\Classes\Views\C4GBrickView;
-use con4gis\ProjectBundle\Classes\Views\C4GBrickViewType;
+use con4gis\ProjectsBundle\Classes\Actions\C4GBrickActionType;
+use con4gis\ProjectsBundle\Classes\Buttons\C4GBrickButton;
+use con4gis\ProjectsBundle\Classes\Common\C4GBrickCommon;
+use con4gis\ProjectsBundle\Classes\Common\C4GBrickConst;
+use con4gis\ProjectsBundle\Classes\Conditions\C4GBrickConditionType;
+use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
+use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldCompare;
+use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldType;
+use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GCheckboxField;
+use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GDateTimeLocationField;
+use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GDecimalField;
+use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GEmailField;
+use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GFileField;
+use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GGeopickerField;
+use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GGridField;
+use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GHeadlineField;
+use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GKeyField;
+use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GMultiCheckboxField;
+use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GNumberField;
+use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GPostalField;
+use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GRadioGroupField;
+use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GSelectField;
+use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GTelField;
+use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GUrlField;
+use con4gis\ProjectsBundle\Classes\Views\C4GBrickView;
+use con4gis\ProjectsBundle\Classes\Views\C4GBrickViewType;
 use Contao\ModuleModel;
 
 

@@ -9,7 +9,7 @@
  * @copyright Küstenschmiede GmbH Software & Design 2011 - 2017.
  * @link      https://www.kuestenschmiede.de
  */
-namespace con4gis\ProjectBundle\Classes\Common;
+namespace con4gis\ProjectsBundle\Classes\Common;
 
 
 use c4g\Maps\C4gMapProfilesModel;

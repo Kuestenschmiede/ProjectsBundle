@@ -10,7 +10,7 @@
  * @link      https://www.kuestenschmiede.de
  */
 
-namespace con4gis\ProjectBundle\Classes\Database;
+namespace con4gis\ProjectsBundle\Classes\Database;
 
 use Doctrine\ORM\EntityManager;
 

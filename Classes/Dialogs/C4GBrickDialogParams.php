@@ -10,11 +10,11 @@
  * @link      https://www.kuestenschmiede.de
  */
 
-namespace con4gis\ProjectBundle\Classes\Dialogs;
-use con4gis\ProjectBundle\Classes\Buttons\C4GBrickButton;
-use con4gis\ProjectBundle\Classes\Common\C4GBrickConst;
-use con4gis\ProjectBundle\Classes\Views\C4GBrickView;
-use con4gis\ProjectBundle\Classes\Views\C4GBrickViewType;
+namespace con4gis\ProjectsBundle\Classes\Dialogs;
+use con4gis\ProjectsBundle\Classes\Buttons\C4GBrickButton;
+use con4gis\ProjectsBundle\Classes\Common\C4GBrickConst;
+use con4gis\ProjectsBundle\Classes\Views\C4GBrickView;
+use con4gis\ProjectsBundle\Classes\Views\C4GBrickViewType;
 
 /**
  * Class C4GBrickDialogParams

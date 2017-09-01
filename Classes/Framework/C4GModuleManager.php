@@ -6,7 +6,7 @@
  * Time: 15:12
  */
 
-namespace con4gis\ProjectBundle\Classes\Framework;
+namespace con4gis\ProjectsBundle\Classes\Framework;
 
 use Contao\Database;
 use Contao\Module;

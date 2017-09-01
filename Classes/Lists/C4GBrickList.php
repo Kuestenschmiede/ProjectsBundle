@@ -10,17 +10,17 @@
  * @link      https://www.kuestenschmiede.de
  */
 
-namespace con4gis\ProjectBundle\Classes\Lists;
+namespace con4gis\ProjectsBundle\Classes\Lists;
 
 
-use con4gis\ProjectBundle\Classes\Actions\C4GBrickActionType;
-use con4gis\ProjectBundle\Classes\Buttons\C4GBrickButton;
-use con4gis\ProjectBundle\Classes\Common\C4GBrickCommon;
-use con4gis\ProjectBundle\Classes\Common\C4GBrickConst;
-use con4gis\ProjectBundle\Classes\Conditions\C4GBrickConditionType;
-use con4gis\ProjectBundle\Classes\Fieldtypes\C4GDateTimeLocationField;
-use con4gis\ProjectBundle\Classes\Fieldtypes\C4GGeopickerField;
-use con4gis\ProjectBundle\Classes\Fieldtypes\C4GSelectField;
+use con4gis\ProjectsBundle\Classes\Actions\C4GBrickActionType;
+use con4gis\ProjectsBundle\Classes\Buttons\C4GBrickButton;
+use con4gis\ProjectsBundle\Classes\Common\C4GBrickCommon;
+use con4gis\ProjectsBundle\Classes\Common\C4GBrickConst;
+use con4gis\ProjectsBundle\Classes\Conditions\C4GBrickConditionType;
+use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GDateTimeLocationField;
+use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GGeopickerField;
+use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GSelectField;
 
 class C4GBrickList
 {

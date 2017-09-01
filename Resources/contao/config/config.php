@@ -20,7 +20,7 @@ $GLOBALS['con4gis_projects_extension']['version']      = '0.7.0-snapshot';
 /**
  * Kartenstrukturelemente
  */
-$GLOBALS['c4g_locationtypes'][] = \con4gis\ProjectBundle\Classes\Maps\C4GProjectsFrontend::STARBOARD_TAB;
+$GLOBALS['c4g_locationtypes'][] = \con4gis\ProjectsBundle\Classes\Maps\C4GProjectsFrontend::STARBOARD_TAB;
 
 /**
  * REST-API

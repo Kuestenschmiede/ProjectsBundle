@@ -9,7 +9,7 @@
  * @copyright Küstenschmiede GmbH Software & Design 2011 - 2017.
  * @link      https://www.kuestenschmiede.de
  */
-namespace con4gis\ProjectBundle\Classes\Logs;
+namespace con4gis\ProjectsBundle\Classes\Logs;
 
 class C4GLogEntryType {
     const SAVE_DATASET      = 'save';

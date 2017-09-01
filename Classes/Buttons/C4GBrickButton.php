@@ -10,10 +10,10 @@
  * @link      https://www.kuestenschmiede.de
  */
 
-namespace con4gis\ProjectBundle\Classes\Buttons;
+namespace con4gis\ProjectsBundle\Classes\Buttons;
 
-use con4gis\ProjectBundle\Classes\Actions\C4GBrickActionType;
-use con4gis\ProjectBundle\Classes\Common\C4GBrickConst;
+use con4gis\ProjectsBundle\Classes\Actions\C4GBrickActionType;
+use con4gis\ProjectsBundle\Classes\Common\C4GBrickConst;
 
 class C4GBrickButton
 {

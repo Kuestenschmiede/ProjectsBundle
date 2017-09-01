@@ -6,7 +6,7 @@
  * Time: 17:00
  */
 
-namespace con4gis\ProjectBundle\Classes\Dialogs;
+namespace con4gis\ProjectsBundle\Classes\Dialogs;
 
 
 class C4GBeforeDialogSave

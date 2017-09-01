@@ -3,9 +3,9 @@
  *
  */
 
-namespace con4gis\ProjectBundle\Controller;
+namespace con4gis\ProjectsBundle\Controller;
 
-use con4gis\ProjectBundle\Classes\Framework\C4GModuleManager;
+use con4gis\ProjectsBundle\Classes\Framework\C4GModuleManager;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;

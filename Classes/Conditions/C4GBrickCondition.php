@@ -10,7 +10,7 @@
  * @link      https://www.kuestenschmiede.de
  */
 
-namespace con4gis\ProjectBundle\Classes\Conditions;
+namespace con4gis\ProjectsBundle\Classes\Conditions;
 
 
 class C4GBrickCondition

@@ -10,15 +10,15 @@
  * @link      https://www.kuestenschmiede.de
  */
 
-namespace con4gis\ProjectBundle\Classes\Actions;
+namespace con4gis\ProjectsBundle\Classes\Actions;
 
-use con4gis\ProjectBundle\Classes\Common\C4GBrickCommon;
-use con4gis\ProjectBundle\Classes\Fieldtypes\C4GDateTimeLocationField;
-use con4gis\ProjectBundle\Classes\Fieldtypes\C4GGeopickerField;
-use con4gis\ProjectBundle\Classes\Fieldtypes\C4GGridField;
-use con4gis\ProjectBundle\Classes\Models\C4gProjectsModel;
-use con4gis\ProjectBundle\Classes\Views\C4GBrickView;
-use con4gis\ProjectBundle\Classes\Views\C4GBrickViewType;
+use con4gis\ProjectsBundle\Classes\Common\C4GBrickCommon;
+use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GDateTimeLocationField;
+use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GGeopickerField;
+use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GGridField;
+use con4gis\ProjectsBundle\Classes\Models\C4gProjectsModel;
+use con4gis\ProjectsBundle\Classes\Views\C4GBrickView;
+use con4gis\ProjectsBundle\Classes\Views\C4GBrickViewType;
 
 abstract class C4GBrickAction
 {

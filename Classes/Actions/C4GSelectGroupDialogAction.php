@@ -10,9 +10,9 @@
  * @link      https://www.kuestenschmiede.de
  */
 
-namespace con4gis\ProjectBundle\Classes\Actions;
+namespace con4gis\ProjectsBundle\Classes\Actions;
 
-use con4gis\ProjectBundle\Classes\Dialogs\C4GBrickSelectGroupDialog;
+use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickSelectGroupDialog;
 
 class C4GSelectGroupDialogAction extends C4GBrickDialogAction
 {

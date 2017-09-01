@@ -10,7 +10,7 @@
  * @link      https://www.kuestenschmiede.de
  */
 
-namespace con4gis\ProjectBundle\Classes\Fieldlist;
+namespace con4gis\ProjectsBundle\Classes\Fieldlist;
 
 
 class C4GBrickFieldProperties

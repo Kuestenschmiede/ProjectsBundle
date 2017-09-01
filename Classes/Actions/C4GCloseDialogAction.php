@@ -10,11 +10,11 @@
  * @link      https://www.kuestenschmiede.de
  */
 
-namespace con4gis\ProjectBundle\Classes\Actions;
+namespace con4gis\ProjectsBundle\Classes\Actions;
 
-use con4gis\ProjectBundle\Classes\Dialogs\C4GBrickDialog;
-use con4gis\ProjectBundle\Classes\Models\C4gProjectsModel;
-use con4gis\ProjectBundle\Classes\Views\C4GBrickViewType;
+use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialog;
+use con4gis\ProjectsBundle\Classes\Models\C4gProjectsModel;
+use con4gis\ProjectsBundle\Classes\Views\C4GBrickViewType;
 
 class C4GCloseDialogAction extends C4GBrickDialogAction
 {

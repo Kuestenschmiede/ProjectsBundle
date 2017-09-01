@@ -10,17 +10,17 @@
  * @link      https://www.kuestenschmiede.de
  */
 
-namespace con4gis\ProjectBundle\Classes\Actions;
+namespace con4gis\ProjectsBundle\Classes\Actions;
 
-use con4gis\ProjectBundle\Classes\Common\C4GBrickCommon;
-use con4gis\ProjectBundle\Classes\Common\C4GBrickConst;
-use con4gis\ProjectBundle\Classes\Dialogs\C4GBrickDialog;
-use con4gis\ProjectBundle\Classes\Dialogs\C4GBrickDialogParams;
-use con4gis\ProjectBundle\Classes\Fieldlist\C4GBrickField;
-use con4gis\ProjectBundle\Classes\Logs\C4GLogEntryType;
-use con4gis\ProjectBundle\Classes\Notifications\C4GBrickNotification;
-use con4gis\ProjectBundle\Classes\Views\C4GBrickView;
-use con4gis\ProjectBundle\Classes\Views\C4GBrickViewType;
+use con4gis\ProjectsBundle\Classes\Common\C4GBrickCommon;
+use con4gis\ProjectsBundle\Classes\Common\C4GBrickConst;
+use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialog;
+use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
+use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
+use con4gis\ProjectsBundle\Classes\Logs\C4GLogEntryType;
+use con4gis\ProjectsBundle\Classes\Notifications\C4GBrickNotification;
+use con4gis\ProjectsBundle\Classes\Views\C4GBrickView;
+use con4gis\ProjectsBundle\Classes\Views\C4GBrickViewType;
 use NotificationCenter\Model\Notification;
 
 class C4GSaveDialogAction extends C4GBrickDialogAction

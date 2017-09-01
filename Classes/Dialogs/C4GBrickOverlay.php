@@ -10,7 +10,7 @@
  * @link      https://www.kuestenschmiede.de
  */
 
-namespace con4gis\ProjectBundle\Classes\Dialogs;
+namespace con4gis\ProjectsBundle\Classes\Dialogs;
 use c4g\C4GUtils;
 use Contao\ModuleModel;
 

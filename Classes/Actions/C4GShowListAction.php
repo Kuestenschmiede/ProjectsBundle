@@ -10,16 +10,16 @@
  * @link      https://www.kuestenschmiede.de
  */
 
-namespace con4gis\ProjectBundle\Classes\Actions;
+namespace con4gis\ProjectsBundle\Classes\Actions;
 
 use c4g\projects\C4gProjectsModel;
-use con4gis\ProjectBundle\Classes\Common\C4GBrickCommon;
-use con4gis\ProjectBundle\Classes\Common\C4GBrickConst;
-use con4gis\ProjectBundle\Classes\Lists\C4GBrickList;
-use con4gis\ProjectBundle\Classes\Lists\C4GBrickRenderMode;
-use con4gis\ProjectBundle\Classes\Lists\C4GBrickTiles;
-use con4gis\ProjectBundle\Classes\Views\C4GBrickView;
-use con4gis\ProjectBundle\Classes\Views\C4GBrickViewType;
+use con4gis\ProjectsBundle\Classes\Common\C4GBrickCommon;
+use con4gis\ProjectsBundle\Classes\Common\C4GBrickConst;
+use con4gis\ProjectsBundle\Classes\Lists\C4GBrickList;
+use con4gis\ProjectsBundle\Classes\Lists\C4GBrickRenderMode;
+use con4gis\ProjectsBundle\Classes\Lists\C4GBrickTiles;
+use con4gis\ProjectsBundle\Classes\Views\C4GBrickView;
+use con4gis\ProjectsBundle\Classes\Views\C4GBrickViewType;
 use Symfony\Component\Config\Definition\Exception\Exception;
 
 class C4GShowListAction extends C4GBrickDialogAction

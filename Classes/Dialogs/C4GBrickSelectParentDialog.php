@@ -5,10 +5,10 @@
  * Date: 08.03.17
  * Time: 08:30
  */
-namespace con4gis\ProjectBundle\Classes\Dialogs;
+namespace con4gis\ProjectsBundle\Classes\Dialogs;
 
-use con4gis\ProjectBundle\Classes\Actions\C4GBrickActionType;
-use con4gis\ProjectBundle\Classes\Fieldtypes\C4GSelectField;
+use con4gis\ProjectsBundle\Classes\Actions\C4GBrickActionType;
+use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GSelectField;
 use Contao\System;
 use Eden\CustomerBundle\classes\contao\modules\EdenCustomerAddresses;
 

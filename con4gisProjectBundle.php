@@ -6,15 +6,15 @@
  * Time: 13:55
  */
 
-namespace con4gis\ProjectBundle;
+namespace con4gis\ProjectsBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 /**
- * Class con4gisProjectBundle
- * @package con4gis\ProjectBundle
+ * Class con4gisProjectsBundle
+ * @package con4gis\ProjectsBundle
  */
-class con4gisProjectBundle extends Bundle
+class con4gisProjectsBundle extends Bundle
 {
 
 }

@@ -6,7 +6,7 @@
  * Time: 08:30
  */
 
-namespace con4gis\ProjectBundle\Classes\Dialogs;
+namespace con4gis\ProjectsBundle\Classes\Dialogs;
 
 
 class C4GBrickSelectProjectDialog extends C4GBrickDialog

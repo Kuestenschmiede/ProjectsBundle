@@ -10,9 +10,9 @@
  * @link      https://www.kuestenschmiede.de
  */
 
-namespace con4gis\ProjectBundle\Classes\Actions;
+namespace con4gis\ProjectsBundle\Classes\Actions;
 
-use con4gis\ProjectBundle\Classes\Dialogs\C4GBrickDialog;
+use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialog;
 
 class C4GDeleteDialogAction extends C4GBrickDialogAction
 {

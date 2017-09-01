@@ -11,25 +11,25 @@
  * @link      https://www.kuestenschmiede.de
  */
 
-namespace con4gis\ProjectBundle\Classes\Framework;
+namespace con4gis\ProjectsBundle\Classes\Framework;
 
 
 use c4g\C4GUtils;
 use c4g\MemberModel;
 use c4g\projects\C4gProjectsModel;
-use con4gis\ProjectBundle\Classes\Actions\C4GBrickAction;
-use con4gis\ProjectBundle\Classes\Actions\C4GBrickActionType;
-use con4gis\ProjectBundle\Classes\Common\C4GBrickCommon;
-use con4gis\ProjectBundle\Classes\Common\C4GBrickConst;
-use con4gis\ProjectBundle\Classes\Database\C4GBrickDatabase;
-use con4gis\ProjectBundle\Classes\Database\C4GBrickDatabaseParams;
-use con4gis\ProjectBundle\Classes\Database\C4GBrickDatabaseType;
-use con4gis\ProjectBundle\Classes\Dialogs\C4GBrickDialogParams;
-use con4gis\ProjectBundle\Classes\Dialogs\C4GDialogChangeHandler;
-use con4gis\ProjectBundle\Classes\Lists\C4GBrickListParams;
-use con4gis\ProjectBundle\Classes\Views\C4GBrickView;
-use con4gis\ProjectBundle\Classes\Views\C4GBrickViewParams;
-use con4gis\ProjectBundle\Classes\Views\C4GBrickViewType;
+use con4gis\ProjectsBundle\Classes\Actions\C4GBrickAction;
+use con4gis\ProjectsBundle\Classes\Actions\C4GBrickActionType;
+use con4gis\ProjectsBundle\Classes\Common\C4GBrickCommon;
+use con4gis\ProjectsBundle\Classes\Common\C4GBrickConst;
+use con4gis\ProjectsBundle\Classes\Database\C4GBrickDatabase;
+use con4gis\ProjectsBundle\Classes\Database\C4GBrickDatabaseParams;
+use con4gis\ProjectsBundle\Classes\Database\C4GBrickDatabaseType;
+use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
+use con4gis\ProjectsBundle\Classes\Dialogs\C4GDialogChangeHandler;
+use con4gis\ProjectsBundle\Classes\Lists\C4GBrickListParams;
+use con4gis\ProjectsBundle\Classes\Views\C4GBrickView;
+use con4gis\ProjectsBundle\Classes\Views\C4GBrickViewParams;
+use con4gis\ProjectsBundle\Classes\Views\C4GBrickViewType;
 use Contao\Controller;
 use Contao\Files;
 use Contao\FilesModel;

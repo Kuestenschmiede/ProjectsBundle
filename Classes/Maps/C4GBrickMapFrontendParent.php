@@ -11,7 +11,7 @@
  * @link      https://www.kuestenschmiede.de
  */
 
-namespace con4gis\ProjectBundle\Classes\Maps;
+namespace con4gis\ProjectsBundle\Classes\Maps;
 
 class C4GBrickMapFrontendParent extends \Frontend
 {

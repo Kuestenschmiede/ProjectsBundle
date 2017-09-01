@@ -11,15 +11,15 @@
  * @link      https://www.kuestenschmiede.de
  */
 
-namespace con4gis\ProjectBundle\Classes\Fieldtypes;
+namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
 
-use con4gis\ProjectBundle\Classes\Common\C4GBrickCommon;
-use con4gis\ProjectBundle\Classes\Conditions\C4GBrickConditionType;
-use con4gis\ProjectBundle\Classes\Dialogs\C4GBrickDialogParams;
-use con4gis\ProjectBundle\Classes\Fieldlist\C4GBrickField;
-use con4gis\ProjectBundle\Classes\Fieldlist\C4GBrickFieldCompare;
-use con4gis\ProjectBundle\Classes\Lists\C4GBrickList;
-use con4gis\ProjectBundle\Classes\Lists\C4GBrickTiles;
+use con4gis\ProjectsBundle\Classes\Common\C4GBrickCommon;
+use con4gis\ProjectsBundle\Classes\Conditions\C4GBrickConditionType;
+use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
+use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
+use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldCompare;
+use con4gis\ProjectsBundle\Classes\Lists\C4GBrickList;
+use con4gis\ProjectsBundle\Classes\Lists\C4GBrickTiles;
 
 class C4GCheckboxField extends C4GBrickField
 {

@@ -9,7 +9,7 @@
  * @copyright Küstenschmiede GmbH Software & Design 2011 - 2017.
  * @link      https://www.kuestenschmiede.de
  */
-namespace con4gis\ProjectBundle\Classes\Filter;
+namespace con4gis\ProjectsBundle\Classes\Filter;
 
 class C4GBrickFilterParams
 {

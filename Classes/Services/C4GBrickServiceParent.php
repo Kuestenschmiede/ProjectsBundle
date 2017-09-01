@@ -10,7 +10,7 @@
  * @copyright Küstenschmiede GmbH Software & Design 2011 - 2017.
  * @link      https://www.kuestenschmiede.de
  */
-namespace con4gis\ProjectBundle\Classes\Services;
+namespace con4gis\ProjectsBundle\Classes\Services;
 
 class C4GBrickServiceParent extends \Controller
 {

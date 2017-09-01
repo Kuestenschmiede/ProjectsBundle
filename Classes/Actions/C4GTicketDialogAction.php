@@ -6,7 +6,7 @@
  * Time: 13:06
  */
 
-namespace con4gis\ProjectBundle\Classes\Actions;
+namespace con4gis\ProjectsBundle\Classes\Actions;
 
 
 use con4gis\ForumBundle\Resources\contao\modules\C4GForum;
