@@ -37,15 +37,12 @@
     ]
   },
   "support": {
-    "issues": "https://github.com/Kuestenschmiede/con4gis_projects/issues"
+    "issues": "https://github.com/Kuestenschmiede/ProjectsBundle/issues"
   },
   "config": {
     "preferred-install": "dist"
   },
   "extra": {
-    "branch-alias": {
-      "dev-master": "1.0.x-dev"
-    },
     "contao-manager-plugin": "con4gis\\ProjectsBundle\\ContaoManager\\Plugin"
   }
 }
