@@ -34,7 +34,7 @@
     ]
   },
   "support": {
-    "issues": "https://github.com/Kuestenschmiede/con4gis_projects/issues"
+    "issues": "https://github.com/Kuestenschmiede/ProjectsBundle/issues"
   },
   "config": {
     "preferred-install": "dist"
