@@ -60,8 +60,10 @@ class C4GDateField extends C4GBrickField
             $this->maxDate = strtotime('+25 year');
         }
 
-        if ($value > 0) {
-            $value = date($GLOBALS['TL_CONFIG']['dateFormat'], $value);
+        if (is_numeric($value)) {
+            $date = new \DateTime();
+            $date->setTimestamp($value);
+            $value = $date->format($GLOBALS['TL_CONFIG']['dateFormat']);
         } else {
             $value = "";
         }
