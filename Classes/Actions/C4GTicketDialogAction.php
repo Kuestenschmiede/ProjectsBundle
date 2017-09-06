@@ -16,15 +16,18 @@ class C4GTicketDialogAction extends C4GBrickDialogAction
 
     public function run()
     {
-
-        $Forum = new C4GForum(\ModuleModel::findByPk($this->module->forum));
         $this->dialogParams->setRedirectSite($this->module->redirectsite);
         $this->dialogParams->setRedirectWithSaving(true);
         $redirect = new C4GRedirectAction($this->dialogParams,$this->listParams,$this->fieldList,$this->putVars,$this->brickDatabase);
         $action ='ticket';
         $action .=':'.$this->module->forum.':'.$this->dialogParams->getId().':'.$this->dialogParams->getGroupId();
         $redirect->setRedirectWithAction('state='.$action);
-        return $redirect->run();
+        if ($this->module->forum) {
+            return $redirect->run();
+        } else {
+            //ToDo Language
+            return array('title' => 'Fehlender Ticketbereich', 'usermessage' => 'Der Ticketbereich wurde nicht definiert. Bitte wenden Sie sich an den Betreiber der Website.');
+        }
 
     }
 

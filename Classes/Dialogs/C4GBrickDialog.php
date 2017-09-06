@@ -499,11 +499,6 @@ class C4GBrickDialog
             $button_save_and_redirect = $dialogParams->getButton($type_save_and_redirect);
             $result[] = static::addButtonArray($button_save_and_redirect, $dbValues->id);
         }
-        $type_ticket = C4GBrickConst::BUTTON_TICKET;
-        if (($dialogParams->checkButtonVisibility($type_ticket) && (!$dialogParams->isFrozen()))) {
-            $button_ticket = $dialogParams->getButton($type_ticket);
-            $result[] = static::addButtonArray($button_ticket, $dbValues->id);
-        }
 
         //SAVE & NEW BUTTON
 //            $type_save_and_new = C4GBrickConst::BUTTON_SAVE_AND_NEW;
@@ -597,6 +592,14 @@ class C4GBrickDialog
         if ($dialogParams->checkButtonVisibility($send_notification)) {
             $button_send_notification = $dialogParams->getButton($send_notification);
             $result[] = static::addButtonArray($button_send_notification, $dbValues->id);
+        }
+
+        $type_ticket = C4GBrickConst::BUTTON_TICKET;
+        if (($dialogParams->checkButtonVisibility($type_ticket) && (!$dialogParams->isFrozen()))) {
+            $button_ticket = $dialogParams->getButton($type_ticket);
+            if ($dbValues->id && ($dbValues->id != -1)) {
+                $result[] = static::addButtonArray($button_ticket, $dbValues->id);
+            }
         }
 
         //CLOSE BUTTON
