@@ -16,9 +16,9 @@ class C4GTicketDialogAction extends C4GBrickDialogAction
 
     public function run()
     {
-        $this->dialogParams->setRedirectSite($this->module->ticketcenter);
-        $this->dialogParams->setRedirectWithSaving(true);
         $redirect = new C4GRedirectAction($this->dialogParams,$this->listParams,$this->fieldList,$this->putVars,$this->brickDatabase);
+        $redirect->setRedirectSite($this->module->ticketcenter);
+        $this->dialogParams->setRedirectWithSaving(true);
         $action ='ticket';
         $ticketSubject = $this->module->getBrickCaption().' '.$this->dialogParams->getId().' (';
         if($this->putVars[$this->module->getCaptionField()]){

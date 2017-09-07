@@ -16,12 +16,16 @@ class C4GRedirectAction extends C4GBrickDialogAction
 {
     private $redirectWithAction = '';
     private $setParentIdAfterSave = false;
+    private $redirectSite = '';
 
     public function run()
     {
         $dialogParams = $this->getDialogParams();
         $id = $dialogParams->getId();
-        if ($dialogParams->getRedirectSite() && (($jumpTo = \PageModel::findByPk($dialogParams->getRedirectSite())) !== null)) {
+        if (!$this->redirectSite) {
+            $this->redirectSite = $dialogParams->getRedirectSite();
+        }
+        if ( $this->redirectSite && (($jumpTo = \PageModel::findByPk( $this->redirectSite)) !== null)) {
 
             if ($dialogParams->isRedirectWithSaving() && !$dialogParams->isRedirectWithActivation()) {
                 $action = new C4GSaveDialogAction($dialogParams, $this->getListParams(), $this->getFieldList(), $this->putVars, $this->getBrickDatabase());
@@ -84,5 +88,20 @@ class C4GRedirectAction extends C4GBrickDialogAction
         $this->setParentIdAfterSave = $setParentIdAfterSave;
     }
 
+    /**
+     * @return string
+     */
+    public function getRedirectSite()
+    {
+        return $this->redirectSite;
+    }
+
+    /**
+     * @param string $redirectSite
+     */
+    public function setRedirectSite($redirectSite)
+    {
+        $this->redirectSite = $redirectSite;
+    }
 
 }
