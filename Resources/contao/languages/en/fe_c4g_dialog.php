@@ -21,6 +21,8 @@ $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['CLICK']     = 'Unknown :)';
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['PRINT']     = 'Print';
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['NEXT']      = 'Next';
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['BACK']      = 'Back';
+$GLOBALS['TL_LANG']['FE_C4G_DIALOG']['TICKET']    = 'Ticket';
+
 
 /** FE Layout **/
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['HEADLINES_ADD'] = 'Add';

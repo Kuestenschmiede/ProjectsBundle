@@ -22,7 +22,16 @@ class C4GTicketDialogAction extends C4GBrickDialogAction
         $this->dialogParams->setRedirectWithSaving(true);
         $redirect = new C4GRedirectAction($this->dialogParams,$this->listParams,$this->fieldList,$this->putVars,$this->brickDatabase);
         $action ='ticket';
-        $action .=':'.$this->module->forum.':'.$this->dialogParams->getId().':'.$this->dialogParams->getGroupId();
+        $ticketSubject = $this->module->getBrickCaption().' "';
+        if($this->putVars[$this->module->getCaptionField()]){
+            $ticketSubject .= $this->putVars[$this->module->getCaptionField()];
+        }
+        else{
+            $ticketSubject .= $this->dialogParams->getId();
+        }
+
+        $ticketSubject .= '"';
+        $action .=':'.$this->module->forum.':'.$this->dialogParams->getId().':'.$this->dialogParams->getGroupId().':'.$ticketSubject;
         $redirect->setRedirectWithAction('state='.$action);
         return $redirect->run();
 

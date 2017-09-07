@@ -79,7 +79,15 @@ class C4GBrickModuleParent extends \Module
 
     //doctrine params
     protected $databaseType         = C4GBrickDatabaseType::DCA_MODEL; //see C4gBrickDatabaseType
-    protected $entityClass          = ''; //doctrine entity class
+    protected $entityClass          = '';
+
+    /**
+     * @return string
+     */
+    public function getCaptionField()
+    {
+        return $this->captionField;
+    } //doctrine entity class
 
     //caption params
     protected $brickCaption         = ''; //default singular dataset caption
