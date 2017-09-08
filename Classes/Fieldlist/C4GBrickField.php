@@ -107,6 +107,7 @@ abstract class C4GBrickField
     private $conditionalFieldName = null; // the fieldname of the field which is the condition
     private $displayValue = null; // the value of the condition field at which this field will be displayed
     private $removeWithEmptyCondition = false; // soll das Feld ohne Conditions ausgeblendet werden (valueSwitch)
+    private $tileClass = false; //soll die value als tile class gesetzt werden.
 
     /**
      * C4GBrickField constructor.
@@ -1865,5 +1866,21 @@ abstract class C4GBrickField
     {
         $this->removeWithEmptyCondition = $removeWithEmptyCondition;
     }
-    
+
+    /**
+     * @return bool
+     */
+    public function isTileClass()
+    {
+        return $this->tileClass;
+    }
+
+    /**
+     * @param bool $tileClass
+     */
+    public function setTileClass($tileClass)
+    {
+        $this->tileClass = $tileClass;
+    }
+
 }

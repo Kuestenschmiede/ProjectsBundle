@@ -138,6 +138,23 @@ class C4GBrickTiles
         return $column->getOptions();
     }
 
+
+    /**
+     * @param $fieldList
+     */
+    public function getTileClasses($fieldList, $values)
+    {
+        $result = '';
+        foreach($fieldList as $field) {
+            if ($field->isTileClass()) {
+                $fieldName = $field->getFieldName();
+                $result .= $values->$fieldName.' ';
+            }
+        }
+
+        return $result;
+    }
+
     /**
      * deletes all elements with delete flag
      * @param $fieldList
@@ -271,7 +288,10 @@ class C4GBrickTiles
                 } else {
                     $hovertext = '';
                 }
-                $view .= '<a class="c4gGuiAction c4gGuiButton c4g_tile_button" title="'. $hovertext .
+
+                $tileClasses = C4GBrickTiles::getTileClasses($fieldList, $element);
+
+                $view .= '<a class="'.$tileClasses.'c4gGuiAction c4gGuiButton c4g_tile_button" title="'. $hovertext .
                     '"   data-action="'. $action .'" role="button" style="order: '.$elementTimer.';">';
 
                 $elementTimer++;
@@ -361,7 +381,8 @@ class C4GBrickTiles
             foreach ($tableElements as $element) {
                 $fields = array();
                 $cnt = 0;
-                $view .= '<a class="c4gGuiAction c4gGuiButton c4g_tile_button" data-action="'.
+                $tileClasses = C4GBrickTiles::getTileClasses($fieldList, $element);
+                $view .= '<a class="'.$tileClasses.'c4gGuiAction c4gGuiButton c4g_tile_button" data-action="'.
                     C4GBrickActionType::ACTION_CLICK . ':' . $element->id.'" role="button" style="order: '
                     .$elementTimer.';">';
 
