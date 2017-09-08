@@ -49,8 +49,7 @@ class C4GTicketDialogAction extends C4GBrickDialogAction
                     $ticketSubject .= $this->putVars[$captionField].' ';
                 }
             }
-        }
-        if($this->putVars[$this->module->getCaptionField()]){
+        } else if ($this->putVars[$this->module->getCaptionField()]){
             $ticketSubject .= $this->putVars[$this->module->getCaptionField()];
         }
 
