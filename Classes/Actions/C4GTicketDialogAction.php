@@ -21,10 +21,30 @@ class C4GTicketDialogAction extends C4GBrickDialogAction
         $this->dialogParams->setRedirectWithSaving(true);
         $action ='ticketcall';
         $ticketSubject = $this->module->getBrickCaption().' '.$this->dialogParams->getId().' (';
-        if($this->module->getCaptionField){
-            $captionFields = explode(':',$this->module->getCaptionField);
+        if($this->module->getCaptionField()){
+            $captionFields = explode(':',$this->module->getCaptionField());
             foreach ($captionFields as $captionField)
             {
+                if(substr($captionField,0,1)=='{'){
+                    $parentFields = explode(';',substr($captionField,1,strlen($captionField)-2));
+                    if(!$parentFields[1])
+                    {
+                        $ticketSubject .= substr($captionField,1,strlen($captionField)-2);
+                        continue;
+                    }
+                    $pid = $this->putVars[$parentFields[1]];
+                    if(!$pid){
+                        $pid = $this->dialogParams->getParentId();
+                    }
+                    $ticketSubject .= ' ';
+                    $parentModule = $this->brickDatabase->getParams()->getDatabase()->prepare('SELECT * FROM '.$parentFields[0].' WHERE id=?')->execute($pid)->fetchAssoc();
+                    for($i = 2; $i <count($parentFields);$i++)
+                    {
+                        if($parentModule[$parentFields[$i]]){
+                            $ticketSubject .= $parentModule[$parentFields[$i]].' ';
+                        }
+                    }
+                }
                 if($this->putVars[$captionField]){
                     $ticketSubject .= $this->putVars[$captionField].' ';
                 }
