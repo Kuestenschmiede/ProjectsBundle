@@ -21,16 +21,15 @@ class C4GTicketDialogAction extends C4GBrickDialogAction
         $this->dialogParams->setRedirectWithSaving(true);
         $action ='ticketcall';
         $ticketSubject = $this->module->getBrickCaption().' '.$this->dialogParams->getId().' (';
-        if($this->module->getCaptionField){
-            $captionFields = explode(':',$this->module->getCaptionField);
+        if ($this->module->getCaptionField()){
+            $captionFields = explode(':',$this->module->getCaptionField());
             foreach ($captionFields as $captionField)
             {
                 if($this->putVars[$captionField]){
                     $ticketSubject .= $this->putVars[$captionField].' ';
                 }
             }
-        }
-        if($this->putVars[$this->module->getCaptionField()]){
+        } else if ($this->putVars[$this->module->getCaptionField()]){
             $ticketSubject .= $this->putVars[$this->module->getCaptionField()];
         }
 
