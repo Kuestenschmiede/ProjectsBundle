@@ -36,7 +36,7 @@ class C4GSendEmailNotificationAction extends C4GBrickDialogAction
         $notification_array = unserialize($dialogParams->getNotificationTypeContactRequest());
 
         if ($id != -1) {
-            $table_data_user = \c4g\MemberModel::findByPk($id);
+            $table_data_user = MemberModel::findByPk($id);
             $dlgValues['user_data_email'] = $table_data_user->email;
             $dlgValues['user_data_firstname'] = $table_data_user->firstname;
             $dlgValues['user_data_lastname'] = $table_data_user->lastname;
@@ -48,7 +48,7 @@ class C4GSendEmailNotificationAction extends C4GBrickDialogAction
             if (sizeof($notification_array) == 1) {
                 $objNotification = \NotificationCenter\Model\Notification::findByPk($notification_array);
                 if ($objNotification !== null) {
-                    $arrTokens = \c4g\projects\C4GBrickNotification::getArrayTokens($dlgValues, $this->getFieldList(), true);
+                    $arrTokens = C4GBrickNotification::getArrayTokens($dlgValues, $this->getFieldList(), true);
                     $email_text = $putVars['email_text'];
                     if ($email_text !== ' ') {
                         $arrTokens['email_text'] = $email_text;
@@ -59,7 +59,7 @@ class C4GSendEmailNotificationAction extends C4GBrickDialogAction
                 foreach ($notification_array as $notification) {
                     $objNotification = \NotificationCenter\Model\Notification::findByPk($notification);
                     if ($objNotification !== null) {
-                        $arrTokens = \c4g\projects\C4GBrickNotification::getArrayTokens($dlgValues, $this->getFieldList(), true);
+                        $arrTokens = C4GBrickNotification::getArrayTokens($dlgValues, $this->getFieldList(), true);
                         $email_text = $putVars['email_text'];
                         if ($email_text !== ' ') {
                             $arrTokens['email_text'] = $email_text;

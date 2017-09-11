@@ -1,5 +1,7 @@
 <?php
 
+use con4gis\CoreBundle\Resources\contao\classes\HttpResultHelper;
+
 class C4GStarboardTabApi
 {
     public function generate($arrInput)
@@ -7,7 +9,7 @@ class C4GStarboardTabApi
         // only allow GET requests
         if (strtoupper($_SERVER['REQUEST_METHOD']) != 'GET')
         {
-            \c4g\HttpResultHelper::MethodNotAllowed();
+            HttpResultHelper::MethodNotAllowed();
         }
         if (strtoupper($_SERVER['REQUEST_METHOD']) == 'GET')
         {
@@ -18,7 +20,7 @@ class C4GStarboardTabApi
     private function handleStarboardTabs()
     {
         $starboardTabs = array();
-        $layers = \c4g\Maps\C4gMapsModel::findBy('location_type', \c4g\projects\C4GProjectsFrontend::STARBOARD_TAB);
+        $layers = \c4g\Maps\C4gMapsModel::findBy('location_type', \con4gis\ProjectsBundle\Classes\Maps\C4GProjectsFrontend::STARBOARD_TAB);
         if ($layers)
         {
             $layers->reset();
@@ -29,7 +31,7 @@ class C4GStarboardTabApi
                 {
                     $layer['layername'] = $layer['name'];
                 }
-                $starboardTabs[] = \c4g\projects\C4GCustomEditorTabs::addEditorTab($layer['layername'], $layer['layername'], '', $layer['id']);
+                $starboardTabs[] = \con4gis\ProjectsBundle\Classes\Maps\C4GCustomEditorTabs::addEditorTab($layer['layername'], $layer['layername'], '', $layer['id']);
                 $tabLayers = \c4g\Maps\C4gMapsModel::findBy('pid', $layer['id']);
             }
         }

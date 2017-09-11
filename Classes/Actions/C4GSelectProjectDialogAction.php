@@ -16,7 +16,7 @@ class C4GSelectProjectDialogAction extends C4GBrickDialogAction
 {
     public function run()
     {
-        $dialog = new \c4g\projects\C4GBrickSelectProjectDialog($this->getDialogParams());
+        $dialog = new C4GBrickSelectProjectDialog($this->getDialogParams());
         return $dialog->show();
     }
 }

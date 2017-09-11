@@ -12,7 +12,7 @@
 
 namespace con4gis\ProjectsBundle\Classes\Actions;
 
-use c4g\projects\C4gProjectsModel;
+use con4gis\ProjectsBundle\Classes\Models\C4gProjectsModel;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickCommon;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickConst;
 use con4gis\ProjectsBundle\Classes\Lists\C4GBrickList;
@@ -21,6 +21,7 @@ use con4gis\ProjectsBundle\Classes\Lists\C4GBrickTiles;
 use con4gis\ProjectsBundle\Classes\Views\C4GBrickView;
 use con4gis\ProjectsBundle\Classes\Views\C4GBrickViewType;
 use Symfony\Component\Config\Definition\Exception\Exception;
+use con4gis\CoreBundle\Resources\contao\classes\C4GHTMLFactory;
 
 class C4GShowListAction extends C4GBrickDialogAction
 {
@@ -290,17 +291,17 @@ class C4GShowListAction extends C4GBrickDialogAction
         if ($listParams->getHeadline()) {
             $headtext = $listParams->getHeadline();
         } elseif (($group_headline) && ($project_headline) && ($parent_headline)) {
-            $headtext = $headtext . \c4g\C4GHTMLFactory::lineBreak() .
+            $headtext = $headtext . C4GHTMLFactory::lineBreak() .
                 $group_headline . $project_headline . $parent_headline;
         } elseif (($group_headline) && ($project_headline)) {
-            $headtext = $headtext.\c4g\C4GHTMLFactory::lineBreak().$group_headline.$project_headline;
+            $headtext = $headtext.C4GHTMLFactory::lineBreak().$group_headline.$project_headline;
         } elseif (($group_headline) && ($parent_headline)) {
-            $headtext = $headtext.\c4g\C4GHTMLFactory::lineBreak().$group_headline.$parent_headline;
+            $headtext = $headtext.C4GHTMLFactory::lineBreak().$group_headline.$parent_headline;
         } elseif ($group_headline) {
-            $headtext = $headtext.\c4g\C4GHTMLFactory::lineBreak().$group_headline;
+            $headtext = $headtext.C4GHTMLFactory::lineBreak().$group_headline;
         }
         if ($list_headline) {
-            $headtext .= \c4g\C4GHTMLFactory::lineBreak().$list_headline;
+            $headtext .= C4GHTMLFactory::lineBreak().$list_headline;
 
         }
 

@@ -25,7 +25,7 @@ $GLOBALS['TL_DCA']['tl_c4g_project_mapdata'] = array
         'enableVersioning'  => true,
         'databaseAssisted'  => true,
         'onsubmit_callback'           => array(
-            array('\c4g\Core\C4GAutomator', 'purgeApiCache')
+            array('\con4gis\CoreBundle\Resources\contao\classes\C4GAutomator', 'purgeApiCache')
         ),
         'sql'               => array
         (
@@ -195,7 +195,7 @@ class tl_c4g_project_mapdata extends Backend
     public function generateUuid($varValue, DataContainer $dc)
     {
         if ($varValue == '') {
-            return \c4g\projects\C4GBrickCommon::getGUID();
+            return \con4gis\ProjectsBundle\Classes\Common\C4GBrickCommon::getGUID();
         }
         else {
             return $varValue;

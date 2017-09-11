@@ -14,9 +14,10 @@
 namespace con4gis\ProjectsBundle\Classes\Framework;
 
 
-use c4g\C4GUtils;
-use c4g\MemberModel;
-use c4g\projects\C4gProjectsModel;
+use con4gis\CoreBundle\Resources\contao\classes\C4GUtils;
+use con4gis\GroupsBundle\Resources\contao\models\MemberModel;
+use con4gis\GroupsBundle\Resources\contao\models\MemberGroupModel;
+use con4gis\ProjectsBundle\Classes\Models\C4gProjectsModel;
 use con4gis\ProjectsBundle\Classes\Actions\C4GBrickAction;
 use con4gis\ProjectsBundle\Classes\Actions\C4GBrickActionType;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickCommon;
@@ -30,6 +31,7 @@ use con4gis\ProjectsBundle\Classes\Lists\C4GBrickListParams;
 use con4gis\ProjectsBundle\Classes\Views\C4GBrickView;
 use con4gis\ProjectsBundle\Classes\Views\C4GBrickViewParams;
 use con4gis\ProjectsBundle\Classes\Views\C4GBrickViewType;
+use con4gis\CoreBundle\Resources\contao\classes\C4GJQueryGUI;
 use Contao\Controller;
 use Contao\Files;
 use Contao\FilesModel;
@@ -181,7 +183,7 @@ class C4GBrickModuleParent extends \Module
         if ($this->brickKey && $GLOBALS['con4gis_groups_extension']['installed'] &&
             (C4GBrickView::isMemberBased($this->viewType) ||
              C4GBrickView::isGroupBased($this->viewType))) {
-            if (!\c4g\MemberModel::hasRightInAnyGroup($this->User->id, $this->brickKey)) {
+            if (!MemberModel::hasRightInAnyGroup($this->User->id, $this->brickKey)) {
                 $this->loadLanguageFiles();
                 $return = array(
                     'usermessage' => $GLOBALS['TL_LANG']['FE_C4G_LIST']['USERMESSAGE_PERMISSION_DENIED'],
@@ -418,7 +420,7 @@ class C4GBrickModuleParent extends \Module
             );
         } else {
             // initialize used Javascript Libraries and CSS files
-            \C4GJQueryGUI::initializeLibraries(
+            C4GJQueryGUI::initializeLibraries(
                 true,                     // add c4gJQuery GUI Core LIB
                 true,                     // add JQuery
                 true,                     // add JQuery UI
@@ -444,9 +446,9 @@ class C4GBrickModuleParent extends \Module
                 $GLOBALS['TL_CSS']['c4g_jquery_ui'] = $objFile->path;
             } else if(!empty($this->c4g_uitheme_css_select)) {
                 $theme = $this->c4g_uitheme_css_select;
-                $GLOBALS['TL_CSS']['c4g_jquery_ui'] = 'system/modules/con4gis_core/assets/vendor/jQuery/ui-themes/themes/' . $theme . '/jquery-ui.css';
+                $GLOBALS['TL_CSS']['c4g_jquery_ui'] = 'bundles/con4giscore/vendor/jQuery/ui-themes/themes/' . $theme . '/jquery-ui.css';
             } else {
-                $GLOBALS['TL_CSS']['c4g_jquery_ui'] = 'system/modules/con4gis_core/assets/vendor/jQuery/ui-themes/themes/base/jquery-ui.css';
+                $GLOBALS['TL_CSS']['c4g_jquery_ui'] = 'bundles/con4giscore/vendor/jQuery/ui-themes/themes/base/jquery-ui.css';
             }
         }
 
@@ -469,9 +471,9 @@ class C4GBrickModuleParent extends \Module
         }
 
         $data['jquiEmbeddedDialogs'] = true;//$this->dialogs_jqui;
-        $GLOBALS['TL_CSS'] [] = 'system/modules/con4gis_core/assets/vendor/wswgEditor/css/editor.css';
-        $GLOBALS['TL_CSS'] [] = 'system/modules/con4gis_core/assets/vendor/wswgEditor/css/bbcodes.css';
-        $GLOBALS['TL_CSS']['simple-dtpicker'] = 'system/modules/con4gis_core/assets/vendor/jQuery/plugins/jquery-simple-datetimepicker/1.13.0/jquery.simple-dtpicker.css';
+        $GLOBALS['TL_CSS'] [] = 'bundles/con4giscore/vendor/wswgEditor/css/editor.css';
+        $GLOBALS['TL_CSS'] [] = 'bundles/con4giscore/vendor/wswgEditor/css/bbcodes.css';
+        $GLOBALS['TL_CSS']['simple-dtpicker'] = 'bundles/con4giscore/vendor/jQuery/plugins/jquery-simple-datetimepicker/1.13.0/jquery.simple-dtpicker.css';
 
         //toolbar buttons for ckEditor
         $aToolbarButtons = [
@@ -504,8 +506,8 @@ class C4GBrickModuleParent extends \Module
             'BGColor'
         ];
 
-        $GLOBALS['TL_CSS'][]        = 'system/modules/con4gis_core/assets/vendor/jQuery/plugins/chosen/chosen.css';
-        $GLOBALS['TL_JAVASCRIPT'][] = 'system/modules/con4gis_core/assets/vendor/jQuery/plugins/chosen/chosen.jquery.min.js';
+        $GLOBALS['TL_CSS'][]        = 'bundles/con4giscore/vendor/jQuery/plugins/chosen/chosen.css';
+        $GLOBALS['TL_JAVASCRIPT'][] = 'bundles/con4giscore/vendor/jQuery/plugins/chosen/chosen.jquery.min.js';
 
         $foundHeadlement = false;
         foreach ($GLOBALS['TL_HEAD'] as $key=>$headlement) {
@@ -518,7 +520,7 @@ class C4GBrickModuleParent extends \Module
 
         if (!$foundHeadlement) {
             $GLOBALS['TL_HEAD'][] = "<script>var ckEditorItems = ['" . implode("','", $aToolbarButtons) . "'];</script>";
-            $GLOBALS['TL_JAVASCRIPT'][] = 'system/modules/con4gis_core/assets/vendor/ckeditor/ckeditor.js';
+            $GLOBALS['TL_JAVASCRIPT'][] = 'bundles/con4giscore/vendor/ckeditor/ckeditor.js';
         }
 
         $data['id']         = $this->id;
@@ -527,7 +529,7 @@ class C4GBrickModuleParent extends \Module
         if (class_exists('\con4gis\ApiBundle\Controller\ApiController') &&  (version_compare( VERSION, '4', '>=' ))) {
             $data['ajaxUrl']    = "con4gis/brick_ajax_api";
         } else {
-            $data['ajaxUrl']    = "system/modules/con4gis_core/api/index.php/c4g_brick_ajax";
+            $data['ajaxUrl']    = "src/con4gis/CoreBundle/Resources/contao/api/index.php/c4g_brick_ajax";
         }
         $data['ajaxData']   = $this->id;
         $data['height']     = 'auto';
@@ -576,7 +578,7 @@ class C4GBrickModuleParent extends \Module
                 $session = $this->Session->getData();
                 $session['referer']['last'] = $session['referer']['current'];
                 // echo '<br>[LAST]' . $session['referer']['last'] . '<br>';
-                $session['referer']['current'] = \c4g\C4GUtils::addParametersToURL(
+                $session['referer']['current'] = C4GUtils::addParametersToURL(
                     $session['referer']['last'],
                     array('state' => $request));
                 // echo '<br>[CURRENT]' . $session['referer']['current'] . '<br>';
@@ -601,8 +603,8 @@ class C4GBrickModuleParent extends \Module
             if (C4GBrickView::isGroupBased($this->viewType)){
                     if (($this->group_id == -1) || ($this->group_id == null)) {
                         $groupId = \Session::getInstance()->get("c4g_brick_group_id");
-                        if ($groupId && \c4g\MemberGroupModel::isMemberOfGroup($groupId, $this->User->id)) {
-                            if (\c4g\MemberModel::hasRightInGroup($this->User->id, $groupId, $this->brickKey)) {
+                        if ($groupId && MemberGroupModel::isMemberOfGroup($groupId, $this->User->id)) {
+                            if (MemberModel::hasRightInGroup($this->User->id, $groupId, $this->brickKey)) {
                                 $this->group_id = $groupId;
                             }
                         }

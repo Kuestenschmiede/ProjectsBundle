@@ -13,6 +13,7 @@
 
 namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
 
+use con4gis\CoreBundle\Resources\contao\classes\C4GHTMLFactory;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickCommon;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
@@ -103,7 +104,7 @@ class C4GFileField extends C4GBrickField
             $result =
                 $this->addC4GField($condition,$dialogParams,$fieldList,$data,
                 '<button id="c4g_uploadButton" ' . $buttonRequired . ' ' . $condition['conditionPrepare'] . ' onClick="document.getElementById(\'' . $id . '\').click()">'.$GLOBALS['TL_LANG']['FE_C4G_DIALOG']['FILE_UPLOAD'].'</button>' .
-                $file_link . \c4g\C4GHTMLFactory::lineBreak() .
+                $file_link . C4GHTMLFactory::lineBreak() .
                 '<input type="hidden" id="c4g_uploadURL" name="c4g_uploadURL" class="formdata" ' . $condition['conditionPrepare'] . ' value="' . $file_url . '">' .
                 '<input type="hidden" id="c4g_deleteURL" name="c4g_deleteURL" class="formdata" ' . $condition['conditionPrepare'] . ' value="">' .
                 '<input type="file" id="' . $id . '"  class="formdata ' . $id . '" ' . $condition['conditionPrepare'] . ' name="' . $fieldName . '"' .

@@ -12,6 +12,7 @@
 
 namespace con4gis\ProjectsBundle\Classes\Fieldlist;
 
+use con4gis\CoreBundle\Resources\contao\classes\C4GUtils;
 use con4gis\ProjectsBundle\Classes\Conditions\C4GBrickConditionType;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GButtonField;
@@ -21,6 +22,7 @@ use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GLinkField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GNumberField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GUrlField;
 use con4gis\ProjectsBundle\Classes\Views\C4GBrickViewType;
+use con4gis\CoreBundle\Resources\contao\classes\C4GHTMLFactory;
 
 abstract class C4GBrickField
 {
@@ -222,7 +224,7 @@ abstract class C4GBrickField
                 $star = '<strong class="c4g_mandatory_class">*</strong>';
             }
             if(!$withoutLineBreak){
-                $linebreak = \c4g\C4GHTMLFactory::lineBreak();
+                $linebreak = C4GHTMLFactory::lineBreak();
             }
             $tdo = '';
             $tdc = '';
@@ -364,9 +366,9 @@ abstract class C4GBrickField
 
         $result = '';
         if ($description && ($description != '') && $withLinkDescription) {
-            $result = '<p class="c4g_description" ' . $condition['conditionPrepare'] . '><a href="' . $description . '" target="_blank">Link</a>' . \c4g\C4GHTMLFactory::lineBreak() . \c4g\C4GHTMLFactory::lineBreak() . '</p>';
+            $result = '<p class="c4g_description" ' . $condition['conditionPrepare'] . '><a href="' . $description . '" target="_blank">Link</a>' . C4GHTMLFactory::lineBreak() . C4GHTMLFactory::lineBreak() . '</p>';
         } else if ($description && ($description != '')) {
-            $result = '<p class="c4g_description" ' . $condition['conditionPrepare'] . '>' . $description . \c4g\C4GHTMLFactory::lineBreak() . \c4g\C4GHTMLFactory::lineBreak() . '</p>';
+            $result = '<p class="c4g_description" ' . $condition['conditionPrepare'] . '>' . $description . C4GHTMLFactory::lineBreak() . C4GHTMLFactory::lineBreak() . '</p>';
         } else if (!$withoutLineBreak) {
             $result = '<p ' . $condition['conditionPrepare'] . '>' . '</p>';
         } else {
@@ -447,7 +449,7 @@ abstract class C4GBrickField
                 $description = $this->getC4GDescriptionLabel('mailto:'.$value, $condition);
             } else {
                 if($this->isExternalLink()){
-                    if(!(\c4g\C4GUtils::startsWith($value,'http') || \c4g\C4GUtils::startsWith($value, 'https'))) {
+                    if(!(C4GUtils::startsWith($value,'http') || C4GUtils::startsWith($value, 'https'))) {
                         $value = 'http://'.$value;
                     }
                 }

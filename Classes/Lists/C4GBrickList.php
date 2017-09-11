@@ -21,6 +21,7 @@ use con4gis\ProjectsBundle\Classes\Conditions\C4GBrickConditionType;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GDateTimeLocationField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GGeopickerField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GSelectField;
+use con4gis\CoreBundle\Resources\contao\classes\C4GHTMLFactory;
 
 class C4GBrickList
 {
@@ -510,7 +511,7 @@ class C4GBrickList
                 'clickAction' => $withDetails,
             ),
             'state' => C4GBrickActionType::IDENTIFIER_LIST . ':' . $key, //Listenstatus
-            'headline' => \c4g\C4GHTMLFactory::headline($listHeadline),
+            'headline' => C4GHTMLFactory::headline($listHeadline),
             'buttons' => $buttons
         );
     }

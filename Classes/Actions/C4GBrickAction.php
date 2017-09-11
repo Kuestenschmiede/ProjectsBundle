@@ -19,6 +19,13 @@ use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GGridField;
 use con4gis\ProjectsBundle\Classes\Models\C4gProjectsModel;
 use con4gis\ProjectsBundle\Classes\Views\C4GBrickView;
 use con4gis\ProjectsBundle\Classes\Views\C4GBrickViewType;
+use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialog;
+use con4gis\ProjectsBundle\Classes\Actions\C4GBrickActionType;
+use con4gis\GroupsBundle\Resources\contao\models\MemberGroupModel;
+use con4gis\GroupsBundle\Resources\contao\models\MemberModel;
+use con4gis\DocumentsBundle\Classes\Pdf\PdfDocument\PdfManager;
+use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickSelectProjectDialog;
+use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickFilterDialog;
 
 abstract class C4GBrickAction
 {
@@ -157,8 +164,8 @@ abstract class C4GBrickAction
                 $groupId = \Session::getInstance()->get("c4g_brick_group_id");
             }
 
-            if ($groupId && \c4g\MemberGroupModel::isMemberOfGroup($groupId, $dialogParams->getMemberId())) {
-                if (\c4g\MemberModel::hasRightInGroup($dialogParams->getMemberId(), $groupId, $dialogParams->getBrickKey())) {
+            if ($groupId && MemberGroupModel::isMemberOfGroup($groupId, $dialogParams->getMemberId())) {
+                if (MemberModel::hasRightInGroup($dialogParams->getMemberId(), $groupId, $dialogParams->getBrickKey())) {
                     $dialogParams->setGroupId($groupId);
                     \Session::getInstance()->set("c4g_brick_group_id", $groupId);
                 }

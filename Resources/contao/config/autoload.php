@@ -17,8 +17,8 @@
 // */
 ClassLoader::addNamespaces(array
 (
-	'\c4g\projects',
-    '\c4g\projects\database'
+	'con4gis\ProjectsBundle',
+    'con4gis\ProjectsBundle\database'
 ));
 //
 //
@@ -228,7 +228,7 @@ ClassLoader::addClasses(array
 //    '\c4g\projects\C4gProjectMapDataModel'   => 'system/modules/con4gis_projects/models/C4gProjectMapDataModel.php',
 ////
 //    // Services
-    'C4GBrickAjaxApi'       => 'system/modules/con4gis_projects/modules/api/C4GBrickAjaxApi.php',
+    'C4GBrickAjaxApi'       => 'src/con4gis/ProjectsBundle/Resources/contao/modules/api/C4GBrickAjaxApi.php',
 //	'c4g\projects\C4GEditorTabApi'		=> 'system/modules/con4gis_projects/modules/api/C4GEditorTabApi.php',
 //	'C4GStarboardTabApi'		=> 'system/modules/con4gis_projects/modules/api/C4GStarboardTabApi.php',
 ));
@@ -239,8 +239,8 @@ ClassLoader::addClasses(array
  */
 TemplateLoader::addFiles(array
 (
-	'mod_c4g_brick_list' => 'system/modules/con4gis_projects/templates/modules',
-    'mod_c4g_brick_simple' => 'system/modules/con4gis_projects/templates/modules',
-    'c4g_pdftemplate' => "system/modules/con4gis_projects/templates",
+	'mod_c4g_brick_list' => 'src/con4gis/ProjectsBundle/Resources/contao/templates/modules',
+    'mod_c4g_brick_simple' => 'src/con4gis/ProjectsBundle/Resources/contao/templates/modules',
+    'c4g_pdftemplate' => "src/con4gis/ProjectsBundle/Resources/contao/templates",
 //    'be_c4g_brick_backup' => 'system/modules/con4gis_projects/templates/modules',
 ));

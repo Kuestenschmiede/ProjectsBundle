@@ -14,7 +14,8 @@ namespace con4gis\ProjectsBundle\Classes\Common;
 
 use c4g\Maps\C4gMapProfilesModel;
 use c4g\Maps\ReverseNominatimApi;
-use c4g\projects\C4gProjectsLogbookModel;
+use con4gis\ProjectsBundle\Classes\models\C4gProjectsLogbookModel;
+use con4gis\ProjectsBundle\Classes\Models\C4gProjectsModel;
 use Symfony\Component\Config\Definition\Exception\Exception;
 
 class C4GBrickCommon
@@ -224,9 +225,9 @@ class C4GBrickCommon
         $resultList = array();
 
         if ($GLOBALS['con4gis_groups_extension']['installed']) {
-            $groups = \c4g\MemberGroupModel::getGroupListForMember($memberId);
+            $groups = MemberGroupModel::getGroupListForMember($memberId);
             foreach ($groups as $group) {
-                $rights = \c4g\MemberGroupModel::getMemberRightsInGroup($group->id, $memberId);
+                $rights = MemberGroupModel::getMemberRightsInGroup($group->id, $memberId);
                 if ($rights) {
                     foreach ($rights as $right) {
                         if ($right == $brickKey) {
@@ -265,10 +266,10 @@ class C4GBrickCommon
         $result = false;
 
         if ($projectId) {
-            $project = \c4g\projects\C4gProjectsModel::findByPk($projectId);
+            $project = C4gProjectsModel::findByPk($projectId);
             if ($project) {
                 $groupId = $project->group_id;
-                $rights = \c4g\MemberGroupModel::getMemberRightsInGroup($groupId, $memberId);
+                $rights = MemberGroupModel::getMemberRightsInGroup($groupId, $memberId);
                 if ($rights) {
                     foreach ($rights as $right) {
                         if ($right == $brickKey) {
@@ -421,7 +422,7 @@ class C4GBrickCommon
     public static function getNameForMember($memberId)
     {
         if (!is_numeric($memberId)) return;
-        $member = \c4g\MemberModel::findByPk($memberId);
+        $member = MemberModel::findByPk($memberId);
 
         return $member->firstname . ' ' . $member->lastname;
     }
