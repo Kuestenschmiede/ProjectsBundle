@@ -12,11 +12,13 @@
 namespace con4gis\ProjectsBundle\Classes\Common;
 
 
-use c4g\Maps\C4gMapProfilesModel;
-use c4g\Maps\ReverseNominatimApi;
+use con4gis\MapsBundle\Resources\contao\models\C4gMapProfilesModel;
+use con4gis\MapsBundle\Resources\contao\models\C4gMapsModel;
 use con4gis\ProjectsBundle\Classes\models\C4gProjectsLogbookModel;
 use con4gis\ProjectsBundle\Classes\Models\C4gProjectsModel;
 use Symfony\Component\Config\Definition\Exception\Exception;
+use con4gis\GroupsBundle\Resources\contao\models\MemberModel;
+use con4gis\GroupsBundle\Resources\contao\models\MemberGroupModel;
 
 class C4GBrickCommon
 {
@@ -250,7 +252,7 @@ class C4GBrickCommon
         $maps = \ContentModel::findBy('type', 'c4g_maps');
         $resultList = array();
         foreach ($maps as $map) {
-            $map->name = \c4g\Maps\C4gMapsModel::findByPk($map->c4g_map_id)->name;
+            $map->name = C4gMapsModel::findByPk($map->c4g_map_id)->name;
             $resultList[$map->id] = $map->name;
         }
         return $resultList;

@@ -12,7 +12,10 @@
 
 namespace con4gis\ProjectsBundle\Classes\Actions;
 
+use con4gis\GroupsBundle\Resources\contao\models\MemberGroupModel;
+use con4gis\ProjectsBundle\Classes\Common\C4GBrickCommon;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialog;
+use con4gis\ProjectsBundle\Classes\Views\C4GBrickViewType;
 
 class C4GConfirmActivationAction extends C4GBrickDialogAction
 {

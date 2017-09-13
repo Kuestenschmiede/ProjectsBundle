@@ -2,8 +2,6 @@
 
 namespace con4gis\ProjectsBundle\Classes\Maps;
 
-use c4g\Maps\C4gMapLocstylesModel;
-use c4g\Maps\C4gMapsModel;
 
 class C4GCustomEditorTabs
 {

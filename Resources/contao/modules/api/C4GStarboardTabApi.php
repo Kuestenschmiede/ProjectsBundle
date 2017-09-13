@@ -20,7 +20,7 @@ class C4GStarboardTabApi
     private function handleStarboardTabs()
     {
         $starboardTabs = array();
-        $layers = \c4g\Maps\C4gMapsModel::findBy('location_type', \con4gis\ProjectsBundle\Classes\Maps\C4GProjectsFrontend::STARBOARD_TAB);
+        $layers = \con4gis\MapsBundle\Resources\contao\models\C4gMapsModel::findBy('location_type', \con4gis\ProjectsBundle\Classes\Maps\C4GProjectsFrontend::STARBOARD_TAB);
         if ($layers)
         {
             $layers->reset();
@@ -32,7 +32,7 @@ class C4GStarboardTabApi
                     $layer['layername'] = $layer['name'];
                 }
                 $starboardTabs[] = \con4gis\ProjectsBundle\Classes\Maps\C4GCustomEditorTabs::addEditorTab($layer['layername'], $layer['layername'], '', $layer['id']);
-                $tabLayers = \c4g\Maps\C4gMapsModel::findBy('pid', $layer['id']);
+                $tabLayers = C4gMapsModel::findBy('pid', $layer['id']);
             }
         }
         return $starboardTabs;
