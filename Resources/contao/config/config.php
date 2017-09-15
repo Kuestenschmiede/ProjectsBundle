@@ -14,8 +14,8 @@
 /**
  * Global settings
  */
-$GLOBALS['con4gis_projects_extension']['installed']    = true;
-$GLOBALS['con4gis_projects_extension']['version']      = '0.7.0-snapshot';
+$GLOBALS['con4gis']['projects']['installed'] = true;
+
 
 /**
  * Kartenstrukturelemente
