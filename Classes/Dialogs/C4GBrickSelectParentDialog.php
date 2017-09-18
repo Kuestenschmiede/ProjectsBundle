@@ -14,6 +14,22 @@ use Eden\CustomerBundle\classes\contao\modules\EdenCustomerAddresses;
 
 class C4GBrickSelectParentDialog extends C4GBrickDialog
 {
+    private $brickDatabase = null;
+    private $module = null;
+
+    /**
+     * C4GBrickSelectParentDialog constructor.
+     * @param $dialogParams
+     * @param $brickDatabase
+     * @param null $module
+     */
+    public function __construct($dialogParams, $brickDatabase, $module = null)
+    {
+        parent::__construct($dialogParams);
+        $this->brickDatabase = $brickDatabase;
+        $this->module = $module;
+    }
+
 
     /**
      * @param $memberId
@@ -30,7 +46,7 @@ class C4GBrickSelectParentDialog extends C4GBrickDialog
         $parentCaption = $dialogParams->getParentCaption();
         $parentCaptionPlural = $dialogParams->getParentCaptionPlural();
         $parentCaptionFields = $dialogParams->getParentCaptionFields();
-
+        $parentCaptionCallback = $dialogParams->getParentCaptionCallback();
         $confirmAction = C4GBrickActionType::ACTION_CONFIRMPARENTSELECT;
         $confirmButtonText = $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['SELECT_PARENT_DIALOG_CONFIRM_BUTTON'];
 
@@ -51,12 +67,24 @@ class C4GBrickSelectParentDialog extends C4GBrickDialog
                 'usermessage' => $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['SELECT_PARENT_DIALOG_ERROR'].$parentCaption.'.'
             );
         }
+        if ($parentCaptionCallback && is_array($parentCaptionCallback)) {
+            // call module function for all items
+            // [id1 => caption1, id2 => caption2, ...]
+            $class = $parentCaptionCallback[0];
+            $function = $parentCaptionCallback[1];
+            $arrCaptions = $class::$function(
+                $items,
+                $this->brickDatabase->getEntityManager()
+            );
+        }
 
         foreach($items as $item) {
+            // default case
             $caption = $item->caption;
             if (!$caption) {
                 $caption = $item->name;
             }
+            // simple dynamic caption
             if ($parentCaptionFields && is_array($parentCaptionFields)) {
                 $caption = '';
                 foreach($parentCaptionFields as $key=>$value) {
@@ -76,10 +104,11 @@ class C4GBrickSelectParentDialog extends C4GBrickDialog
                     }
                 }
             }
+            // caption via callback
+            if ($parentCaptionCallback && is_array($parentCaptionCallback)) {
+                $caption = $arrCaptions[$item->id];
+            }
             $id = $item->id;
-//            if ($parentIdField) {
-//                $id = $parentIdField;
-//            }
             $parentlist[] = array(
                 'id'     => $id,
                 'name'   => $caption);

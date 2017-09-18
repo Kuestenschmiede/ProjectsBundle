@@ -40,6 +40,7 @@ class C4GBrickDialogParams
     private $parentCaption = ''; //Hinweistexte können sich so im Kontext auf den Parent beziehen.
     private $parentCaptionPlural = ''; //Hinweistexte können sich so im Kontext auf den Parent beziehen.
     private $parentCaptionFields = array(); // Für die Selectbox in der Parentauswahl, sodass die Bezeichnung auch aus einem anderen Feld als caption/name kommen kann
+    private $parentCaptionCallback = array(); // Funktion aus dem aktuellen Modul, sodass die Bezeichnungen über einen Callback gesetzt werden
     private $homeDir = ''; //homeDir for saving project data
     private $viewType = ''; //viewType -> see C4GBrickView
     private $viewParams = null; //viewParams for BrickView (params for List and Dialog)
@@ -1334,4 +1335,19 @@ class C4GBrickDialogParams
         $this->isWithEmptyParentOption = $isWithEmptyParentOption;
     }
 
+    /**
+     * @return array
+     */
+    public function getParentCaptionCallback(): array
+    {
+        return $this->parentCaptionCallback;
+    }
+
+    /**
+     * @param array $parentCaptionCallback
+     */
+    public function setParentCaptionCallback(array $parentCaptionCallback)
+    {
+        $this->parentCaptionCallback = $parentCaptionCallback;
+    }
 }

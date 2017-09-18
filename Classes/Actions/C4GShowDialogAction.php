@@ -122,8 +122,15 @@ class C4GShowDialogAction extends C4GBrickDialogAction
                             $caption .= $parent->$value . ' ';
                         }
                     }
+                } elseif ($parentCaptionCallback = $dialogParams->getParentCaptionCallback()) {
+                    $class = $parentCaptionCallback[0];
+                    $function = $parentCaptionCallback[1];
+                    $arrCaptions = $class::$function(
+                        [$parent],
+                        $this->brickDatabase->getEntityManager()
+                    );
+                    $caption = $arrCaptions[$parentId];
                 }
-
                 $parent_headline = '<div class="c4g_brick_headtext"> '.$dialogParams->getParentCaption().': <b>'.$caption.'</b></div>';
             }
         }
