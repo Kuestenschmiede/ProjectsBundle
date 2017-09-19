@@ -53,7 +53,7 @@ class C4GShowListAction extends C4GBrickDialogAction
         $modelClass = $brickDatabase->getParams()->getModelClass();
 
         $groupCount = -1;
-        if ($GLOBALS['con4gis_groups_extension']['installed']) {
+        if ($GLOBALS['con4gis']['groups']['installed']) {
             $groupCount = count(C4GBrickCommon::getGroupListForBrick($memberId, $brickKey));
         }
 
