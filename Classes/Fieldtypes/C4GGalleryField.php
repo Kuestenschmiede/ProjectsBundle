@@ -138,7 +138,7 @@ class C4GGalleryField extends C4GBrickField
                     } else {
                         $result = '
                         <div class="c4g_tile_label"><label>' .
-                            $title . '</label></div><div class="c4g_tile_image"><img src="system/modules/con4gis_projects/assets/missing.png" title="' .
+                            $title . '</label></div><div class="c4g_tile_image"><img src="bundles/con4gisprojects/images/missing.png" title="' .
                             $title . '" width="' . $width . '"/></div><div class="c4g_tile_description">' . $description . '</div></div>';
                     }
                 }

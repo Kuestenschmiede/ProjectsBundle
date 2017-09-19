@@ -340,7 +340,7 @@ function C4GBrickFileUpload( file, path, targetField, mimeTypes )
         }
     }
 
-    xhr.open("POST", "system/modules/con4gis_projects/assets/php/c4gUpload.php", true);
+    xhr.open("POST", "bundles/con4gisprojects/php/c4gUpload.php", true);
     xhr.overrideMimeType("text/plain; charset=x-user-defined-binary");
 
     xhr.send(fd);
@@ -795,7 +795,7 @@ function C4GGeopickerAddress(profile_id)
             }
         }
 
-        xhr.open("POST", "system/modules/con4gis_projects/assets/php/c4gGetAddress.php", true);
+        xhr.open("POST", "bundles/con4gisprojects/php/c4gGetAddress.php", true);
         xhr.overrideMimeType("text/plain; charset=utf-8");
 
         xhr.send(fd);
