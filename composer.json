@@ -11,7 +11,7 @@
     }
   ],
   "require": {
-    "con4gis/core": "~2.0"
+    "con4gis/core": "^2.0"
   },
   "conflict": {
     "contao/core": "*",
