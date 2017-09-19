@@ -12,7 +12,6 @@
   ],
   "require": {
     "con4gis/core": "~2.0"
-    //"con4gis/groups": "~1.4"
   },
   "conflict": {
     "contao/core": "*",
