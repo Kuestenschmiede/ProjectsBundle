@@ -11,7 +11,8 @@
  */
 namespace con4gis\ProjectsBundle\Classes\Filter;
 
-
+use con4gis\CoreBundle\Resources\contao\classes\C4GUtils;
+use con4gis\ProjectsBundle\Classes\Common\C4GBrickCommon;
 class C4GBrickMatching
 {
     public function quickSearch($id, $tableName, $database, $prefix, $fieldList, $dlgValues, $own_query = '')
@@ -30,12 +31,12 @@ class C4GBrickMatching
         foreach ($dlgValues as $name => $dlgValue) {
             //filter importance fields
             foreach ($fieldList as $field) {
-                if($field instanceof C4GGeopickerField && \c4g\C4GUtils::endsWith($name, $prefix)) {
+                if($field instanceof C4GGeopickerField && C4GUtils::endsWith($name, $prefix)) {
                     $importance_fields[$field->getFieldName()] = $field;
                     if($importance_values[$field->getFieldName().$prefix] == '') {
                         $importance_values[$field->getFieldName().$prefix] = 3;
                     }
-                }else if (\c4g\C4GUtils::startsWith($field->getFieldName(), $name) && \c4g\C4GUtils::endsWith($name, $prefix)) {
+                }else if (C4GUtils::startsWith($field->getFieldName(), $name) && C4GUtils::endsWith($name, $prefix)) {
                     if ($dlgValue > 0) { //vorher > 1
                         $importance_values[$field->getFieldName()] = $dlgValue;
                         //saving importance fields for query
@@ -62,7 +63,7 @@ class C4GBrickMatching
                 $resultSet[] = $query->row();
             }
           foreach ($resultSet as $entry) {
-              $entry = \c4g\projects\C4GBrickCommon::arrayToObject($entry);
+              $entry = C4GBrickCommon::arrayToObject($entry);
               $accuracy_number = 0;
               foreach ($importance_fields as $importance_field) {
                   if($importance_field->isSearchField()) {

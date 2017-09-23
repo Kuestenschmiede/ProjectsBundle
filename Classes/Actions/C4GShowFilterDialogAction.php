@@ -21,7 +21,7 @@ class C4GShowFilterDialogAction extends C4GBrickDialogAction
         $dialogParams->setMemberId($dialogParams->getMemberId());
         $dialogParams->setFilterParams($filterParams);
 
-        $dialog = new \c4g\projects\C4GBrickFilterDialog($dialogParams);
+        $dialog = new C4GBrickFilterDialog($dialogParams);
         return $dialog->show();
     }
 }

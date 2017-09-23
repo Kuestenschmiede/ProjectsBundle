@@ -35,7 +35,7 @@ class C4GBrickSelectGroupDialog extends C4GBrickDialog
 
         $grouplist = array();
         $groups = null;
-        if ($GLOBALS['con4gis_groups_extension']['installed']) {
+        if ($GLOBALS['con4gis']['groups']['installed']) {
             $groups = C4GBrickCommon::getGroupListForBrick($memberId, $brickKey);
         }
 

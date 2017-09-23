@@ -13,6 +13,7 @@
 namespace con4gis\ProjectsBundle\Classes\Actions;
 
 use Doctrine\ORM\Mapping\Id;
+use con4gis\ProjectsBundle\Classes\Views\C4GBrickViewType;
 
 class C4GActivationDialogAction extends C4GBrickDialogAction
 {
@@ -63,7 +64,7 @@ class C4GActivationDialogAction extends C4GBrickDialogAction
             return $action->run();
         }
 
-        if($viewType == \c4g\projects\C4GBrickViewType::MEMBERBOOKING) {
+        if($viewType == C4GBrickViewType::MEMBERBOOKING) {
             $result = C4GBrickDialog::showC4GMessageDialog(
                 $dialogId,
                 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['MESSAGE_DIALOG_BOOKING_ACTIVATION_DIALOG_QUESTION'],

@@ -12,6 +12,10 @@
 
 namespace con4gis\ProjectsBundle\Classes\Actions;
 
+use con4gis\GroupsBundle\Resources\contao\models\MemberGroupModel;
+use con4gis\ProjectsBundle\Classes\Common\C4GBrickCommon;
+use con4gis\ProjectsBundle\Classes\Views\C4GBrickViewType;
+
 class C4GConfirmArchiveAction extends C4GBrickDialogAction
 {
     public function run()
@@ -29,15 +33,15 @@ class C4GConfirmArchiveAction extends C4GBrickDialogAction
 
         $object = $brickDatabase->findByPk($dialogId);
         if ($object) {
-            $notifications = \c4g\projects\C4GBrickDialog::getButtonNotifications(
-                \c4g\projects\C4GBrickActionType::ACTION_ARCHIVEDIALOG,
+            $notifications = C4GBrickDialog::getButtonNotifications(
+                C4GBrickActionType::ACTION_ARCHIVEDIALOG,
                 $dialogParams, $object);
 
             $object->published = false;
             $object->save();
 
             if (($viewType == C4GBrickViewType::MEMBERBOOKING) && ($GLOBALS['con4gis_booking_extension']['installed'])) {
-                $group = \c4g\MemberGroupModel::findByPk($groupId);
+                $group = MemberGroupModel::findByPk($groupId);
                 $group->cg_owner_id = null;
                 $group->save();
 

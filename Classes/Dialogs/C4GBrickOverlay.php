@@ -11,7 +11,9 @@
  */
 
 namespace con4gis\ProjectsBundle\Classes\Dialogs;
-use c4g\C4GUtils;
+use con4gis\CoreBundle\Resources\contao\classes\C4GUtils;
+use con4gis\ProjectsBundle\Classes\Common\C4GBrickConst;
+use con4gis\ProjectsBundle\Classes\Common\C4GBrickCommon;
 use Contao\ModuleModel;
 
 
@@ -24,7 +26,7 @@ class C4GBrickOverlay
     private $id = '';
     private $link = '';
     private $html = null;
-    private $type = \c4g\projects\C4GBrickConst::OVERLAY_DIALOG;
+    private $type = C4GBrickConst::OVERLAY_DIALOG;
 
     /**
      * C4GBrickOverlay constructor.
@@ -38,12 +40,12 @@ class C4GBrickOverlay
         $this->link = $link;
 
         switch ($type) {
-            case \c4g\projects\C4GBrickConst::OVERLAY_DIALOG:
+            case C4GBrickConst::OVERLAY_DIALOG:
                 $this->html = '<a id="'.$id.'" onclick="' .
-                    \c4g\projects\C4GBrickCommon::getPopupWindowString($link) . '"></a>';
+                    C4GBrickCommon::getPopupWindowString($link) . '"></a>';
                 break;
-            case \c4g\projects\C4GBrickConst::OVERLAY_ANIMATION:
-                $this->html = '<div id="c4g_brick_overlay_content"></div><a id="'.$id.'" onclick="'.\c4g\projects\C4GBrickCommon::getPopupElementString('\''.$id.'_animation\'').';document.getElementById(\''.$id.'_animation\').play(); document.getElementById(\''.$id.'_animation\').addEventListener(\'ended\',C4GAnimationHandler,false);
+            case C4GBrickConst::OVERLAY_ANIMATION:
+                $this->html = '<div id="c4g_brick_overlay_content"></div><a id="'.$id.'" onclick="'.C4GBrickCommon::getPopupElementString('\''.$id.'_animation\'').';document.getElementById(\''.$id.'_animation\').play(); document.getElementById(\''.$id.'_animation\').addEventListener(\'ended\',C4GAnimationHandler,false);
                     function C4GAnimationHandler(e) {jQuery.magnificPopup.close()}" style="display:none"></a>';
                 break;
             default:

@@ -13,6 +13,7 @@
 
 namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
 
+use con4gis\CoreBundle\Resources\contao\classes\C4GUtils;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickCommon;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
@@ -169,7 +170,7 @@ class C4GMultiCheckboxField extends C4GBrickField
         $prefix = $this->getFieldName() . '|';
         $dlgArr = array();
         foreach($dlgValues as $valueKey=>$dlgValue) {
-            if (\c4g\C4GUtils::startsWith($valueKey, $prefix))
+            if (C4GUtils::startsWith($valueKey, $prefix))
             {
                 $pos = strpos($valueKey, '|');
                 $key = substr($valueKey, $pos + 1);
@@ -245,7 +246,7 @@ class C4GMultiCheckboxField extends C4GBrickField
         $prefix = $fieldName . '|';// . $dlgValues['id'];
 
         foreach($dlgValues as $valueKey=>$dlgValue) {
-            if (\c4g\C4GUtils::startsWith($valueKey, $prefix) && ($dlgValue && (is_bool($dlgValue) || $dlgValue === 'true')))
+            if (C4GUtils::startsWith($valueKey, $prefix) && ($dlgValue && (is_bool($dlgValue) || $dlgValue === 'true')))
             {
                 $pos = strpos($valueKey, '|');
                 $key = substr($valueKey, $pos + 1);

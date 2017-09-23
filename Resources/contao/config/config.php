@@ -14,8 +14,8 @@
 /**
  * Global settings
  */
-$GLOBALS['con4gis_projects_extension']['installed']    = true;
-$GLOBALS['con4gis_projects_extension']['version']      = '0.7.0-snapshot';
+$GLOBALS['con4gis']['projects']['installed'] = true;
+
 
 /**
  * Kartenstrukturelemente
@@ -28,7 +28,7 @@ $GLOBALS['c4g_locationtypes'][] = \con4gis\ProjectsBundle\Classes\Maps\C4GProjec
 $GLOBALS['TL_API']['editorTabService']      = 'C4GEditorTabApi';
 $GLOBALS['TL_API']['starboardTabService']      = 'C4GStarboardTabApi';
 
-$apiBaseUrl = 'system/modules/con4gis_core/api/index.php';
+$apiBaseUrl = 'src/con4gis/CoreBundle/Resources/contao/api/index.php';
 
 $GLOBALS['con4gis_projects_extension']['api']['editorTab']      = $apiBaseUrl . '/editorTabService';
 $GLOBALS['con4gis_projects_extension']['api']['starboardTab']      = $apiBaseUrl . '/starboardTabService';

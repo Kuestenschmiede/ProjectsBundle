@@ -1,22 +1,26 @@
 {
-  "name": "con4gis/core",
+  "name": "con4gis/projects",
   "type": "contao-bundle",
-  "description": "con4gis developer framework for building contao frontend modules",
-  "keywords": ["con4gis", "projects", "contao", "c4g", "con4gisprojects", "con4gisprojectsbundle", "c4gprojects"],
+  "description": "The framework brick of the Contao GIS-kit con4gis. Useful for developing frontend modules.",
+  "keywords": ["con4gis", "projects", "contao", "c4g", "ProjectsBundle", "frontend", "module", "framework"],
   "license": "LGPL-3.0+",
   "authors": [
     {
-      "name": "Kuestenschmiede",
-      "homepage": "https://github.com/kuestenschmiede"
+      "name": "Kuestenschmiede GmbH Software & Design",
+      "homepage": "https://kuestenschmiede.de",
+      "role": "Operator"
+    },
+    {
+      "name": "con4gis community",
+      "homepage": "https://con4gis.org",
+      "role": "Developer"
     }
   ],
+  "support": {
+    "email": "support@con4gis.org"
+  },
   "require": {
-    "php": "^5.6|^7.0",
-    "symfony/framework-bundle": "^3.3",
-    "contao/core-bundle": "^4.4.2",
-    "con4gis/core": "~2.0",
-    "con4gis/con4gis_core": "~1.9",
-    "con4gis/con4gis_groups": "~1.4"
+    "con4gis/core": "^2.0"
   },
   "conflict": {
     "contao/core": "*",
@@ -37,15 +41,12 @@
     ]
   },
   "support": {
-    "issues": "https://github.com/Kuestenschmiede/con4gis_projects/issues"
+    "issues": "https://github.com/Kuestenschmiede/ProjectsBundle/issues"
   },
   "config": {
     "preferred-install": "dist"
   },
   "extra": {
-    "branch-alias": {
-      "dev-master": "1.0.x-dev"
-    },
     "contao-manager-plugin": "con4gis\\ProjectsBundle\\ContaoManager\\Plugin"
   }
 }

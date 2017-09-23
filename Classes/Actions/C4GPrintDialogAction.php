@@ -42,19 +42,19 @@ class C4GPrintDialogAction extends C4GBrickDialogAction
         }
 
         $dataset = $brickDatabase->findByPk($dialogId);
-        $content = \c4g\projects\C4GBrickDialog::buildDialogView($fieldList, $brickDatabase, $dataset, $content, $dialogParams);
+        $content = C4GBrickDialog::buildDialogView($fieldList, $brickDatabase, $dataset, $content, $dialogParams);
 
         $dialogParams->setAccordion(false);
         $dialogParams->setWithDescriptions(false);
         $dialogParams->setTableRows(false); //con4gis_documents kann noch keine Tabellen drucken (dompdf)
 
-        $pdfManager = new \c4g\documents\PdfManager();
+        $pdfManager = new PdfManager();
         $pdfManager->template   = 'c4g_pdftemplate';
         $pdfManager->filename   = '{{date::Y.m.d-H.i.s}}_document.pdf';
-        $pdfManager->filepath   = \c4g\projects\C4GBrickConst::PATH_BRICK_DOCUMENTS;
+        $pdfManager->filepath   = C4GBrickConst::PATH_BRICK_DOCUMENTS;
         $pdfManager->headline   = $dialogParams->getBrickCaption();
         $pdfManager->hl         = 'h1';
-        $style                  = TL_ROOT.'system/modules/con4gis_projects/assets/css/c4g_brick_print.css';
+        $style                  = TL_ROOT.'bundles/con4gisprojects/css/c4g_brick_print.css';
         $pdfManager->style      = $style;
         $pdfManager->content    = $content;
         $pdfManager->output();

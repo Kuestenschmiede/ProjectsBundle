@@ -12,12 +12,14 @@
 
 namespace con4gis\ProjectsBundle\Classes\Actions;
 
+use con4gis\CoreBundle\Resources\contao\classes\C4GHTMLFactory;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickCommon;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickConst;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialog;
 use con4gis\ProjectsBundle\Classes\Models\C4gProjectsModel;
 use con4gis\ProjectsBundle\Classes\Views\C4GBrickView;
 use con4gis\ProjectsBundle\Classes\Views\C4GBrickViewType;
+
 
 class C4GShowDialogAction extends C4GBrickDialogAction
 {
@@ -120,8 +122,15 @@ class C4GShowDialogAction extends C4GBrickDialogAction
                             $caption .= $parent->$value . ' ';
                         }
                     }
+                } elseif ($parentCaptionCallback = $dialogParams->getParentCaptionCallback()) {
+                    $class = $parentCaptionCallback[0];
+                    $function = $parentCaptionCallback[1];
+                    $arrCaptions = $class::$function(
+                        [$parent],
+                        $this->brickDatabase->getEntityManager()
+                    );
+                    $caption = $arrCaptions[$parentId];
                 }
-
                 $parent_headline = '<div class="c4g_brick_headtext"> '.$dialogParams->getParentCaption().': <b>'.$caption.'</b></div>';
             }
         }
@@ -354,13 +363,13 @@ class C4GShowDialogAction extends C4GBrickDialogAction
 
         $headtext = $dialogParams->getHeadline();
         if ( ($group_headline) && ($project_headline) && ($parent_headline)) {
-            $headtext = $headtext . \c4g\C4GHTMLFactory::lineBreak() . $group_headline . $project_headline . $parent_headline;
+            $headtext = $headtext . C4GHTMLFactory::lineBreak() . $group_headline . $project_headline . $parent_headline;
         } else if ( ($group_headline) && ($project_headline)){
-            $headtext = $headtext.\c4g\C4GHTMLFactory::lineBreak().$group_headline.$project_headline;
+            $headtext = $headtext.C4GHTMLFactory::lineBreak().$group_headline.$project_headline;
         } else if (($group_headline) && ($parent_headline)) {
-            $headtext = $headtext.\c4g\C4GHTMLFactory::lineBreak().$group_headline . $parent_headline;
+            $headtext = $headtext.C4GHTMLFactory::lineBreak().$group_headline . $parent_headline;
         } else if ($group_headline) {
-            $headtext = $headtext.\c4g\C4GHTMLFactory::lineBreak().$group_headline;
+            $headtext = $headtext.C4GHTMLFactory::lineBreak().$group_headline;
         }
         if ($additionalHeadtext) {
             $additionalHeadtext = '<div class="c4g_brick_headtext">' . $additionalHeadtext . '</div>';

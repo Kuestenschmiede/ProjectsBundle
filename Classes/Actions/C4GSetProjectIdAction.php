@@ -21,7 +21,7 @@ class C4GSetProjectIdAction extends C4GBrickDialogAction
         $dialogParams->setProjectId($dlgValues['project_id']);
         $projectId = $dlgValues['project_id'];
 
-        $project = \c4g\projects\C4gProjectsModel::findByPk($projectId);
+        $project = C4gProjectsModel::findByPk($projectId);
         $dialogParams->setProjectUuid($project->uuid);
 
         \Session::getInstance()->set("c4g_brick_project_id", $projectId);

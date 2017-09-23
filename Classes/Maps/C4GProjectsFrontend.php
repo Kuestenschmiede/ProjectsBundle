@@ -1,7 +1,8 @@
 <?php
 
 namespace con4gis\ProjectsBundle\Classes\Maps;
-use c4g\Maps\C4gMapsModel;
+
+use con4gis\MapsBundle\Resources\contao\models\C4gMapsModel;
 
 /**
  * Class C4GProjectsFrontend

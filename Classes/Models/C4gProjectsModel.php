@@ -11,6 +11,8 @@
  */
 namespace con4gis\ProjectsBundle\Classes\Models;
 
+use con4gis\ProjectsBundle\Classes\Common\C4GBrickCommon;
+
 class C4gProjectsModel extends \Model
 {
 
@@ -34,7 +36,7 @@ class C4gProjectsModel extends \Model
         $result = array();
         if ($projects) {
             foreach($projects as $project) {
-                if (\c4g\projects\C4GBrickCommon::hasMemberRightsForBrick($memberId, $project->id, $brick_key)) {
+                if (C4GBrickCommon::hasMemberRightsForBrick($memberId, $project->id, $brick_key)) {
                     $result[] = $project;
                 }
             }

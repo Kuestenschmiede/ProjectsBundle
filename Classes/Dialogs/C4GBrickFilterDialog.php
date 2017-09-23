@@ -9,6 +9,10 @@
 namespace con4gis\ProjectsBundle\Classes\Dialogs;
 
 
+use con4gis\CoreBundle\Resources\contao\classes\C4GHTMLFactory;
+use con4gis\CoreBundle\Resources\contao\classes\C4GUtils;
+use con4gis\ProjectsBundle\Classes\Common\C4GBrickConst;
+
 class C4GBrickFilterDialog extends C4GBrickDialog
 {
 
@@ -97,8 +101,8 @@ class C4GBrickFilterDialog extends C4GBrickDialog
             //ToDo verschiedene Filter unterstützen
 
             $view = '<div class="' . C4GBrickConst::CLASS_DIALOG . ' ' . C4GBrickConst::CLASS_FILTER_DIALOG . ' ui-widget ui-widget-content ui-corner-bottom">';
-            $view .= \c4g\C4GHTMLFactory::lineBreak() . $fromFilterField->getC4GDialogField(null, null, $dialogParams);
-            $view .= \c4g\C4GHTMLFactory::lineBreak() . $toFilterField->getC4GDialogField(null, null, $dialogParams);
+            $view .= C4GHTMLFactory::lineBreak() . $fromFilterField->getC4GDialogField(null, null, $dialogParams);
+            $view .= C4GHTMLFactory::lineBreak() . $toFilterField->getC4GDialogField(null, null, $dialogParams);
 
             $messageTitle = $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['HEADLINE_TEXT'];
 
@@ -106,7 +110,7 @@ class C4GBrickFilterDialog extends C4GBrickDialog
             (
                 'dialogtype' => 'html',
                 'dialogdata' => $view,
-                'dialogoptions' => \c4g\C4GUtils::addDefaultDialogOptions(array
+                'dialogoptions' => C4GUtils::addDefaultDialogOptions(array
                 (
                     'title' => $messageTitle,
                     'modal' => true
@@ -134,7 +138,7 @@ class C4GBrickFilterDialog extends C4GBrickDialog
         } else if($filterParams->isWithGeoFilter()) {
             $content = $firstPosition->getContentId();
             $view =  '<div class="' . C4GBrickConst::CLASS_DIALOG . ' ' . C4GBrickConst::CLASS_FILTER_DIALOG . ' ui-widget ui-widget-content ui-corner-bottom">';
-            $view .= \c4g\C4GHTMLFactory::lineBreak() . $firstPosition->getC4GDialogField(null, null, $dialogParams, array('content' => $content));
+            $view .= C4GHTMLFactory::lineBreak() . $firstPosition->getC4GDialogField(null, null, $dialogParams, array('content' => $content));
 
             $messageTitle = $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['HEADLINE_TEXT'];
 
@@ -142,7 +146,7 @@ class C4GBrickFilterDialog extends C4GBrickDialog
             (
                 'dialogtype' => 'html',
                 'dialogdata' => $view,
-                'dialogoptions' => \c4g\C4GUtils::addDefaultDialogOptions(array
+                'dialogoptions' => C4GUtils::addDefaultDialogOptions(array
                 (
                     'title' => $messageTitle,
                     'modal' => true

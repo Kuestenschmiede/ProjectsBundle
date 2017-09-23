@@ -12,7 +12,8 @@
 
 namespace con4gis\ProjectsBundle\Classes\Notifications;
 
-use c4g\MemberModel;
+use con4gis\CoreBundle\Resources\contao\classes\C4GUtils;
+use con4gis\GroupsBundle\Resources\contao\models\MemberModel;
 
 class C4GBrickNotification
 {
@@ -40,7 +41,7 @@ class C4GBrickNotification
                     $fieldName = $fieldName . '_' . $additionalId;
                 }
 
-                if ($fieldName == $name || \c4g\C4GUtils::startsWith($name, $field->getFieldName()) && $field instanceof C4GMultiCheckboxField) {
+                if ($fieldName == $name || C4GUtils::startsWith($name, $field->getFieldName()) && $field instanceof C4GMultiCheckboxField) {
                     if (!$field instanceof C4GDateField) {
                         if (!$field instanceof C4GMultiCheckboxField) {
                             $dlgValue = $field->translateFieldValue($dlgValue);
@@ -48,7 +49,7 @@ class C4GBrickNotification
                             $check = false;
                             //adding multicheckbox values which are true
                             if ($dlgValue != 'false') {
-                                $check = \c4g\C4GUtils::startsWith($name, $field->getFieldName() . '|');
+                                $check = C4GUtils::startsWith($name, $field->getFieldName() . '|');
                                 if ($check) {
                                     $pos = strpos($name, '|');
                                     $dlgValue = substr($name, $pos + 1);
@@ -106,7 +107,7 @@ class C4GBrickNotification
             foreach($tokensValues as $name=>$tokenValue) {
 
                 if($name == 'c4g_member_id') {
-                    $member = \MemberModel::findByPk($tokenValue);
+                    $member = MemberModel::findByPk($tokenValue);
                     $tokensValues['firstname'] = $member->firstname;
                     $tokensValues['lastname']  = $member->lastname;
                     $tokensValues['user_email'] = $member->email;

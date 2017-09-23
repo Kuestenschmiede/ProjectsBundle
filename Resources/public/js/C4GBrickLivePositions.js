@@ -115,7 +115,7 @@ function livePositions(map, importLayer, data, setStyleHelper) {
         timeout = window.setTimeout(function(){liveRequest()}, 10000);
     }
 
-    var url = 'system/modules/con4gis_core/index.php/api/'+data.type+'Service?method=getPositions';
+    var url = 'src/con4gis/CoreBundle/Resources/api/index.php/'+data.type+'Service?method=getPositions';
 
     var liveRequest = function() {
         OpenLayers.Request.GET({
@@ -147,7 +147,7 @@ var fnPushCallback = function urlRequestHandler(request) {
  */
 function onPushMessage(type, token, device, conf) {
     var content = document.getElementById('c4g_push_message').value;
-    var url = 'system/modules/con4gis_core/api/index.php/'+type+'Service?method=pushMessage&conf=' + conf + '&device=' + device + '&token=' + token + '&content=' + content;
+    var url = 'src/con4gis/CoreBundle/Resources/api/index.php/'+type+'Service?method=pushMessage&conf=' + conf + '&device=' + device + '&token=' + token + '&content=' + content;
 
     var pushMessage = function() {
         var client = new XMLHttpRequest();

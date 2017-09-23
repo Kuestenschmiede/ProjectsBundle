@@ -2,7 +2,7 @@
     /**
      * con4gis - the gis-kit
      *
-     * @version   php 7
+     * @version   php 5
      * @package   con4gis
      * @author    con4gis contributors (see "authors.txt")
      * @license   GNU/LGPL http://opensource.org/licenses/lgpl-3.0.html
@@ -18,9 +18,9 @@
 //    $sRootPath = dirname($_SERVER['SCRIPT_FILENAME']) . "/../../../../../";
 //    require_once($sRootPath . "system/initialize.php");
 
-    $initialize = $_SERVER["DOCUMENT_ROOT"].'/system/initialize.php';
+    $initialize = $_SERVER["DOCUMENT_ROOT"].'../system/initialize.php';
     if (!file_exists($initialize)) {
-        $initialize = '../../../../../system/initialize.php';
+        $initialize = '../../../system/initialize.php';
     }
 
     // Initialize the system
@@ -44,7 +44,7 @@
     );
 
     try {
-        $nominatimApi = new \con4gis\MapsBundle\Resources\contao\modules\api\ReverseNominatimApi();
+        $nominatimApi = new \c4g\Maps\ReverseNominatimApi();
         $xmlOutput = $nominatimApi->getReverseNominatimResponse($id, $arrParams);
         $xml = simplexml_load_string($xmlOutput);
 

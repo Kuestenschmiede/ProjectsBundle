@@ -12,6 +12,9 @@
 
 namespace con4gis\ProjectsBundle\Classes\Actions;
 
+use con4gis\CoreBundle\Resources\contao\classes\C4GHTMLFactory;
+use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialog;
+
 class C4GShowEmailNotificationDialogAction extends C4GBrickDialogAction
 {
     public function run()
@@ -43,7 +46,7 @@ class C4GShowEmailNotificationDialogAction extends C4GBrickDialogAction
             C4GBrickActionType::ACTION_CANCELEMAILNOTIFICATION,
             $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['MESSAGE_DIALOG_EMAIL_NOTIFICATION_DIALOG_NO'],
             $dlgValues,
-            \c4g\C4GHTMLFactory::lineBreak().$additional_email_text->getC4GDialogField(array($additional_email_text), null, $dialogParams)
+            C4GHTMLFactory::lineBreak().$additional_email_text->getC4GDialogField(array($additional_email_text), null, $dialogParams)
         );
         return $result;
 

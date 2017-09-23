@@ -9,7 +9,7 @@
  * @copyright Küstenschmiede GmbH Software & Design 2011 - 2017.
  * @link      https://www.kuestenschmiede.de
  */
-namespace c4g\projects;
+namespace con4gis\ProjectsBundle\Classes\Models;
 
 
 class C4gProjectsLogbookModel extends \Model

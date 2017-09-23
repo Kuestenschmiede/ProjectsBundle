@@ -13,6 +13,9 @@
 
 namespace con4gis\ProjectsBundle\Classes\Maps;
 
+use con4gis\ProjectsBundle\Classes\Common\C4GBrickCommon;
+use con4gis\CoreBundle\Resources\contao\classes\C4GHTMLFactory;
+
 class C4GBrickMapFrontendParent extends \Frontend
 {
 
@@ -46,9 +49,9 @@ class C4GBrickMapFrontendParent extends \Frontend
 
         $link = '{{link_url::'.$siteId.'}}?state='.$state;
 
-        if ((!$isEditButton) || (\c4g\projects\C4GBrickCommon::hasMemberRightsForBrick($member_id, $project_id, $brick))) {
+        if ((!$isEditButton) || (C4GBrickCommon::hasMemberRightsForBrick($member_id, $project_id, $brick))) {
             $result = '<div class = "c4g_brick_popup_button"><a onclick="' .
-                \c4g\projects\C4GBrickCommon::getPopupWindowString($link) . '"> '. $buttonText . ' </a></div>';
+                C4GBrickCommon::getPopupWindowString($link) . '"> '. $buttonText . ' </a></div>';
         }
 
         return $result;
@@ -63,7 +66,7 @@ class C4GBrickMapFrontendParent extends \Frontend
         $result =
             "<div class=c4g_popup_header_featurename>" . $name . "</div>" .
             "<div class=c4g_popup_header_featuretype>" . $type . "</div>" .
-            \c4g\C4GHTMLFactory::lineBreak();
+            C4GHTMLFactory::lineBreak();
 
         return $result;
     }
@@ -75,7 +78,7 @@ class C4GBrickMapFrontendParent extends \Frontend
     public function backslashNToBr($value) {
         $pos = strpos($value, "\n");
         if ($pos !== false) {
-            return \c4g\C4GHTMLFactory::lineBreak(). nl2br($value) . \c4g\C4GHTMLFactory::lineBreak(). \c4g\C4GHTMLFactory::lineBreak();
+            return C4GHTMLFactory::lineBreak(). nl2br($value) . C4GHTMLFactory::lineBreak(). C4GHTMLFactory::lineBreak();
         }
 
         return $value;
@@ -109,7 +112,7 @@ class C4GBrickMapFrontendParent extends \Frontend
               $before = "<p>";
             }
 
-            $result = $before."<li>".$title.": ".\c4g\projects\C4GBrickMapFrontendParent::backslashNToBr($value)."</li>";
+            $result = $before."<li>".$title.": ".C4GBrickMapFrontendParent::backslashNToBr($value)."</li>";
         }
 
         return $result;
@@ -123,12 +126,12 @@ class C4GBrickMapFrontendParent extends \Frontend
     public function addPopupDescriptionElement($title, $description, $last_member_id) {
         $result = '';
         if (($title) && ($description)) {
-            $result = $title.":".\c4g\C4GHTMLFactory::lineBreak(). nl2br($description) . \c4g\C4GHTMLFactory::lineBreak();
+            $result = $title.":".C4GHTMLFactory::lineBreak(). nl2br($description) . C4GHTMLFactory::lineBreak();
         }
 
         if ($last_member_id) {
-            $result .= \c4g\C4GHTMLFactory::lineBreak().'Letzter Bearbeiter: '. C4GBrickCommon::getNameForMember($last_member_id).
-                \c4g\C4GHTMLFactory::lineBreak();
+            $result .= C4GHTMLFactory::lineBreak().'Letzter Bearbeiter: '. C4GBrickCommon::getNameForMember($last_member_id).
+                C4GHTMLFactory::lineBreak();
         }
 
         return $result;
@@ -174,8 +177,8 @@ class C4GBrickMapFrontendParent extends \Frontend
         } else {
             $arrData['type'] = $type;
         }
-        $arrData['name']        = \c4g\projects\C4GBrickCommon::cutText($name, 44);
-        $arrData['layername']   = \c4g\projects\C4GBrickCommon::cutText($layername, 44);
+        $arrData['name']        = C4GBrickCommon::cutText($name, 44);
+        $arrData['layername']   = BrickCommon::cutText($layername, 44);
         $arrData['display']     = ($display && ($content != null));
         $arrData['hide']        = $hide;
 
@@ -216,12 +219,12 @@ class C4GBrickMapFrontendParent extends \Frontend
         //ToDo only refresh we do not use the url
         $arrData = array();
 
-        $calcId = \c4g\projects\C4GBrickCommon::calcLayerID($elementId, $parentId, $parentIdent+1);
+        $calcId = C4GBrickCommon::calcLayerID($elementId, $parentId, $parentIdent+1);
 
         if ($parentPid == 0) {
             $arrData['pid'] = $parentId;//ToDo test with child['id']
         } else {
-            $arrData['pid'] = \c4g\projects\C4GBrickCommon::calcLayerID($parentId, $parentPid, $parentIdent);
+            $arrData['pid'] = C4GBrickCommon::calcLayerID($parentId, $parentPid, $parentIdent);
         }
 
         $arrData['id']  = $calcId;
@@ -247,8 +250,8 @@ class C4GBrickMapFrontendParent extends \Frontend
         }
 
 
-        $arrData['name']        = \c4g\projects\C4GBrickCommon::cutText($name, 44);
-        $arrData['layername']   = \c4g\projects\C4GBrickCommon::cutText($layername, 44);
+        $arrData['name']        = C4GBrickCommon::cutText($name, 44);
+        $arrData['layername']   = C4GBrickCommon::cutText($layername, 44);
         $arrData['display']     = ($display && ($content != null));
         $arrData['hide']        = $hide;
 
@@ -378,9 +381,9 @@ class C4GBrickMapFrontendParent extends \Frontend
             if (!$sort) {
                 $arrSortedData = $arrChildData;
             } else if ($arrChildData['layername'] != $arrChildData['name']) {
-                $arrSortedData = \c4g\projects\C4GBrickCommon::array_sort($arrChildData, 'layername', SORT_ASC, true);
+                $arrSortedData = C4GBrickCommon::array_sort($arrChildData, 'layername', SORT_ASC, true);
             } else {
-                $arrSortedData = \c4g\projects\C4GBrickCommon::array_sort($arrChildData, 'name', SORT_ASC, true);
+                $arrSortedData = C4GBrickCommon::array_sort($arrChildData, 'name', SORT_ASC, true);
             }
 
             foreach ($arrSortedData as $key=>$arrSortedDataValue) {

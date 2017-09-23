@@ -1,6 +1,6 @@
 <?php
 
-namespace c4g\projects;
+namespace con4gis\ProjectsBundle\Resources\contao\modules\api;
 
 class C4GEditorTabApi
 {

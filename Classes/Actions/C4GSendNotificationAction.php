@@ -30,8 +30,8 @@ class C4GSendNotificationAction extends C4GBrickDialogAction
         $dialogId = $dialogParams->getId();
         $object = $brickDatabase->findByPk($dialogId);
 
-        $notifications = \c4g\projects\C4GBrickDialog::getButtonNotifications(
-            \c4g\projects\C4GBrickActionType::ACTION_SEND_NOTIFICATION,
+        $notifications = C4GBrickDialog::getButtonNotifications(
+            C4GBrickActionType::ACTION_SEND_NOTIFICATION,
             $dialogParams,$object);
         return $this->sendNotifications($notifications, $dlgValues, $fieldList, $memberId);
     }

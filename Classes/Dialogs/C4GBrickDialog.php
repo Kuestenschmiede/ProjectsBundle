@@ -12,8 +12,6 @@
 
 namespace con4gis\ProjectsBundle\Classes\Dialogs;
 
-use c4g\C4GHTMLFactory;
-use c4g\C4GUtils;
 use con4gis\ProjectsBundle\Classes\Actions\C4GBrickActionType;
 use con4gis\ProjectsBundle\Classes\Buttons\C4GBrickButton;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickCommon;
@@ -41,6 +39,8 @@ use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GUrlField;
 use con4gis\ProjectsBundle\Classes\Views\C4GBrickView;
 use con4gis\ProjectsBundle\Classes\Views\C4GBrickViewType;
 use Contao\ModuleModel;
+use con4gis\CoreBundle\Resources\contao\classes\C4GHTMLFactory;
+use con4gis\CoreBundle\Resources\contao\classes\C4GUtils;
 
 
 //ToDo Klassen weiter auslagern -> siehe bspw. C4gBrickSelectGroupDialog,
@@ -499,11 +499,6 @@ class C4GBrickDialog
             $button_save_and_redirect = $dialogParams->getButton($type_save_and_redirect);
             $result[] = static::addButtonArray($button_save_and_redirect, $dbValues->id);
         }
-        $type_ticket = C4GBrickConst::BUTTON_TICKET;
-        if (($dialogParams->checkButtonVisibility($type_ticket) && (!$dialogParams->isFrozen()))) {
-            $button_ticket = $dialogParams->getButton($type_ticket);
-            $result[] = static::addButtonArray($button_ticket, $dbValues->id);
-        }
 
         //SAVE & NEW BUTTON
 //            $type_save_and_new = C4GBrickConst::BUTTON_SAVE_AND_NEW;
@@ -597,6 +592,14 @@ class C4GBrickDialog
         if ($dialogParams->checkButtonVisibility($send_notification)) {
             $button_send_notification = $dialogParams->getButton($send_notification);
             $result[] = static::addButtonArray($button_send_notification, $dbValues->id);
+        }
+
+        $type_ticket = C4GBrickConst::BUTTON_TICKET;
+        if (($dialogParams->checkButtonVisibility($type_ticket) && (!$dialogParams->isFrozen()))) {
+            $button_ticket = $dialogParams->getButton($type_ticket);
+            if ($dbValues->id && ($dbValues->id != -1)) {
+                $result[] = static::addButtonArray($button_ticket, $dbValues->id);
+            }
         }
 
         //CLOSE BUTTON
@@ -1090,7 +1093,7 @@ class C4GBrickDialog
                 if ($fieldData !== NULL) {
                     $set[$fieldName] = $fieldData;
                     if (!($field instanceof C4GFileField)) {
-                        $set[$fieldName] = html_entity_decode(\c4g\C4GUtils::secure_ugc($fieldData));
+                        $set[$fieldName] = html_entity_decode(C4GUtils::secure_ugc($fieldData));
                     }
                 }
             }
@@ -1142,7 +1145,7 @@ class C4GBrickDialog
                 $groupId = $dlgValues['group_id'];
                 $applicationgroup = null;
                 if (!$groupId || $groupId <= 0) {
-                    $group = new \c4g\MemberGroupModel();
+                    $group = new MemberGroupModel();
                     $modules = \ModuleModel::findBy('type', 'c4g_groups');
                     if ($modules) {
                         $module = $modules[0];
@@ -1158,11 +1161,11 @@ class C4GBrickDialog
                     $members[] = $user_id;
                     $group->cg_member = serialize($members);
                 } else {
-                    $group = \c4g\MemberGroupModel::findByPk($groupId);
+                    $group = MemberGroupModel::findByPk($groupId);
                 }
 
                 if ($group_type) {
-                    $group->name = \c4g\C4GUtils::secure_ugc($dlgValues['caption']);
+                    $group->name = C4GUtils::secure_ugc($dlgValues['caption']);
                     $date = new \DateTime();
                     $group->tstamp = $date->getTimestamp();
                     $group->cg_max_member = $group_type->max_member_count;
@@ -1181,7 +1184,7 @@ class C4GBrickDialog
 
                     if (!$groupId) {
                         $set[$groupKeyField] = $group->id;
-                        $owner = \c4g\MemberModel::findByPk($owner_member_id);
+                        $owner = MemberModel::findByPk($owner_member_id);
                         if ($owner && !empty($owner->groups)) {
                             $ownerGroups = unserialize($owner->groups);
                             $ownerGroups[] = $group->id;

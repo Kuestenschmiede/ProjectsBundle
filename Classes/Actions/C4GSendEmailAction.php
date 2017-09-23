@@ -12,6 +12,8 @@
 
 namespace con4gis\ProjectsBundle\Classes\Actions;
 
+use con4gis\CoreBundle\Resources\contao\classes\C4GUtils;
+
 class C4GSendEmailAction extends C4GBrickDialogAction
 {
     private $recipient = '';
@@ -34,7 +36,7 @@ class C4GSendEmailAction extends C4GBrickDialogAction
         $mailData['text'] = str_replace(array('[MEMBER]', '[MESSAGE]'), array($this->senderName, $this->text), $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['EMAIL_MESSAGE']);
 
         // send mail
-        return \c4g\C4GUtils::sendMail( $mailData );
+        return C4GUtils::sendMail( $mailData );
 
     }
 
