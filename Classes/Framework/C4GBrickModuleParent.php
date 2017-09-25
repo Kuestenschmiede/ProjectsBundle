@@ -180,7 +180,7 @@ class C4GBrickModuleParent extends \Module
     private function groupCheck() {
 
         //memberBased and groups
-        if ($this->brickKey && $GLOBALS['con4gis_groups_extension']['installed'] &&
+        if ($this->brickKey && $GLOBALS['con4gis']['groups']['installed'] &&
             (C4GBrickView::isMemberBased($this->viewType) ||
              C4GBrickView::isGroupBased($this->viewType))) {
             if (!MemberModel::hasRightInAnyGroup($this->User->id, $this->brickKey)) {
@@ -199,7 +199,7 @@ class C4GBrickModuleParent extends \Module
     private function memberCheck($init = false) {
         if (FE_USER_LOGGED_IN) {
             \System::import('FrontendUser', 'User');
-        } else If (!C4GBrickView::isPublicBased($this->viewType) && $GLOBALS['con4gis_groups_extension']['installed']) {
+        } else If (!C4GBrickView::isPublicBased($this->viewType) && $GLOBALS['con4gis']['groups']['installed']) {
             $this->loadLanguageFiles();
 
             if ($init) {

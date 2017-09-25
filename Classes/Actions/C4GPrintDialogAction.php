@@ -54,7 +54,7 @@ class C4GPrintDialogAction extends C4GBrickDialogAction
         $pdfManager->filepath   = C4GBrickConst::PATH_BRICK_DOCUMENTS;
         $pdfManager->headline   = $dialogParams->getBrickCaption();
         $pdfManager->hl         = 'h1';
-        $style                  = TL_ROOT.'system/modules/con4gis_projects/assets/css/c4g_brick_print.css';
+        $style                  = TL_ROOT.'bundles/con4gisprojects/css/c4g_brick_print.css';
         $pdfManager->style      = $style;
         $pdfManager->content    = $content;
         $pdfManager->output();

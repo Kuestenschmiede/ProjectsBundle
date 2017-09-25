@@ -226,7 +226,7 @@ class C4GBrickCommon
     {
         $resultList = array();
 
-        if ($GLOBALS['con4gis_groups_extension']['installed']) {
+        if ($GLOBALS['con4gis']['groups']['installed']) {
             $groups = MemberGroupModel::getGroupListForMember($memberId);
             foreach ($groups as $group) {
                 $rights = MemberGroupModel::getMemberRightsInGroup($group->id, $memberId);

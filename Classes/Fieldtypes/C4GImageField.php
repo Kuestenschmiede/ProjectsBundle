@@ -173,7 +173,7 @@ class C4GImageField extends C4GBrickField
                 case C4GBrickFileType::IMAGES_JPG:
                 case C4GBrickFileType::IMAGES_PNG:
                 case C4GBrickFileType::IMAGES_PNG_JPG:
-                    return $fieldTitle . '<div class="c4g_tile value">' . '<img src="system/modules/con4gis_projects/assets/missing.png">' . '</div>';
+                    return $fieldTitle . '<div class="c4g_tile value">' . '<img src="bundles/con4gisprojects/images/missing.png">' . '</div>';
                     break;
                 default:
                     return $fieldTitle . '<div class="c4g_tile value">' . '<div class="error"></div>' . '</div>';

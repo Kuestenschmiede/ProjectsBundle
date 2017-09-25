@@ -532,7 +532,7 @@ abstract class C4GBrickAction
      * ToDo funktion hier nur zwischengelagert (PerformAction Umbau)
      */
     public static function checkGroupId($groupId, $memberId, $brickKey){
-        if ($GLOBALS['con4gis_groups_extension']['installed']) {
+        if ($GLOBALS['con4gis']['groups']['installed']) {
             $groups = C4GBrickCommon::getGroupListForBrick( $memberId, $brickKey );
             if ($groups) {
                 foreach($groups as $group) {
@@ -554,7 +554,7 @@ abstract class C4GBrickAction
      */
     public static function getOnlyOneGroupId($memberId, $brickKey) {
         $result = -1;
-        if ($GLOBALS['con4gis_groups_extension']['installed']) {
+        if ($GLOBALS['con4gis']['groups']['installed']) {
             $groups = C4GBrickCommon::getGroupListForBrick($memberId, $brickKey);
             $count = count($groups);
 
