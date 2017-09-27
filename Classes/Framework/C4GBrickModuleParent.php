@@ -821,8 +821,14 @@ class C4GBrickModuleParent extends \Module
      */
     private function performAction ($action, $withMemberCheck=true) {
         $values = explode(':', $action, 5);
-
-        $this->initBrickModule($values[1]);
+        if (is_numeric($values[1])) {
+            $this->initBrickModule($values[1]);
+        } elseif ($values[0] == C4GBrickActionType::ACTION_BUTTONCLICK && is_numeric($values[2])) {
+            // this case is needed for the ACTION_BUTTONCLICK action
+            $this->initBrickModule($values[2]);
+        } else {
+            $this->initBrickModule($values[1]);
+        }
 
         if ($withMemberCheck) {
             $result = $this->memberCheck();
