@@ -67,7 +67,8 @@
     }
 
     if (empty($sError)) {
-        $sSystemPath = str_replace('\\','/',TL_ROOT) . "/" . trim($sDestinationPath,'/');
+        $rootDir = System::getContainer()->getParameter('kernel.project_dir');
+        $sSystemPath = str_replace('\\','/',$rootDir) . "/" . trim($sDestinationPath,'/');
         $sDestination = $sSystemPath . "/" . $sFileName;
 
         if (!is_dir($sSystemPath)) {

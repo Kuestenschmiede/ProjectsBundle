@@ -106,11 +106,11 @@ class C4GSaveDialogAction extends C4GBrickDialogAction
                 }
                 if ($this->setParentIdAfterSave) {
                     $dialogParams->setParentId($result['insertId']);
+                    \Session::getInstance()->set("c4g_brick_parent_id", $result['insertId']);
                 }
                 $dialogId = $result['insertId'];
                 $dbValues = $brickDatabase->findByPk($dialogId);
                 \Session::getInstance()->set("c4g_brick_dialog_id", $dialogId);
-//                \Session::getInstance()->set("c4g_brick_dialog_values", $dlgValues);
             } else if (($dialogId) && ($GLOBALS['con4gis_booking_extension']['installed'])) {
                 C4gBookingGroupsModel::log($dbValues);
             }

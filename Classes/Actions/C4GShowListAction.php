@@ -12,6 +12,7 @@
 
 namespace con4gis\ProjectsBundle\Classes\Actions;
 
+use con4gis\ProjectsBundle\Classes\Database\C4GBrickDatabaseType;
 use con4gis\ProjectsBundle\Classes\Models\C4gProjectsModel;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickCommon;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickConst;
@@ -258,18 +259,14 @@ class C4GShowListAction extends C4GBrickDialogAction
                     }
                     break;
                 case C4GBrickView::isPublicBased($viewType):
-                    if ($modelListFunction && $parentIdField) {
+                    if ($modelListFunction) {
                         $function = $modelListFunction;
-                        $pid = $parentIdField;
-                        //ToDo Umbau brickDatabase
-                        $model = $modelClass;
-
-                        //ToDo umbauen -> kann so nicht mehr funktionieren ($this-> ursprünglich ModuleParent)
-                        $elements = $model::$function($this->$pid);
-//ToDo prüfen evtl. wieder einbauen
-//                        if ($id == "-1") {
-//                            $this->initBrickModule($id); //set initial values with new function params
-//                        }
+                        $class = $modelClass;
+                        $elements = $class::$function();
+                        if ($elements->headline) {
+                            $list_headline = '<div class="c4g_brick_headtext_highlighted">' . $elements->headline . '</div>';
+                            unset($elements->headline);
+                        }
                     } else {
                         $elements = $brickDatabase->findAll();
                     }
