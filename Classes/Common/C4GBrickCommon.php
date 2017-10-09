@@ -703,7 +703,7 @@ class C4GBrickCommon
      * @param $link
      * @return string
      */
-    public function getPopupWindowString($link)
+    public static function getPopupWindowString($link)
     {
         $result = '';
         if ($link) {

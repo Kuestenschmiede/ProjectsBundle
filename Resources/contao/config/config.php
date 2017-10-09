@@ -43,3 +43,7 @@ $GLOBALS['con4gis_projects_extension']['api']['starboardTab']      = $apiBaseUrl
  */
 $GLOBALS['TL_API']['c4g_brick_ajax'] = 'C4GBrickAjaxApi';
 
+/**
+ * MODELS
+ */
+$GLOBALS['TL_MODELS']['tl_c4g_projects'] = 'con4gis\ProjectsBundle\Classes\Models\C4gProjectsModel';
