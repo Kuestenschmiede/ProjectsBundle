@@ -12,8 +12,10 @@
 
 namespace con4gis\ProjectsBundle\Classes\Actions;
 
+use con4gis\BookingBundle\Resources\contao\models\C4gBookingGroupsModel;
 use con4gis\GroupsBundle\Resources\contao\models\MemberGroupModel;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickCommon;
+use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialog;
 use con4gis\ProjectsBundle\Classes\Views\C4GBrickViewType;
 
 class C4GConfirmArchiveAction extends C4GBrickDialogAction
@@ -45,7 +47,7 @@ class C4GConfirmArchiveAction extends C4GBrickDialogAction
                 $group->cg_owner_id = null;
                 $group->save();
 
-                \c4g\projects\C4gBookingGroupsModel::log($object);
+                C4gBookingGroupsModel::log($object);
             }
 
             if ($sendEMails) {

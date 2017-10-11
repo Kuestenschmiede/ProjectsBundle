@@ -12,6 +12,9 @@
 
 namespace con4gis\ProjectsBundle\Classes\Dialogs;
 
+use con4gis\BookingBundle\Resources\contao\models\C4gBookingGroupTypesModel;
+use con4gis\GroupsBundle\Resources\contao\models\MemberGroupModel;
+use con4gis\GroupsBundle\Resources\contao\models\MemberModel;
 use con4gis\ProjectsBundle\Classes\Actions\C4GBrickActionType;
 use con4gis\ProjectsBundle\Classes\Buttons\C4GBrickButton;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickCommon;
