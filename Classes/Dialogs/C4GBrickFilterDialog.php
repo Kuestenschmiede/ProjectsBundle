@@ -11,7 +11,10 @@ namespace con4gis\ProjectsBundle\Classes\Dialogs;
 
 use con4gis\CoreBundle\Resources\contao\classes\C4GHTMLFactory;
 use con4gis\CoreBundle\Resources\contao\classes\C4GUtils;
+use con4gis\ProjectsBundle\Classes\Actions\C4GBrickActionType;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickConst;
+use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GDateField;
+use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GGeopickerField;
 
 class C4GBrickFilterDialog extends C4GBrickDialog
 {
