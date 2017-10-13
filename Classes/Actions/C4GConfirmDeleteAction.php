@@ -65,7 +65,7 @@ class C4GConfirmDeleteAction extends C4GBrickDialogAction
         if ($sendEmails) {
             $recipient = $sendEmails->getRecipient();
             $senderName = C4GBrickCommon::getNameForMember($memberId);
-            if (($viewType == C4GBrickViewType::MEMBERBOOKING) && ($GLOBALS['con4gis_booking_extension']['installed'])) {
+            if (($viewType == C4GBrickViewType::MEMBERBOOKING) && ($GLOBALS['con4gis']['booking']['installed'])) {
                 $senderName = C4GBrickCommon::getNameForMember($memberId).' ('.$dbValues->caption.')';
             }
 
@@ -93,7 +93,7 @@ class C4GConfirmDeleteAction extends C4GBrickDialogAction
         }
 
         //if a project was deleted we have to change the project booking count
-        if (($projectKey != '') && ($GLOBALS['con4gis_booking_extension']['installed'])) {
+        if (($projectKey != '') && ($GLOBALS['con4gis']['booking']['installed'])) {
             \c4g\projects\C4gBookingGroupsModel::checkProjectCount($groupId);
         }
 

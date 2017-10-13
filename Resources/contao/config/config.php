@@ -30,8 +30,8 @@ $GLOBALS['TL_API']['starboardTabService']      = 'C4GStarboardTabApi';
 
 $apiBaseUrl = 'src/con4gis/CoreBundle/Resources/contao/api/index.php';
 
-$GLOBALS['con4gis_projects_extension']['api']['editorTab']      = $apiBaseUrl . '/editorTabService';
-$GLOBALS['con4gis_projects_extension']['api']['starboardTab']      = $apiBaseUrl . '/starboardTabService';
+$GLOBALS['con4gis']['projects']['api']['editorTab']      = $apiBaseUrl . '/editorTabService';
+$GLOBALS['con4gis']['projects']['api']['starboardTab']      = $apiBaseUrl . '/starboardTabService';
 
 /**
  * Load Editor Plugin

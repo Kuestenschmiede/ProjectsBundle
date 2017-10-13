@@ -42,7 +42,7 @@ class C4GConfirmArchiveAction extends C4GBrickDialogAction
             $object->published = false;
             $object->save();
 
-            if (($viewType == C4GBrickViewType::MEMBERBOOKING) && ($GLOBALS['con4gis_booking_extension']['installed'])) {
+            if (($viewType == C4GBrickViewType::MEMBERBOOKING) && ($GLOBALS['con4gis']['booking']['installed'])) {
                 $group = MemberGroupModel::findByPk($groupId);
                 $group->cg_owner_id = null;
                 $group->save();
@@ -53,7 +53,7 @@ class C4GConfirmArchiveAction extends C4GBrickDialogAction
             if ($sendEMails) {
                 $recipient = $sendEMails->getRecipient();
                 $senderName = C4GBrickCommon::getNameForMember($memberId);
-                if (($viewType == C4GBrickViewType::MEMBERBOOKING) && ($GLOBALS['con4gis_booking_extension']['installed'])) {
+                if (($viewType == C4GBrickViewType::MEMBERBOOKING) && ($GLOBALS['con4gis']['booking']['installed'])) {
                     $senderName = C4GBrickCommon::getNameForMember($memberId).' ('.$object->caption.')';
                 }
 

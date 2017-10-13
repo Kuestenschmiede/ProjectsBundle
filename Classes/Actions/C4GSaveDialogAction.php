@@ -101,7 +101,7 @@ class C4GSaveDialogAction extends C4GBrickDialogAction
             if ($result['insertId']) {
 
                 //if a project was added we have to change the project booking count
-                if ((empty($dbValues)) && ($projectKey != '') && ($GLOBALS['con4gis_booking_extension']['installed'])) {
+                if ((empty($dbValues)) && ($projectKey != '') && ($GLOBALS['con4gis']['booking']['installed'])) {
                     C4gBookingGroupsModel::checkProjectCount($groupId);
                 }
                 if ($this->setParentIdAfterSave) {
@@ -111,7 +111,7 @@ class C4GSaveDialogAction extends C4GBrickDialogAction
                 $dialogId = $result['insertId'];
                 $dbValues = $brickDatabase->findByPk($dialogId);
                 \Session::getInstance()->set("c4g_brick_dialog_id", $dialogId);
-            } else if (($dialogId) && ($GLOBALS['con4gis_booking_extension']['installed'])) {
+            } else if (($dialogId) && ($GLOBALS['con4gis']['booking']['installed'])) {
                 C4gBookingGroupsModel::log($dbValues);
             }
         }
@@ -154,7 +154,7 @@ class C4GSaveDialogAction extends C4GBrickDialogAction
         if ($sendEMails) {
             $recipient = $sendEMails->getRecipient();
             $senderName = C4GBrickCommon::getNameForMember($memberId);
-            if (($viewType == C4GBrickViewType::MEMBERBOOKING) && ($GLOBALS['con4gis_booking_extension']['installed'])) {
+            if (($viewType == C4GBrickViewType::MEMBERBOOKING) && ($GLOBALS['con4gis']['booking']['installed'])) {
                 $senderName = C4GBrickCommon::getNameForMember($memberId).' ('.$dbValues->caption.')';
             }
 

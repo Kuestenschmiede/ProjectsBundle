@@ -568,8 +568,8 @@ class C4GBrickCommon
     public static function convert_coordinates_to_address($lat, $lon, $intProfileId, $database = null)
     {
         if ($database) {
-            if ($GLOBALS['con4gis_tracking_portal_extension']['installed'] == true) {
-                $address = C4gTrackingPortalPositionsModel::lookupCache($database, $lat, $lon, false);
+            if ($GLOBALS['con4gis']['trackingPortal']['installed'] == true) {
+                $address = \con4gis\TrackingPortalBundle\Resources\contao\models\C4gTrackingPortalPositionsModel::lookupCache($database, $lat, $lon, false);
                 if ($address != 'not cached') {
                     return $address;
                 }
