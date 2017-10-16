@@ -334,7 +334,9 @@ abstract class C4GBrickAction
             case C4GBrickActionType::ACTION_CANCELPARENTFILTER:
                 $action = new C4GCancelDialogAction($dialogParams, $listParams, $fieldList, $putVars, $brickDatabase);
                 $return = $action->run();
-                $module->getDialogChangeHandler()->clearSession($module->getBrickKey());
+                if ($module->getDialogChangeHandler()) {
+                    $module->getDialogChangeHandler()->clearSession($module->getBrickKey());
+                }
                 return $return;
             case C4GBrickActionType::ACTION_FREEZEDIALOG:
                 $action = new C4GFreezeDialogAction($dialogParams, $listParams, $fieldList, $putVars, $brickDatabase);
@@ -361,7 +363,7 @@ abstract class C4GBrickAction
                 $action = new C4GSaveDialogAction($dialogParams, $listParams, $fieldList, $putVars, $brickDatabase);
                 $action->setModule($module);
                 $return = $action->run();
-                if (!$dialogParams->isSaveWithoutClose()) {
+                if (!$dialogParams->isSaveWithoutClose() && $module->getDialogChangeHandler()) {
                     $module->getDialogChangeHandler()->clearSession($module->getBrickKey());
                 }
                 return $return;
@@ -369,7 +371,9 @@ abstract class C4GBrickAction
                 $action = new C4GSaveDialogAction($dialogParams, $listParams, $fieldList, $putVars, $brickDatabase);
                 $action->setAndNew(true);
                 $return = $action->run();
-                $module->getDialogChangeHandler()->clearSession($module->getBrickKey());
+                if ($module->getDialogChangeHandler()) {
+                    $module->getDialogChangeHandler()->clearSession($module->getBrickKey());
+                }
                 return $return;
             case C4GBrickActionType::ACTION_SAVEANDREDIRECTDIALOG:
                 $action = new C4GSaveDialogAction($dialogParams, $listParams, $fieldList, $putVars, $brickDatabase);
@@ -405,13 +409,17 @@ abstract class C4GBrickAction
                 if (C4GBrickView::isWithoutList($viewType) || ($id > 0)) {
                     $action = new C4GShowDialogAction($dialogParams, $listParams, $fieldList, $putVars, $brickDatabase);
                     $return = $action->run();
-                    $module->getDialogChangeHandler()->clearSession($module->getBrickKey());
+                    if ($module->getDialogChangeHandler()) {
+                        $module->getDialogChangeHandler()->clearSession($module->getBrickKey());
+                    }
                     return $return;
                     break;
                 } else {
                     $action = new C4GShowListAction($dialogParams, $listParams, $fieldList, $putVars, $brickDatabase);
                     $return = $action->run();
-                    $module->getDialogChangeHandler()->clearSession($module->getBrickKey());
+                    if ($module->getDialogChangeHandler()) {
+                        $module->getDialogChangeHandler()->clearSession($module->getBrickKey());
+                    }
                     return $return;
                     break;
                 }

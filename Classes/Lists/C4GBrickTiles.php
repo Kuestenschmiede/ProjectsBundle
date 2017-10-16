@@ -22,6 +22,7 @@ use con4gis\ProjectsBundle\Classes\Conditions\C4GBrickConditionType;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldType;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GSelectField;
 use con4gis\ProjectsBundle\Classes\Filter\C4GBrickFilterParams;
+use Contao\Database;
 
 ;
 
@@ -149,8 +150,21 @@ class C4GBrickTiles
         $result = '';
         foreach($fieldList as $field) {
             if ($field->isTileClass()) {
-                $fieldName = $field->getFieldName();
-                $result .= $values->$fieldName.' ';
+                if ($field->getTileClassTable() && $field->getTileClassField()) {
+                    // get dataset from other table
+                    $tablename = $field->getTileClassTable();
+                    $fieldName = $field->getFieldName();
+                    $otherFieldName = $field->getTileClassField();
+                    $db = Database::getInstance();
+                    $dbResult = $db->prepare("SELECT $otherFieldName FROM $tablename WHERE id = ?")
+                        ->execute($values->$fieldName)
+                        ->fetchAllAssoc();
+                    $dataset = $dbResult[0];
+                    $result .= $dataset[$otherFieldName] . ' ';
+                } else {
+                    $fieldName = $field->getFieldName();
+                    $result .= $values->$fieldName.' ';
+                }
             }
         }
 

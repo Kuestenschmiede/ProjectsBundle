@@ -30,8 +30,8 @@ $GLOBALS['TL_API']['starboardTabService']      = 'C4GStarboardTabApi';
 
 $apiBaseUrl = 'src/con4gis/CoreBundle/Resources/contao/api/index.php';
 
-$GLOBALS['con4gis_projects_extension']['api']['editorTab']      = $apiBaseUrl . '/editorTabService';
-$GLOBALS['con4gis_projects_extension']['api']['starboardTab']      = $apiBaseUrl . '/starboardTabService';
+$GLOBALS['con4gis']['projects']['api']['editorTab']      = $apiBaseUrl . '/editorTabService';
+$GLOBALS['con4gis']['projects']['api']['starboardTab']      = $apiBaseUrl . '/starboardTabService';
 
 /**
  * Load Editor Plugin
@@ -43,3 +43,8 @@ $GLOBALS['con4gis_projects_extension']['api']['starboardTab']      = $apiBaseUrl
  */
 $GLOBALS['TL_API']['c4g_brick_ajax'] = 'C4GBrickAjaxApi';
 
+/**
+ * MODELS
+ */
+$GLOBALS['TL_MODELS']['tl_c4g_projects'] = 'con4gis\ProjectsBundle\Classes\Models\C4gProjectsModel';
+$GLOBALS['TL_MODELS']['tl_c4g_projects_logbook'] = 'con4gis\ProjectsBundle\Classes\Models\C4gProjectsLogbookModel';

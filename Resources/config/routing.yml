@@ -6,4 +6,12 @@ con4gisProjectsBundle:
     requirements:
         module: '\d+'
         action: '.*'
-
+con4gis_get_address:
+    path: /con4gis/get_address/{profileId}/{lat}/{lon}
+    defaults:
+        _scope: frontend
+        _controller: "con4gisProjectsBundle:Ajax:getAddress"
+    requirements:
+        profileId: '\d+'
+        lat: '.*'
+        lon: '.*'

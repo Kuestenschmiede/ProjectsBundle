@@ -12,6 +12,8 @@
 
 namespace con4gis\ProjectsBundle\Classes\Actions;
 
+use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialog;
+use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
 use Doctrine\ORM\Mapping\Id;
 use con4gis\ProjectsBundle\Classes\Views\C4GBrickViewType;
 

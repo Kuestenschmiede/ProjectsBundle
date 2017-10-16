@@ -785,20 +785,19 @@ function C4GGeopickerAddress(profile_id)
         fd.append("Profile", profile_id);
         fd.append("REQUEST_TOKEN", c4g_rq);
 
-        xhr.onreadystatechange = function(){
+        xhr.onreadystatechange = function() {
             if (xhr.readyState==4 && xhr.status==200){
                 if (xhr.responseText != "") {
-                    document.getElementById("c4g_brick_geopicker_address").value = xhr.responseText;
+                    document.getElementById("c4g_brick_geopicker_address").value = JSON.parse(xhr.responseText);
                 } else {
                     document.getElementById("c4g_brick_geopicker_address").value = "Adresse nicht ermittelbar."; //ToDo Language
                 }
             }
-        }
-
-        xhr.open("POST", "bundles/con4gisprojects/php/c4gGetAddress.php", true);
+        };
+        var url = "/con4gis/get_address/" + profile_id + '/' + lat + '/' + lon;
+        xhr.open("GET", url, true);
         xhr.overrideMimeType("text/plain; charset=utf-8");
-
-        xhr.send(fd);
+        xhr.send();
     }
 }
 

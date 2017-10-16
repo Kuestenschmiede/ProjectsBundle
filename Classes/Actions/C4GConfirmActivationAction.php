@@ -12,6 +12,7 @@
 
 namespace con4gis\ProjectsBundle\Classes\Actions;
 
+use con4gis\BookingBundle\Resources\contao\models\C4gBookingGroupsModel;
 use con4gis\GroupsBundle\Resources\contao\models\MemberGroupModel;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickCommon;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialog;
@@ -19,7 +20,7 @@ use con4gis\ProjectsBundle\Classes\Views\C4GBrickViewType;
 
 class C4GConfirmActivationAction extends C4GBrickDialogAction
 {
-    private $module = null;
+    protected $module = null;
 
     public function run()
     {
@@ -43,18 +44,18 @@ class C4GConfirmActivationAction extends C4GBrickDialogAction
             $object->published = true;
             $object->save();
 
-            if (($viewType == C4GBrickViewType::MEMBERBOOKING) && ($GLOBALS['con4gis_booking_extension']['installed'])) {
+            if (($viewType == C4GBrickViewType::MEMBERBOOKING) && ($GLOBALS['con4gis']['booking']['installed'])) {
                 $group = MemberGroupModel::findByPk($groupId);
                 $group->cg_owner_id = $object->group_owner_id;
                 $group->save();
 
-                \c4g\projects\C4gBookingGroupsModel::log($object);
+                C4gBookingGroupsModel::log($object);
             }
 
             if ($sendEMails) {
                 $recipient = $sendEMails->getRecipient();
                 $senderName = C4GBrickCommon::getNameForMember($memberId);
-                if (($viewType == C4GBrickViewType::MEMBERBOOKING) && ($GLOBALS['con4gis_booking_extension']['installed'])) {
+                if (($viewType == C4GBrickViewType::MEMBERBOOKING) && ($GLOBALS['con4gis']['booking']['installed'])) {
                     $senderName = C4GBrickCommon::getNameForMember($memberId).' ('.$object->caption.')';
                 }
 

@@ -54,12 +54,12 @@ class C4GExportDialogAction extends C4GBrickDialogAction
                 $memberId);
 //            if ($result['insertId']) {
 //                //if a project was added we have to change the project booking count
-//                if ((empty($dbValues)) && ($this->projectKey != '') && ($GLOBALS['con4gis_booking_extension']['installed'])) {
+//                if ((empty($dbValues)) && ($this->projectKey != '') && ($GLOBALS['con4gis']['booking']['installed'])) {
 //                    \c4g\projects\C4gBookingGroupsModel::checkProjectCount($this->group_id);
 //                }
 //                $dialogId = $result['insertId'];
 //                $dbValues  = $model::findByPk($dialogId);
-//            } else if ( ($dialogId) && ($GLOBALS['con4gis_booking_extension']['installed'])) {
+//            } else if ( ($dialogId) && ($GLOBALS['con4gis']['booking']['installed'])) {
 //                \c4g\projects\C4gBookingGroupsModel::log($dbValues);
 //            }
         }

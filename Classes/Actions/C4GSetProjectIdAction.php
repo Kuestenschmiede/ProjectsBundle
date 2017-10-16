@@ -12,6 +12,8 @@
 
 namespace con4gis\ProjectsBundle\Classes\Actions;
 
+use con4gis\ProjectsBundle\Classes\Models\C4gProjectsModel;
+
 class C4GSetProjectIdAction extends C4GBrickDialogAction
 {
     public function run()

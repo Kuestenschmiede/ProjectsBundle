@@ -9,6 +9,10 @@
 namespace con4gis\ProjectsBundle\Classes\Dialogs;
 
 
+use con4gis\ProjectsBundle\Classes\Actions\C4GBrickActionType;
+use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GSelectField;
+use con4gis\ProjectsBundle\Classes\Models\C4gProjectsModel;
+
 class C4GBrickSelectProjectDialog extends C4GBrickDialog
 {
 

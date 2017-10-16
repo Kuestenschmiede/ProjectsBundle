@@ -14,6 +14,7 @@ namespace con4gis\ProjectsBundle\Classes\Common;
 
 use con4gis\MapsBundle\Resources\contao\models\C4gMapProfilesModel;
 use con4gis\MapsBundle\Resources\contao\models\C4gMapsModel;
+use con4gis\MapsBundle\Resources\contao\modules\api\ReverseNominatimApi;
 use con4gis\ProjectsBundle\Classes\models\C4gProjectsLogbookModel;
 use con4gis\ProjectsBundle\Classes\Models\C4gProjectsModel;
 use Symfony\Component\Config\Definition\Exception\Exception;
@@ -567,8 +568,8 @@ class C4GBrickCommon
     public static function convert_coordinates_to_address($lat, $lon, $intProfileId, $database = null)
     {
         if ($database) {
-            if ($GLOBALS['con4gis_tracking_portal_extension']['installed'] == true) {
-                $address = C4gTrackingPortalPositionsModel::lookupCache($database, $lat, $lon, false);
+            if ($GLOBALS['con4gis']['trackingPortal']['installed'] == true) {
+                $address = \con4gis\TrackingPortalBundle\Resources\contao\models\C4gTrackingPortalPositionsModel::lookupCache($database, $lat, $lon, false);
                 if ($address != 'not cached') {
                     return $address;
                 }
@@ -702,7 +703,7 @@ class C4GBrickCommon
      * @param $link
      * @return string
      */
-    public function getPopupWindowString($link)
+    public static function getPopupWindowString($link)
     {
         $result = '';
         if ($link) {
