@@ -89,6 +89,7 @@ class C4GBrickDialogParams
     private $beforeSaveAction = null; // see C4GBeforeDialogSave
     private $additionalHeadText = '';
     private $isWithEmptyParentOption = false;
+    private $redirects = array();//C4GBrickRedirect
 
     /**
      * C4GBrickDialogParams constructor.
@@ -1349,5 +1350,37 @@ class C4GBrickDialogParams
     public function setParentCaptionCallback(array $parentCaptionCallback)
     {
         $this->parentCaptionCallback = $parentCaptionCallback;
+    }
+
+    /**
+     * @return array
+     */
+    public function getRedirects(): array
+    {
+        return $this->redirects;
+    }
+
+    /**
+     * @param array $redirects
+     */
+    public function setRedirects(array $redirects)
+    {
+        $this->redirects = $redirects;
+    }
+
+    public function addRedirect($newRedirect) {
+        if ($newRedirect) {
+            $addRedirect = true;
+            foreach ($this->redirects as $redirect) {
+                if ($newRedirect->getType() == $redirect->getType()) {
+                    $addRedirect = false;
+                    break;
+                }
+            }
+
+            if ($addRedirect) {
+                $this->redirects[] = $newRedirect;
+            }
+        }
     }
 }

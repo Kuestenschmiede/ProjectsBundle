@@ -23,6 +23,7 @@ class C4GBrickActionType
     const IDENTIFIER_PROJECT = 'brickproject';
     const IDENTIFIER_MESSAGE = 'brickmessage';
     const IDENTIFIER_SELECT = 'brickselect';
+    const IDENTIFIER_REDIRECT = 'brickredirect';
     const IDENTIFIER_FILTER = 'brickfilter';
     const IDENTIFIER_PERMALINK = 'permalink';
 
@@ -48,6 +49,7 @@ class C4GBrickActionType
     const ACTION_POPUP  = 'popup';
     const ACTION_REDIRECT = 'redirect';
     const ACTION_REDIRECTBACK = 'redirectback';
+    const ACTION_REDIRECTDIALOGACTION = 'redirectdialog';
     const ACTION_SHOWANIMATION = 'animation';
     const ACTION_BUTTONCLICK   = 'buttonclick';
     const ACTION_RELOAD  = 'reload';

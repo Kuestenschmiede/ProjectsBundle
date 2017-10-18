@@ -501,6 +501,9 @@ abstract class C4GBrickAction
             case C4GBrickActionType::ACTION_REDIRECTBACK:
                 $action = new C4GRedirectBackAction($dialogParams, $listParams, $fieldList, $putVars, $brickDatabase);
                 return $action->run();
+            case C4GBrickActionType::ACTION_REDIRECTDIALOGACTION:
+                $action = new C4GRedirectDialogAction($dialogParams, $listParams, $fieldList, $putVars, $brickDatabase);
+                return $action->run();
             case C4GBrickActionType::ACTION_RELOAD:
                 $action = new C4GReloadAction($dialogParams, $listParams, $fieldList, $putVars, $brickDatabase);
                 return $action->run();
