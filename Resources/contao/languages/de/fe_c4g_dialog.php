@@ -123,7 +123,7 @@ $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['SELECT_GROUP_DIALOG_CONFIRM_BUTTON'] = 'Au
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['SELECT_GROUP_DIALOG_CANCEL_BUTTON'] = 'Abbruch';
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['SELECT_GROUP_DIALOG_CONFIRM_QUESTION'] = 'Für welche Gruppen nehmen Sie Einstellungen vor?';
 
-$GLOBALS['TL_LANG']['FE_C4G_DIALOG']['SELECT_GROUP_DIALOG_PERMISSION_DENIED'] = 'Sie verfügen nicht über die erfoderlichen Berechtigungen';
+$GLOBALS['TL_LANG']['FE_C4G_DIALOG']['SELECT_GROUP_DIALOG_PERMISSION_DENIED'] = 'Sie verfügen nicht über die erforderlichen Berechtigungen.';
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['SELECT_GROUP_DIALOG_PERMISSION_DENIED_TITLE'] = 'Zugriff verweigert';
 
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['SELECT_PROJECT'] = 'Projektauswahl';

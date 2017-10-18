@@ -17,7 +17,7 @@ $GLOBALS['TL_LANG']['FE_C4G_LIST']['USERMESSAGE_NOT_LOGGED_IN'] = 'Bitte melden 
 $GLOBALS['TL_LANG']['FE_C4G_LIST']['USERMESSAGE_NOT_LOGGED_IN_TITLE'] = 'Anmeldung erforderlich';
 $GLOBALS['TL_LANG']['FE_C4G_LIST']['USERMESSAGE_FIRST_CREATE_PROJECT'] = 'Bitte erzeugen Sie zuerst ein Projekt.';
 $GLOBALS['TL_LANG']['FE_C4G_LIST']['USERMESSAGE_FIRST_CREATE_PARENT'] = 'Bitte erzeugen Sie zuerst ein(en) ';
-$GLOBALS['TL_LANG']['FE_C4G_LIST']['USERMESSAGE_PERMISSION_DENIED'] = 'Sie verfügen nicht über die erfoderlichen Berechtigungen';
+$GLOBALS['TL_LANG']['FE_C4G_LIST']['USERMESSAGE_PERMISSION_DENIED'] = 'Sie verfügen nicht über die erforderlichen Berechtigungen.';
 $GLOBALS['TL_LANG']['FE_C4G_LIST']['USERMESSAGE_PERMISSION_DENIED_TITLE'] = 'Zugriff verweigert';
 
 
