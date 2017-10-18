@@ -10,8 +10,10 @@ namespace con4gis\ProjectsBundle\Classes\Dialogs;
 
 
 use con4gis\ProjectsBundle\Classes\Actions\C4GBrickActionType;
+use con4gis\ProjectsBundle\Classes\Common\C4GBrickConst;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GSelectField;
 use con4gis\ProjectsBundle\Classes\Models\C4gProjectsModel;
+use con4gis\ProjectsBundle\Classes\Actions\C4GShowRedirectDialogAction;
 
 class C4GBrickSelectProjectDialog extends C4GBrickDialog
 {
@@ -40,9 +42,24 @@ class C4GBrickSelectProjectDialog extends C4GBrickDialog
         $projects = C4gProjectsModel::getProjectListForBrick($memberId, $groupId, $projectKey);
 
         if (!$projects) {
-            return array(
-                'usermessage' => $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['SELECT_PROJECT_NO_PROJECT']
-            );
+            //$dialogParams->setRedirectDialogMessage($GLOBALS['TL_LANG']['FE_C4G_DIALOG']['SELECT_PROJECT_NO_PROJECT']);
+            $redirects = $dialogParams->getRedirects();
+            if ($redirects) {
+                foreach($redirects as $redirect) {
+                    $redirect->setActive($redirect->getType() == C4GBrickConst::REDIRECT_PROJECT);
+                }
+
+                $action = new C4GShowRedirectDialogAction(
+                    $dialogParams,
+                    $this->listParams,
+                    $this->fieldList,
+                    $this->putVars,
+                    $this->brickDatabase
+                );
+                return $action->run();
+            } else {
+                return array('usermessage' => $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['SELECT_PROJECT_NO_PROJECT']);
+            }
         }
 
         foreach($projects as $project) {

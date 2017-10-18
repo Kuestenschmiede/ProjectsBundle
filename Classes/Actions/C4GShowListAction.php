@@ -21,6 +21,7 @@ use con4gis\ProjectsBundle\Classes\Lists\C4GBrickRenderMode;
 use con4gis\ProjectsBundle\Classes\Lists\C4GBrickTiles;
 use con4gis\ProjectsBundle\Classes\Views\C4GBrickView;
 use con4gis\ProjectsBundle\Classes\Views\C4GBrickViewType;
+use con4gis\ProjectsBundle\Classes\Actions\C4GShowRedirectDialogAction;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use con4gis\CoreBundle\Resources\contao\classes\C4GHTMLFactory;
 
@@ -101,9 +102,23 @@ class C4GShowListAction extends C4GBrickDialogAction
                     \Session::getInstance()->set("c4g_brick_project_id", '');
                     \Session::getInstance()->set("c4g_brick_project_uuid", '');
 
-                    return array(
-                        'usermessage' => $GLOBALS['TL_LANG']['FE_C4G_LIST']['USERMESSAGE_FIRST_CREATE_PROJECT']
-                    );
+                    $redirects = $dialogParams->getRedirects();
+                    if ($redirects) {
+                        foreach($redirects as $redirect) {
+                            $redirect->setActive($redirect->getType() == C4GBrickConst::REDIRECT_PROJECT);
+                        }
+
+                        $action = new C4GShowRedirectDialogAction(
+                            $dialogParams,
+                            $listParams,
+                            $fieldList,
+                            $putVars,
+                            $brickDatabase
+                        );
+                        return $action->run();
+                    } else {
+                        return array('usermessage' => $GLOBALS['TL_LANG']['FE_C4G_LIST']['USERMESSAGE_FIRST_CREATE_PROJECT']);
+                    }
                 }
             }
 

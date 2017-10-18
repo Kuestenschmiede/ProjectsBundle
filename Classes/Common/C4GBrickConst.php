@@ -15,9 +15,10 @@ class C4GBrickConst {
     //Classes
     const CLASS_DIALOG = 'c4g_brick_dialog';
     const CLASS_TILES  = 'c4g_brick_tiles';
-    const CLASS_MESSAGE_DIALOG = 'c4g_brick_message_dialog';
-    const CLASS_SELECT_DIALOG   = 'c4g_brick_select_dialog';
-    const CLASS_FILTER_DIALOG = 'c4g_brick_filter_dialog';
+    const CLASS_MESSAGE_DIALOG   = 'c4g_brick_message_dialog';
+    const CLASS_SELECT_DIALOG    = 'c4g_brick_select_dialog';
+    const CLASS_REDIRECT_DIALOG  = 'c4g_brick_redirect_dialog';
+    const CLASS_FILTER_DIALOG    = 'c4g_brick_filter_dialog';
 
     //PATHES
     const PATH_BRICK_DATA        = 'files/c4g_brick_data';
@@ -57,8 +58,13 @@ class C4GBrickConst {
     const BUTTON_REDIRECT        = 'REDIRECT';
     const BUTTON_REDIRECT_BACK   = 'REDIRECTBACK';
     const BUTTON_CLICK           = 'CLICK';
-    const BUTTON_NEXT                   = 'NEXT';
+    const BUTTON_NEXT            = 'NEXT';
 
+    //REDIRECT TYPES
+    const REDIRECT_DEFAULT       = 'DEFAULT';
+    const REDIRECT_PROJECT       = 'PROJECT';
+    const REDIRECT_GROUP         = 'GROUP';
+    const REDIRECT_PARENT        = 'PARENT';
 
     //OVERLAY TYPES
     const OVERLAY_DIALOG         = 'OVERLAY_DIALOG';
