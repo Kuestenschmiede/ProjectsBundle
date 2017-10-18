@@ -22,12 +22,16 @@ class C4GShowRedirectDialogAction extends C4GBrickDialogAction
         $redirects = $dialogParams->getRedirects();
         $redirectDialogMessage = '';
         $redirectDialogTitle = '';
+        $redirectDialogSite = '';
+        $redirectWithDialog = false;
 
         if ($redirects) {
             foreach ($redirects as $redirect) {
                 if ($redirect->isActive()) {
                     $redirectDialogTitle   = $redirect->getTitle();
                     $redirectDialogMessage = $redirect->getMessage();
+                    $redirectDialogSite    = $redirect->getSite();
+                    //$redirectWithDialog    = $redirect->isShowDialog();
                     break;
                 }
             }
@@ -37,14 +41,29 @@ class C4GShowRedirectDialogAction extends C4GBrickDialogAction
             $redirectDialogTitle = $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['MESSAGE_DIALOG_REDIRECT_TITLE'];
         }
 
-        return C4GBrickDialog::showC4GMessageDialog(
-            $dialogParams->getId(),
-            $redirectDialogTitle,
-            $redirectDialogMessage,
-            C4GBrickActionType::ACTION_REDIRECTDIALOGACTION,
-            $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['MESSAGE_DIALOG_REDIRECT_OK'],
-            C4GBrickActionType::ACTION_CANCELMESSAGE,
-            $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['MESSAGE_DIALOG_REDIRECT_CANCEL'],
-            $dlgValues);
+        if ($redirectWithDialog) {
+
+            return C4GBrickDialog::showC4GMessageDialog(
+                $dialogParams->getId(),
+                $redirectDialogTitle,
+                $redirectDialogMessage,
+                C4GBrickActionType::ACTION_REDIRECTDIALOGACTION,
+                $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['MESSAGE_DIALOG_REDIRECT_OK'],
+                C4GBrickActionType::ACTION_CANCELMESSAGE,
+                $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['MESSAGE_DIALOG_REDIRECT_CANCEL'],
+                $dlgValues);
+
+        } else {
+            if ( $redirectDialogSite && (($jumpTo = \PageModel::findByPk($redirectDialogSite)) !== null)) {
+                $return['title'] = $redirectDialogTitle;
+                $return['usermessage'] = $redirectDialogMessage;
+                $return['jump_after_message'] = $jumpTo->getFrontendUrl();
+            } else {
+                $return['title'] = $redirectDialogTitle;
+                $return['usermessage'] = $redirectDialogMessage;
+            }
+
+            return $return;
+        }
     }
 }
