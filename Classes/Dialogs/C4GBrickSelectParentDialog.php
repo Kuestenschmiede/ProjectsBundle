@@ -8,6 +8,8 @@
 namespace con4gis\ProjectsBundle\Classes\Dialogs;
 
 use con4gis\ProjectsBundle\Classes\Actions\C4GBrickActionType;
+use con4gis\ProjectsBundle\Classes\Actions\C4GShowRedirectDialogAction;
+use con4gis\ProjectsBundle\Classes\Common\C4GBrickConst;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GSelectField;
 use Contao\System;
 use Eden\CustomerBundle\classes\contao\modules\EdenCustomerAddresses;
@@ -63,9 +65,23 @@ class C4GBrickSelectParentDialog extends C4GBrickDialog
         }
 
         if (!$items) {
-            return array(
-                'usermessage' => $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['SELECT_PARENT_DIALOG_ERROR'].$parentCaption.'.'
-            );
+            $redirects = $dialogParams->getRedirects();
+            if ($redirects) {
+                foreach($redirects as $redirect) {
+                    $redirect->setActive($redirect->getType() == C4GBrickConst::REDIRECT_PARENT);
+                }
+
+                $action = new C4GShowRedirectDialogAction(
+                    $dialogParams,
+                    $this->listParams,
+                    $this->fieldList,
+                    $this->putVars,
+                    $this->brickDatabase
+                );
+                return $action->run();
+            } else {
+                return array('usermessage' => $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['SELECT_PARENT_DIALOG_ERROR'].$parentCaption.'.');
+            }
         }
         if ($parentCaptionCallback && is_array($parentCaptionCallback)) {
             // call module function for all items
