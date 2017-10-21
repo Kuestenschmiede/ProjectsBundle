@@ -17,7 +17,8 @@
     }
   ],
   "support": {
-    "email": "support@con4gis.org"
+    "email": "support@con4gis.org",
+    "issues": "https://github.com/Kuestenschmiede/ProjectsBundle/issues"
   },
   "require": {
     "con4gis/core": "^2.0"
@@ -39,9 +40,6 @@
       "Resources/contao/languages/",
       "Resources/contao/templates/"
     ]
-  },
-  "support": {
-    "issues": "https://github.com/Kuestenschmiede/ProjectsBundle/issues"
   },
   "config": {
     "preferred-install": "dist"
