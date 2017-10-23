@@ -6,6 +6,14 @@ con4gisProjectsBundle:
     requirements:
         module: '\d+'
         action: '.*'
+editortab_service:
+    path: /con4gis/editorTabService/{id}
+    defaults:
+        _scope: frontend
+        _controller: "con4gisProjectsBundle:Ajax:editor"
+    requirements:
+        module: '\d+'
+
 con4gis_get_address:
     path: /con4gis/get_address/{profileId}/{lat}/{lon}
     defaults:

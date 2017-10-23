@@ -27,7 +27,7 @@ this.c4g.maps.plugins = this.c4g.maps.plugins || {};
   plugin.elements = {};
   plugin.elementsLoaded = false;
   plugin.loadedCounters = {};
-  apiBaseUrl = 'src/con4gis/CoreBundle/Resources/contao/api/index.php';
+  apiBaseUrl = 'con4gis';
   editorTabApiUrl = apiBaseUrl + '/editorTabService';
 
   /**
