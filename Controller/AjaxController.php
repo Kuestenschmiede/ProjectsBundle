@@ -88,12 +88,6 @@ class AjaxController extends Controller
                 // get is the initial request of tab configuration
                 $data = $api->createTabs($id);
                 break;
-            case 'POST':
-                // a new element has been drawn onto the map
-                // requires a response to complete the creation process
-                $data = $api->onElementCreation($_POST);
-//                echo json_encode($_POST);
-                break;
             case 'PUT':
                 // an existing element has been modified
                 // requires a response to complete the creation process
@@ -108,6 +102,13 @@ class AjaxController extends Controller
                 $data = array();
                 break;
         }
+        return JsonResponse::create($data);
+    }
+
+    public function editorPostAction(Request $request)
+    {
+        $api = new C4GEditorTabApi();
+        $data = $api->onElementCreation($request->request->all());
         return JsonResponse::create($data);
     }
 }
