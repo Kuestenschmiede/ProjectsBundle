@@ -12,6 +12,7 @@
 
 namespace con4gis\ProjectsBundle\Classes\Actions;
 
+use con4gis\BookingBundle\Resources\contao\models\C4gBookingGroupsModel;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickCommon;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickConst;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialog;
