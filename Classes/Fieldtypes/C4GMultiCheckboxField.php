@@ -23,6 +23,7 @@ use con4gis\ProjectsBundle\Classes\Views\C4GBrickViewType;
 class C4GMultiCheckboxField extends C4GBrickField
 {
     private $modernStyle = false;
+    private $serializeResult = true;
 
     public function __construct()
     {
@@ -53,7 +54,11 @@ class C4GMultiCheckboxField extends C4GBrickField
 
         $values = array();
         if ($value) {
-            $tmpArray = unserialize(html_entity_decode($value));
+            if ($this->serializeResult) {
+                $tmpArray = unserialize(html_entity_decode($value));
+            } else {
+                $tmpArray = $value;
+            }
             if ($tmpArray) {
                 foreach ($tmpArray as $tmpKey => $tmpValue) {
                     $values[$tmpValue] = $tmpKey;
@@ -255,7 +260,11 @@ class C4GMultiCheckboxField extends C4GBrickField
         }
         $fieldData = '';
         if(sizeof($valueArr) > 0) {
-            $fieldData = serialize($valueArr);
+            if ($this->serializeResult) {
+                $fieldData = serialize($valueArr);
+            } else {
+                $fieldData = $valueArr;
+            }
         }
         return $fieldData;
     }
@@ -284,6 +293,22 @@ class C4GMultiCheckboxField extends C4GBrickField
     public function setModernStyle($modernStyle)
     {
         $this->modernStyle = $modernStyle;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isSerialize(): bool
+    {
+        return $this->serializeResult;
+    }
+
+    /**
+     * @param bool $serialize
+     */
+    public function setSerialize(bool $serializeResult)
+    {
+        $this->serializeResult = $serializeResult;
     }
 
 }

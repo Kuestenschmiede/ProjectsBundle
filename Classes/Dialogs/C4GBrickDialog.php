@@ -1139,7 +1139,7 @@ class C4GBrickDialog
 
                 if ($fieldData !== NULL) {
                     $set[$fieldName] = $fieldData;
-                    if (!($field instanceof C4GFileField)) {
+                    if (!($field instanceof C4GFileField) && !($field instanceof C4GMultiCheckboxField)) {
                         $set[$fieldName] = html_entity_decode(C4GUtils::secure_ugc($fieldData));
                     }
                 }
