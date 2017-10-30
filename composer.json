@@ -16,9 +16,6 @@
       "role": "Developer"
     }
   ],
-  "support": {
-    "email": "support@con4gis.org"
-  },
   "require": {
     "con4gis/core": "^2.0"
   },
@@ -41,7 +38,8 @@
     ]
   },
   "support": {
-    "issues": "https://github.com/Kuestenschmiede/ProjectsBundle/issues"
+    "issues": "https://github.com/Kuestenschmiede/ProjectsBundle/issues",
+    "email": "support@con4gis.org"
   },
   "config": {
     "preferred-install": "dist"
