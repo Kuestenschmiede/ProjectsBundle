@@ -22,13 +22,7 @@ $GLOBALS['con4gis']['projects']['installed'] = true;
  */
 $GLOBALS['c4g_locationtypes'][] = \con4gis\ProjectsBundle\Classes\Maps\C4GProjectsFrontend::STARBOARD_TAB;
 
-/**
- * REST-API
- */
-$GLOBALS['TL_API']['editorTabService']      = 'C4GEditorTabApi';
-$GLOBALS['TL_API']['starboardTabService']      = 'C4GStarboardTabApi';
-
-$apiBaseUrl = 'src/con4gis/CoreBundle/Resources/contao/api/index.php';
+$apiBaseUrl = 'con4gis';
 
 $GLOBALS['con4gis']['projects']['api']['editorTab']      = $apiBaseUrl . '/editorTabService';
 $GLOBALS['con4gis']['projects']['api']['starboardTab']      = $apiBaseUrl . '/starboardTabService';
@@ -36,7 +30,7 @@ $GLOBALS['con4gis']['projects']['api']['starboardTab']      = $apiBaseUrl . '/st
 /**
  * Load Editor Plugin
  */
-//$GLOBALS['TL_HOOKS']['C4gMapsLoadPlugins']['projects'] = array('C4GCustomEditorTabs','load');
+$GLOBALS['TL_HOOKS']['C4gMapsLoadPlugins']['projects'] = array('con4gis\ProjectsBundle\Classes\Maps\C4GCustomEditorTabs','load');
 
 /**
  * API MODULES

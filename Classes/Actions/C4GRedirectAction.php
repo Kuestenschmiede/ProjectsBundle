@@ -16,6 +16,7 @@ class C4GRedirectAction extends C4GBrickDialogAction
 {
     private $redirectWithAction = '';
     private $setParentIdAfterSave = false;
+    private $setSessionIdAfterInsert = '';
     private $redirectSite = '';
 
     public function run()
@@ -31,6 +32,9 @@ class C4GRedirectAction extends C4GBrickDialogAction
                 $action = new C4GSaveDialogAction($dialogParams, $this->getListParams(), $this->getFieldList(), $this->putVars, $this->getBrickDatabase());
                 if ($this->setParentIdAfterSave) {
                     $action->setSetParentIdAfterSave(true);
+                }
+                if ($this->setSessionIdAfterInsert) {
+                    $action->setSetSessionIdAfterInsert($this->setSessionIdAfterInsert);
                 }
                 $action->setModule($this->getModule());
                 $return = $action->run();
@@ -102,6 +106,22 @@ class C4GRedirectAction extends C4GBrickDialogAction
     public function setRedirectSite($redirectSite)
     {
         $this->redirectSite = $redirectSite;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSetSessionIdAfterInsert(): string
+    {
+        return $this->setSessionIdAfterInsert;
+    }
+
+    /**
+     * @param string $setSessionIdAfterInsert
+     */
+    public function setSetSessionIdAfterInsert(string $setSessionIdAfterInsert)
+    {
+        $this->setSessionIdAfterInsert = $setSessionIdAfterInsert;
     }
 
 }

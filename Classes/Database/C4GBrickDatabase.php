@@ -42,7 +42,7 @@ class C4GBrickDatabase
  * @param $dataset
  * @return array
  */
-    private function entitiesToContao($dataset){
+    private function entitiesToContao($dataset) {
         $arrModels = array();
 
         $serializer = new C4GBrickEntitySerializer($this->entityManager);
@@ -175,6 +175,11 @@ class C4GBrickDatabase
         } else {
             $tableName = $this->params->getTableName();
             $database = $this->params->getDatabase();
+            foreach ($set as $key => $value) {
+                if (!$database->fieldExists($key, $tableName)) {
+                    unset($set[$key]);
+                }
+            }
             $objInsertStmt = $database->prepare("INSERT INTO $tableName %s")
                 ->set($set)
                 ->execute();
@@ -187,7 +192,6 @@ class C4GBrickDatabase
             $result['insertId'] = $objInsertStmt->insertId;
             return $result;
         }
-
     }
 
     public function update($id, $set, $id_fieldName = 'id') {

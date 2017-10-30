@@ -969,7 +969,7 @@ function checkC4GTab() {
                 }
 
                 //ToDo minValue optimization
-                if (isVisible > 7) {
+                if (isVisible > 3) {
                     hide = false;
                 }
             }
@@ -982,7 +982,6 @@ function checkC4GTab() {
 
         }
 
-        // TODO hier liegt das Problem mit den verschwindenen Tabs, JS debugging!
         for(i=0; i<=hideElements.length; i++)
         {
             jQuery(hideElements[i]).hide();

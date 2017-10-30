@@ -27,7 +27,7 @@ this.c4g.maps.plugins = this.c4g.maps.plugins || {};
   plugin.elements = {};
   plugin.elementsLoaded = false;
   plugin.loadedCounters = {};
-  apiBaseUrl = 'src/con4gis/CoreBundle/Resources/contao/api/index.php';
+  apiBaseUrl = 'con4gis';
   editorTabApiUrl = apiBaseUrl + '/editorTabService';
 
   /**
@@ -163,12 +163,16 @@ this.c4g.maps.plugins = this.c4g.maps.plugins || {};
           updatedLayer,
           updates,
           setPopup = false,
-          label;
+        updatedSettings = false,
+        updatedUrl = false,
+          label,
+        self = this;
 
       for (i = 0; i < layerUpdate.length; i++) {
         if (layerUpdate[i].layer && layerUpdate[i].updatedProperties) {
           updatedLayer = layerUpdate[i].layer;
           updates = layerUpdate[i].updatedProperties;
+          layer.id = updatedLayer.id;
           for (j = 0; j < updates.length; j++) {
             // check the type of the layer update
             // this switch statement has to be extended if more than the current options should be updated
@@ -194,6 +198,7 @@ this.c4g.maps.plugins = this.c4g.maps.plugins || {};
                 break;
               case 'settings':
                 layer.content[0].settings = updatedLayer.content[0].settings;
+                updatedSettings = true;
                 break;
               case 'label':
                 label = updatedLayer.content[0].data.properties.label;
@@ -224,9 +229,56 @@ this.c4g.maps.plugins = this.c4g.maps.plugins || {};
                   });
                 });
                 break;
+              case "url":
+                layer.content[0].data.url = updatedLayer.content[0].data.url;
+                updatedUrl = true;
+                break;
               default:
                 // do nothing
             }
+          }
+          if (updatedSettings && updatedUrl && layer.content[0].settings.refresh) {
+            var contentData = layer.content[0];
+            layer.vectorLayer.getLayers().forEach(function(element, index, array) {
+              var vectorSource = element.getSource();
+              vectorSource.set('refreshInterval', contentData.settings.interval);
+              vectorSource.set('refreshFunction', function () {
+                $.ajax({
+                  url: contentData.data.url,
+                  success: function (data) {
+                    if (data.stationResponse) {
+                      // update of stations
+                      $.each(data.features, function (index, featureData) {
+                        if (featureData.type && featureData.type === "Feature") {
+                          var feature = (new ol.format[contentData.format]()).readFeature(featureData, {
+                            dataProjection: 'EPSG:4326',
+                            featureProjection: 'EPSG:3857'
+                          });
+                          var popupContent = featureData.properties.popup;
+                          layer.vectorLayer.getLayers().forEach(function(element, index, array) {
+                            var style = c4g.maps.locationStyles[featureData.properties.styleId].style;
+                            element.setStyle(style);
+                            element.getSource().forEachFeature(function(nestedFeature) {
+                              nestedFeature.set('popup', popupContent);
+                              nestedFeature.setStyle(style);
+                            });
+                          });
+                          contentData.locationStyle = featureData.properties.styleId;
+                          feature.setStyle(c4g.maps.locationStyles[featureData.properties.styleId].style);
+                          plugin.editor.proxy.hideLayer(layer.id);
+                          plugin.editor.proxy.showLayer(layer.id);
+                        }
+                      });
+                    }
+                  }
+                });
+              });
+              plugin.editor.proxy.requestFunctions['request_' + layer.id] = {
+                'function': vectorSource.get('refreshFunction'),
+                'interval': contentData.settings.interval
+              };
+              plugin.editor.proxy.showLayer(layer.id);
+            });
           }
         }
       }
@@ -235,7 +287,6 @@ this.c4g.maps.plugins = this.c4g.maps.plugins || {};
         c4g.maps.hook.proxy_fillPopup.push(function(object) {
           var objLayer,
               currentLayer;
-
           // find layer in c4g.maps.layers for the clicked feature
           for (var key in c4g.maps.layers) {
             if (c4g.maps.layers.hasOwnProperty(key)) {

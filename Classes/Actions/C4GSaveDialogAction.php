@@ -12,6 +12,7 @@
 
 namespace con4gis\ProjectsBundle\Classes\Actions;
 
+use con4gis\BookingBundle\Resources\contao\models\C4gBookingGroupsModel;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickCommon;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickConst;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialog;
@@ -28,6 +29,7 @@ class C4GSaveDialogAction extends C4GBrickDialogAction
     private $withRedirect = false;
     private $andNew = false;
     private $setParentIdAfterSave = false;
+    private $setSessionIdAfterInsert = "";
 
     public function run()
     {
@@ -99,7 +101,9 @@ class C4GSaveDialogAction extends C4GBrickDialogAction
                 $dlgValues, $brickDatabase, $dbValues, $dialogParams, $memberId);
 
             if ($result['insertId']) {
-
+                if ($this->setSessionIdAfterInsert) {
+                    \Session::getInstance()->set($this->setSessionIdAfterInsert, $result['insertId']);
+                }
                 //if a project was added we have to change the project booking count
                 if ((empty($dbValues)) && ($projectKey != '') && ($GLOBALS['con4gis']['booking']['installed'])) {
                     C4gBookingGroupsModel::checkProjectCount($groupId);
@@ -295,6 +299,22 @@ class C4GSaveDialogAction extends C4GBrickDialogAction
     public function setSetParentIdAfterSave($setParentIdAfterSave)
     {
         $this->setParentIdAfterSave = $setParentIdAfterSave;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSetSessionIdAfterInsert(): string
+    {
+        return $this->setSessionIdAfterInsert;
+    }
+
+    /**
+     * @param string $setSessionIdAfterInsert
+     */
+    public function setSetSessionIdAfterInsert(string $setSessionIdAfterInsert)
+    {
+        $this->setSessionIdAfterInsert = $setSessionIdAfterInsert;
     }
 
 }

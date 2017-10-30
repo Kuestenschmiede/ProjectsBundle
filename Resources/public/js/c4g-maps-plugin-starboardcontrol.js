@@ -200,12 +200,7 @@ this.c4g.plugin = this.c4g.plugin || {};
       var layer,
           newId,
           newName,
-          listItem,
-          entry,
-          item,
-          uid,
-          $entry,
-          handleEntryClick,
+          vectorSource,
           self,
           parent,
           vectorLayer,
@@ -243,7 +238,8 @@ this.c4g.plugin = this.c4g.plugin || {};
       // add vector layer
       feature.setStyle(c4g.maps.locationStyles[feature.get('styleId')].style);
       feature.set('tooltip', newName);
-      vectorLayer = this.plugin.functions.getVectorLayer(new ol.source.Vector({features: [feature]}), feature.getStyle());
+      vectorSource = new ol.source.Vector({features: [feature]});
+      vectorLayer = this.plugin.functions.getVectorLayer(vectorSource, feature.getStyle());
       layerGroup = new ol.layer.Group({layers: [vectorLayer]});
       layer.vectorLayer = layerGroup;
       // add new layer to existing data structures
@@ -254,46 +250,6 @@ this.c4g.plugin = this.c4g.plugin || {};
       parent.childsCount++;
       parent.hasChilds = true;
       this.plugin.editor.proxy.layerIds.push(newId);
-      // create on/off switcher
-      //handleEntryClick = function(event) {
-      //  var itemUid;
-      //
-      //  event.preventDefault();
-      //  // "this" is the event sending entry
-      //  itemUid = $(this).data('uid');
-      //  if (self.plugin.editor.proxy.activeLayerIds[itemUid]) {
-      //    // hide layer
-      //    $(this).removeClass(c4g.maps.constant.css.ACTIVE);
-      //    $(this).addClass(c4g.maps.constant.css.INACTIVE);
-      //    self.starboardtab.hideLayer(itemUid);
-      //  } else {
-      //    // show layer
-      //    $(this).removeClass(c4g.maps.constant.css.INACTIVE);
-      //    $(this).addClass(c4g.maps.constant.css.ACTIVE);
-      //    self.starboardtab.showLayer(itemUid);
-      //  }
-      //};
-      //
-      //// add element to layertree
-      //uid = newId;
-      //item = {};
-      //this.starboardtab.layers[uid] = item;
-      //listItem = document.createElement('li');
-      //entry = document.createElement('a');
-      //entry.setAttribute('href', '#');
-      //entry.appendChild(document.createTextNode(layer.name));
-      //listItem.appendChild(entry);
-      //this.starboardtab.layers[layer.pid].entryWrappers.push(listItem);
-      //this.starboardtab.layers[layer.pid].childWrappers[0].appendChild(listItem);
-      //// add switch button
-      //$entry = $(entry);
-      //item.$entries = item.$entries || [];
-      //item.$entries.push($entry);
-      //$entry.data('uid', uid);
-      //$entry.click(handleEntryClick);
-      //// add css class
-      //$entry.addClass(c4g.maps.constant.css.ACTIVE);
-      //this.starboard.update();
       this.featureLayerMap[feature] = layer;
       if (this.requestForShow[feature]) {
         this.plugin.editor.proxy.showLayer(this.featureLayerMap[feature].id);
@@ -428,8 +384,9 @@ this.c4g.plugin = this.c4g.plugin || {};
       settings = {};
       settings.boundingBox = false;
       settings.crossOrigine = false;
-      settings.loadAsync = false;
-      settings.refresh = false;
+      settings.loadAsync = true;
+      settings.refresh = true;
+      settings.interval = 10000;
       objContent.settings = settings;
 
       feature.set('popup', properties.popup);

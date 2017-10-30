@@ -7,6 +7,7 @@ namespace con4gis\ProjectsBundle\Controller;
 
 use con4gis\MapsBundle\Resources\contao\modules\api\ReverseNominatimApi;
 use con4gis\ProjectsBundle\Classes\Framework\C4GModuleManager;
+use con4gis\ProjectsBundle\Resources\contao\modules\api\C4GEditorTabApi;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -76,6 +77,39 @@ class AjaxController extends Controller
         $response = new JsonResponse();
         $response->setData($return);
         return $response;
+    }
+
+    public function editorAction(Request $request, $id)
+    {
+        $method = $request->getRealMethod();
+        $api = new C4GEditorTabApi();
+        switch ($method) {
+            case 'GET':
+                // get is the initial request of tab configuration
+                $data = $api->createTabs($id);
+                break;
+            case 'PUT':
+                // an existing element has been modified
+                // requires a response to complete the creation process
+                $data = $api->onElementModification($id);
+                break;
+            case 'DELETE':
+                // an existing element has been deleted
+                // requires a response to complete the creation process
+                $data = $api->onElementDeletion($id);
+                break;
+            default:
+                $data = array();
+                break;
+        }
+        return JsonResponse::create($data);
+    }
+
+    public function editorPostAction(Request $request)
+    {
+        $api = new C4GEditorTabApi();
+        $data = $api->onElementCreation($request->request->all());
+        return JsonResponse::create($data);
     }
 }
 

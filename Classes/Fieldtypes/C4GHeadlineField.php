@@ -36,8 +36,6 @@ class C4GHeadlineField extends C4GBrickField
     {
         $result = '';
 
-        // TODO Fall abdecken dass nur ein Tab existiert
-        // TODO Jeder Tab muss Next und/oder previous schalter haben
         if ($this->isShowIfEmpty() || !empty($this->getTitle())) {
 
             $condition = $this->createConditionData($fieldList, $data);
