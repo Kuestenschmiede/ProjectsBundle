@@ -87,6 +87,7 @@ class C4GBrickView {
             case C4GBrickViewType::PROJECTPARENTBASED:
             case C4GBrickViewType::PROJECTPARENTVIEW:
             case C4GBrickViewType::PROJECTPARENTFORM:
+            case C4GBrickViewType::PROJECTPARENTFORMCOPY:
                 return true;
         }
 
