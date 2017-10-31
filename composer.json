@@ -16,11 +16,8 @@
       "role": "Developer"
     }
   ],
-  "support": {
-    "email": "support@con4gis.org",
-    "issues": "https://github.com/Kuestenschmiede/ProjectsBundle/issues"
-  },
   "require": {
+    "contao/core-bundle": "^4.4",
     "con4gis/core": "^2.0"
   },
   "conflict": {
@@ -40,6 +37,10 @@
       "Resources/contao/languages/",
       "Resources/contao/templates/"
     ]
+  },
+  "support": {
+    "issues": "https://github.com/Kuestenschmiede/ProjectsBundle/issues",
+    "email": "support@con4gis.org"
   },
   "config": {
     "preferred-install": "dist"

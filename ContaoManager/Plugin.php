@@ -2,7 +2,6 @@
 
 namespace con4gis\ProjectsBundle\ContaoManager;
 
-use con4gis\ApiBundle\Con4gisApiBundle;
 use con4gis\CoreBundle\con4gisCoreBundle;
 use con4gis\ProjectsBundle\con4gisProjectsBundle;
 use con4gis\GroupsBundle\con4gisGroupsBundle;
