@@ -259,10 +259,13 @@ this.c4g.maps.plugins = this.c4g.maps.plugins || {};
                             var style = c4g.maps.locationStyles[featureData.properties.styleId].style;
                             element.setStyle(style);
                             element.getSource().forEachFeature(function(nestedFeature) {
+                              nestedFeature.set('label', featureData.properties.label);
                               nestedFeature.set('popup', popupContent);
                               nestedFeature.setStyle(style);
                             });
                           });
+                          feature.set('label', featureData.properties.label);
+                          layer.content[0].data.properties.label = featureData.properties.label;
                           contentData.locationStyle = featureData.properties.styleId;
                           feature.setStyle(c4g.maps.locationStyles[featureData.properties.styleId].style);
                           plugin.editor.proxy.hideLayer(layer.id);
