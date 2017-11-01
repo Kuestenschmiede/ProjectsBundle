@@ -954,7 +954,7 @@ function checkC4GTab() {
                 {
                      childElement = tabContent[0].children[j];
                      if (childElement && jQuery(childElement).css("display") !== "none") {
-                        isVisible++;
+                        //isVisible++;
 
                         for(k=0; k<=childElement.children.length; k++) {
                             childOfChildElement = jQuery(childElement.children[k]);
@@ -968,8 +968,7 @@ function checkC4GTab() {
                     }
                 }
 
-                //ToDo minValue optimization
-                if (isVisible > 3) {
+                if (isVisible) {
                     hide = false;
                 }
             }
