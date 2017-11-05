@@ -696,6 +696,10 @@ class C4GBrickDialog
                         if (!empty($additionalId)) {
                             $fieldData = $dlgValues[$fieldName.'_'.$additionalId];
                         }
+
+                        if ($fieldData == '-1') {
+                            return $field;
+                        }
                     }
 
                     if ($field instanceof C4GMultiCheckboxField) {

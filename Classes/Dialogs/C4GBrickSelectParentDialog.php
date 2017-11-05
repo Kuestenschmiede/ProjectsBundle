@@ -138,7 +138,7 @@ class C4GBrickSelectParentDialog extends C4GBrickDialog
         $parentField->setTableColumn(false);
         if ($dialogParams->isWithEmptyParentOption()) {
             $parentField->setWithEmptyOption(true);
-            $parentField->setEmptyOptionLabel('Alle ' . $parentCaptionPlural);
+            $parentField->setEmptyOptionLabel('Alle ' . $parentCaptionPlural); //ToDO Language
         }
         $parentField->setSize(1);
         $parentField->setOptions($parentlist);
