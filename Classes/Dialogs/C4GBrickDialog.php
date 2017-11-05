@@ -12,7 +12,6 @@
 
 namespace con4gis\ProjectsBundle\Classes\Dialogs;
 
-use con4gis\BookingBundle\Resources\contao\models\C4gBookingGroupTypesModel;
 use con4gis\GroupsBundle\Resources\contao\models\MemberGroupModel;
 use con4gis\GroupsBundle\Resources\contao\models\MemberModel;
 use con4gis\ProjectsBundle\Classes\Actions\C4GBrickActionType;
@@ -1054,7 +1053,7 @@ class C4GBrickDialog
                     $fieldName = $field->getFieldName();
                     if (/*($viewType == C4GBrickViewType::MEMBERBOOKING) || */(($field->isFormField()) && ($field->isDatabaseField()))) {
                         //Muss davon ausgehen, dass boolean-Werte immer mit false vorbelegt sind. Funktioniert auch nur dann.
-                        if (/*($viewType == C4GBrickViewType::MEMBERBOOKING) || */(($dlgValues[$fieldName] != null) && (trim($dlgValues[$fieldName]) != '') && ($dlgValues[$fieldName] != 'id') && ($dlgValues[$fieldName] != "false" ) && (intval($dlgValues[$fieldName]) !== $field->getInitialValue()) && ($dlgValues[$fieldName] != -1))) {
+                        if (/*($viewType == C4GBrickViewType::MEMBERBOOKING) || */(($dlgValues[$fieldName] != null) && (trim($dlgValues[$fieldName]) != '') && ($dlgValues[$fieldName] != 'id') && ($dlgValues[$fieldName] != "false" ) && (intval($dlgValues[$fieldName]) !== $field->getInitialValue())  && (strval($dlgValues[$fieldName]) !== $field->getInitialValue()) && ($dlgValues[$fieldName] != -1))) {
                             $result[] = new C4GBrickFieldCompare($field, '', $dlgValues[$fieldName]);
                         }
                     }
@@ -1186,7 +1185,7 @@ class C4GBrickDialog
                 $group_type = null;
                 $group_type_id = 3;//$dlgValues['group_type_id'];
                 if ($group_type_id) {
-                    $group_type = C4gBookingGroupTypesModel::findById($group_type_id);
+                    $group_type = \con4gis\BookingBundle\Resources\contao\models\C4gBookingGroupTypesModel::findById($group_type_id);
                 }
 
                 $groupId = $dlgValues['group_id'];

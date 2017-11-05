@@ -12,7 +12,6 @@
 
 namespace con4gis\ProjectsBundle\Classes\Actions;
 
-use con4gis\BookingBundle\Resources\contao\models\C4gBookingGroupsModel;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickCommon;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickConst;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialog;
@@ -106,7 +105,7 @@ class C4GSaveDialogAction extends C4GBrickDialogAction
                 }
                 //if a project was added we have to change the project booking count
                 if ((empty($dbValues)) && ($projectKey != '') && ($GLOBALS['con4gis']['booking']['installed'])) {
-                    C4gBookingGroupsModel::checkProjectCount($groupId);
+                    \con4gis\BookingBundle\Resources\contao\models\C4gBookingGroupsModel::checkProjectCount($groupId);
                 }
                 if ($this->setParentIdAfterSave) {
                     $dialogParams->setParentId($result['insertId']);
@@ -116,7 +115,7 @@ class C4GSaveDialogAction extends C4GBrickDialogAction
                 $dbValues = $brickDatabase->findByPk($dialogId);
                 \Session::getInstance()->set("c4g_brick_dialog_id", $dialogId);
             } else if (($dialogId) && ($GLOBALS['con4gis']['booking']['installed'])) {
-                C4gBookingGroupsModel::log($dbValues);
+                \con4gis\BookingBundle\Resources\contao\models\C4gBookingGroupsModel::log($dbValues);
             }
         }
 

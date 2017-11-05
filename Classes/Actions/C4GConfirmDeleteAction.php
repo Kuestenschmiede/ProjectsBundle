@@ -94,7 +94,7 @@ class C4GConfirmDeleteAction extends C4GBrickDialogAction
 
         //if a project was deleted we have to change the project booking count
         if (($projectKey != '') && ($GLOBALS['con4gis']['booking']['installed'])) {
-            \c4g\projects\C4gBookingGroupsModel::checkProjectCount($groupId);
+            \con4gis\BookingBundle\Resources\contao\models\C4gBookingGroupsModel::checkProjectCount($groupId);
         }
 
         $action = new C4GShowListAction($dialogParams, $this->getListParams(), $this->getFieldList(), $this->getPutVars(), $this->getBrickDatabase());

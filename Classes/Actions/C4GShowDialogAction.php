@@ -323,32 +323,30 @@ class C4GShowDialogAction extends C4GBrickDialogAction
 //
 //        }
 
-        // TODO zum laufen kriegen
-//        $project_id = $this->project_id;
-//        if (($viewType != C4GBrickViewType::GROUPPROJECT) && $projectId) {
-//            $project = C4gProjectsModel::findByPk($projectId);
-//            if ($project) {
-//                $groupKeyField = $viewParams->getGroupKeyField();
-//                if ($project->$groupKeyField) {
-//                    $dialogParams->setGroupId($project->$groupKeyField);
-//                }
-//
-//                $dialogParams->setFrozen($project->is_frozen);
-//                $project_headline = '<div class="c4g_brick_headtext"> Aktives Projekt: <b>'.$project->caption.'</b></div>';
-//            }
-//        }
+        $project_id = $this->project_id;
+        if (($viewType != C4GBrickViewType::GROUPPROJECT) && $projectId) {
+            $project = C4gProjectsModel::findByPk($projectId);
+            if ($project) {
+                $groupKeyField = $viewParams->getGroupKeyField();
+                if ($project->$groupKeyField) {
+                    $dialogParams->setGroupId($project->$groupKeyField);
+                }
 
-        // TODO projectsmodel zum laufen kriegen
-//        if (!$project) {
-//            if ($viewType == C4GBrickViewType::GROUPPROJECT) {
-//                if ($id) {
-//                    $project = C4gProjectsModel::findByPk($id);
-//                    if ($project && $dialogParams) {
-//                        $dialogParams->setFrozen($project->is_frozen);
-//                    }
-//                }
-//            }
-//        }
+                $dialogParams->setFrozen($project->is_frozen);
+                $project_headline = '<div class="c4g_brick_headtext"> Aktives Projekt: <b>'.$project->caption.'</b></div>';
+            }
+        }
+
+        if (!$project) {
+            if ($viewType == C4GBrickViewType::GROUPPROJECT) {
+                if ($id) {
+                    $project = C4gProjectsModel::findByPk($id);
+                    if ($project && $dialogParams) {
+                        $dialogParams->setFrozen($project->is_frozen);
+                    }
+                }
+            }
+        }
 
         if (C4GBrickView::isWithGroup($viewType)) {
 
