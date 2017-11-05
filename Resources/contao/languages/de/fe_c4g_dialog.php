@@ -28,13 +28,13 @@ $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['SEND_NOTIFICATION'] = 'Nachricht verschick
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['FREEZE']          = 'Projekt einfrieren';
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['DEFROST']         = 'Projekt auftauen';
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['DELETE']          = 'Löschen';
-$GLOBALS['TL_LANG']['FE_C4G_DIALOG']['CANCEL']          = 'Schließen';
+$GLOBALS['TL_LANG']['FE_C4G_DIALOG']['CANCEL']          = 'Abbrechen';
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['EXPORT']          = 'Export';
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['PRINT']           = 'Drucken';
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['CLICK']           = 'Unbekannt :)';
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['FILE_UPLOAD']     = 'Durchsuchen';
-$GLOBALS['TL_LANG']['FE_C4G_DIALOG']['NEXT']            = 'Weiter';
-$GLOBALS['TL_LANG']['FE_C4G_DIALOG']['BACK']            = 'Zurück';
+$GLOBALS['TL_LANG']['FE_C4G_DIALOG']['NEXT']            = 'Nächste Seite';
+$GLOBALS['TL_LANG']['FE_C4G_DIALOG']['BACK']            = 'Vorherige Seite';
 
 /** FE Layout **/
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['HEADLINES_ADD'] = 'hinzufügen';
@@ -62,7 +62,7 @@ $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_DONT_SEND_NOTIFICATION_TITLE']
 
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['NO_ENTRY'] = 'Kein Eintrag';
 
-$GLOBALS['TL_LANG']['FE_C4G_DIALOG']['MESSAGE_DIALOG_CLOSE_DIALOG_QUESTION'] = 'Wollen Sie die Eingabemaske wirklich schließen?';
+$GLOBALS['TL_LANG']['FE_C4G_DIALOG']['MESSAGE_DIALOG_CLOSE_DIALOG_QUESTION'] = 'Wollen Sie Ihre Eingaben wirklich verwerfen?';
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['MESSAGE_DIALOG_CLOSE_DIALOG_TEXT'] = 'Achtung! Ihre bereits geänderten Werte gehen verloren!';
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['MESSAGE_DIALOG_CLOSE_DIALOG_FIELDLIST'] = 'Achtung! Die folgenden bereits veränderten Feldwerte gehen verloren:';
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['MESSAGE_DIALOG_CLOSE_DIALOG_YES'] = 'Ja, meine Änderungen gehen verloren';
@@ -150,7 +150,7 @@ $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['CANCEL_BUTTON_TEXT']  = 'Abbrechen';
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['HEADLINE_TEXT']  = 'Filteroptionen';
 
 
-$GLOBALS['TL_LANG']['FE_C4G_DIALOG']['fromFilter'] = 'Begindatum';
+$GLOBALS['TL_LANG']['FE_C4G_DIALOG']['fromFilter'] = 'Beginndatum';
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['toFilter']   = 'Enddatum';
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['additional_email_text'] = 'Zusätzliche Bemerkungen in der E-Mail:';
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['headText']   = 'Filter';
