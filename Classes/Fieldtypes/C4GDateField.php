@@ -52,7 +52,8 @@ class C4GDateField extends C4GBrickField
             $this->maxDate = strtotime('+25 year');
         }
 
-        if (is_numeric($value)) {
+        //ToDo hotfix 0 is saved by default and is the 01.01.1970.
+        if (is_numeric($value) && intval($value) != 0) {
             $date = new \DateTime();
             $date->setTimestamp($value);
             $value = $date->format($GLOBALS['TL_CONFIG']['dateFormat']);
