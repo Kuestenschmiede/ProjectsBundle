@@ -933,7 +933,12 @@ function switchTab(mode) {
   }
   var newTabId = tabId.substr(0, tabId.length - 2);
   newTabId += '_' + number;
-  clickC4GTab(newTabId);
+  if (jQuery(document.getElementsByClassName(newTabId)).css("display") !== "none") {
+      clickC4GTab(newTabId);
+  } else {
+     clickC4GTab(newTabId);
+     switchTab(mode);
+  }
 }
 
 function checkC4GTab() {
@@ -968,7 +973,7 @@ function checkC4GTab() {
                     }
                 }
 
-                if (isVisible) {
+                if (isVisible > 0) {
                     hide = false;
                 }
             }
