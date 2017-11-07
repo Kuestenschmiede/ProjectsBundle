@@ -317,30 +317,30 @@ function C4GBrickFileUpload( file, path, targetField, mimeTypes )
     var xhr = new XMLHttpRequest();
 
     var fd = new FormData();
+    console.log(file);
     fd.append("File", file);
     fd.append("Path", path);
     fd.append("MimeTypes", mimeTypes);
     fd.append("REQUEST_TOKEN", c4g_rq);
 
     xhr.onreadystatechange = function(){
-        if (xhr.readyState==4 && xhr.status==200){
-            document.getElementById("c4g_uploadURL").value = xhr.responseText;
-            document.getElementById("c4g_uploadLink").innerHTML = "<a href='" + xhr.responseText + "' target='_blank'>" + file.name.replace("C:\\fakepath\\", "") + "</a>";
+        if (xhr.readyState==4 && xhr.status==200) {
+            var filename = JSON.parse(xhr.responseText)[0];
+            document.getElementById("c4g_uploadURL").value = filename;
+            document.getElementById("c4g_uploadLink").innerHTML = "<a href='" + filename + "' target='_blank'>" + file.name.replace("C:\\fakepath\\", "") + "</a>";
             if (document.getElementById("c4g_deleteButton")) {
                 document.getElementById("c4g_deleteButton").style = "display:inline";
             }
             document.getElementById("c4g_deleteURL").value = "";
-
-            //document.getElementById('c4g_fileField').value = '';
             if (targetField) {
                 if (document.getElementsByClassName("c4g_"+targetField+"_src")[0]) {
-                    document.getElementsByClassName("c4g_"+targetField+"_src")[0].getElementsByTagName("img")[0].src = xhr.responseText;
+                    document.getElementsByClassName("c4g_"+targetField+"_src")[0].getElementsByTagName("img")[0].src = filename;
                 }
             }
         }
-    }
+    };
 
-    xhr.open("POST", "bundles/con4gisprojects/php/c4gUpload.php", true);
+    xhr.open("POST", "con4gis/upload_file", true);
     xhr.overrideMimeType("text/plain; charset=x-user-defined-binary");
 
     xhr.send(fd);

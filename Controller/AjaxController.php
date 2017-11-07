@@ -8,6 +8,8 @@ namespace con4gis\ProjectsBundle\Controller;
 use con4gis\MapsBundle\Resources\contao\modules\api\ReverseNominatimApi;
 use con4gis\ProjectsBundle\Classes\Framework\C4GModuleManager;
 use con4gis\ProjectsBundle\Resources\contao\modules\api\C4GEditorTabApi;
+use Contao\Input;
+use Contao\System;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -110,6 +112,65 @@ class AjaxController extends Controller
         $api = new C4GEditorTabApi();
         $data = $api->onElementCreation($request->request->all());
         return JsonResponse::create($data);
+    }
+
+    public function uploadAction(Request $request)
+    {
+        $response = new JsonResponse();
+        if (!isset($_POST['Path']) || !isset($_FILES['File']['tmp_name'])) {
+            $response->setStatusCode(400);
+            return $response;
+        }
+        // User not logged in...
+        if (!FE_USER_LOGGED_IN) {
+            $response->setStatusCode(403);
+            return $response;
+        }
+        // xss cleanup
+        $_FILES = Input::xssClean($_FILES);
+        $sTempname        = $_FILES['File']['tmp_name'];
+        $sFileName        = $_FILES['File']['name'];
+        $sFileType        = $_FILES['File']['type'];
+        //$sDestinationFile = \Contao\Input::post('File');
+        $sDestinationPath = Input::post('Path');
+        $file = explode('.', $sFileName);
+        $sFileExt = strtolower($file[count($file)-1]);
+        $mimeTypes = explode(',', Input::post('MimeTypes'));
+        $found = false;
+        foreach ($mimeTypes as $mimeType) {
+            if ($sFileType == $mimeType) {
+                $found = true;
+            }
+        }
+        if (!$mimeTypes || !$found) {
+            $response->setStatusCode(400);
+            return $response;
+        }
+
+        $sUniqID   = uniqid();
+        $sFileName = $sUniqID . "." . $sFileExt;
+
+        $contaoPath = substr($_SERVER['SCRIPT_NAME'], 0, strpos($_SERVER['SCRIPT_NAME'],'system', false) -1);
+        if($contaoPath == false)
+        {
+            $contaoPath = '';
+        }
+
+        $rootDir = System::getContainer()->getParameter('kernel.project_dir');
+        $sSystemPath = str_replace('\\','/',$rootDir) . "/" . trim($sDestinationPath,'/');
+        $sDestination = $sSystemPath . "/" . $sFileName;
+
+        if (!is_dir($sSystemPath)) {
+            mkdir($sSystemPath, 0777, true);
+        }
+
+        if (move_uploaded_file($sTempname, $sDestination)) {
+            $response->setData([$contaoPath . '/' . trim($sDestinationPath,'/') . "/" . $sFileName]);
+//                echo $contaoPath . '/' . trim($sDestinationPath,'/') . "/" . $sFileName;
+        } else {
+            $response->setData([]);
+        }
+        return $response;
     }
 }
 
