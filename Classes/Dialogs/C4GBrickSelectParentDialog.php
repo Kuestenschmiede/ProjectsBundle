@@ -132,7 +132,12 @@ class C4GBrickSelectParentDialog extends C4GBrickDialog
 
         $parentField = new C4GSelectField();
         $parentField->setFieldName('parent_id');
-        $parentField->setTitle(sprintf($GLOBALS['TL_LANG']['FE_C4G_DIALOG']['SELECT_PARENT'], $parentCaptionPlural));
+        if ($parentCaptionPlural) {
+            $parentField->setTitle(sprintf($GLOBALS['TL_LANG']['FE_C4G_DIALOG']['SELECT_PARENT'], $parentCaptionPlural));
+        } else {
+            $parentField->setTitle(sprintf($GLOBALS['TL_LANG']['FE_C4G_DIALOG']['SELECT_PARENT'], $parentCaption));
+        }
+//        $parentField->setTitle(sprintf($GLOBALS['TL_LANG']['FE_C4G_DIALOG']['SELECT_PARENT'], $parentCaptionPlural));
 //        $parentField->setType(C4GBrickFieldType::SELECT);
         $parentField->setSortColumn(false);
         $parentField->setTableColumn(false);
@@ -150,7 +155,8 @@ class C4GBrickSelectParentDialog extends C4GBrickDialog
         }
 
         return C4GBrickDialog::showC4GSelectDialog($dialogParams, $parentField,
-            sprintf($GLOBALS['TL_LANG']['FE_C4G_DIALOG']['SELECT_PARENT_DIALOG_CONFIRM_QUESTION'],$parentCaptionPlural),
+            sprintf($GLOBALS['TL_LANG']['FE_C4G_DIALOG']['SELECT_PARENT_DIALOG_CONFIRM_QUESTION'],
+                $parentCaptionPlural ? $parentCaptionPlural : $parentCaption),
             $confirmAction, $confirmButtonText, $cancelAction, $cancelButtonText);
     }
 
