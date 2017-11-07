@@ -933,7 +933,12 @@ function switchTab(mode) {
   }
   var newTabId = tabId.substr(0, tabId.length - 2);
   newTabId += '_' + number;
-  clickC4GTab(newTabId);
+  if (jQuery(document.getElementsByClassName(newTabId)).css("display") !== "none") {
+      clickC4GTab(newTabId);
+  } else {
+     clickC4GTab(newTabId);
+     switchTab(mode);
+  }
 }
 
 function checkC4GTab() {
@@ -954,7 +959,7 @@ function checkC4GTab() {
                 {
                      childElement = tabContent[0].children[j];
                      if (childElement && jQuery(childElement).css("display") !== "none") {
-                        isVisible++;
+                        //isVisible++;
 
                         for(k=0; k<=childElement.children.length; k++) {
                             childOfChildElement = jQuery(childElement.children[k]);
@@ -968,8 +973,7 @@ function checkC4GTab() {
                     }
                 }
 
-                //ToDo minValue optimization
-                if (isVisible > 3) {
+                if (isVisible > 0) {
                     hide = false;
                 }
             }

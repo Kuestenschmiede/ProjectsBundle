@@ -13,6 +13,7 @@
 namespace con4gis\ProjectsBundle\Classes\Actions;
 
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialog;
+use con4gis\ProjectsBundle\Classes\Views\C4GBrickViewType;
 
 class C4GArchiveDialogAction extends C4GBrickDialogAction
 {
@@ -28,16 +29,29 @@ class C4GArchiveDialogAction extends C4GBrickDialogAction
             return $action->run();
         }
 
-        $result = C4GBrickDialog::showC4GMessageDialog(
-            $dialogId,
-            $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['MESSAGE_DIALOG_ARCHIVE_DIALOG_QUESTION'],
-            $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['MESSAGE_DIALOG_ARCHIVE_DIALOG_TEXT'],
-            C4GBrickActionType::ACTION_CONFIRMARCHIVE,
-            $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['MESSAGE_DIALOG_ARCHIVE_DIALOG_YES'],
-            C4GBrickActionType::ACTION_CANCELARCHIVE,
-            $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['MESSAGE_DIALOG_ARCHIVE_DIALOG_NO'],
-            $dlgValues
-        );
+        if ($dialogParams->getViewType() == C4GBrickViewType::MEMBERBOOKING) {
+            $result = C4GBrickDialog::showC4GMessageDialog(
+                $dialogId,
+                $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['MESSAGE_DIALOG_BOOKING_ARCHIVE_DIALOG_QUESTION'],
+                $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['MESSAGE_DIALOG_BOOKING_ARCHIVE_DIALOG_TEXT'],
+                C4GBrickActionType::ACTION_CONFIRMARCHIVE,
+                $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['MESSAGE_DIALOG_BOOKING_ARCHIVE_DIALOG_YES'],
+                C4GBrickActionType::ACTION_CANCELARCHIVE,
+                $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['MESSAGE_DIALOG_BOOKING_ARCHIVE_DIALOG_NO'],
+                $dlgValues
+            );
+        } else {
+            $result = C4GBrickDialog::showC4GMessageDialog(
+                $dialogId,
+                $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['MESSAGE_DIALOG_ARCHIVE_DIALOG_QUESTION'],
+                $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['MESSAGE_DIALOG_ARCHIVE_DIALOG_TEXT'],
+                C4GBrickActionType::ACTION_CONFIRMARCHIVE,
+                $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['MESSAGE_DIALOG_ARCHIVE_DIALOG_YES'],
+                C4GBrickActionType::ACTION_CANCELARCHIVE,
+                $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['MESSAGE_DIALOG_ARCHIVE_DIALOG_NO'],
+                $dlgValues
+            );
+        }
 
         return $result;
 

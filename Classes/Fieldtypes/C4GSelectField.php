@@ -23,7 +23,7 @@ class C4GSelectField extends C4GBrickField
     private $chosen = false;
     private $minChosenCount = 7;
     private $placeholder = ''; // GUI placeholder text
-    private $emptyOptionLabel = '';
+    private $emptyOptionLabel = '-';
 
 
     public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = array())
@@ -220,7 +220,7 @@ class C4GSelectField extends C4GBrickField
                 $dbValue = '';
             }
 
-            if ($dlgValue == -1 || $dlgValue == 0) {
+            if ($dlgValue == -1 || $dlgValue == "-1" || $dlgValue == 0) {
                 $dlgValue = '';
             }
             if($dbValue != $dlgValue) {
@@ -238,6 +238,7 @@ class C4GSelectField extends C4GBrickField
     public function createFieldData($dlgValues)
     {
         $fieldData = $dlgValues[$this->getFieldName()];
+
         $conditions = $this->getCondition();
         if (($conditions) && ($this->getConditionType() != C4GBrickConditionType::BOOLSWITCH)) {
             $found = false;
@@ -260,6 +261,9 @@ class C4GSelectField extends C4GBrickField
             if (!$found) {
                 return null;
             }
+        }
+        if ($fieldData == "-1") {
+            $fieldData = "";
         }
         return $fieldData;
     }

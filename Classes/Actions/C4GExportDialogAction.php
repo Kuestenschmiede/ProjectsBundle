@@ -52,16 +52,16 @@ class C4GExportDialogAction extends C4GBrickDialogAction
             $result = C4GBrickDialog::saveC4GDialog($dialogId, $tableName, $this->makeRegularFieldList($fieldList),
                 $dlgValues, $brickDatabase, $dbValues, $viewType,
                 $memberId);
-//            if ($result['insertId']) {
-//                //if a project was added we have to change the project booking count
-//                if ((empty($dbValues)) && ($this->projectKey != '') && ($GLOBALS['con4gis']['booking']['installed'])) {
-//                    \c4g\projects\C4gBookingGroupsModel::checkProjectCount($this->group_id);
-//                }
-//                $dialogId = $result['insertId'];
-//                $dbValues  = $model::findByPk($dialogId);
-//            } else if ( ($dialogId) && ($GLOBALS['con4gis']['booking']['installed'])) {
-//                \c4g\projects\C4gBookingGroupsModel::log($dbValues);
-//            }
+            if ($result['insertId']) {
+                //if a project was added we have to change the project booking count
+                if ((empty($dbValues)) && ($this->projectKey != '') && ($GLOBALS['con4gis']['booking']['installed'])) {
+                    \con4gis\BookingBundle\Resources\contao\models\C4gBookingGroupsModel::checkProjectCount($this->group_id);
+                }
+                $dialogId = $result['insertId'];
+                $dbValues  = $brickDatabase->findByPk($dialogId);
+            } else if ( ($dialogId) && ($GLOBALS['con4gis']['booking']['installed'])) {
+                \con4gis\BookingBundle\Resources\contao\models\C4gBookingGroupsModel::log($dbValues);
+            }
         }
 
 //        $elementName = $this->captionField;

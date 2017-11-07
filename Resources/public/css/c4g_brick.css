@@ -1,7 +1,3 @@
-.c4gGuiDialogTitle {
-    background: none;
-    border: none;
-}
 .c4gGuiDialogTitle h1
 {
     float: left;
@@ -167,7 +163,7 @@ input:invalid {
     font-weight: bold;
     margin-left: 2.5%;
 }
-.c4g_brick_dialog .c4g_description {
+.c4g_brick_dialog p.c4g_description {
     font-weight: normal;
     margin: 0 2.5%;
     /*font-style: italic;*/
@@ -447,7 +443,7 @@ table.dataTable.display tbody, table.dataTable thead th div.DataTables_sort_wrap
 {
     width: 20px;
     height: 24px;
-    background-image: url("../point.png");
+    background-image: url("../images/point.png");
     background-repeat: no-repeat;
     background-position: center;
     float: left;
