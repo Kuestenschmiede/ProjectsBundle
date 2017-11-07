@@ -22,7 +22,7 @@ class AjaxController extends Controller
         $moduleManager = new C4GModuleManager();
         $returnData = $moduleManager->getC4gFrontendModule($module, $action);
         $response = new JsonResponse();
-        $response->setData($returnData);
+        $response->setData(json_decode($returnData));
         return $response;
     }
 

@@ -33,7 +33,7 @@ con4gis_get_address:
         lat: '.*'
         lon: '.*'
 
-con4gis_file_upload:
+con4gis_brick_file_upload:
     path: /con4gis/upload_file
     defaults:
         _scope: frontend

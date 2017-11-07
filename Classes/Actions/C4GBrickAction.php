@@ -488,6 +488,7 @@ abstract class C4GBrickAction
                 return $listAction->run();
             case C4GBrickActionType::ACTION_CONFIRMPARENTFILTER:
                 $action = new C4GSetFilterAction($dialogParams, $listParams, $fieldList, $putVars, $brickDatabase);
+                $action->setModule($module);
                 return $action->run();
             case C4GBrickActionType::ACTION_EXPORT:
                 $action = new C4GExportDialogAction($dialogParams, $listParams, $fieldList, $putVars, $brickDatabase);

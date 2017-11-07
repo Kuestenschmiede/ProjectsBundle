@@ -37,7 +37,7 @@ class C4GSetFilterAction extends C4GBrickDialogAction
                 $filterParams->setRangeFrom($from);
                 $filterParams->setRangeTo($to);
 
-                $filterParams->setBrickFilterCookies($this->brickKey);
+                $filterParams->setBrickFilterCookies($this->getModule()->getBrickKey());
                 $this->getListParams()->setFilterParams($filterParams);
             }
 
