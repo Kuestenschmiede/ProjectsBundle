@@ -147,7 +147,7 @@ var fnPushCallback = function urlRequestHandler(request) {
  */
 function onPushMessage(type, token, device, conf) {
     var content = document.getElementById('c4g_push_message').value;
-    var url = 'src/con4gis/CoreBundle/Resources/api/index.php/'+type+'Service?method=pushMessage&conf=' + conf + '&device=' + device + '&token=' + token + '&content=' + content;
+    var url = '/con4gis/'+type+'Service/push?method=pushMessage&conf=' + conf + '&device=' + device + '&token=' + token + '&content=' + content;
 
     var pushMessage = function() {
         var client = new XMLHttpRequest();
