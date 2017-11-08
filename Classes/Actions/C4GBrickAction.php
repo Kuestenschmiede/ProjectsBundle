@@ -286,6 +286,7 @@ abstract class C4GBrickAction
             case C4GBrickActionType::IDENTIFIER_DIALOG:
             case C4GBrickActionType::ACTION_CLICK:
             case C4GBrickActionType::ACTION_SHOWDIALOG:
+
                 $action = new C4GShowDialogAction($dialogParams, $listParams, $fieldList, $putVars, $brickDatabase);
                 return $action->run();
             case C4GBrickActionType::IDENTIFIER_MESSAGE:
@@ -322,7 +323,6 @@ abstract class C4GBrickAction
             case C4GBrickActionType::ACTION_CONFIRMEMAILNOTIFICATION:
                 $action = new C4GSendEmailNotificationAction($dialogParams, $listParams, $fieldList, $putVars, $brickDatabase);
                 return $action->run();
-            case C4GBrickActionType::ACTION_CANCELMESSAGE:
             case C4GBrickActionType::ACTION_CANCELARCHIVE:
             case C4GBrickActionType::ACTION_CANCELACTIVATION:
             case C4GBrickActionType::ACTION_CANCELFREEZE:
@@ -331,13 +331,16 @@ abstract class C4GBrickAction
             case C4GBrickActionType::ACTION_CANCELGROUPSELECT:
             case C4GBrickActionType::ACTION_CANCELPROJECTSELECT:
             case C4GBrickActionType::ACTION_CANCELPARENTSELECT:
-            case C4GBrickActionType::ACTION_CANCELPARENTFILTER:
+            case C4GBrickActionType::ACTION_CANCELMESSAGE:
                 $action = new C4GCancelDialogAction($dialogParams, $listParams, $fieldList, $putVars, $brickDatabase);
                 $return = $action->run();
                 if ($module->getDialogChangeHandler()) {
                     $module->getDialogChangeHandler()->clearSession($module->getBrickKey());
                 }
                 return $return;
+            case C4GBrickActionType::ACTION_CANCELPARENTFILTER:
+                $action = new C4GShowListAction($dialogParams, $listParams, $fieldList, $putVars, $brickDatabase);
+                return $action->run();
             case C4GBrickActionType::ACTION_FREEZEDIALOG:
                 $action = new C4GFreezeDialogAction($dialogParams, $listParams, $fieldList, $putVars, $brickDatabase);
                 return $action->run();
