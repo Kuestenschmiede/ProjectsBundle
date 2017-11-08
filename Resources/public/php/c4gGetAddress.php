@@ -44,7 +44,7 @@
     );
 
     try {
-        $nominatimApi = new \c4g\Maps\ReverseNominatimApi();
+        $nominatimApi = new \con4gis\MapsBundle\Resources\contao\modules\api\ReverseNominatimApi();
         $xmlOutput = $nominatimApi->getReverseNominatimResponse($id, $arrParams);
         $xml = simplexml_load_string($xmlOutput);
 

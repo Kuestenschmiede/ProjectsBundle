@@ -32,3 +32,10 @@ con4gis_get_address:
         profileId: '\d+'
         lat: '.*'
         lon: '.*'
+
+con4gis_brick_file_upload:
+    path: /con4gis/upload_file
+    defaults:
+        _scope: frontend
+        _controller: "con4gisProjectsBundle:Ajax:upload"
+    methods: [POST]
