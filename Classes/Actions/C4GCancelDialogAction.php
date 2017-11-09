@@ -21,14 +21,6 @@ class C4GCancelDialogAction extends C4GBrickDialogAction
         $return = array(
             'dialogclose' => C4GBrickActionType::IDENTIFIER_MESSAGE.$dialogId,
         );
-        $action = new C4GShowListAction(
-            $this->dialogParams,
-            $this->listParams,
-            $this->fieldList,
-            $this->putVars,
-            $this->brickDatabase
-        );
-        return $action->run();
-//        return $return;
+        return $return;
     }
 }
