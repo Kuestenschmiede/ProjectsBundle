@@ -303,7 +303,7 @@ class C4GSaveDialogAction extends C4GBrickDialogAction
     /**
      * @return string
      */
-    public function getSetSessionIdAfterInsert(): string
+    public function getSetSessionIdAfterInsert()
     {
         return $this->setSessionIdAfterInsert;
     }
@@ -311,7 +311,7 @@ class C4GSaveDialogAction extends C4GBrickDialogAction
     /**
      * @param string $setSessionIdAfterInsert
      */
-    public function setSetSessionIdAfterInsert(string $setSessionIdAfterInsert)
+    public function setSetSessionIdAfterInsert($setSessionIdAfterInsert)
     {
         $this->setSessionIdAfterInsert = $setSessionIdAfterInsert;
     }

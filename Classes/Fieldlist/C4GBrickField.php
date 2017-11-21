@@ -1890,7 +1890,7 @@ abstract class C4GBrickField
     /**
      * @return string
      */
-    public function getTileClassTable(): string
+    public function getTileClassTable()
     {
         return $this->tileClassTable;
     }
@@ -1898,7 +1898,7 @@ abstract class C4GBrickField
     /**
      * @param string $tileClassTable
      */
-    public function setTileClassTable(string $tileClassTable)
+    public function setTileClassTable($tileClassTable)
     {
         $this->tileClassTable = $tileClassTable;
     }
@@ -1906,7 +1906,7 @@ abstract class C4GBrickField
     /**
      * @return string
      */
-    public function getTileClassField(): string
+    public function getTileClassField()
     {
         return $this->tileClassField;
     }
@@ -1914,7 +1914,7 @@ abstract class C4GBrickField
     /**
      * @param string $tileClassField
      */
-    public function setTileClassField(string $tileClassField)
+    public function setTileClassField($tileClassField)
     {
         $this->tileClassField = $tileClassField;
     }

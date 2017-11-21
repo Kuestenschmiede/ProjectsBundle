@@ -298,7 +298,7 @@ class C4GMultiCheckboxField extends C4GBrickField
     /**
      * @return bool
      */
-    public function isSerialize(): bool
+    public function isSerialize()
     {
         return $this->serializeResult;
     }
@@ -306,7 +306,7 @@ class C4GMultiCheckboxField extends C4GBrickField
     /**
      * @param bool $serialize
      */
-    public function setSerialize(bool $serializeResult)
+    public function setSerialize($serializeResult)
     {
         $this->serializeResult = $serializeResult;
     }

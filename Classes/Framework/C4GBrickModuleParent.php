@@ -1029,7 +1029,7 @@ class C4GBrickModuleParent extends \Module
     /**
      * @return string
      */
-    public function getBrickKey(): string
+    public function getBrickKey()
     {
         return $this->brickKey;
     }
@@ -1037,7 +1037,7 @@ class C4GBrickModuleParent extends \Module
     /**
      * @return bool
      */
-    public function isLoadUrlClear(): bool
+    public function isLoadUrlClear()
     {
         return $this->loadUrlClear;
     }
@@ -1045,7 +1045,7 @@ class C4GBrickModuleParent extends \Module
     /**
      * @param bool $loadUrlClear
      */
-    public function setLoadUrlClear(bool $loadUrlClear)
+    public function setLoadUrlClear($loadUrlClear)
     {
         $this->loadUrlClear = $loadUrlClear;
     }
