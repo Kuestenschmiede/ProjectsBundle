@@ -40,7 +40,7 @@ class C4GBrickRedirect
     /**
      * @return string
      */
-    public function getType(): string
+    public function getType()
     {
         return $this->type;
     }
@@ -48,7 +48,7 @@ class C4GBrickRedirect
     /**
      * @param string $type
      */
-    public function setType(string $type)
+    public function setType($type)
     {
         $this->type = $type;
     }
@@ -56,7 +56,7 @@ class C4GBrickRedirect
     /**
      * @return string
      */
-    public function getTitle(): string
+    public function getTitle()
     {
         return $this->title;
     }
@@ -64,7 +64,7 @@ class C4GBrickRedirect
     /**
      * @param string $title
      */
-    public function setTitle(string $title)
+    public function setTitle($title)
     {
         $this->title = $title;
     }
@@ -72,7 +72,7 @@ class C4GBrickRedirect
     /**
      * @return string
      */
-    public function getMessage(): string
+    public function getMessage()
     {
         return $this->message;
     }
@@ -80,7 +80,7 @@ class C4GBrickRedirect
     /**
      * @param string $message
      */
-    public function setMessage(string $message)
+    public function setMessage($message)
     {
         $this->message = $message;
     }
@@ -88,7 +88,7 @@ class C4GBrickRedirect
     /**
      * @return int
      */
-    public function getSite(): int
+    public function getSite()
     {
         return $this->site;
     }
@@ -96,7 +96,7 @@ class C4GBrickRedirect
     /**
      * @param int $site
      */
-    public function setSite(int $site)
+    public function setSite($site)
     {
         $this->site = $site;
     }
@@ -104,7 +104,7 @@ class C4GBrickRedirect
     /**
      * @return bool
      */
-    public function isActive(): bool
+    public function isActive()
     {
         return $this->active;
     }
@@ -112,7 +112,7 @@ class C4GBrickRedirect
     /**
      * @param bool $active
      */
-    public function setActive(bool $active)
+    public function setActive($active)
     {
         $this->active = $active;
     }

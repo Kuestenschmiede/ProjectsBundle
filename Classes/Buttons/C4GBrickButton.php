@@ -394,7 +394,7 @@ class C4GBrickButton
     /**
      * @return string
      */
-    public function getAdditionalCssClass(): string
+    public function getAdditionalCssClass()
     {
         return $this->additionalCssClass;
     }
@@ -402,7 +402,7 @@ class C4GBrickButton
     /**
      * @param string $additionalCssClass
      */
-    public function setAdditionalCssClass(string $additionalCssClass)
+    public function setAdditionalCssClass($additionalCssClass)
     {
         $this->additionalCssClass = $additionalCssClass;
     }

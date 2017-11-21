@@ -1323,7 +1323,7 @@ class C4GBrickDialogParams
     /**
      * @return bool
      */
-    public function isWithEmptyParentOption(): bool
+    public function isWithEmptyParentOption()
     {
         return $this->isWithEmptyParentOption;
     }
@@ -1331,7 +1331,7 @@ class C4GBrickDialogParams
     /**
      * @param bool $isWithEmptyParentOption
      */
-    public function setIsWithEmptyParentOption(bool $isWithEmptyParentOption)
+    public function setIsWithEmptyParentOption($isWithEmptyParentOption)
     {
         $this->isWithEmptyParentOption = $isWithEmptyParentOption;
     }
@@ -1339,7 +1339,7 @@ class C4GBrickDialogParams
     /**
      * @return array
      */
-    public function getParentCaptionCallback(): array
+    public function getParentCaptionCallback()
     {
         return $this->parentCaptionCallback;
     }
@@ -1347,7 +1347,7 @@ class C4GBrickDialogParams
     /**
      * @param array $parentCaptionCallback
      */
-    public function setParentCaptionCallback(array $parentCaptionCallback)
+    public function setParentCaptionCallback($parentCaptionCallback)
     {
         $this->parentCaptionCallback = $parentCaptionCallback;
     }
@@ -1355,7 +1355,7 @@ class C4GBrickDialogParams
     /**
      * @return array
      */
-    public function getRedirects(): array
+    public function getRedirects()
     {
         return $this->redirects;
     }
@@ -1363,7 +1363,7 @@ class C4GBrickDialogParams
     /**
      * @param array $redirects
      */
-    public function setRedirects(array $redirects)
+    public function setRedirects($redirects)
     {
         $this->redirects = $redirects;
     }

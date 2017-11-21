@@ -329,7 +329,7 @@ class C4GSelectField extends C4GBrickField
     /**
      * @return string
      */
-    public function getEmptyOptionLabel(): string
+    public function getEmptyOptionLabel()
     {
         return $this->emptyOptionLabel;
     }
@@ -337,7 +337,7 @@ class C4GSelectField extends C4GBrickField
     /**
      * @param string $emptyOptionLabel
      */
-    public function setEmptyOptionLabel(string $emptyOptionLabel)
+    public function setEmptyOptionLabel($emptyOptionLabel)
     {
         $this->emptyOptionLabel = $emptyOptionLabel;
     }
