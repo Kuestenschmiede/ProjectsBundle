@@ -138,7 +138,6 @@ class C4GBrickView {
             case C4GBrickViewType::MEMBERVIEW:
             case C4GBrickViewType::PROJECTPARENTVIEW:
             case C4GBrickViewType::PUBLICVIEW:
-            case C4GBrickViewType::PUBLICBASED: //ToDo check if this viewType is really without editing
                 return true;
         }
 

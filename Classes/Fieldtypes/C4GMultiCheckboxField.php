@@ -102,7 +102,6 @@ class C4GMultiCheckboxField extends C4GBrickField
 
             $viewType = $dialogParams->getViewType();
             if ($viewType && (
-                    ($viewType == C4GBrickViewType::PUBLICBASED) ||
                     ($viewType == C4GBrickViewType::PUBLICVIEW) ||
                     ($viewType == C4GBrickViewType::GROUPVIEW) ||
                     ($viewType == C4GBrickViewType::PROJECTPARENTVIEW) ||
