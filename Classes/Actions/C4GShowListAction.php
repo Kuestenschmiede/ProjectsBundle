@@ -53,6 +53,7 @@ class C4GShowListAction extends C4GBrickDialogAction
         $brickDatabase = $this->getBrickDatabase();
         $database = $this->brickDatabase->getParams()->getDatabase();
         $modelClass = $brickDatabase->getParams()->getModelClass();
+        $viewFormatFunction = $listParams->getViewFormatFunction();
 
         $groupCount = -1;
         if ($GLOBALS['con4gis']['groups']['installed']) {
@@ -291,6 +292,11 @@ class C4GShowListAction extends C4GBrickDialogAction
             }
         } catch (Exception $e) {
             $elements = null;
+        }
+
+        // call formatter if set
+        if ($viewFormatFunction && $modelClass) {
+            $elements = $modelClass::$viewFormatFunction($elements);
         }
 
         if (!$elements) {

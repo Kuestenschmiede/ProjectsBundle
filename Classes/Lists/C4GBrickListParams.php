@@ -43,6 +43,7 @@ class C4GBrickListParams
     private $onloadScript = ''; // javascript code that should be executed when the list is loaded
     private $removeUnpublishedElements = false; //if true we ignore unpublished elements (!published)
     private $groupCount = 0;
+    private $viewFormatFunction = '';   // function in the module model to change the presentation of data
 
     /**
      * C4GBrickListParams constructor.
@@ -488,6 +489,22 @@ class C4GBrickListParams
     public function setGroupCount($groupCount)
     {
         $this->groupCount = $groupCount;
+    }
+
+    /**
+     * @return string
+     */
+    public function getViewFormatFunction()
+    {
+        return $this->viewFormatFunction;
+    }
+
+    /**
+     * @param string $viewFormatFunction
+     */
+    public function setViewFormatFunction($viewFormatFunction)
+    {
+        $this->viewFormatFunction = $viewFormatFunction;
     }
 
 }

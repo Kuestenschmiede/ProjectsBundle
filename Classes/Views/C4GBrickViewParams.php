@@ -19,7 +19,7 @@ class C4GBrickViewParams {
     private $memberKeyField = 'member_id';
     private $groupKeyField  = 'group_id';
     private $parentKeyField = 'pid';
-    private $modelListFunction = null;
+    private $modelListFunction = null; //Lädt die Datensätze der Tabelle über eine spezielle Modelfunktion.
     private $loginRedirect  = '';
 
     /**
@@ -29,7 +29,7 @@ class C4GBrickViewParams {
     public function __construct($viewType)
     {
         $this->viewType = $viewType;
-    } //Lädt die Datensätze der Tabelle über eine spezielle Modelfunktion.
+    }
 
     /**
      * @return string
