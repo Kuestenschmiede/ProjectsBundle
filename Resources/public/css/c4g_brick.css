@@ -400,6 +400,9 @@ div.cg_block {
     max-width: 100%;
     height: auto;
 }
+.c4g_brick_dialog .c4g_image_label label  {
+    margin-left: 0px;
+}
 .dataTables_wrapper .dataTables_info {
     font-size: 12px!important;
     padding-top: 0px!important;
