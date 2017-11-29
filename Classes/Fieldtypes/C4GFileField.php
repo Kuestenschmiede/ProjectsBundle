@@ -52,7 +52,6 @@ class C4GFileField extends C4GBrickField
         $buttonRequired = $required;
         if ((!$this->isEditable() ||
             ($viewType && (
-                    ($viewType == C4GBrickViewType::PUBLICBASED) ||
                     ($viewType == C4GBrickViewType::PUBLICVIEW) ||
                     ($viewType == C4GBrickViewType::GROUPVIEW) ||
                     ($viewType == C4GBrickViewType::PROJECTPARENTVIEW) ||

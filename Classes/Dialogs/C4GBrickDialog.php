@@ -1086,7 +1086,7 @@ class C4GBrickDialog
     public static function saveC4GDialog($elementId, $tableName, $fieldList, $dlgValues, $brickDatabase,  $dbValues, C4GBrickDialogParams $dialogParams, $user_id)
     {
         $viewType = $dialogParams->getViewType();
-        if (C4GBrickView::isPublicBased($viewType) && ($viewType != C4GBrickViewType::PUBLICFORM)) {
+        if ($viewType == C4GBrickViewType::PUBLICVIEW) {
             return false;
         }
 
@@ -1151,7 +1151,8 @@ class C4GBrickDialog
             $memberKeyField = $dialogParams->getViewParams()->getMemberKeyField();
             $groupKeyField = $dialogParams->getViewParams()->getGroupKeyField();
 
-            if (C4GBrickView::isWithMember($viewType) || C4GBrickView::isPublicBased($viewType)) {
+            // only save member id when memberbased or publicform
+            if (C4GBrickView::isWithMember($viewType) || $viewType == C4GBrickViewType::PUBLICFORM) {
                 $memberId = $user_id;//$dlgValues['c4g_member_id'];
                 if ( ($memberId) && ($memberId > 0) ) {
                     $set[$memberKeyField] = $memberId;
