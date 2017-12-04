@@ -257,7 +257,7 @@ class C4GMultiCheckboxField extends C4GBrickField
                 $valueArr[] = trim($key);
             }
         }
-        $fieldData = '';
+        $fieldData = [];
         if(sizeof($valueArr) > 0) {
             if ($this->serializeResult) {
                 $fieldData = serialize($valueArr);
