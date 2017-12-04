@@ -64,7 +64,7 @@ class C4GNumberField extends C4GBrickField
             $result =
                 $this->addC4GField($condition,$dialogParams,$fieldList,$data,
                  '<input ' . $required . ' ' . $condition['conditionPrepare'] .  ' type="'.$type. '" ' .$onChange . ' id="' . $id . '" class="formdata ' . $id . '" size="' .
-                $this->getSize() . '" min="' . $this->getMin() . '" max="' . $this->getMax() . '" step="'.$this->getStep().'" pattern="[0-9\.]*" name="' .
+                $this->getSize() . '" min="' . $this->getMin() . '" max="' . $this->getMax() . '" step="'.$this->getStep().'" pattern="^[+-]?[0-9\.]*" name="' .
                 $this->getFieldName() . '" value="' . $value . '">');
         }
 
