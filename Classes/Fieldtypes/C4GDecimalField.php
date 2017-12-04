@@ -54,7 +54,7 @@ class C4GDecimalField extends C4GBrickField
 
             $result =
                 $this->addC4GField($condition,$dialogParams,$fieldList,$data,
-                '<input pattern="(\d+)(\.*)(\d+)(,*)(\d+)[^a-zA-Z]" ' . $required . ' ' . $condition['conditionPrepare'] . ' type="text" step="any" id="' . $id . '" class="formdata ' . $id . '" size="' . $this->getSize() . '" min="' . $this->getMin() . '" max="' . $this->getMax() . '" name="' . $this->getFieldName() . '" value="' . $value . '" >');
+                '<input pattern="^[+-]?(\d+)(\.*)(\d+)(,*)(\d+)[^a-zA-Z]" ' . $required . ' ' . $condition['conditionPrepare'] . ' type="text" step="any" id="' . $id . '" class="formdata ' . $id . '" size="' . $this->getSize() . '" min="' . $this->getMin() . '" max="' . $this->getMax() . '" name="' . $this->getFieldName() . '" value="' . $value . '" >');
         }
         return $result;
     }
