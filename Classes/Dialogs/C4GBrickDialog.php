@@ -1098,7 +1098,7 @@ class C4GBrickDialog
                 $set['uuid'] = $uuid;
             }
         } else {
-            if ($dbValues->uuid == '') {
+            if ($dbValues->uuid == '' && $dialogParams->isSaveWithUuid()) {
                 $set['uuid'] = C4GBrickCommon::getGUID();
             }
         }

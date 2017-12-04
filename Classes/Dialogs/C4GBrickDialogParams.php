@@ -90,6 +90,7 @@ class C4GBrickDialogParams
     private $additionalHeadText = '';
     private $isWithEmptyParentOption = false;
     private $redirects = array();//C4GBrickRedirect
+    private $saveWithUuid = false;
 
     /**
      * C4GBrickDialogParams constructor.
@@ -1382,5 +1383,21 @@ class C4GBrickDialogParams
                 $this->redirects[] = $newRedirect;
             }
         }
+    }
+
+    /**
+     * @return bool
+     */
+    public function isSaveWithUuid()
+    {
+        return $this->saveWithUuid;
+    }
+
+    /**
+     * @param bool $saveWithUuid
+     */
+    public function setSaveWithUuid($saveWithUuid)
+    {
+        $this->saveWithUuid = $saveWithUuid;
     }
 }
