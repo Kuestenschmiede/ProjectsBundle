@@ -124,7 +124,7 @@ class C4GShowListAction extends C4GBrickDialogAction
             }
 
             if ($listParams->checkButtonVisibility(C4GBrickConst::BUTTON_PARENT) &&
-                !$dialogParams->isWithEmptyParentOption() &&
+                !$dialogParams->isWithCommonParentOption() &&
                 (($parentId == null) || ($parentId == -1))) {
                 $action = new C4GSelectParentDialogAction(
                     $dialogParams,
@@ -173,7 +173,7 @@ class C4GShowListAction extends C4GBrickDialogAction
                         $caption = $arrCaptions[$parentId];
                     }
                     $parent_headline = '<div class="c4g_brick_headtext"> '.$parentCaption.': <b>'.$caption.'</b></div>';
-                } elseif (!$dialogParams->isWithEmptyParentOption()) {
+                } elseif (!$dialogParams->isWithCommonParentOption()) {
                     \Session::getInstance()->set("c4g_brick_parent_id", '');
 
                     //ToDo language
@@ -220,7 +220,7 @@ class C4GShowListAction extends C4GBrickDialogAction
                                     unset($elements->headline);
                                 }
                             } else {
-                                if ($dialogParams->isWithEmptyParentOption() && $parentId == -1) {
+                                if ($dialogParams->isWithCommonParentOption() && $parentId == -1) {
                                     $elements = $brickDatabase->findBy($viewParams->getGroupKeyField(), $groupId);
                                     $this->listParams->deleteButton(C4GBrickConst::BUTTON_ADD);
                                 } else {

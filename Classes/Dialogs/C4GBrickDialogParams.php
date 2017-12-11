@@ -89,6 +89,7 @@ class C4GBrickDialogParams
     private $beforeSaveAction = null; // see C4GBeforeDialogSave
     private $additionalHeadText = '';
     private $isWithEmptyParentOption = false;
+    private $isWithCommonParentOption = false;
     private $redirects = array();//C4GBrickRedirect
     private $saveWithUuid = false;
 
@@ -1400,4 +1401,21 @@ class C4GBrickDialogParams
     {
         $this->saveWithUuid = $saveWithUuid;
     }
+
+    /**
+     * @return bool
+     */
+    public function isWithCommonParentOption()
+    {
+        return $this->isWithCommonParentOption;
+    }
+
+    /**
+     * @param bool $isWithCommonParentOption
+     */
+    public function setIsWithCommonParentOption($isWithCommonParentOption)
+    {
+        $this->isWithCommonParentOption = $isWithCommonParentOption;
+    }
+
 }

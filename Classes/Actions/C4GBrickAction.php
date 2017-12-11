@@ -13,6 +13,7 @@
 namespace con4gis\ProjectsBundle\Classes\Actions;
 
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickCommon;
+use con4gis\ProjectsBundle\Classes\Common\C4GBrickConst;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GDateTimeLocationField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GGeopickerField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GGridField;
@@ -238,7 +239,7 @@ abstract class C4GBrickAction
 
                 if (($viewType == C4GBrickViewType::PROJECTPARENTBASED) ||
                     ($viewType == C4GBrickViewType::GROUPPARENTVIEW) ||
-                    //($viewType == C4GBrickViewType::PROJECTPARENTVIEW) ||
+                    ($viewType == C4GBrickViewType::GROUPPARENTBASED) ||
                     ($viewType == C4GBrickViewType::PROJECTPARENTFORM)) {
 
                     if (!($viewType == C4GBrickViewType::GROUPPARENTVIEW)) {
@@ -252,10 +253,12 @@ abstract class C4GBrickAction
 
                     $parent_id = $dialogParams->getParentId();
 
-                    if ( $listParams->checkButtonVisibility(C4GBrickConst::BUTTON_PARENT) &&
+                    if ($listParams->checkButtonVisibility(C4GBrickConst::BUTTON_PARENT) &&
                         (($parent_id == null) || ($parent_id == -1))) {
-                        $action = new C4GSelectParentDialogAction($dialogParams, $listParams, $fieldList, $putVars, $brickDatabase);
-                        return $action->run();
+                        if (!$dialogParams->isWithCommonParentOption()) {
+                            $action = new C4GSelectParentDialogAction($dialogParams, $listParams, $fieldList, $putVars, $brickDatabase);
+                            return $action->run();
+                        }
                     }
                 }
 
