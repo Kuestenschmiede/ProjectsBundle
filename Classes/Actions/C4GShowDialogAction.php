@@ -78,6 +78,8 @@ class C4GShowDialogAction extends C4GBrickDialogAction
                         $parentId = $element->$pid;
                     }
                 }
+            } elseif (!$parentId) {
+                $parentId = \Session::getInstance()->get('c4g_brick_parent_id');
             }
         }
 
