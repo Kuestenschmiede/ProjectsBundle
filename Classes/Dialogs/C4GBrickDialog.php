@@ -991,7 +991,7 @@ class C4GBrickDialog
                     $fieldName = $field->getFieldName();
                     $dlgValue = $dlgValues[$fieldName];
                     if ($dlgValue && (trim($dlgValue) != '')) {
-                        if (!preg_match("/(^[0-9,.]+$)/", $dlgValue)) {
+                        if (!preg_match("/(^[+-]?[0-9,.]+$)/", $dlgValue)) {
                             return $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['validate_float'].$fieldName;
                         }
                     }
