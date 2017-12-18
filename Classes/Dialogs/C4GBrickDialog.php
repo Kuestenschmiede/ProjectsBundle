@@ -1263,8 +1263,9 @@ class C4GBrickDialog
                 $id = $elementId;
                 $set[$id_fieldName] = $id;
             }
-
-            $set['tstamp'] = time();
+            if ($dialogParams->isSaveTimestamp()) {
+                $set['tstamp'] = time();
+            }
 
             $last_user = $set['last_member_id'];
             if ($last_user !== null) {

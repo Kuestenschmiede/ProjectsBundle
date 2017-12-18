@@ -92,6 +92,7 @@ class C4GBrickDialogParams
     private $isWithCommonParentOption = false;
     private $redirects = array();//C4GBrickRedirect
     private $saveWithUuid = false;
+    private $saveTimestamp = true;
 
     /**
      * C4GBrickDialogParams constructor.
@@ -1416,6 +1417,22 @@ class C4GBrickDialogParams
     public function setIsWithCommonParentOption($isWithCommonParentOption)
     {
         $this->isWithCommonParentOption = $isWithCommonParentOption;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isSaveTimestamp()
+    {
+        return $this->saveTimestamp;
+    }
+
+    /**
+     * @param bool $saveTimestamp
+     */
+    public function setSaveTimestamp($saveTimestamp)
+    {
+        $this->saveTimestamp = $saveTimestamp;
     }
 
 }
