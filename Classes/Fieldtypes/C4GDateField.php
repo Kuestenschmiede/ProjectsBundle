@@ -25,6 +25,9 @@ class C4GDateField extends C4GBrickField
     private $excludeWeekdays = null;
     private $excludeDates = null;
 
+    // customize single date fields
+    private $customFormat = null;
+
     /**
      * @param C4GBrickField[] $fieldList
      * @param $data
@@ -34,6 +37,11 @@ class C4GDateField extends C4GBrickField
      */
     public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = array())
     {
+        if ($this->customFormat) {
+            $dateFormat = $this->customFormat;
+        } else {
+            $dateFormat = $GLOBALS['TL_CONFIG']['dateFormat'];
+        }
         $fieldName = $this->getFieldName();
         $id = "c4g_" . $fieldName;
         $title = $this->getTitle();
@@ -56,7 +64,7 @@ class C4GDateField extends C4GBrickField
         if (is_numeric($value) && intval($value) != 0) {
             $date = new \DateTime();
             $date->setTimestamp($value);
-            $value = $date->format($GLOBALS['TL_CONFIG']['dateFormat']);
+            $value = $date->format($dateFormat);
         } else {
             $value = "";
         }
@@ -65,7 +73,7 @@ class C4GDateField extends C4GBrickField
 
         $PHPFormatOptions = array('Y', 'm', 'd');
         $JSFormatOptions = array('yy', 'mm', 'dd');
-        $format = str_replace($PHPFormatOptions, $JSFormatOptions, $GLOBALS['TL_CONFIG']['dateFormat']);
+        $format = str_replace($PHPFormatOptions, $JSFormatOptions, $dateFormat);
 
         if ($this->isShowIfEmpty() || !empty($value)) {
 
@@ -155,10 +163,15 @@ class C4GDateField extends C4GBrickField
      */
     public function getC4GListField($rowData, $content)
     {
+        if ($this->customFormat) {
+            $dateFormat = $this->customFormat;
+        } else {
+            $dateFormat = $GLOBALS['TL_CONFIG']['dateFormat'];
+        }
         $fieldName = $this->getFieldName();
         $date = $rowData->$fieldName;
         if ($date) {
-            return date($GLOBALS['TL_CONFIG']['dateFormat'], $date);
+            return date($dateFormat, $date);
         } else {
             return '';
         }
@@ -257,5 +270,21 @@ class C4GDateField extends C4GBrickField
     public function setExcludeDates($excludeDates)
     {
         $this->excludeDates = $excludeDates;
+    }
+
+    /**
+     * @return null
+     */
+    public function getCustomFormat()
+    {
+        return $this->customFormat;
+    }
+
+    /**
+     * @param null $customFormat
+     */
+    public function setCustomFormat($customFormat)
+    {
+        $this->customFormat = $customFormat;
     }
 }
