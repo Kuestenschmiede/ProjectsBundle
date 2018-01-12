@@ -361,15 +361,15 @@ class C4GShowDialogAction extends C4GBrickDialogAction
             }
         }
 
-        $headtext = $dialogParams->getHeadline();
+        $headtext = '<h1>'.$dialogParams->getHeadline().'</h1>';
         if ( ($group_headline) && ($project_headline) && ($parent_headline)) {
-            $headtext = $headtext . C4GHTMLFactory::lineBreak() . $group_headline . $project_headline . $parent_headline;
+            $headtext = $headtext . $group_headline . $project_headline . $parent_headline;
         } else if ( ($group_headline) && ($project_headline)){
-            $headtext = $headtext.C4GHTMLFactory::lineBreak().$group_headline.$project_headline;
+            $headtext = $headtext.$group_headline.$project_headline;
         } else if (($group_headline) && ($parent_headline)) {
-            $headtext = $headtext.C4GHTMLFactory::lineBreak().$group_headline . $parent_headline;
+            $headtext = $headtext.$group_headline . $parent_headline;
         } else if ($group_headline) {
-            $headtext = $headtext.C4GHTMLFactory::lineBreak().$group_headline;
+            $headtext = $headtext.$group_headline;
         }
         if ($additionalHeadtext) {
             $additionalHeadtext = '<div class="c4g_brick_headtext">' . $additionalHeadtext . '</div>';
