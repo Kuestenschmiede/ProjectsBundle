@@ -29,6 +29,8 @@ class C4GBrickListParams
     private $renderMode = C4GBrickRenderMode::LISTBASED; //see C4GBrickRenderMode
     private $buttons = array(); //table buttons
     private $withExportButtons = true; //show exportButtons under datatable
+    private $exportButtons = array('print', 'pdf', 'csv'); //'print', 'pdf', 'excel', 'csv', 'copy'
+    private $printOnlyVisibleColumns = true; //export button prints just visible columns
     private $headline = ''; //set datatable headline
     private $selectRow = -1; //mark row as initial selection
     private $paginate = true; //shows pagination
@@ -523,4 +525,38 @@ class C4GBrickListParams
     {
         $this->withJQueryUI = $withJQueryUI;
     }
+
+    /**
+     * @return bool
+     */
+    public function isPrintOnlyVisibleColumns()
+    {
+        return $this->printOnlyVisibleColumns;
+    }
+
+    /**
+     * @param bool $printOnlyVisibleColumns
+     */
+    public function setPrintOnlyVisibleColumns($printOnlyVisibleColumns)
+    {
+        $this->printOnlyVisibleColumns = $printOnlyVisibleColumns;
+    }
+
+    /**
+     * @return array
+     */
+    public function getExportButtons()
+    {
+        return $this->exportButtons;
+    }
+
+    /**
+     * @param array $exportButtons
+     */
+    public function setExportButtons($exportButtons)
+    {
+        $this->exportButtons = $exportButtons;
+    }
+
+
 }

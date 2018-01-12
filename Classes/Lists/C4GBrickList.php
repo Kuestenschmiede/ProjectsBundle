@@ -291,7 +291,17 @@ class C4GBrickList
             } else {
                 $data['sDom'] = '<"H"lfr>t<"F"ip>B';
             }
-            $data['buttons'] = true;
+
+            if ($listParams->getExportButtons()) {
+                $data['buttons'] = $listParams->getExportButtons();
+//            $data['oButtons'] = array('print');
+//                $data['aoButtons'] = array(
+//                    'sExtend' => 'print',
+//                    'aoExportOptions' => array('columns' => '1'),
+//                    'sOrientation' => 'landscape'
+//                );
+            }
+
         }
 
         if($listParams) {
