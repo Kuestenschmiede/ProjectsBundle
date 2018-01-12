@@ -44,18 +44,18 @@ input:invalid {
     height: 21px;
     margin-right: 4px;
     margin-left: 4px;
-    font-size: 15px;
+    font-size: inherit;
 }
 .c4g_brick_headtext {
-    font-size: 13px;
+    font-size: inherit;
     font-weight: normal;
     margin-top: 0px;
     margin-bottom: 0px;
     margin-left: 0px/*2.5%*/;
 }
 .c4g_brick_headtext_highlighted {
-    font-size: 16px;
-    font-weight: normal;
+    font-size: inherit;
+    font-weight: bolder;
     margin-top: 0px;
     margin-bottom: 0px;
     /*margin-left: 2.5%;*/
@@ -164,10 +164,10 @@ input:invalid {
     margin-left: 2.5%;
 }
 .c4g_brick_dialog p.c4g_description {
-    font-weight: normal;
+    font-weight: lighter;
     margin: 0 2.5%;
     /*font-style: italic;*/
-    font-size: 0.8em;
+    font-size: inherit;
     color: darkslategrey;
 }
 .c4g_brick_dialog .c4g_descripton_hole {
@@ -178,7 +178,7 @@ input:invalid {
     text-align: right;
     margin: 0 2.5%;
     font-style: italic;
-    font-size: 1.0em;
+    font-size: inherit;
     color: darkslategrey;
 }
 .c4g_brick_dialog .c4g_color.picker {
@@ -213,7 +213,7 @@ input:invalid {
     font-weight: normal;
     margin: 0 2.5%;
     font-style: italic;
-    font-size: 1.0em;
+    font-size: inherit;
     color: darkslategrey;
 }
 .c4g_brick_dialog select:disabled {
@@ -287,7 +287,7 @@ div.cg_block {
 #c4g_brick .ui-widget,
 .c4gGuiDialogWrapper.ui-widget,
 .dataTables_wrapper {
-    /*font-size: 1.2em;*/
+    font-size: inherit;
 }
 .dataTables_paginate .ui-button {
     padding: 0!important;
@@ -404,18 +404,19 @@ div.cg_block {
     margin-left: 0px;
 }
 .dataTables_wrapper .dataTables_info {
-    font-size: 12px!important;
+    font-size: inherit!important;
     padding-top: 0px!important;
 }
 table.dataTable.display tbody, table.dataTable thead th div.DataTables_sort_wrapper{
     text-align: left;
-    font-size: 12px;
+    font-size: inherit;
 }
 .dataTables_wrapper tr {
     cursor:pointer!important;
 }
 #main .ui-widget-header {
     margin-top: 0px!important;
+    font-weight: normal;
 }
 .ui-dialog {
     z-index: 750;
@@ -533,7 +534,7 @@ label.c4g_multicheckbox{
     position: relative;
     margin: .3em 0 0 0;
     /*padding: .5em .5em .5em .7em;*/
-    font-size: 100%;
+    font-size: inherit;
     /*width: 100%;*/
     border-bottom-left-radius: 0px;
     border-bottom-right-radius: 0px;
@@ -570,7 +571,8 @@ label.c4g_multicheckbox{
     padding: 14px 16px;
     text-decoration: none;
     transition: 0.3s;
-    font-size: 17px;
+    font-size: inherit;
+    font-weight: normal;
     cursor: pointer;
 }
 
@@ -583,10 +585,12 @@ label.c4g_multicheckbox{
     top: 0px;
 }
 
-.c4gGuiTabContainer .ui-state-active, .c4gGuiTabContainer .current {
+.c4gGuiTabContainer .ui-state-active,.c4gGuiTabContainer .ui-state-default, .c4gGuiTabContainer .current {
     visibility: inherit;
     height: inherit;
     max-height:inherit;
+    font-weight: inherit;
+    font-weight: normal;
 }
 
 .c4g_brick_dialog h3 {
