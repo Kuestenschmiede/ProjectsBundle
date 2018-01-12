@@ -446,7 +446,7 @@ class C4GBrickTiles
             'dialogdata'    => $view,
             'dialogoptions' => C4GUtils::addDefaultDialogOptions(array
             (
-                'title' => '<div class="c4g_tile headline" >'.
+                'title' => '<div class="c4g_tile_headline" >'.
                     $listCaption.
                     '</div>' . $button . $search . '<div class="c4g_tile filter items">' . $filterResult . '</div>',
                 'modal' => true

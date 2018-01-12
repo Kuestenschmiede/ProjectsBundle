@@ -327,7 +327,6 @@ class C4GShowListAction extends C4GBrickDialogAction
         }
         if ($list_headline) {
             $headtext .= C4GHTMLFactory::lineBreak().$list_headline;
-
         }
 
 

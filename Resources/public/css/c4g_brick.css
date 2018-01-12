@@ -1,6 +1,5 @@
 .c4gGuiDialogTitle h1
 {
-    float: left;
     margin-top: 0px;
     margin-right: 0px;
     margin-left: 0px;
@@ -722,3 +721,4 @@ a.c4g_tile_button:hover {
     display: block;
     width: 100%;
 }
+
