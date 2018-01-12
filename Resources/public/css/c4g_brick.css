@@ -27,8 +27,7 @@
     margin-left: 4px;
 }
 input:invalid {
-    /*border-color: #ab2c29;*/
-    border-right-color: #ab2c29;
+    border-right-color: red;
 }
 .c4gGuiDialogTitle select.c4g_filter {
     float: right;
@@ -118,7 +117,7 @@ input:invalid {
     margin-left: 2.5%;
 }
 .c4g_brick_dialog label strong {
-    color: #ab2c29;
+    color: red;
 }
 .c4g_brick_dialog select,.c4g_brick_dialog .styled_select,
 .c4g_brick_select_dialog select,.c4g_brick_select_dialog .styled_select {
@@ -128,7 +127,6 @@ input:invalid {
     margin-bottom: .25em;
     margin-top: .25em;
     overflow:hidden;
-    /*border-radius: 3px;*/
 }
 .c4g_brick_dialog .chosen-container, .c4g_brick_select_dialog .chosen-container {
     display: block;
@@ -164,11 +162,11 @@ input:invalid {
     margin-left: 2.5%;
 }
 .c4g_brick_dialog p.c4g_description {
+    font-size: 0.9rem;
     font-weight: lighter;
     margin: 0 2.5%;
-    /*font-style: italic;*/
     font-size: inherit;
-    color: darkslategrey;
+    color: darkgrey;
 }
 .c4g_brick_dialog .c4g_descripton_hole {
     margin-bottom: 4px;
@@ -179,7 +177,7 @@ input:invalid {
     margin: 0 2.5%;
     font-style: italic;
     font-size: inherit;
-    color: darkslategrey;
+    color: darkgrey;
 }
 .c4g_brick_dialog .c4g_color.picker {
     font-weight: bold;
@@ -200,24 +198,33 @@ input:invalid {
 .c4g_brick_dialog select:required,
 .c4g_brick_dialog select:-moz-read-only {
 }
+
 .c4g_brick_dialog input[type='text']:disabled,
 .c4g_brick_dialog input[type='text']:-moz-read-only,
+.c4g_brick_dialog input[type='email']:disabled,
+.c4g_brick_dialog input[type='email']:-moz-read-only,
+.c4g_brick_dialog input[type='phone']:disabled,
+.c4g_brick_dialog input[type='phone']:-moz-read-only,
 .c4g_brick_dialog input[type='number']:disabled,
+.c4g_brick_dialog input[type='number']:-moz-read-only,
+.c4g_brick_dialog input[type='date']:disabled,
+.c4g_brick_dialog input[type='date']:-moz-read-only,
 .c4g_brick_dialog textarea:disabled,
 .c4g_brick_dialog textarea:-moz-read-only {
-    background: #d3d3d3;
-    border: 0px;
-    cursor: not-allowed;
+    background: lightgrey!important;
+    border: 0px!important;
+    cursor: not-allowed!important;
 }
+
 .c4g_brick_dialog .c4g_textarea_length {
     font-weight: normal;
     margin: 0 2.5%;
     font-style: italic;
     font-size: inherit;
-    color: darkslategrey;
+    color: darkgrey;
 }
 .c4g_brick_dialog select:disabled {
-    background-color:#d3d3d3;
+    background-color:lightgrey;
     border: 0px;
     cursor: not-allowed;
 }
@@ -306,7 +313,7 @@ div.cg_block {
 #c4g_deleteButton {
     margin-left: 5px;
     padding: 1px;
-    color: #ab2c29;
+    color: red;
     cursor: pointer;
     font-family: 'FontAwesome';
 }
@@ -377,9 +384,9 @@ div.cg_block {
     font-style: normal;
     font-weight: bold;
     text-decoration: none;
-    background-color: #d3d3d3;
+    background-color: lightgrey;
     cursor:pointer;
-    box-shadow: 0px 0px 4px #787878;
+    box-shadow: 0px 0px 4px darkgrey;
 }
 .c4g_brick_dialog .c4g_tile .c4g_tile_label{
 
@@ -432,7 +439,6 @@ table.dataTable.display tbody, table.dataTable thead th div.DataTables_sort_wrap
 {
     float: left;
     padding: 2px;
-    /*padding-left: 4px;*/
     padding-right: 4px;
     padding-bottom: 2px;
     vertical-align: middle;
@@ -440,8 +446,6 @@ table.dataTable.display tbody, table.dataTable thead th div.DataTables_sort_wrap
     height: 11px;
     width: 49px;
     border: 0px inset;
-    /*color: rgb(128, 128, 128);*/
-    /*font-weight: bold;*/
 }
 .c4g_brick_dialog .c4g_timefield .gettime
 {
@@ -451,7 +455,7 @@ table.dataTable.display tbody, table.dataTable thead th div.DataTables_sort_wrap
     background-repeat: no-repeat;
     background-position: center;
     float: left;
-    border-left-color: rgb(226, 226, 226);
+    border-left-color: lightgrey;
     border-left-style: solid;
     border-left-width: 1px;
 }
