@@ -312,18 +312,18 @@ class C4GShowListAction extends C4GBrickDialogAction
             $content = $dialogParams->getC4gMap();
         }
 
-        $headtext = $dialogParams->getHeadline();
+        $headtext = '<h1>'.$dialogParams->getHeadline().'</h1>';
         if ($listParams->getHeadline()) {
-            $headtext = $listParams->getHeadline();
+            $headtext = '<h1>'.$listParams->getHeadline().'</h1>';
         } elseif (($group_headline) && ($project_headline) && ($parent_headline)) {
-            $headtext = $headtext . C4GHTMLFactory::lineBreak() .
+            $headtext = $headtext .
                 $group_headline . $project_headline . $parent_headline;
         } elseif (($group_headline) && ($project_headline)) {
-            $headtext = $headtext.C4GHTMLFactory::lineBreak().$group_headline.$project_headline;
+            $headtext = $headtext.$group_headline.$project_headline;
         } elseif (($group_headline) && ($parent_headline)) {
-            $headtext = $headtext.C4GHTMLFactory::lineBreak().$group_headline.$parent_headline;
+            $headtext = $headtext.$group_headline.$parent_headline;
         } elseif ($group_headline) {
-            $headtext = $headtext.C4GHTMLFactory::lineBreak().$group_headline;
+            $headtext = $headtext.$group_headline;
         }
         if ($list_headline) {
             $headtext .= C4GHTMLFactory::lineBreak().$list_headline;

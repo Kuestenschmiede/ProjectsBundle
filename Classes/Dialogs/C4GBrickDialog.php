@@ -442,7 +442,7 @@ class C4GBrickDialog
         if ($dialogParams->isWithoutGuiHeader()) {
             $result =  array
             (
-                'headline' => C4GHTMLFactory::headline($headtext),
+                'headline' => $headtext,
                 'dialogtype' => 'html',
                 'dialogdata' => $view,
                 'dialogoptions' => C4GUtils::addDefaultDialogOptions(array
@@ -457,7 +457,7 @@ class C4GBrickDialog
         } else {
             $result = array
             (
-                'headline' => C4GHTMLFactory::headline($headtext),
+                'headline' => $headtext,
                 'dialogtype' => 'html',
                 'dialogdata' => $view,
                 'dialogoptions' => C4GUtils::addDefaultDialogOptions(array

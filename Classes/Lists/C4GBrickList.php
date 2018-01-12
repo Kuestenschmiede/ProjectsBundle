@@ -518,7 +518,7 @@ class C4GBrickList
                 'clickAction' => $withDetails,
             ),
             'state' => C4GBrickActionType::IDENTIFIER_LIST . ':' . $key, //Listenstatus
-            'headline' => C4GHTMLFactory::headline($listHeadline),
+            'headline' => $listHeadline,
             'buttons' => $buttons
         );
     }
