@@ -287,6 +287,7 @@ class C4GBrickModuleParent extends \Module
             $groups = C4GBrickCommon::getGroupListForBrick($this->User->id, $this->brickKey);
             $groupCount = count($groups);
             $this->listParams->setGroupCount($groupCount);
+            $this->listParams->setWithJQueryUI($this->strTemplate != 'mod_c4g_brick_simple');
 
             //$this->listParams->setProjectCount();
             //$this->listParams->setParentCount();
@@ -403,7 +404,7 @@ class C4GBrickModuleParent extends \Module
 
         if ($this->strTemplate == 'mod_c4g_brick_simple') {
             // initialize used Javascript Libraries and CSS files
-            \C4GJQueryGUI::initializeLibraries(
+            C4GJQueryGUI::initializeLibraries(
                 true,                     // add c4gJQuery GUI Core LIB
                 true,                     // add JQuery
                 false,                     // add JQuery UI

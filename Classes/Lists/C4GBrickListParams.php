@@ -43,7 +43,8 @@ class C4GBrickListParams
     private $onloadScript = ''; // javascript code that should be executed when the list is loaded
     private $removeUnpublishedElements = false; //if true we ignore unpublished elements (!published)
     private $groupCount = 0;
-    private $viewFormatFunction = '';   // function in the module model to change the presentation of data
+    private $viewFormatFunction = '';   //function in the module model to change the presentation of data
+    private $withJQueryUI = true; // disable jQueryUI
 
     /**
      * C4GBrickListParams constructor.
@@ -507,4 +508,19 @@ class C4GBrickListParams
         $this->viewFormatFunction = $viewFormatFunction;
     }
 
+    /**
+     * @return bool
+     */
+    public function isWithJQueryUI()
+    {
+        return $this->withJQueryUI;
+    }
+
+    /**
+     * @param bool $withJQueryUI
+     */
+    public function setWithJQueryUI($withJQueryUI)
+    {
+        $this->withJQueryUI = $withJQueryUI;
+    }
 }

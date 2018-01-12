@@ -271,7 +271,7 @@ class C4GBrickList
         $data = array();
         //$data['iDisplayIndex'] = $key;
         $data['aoColumnDefs']    = array();
-        $data['bJQueryUI']       = true;
+        $data['bJQueryUI']       = $listParams->isWithJQueryUI();
         $data['bScrollCollapse'] = true;
         $data['bStateSave']      = true;
         $data['bPaginate']       = $listParams->isPaginate();
@@ -283,7 +283,14 @@ class C4GBrickList
         $data['responsive']      = true;
 
         if ($listParams->isWithExportButtons()) {
-            $data['sDom'] = '<"H"lfr>t<"F"ip>B';
+            if ($listParams->isWithJQueryUI()) {
+                $data['sDom'] =
+                    '<"fg-toolbar ui-toolbar ui-widget-header ui-helper-clearfix ui-corner-tl ui-corner-tr"lfr>'.
+                    't'.
+                    '<"fg-toolbar ui-toolbar ui-widget-header ui-helper-clearfix ui-corner-bl ui-corner-br"ip>B';
+            } else {
+                $data['sDom'] = '<"H"lfr>t<"F"ip>B';
+            }
             $data['buttons'] = true;
         }
 
