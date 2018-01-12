@@ -409,7 +409,7 @@ div.cg_block {
 }
 table.dataTable.display tbody, table.dataTable thead th div.DataTables_sort_wrapper{
     text-align: left;
-    font-size: inherit;
+    font-size: 0.9rem;
 }
 .dataTables_wrapper tr {
     cursor:pointer!important;
