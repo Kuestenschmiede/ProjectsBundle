@@ -293,13 +293,7 @@ class C4GBrickList
             }
 
             if ($listParams->getExportButtons()) {
-                $data['buttons'] = $listParams->getExportButtons();
-//            $data['oButtons'] = array('print');
-//                $data['aoButtons'] = array(
-//                    'sExtend' => 'print',
-//                    'aoExportOptions' => array('columns' => '1'),
-//                    'sOrientation' => 'landscape'
-//                );
+                $data['buttons'] = $listParams->getExportButtons()->getButtonArr();
             }
 
         }

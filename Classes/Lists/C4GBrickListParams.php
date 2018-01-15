@@ -12,6 +12,7 @@
 
 namespace con4gis\ProjectsBundle\Classes\Lists;
 use con4gis\ProjectsBundle\Classes\Buttons\C4GBrickButton;
+use con4gis\ProjectsBundle\Classes\Buttons\C4GExportButtons;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickConst;
 use con4gis\ProjectsBundle\Classes\Filter\C4GBrickFilterParams;
 use con4gis\ProjectsBundle\Classes\Views\C4GBrickView;
@@ -29,7 +30,7 @@ class C4GBrickListParams
     private $renderMode = C4GBrickRenderMode::LISTBASED; //see C4GBrickRenderMode
     private $buttons = array(); //table buttons
     private $withExportButtons = true; //show exportButtons under datatable
-    private $exportButtons = array('print', 'pdf', 'csv'); //'print', 'pdf', 'excel', 'csv', 'copy'
+    private $exportButtons = null;//C4GExportButtons
     private $printOnlyVisibleColumns = true; //export button prints just visible columns
     private $headline = ''; //set datatable headline
     private $selectRow = -1; //mark row as initial selection
@@ -54,6 +55,7 @@ class C4GBrickListParams
     public function __construct($brickKey, $viewType)
     {
         $this->buttons = $this->getDefaultListButtons($viewType);
+        $this->exportButtons = new C4GExportButtons();
 
         $this->filterParams = new C4GBrickFilterParams($brickKey);
         $this->filterParams->setHeadtext($GLOBALS['TL_LANG']['FE_C4G_DIALOG']['headText']);
