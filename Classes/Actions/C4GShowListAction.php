@@ -284,7 +284,12 @@ class C4GShowListAction extends C4GBrickDialogAction
                             unset($elements->headline);
                         }
                     } else {
-                        $elements = $brickDatabase->findAll();
+                        if ($brickDatabase->getParams()->getFindBy() && (count($brickDatabase->getParams()->getFindBy()) > 0)) {
+                            $elements = call_user_func_array(array($brickDatabase,findBy),$brickDatabase->getParams()->getFindBy());
+                        } else {
+                            $elements = $brickDatabase->findAll();
+                        }
+
                     }
                     break;
                 default:

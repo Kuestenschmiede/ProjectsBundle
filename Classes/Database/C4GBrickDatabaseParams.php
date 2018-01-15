@@ -39,6 +39,9 @@ class C4GBrickDatabaseParams
     private $config = null;
     private $entityManager = null;
 
+    //database qualifying
+    private $findBy = array();
+
     /**
      * C4GBrickDatabaseParams constructor.
      * @param $type
@@ -222,6 +225,22 @@ class C4GBrickDatabaseParams
     public function setModelListFunction($modelListFunction)
     {
         $this->modelListFunction = $modelListFunction;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFindBy()
+    {
+        return $this->findBy;
+    }
+
+    /**
+     * @param string $findBy
+     */
+    public function setFindBy($findBy)
+    {
+        $this->findBy = $findBy;
     }
 
 }

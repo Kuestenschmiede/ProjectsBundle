@@ -51,6 +51,7 @@ class C4GBrickModuleParent extends \Module
     protected $brickKey             = ''; //unique string key for module request and con4gis-Groups rights.
     protected $viewType             = C4GBrickViewType::GROUPBASED; //see C4GBrickViewType
     protected $tableName            = ''; //needed by default DatabaseType
+    protected $findBy               = array(); //qualify default dataset
     protected $modelClass           = ''; //needed by default DatabaseType
     protected $fieldList            = null; //fieldlist filled by module class with objects inherited by C4GBrickField
     protected $initialFieldList     = null; //initial fieldlist used for history lookups when the fieldlist is changed
@@ -266,6 +267,7 @@ class C4GBrickModuleParent extends \Module
                 $dbClass    = $this->modelClass;
             }
 
+            $databaseParams->setFindBy($this->findBy);
             $databaseParams->setEntityNamespace($namespace);
             $databaseParams->setDatabase($this->Database);
 
@@ -1050,5 +1052,22 @@ class C4GBrickModuleParent extends \Module
     {
         $this->loadUrlClear = $loadUrlClear;
     }
+
+    /**
+     * @return string
+     */
+    public function getFindBy()
+    {
+        return $this->findBy;
+    }
+
+    /**
+     * @param string $findBy
+     */
+    public function setFindBy($findBy)
+    {
+        $this->findBy = $findBy;
+    }
+
 
 }

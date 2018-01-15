@@ -24,7 +24,7 @@ class C4GExportButtons
     private $withExcelButton = false;
     private $withCopyButton  = false;
     private $orientation     = 'portrait'; //or landscape
-    private $pageSize        = 'A4';
+    private $pageSize        = 'A4'; // or Legal
     private $exportOptions   = array('columns' => ':visible'); /*or array(0,1,2,5) / array(array('name'=>'columnName')) -> https://datatables.net/reference/type/column-selector*/
 
     public function getButtonArr() {
