@@ -319,11 +319,13 @@ class C4GBrickList
 
         $cnt = 0;
 
-
         foreach ($fieldList as $column) {
             $additionalClasses = 'c4g_list_align_left';
             if ($column->getAlign() == 'right') {
                 $additionalClasses = ' c4g_list_align_right';
+            }
+            if ($column->isShowSum()) {
+                $additionalClasses .= ' c4g_sum';
             }
             if ($cnt == 0) {
                 $data['aoColumnDefs'][] = array(

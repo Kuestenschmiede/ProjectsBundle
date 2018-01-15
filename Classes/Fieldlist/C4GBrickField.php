@@ -109,6 +109,7 @@ abstract class C4GBrickField
     private $conditionalFieldName = null; // the fieldname of the field which is the condition
     private $displayValue = null; // the value of the condition field at which this field will be displayed
     private $removeWithEmptyCondition = false; // soll das Feld ohne Conditions ausgeblendet werden (valueSwitch)
+    private $showSum = false; // zeigt eine zusätzliche Footer Zeile mit der Spaltensumme.
     private $tileClass = false; //soll die value als tile class gesetzt werden.
     private $tileClassTable = ''; // soll der value für die class aus einer Tabelle geholt werden?
     private $tileClassField = ''; // aus welchem Feld soll der value für die class geholt werden?
@@ -1918,5 +1919,22 @@ abstract class C4GBrickField
     {
         $this->tileClassField = $tileClassField;
     }
+
+    /**
+     * @return bool
+     */
+    public function isShowSum()
+    {
+        return $this->showSum;
+    }
+
+    /**
+     * @param bool $showSum
+     */
+    public function setShowSum($showSum)
+    {
+        $this->showSum = $showSum;
+    }
+
 
 }

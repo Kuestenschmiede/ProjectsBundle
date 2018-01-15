@@ -300,6 +300,15 @@ div.cg_block {
 .dataTables_paginate .ui-button {
     padding: 0!important;
 }
+.c4g_sumrow {
+    border-collapse: separate;
+    /*background-color: lightgrey;*/
+}
+.c4g_sumrow th {
+    right: 0;
+    margin-right: 0px;
+    text-align: right;
+}
 #c4g_uploadButton {
     margin-left: 2.5%;
     margin-bottom: 4px;
