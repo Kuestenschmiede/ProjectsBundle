@@ -325,8 +325,6 @@ class C4GBrickList
                 $additionalClasses = ' c4g_list_align_right';
             }
             if ($column->isShowSum()) {
-                $additionalClasses .= ' c4g_sum c4g_show_sum';
-            } else {
                 $additionalClasses .= ' c4g_sum';
             }
             if ($cnt == 0) {
