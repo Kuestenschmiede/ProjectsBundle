@@ -300,14 +300,17 @@ div.cg_block {
 .dataTables_paginate .ui-button {
     padding: 0!important;
 }
-.c4g_sumrow {
-    border-collapse: separate;
-    /*background-color: lightgrey;*/
+.c4gGuiDataTable tfoot th {
+    padding-right: 10px!important;
+    font-weight: normal!important;
+    border-top: 1px;
+    border-top-color: darkgrey;
+    border-top-style: solid;
 }
-.c4g_sumrow th {
-    right: 0;
-    margin-right: 0px;
-    text-align: right;
+#c4g_brick table.dataTable.no-footer {
+    border-bottom: 1px;
+    border-bottom-color: darkgrey;
+    border-bottom-style: solid;
 }
 #c4g_uploadButton {
     margin-left: 2.5%;
@@ -399,7 +402,6 @@ div.cg_block {
     box-shadow: 0px 0px 4px darkgrey;
 }
 .c4g_brick_dialog .c4g_tile .c4g_tile_label{
-
     margin-bottom: 20px;
     margin-top: 20px;
 }

@@ -320,7 +320,7 @@ class C4GBrickList
         $cnt = 0;
 
         foreach ($fieldList as $column) {
-            $additionalClasses = 'c4g_list_align_left';
+            $additionalClasses = ' c4g_list_align_left';
             if ($column->getAlign() == 'right') {
                 $additionalClasses = ' c4g_list_align_right';
             }
@@ -340,7 +340,7 @@ class C4GBrickList
                 if ($column->isTableColumn()) {
                     if ($column->isSortColumn()) {
                         $data['aoColumnDefs'][] = array(
-                            'sClass' => 'c4g_brick_col_'.$cnt.$additionalClasses,
+                            'sClass' => 'c4g_brick_col c4g_brick_col_'.$cnt.$additionalClasses,
                             'sTitle' => $column->getTitle(),
                             'aDataSort' => array($cnt),
                             'sWidth' => $column->getColumnWidth() . '%',
@@ -355,7 +355,7 @@ class C4GBrickList
 //                        $data['aaSorting'] = array(array($cnt, $column->getSortSequence()));
                     } else {
                         $data['aoColumnDefs'][] = array(
-                            'sClass' => 'c4g_brick_col_'.$cnt.$additionalClasses,
+                            'sClass' => 'c4g_brick_col c4g_brick_col_'.$cnt.$additionalClasses,
                             'sTitle' => $column->getTitle(),
                             'sWidth' => $column->getColumnWidth() . '%',
                             'sType' => $column->getSortSequence(),
