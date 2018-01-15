@@ -13,6 +13,7 @@
 namespace con4gis\ProjectsBundle\Classes\Actions;
 
 use con4gis\ProjectsBundle\Classes\Database\C4GBrickDatabaseType;
+use con4gis\ProjectsBundle\Classes\Filter\C4GBrickFilterParams;
 use con4gis\ProjectsBundle\Classes\Models\C4gProjectsModel;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickCommon;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickConst;
@@ -285,11 +286,10 @@ class C4GShowListAction extends C4GBrickDialogAction
                         }
                     } else {
                         if ($brickDatabase->getParams()->getFindBy() && (count($brickDatabase->getParams()->getFindBy()) > 0)) {
-                            $elements = call_user_func_array(array($brickDatabase,findBy),$brickDatabase->getParams()->getFindBy());
+                            $elements = call_user_func_array(array($brickDatabase,'findBy'),$brickDatabase->getParams()->getFindBy());
                         } else {
                             $elements = $brickDatabase->findAll();
                         }
-
                     }
                     break;
                 default:
@@ -297,6 +297,25 @@ class C4GShowListAction extends C4GBrickDialogAction
             }
         } catch (Exception $e) {
             $elements = null;
+        }
+
+        // filter elements, if filter is set
+        $filterParams =  $listParams->getFilterParams();
+        if ($filterParams && $filterParams->isWithRangeFilter() && $filterParams instanceof C4GBrickFilterParams) {
+            $dateFrom = $filterParams->getRangeFrom();
+            $dateTo = $filterParams->getRangeTo();
+            $rangeFrom = strtotime($filterParams->getRangeFrom());
+            $rangeTo = strtotime($filterParams->getRangeTo());
+            $highlightSpan = '<span class="c4g_brick_headtext_highlighted">';
+            $highlightSpanEnd = '</span>';
+            $filterText = "Zeitraum von " . $highlightSpan . $dateFrom . $highlightSpanEnd . ' bis zum ' .
+                $highlightSpan . $dateTo . $highlightSpanEnd;
+            $filterField = $filterParams->getFilterField();
+            foreach ($elements as $key => $element) {
+                if ($element->$filterField < $rangeFrom || $rangeTo < $element->$filterField) {
+                    unset($elements[$key]);
+                }
+            }
         }
 
         // call formatter if set
@@ -333,7 +352,9 @@ class C4GShowListAction extends C4GBrickDialogAction
         if ($list_headline) {
             $headtext .= C4GHTMLFactory::lineBreak().$list_headline;
         }
-
+        if ($filterText) {
+            $headtext .= $filterText;
+        }
 
         $renderMode = $listParams->getRenderMode();
         switch ($renderMode) {

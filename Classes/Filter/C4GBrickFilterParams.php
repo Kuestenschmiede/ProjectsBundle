@@ -28,6 +28,8 @@ class C4GBrickFilterParams
     private $fields = array();  // Checkbox = array('spaltenname' => 'Übersetzung', 'spaltenname' => 'Übersetzung');
     private $options = array();
 
+    private $filterField = ''; // The fieldname of the field which the data should be filtered by
+
     /**
      * C4GBrickFilterParams constructor.
      */
@@ -213,7 +215,21 @@ class C4GBrickFilterParams
         $this->withGeofilter = $withGeofilter;
     }
 
+    /**
+     * @return string
+     */
+    public function getFilterField(): string
+    {
+        return $this->filterField;
+    }
 
+    /**
+     * @param string $filterField
+     */
+    public function setFilterField(string $filterField)
+    {
+        $this->filterField = $filterField;
+    }
 
     public function setBrickFilterCookies($brickKey) {
         $fromValue = $this->rangeFrom;
