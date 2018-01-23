@@ -19,6 +19,10 @@ use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
 
 class C4GGalleryField extends C4GBrickField
 {
+    private $imageWidth  = '256px';
+    private $imageHeight = '256px';
+    private $withTitle   = false;
+
     /**
      * @param C4GBrickField[] $fieldList
      * @param $data
@@ -28,124 +32,56 @@ class C4GGalleryField extends C4GBrickField
      */
     public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = array())
     {
-        $title = $this->getTitle();
-        $values = $this->getInitialFields();
-        $link = $this->getInsertLink() . '?state=brickdialog:';
 
-        $action = $this->getAction();
-        
-        //ToDo new implementation
-        //$event = new C4GBrickAction($action['actiontype'], $action['actionevent']);
-        $event = null;
+        //set image sizes
+        $size = $this->getSize();
+        if ($size) {
+            $width = $size;
+            $height = $size;
+            $size = 'width="' . $width . '" height="' . $height . '"';
 
-        if (!$values) {
-            $loadOptions = $this->getLoadOptions();
-            if ($loadOptions) {
-                $model = $loadOptions->getModel();
-                $keyField = $loadOptions->getKeyField();
-                $idField = $loadOptions->getIdField();
-                $nameField = $loadOptions->getNameField();
-                $pathField = $loadOptions->getPathField();
-                $publishedField = $loadOptions->getPublishedField();
+        } else {
+            $width = $this->getImageWidth();
+            $height = $this->getImageHeight();
 
-
-                $id = $data->id;
-                $elements = $model::findby($keyField, $id);
-
-                if ($elements) {
-                    foreach ($elements as $element) {
-                        if (($publishedField == '') ||
-                            ($element->$publishedField)
-                        ) {
-                            $initialField = new C4GImageField();
-                            if ($element->$nameField) {
-
-                                $initialField->setTitle($element->$nameField);
-                            }
-                            if ($this->getSize()) {
-                                $initialField->setSize($this->getSize());
-                            }
-                            if ($element->$pathField) {
-
-                                $initialField->setInitialValue($element->$pathField);
-                            }
-                            if ($element->$idField) {
-                                $initialField->setContentId($element->$idField);
-                            }
-                            $values[] = $initialField;
-                        }
-                    }
-                }
+            if ($width && $height) {
+                $size = 'width="' . $width . '" height="' . $height . '"';
+            } else if ($width) {
+                $size = 'width="' . $width . '"';
+            } else if ($height) {
+                $size = 'height="' . $height . '"';
             }
         }
 
-        $width = $this->getSize();
-
+        $value = $this->generateInitialValue($data);
+        $files = deserialize($value);
 
         $result = '';
 
-        if ($this->isShowIfEmpty() || !empty($values)) {
+        if ($this->isShowIfEmpty() || $files) {
 
             $condition = $this->createConditionData($fieldList, $data);
-            $description = $this->getC4GDescriptionLabel($this->getDescription(), $condition);
+            $description =$this->getC4GDescriptionLabel($this->getDescription(), $condition);
 
-            $result = '<div '
-                . $condition['conditionName']
-                . $condition['conditionType']
-                . $condition['conditionValue']
-                . $condition['conditionDisable'] . '>
-                <label>' . $title . '</label><div class="c4g_gallery">';
-
-            foreach ($values as $value) {
-                // $values are the initialFields (C4GBrickFields)
-
-                $path = $value->generateInitialValue($data);
-
-                $contentId = $value->getContentId();
-
-                $pathobj = C4GBrickCommon::loadFile($path);
-                if ($this->isShowIfEmpty() || !empty($pathobj->path)) {
-                    if ($pathobj->path) {
-
-                        if ($pathobj->path[0] == '/') {
-                            $result .= '
-                                <div class="c4g_tile">
-                                        <div class="c4g_tile_label">
-                                        <label>' . $value->getTitle() . '</label>
-                                        </div>
-                                        <div class="c4g_tile_image">
-                                            <a ' . $event->showResult()['js'] . ' data-mfp-src="' . $link . $contentId . '" href="' . substr($pathobj->path, 1) . '" class="' . $event->showResult()['class'] . '">
-                                                <img src="' . substr($pathobj->path, 1) . '" title="" width="' . $width . '"/>
-                                            </a>
-                                        </div>
-                                        <div class="c4g_tile_description">' . $description . '</div>
-
-                                </div>';
-                        } else {
-                            $result .= '
-                                <div class="c4g_tile">
-                                        <div class="c4g_tile_label">
-                                        <label>' . $value->getTitle() . '</label>
-                                        </div>
-                                        <div class="c4g_tile_image">
-                                            <a ' . $event->showResult()['js'] . ' data-mfp-src="' . $link . $contentId . '" href="' . $pathobj->path . '" class="' . $event->showResult()['class'] . '">
-                                                <img src="' . $pathobj->path . '" title="" width="' . $width . '"/>
-                                            </a>
-                                        </div>
-                                        <div class="c4g_tile_description">' . $description . '</div>
-                                </div>';
-                        }
-                    } else {
-                        $result = '
-                        <div class="c4g_tile_label"><label>' .
-                            $title . '</label></div><div class="c4g_tile_image"><img src="bundles/con4gisprojects/images/missing.png" title="' .
-                            $title . '" width="' . $width . '"/></div><div class="c4g_tile_description">' . $description . '</div></div>';
-                    }
+            if ($files) {
+                $images = '';
+                $image_cnt = 0;
+                foreach ($files as $file) {
+                    $imageFile = C4GBrickCommon::loadFile($file);
+                    $src = $imageFile->path;
+                    $title = $this->withTitle ? $imageFile->name : '';
+                    $image_cnt++;
+                    $images .= '<div class="ce_image c4g_gallery_image c4g_' . $this->getFieldName() .'_'.$image_cnt.' block"><figure class="image_container" itemscope="" itemtype="http://schema.org/ImageObject"><a href="' . $src . '" data-lightbox="c4g_' . $this->getFieldName() .'_'.$image_cnt.'" data-title="' . $title . '"><img src="' . $src . '" itemprop="image" title="' . $title . '" '.$size.'/></a></figure></div>';
                 }
 
+                $result = '<div '
+                    . $condition['conditionName']
+                    . $condition['conditionType']
+                    . $condition['conditionValue']
+                    . $condition['conditionDisable'] . '>
+                        <div class="c4g_gallery formdata c4g_' . $this->getFieldName() . '"><div class="c4g_image_label"><label>' . $this->getTitle() . '</label></div><div class="c4g_gallery_images c4g_' . $this->getFieldName() . '_images">'.$images.'</div><div class="c4g_gallery_description">' .
+                    $description . '</div></div></div>';
             }
-
-            $result .= '</div></div> ' . $event->showResult()['script'];
         }
 
         return $result;
@@ -161,4 +97,143 @@ class C4GGalleryField extends C4GBrickField
     {
         // TODO: Implement compareWithDB() method.
     }
+//    /**
+//     * Public method for creating the field specific list HTML
+//     * @param $rowData
+//     * @param $content
+//     * @return mixed
+//     */
+//    public function getC4GListField($rowData, $content)
+//    {
+//        $fieldName = $this->getFieldName();
+//        $file = $rowData->$fieldName;
+//        if (!is_string($file)) {
+//            $file = '';
+//        }
+//
+//        $fileObject = C4GBrickCommon::loadFile($file);
+//        if ($fileObject) {
+//            $field = $fileObject->name;
+//        } else {
+//            $field = 'UNKNOWN';
+//        }
+//        return $field;
+//    }
+//
+//    /**
+//     * Public method for creating the field specific tile HTML
+//     * @param $fieldTitle
+//     * @param $element
+//     * @return mixed
+//     */
+//    public function getC4GTileField($fieldTitle, $element)
+//    {
+//        $fieldName = $this->getFieldName();
+//        $file = $element->$fieldName;
+//        if (!is_string($file))
+//        {
+//            $file = '';
+//        }
+//        $fileObject = C4GBrickCommon::loadFile($file);
+//        if ($fileObject) {
+//            switch($this->getFileTypes())
+//            {
+//                case C4GBrickFileType::IMAGES_ALL:
+//                case C4GBrickFileType::IMAGES_JPG:
+//                case C4GBrickFileType::IMAGES_PNG:
+//                case C4GBrickFileType::IMAGES_PNG_JPG:
+//                    if($fileObject->path[0] == '/')
+//                    {
+//                        return $fieldTitle . '<div class="c4g_tile value">' . '<img src="' .substr ($fileObject->path, 1 ). '" width="'.$this->getSize().'" height="'.$this->getSize().'">' . '</div>';
+//                    }
+//                    else
+//                    {
+//                        return $fieldTitle . '<div class="c4g_tile value">' . '<img src="' .$fileObject->path. '" width="'.$this->getSize().'" height="'.$this->getSize().'">' . '</div>';
+//                    }
+//            }
+//        }
+//        else
+//        {
+//            switch($this->getFileTypes())
+//            {
+//                case C4GBrickFileType::IMAGES_ALL:
+//                case C4GBrickFileType::IMAGES_JPG:
+//                case C4GBrickFileType::IMAGES_PNG:
+//                case C4GBrickFileType::IMAGES_PNG_JPG:
+//                    return $fieldTitle . '<div class="c4g_tile value">' . '<img src="bundles/con4gisprojects/images/missing.png">' . '</div>';
+//                    break;
+//                default:
+//                    return $fieldTitle . '<div class="c4g_tile value">' . '<div class="error"></div>' . '</div>';
+//            }
+//        }
+//    }
+//
+//    /**
+//     * Public method that will be called in translateFieldValues in C4GBrickModuleParent
+//     * @param $value
+//     * @return mixed
+//     */
+//    public function translateFieldValue($value)
+//    {
+//        $file = $value;
+//        if (!is_string($file)) {
+//            $file = '';
+//        }
+//
+//        $fileObject = C4GBrickCommon::loadFile($file);
+//        if ($fileObject) {
+//            return $fileObject->name;
+//        } else {
+//            return 'UNKNOWN';
+//        }
+//    }
+
+    /**
+     * @return string
+     */
+    public function getImageWidth()
+    {
+        return $this->imageWidth;
+    }
+
+    /**
+     * @param string $imageWidth
+     */
+    public function setImageWidth($imageWidth)
+    {
+        $this->imageWidth = $imageWidth;
+    }
+
+    /**
+     * @return string
+     */
+    public function getImageHeight()
+    {
+        return $this->imageHeight;
+    }
+
+    /**
+     * @param string $imageHeight
+     */
+    public function setImageHeight($imageHeight)
+    {
+        $this->imageHeight = $imageHeight;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isWithTitle(): bool
+    {
+        return $this->withTitle;
+    }
+
+    /**
+     * @param bool $withTitle
+     */
+    public function setWithTitle(bool $withTitle)
+    {
+        $this->withTitle = $withTitle;
+    }
+
 }
