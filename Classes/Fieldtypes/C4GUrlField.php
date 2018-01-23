@@ -18,7 +18,8 @@ use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldCompare;
 
 class C4GUrlField extends C4GBrickField
 {
-    private $externalLink = true;
+    private $withLink = true;
+
     /**
      * @param $field
      * @param $data
@@ -34,10 +35,17 @@ class C4GUrlField extends C4GBrickField
         if ($this->isShowIfEmpty() || !empty($value)) {
 
             $condition = $this->createConditionData($fieldList, $data);
+            $fieldDataBefore = '';
+            $fieldDataAfter  = '';
+
+            if ($this->withLink) {
+                $fieldDataBefore = '<a href="'.$value.'" target="_blank" >';
+                $fieldDataAfter = '</a>';
+            };
 
             $result =
                 $this->addC4GField($condition,$dialogParams,$fieldList,$data,
-                '<input type="url" ' . $required . ' ' . $condition['conditionPrepare'] . ' id="' . $id . '" class="formdata" name="' . $this->getFieldName() . '" title="' . $this->getTitle() . '" value="' . $value . '">');
+                    $fieldDataBefore.'<input type="url" ' . $required . ' ' . $condition['conditionPrepare'] . ' id="' . $id . '" class="formdata" name="' . $this->getFieldName() . '" title="' . $this->getTitle() . '" value="' . $value . '">'.$fieldDataAfter);
         }
         return $result;
     }
@@ -63,19 +71,19 @@ class C4GUrlField extends C4GBrickField
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
-    public function isExternalLink()
+    public function isWithLink()
     {
-        return $this->externalLink;
+        return $this->withLink;
     }
 
     /**
-     * @param boolean $externalLink
+     * @param bool $withLink
      */
-    public function setExternalLink($externalLink)
+    public function setWithLink($withLink)
     {
-        $this->externalLink = $externalLink;
+        $this->withLink = $withLink;
     }
 
 }

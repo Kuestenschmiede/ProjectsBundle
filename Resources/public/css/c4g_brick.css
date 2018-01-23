@@ -240,7 +240,12 @@ input:invalid {
 .c4g_brick_dialog #cke_ckeditor {
     display: block;
     margin: 0 auto;
+    margin-top: 5px;
     width: 95%;
+}
+.c4g_brick_dialog #cke_ckeditor:disabled .cke_top, .c4g_brick_dialog #cke_ckeditor:read-only .cke_top,
+.c4g_brick_dialog #cke_ckeditor:disabled .cke_bottom, .c4g_brick_dialog #cke_ckeditor:read-only .cke_bottom{
+    display: none;
 }
 .c4g_brick_dialog .c4g_brick_geopicker_label {
     padding-top: 10px;
@@ -382,9 +387,12 @@ div.cg_block {
 }
 .c4g_brick_dialog .c4g_gallery .c4g_gallery_images {
     display: flex;
-    justify-content: space-between;
+    justify-content: left;//space-between;
     flex-wrap: wrap;
     box-sizing: border-box;
+}
+.c4g_brick_dialog .c4g_gallery .c4g_gallery_images img {
+    padding-right: 5px;
 }
 .c4g_gallery_description p.c4g_description {
     margin-left: 0px;
@@ -491,6 +499,9 @@ table.dataTable.display tbody, table.dataTable thead th div.DataTables_sort_wrap
 .c4g_brick_dialog .c4g_timefield:read-only {
     width: 57px;
     border-style: inherit;
+}
+.c4g_brick_dialog a input[type='url'] {
+    cursor: pointer;
 }
 .c4gGuiButton .c4g_tile.text
 {
