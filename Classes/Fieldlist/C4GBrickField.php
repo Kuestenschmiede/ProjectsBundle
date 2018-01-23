@@ -88,6 +88,7 @@ abstract class C4GBrickField
     private $sort = true; //activate sorting for fieldtypes with options
     private $sortColumn = false; //is this a sort column in datatable?
     private $sortSequence = 'asc'; //sort sequence
+    private $sortType = ''; //sort type de_date, de_datetime
     private $source = C4GBrickFieldSourceType::DATABASE; //datasource, if not database
     private $sourceField = null; //field content not database field
     private $styleClass = ''; //additional css class for this field
@@ -1177,6 +1178,21 @@ abstract class C4GBrickField
         $this->sortSequence = $sortSequence;
     }
 
+    /**
+     * @return string
+     */
+    public function getSortType()
+    {
+        return $this->sortType;
+    }
+
+    /**
+     * @param string $sortType
+     */
+    public function setSortType($sortType)
+    {
+        $this->sortType = $sortType;
+    }
 
     /**
      * @return array
@@ -1192,6 +1208,27 @@ abstract class C4GBrickField
     public function setOptions($options)
     {
         $this->options = $options;
+    }
+
+    /**
+     * @param $model
+     */
+    public function setOptionsByModel($model, $captionField = 'caption')
+    {
+        $result = array();
+        if ($model) {
+            $options = $model::findAll();
+            if ($options) {
+                foreach($options as $option) {
+                    $idList[] = array(
+                        'id'     => $option->id,
+                        'name'   => $option->$captionField);
+                }
+                $result = $idList;
+            }
+        }
+
+        $this->setOptions($result);
     }
 
 
