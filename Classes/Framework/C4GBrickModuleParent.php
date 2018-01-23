@@ -512,6 +512,9 @@ class C4GBrickModuleParent extends \Module
         $GLOBALS['TL_CSS'][]        = 'bundles/con4giscore/vendor/jQuery/plugins/chosen/chosen.css';
         $GLOBALS['TL_JAVASCRIPT'][] = 'bundles/con4giscore/vendor/jQuery/plugins/chosen/chosen.jquery.min.js';
 
+        $GLOBALS['TL_HEAD'][] = "<script>var ckRemovePlugins = 'bbcode';</script>";
+        $GLOBALS['TL_HEAD'][] = "<script>var uploadApiUrl = 'con4gis/api/fileUpload/';</script>";
+
         $foundHeadlement = false;
         foreach ($GLOBALS['TL_HEAD'] as $key=>$headlement) {
             if (strpos($headlement, "var ckEditorItems") > 0) {
@@ -1006,11 +1009,20 @@ class C4GBrickModuleParent extends \Module
     protected function setBrickCaptions($singular, $plural) {
         $this->brickCaption = $singular;
         $this->brickCaptionPlural = $plural;
+
+        if ($this->dialogParams) {
+            $this->dialogParams->setBrickCaption($singular);
+            $this->dialogParams->setBrickCaptionPlural($plural);
+        }
     }
 
     protected function setParentCaptions($singular, $plural) {
         $this->parentCaption = $singular;
         $this->parentCaptionPlural = $plural;
+        if ($this->dialogParams) {
+            $this->dialogParams->setParentCaption($singular);
+            $this->dialogParams->setParentCaptionPlural($plural);
+        }
     }
 
     /**
