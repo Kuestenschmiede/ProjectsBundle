@@ -76,7 +76,7 @@ $GLOBALS['TL_DCA']['tl_c4g_project_mapdata'] = array
             ),
             'copy' => array
             (
-                'label'         => $GLOBALS['TÖ_LANG']['tl_c4g_project_mapdata']['copy'],
+                'label'         => $GLOBALS['TL_LANG']['tl_c4g_project_mapdata']['copy'],
                 'href'          => 'act=copy',
                 'icon'          => 'copy.gif',
             ),
