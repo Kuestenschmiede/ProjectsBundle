@@ -161,7 +161,7 @@ input:invalid {
     margin-left: 2.5%;
 }
 .c4g_brick_dialog p.c4g_description {
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     font-weight: lighter;
     margin: 0 2.5%;
     font-size: inherit;
@@ -212,6 +212,8 @@ input:invalid {
 /*.c4g_brick_dialog input[type='number']:-moz-read-only,*/
 .c4g_brick_dialog input[type='date']:disabled,
 .c4g_brick_dialog input[type='date']:read-only,
+.c4g_brick_dialog input[type='url']:disabled,
+.c4g_brick_dialog input[type='url']:read-only,
 /*.c4g_brick_dialog input[type='date']:-moz-read-only,*/
 .c4g_brick_dialog textarea:disabled,
 .c4g_brick_dialog textarea:read-only
@@ -221,6 +223,7 @@ input:invalid {
     background-color: whitesmoke;
     /*border: 0px;*/
     /*cursor: not-allowed;*/
+    border-style: inherit;
 }
 .c4g_brick_dialog .c4g_textarea_length {
     font-weight: normal;
@@ -374,15 +377,18 @@ div.cg_block {
     overflow: hidden;
 }
 .c4g_brick_dialog .c4g_gallery {
-    text-align: center;
-    margin: 5px 10px;
-    display: -webkit-flex;
+    margin-left: 2.5%;
+    margin-right: 2.5%;
+}
+.c4g_brick_dialog .c4g_gallery .c4g_gallery_images {
     display: flex;
-    -webkit-flex-wrap: wrap;
+    justify-content: space-between;
     flex-wrap: wrap;
-    font-style: normal;
-    font-weight: bold;
-    text-decoration: none;
+    box-sizing: border-box;
+}
+.c4g_gallery_description p.c4g_description {
+    margin-left: 0px;
+    margin-right: 0px;
 }
 .c4g_brick_dialog .c4g_tile {
     text-align: center;
@@ -471,10 +477,20 @@ table.dataTable.display tbody, table.dataTable thead th div.DataTables_sort_wrap
     border-left-style: solid;
     border-left-width: 1px;
 }
-.c4g_brick_dialog .c4g_timefield .gettime a
+.c4g_brick_dialog .c4g_timefield .gettime
 {
     cursor: pointer;
     display: block;
+}
+.c4g_brick_dialog .c4g_timefield:disabled .gettime,
+.c4g_brick_dialog .c4g_timefield:read-only .gettime
+{
+    display: none;
+}
+.c4g_brick_dialog .c4g_timefield:disabled,
+.c4g_brick_dialog .c4g_timefield:read-only {
+    width: 57px;
+    border-style: inherit;
 }
 .c4gGuiButton .c4g_tile.text
 {
