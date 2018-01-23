@@ -345,7 +345,7 @@ class C4GBrickList
                             'aDataSort' => array($cnt),
                             'sWidth' => $column->getColumnWidth() . '%',
                             'aTargets' => array($cnt),
-                            'sType' => $column->getSortSequence(),
+                            'sType' => $column->getSortType(),
                             'responsivePriority' => array($cnt));
                         if($column->getSortSequence() == 'desc') {
                             $data['aaSorting'] = [[$cnt, 'desc']];
@@ -358,7 +358,7 @@ class C4GBrickList
                             'sClass' => 'c4g_brick_col c4g_brick_col_'.$cnt.$additionalClasses,
                             'sTitle' => $column->getTitle(),
                             'sWidth' => $column->getColumnWidth() . '%',
-                            'sType' => $column->getSortSequence(),
+                            'sType' => $column->getSortType(),
                             'aTargets' => array($cnt),
                             'aResponsivePriority' => array($cnt));
                     }
