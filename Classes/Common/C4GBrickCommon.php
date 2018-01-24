@@ -593,9 +593,19 @@ class C4GBrickCommon
                     if ($xml) {
                         $address = $xml->addressparts[0];
                         if ($address) {
-                            $housenumber  = $address->house_number; //Hausnummer
-                            $road         = $address->road; //Straße
+                            $anonymous = false;
+                            $objMapsProfile = C4gMapProfilesModel::findBy('id', $intProfileId);
+                            if ($objMapsProfile) {
+                                if ($objMapsProfile->geopicker_anonymous) {
+                                    $anonymous = true;
+                                }
+                            }
+
+                            if (!$anonymous) {
+                                $housenumber  = $address->house_number; //Hausnummer
+                            }
                             $pedestrian   = $address->pedestrian; //Fussweg
+                            $road         = $address->road; //Straße
                             $suburb       = $address->suburb; //Ortsteil
                             $town         = $address->town; //Ort
                             $county       = $address->county; //Landkreis
@@ -624,6 +634,7 @@ class C4GBrickCommon
                             if ($town) {
                                 $return .= ' '.$town;
                             }
+
                         }
                     }
                 }

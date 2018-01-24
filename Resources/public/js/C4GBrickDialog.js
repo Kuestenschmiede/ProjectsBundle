@@ -774,30 +774,40 @@ function C4GGeopickerAddress(profile_id)
 {
     if (profile_id) {
 
-        var lat = document.getElementById("c4g_brick_geopicker_geoy").value;
-        var lon = document.getElementById("c4g_brick_geopicker_geox").value;
+        var latElem = document.getElementById("c4g_brick_geopicker_geoy");
+        var lonElem = document.getElementById("c4g_brick_geopicker_geox");
 
-        var xhr = new XMLHttpRequest();
+        if (latElem && lonElem) {
+            var lat = document.getElementById("c4g_brick_geopicker_geoy").value;
+            var lon = document.getElementById("c4g_brick_geopicker_geox").value;
 
-        var fd = new FormData;
-        fd.append("Lat", lat);
-        fd.append("Lon", lon);
-        fd.append("Profile", profile_id);
-        fd.append("REQUEST_TOKEN", c4g_rq);
+            var xhr = new XMLHttpRequest();
 
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState==4 && xhr.status==200){
-                if (xhr.responseText != "") {
-                    document.getElementById("c4g_brick_geopicker_address").value = JSON.parse(xhr.responseText);
-                } else {
-                    document.getElementById("c4g_brick_geopicker_address").value = "Adresse nicht ermittelbar."; //ToDo Language
+            var fd = new FormData;
+            fd.append("Lat", lat);
+            fd.append("Lon", lon);
+            fd.append("Profile", profile_id);
+            fd.append("REQUEST_TOKEN", c4g_rq);
+
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState==4 && xhr.status==200){
+                    if (xhr.responseText != "") {
+                        document.getElementById("c4g_brick_geopicker_address").value = JSON.parse(xhr.responseText);
+                    } else {
+                        document.getElementById("c4g_brick_geopicker_address").value = "Adresse nicht ermittelbar."; //ToDo Language
+                    }
                 }
+            };
+            var url = "/con4gis/get_address/" + profile_id + '/' + lat + '/' + lon;
+            xhr.open("GET", url, true);
+            xhr.overrideMimeType("text/plain; charset=utf-8");
+            xhr.send();
+        } else {
+            var addrElem = document.getElementById("c4g_brick_geopicker_address");
+            if (addrElem) {
+                addrElem.remove();
             }
-        };
-        var url = "/con4gis/get_address/" + profile_id + '/' + lat + '/' + lon;
-        xhr.open("GET", url, true);
-        xhr.overrideMimeType("text/plain; charset=utf-8");
-        xhr.send();
+        }
     }
 }
 
