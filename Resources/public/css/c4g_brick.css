@@ -67,6 +67,9 @@ input:invalid {
     margin-left: 2.5%;
     width: 95%;
     /*border-radius: 3px;*/
+    min-height: 27px;
+    padding-left: 3px;
+    padding-right: 3px;
 }
 .c4g_brick_dialog input[type='checkbox'] {
     width: 1.0em;
@@ -122,6 +125,9 @@ input:invalid {
 .c4g_brick_select_dialog select,.c4g_brick_select_dialog .styled_select {
     display: block;
     width: 95.33%;
+    min-height: 27px;
+    padding-left: 3px;
+    padding-right: 3px;
     margin-left: 2.33%;
     margin-bottom: .25em;
     margin-top: .25em;
@@ -457,38 +463,40 @@ table.dataTable.display tbody, table.dataTable thead th div.DataTables_sort_wrap
 .c4g_brick_dialog .c4g_timefield
 {
     border: 1px solid rgb(226, 226, 226);
-    height: 23px;
-    width: 80px;
+    height: auto;
+    width: 76px;
     margin-left: 2.5%;
+    overflow: hidden;
+    display: flex;
 }
 .c4g_brick_dialog .c4g_timefield .timepicker.input
 {
     float: left;
-    padding: 2px;
-    padding-right: 4px;
-    padding-bottom: 2px;
+    padding-right: 2px;
     vertical-align: middle;
     text-align: center;
-    height: 11px;
+    height: auto;
+    min-height: 27px;
     width: 49px;
     border: 0px inset;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    font-size: small;
 }
 .c4g_brick_dialog .c4g_timefield .gettime
 {
-    width: 20px;
-    height: 24px;
+    width: 21px;
+    min-height: 27px;
+    vertical-align: middle;
+    text-align: center;
+    left: 50px;
     background-image: url("../images/point.png");
     background-repeat: no-repeat;
     background-position: center;
-    float: left;
-    border-left-color: lightgrey;
-    border-left-style: solid;
-    border-left-width: 1px;
 }
 .c4g_brick_dialog .c4g_timefield .gettime
 {
     cursor: pointer;
-    display: block;
 }
 .c4g_brick_dialog .c4g_timefield:disabled .gettime,
 .c4g_brick_dialog .c4g_timefield:read-only .gettime
@@ -646,17 +654,25 @@ label.c4g_multicheckbox{
 }
 
 .c4g_tab_switch_last {
-    margin-bottom: 1em;
+    margin-bottom: 2em;
+    margin-bottom: 8px;
+}
+
+.c4g_tab_switch_left {
+    margin-left: 2.5%;
+    margin-bottom: 8px;
+    margin-right: 4px;
 }
 
 .c4g_tab_switch_right {
     margin-right: 2.5%;
+    margin-bottom: 8px;
 }
 
 .c4g_tab_switch_first {
     margin-left: 2.5%;
     float: left;
-    margin-bottom: 1em;
+    margin-bottom: 8px;
 }
 
 .c4g_brick_dialog .c4g_brick_link,.c4g_brick_dialog .c4g_brick_button, .c4g_tab_switch_left {
