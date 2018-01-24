@@ -59,6 +59,27 @@ class C4GDecimalField extends C4GBrickField
         return $result;
     }
 
+    public function getC4GListField($rowData, $content)
+    {
+        $fieldName = $this->getFieldName();
+        $value = $rowData->$fieldName;
+        if($this->getThousandsSep() !== '') {
+//            $value = number_format(str_replace(',','.',$value), $this->getDecimals(), $this->getDecimalPoint(), $this->getThousandsSep());
+            $value = 'LoL';
+        } else {
+            $value = number_format($value, $this->getDecimals(), $this->getDecimalPoint(), '');
+        }
+        if ($this->getAddStrBeforeValue()) {
+            $value = $this->getAddStrBeforeValue().$value;
+        }
+        if ($this->getAddStrBehindValue()) {
+            $value = $value.$this->getAddStrBehindValue();
+        }
+
+        return $value;
+    }
+
+
     /**
      * Dezimal-Trennzeichen prüfen und ggf. umwandeln.
      * @param string $value
