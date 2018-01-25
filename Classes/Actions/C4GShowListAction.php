@@ -359,6 +359,19 @@ class C4GShowListAction extends C4GBrickDialogAction
         $renderMode = $listParams->getRenderMode();
         switch ($renderMode) {
             case C4GBrickRenderMode::LISTBASED:
+                $result = C4GBrickList::showC4GList(
+                    $brickCaptionPlural,
+                    $database,
+                    $content,
+                    $headtext,
+                    $fieldList,
+                    $elements,
+                    $id,
+                    $parentCaption,
+                    $listParams
+                );
+                break;
+            case C4GBrickRenderMode::TABLEBASED:
                 $result = C4GBrickList::showC4GTableList(
                     $brickCaptionPlural,
                     $database,
@@ -367,7 +380,6 @@ class C4GShowListAction extends C4GBrickDialogAction
                     $fieldList,
                     $elements,
                     $id,
-                    $captionField,
                     $parentCaption,
                     $listParams
                 );
@@ -382,7 +394,6 @@ class C4GShowListAction extends C4GBrickDialogAction
                     $elements,
                     $id,
                     $listParams,
-                    $captionField,
                     $parentCaption,
                     $withLabels
                 );

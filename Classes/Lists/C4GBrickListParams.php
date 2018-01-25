@@ -27,7 +27,7 @@ class C4GBrickListParams
     private $withModelListFunction = false; //calls modelListFunction
     private $withDetails = true; //show details by tablerow click
     private $filterParams = null; //filterParams to filter big datasets
-    private $renderMode = C4GBrickRenderMode::LISTBASED; //see C4GBrickRenderMode
+    private $renderMode = C4GBrickRenderMode::TABLEBASED; //see C4GBrickRenderMode
     private $buttons = array(); //table buttons
     private $withExportButtons = true; //show exportButtons under datatable
     private $exportButtons = null;//C4GExportButtons
@@ -48,6 +48,9 @@ class C4GBrickListParams
     private $groupCount = 0;
     private $viewFormatFunction = '';   //function in the module model to change the presentation of data
     private $withJQueryUI = true; // disable jQueryUI
+    private $captionField = 'caption'; //used for list tooltip
+    private $rowCount = 0; //number of datasets (LISTBASED)
+    private $redirectTo = '';
 
     /**
      * C4GBrickListParams constructor.
@@ -560,5 +563,52 @@ class C4GBrickListParams
         $this->exportButtons = $exportButtons;
     }
 
+    /**
+     * @return string
+     */
+    public function getCaptionField()
+    {
+        return $this->captionField;
+    }
+
+    /**
+     * @param string $captionField
+     */
+    public function setCaptionField($captionField)
+    {
+        $this->captionField = $captionField;
+    }
+
+    /**
+     * @return int
+     */
+    public function getRowCount()
+    {
+        return $this->rowCount;
+    }
+
+    /**
+     * @param int $rowCount
+     */
+    public function setRowCount($rowCount)
+    {
+        $this->rowCount = $rowCount;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRedirectTo()
+    {
+        return $this->redirectTo;
+    }
+
+    /**
+     * @param string $redirectTo
+     */
+    public function setRedirectTo($redirectTo)
+    {
+        $this->redirectTo = $redirectTo;
+    }
 
 }

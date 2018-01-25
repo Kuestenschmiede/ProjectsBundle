@@ -264,7 +264,6 @@ class C4GBrickTiles
         $tableElements,
         $key,
         C4GBrickListParams $listParams,
-        $captionField,
         $parentCaption,
         $withLabels
     ) {

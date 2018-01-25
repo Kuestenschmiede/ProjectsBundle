@@ -500,7 +500,7 @@ class C4GBrickCommon
      * @param int $order
      * @return array
      */
-    public static function array_collection_sort($array, $on, $order = SORT_ASC, $newKeys = false)
+    public static function array_collection_sort($array, $on, $order = SORT_ASC, $newKeys = false, $rowCount = 0)
     {
         $new_array = array();
         $sortable_array = array();
@@ -515,18 +515,25 @@ class C4GBrickCommon
 
             switch ($order) {
                 case SORT_ASC:
+                case 'asc':
                     asort($sortable_array);
                     break;
                 case SORT_DESC:
+                case 'desc':
                     arsort($sortable_array);
                     break;
             }
 
+            $cnt = 0;
             foreach ($sortable_array as $k => $v) {
                 if ($newKeys) {
                     $new_array[] = $array[$k];
                 } else {
                     $new_array[$k] = $array[$k];
+                }
+                $cnt++;
+                if (($rowCount > 0) && ($cnt >= $rowCount)) {
+                    break;
                 }
             }
         }

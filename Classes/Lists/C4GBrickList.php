@@ -13,6 +13,7 @@
 namespace con4gis\ProjectsBundle\Classes\Lists;
 
 
+use con4gis\CoreBundle\Resources\contao\classes\C4GUtils;
 use con4gis\ProjectsBundle\Classes\Actions\C4GBrickActionType;
 use con4gis\ProjectsBundle\Classes\Buttons\C4GBrickButton;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickCommon;
@@ -257,7 +258,7 @@ class C4GBrickList
      */
     public static function showC4GTableList(
         $listCaption, $database, $content, $listHeadline,  $fieldList, $tableElements, $key,
-        $captionField, $parentCaption, $listParams)
+        $parentCaption, $listParams)
     {
         if (!$tableElements) {
             $tableElements = array();
@@ -383,7 +384,7 @@ class C4GBrickList
                 $fieldName = $column->getFieldName();
                 $row_data = $element;
 
-                if ($fieldName == $captionField) {
+                if ($fieldName == $listParams->getCaptionField()) {
                     $col = $cnt;
                 }
                 if ($cnt == 0) {
@@ -530,4 +531,167 @@ class C4GBrickList
             'buttons' => $buttons
         );
     }
+
+    public static function showC4GList($listCaption, $database, $content, $listHeadline,  $fieldList, $tableElements, $key, $parentCaption, $listParams)
+    {
+        $view = C4GBrickList::buildListView($fieldList, $database, $tableElements, $content, $listParams);
+
+        $buttons = '';
+        if (!$listParams->isWithoutListButtons()) {
+            $buttons = C4GBrickList::getDialogButtons($listParams, $parentCaption);
+        }
+
+        $result = array
+        (
+            'headline' => $listHeadline,
+            'dialogtype' => 'html',
+            'dialogdata' => $view,
+            'dialogoptions' => C4GUtils::addDefaultDialogOptions(array
+            (
+                'title' => $listCaption,
+                'modal' => true,
+                'embedDialogs' => true,
+            )),
+            'dialogid' =>C4GBrickActionType::IDENTIFIER_LIST . ':' . $key, //Listenstatus
+            'dialogstate' =>C4GBrickActionType::IDENTIFIER_LIST . ':' . $key, //Listenstatus
+            'dialogbuttons' => $buttons
+        );
+        return $result;
+    }
+
+    public static function buildListView(
+        $fieldList,
+        $database,
+        $tableElements,
+        $content,
+        $listParams
+    ) {
+        $view = '<div class="' . C4GBrickConst::CLASS_LIST . '">';
+
+
+        $view .= '<ul class="c4g_brick_list_header">';
+
+        $captionField = '';
+        $sortColumn = '';
+        $rowCount = $listParams->getRowCount();
+        foreach ($fieldList as $field) {
+            if ($field->isTableColumn()) {
+                if ($field->getFieldName() == $listParams->getCaptionField()) {
+                    $captionField = $listParams->getCaptionField();
+                }
+                $beforeDiv = '<li class="c4g_brick_list_column c4g_brick_list_header_column '.$field->getFieldName().'">';
+                $afterDiv = '</li>';
+                if ($field->isHidden()) {
+                    $beforeDiv .= '<div class="c4g_brick_hidden_field" style="display:none">';
+                    $afterDiv .= '</div>';
+                }
+                $view .= $beforeDiv . $field->getTitle() . $afterDiv;
+
+                if ($field->isSortColumn()) {
+                    $sortColumn = $field->getFieldName();
+                    $sortSequence = $field->getSortSequence();
+                }
+            }
+        }
+        $view .= '</ul>';
+
+        $i = 0;
+        if ($sortColumn) {
+            $tableElements = C4GBrickCommon::array_collection_sort($tableElements, $sortColumn, $sortSequence, false, $rowCount);
+        }
+
+        foreach ($tableElements as $row) {
+            $i++;
+            if ($listParams->isWithFunctionCallOnClick()) {
+                $href = C4GBrickActionType::ACTION_BUTTONCLICK . ':' . $listParams->getOnClickFunction() . ':' . $row->id;
+            } else {
+                if ($listParams->getRedirectTo()) {
+                    $href = C4GBrickActionType::ACTION_REDIRECT_TO_DETAIL . ':' . $row->id;
+                } else {
+                    $href = C4GBrickActionType::ACTION_CLICK . ':' . $row->id;
+                }
+            }
+            $convertingCount = 0; //DateTimeLocation
+            $tooltip = '';
+            if ($captionField) {
+                $tooltip = $row->$captionField;
+            }
+            $view .= '<a class="c4gGuiAction" href="" data-action="'.$href.'"><ul class="c4g_brick_list_row c4g_brick_list_row_'.$i.'" data-tooltip="'.$tooltip.'" title="'.$tooltip.'">';
+            foreach ($fieldList as $field) {
+                $fieldName = $field->getFieldName();
+                $additionalParameters = array();
+                $additionalParameters['database'] = $database;
+
+                $additionalParameters['content'] = $content;
+                if ($field->isTableColumn()) {
+                    $beforeDiv = '<li class="c4g_brick_list_column c4g_brick_list_row_column '.$field->getFieldName().'">';
+                    $afterDiv = '</li>';
+                    if ($field->isHidden()) {
+                        $beforeDiv .= '<div class="c4g_brick_hidden_field" style="display:none">';
+                        $afterDiv .= '</div>';
+                    }
+                    if ($field  instanceof C4GSelectField) {
+                        $view .= $beforeDiv . C4GBrickCommon::translateSelectOption($row->$fieldName, C4GBrickList::getOptions($fieldList, $row, $field)) . $afterDiv;
+                    } else if ($field instanceof C4GGeopickerField) {
+                        $view .= $beforeDiv . $field->getC4GListField($row, $content, $database) . $afterDiv;
+                    } else if ($field instanceof C4GDateTimeLocationField){
+                        $lat = $row->loc_geoy;
+                        $lon = $row->loc_geox;
+                        $time = $row->loc_time;
+                        $addressField = $field->getAddressField();
+                        $idFromModel = $row->id;
+                        $extModel = $field->getExternalModel();
+                        $extDbValues = $extModel::findByPk($idFromModel);
+                        $address_db = $extDbValues->$addressField;
+                        $profile_id = null;
+
+                        if ($content) {
+                            $find = 'profile":"';
+                            $pos = strpos($content, $find);
+                            if ($pos > 0) {
+                                $str_profile_id = substr($content, $pos + 10, 4);
+                                if ($str_profile_id) {
+                                    $profile_id = intval($str_profile_id);
+                                }
+                            }
+                        }
+                        $address = '';
+                        if(($convertingCount == 1) && ($profile_id))
+                        {
+                            $lat_2 = $row->loc_geoy_2;
+                            $lon_2 = $row->loc_geox_2;
+                            $time_2 = $row->loc_time_2;
+                            if($address_db) {
+                                $address = $time_2. ' ('.$address_db. ' )';
+                            }
+                            else if($lat_2 && $lon_2  && $time_2) {
+                                $address = $time_2 . ' (' . C4GBrickCommon::convert_coordinates_to_address($lat_2, $lon_2, $profile_id, $database) . ')';
+                            }
+                            else {
+                                $address = $time .' ('.C4GBrickCommon::convert_coordinates_to_address($lat, $lon, $profile_id, $database). ')';
+                            }
+                            $convertingCount = 0;
+                        }
+                        else if ($profile_id) {
+                            if($address_db) {
+                                $address = $time. ' ('.$address_db. ' )';
+                                $convertingCount = 1;
+                            }
+                            else {
+                                $address = $time . ' (' . C4GBrickCommon::convert_coordinates_to_address($lat, $lon, $profile_id, $database) . ')';
+                                $convertingCount = 1;
+                            }
+                        }
+                        $view .= $beforeDiv . $address . $afterDiv;
+                    } else {
+                        $view .= $beforeDiv . $field->getC4GListField($row, $content) . $afterDiv;
+                    }
+                }
+
+            }
+            $view .= '</ul></a>';
+        }
+        return $view;
+    }
+
 }

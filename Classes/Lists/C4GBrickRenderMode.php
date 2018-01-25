@@ -14,4 +14,5 @@ namespace con4gis\ProjectsBundle\Classes\Lists;
 class C4GBrickRenderMode {
     const LISTBASED  = 'list';
     const TILEBASED  = 'tiles';
+    const TABLEBASED = 'table';
 }

@@ -290,6 +290,7 @@ class C4GBrickModuleParent extends \Module
             $groupCount = count($groups);
             $this->listParams->setGroupCount($groupCount);
             $this->listParams->setWithJQueryUI($this->strTemplate != 'mod_c4g_brick_simple');
+            $this->listParams->setCaptionField($this->captionField);
 
             //$this->listParams->setProjectCount();
             //$this->listParams->setParentCount();
@@ -326,6 +327,7 @@ class C4GBrickModuleParent extends \Module
             $this->dialogParams->setRedirectBackSite($this->redirect_back_site);
             $this->dialogParams->setParentIdField($this->parentIdField);
             $this->dialogParams->setRedirectSite($this->redirect_site);
+            $this->dialogParams->setCaptionField($this->captionField);
         }
 
         //setting view params

@@ -15,6 +15,8 @@ class C4GBrickConst {
     //Classes
     const CLASS_DIALOG = 'c4g_brick_dialog';
     const CLASS_TILES  = 'c4g_brick_tiles';
+    const CLASS_LIST   = 'c4g_brick_list';
+
     const CLASS_MESSAGE_DIALOG   = 'c4g_brick_message_dialog';
     const CLASS_SELECT_DIALOG    = 'c4g_brick_select_dialog';
     const CLASS_REDIRECT_DIALOG  = 'c4g_brick_redirect_dialog';
