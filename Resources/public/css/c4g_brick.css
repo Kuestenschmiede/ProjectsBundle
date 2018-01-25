@@ -248,6 +248,7 @@ input:invalid {
     margin: 0 auto;
     margin-top: 5px;
     width: 95%;
+    font-size: unset;
 }
 .c4g_brick_dialog #cke_ckeditor:disabled .cke_top, .c4g_brick_dialog #cke_ckeditor:read-only .cke_top,
 .c4g_brick_dialog #cke_ckeditor:disabled .cke_bottom, .c4g_brick_dialog #cke_ckeditor:read-only .cke_bottom{
@@ -481,7 +482,7 @@ table.dataTable.display tbody, table.dataTable thead th div.DataTables_sort_wrap
     border: 0px inset;
     margin-top: 0px;
     margin-bottom: 0px;
-    font-size: small;
+    font-size: unset;
 }
 .c4g_brick_dialog .c4g_timefield .gettime
 {
