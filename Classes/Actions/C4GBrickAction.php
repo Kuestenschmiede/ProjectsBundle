@@ -503,6 +503,12 @@ abstract class C4GBrickAction
             case C4GBrickActionType::ACTION_PRINT:
                 $action = new C4GPrintDialogAction($dialogParams, $listParams, $fieldList, $putVars, $brickDatabase);
                 return $action->run();
+            case C4GBrickActionType::ACTION_REDIRECT_TO_DETAIL:
+                $action = new C4GRedirectAction($dialogParams, $listParams, $fieldList, $putVars, $brickDatabase);
+                $action->setRedirectToDetail(true);
+                $action->setRedirectSite($listParams->getRedirectTo());
+                $action->setRedirectWithSaving(false);
+                return $action->run();
             case C4GBrickActionType::ACTION_REDIRECT:
                 $action = new C4GRedirectAction($dialogParams, $listParams, $fieldList, $putVars, $brickDatabase);
                 return $action->run();

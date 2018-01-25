@@ -48,6 +48,7 @@ class C4GBrickActionType
     const ACTION_PRINT  = 'print';
     const ACTION_POPUP  = 'popup';
     const ACTION_REDIRECT = 'redirect';
+    const ACTION_REDIRECT_TO_DETAIL = 'redirecttodetail';
     const ACTION_REDIRECTBACK = 'redirectback';
     const ACTION_REDIRECTDIALOGACTION = 'redirectdialog';
     const ACTION_SHOWANIMATION = 'animation';

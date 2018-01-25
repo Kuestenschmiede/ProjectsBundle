@@ -15,9 +15,11 @@ namespace con4gis\ProjectsBundle\Classes\Actions;
 class C4GRedirectAction extends C4GBrickDialogAction
 {
     private $redirectWithAction = '';
+    private $redirectToDetail = false;
     private $setParentIdAfterSave = false;
     private $setSessionIdAfterInsert = '';
     private $redirectSite = '';
+    private $redirectWithSaving = true;
 
     public function run()
     {
@@ -28,7 +30,7 @@ class C4GRedirectAction extends C4GBrickDialogAction
         }
         if ( $this->redirectSite && (($jumpTo = \PageModel::findByPk( $this->redirectSite)) !== null)) {
 
-            if ($dialogParams->isRedirectWithSaving() && !$dialogParams->isRedirectWithActivation()) {
+            if ($this->redirectWithSaving && $dialogParams->isRedirectWithSaving() && !$dialogParams->isRedirectWithActivation()) {
                 $action = new C4GSaveDialogAction($dialogParams, $this->getListParams(), $this->getFieldList(), $this->putVars, $this->getBrickDatabase());
                 if ($this->setParentIdAfterSave) {
                     $action->setSetParentIdAfterSave(true);
@@ -53,6 +55,10 @@ class C4GRedirectAction extends C4GBrickDialogAction
                 $return['jump_to_url'] = $jumpTo->getFrontendUrl();
                 if ($this->redirectWithAction) {
                     $return['jump_to_url'] .= '?' . $this->redirectWithAction;
+                }
+                if ($this->redirectToDetail) {
+                    $return['jump_to_url'] .= '?state=click:' . $id;
+
                 }
             }
         }
@@ -122,6 +128,38 @@ class C4GRedirectAction extends C4GBrickDialogAction
     public function setSetSessionIdAfterInsert($setSessionIdAfterInsert)
     {
         $this->setSessionIdAfterInsert = $setSessionIdAfterInsert;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isRedirectWithSaving()
+    {
+        return $this->redirectWithSaving;
+    }
+
+    /**
+     * @param bool $redirectWithSaving
+     */
+    public function setRedirectWithSaving($redirectWithSaving)
+    {
+        $this->redirectWithSaving = $redirectWithSaving;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isRedirectToDetail()
+    {
+        return $this->redirectToDetail;
+    }
+
+    /**
+     * @param bool $redirectToDetail
+     */
+    public function setRedirectToDetail($redirectToDetail)
+    {
+        $this->redirectToDetail = $redirectToDetail;
     }
 
 }
