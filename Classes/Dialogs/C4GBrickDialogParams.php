@@ -348,7 +348,7 @@ class C4GBrickDialogParams
         }
 
         $button = null;
-        if ($type &! ($type == C4GBrickConst::BUTTON_CLICK)) {
+        if ($type && ($type != C4GBrickConst::BUTTON_CLICK)) {
             foreach($this->buttons as $btn) {
                 if ($btn->getType() == $type) {
                     $btn->setCaption($caption);

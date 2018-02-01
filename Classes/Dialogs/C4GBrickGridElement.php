@@ -12,6 +12,8 @@
 
 namespace con4gis\ProjectsBundle\Classes\Dialogs;
 
+use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
+
 class C4GBrickGridElement
 {
     private $col  = 0;

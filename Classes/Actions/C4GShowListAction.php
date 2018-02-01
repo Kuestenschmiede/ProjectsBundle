@@ -279,7 +279,11 @@ class C4GShowListAction extends C4GBrickDialogAction
                     if ($modelListFunction) {
                         $function = $modelListFunction;
                         $class = $modelClass;
-                        $elements = $class::$function();
+                        if ($parentIdField) {
+                            $elements = $class::$function($parentId);
+                        } else {
+                            $elements = $class::$function();
+                        }
                         if ($elements->headline) {
                             $list_headline = '<div class="c4g_brick_headtext_highlighted">' . $elements->headline . '</div>';
                             unset($elements->headline);
