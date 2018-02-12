@@ -8,6 +8,8 @@
 
 namespace con4gis\ProjectsBundle\Classes\Framework;
 
+use con4gis\ProjectsBundle\Classes\Buttons\C4GMoreButton;
+use con4gis\ProjectsBundle\Classes\Buttons\C4GMoreButtonEntry;
 use Contao\Database;
 use Contao\Module;
 
@@ -81,7 +83,21 @@ class C4GModuleManager
         } else {
             $objModule = $this->moduleMap[$id];
         }
-
+        if (strpos($request, 'morebutton') === 0) {
+            $arrRequest = explode(':', $request);
+            // 0 is the morebutton string, 1 is the element id and 2 is the index of the more button option
+            $objModule->initBrickModule($arrRequest[1]);
+            if ($objModule->getListParams() && $objModule->getListParams()->getMoreButton()) {
+                $moreButton = $objModule->getListParams()->getMoreButton();
+                if ($moreButton && $moreButton instanceof C4GMoreButton) {
+                    $callable = $moreButton->getEntryByIndex($arrRequest[2]);
+                    if ($callable instanceof C4GMoreButtonEntry) {
+                        $arrData = $callable->call();
+                        return json_encode($arrData);
+                    }
+                }
+            }
+        }
         return $objModule->generateAjax($request);
     }
 }
