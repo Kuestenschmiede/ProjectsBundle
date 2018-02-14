@@ -86,7 +86,7 @@ class C4GMoreButtonField extends C4GBrickField
     public function getC4GTileField($fieldTitle, $element)
     {
         return $this->moreButton ?
-            $this->moreButton->renderButton($this->className, $this->title, $this->getFieldName()) : "";
+            $this->moreButton->renderButton($this->className, $this->buttonTitle, $this->getFieldName()) : "";
     }
 
     /**
