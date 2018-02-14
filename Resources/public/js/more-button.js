@@ -63,13 +63,21 @@ function selectOption(childLink, fieldName, dataAction) {
     // table
     var data = jqGui.dataTableApi.row($(childLink).parents('tr')).data();
     // assuming the content of the first column is always like click:id
-    id = data[0].split(':')[1];
+    if (data) {
+      id = data[0].split(':')[1];
+    } else {
+      var enclosingDiv = childLink.parentNode.parentNode.parentNode.parentNode;
+      var arrId = enclosingDiv.id.split('_');
+      id = arrId[arrId.length - 1];
+    }
   }
-  url += '/morebutton_' + fieldName + ':' + id + ':' + childLink.getAttribute('data-index');
-  $.ajax({
-    url: url
-  }).done(function (data) {
-    jqGui.fnHandleAjaxResponse(data, jqGui.internalId ? jqGui.internalId : jqGui.options.id);
-  });
+  if (id) {
+    url += '/morebutton_' + fieldName + ':' + id + ':' + childLink.getAttribute('data-index');
+    $.ajax({
+      url: url
+    }).done(function (data) {
+      jqGui.fnHandleAjaxResponse(data, jqGui.internalId ? jqGui.internalId : jqGui.options.id);
+    });
+  }
 }
 

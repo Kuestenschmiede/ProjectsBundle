@@ -62,12 +62,46 @@ class C4GMoreButtonField extends C4GBrickField
      */
     public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = array())
     {
-        $condition = $this->createConditionData($fieldList, $data);
-        $button = $this->moreButton ?
-            $this->moreButton->renderButton($this->className, $this->buttonTitle, $this->getFieldName()) : "";
-        $result =
-            $this->addC4GField($condition,$dialogParams,$fieldList,$data, $button);
-        return $result;
+//        $condition = $this->createConditionData($fieldList, $data);
+//        $button = $this->moreButton ?
+//            $this->moreButton->renderButton($this->className, $this->buttonTitle, $this->getFieldName()) : "";
+//        $result =
+//            $this->addC4GField($condition,$dialogParams,$fieldList,$data, $button);
+//        return $result;
+        $tableo = '';
+        $tablec = '';
+        $tdo = '';
+        $tdc = '';
+        $tro = '';
+        $trc = '';
+
+        $class = '';
+        if ($this->getStyleClass()) {
+            $class = 'class='.$this->getStyleClass().' ';
+        }
+
+        $fieldData = $this->moreButton->renderButton($this->className, $this->buttonTitle, $this->getFieldName());
+
+        if (($dialogParams && $dialogParams->isTableRows()) || $this->isTableRow()) {
+            //$linebreak = '';
+            $tableo = '<table class="c4g_brick_table_rows" style="width:'.$this->getTableRowWidth().'">';
+            $tro = '<tr>';
+            $trc = '</tr>';
+            $tdo = '<td>';
+            $tdc = '</td>';
+            $tablec = '</table>';
+        }
+        $id = "c4g_condition";
+        if ($dialogParams->getId() != -1) {
+            $id .= '_' . $dialogParams->getId();
+        }
+
+        return '<div id='. $id .' '
+            . $class
+            . '>' .
+            $tableo.$tro.
+            $tdo.$fieldData.$tdc.$trc.$tablec.
+             '</div>';
     }
 
     public function getC4GListField($rowData, $content)
