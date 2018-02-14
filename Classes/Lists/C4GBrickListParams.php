@@ -52,7 +52,6 @@ class C4GBrickListParams
     private $captionField = 'caption'; //used for list tooltip
     private $rowCount = 0; //number of datasets (LISTBASED)
     private $redirectTo = '';
-    private $moreButton = null; // see C4GMoreButton
 
     /**
      * C4GBrickListParams constructor.
@@ -611,21 +610,5 @@ class C4GBrickListParams
     public function setRedirectTo($redirectTo)
     {
         $this->redirectTo = $redirectTo;
-    }
-
-    /**
-     * @return C4GMoreButton
-     */
-    public function getMoreButton()
-    {
-        return $this->moreButton;
-    }
-
-    /**
-     * @param C4GMoreButton $moreButton
-     */
-    public function setMoreButton(C4GMoreButton $moreButton)
-    {
-        $this->moreButton = $moreButton;
     }
 }

@@ -373,10 +373,6 @@ class C4GBrickTiles
                         }
                     }
                 }
-                if ($moreButton = $listParams->getMoreButton()) {
-                    $view .= $moreButton->renderButton();
-                }
-
                 $view .= '</a>';
             }
 

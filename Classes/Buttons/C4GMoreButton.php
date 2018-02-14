@@ -36,10 +36,9 @@ class C4GMoreButton extends C4GAbstractList
         }
     }
 
-    public function renderButton()
+    public function renderButton($class, $title, $fieldName)
     {
-        // TODO more-button.js mit funktion showOptions schreiben!
-        $button = '<button class="c4g_brick_more_button" title="Mehr..." role="button" onclick="showOptions(this)">';
+        $button = "<button class='" . $class . "' title='Mehr...' role='button' onclick='showOptions(this,\"". $fieldName ."\")'>";
         $view = $button;
         foreach ($this->entries as $key => $entry) {
             if ($entry instanceof C4GMoreButtonEntry) {
@@ -47,7 +46,7 @@ class C4GMoreButton extends C4GAbstractList
                 $view .= $element;
             }
         }
-        $view .= '...</button>';
+        $view .= $title . '</button>';
         return $view;
     }
 }

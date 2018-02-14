@@ -2,7 +2,7 @@
 
 var $ = jQuery;
 
-function showOptions(button) {
+function showOptions(button, fieldName) {
   var currentChild,
     childElement,
     childLink,
@@ -10,13 +10,12 @@ function showOptions(button) {
     list,
     children,
     i;
-  console.log(button);
+
   event.stopPropagation();
   container = document.createElement('div');
   list = document.createElement('ul');
   list.style.listStyleType = 'none';
   children = $(button).children();
-  console.log(children);
   for (i = 0; i < children.length; i++) {
     currentChild = children[i];
     childElement = document.createElement('li');
@@ -25,7 +24,12 @@ function showOptions(button) {
     childLink.setAttribute('data-index', currentChild.getAttribute('data-index'));
     $(childLink).on('click', function(event) {
       event.stopPropagation();
-      selectOption(this, button.parentNode.getAttribute('data-action'));
+      if (button.parentNode.getAttribute('data-action')) {
+        // case for tiles
+        selectOption(this, fieldName, button.parentNode.getAttribute('data-action'));
+      } else {
+        selectOption(this, fieldName);
+      }
     });
     childElement.appendChild(childLink);
     list.appendChild(childElement);
@@ -48,16 +52,24 @@ function showOptions(button) {
 /**
  * Executes an ajax call
  */
-function selectOption(childLink, dataAction) {
+function selectOption(childLink, fieldName, dataAction) {
+  var id;
   var jqGui = c4g.projects.C4GGui;
   var url = jqGui.options.ajaxUrl + '/' + jqGui.options.moduleId;
-  url += '/morebutton:' + dataAction.slice(-1) + ':' + childLink.getAttribute('data-index');
-  console.log(url);
+  if (dataAction) {
+    // tiles
+    id = dataAction.slice(-1);
+  } else if (childLink) {
+    // table
+    var data = jqGui.dataTableApi.row($(childLink).parents('tr')).data();
+    // assuming the content of the first column is always like click:id
+    id = data[0].split(':')[1];
+  }
+  url += '/morebutton_' + fieldName + ':' + id + ':' + childLink.getAttribute('data-index');
   $.ajax({
     url: url
-  }).done(function(data) {
+  }).done(function (data) {
     jqGui.fnHandleAjaxResponse(data, jqGui.internalId ? jqGui.internalId : jqGui.options.id);
   });
-
 }
 
