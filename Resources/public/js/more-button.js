@@ -49,11 +49,15 @@ function showOptions(button) {
  * Executes an ajax call
  */
 function selectOption(childLink, dataAction) {
-
-    window.alert("Friedrich hat jetzt ein Lama");
-    $.ajax({
-      url: 'con4gis/brick_ajax_api/33/morebutton:' + dataAction.slice(-1) + ':' + childLink.getAttribute('data-index')
-    });
+  var jqGui = c4g.projects.C4GGui;
+  var url = jqGui.options.ajaxUrl + '/' + jqGui.options.moduleId;
+  url += '/morebutton:' + dataAction.slice(-1) + ':' + childLink.getAttribute('data-index');
+  console.log(url);
+  $.ajax({
+    url: url
+  }).done(function(data) {
+    jqGui.fnHandleAjaxResponse(data, jqGui.internalId ? jqGui.internalId : jqGui.options.id);
+  });
 
 }
 
