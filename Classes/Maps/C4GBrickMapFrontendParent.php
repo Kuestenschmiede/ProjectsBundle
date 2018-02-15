@@ -123,13 +123,14 @@ class C4GBrickMapFrontendParent extends \Frontend
      * @param $description
      * @return string
      */
-    public function addPopupDescriptionElement($title, $description, $last_member_id) {
+    public function addPopupDescriptionElement($title, $description, $last_member_id = 0, $maxLength = 254) {
         $result = '';
         if (($title) && ($description)) {
+            $description = C4GBrickCommon::cutText($description, $maxLength);
             $result = $title.":".C4GHTMLFactory::lineBreak(). nl2br($description) . C4GHTMLFactory::lineBreak();
         }
 
-        if ($last_member_id) {
+        if ($last_member_id && $last_member_id > 0) {
             $result .= C4GHTMLFactory::lineBreak().'Letzter Bearbeiter: '. C4GBrickCommon::getNameForMember($last_member_id).
                 C4GHTMLFactory::lineBreak();
         }
@@ -151,12 +152,12 @@ class C4GBrickMapFrontendParent extends \Frontend
      * @param bool $withUrl
      * @return array
      */
-    protected function addMapStructureElement($pid, $id, $key, $type, $name, $layername, $display, $hide, $content = null, $withUrl = false)
+    public function addMapStructureElement($pid, $id, $key, $type, $name, $layername, $display, $hide, $content = null, $withUrl = false)
     {
         //ToDo only refresh we do not use the url
         $arrData = array();
         $arrData['pid'] = $pid;
-        $arrData['id'] = $id;
+        $arrData['id']  = $id;
         $arrData['key'] = $key;
 
         if ($content != null) {
@@ -203,7 +204,7 @@ class C4GBrickMapFrontendParent extends \Frontend
      * @param bool $withUrl
      * @return array
      */
-    protected function addMapStructureElementWithIdCalc(
+    public function addMapStructureElementWithIdCalc(
             $elementId,
             $parentId,
             $parentPid,
@@ -273,7 +274,7 @@ class C4GBrickMapFrontendParent extends \Frontend
      * @param string $graphicTitle
      * @return array
      */
-    protected function addMapStructureContent($locationStyle, $loc_geox, $loc_geoy, $popupInfo, $label = '', $graphicTitle = '', $url = null, $interval = 60000)
+    public function addMapStructureContent($locationStyle, $loc_geox, $loc_geoy, $popupInfo, $label = '', $graphicTitle = '', $url = null, $interval = 60000)
     {
         $stringClass = $GLOBALS['con4gis']['stringClass'];
         $popupInfo   = $stringClass::toHtml5($popupInfo);
@@ -375,7 +376,7 @@ class C4GBrickMapFrontendParent extends \Frontend
      * @param $arrData
      * @param $arrChildData
      */
-    protected function addMapStructureChilds($arrData, $arrChildData, $sort = true)
+    public function addMapStructureChilds($arrData, $arrChildData, $sort = true)
     {
         if ($arrChildData) {
             if (!$sort) {
@@ -407,7 +408,45 @@ class C4GBrickMapFrontendParent extends \Frontend
         return $arrData;
     }
 
+    /**
+     * @param $arrData
+     * @param $childData
+     * @param bool $sort
+     * @return mixed
+     */
+    public function addMapStructureChild($arrData, $childData, $sort = true)
+    {
+        if ($arrData && $childData) {
+            $arrData['childs'][] = $childData;
 
+            if (!$sort) {
+                $arrSortedData = $arrData['childs'];
+            } else if ($childData['layername'] != $childData['name']) {
+                $arrSortedData = C4GBrickCommon::array_sort($arrData['childs'], 'layername', SORT_ASC, true);
+            } else {
+                $arrSortedData = C4GBrickCommon::array_sort($arrData['childs'], 'name', SORT_ASC, true);
+            }
+
+            foreach ($arrSortedData as $key=>$arrSortedDataValue) {
+                $arrSortedData[$key]['pid'] = $arrData['id'];
+                if ($arrSortedData[$key]['content'] != null) {
+                    $arrSortedData[$key]['content'][0]['id'] = $arrSortedDataValue['id'] + 1;
+                    $arrSortedData[$key]['content'][0]['data']['position']['positionId'] = $arrSortedDataValue['id'] + 1;
+                }
+            }
+
+            $size = sizeof($arrSortedData);
+            $arrData['hasChilds'] = true;
+            $arrData['display'] = ($size > 0);
+            $arrData['childsCount'] = $size;
+            $arrData['childs'] = $arrSortedData;
+
+        } else {
+            $arrData['display'] = false;
+        }
+
+        return $arrData;
+    }
 
     /**
      * @param $level
