@@ -15,6 +15,7 @@ namespace con4gis\ProjectsBundle\Classes\Framework;
 
 
 use con4gis\CoreBundle\Resources\contao\classes\C4GUtils;
+use con4gis\CoreBundle\Resources\contao\models\C4gSettingsModel;
 use con4gis\GroupsBundle\Resources\contao\models\MemberModel;
 use con4gis\GroupsBundle\Resources\contao\models\MemberGroupModel;
 use con4gis\ProjectsBundle\Classes\Models\C4gProjectsModel;
@@ -83,6 +84,9 @@ class C4GBrickModuleParent extends \Module
     //doctrine params
     protected $databaseType         = C4GBrickDatabaseType::DCA_MODEL; //see C4gBrickDatabaseType
     protected $entityClass          = '';
+
+    //con4gis global settings
+    protected $settings             = null; //tl_c4g_settings
 
     /**
      * @return string
@@ -315,7 +319,11 @@ class C4GBrickModuleParent extends \Module
                 $this->dialogParams->setBrickCaptionPlural($this->brickCaptionPlural);
             }
             $this->dialogParams->setC4gMap($this->c4g_map);
-            $this->dialogParams->setContentId($this->contentid);
+            $contentId = $this->contentid;
+            if (!$contentId && $this->settings) {
+                $contentId = $this->settings->position_map;
+            }
+            $this->dialogParams->setContentId($contentId);
             $this->dialogParams->setHeadline($this->headline);
             $this->dialogParams->setSendEMails($this->sendEMails);
             $this->dialogParams->setWithNotification($this->withNotification);
@@ -442,6 +450,12 @@ class C4GBrickModuleParent extends \Module
             );
 
 
+            $settings = C4gSettingsModel::findAll();
+
+            if ($settings) {
+                $this->settings = $settings[0];
+            }
+
             // load custom themeroller-css if set
             if ($this->uiTheme) {
                 $GLOBALS['TL_CSS']['c4g_jquery_ui'] = $this->uiTheme;
@@ -449,8 +463,14 @@ class C4GBrickModuleParent extends \Module
             if ($this->c4g_appearance_themeroller_css) {
                 $objFile = \FilesModel::findByUuid($this->c4g_appearance_themeroller_css);
                 $GLOBALS['TL_CSS']['c4g_jquery_ui'] = $objFile->path;
-            } else if(!empty($this->c4g_uitheme_css_select)) {
+            } else if($this->c4g_uitheme_css_select) {
                 $theme = $this->c4g_uitheme_css_select;
+                $GLOBALS['TL_CSS']['c4g_jquery_ui'] = 'bundles/con4giscore/vendor/jQuery/ui-themes/themes/' . $theme . '/jquery-ui.css';
+            } else if ($this->settings && $this->settings->c4g_appearance_themeroller_css) {
+                $objFile = \FilesModel::findByUuid($this->settings->c4g_appearance_themeroller_css);
+                $GLOBALS['TL_CSS']['c4g_jquery_ui'] = $objFile->path;
+            } else if ($this->settings && $this->settings->c4g_uitheme_css_select) {
+                $theme = $this->settings->c4g_uitheme_css_select;
                 $GLOBALS['TL_CSS']['c4g_jquery_ui'] = 'bundles/con4giscore/vendor/jQuery/ui-themes/themes/' . $theme . '/jquery-ui.css';
             } else {
                 $GLOBALS['TL_CSS']['c4g_jquery_ui'] = 'bundles/con4giscore/vendor/jQuery/ui-themes/themes/base/jquery-ui.css';

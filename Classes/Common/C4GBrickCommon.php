@@ -254,7 +254,9 @@ class C4GBrickCommon
         $resultList = array();
         foreach ($maps as $map) {
             $map->name = C4gMapsModel::findByPk($map->c4g_map_id)->name;
-            $resultList[$map->id] = $map->name;
+            if ($map->name) {
+                $resultList[$map->id] = $map->name;
+            }
         }
         return $resultList;
     }
