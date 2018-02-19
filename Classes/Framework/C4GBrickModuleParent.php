@@ -322,7 +322,14 @@ class C4GBrickModuleParent extends \Module
             }
             $this->dialogParams->setC4gMap($this->c4g_map);
             $contentId = $this->contentid;
-            if (!$contentId && $this->settings) {
+            if (!$contentId) {
+                if (!$this->settings) {
+                    $settings = C4gSettingsModel::findAll();
+                    if ($settings) {
+                        $this->settings = $settings[0];
+                    }
+                }
+
                 $contentId = $this->settings->position_map;
             }
             $this->dialogParams->setContentId($contentId);

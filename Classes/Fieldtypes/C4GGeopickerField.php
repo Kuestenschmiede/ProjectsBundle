@@ -207,10 +207,10 @@ class C4GGeopickerField extends C4GBrickField
         }
         $loc_geox = $dlgValues['geox'];
         $loc_geoy = $dlgValues['geoy'];
-        if (!$loc_geox || !$loc_geoy) {
-            return $this;
+        if ($loc_geox && $loc_geoy) {
+            return true;
         } else {
-            return false;
+            return $this;
         }
     }
 
