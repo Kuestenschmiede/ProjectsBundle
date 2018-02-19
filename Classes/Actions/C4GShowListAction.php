@@ -284,6 +284,7 @@ class C4GShowListAction extends C4GBrickDialogAction
                         } else {
                             $elements = $class::$function();
                         }
+
                         if ($elements->headline) {
                             $list_headline = '<div class="c4g_brick_headtext_highlighted">' . $elements->headline . '</div>';
                             unset($elements->headline);
@@ -296,7 +297,24 @@ class C4GShowListAction extends C4GBrickDialogAction
                         }
                     }
                     break;
+                case C4GBrickViewType::PUBLICUUIDBASED:
+                    if($modelListFunction) {
+                        $function = $modelListFunction;
+                        $database = $brickDatabase->getParams()->getDatabase();
+                        $model = $modelClass;
+                        $elements = $model::$function($this->dialogParams->getUuid(), $tableName, $database, $fieldList, $listParams);
+                        if ($elements->headline) {
+                            $list_headline = '<div class="c4g_brick_headtext_highlighted">' . $elements->headline . '</div>';
+                            unset($elements->headline);
+                        }
+                    }
+                    else {
+                        $uuid = $this->dialogParams->getUuid();
+                        $elements = $brickDatabase->findBy('uuid', $uuid);
+                    }
+                    break;
                 default:
+
                     break;
             }
         } catch (Exception $e) {

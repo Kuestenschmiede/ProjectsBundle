@@ -279,6 +279,46 @@ class C4GMultiCheckboxField extends C4GBrickField
     }
 
     /**
+     * Returns false if the field is not mandatory or if it is mandatory but its conditions are not met.
+     * Otherwise it checks whether the field has a valid value and returns the result.
+     * @param array $dlgValues
+     * @return bool|C4GBrickField
+     */
+
+    public function checkMandatory($dlgValues)
+    {
+        //$this->setSpecialMandatoryMessage($this->getFieldName());   //Useful for debugging
+        if (!$this->isMandatory()) {
+            return false;
+        } elseif(!$this->isDisplay()) {
+            return false;
+        } elseif ($this->getCondition()) {
+            foreach ($this->getCondition() as $con) {
+                $fieldName = $con->getFieldName();
+                if (!$con->checkAgainstCondition($dlgValues[$fieldName])) {
+                    return false;
+                }
+            }
+        }
+        $fieldData = '';
+        $fieldName = $this->getFieldName();
+        foreach ($dlgValues as $name => $dlgValue) {
+            if (C4GUtils::startsWith($name, $fieldName.'|')) {
+                if ($dlgValue == true && $dlgValue !== 'false') {
+                    $fieldData = $name;
+                    break;
+                }
+            }
+        }
+        if (is_string($fieldData)) {
+            $fieldData = trim($fieldData);
+        }
+        if (($fieldData == null) || ($fieldData) == '') {
+            return $this;
+        }
+    }
+
+    /**
      * @return boolean
      */
     public function isModernStyle()

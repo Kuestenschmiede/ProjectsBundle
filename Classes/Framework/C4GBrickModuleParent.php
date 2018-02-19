@@ -128,6 +128,8 @@ class C4GBrickModuleParent extends \Module
     protected $permalinkModelClass  = null; //if table filled by modelListFunction
     protected $loadUrlClear         = false; // if true, a js script will be loaded and trim the urls to remove the states
 
+
+//    protected $Uuid                 = '';
     /**
      * module class function to get fields
      */
@@ -349,6 +351,13 @@ class C4GBrickModuleParent extends \Module
         \Session::getInstance()->set("c4g_brick_dialog_id", $id);
         if ($id) {
             $this->dialogParams->setId($id);
+        }
+        if (!(\Session::getInstance()->get("uuid"))) {
+            \Session::getInstance()->set("uuid", C4GBrickCommon::getGUID());
+        }
+        if (\Session::getInstance()->get("uuid")) {
+            $this->dialogParams->setUuid(\Session::getInstance()->get("uuid"));
+            $this->listParams->setUuid(\Session::getInstance()->get("uuid"));
         }
 
         //set fieldList
@@ -845,7 +854,7 @@ class C4GBrickModuleParent extends \Module
      * module event controller
      *
      * @param $action
-     * @return array|mixed|void
+     * @return array|mixed
      */
     private function performAction ($action, $withMemberCheck=true) {
         $values = explode(':', $action, 5);

@@ -114,6 +114,7 @@ abstract class C4GBrickField
     private $tileClass = false; //soll die value als tile class gesetzt werden.
     private $tileClassTable = ''; // soll der value für die class aus einer Tabelle geholt werden?
     private $tileClassField = ''; // aus welchem Feld soll der value für die class geholt werden?
+    private $initInvisible = false;
 
     /**
      * C4GBrickField constructor.
@@ -132,6 +133,40 @@ abstract class C4GBrickField
      * @return array
      */
     public abstract function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = array());
+
+    /**
+     * Public method for generating the HTML code for fields based on the parameters given by the child class.
+     * Used only by the Headline and RadioGroup fields.
+     * @param string $class The css class to be used.
+     * @param array $condition The condition parameters to be displayed in the html tag.
+     * @param string $html The field-specific HTML code
+     * @return string The generated HTML code
+     */
+
+    public function generateC4GFieldHTML($condition, $html, $class = '')
+    {
+        $display = '';
+
+        if ($class == '') {
+            $class = 'class="' . $this->styleClass . '"';
+        } else {
+            $class = 'class="' . $class . '"';
+        }
+
+        if ($this->initInvisible) {
+            $display = 'style="display: none"';
+        }
+        return '<div id="c4g_condition" '
+        . $class
+        . $condition['conditionName']
+        . $condition['conditionType']
+        . $condition['conditionValue']
+        . $condition['conditionFunction']
+        . $condition['conditionDisable']
+        . $display . '>'
+        . $html
+        .'</div>';
+    }
 
     /**
      * Public method for creating the field specific list HTML
@@ -484,7 +519,7 @@ abstract class C4GBrickField
 
         $class = '';
         if ($this->getStyleClass()) {
-            $class = 'class='.$this->getStyleClass().' ';
+            $class = 'class="'.$this->getStyleClass() .'" ';
         }
 
         $fieldLabel = $this->addC4GFieldLabel($id, $this->getTitle(), $this->isMandatory(), $condition, $fieldList, $data, $dialogParams, true, $this->switchTitleLabel);
@@ -498,10 +533,11 @@ abstract class C4GBrickField
 
         if ($this->isConditionalDisplay()) {
             // isset seems not to work with expression results
-            if ($this->getConditionalFieldName() && isset($this->displayValue)) {
+            if ($this->getConditionalFieldName() && ($this->displayValue) != '-1') {
                 // all required properties are set
                 $string = ' data-condition-field="c4g_'. $this->getConditionalFieldName() .'" data-condition-value="'. $this->getDisplayValue() .'" ';
                 $class .= $string;
+
             }
         }
 
@@ -511,7 +547,7 @@ abstract class C4GBrickField
         . $condition['conditionType']
         . $condition['conditionValue']
         . $condition['conditionFunction']
-        . $condition['conditionDisable'] . '>' .
+        . $condition['conditionDisable']  . '>' .
         $tableo.$tro.$fieldLabel.
         $tdo.$fieldData.$tdc.$trc.$tablec.
         $description . '</div>';
@@ -607,6 +643,43 @@ abstract class C4GBrickField
             return "c4g_" . $this->getFieldName() . "_" . $this->getAdditionalID();
         } else {
             return "c4g_" . $this->getFieldName();
+        }
+    }
+
+    /**
+     * Returns false if the field is not mandatory or if it is mandatory but its conditions are not met.
+     * Otherwise it checks whether the field has a valid value and returns the result.
+     * @param array $dlgValues
+     * @return bool|C4GBrickField
+     */
+
+    public function checkMandatory($dlgValues)
+    {
+        //$this->specialMandatoryMessage = $this->fieldName;    //Useful for debugging
+        if (!$this->mandatory) {
+            return false;
+        } elseif(!$this->display) {
+            return false;
+        } elseif ($this->condition) {
+            foreach ($this->condition as $con) {
+                if (empty($con)) {
+                    continue;
+                }
+                $fieldName = $con->getFieldName();
+                if (!$con->checkAgainstCondition($dlgValues[$fieldName])) {
+                    return false;
+                }
+            }
+        }
+        $fieldName = $this->fieldName;
+        $fieldData = $dlgValues[$fieldName];
+        if (is_string($dlgValues[$fieldName])) {
+            $fieldData = trim($fieldData);
+        }
+        if (($fieldData == null) || ($fieldData) == '') {
+            return $this;
+        } else {
+            return false;
         }
     }
 
@@ -1702,6 +1775,19 @@ abstract class C4GBrickField
     }
 
     /**
+     * @param string $styleClass
+     */
+    public function addStyleClass($styleClass)
+    {
+        if ($this->styleClass != '') {
+            $this->styleClass .= $styleClass;
+        } else {
+            $this->styleClass = $styleClass;
+        }
+
+    }
+
+    /**
      * @return boolean
      */
     public function isSwitchTitleLabel()
@@ -1973,5 +2059,19 @@ abstract class C4GBrickField
         $this->showSum = $showSum;
     }
 
+    /**
+     * @return bool
+     */
+    public function isInitInvisible()
+    {
+        return $this->initInvisible;
+    }
 
+    /**
+     * @param bool $invisible
+     */
+    public function setInitInvisible($invisible)
+    {
+        $this->initInvisible = $invisible;
+    }
 }

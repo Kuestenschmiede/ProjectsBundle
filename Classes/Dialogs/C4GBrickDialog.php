@@ -661,129 +661,23 @@ class C4GBrickDialog
     /**
      * @param C4GBrickField[] $fieldList
      * @param $dlgValues
-     * @return bool
+     * @return bool|C4GBrickField
      */
     public static function checkMandatoryFields($fieldList, $dlgValues)
     {
         if (($fieldList) && ($dlgValues)) {
             foreach ($fieldList as $field) {
-                if ($field->isMandatory() && $field->isDisplay()) {
-                    $fieldName = $field->getFieldName();
-
-                    $fieldData = $dlgValues[$fieldName];
-                    if ($field instanceof C4GSelectField) {
-                        $conditions = $field->getCondition();
-                        if (($conditions) && ($field->getConditionType() != C4GBrickConditionType::BOOLSWITCH)) {
-                            $found = false;
-                            foreach ($conditions as $condition) {
-                                if ($condition->getType() == C4GBrickConditionType::VALUESWITCH) {
-                                    $conditionField = $condition->getFieldName();
-                                    $conditionValue = $condition->getValue();
-
-                                    $conFieldValue = $dlgValues[$conditionField];
-                                    if ($conditionValue == $conFieldValue) {
-                                        $found = true;
-                                        break;
-                                    }
-                                }
-                            }
-                            if (!$found) {
-                                continue;
-                            }
-                        }
-
-                        $additionalId = $field->getAdditionalID();
-                        if (!empty($additionalId)) {
-                            $fieldData = $dlgValues[$fieldName.'_'.$additionalId];
-                        }
-
-                        if ($fieldData == '-1') {
-                            return $field;
-                        }
-                    }
-
-                    if ($field instanceof C4GMultiCheckboxField) {
-                        foreach ($dlgValues as $name => $dlgValue) {
-                            if (C4GUtils::startsWith($name, $fieldName.'|')) {
-                                if ($dlgValue == true && $dlgValue !== 'false') {
-                                    $fieldData = $name;
-                                    break;
-                                }
-                            }
-                        }
-                    }
-
-                    if ($field instanceof C4GRadioGroupField) {
-                        $conditions = $field->getCondition();
-                        if (($conditions) && ($field->getConditionType() != C4GBrickConditionType::BOOLSWITCH)) {
-                            $found = false;
-                            foreach ($conditions as $condition) {
-                                if ($condition->getType() == C4GBrickConditionType::VALUESWITCH) {
-                                    $conditionField = $condition->getFieldName();
-                                    $conditionValue = $condition->getValue();
-
-                                    $conFieldValue = $dlgValues[$conditionField];
-                                    if ($conditionValue == $conFieldValue) {
-                                        $found = true;
-                                        break;
-                                    }
-                                }
-
-                                if ($condition->getType() == C4GBrickConditionType::METHODSWITCH) {
-                                    $conditionField = $condition->getFieldName();
-                                    $conditionFunction = $condition->getFunction();
-                                    $conditionModel = $condition->getModel();
-
-                                    if ($conditionField && $conditionModel && $conditionFunction) {
-                                        $conFieldValue = strtotime($dlgValues[$conditionField]);
-                                        $found = $conditionModel::$conditionFunction($conFieldValue);
-                                        if ($found) {
-                                            break;
-                                        }
-                                    }
-                                }
-                            }
-                            if (!$found) {
-                                continue;
-                            }
-                        }
-
-                        $additionalId = $field->getAdditionalID();
-                        if (!empty($additionalId)) {
-                            $fieldData = $dlgValues[$fieldName.'_'.$additionalId];
-                        }
-                    }
-                    if ($field instanceof C4GCheckboxField) {
-                        $check = C4GBrickCommon::strToBool($dlgValues[$fieldName]);
-                        if (!$check) {
-                            //published status wird direkt gespeichert.
-                            return $field;
-                        }
-                    }
-                    if ($field instanceof C4GGeopickerField) {
-                        $loc_geox = $dlgValues['geox'];
-                        $loc_geoy = $dlgValues['geoy'];
-                        if ($loc_geox && $loc_geoy) {
-                            return true;
-                        } else {
-                            return false;
-                        }
-                    }
-
-                    if (is_string($fieldData)) {
-                        $fieldData = trim($fieldData);
-                    }
-                    if (($fieldData == null) || ($fieldData) == '') {
-                        return $field;
-                    }
+                $check = $field->checkMandatory($dlgValues);
+                if ($check instanceof C4GBrickField) {
+                    return $check;
                 }
             }
-
             return true;
         } else {
             return false;
         }
     }
+
 
     /**
      * @param C4GBrickField[] $fieldList

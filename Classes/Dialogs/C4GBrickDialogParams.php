@@ -93,6 +93,8 @@ class C4GBrickDialogParams
     private $redirects = array();//C4GBrickRedirect
     private $saveWithUuid = false;
     private $saveTimestamp = true;
+    private $Uuid = '';
+
 
     /**
      * C4GBrickDialogParams constructor.
@@ -1435,4 +1437,20 @@ class C4GBrickDialogParams
         $this->saveTimestamp = $saveTimestamp;
     }
 
+
+    /**
+     * @return string
+     */
+    public function getUuid()
+    {
+        return $this->Uuid;
+    }
+
+    /**
+     * @param string $Uuid
+     */
+    public function setUuid($Uuid)
+    {
+        $this->Uuid = $Uuid;
+    }
 }

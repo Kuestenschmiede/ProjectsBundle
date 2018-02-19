@@ -15,6 +15,7 @@ class C4GBrickViewType {
     const GROUPBASED        = 'group'; //Gruppenbasiert - Unsere Daten
     const MEMBERBASED       = 'member'; //Mitgliederbasiert - Meine Daten
     const PUBLICBASED       = 'public'; //Öffentliche Ansicht ohne Bearbeitungsmöglichkeit
+    const PUBLICUUIDBASED   = 'publicuuid'; //Speicherung in Datenbank ohne Mitgliedschaft per UUID
     const PROJECTBASED      = 'projectbased'; //Ein Projekt muss geladen sein
 
     const PROJECTPARENTBASED = 'projectparentbased'; //Abhängig von einer pid (Parenttabelle bzw. brick)

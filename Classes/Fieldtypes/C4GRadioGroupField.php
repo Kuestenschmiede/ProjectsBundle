@@ -103,22 +103,34 @@ class C4GRadioGroupField extends C4GBrickField
         if (!$option_results) {
             $option_results = '<div class="c4g_brick_radio_group_clear">'.$this->clearGroupText.'</div>';
         }
+        $result .=     $this->generateC4GFieldHTML($condition ,'<div class="c4g_brick_radio_group_wrapper" '.$condition['conditionPrepare'].'>' .
+                       '<input type="hidden" name="'.$this->getFieldName().'" value="' . $value . '" id="'.$id.'"  ' . $required . ' ' .
+                       $condition['conditionPrepare'] . ' '.'class="formdata ' . $id . '">' .
+                       '<label>' . $this->addC4GField(null,$dialogParams,$fieldList,$data,'</label>' .
+                       '<fieldset class="c4g_brick_radio_group">' .
+                       $option_results .
+                       '</fieldset><span class="reset_c4g_brick_radio_group"></span><script>function resetRadioGroup(){ jQuery("input[name=\'_'.$id.'\']").removeAttr(\'checked\');jQuery("#'.$id.'").val(0); };jQuery(document).ready(function(){jQuery("input[name=\'_'.$id.'\']").on("click",function(){jQuery("#'.$id.'").val(jQuery("input[name=\'_'.$id.'\']:checked").val())})});</script>'.
+                       '</div>'));
 
-        $result .= '<div id="c4g_condition" '
+        return $result;
+
+        //Old Code
+        /*$result .=  '<div id="c4g_condition" '
                     . $condition['conditionName']
                     . $condition['conditionType']
                     . $condition['conditionValue']
                     . $condition['conditionFunction']
-                    . $condition['conditionDisable'] . '>' .
-                    '<div class="c4g_brick_radio_group_wrapper" '.$condition['conditionPrepare'].'>' .
+                    . $condition['conditionDisable']
+                    . $initiallyHiddenClass . '>' .*/
+                    /*'<div class="c4g_brick_radio_group_wrapper" '.$condition['conditionPrepare'].'>' .
                     '<input type="hidden" name="'.$this->getFieldName().'" value="' . $value . '" id="'.$id.'"  ' . $required . ' ' . $condition['conditionPrepare'] . ' '.'class="formdata ' . $id . '">' .
                     '<label>' . $this->addC4GField(null,$dialogParams,$fieldList,$data,'</label>' .
                     '<fieldset class="c4g_brick_radio_group">' .
                     $option_results .
                     '</fieldset><span class="reset_c4g_brick_radio_group"></span><script>function resetRadioGroup(){ jQuery("input[name=\'_'.$id.'\']").removeAttr(\'checked\');jQuery("#'.$id.'").val(0); };jQuery(document).ready(function(){jQuery("input[name=\'_'.$id.'\']").on("click",function(){jQuery("#'.$id.'").val(jQuery("input[name=\'_'.$id.'\']:checked").val())})});</script>'.
                     '</div></div>');
+        return $result;*/
 
-        return $result;
     }
 
     /**
@@ -244,6 +256,44 @@ class C4GRadioGroupField extends C4GBrickField
             }
         }
         return $fieldData;
+    }
+
+    /**
+     * Returns false if the field is not mandatory or if it is mandatory but its conditions are not met.
+     * Otherwise it checks whether the field has a valid value and returns the result.
+     * @param array $dlgValues
+     * @return bool|C4GBrickField
+     */
+
+    public function checkMandatory($dlgValues)
+    {
+        //$this->setSpecialMandatoryMessage($this->getFieldName()); //Useful for debugging
+        if (!$this->isMandatory()) {
+            return false;
+        } elseif(!$this->isDisplay()) {
+            return false;
+        } elseif ($this->getCondition()) {
+            foreach ($this->getCondition() as $con) {
+                $fieldName = $con->getFieldName();
+                if (!$con->checkAgainstCondition($dlgValues[$fieldName])) {
+                    return false;
+                }
+            }
+        }
+        $fieldName = $this->getFieldName();
+        $fieldData = $dlgValues[$fieldName];
+        $additionalId = $this->getAdditionalID();
+        if (!empty($additionalId)) {
+            $fieldData = $dlgValues[$fieldName.'_'.$additionalId];
+        }
+        if (is_string($fieldData)) {
+            $fieldData = trim($fieldData);
+        }
+        if (($fieldData == null) || ($fieldData) == '') {
+            return $this;
+        } else {
+            return false;
+        }
     }
 
     /**

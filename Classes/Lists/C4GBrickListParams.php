@@ -51,6 +51,8 @@ class C4GBrickListParams
     private $captionField = 'caption'; //used for list tooltip
     private $rowCount = 0; //number of datasets (LISTBASED)
     private $redirectTo = '';
+    private $Uuid = '';
+
 
     /**
      * C4GBrickListParams constructor.
@@ -609,6 +611,22 @@ class C4GBrickListParams
     public function setRedirectTo($redirectTo)
     {
         $this->redirectTo = $redirectTo;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUuid()
+    {
+        return $this->Uuid;
+    }
+
+    /**
+     * @param string $Uuid
+     */
+    public function setUuid($Uuid)
+    {
+        $this->Uuid = $Uuid;
     }
 
 }

@@ -29,6 +29,22 @@ class C4GBrickCondition
     }
 
     /**
+     * Checks the given value against the condition and returns the result.
+     * @param string $givenValue
+     * @return bool
+     */
+
+    public function checkAgainstCondition($Value)
+    {
+        if ($Value == $this->value) {
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
+    /**
      * @return string
      */
     public function getFieldName()

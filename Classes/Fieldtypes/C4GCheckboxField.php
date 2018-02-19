@@ -139,4 +139,35 @@ class C4GCheckboxField extends C4GBrickField
     {
         return C4GBrickList::translateBool($value);
     }
+
+    /**
+     * Returns false if the field is not mandatory or if it is mandatory but its conditions are not met.
+     * Otherwise it checks whether the field has a valid value and returns the result.
+     * @param array $dlgValues
+     * @return bool|C4GBrickField
+     */
+
+    public function checkMandatory($dlgValues)
+    {
+        //$this->setSpecialMandatoryMessage($this->getFieldName());
+        if (!$this->isMandatory()) {
+            return false;
+        } elseif(!$this->isDisplay()) {
+            return false;
+        } elseif ($this->getCondition()) {
+            foreach ($this->getCondition() as $con) {
+                $fieldName = $con->getFieldName();
+                if (!$con->checkAgainstCondition($dlgValues[$fieldName])) {
+                    return false;
+                }
+            }
+        }
+        $fieldName = $this->getFieldName();
+        $check = C4GBrickCommon::strToBool($dlgValues[$fieldName]);
+        if (!$check) {
+            return $this;
+        } else {
+            return false;
+        }
+    }
 }
