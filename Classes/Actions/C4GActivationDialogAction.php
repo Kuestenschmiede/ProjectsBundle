@@ -56,6 +56,7 @@ class C4GActivationDialogAction extends C4GBrickDialogAction
                     $dlgValues, $this->getBrickDatabase(), $dbValues, $dialogParams, $dialogParams->getMemberId());
                 if ($result) {
                     $dialogId = $result['insertId'];
+                    $dialogParams->setId($dialogId);
                 }
             }
         }
