@@ -193,7 +193,7 @@ class C4GMoreButtonField extends C4GBrickField
     /**
      * @return string
      */
-    public function getButtonTitle(): string
+    public function getButtonTitle()
     {
         return $this->buttonTitle;
     }
@@ -201,7 +201,7 @@ class C4GMoreButtonField extends C4GBrickField
     /**
      * @param string $buttonTitle
      */
-    public function setButtonTitle(string $buttonTitle)
+    public function setButtonTitle($buttonTitle)
     {
         $this->buttonTitle = $buttonTitle;
     }
