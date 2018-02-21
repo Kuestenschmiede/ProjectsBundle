@@ -12,7 +12,9 @@
 
 namespace con4gis\ProjectsBundle\Classes\Buttons;
 
+use con4gis\ProjectsBundle\Classes\Lists\C4GBrickRenderMode;
 use con4gis\ProjectsBundle\Classes\Structures\C4GAbstractList;
+use con4gis\ProjectsBundle\Classes\Views\C4GBrickViewType;
 
 class C4GMoreButton extends C4GAbstractList
 {
@@ -36,17 +38,45 @@ class C4GMoreButton extends C4GAbstractList
         }
     }
 
-    public function renderButton($class, $title, $fieldName)
+    public function renderButton($class, $title, $fieldName, $renderMode, $dataId)
     {
-        $button = "<button class='" . $class . "' title='Mehr...' role='button' onclick='showOptions(this,\"". $fieldName ."\")'>";
-        $view = $button;
+        $class .= " ui-button ui-corner-all";
+        $view = '';
         foreach ($this->entries as $key => $entry) {
             if ($entry instanceof C4GMoreButtonEntry) {
                 $element = '<li style="display: none;" data-index="'. $key .'">' . $entry->getTitle() . '</li>';
                 $view .= $element;
             }
         }
+        if (count($this->entries) == 1) {
+            // TODO hänge die click action direkt an den button (später)
+            $onclick = 'toggleContainer(this)';
+        } else {
+            // TODO renderContainer aufrufen und den container in die view hängen
+            $onclick = 'toggleContainer(this)';
+
+        }
+        $cssId = 'c4g_more_button_' . $fieldName . '_' . $dataId;
+        $button = "<button id='" . $cssId . "' class='" . $class . "' title='" . $title . "' role='button' onclick='" . $onclick . "'>";
+        $view .= $button;
         $view .= $title . '</button>';
+        $view .= $this->renderContainer($renderMode, $fieldName, $dataId);
+        return $view;
+    }
+
+    public function renderContainer($renderMode, $fieldName, $dataId)
+    {
+        $view = "<div class='c4g_more_button_container' id='c4g_more_button_" . $fieldName . "_" .
+            $dataId . "_container' style='visibility: hidden;'>";
+        $onclick = "executeSelection(this)";
+        foreach ($this->entries as $key => $entry) {
+            $element = "<span class='c4g_more_button_entry' href='morebutton_" . $fieldName . ":" . $dataId . ":" .
+                $key . "' onclick='" . $onclick . "'>";
+            $element .= $entry->getTitle();
+            $element .= "</span>";
+            $view .= $element;
+        }
+        $view .= "</div>";
         return $view;
     }
 }

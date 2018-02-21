@@ -16,6 +16,7 @@ use con4gis\ProjectsBundle\Classes\Buttons\C4GMoreButton;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldCompare;
+use con4gis\ProjectsBundle\Classes\Lists\C4GBrickRenderMode;
 
 class C4GMoreButtonField extends C4GBrickField
 {
@@ -62,12 +63,6 @@ class C4GMoreButtonField extends C4GBrickField
      */
     public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = array())
     {
-//        $condition = $this->createConditionData($fieldList, $data);
-//        $button = $this->moreButton ?
-//            $this->moreButton->renderButton($this->className, $this->buttonTitle, $this->getFieldName()) : "";
-//        $result =
-//            $this->addC4GField($condition,$dialogParams,$fieldList,$data, $button);
-//        return $result;
         $tableo = '';
         $tablec = '';
         $tdo = '';
@@ -80,7 +75,13 @@ class C4GMoreButtonField extends C4GBrickField
             $class = 'class='.$this->getStyleClass().' ';
         }
 
-        $fieldData = $this->moreButton->renderButton($this->className, $this->buttonTitle, $this->getFieldName());
+        $fieldData = $this->moreButton->renderButton(
+            $this->className,
+            $this->buttonTitle,
+            $this->getFieldName(),
+            'dialog',
+            $dialogParams->getId()
+        );
 
         if (($dialogParams && $dialogParams->isTableRows()) || $this->isTableRow()) {
             //$linebreak = '';
@@ -106,8 +107,17 @@ class C4GMoreButtonField extends C4GBrickField
 
     public function getC4GListField($rowData, $content)
     {
-        $value = $this->moreButton ?
-            $this->moreButton->renderButton($this->className, $this->buttonTitle, $this->getFieldName()) : "";
+        if ($this->moreButton) {
+            $value = $this->moreButton->renderButton(
+                $this->className,
+                $this->buttonTitle,
+                $this->getFieldName(),
+                C4GBrickRenderMode::TABLEBASED,
+                $rowData->id
+            );
+        } else {
+            $value = "";
+        }
         if ($this->getAddStrBeforeValue()) {
             $value = $this->getAddStrBeforeValue().$value;
         }
@@ -119,8 +129,17 @@ class C4GMoreButtonField extends C4GBrickField
 
     public function getC4GTileField($fieldTitle, $element)
     {
-        return $this->moreButton ?
-            $this->moreButton->renderButton($this->className, $this->buttonTitle, $this->getFieldName()) : "";
+        if ($this->moreButton) {
+            return $this->moreButton->renderButton(
+                $this->className,
+                $this->buttonTitle,
+                $this->getFieldName(),
+                C4GBrickRenderMode::TILEBASED,
+                $element->id
+            );
+        } else {
+            return "";
+        }
     }
 
     /**
