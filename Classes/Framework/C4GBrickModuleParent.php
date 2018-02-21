@@ -505,7 +505,8 @@ class C4GBrickModuleParent extends \Module
         $GLOBALS['TL_JAVASCRIPT'][] = 'bundles/con4gisprojects/js/C4GBrickDialog.js';
 
         $GLOBALS['TL_JAVASCRIPT'][] = 'bundles/con4gisprojects/js/ConditionalFieldDisplay.js';
-//        $GLOBALS['TL_JAVASCRIPT'][] = 'bundles/con4gisproject/js/AjaxAutocomplete.js';
+        // load more button
+        $GLOBALS['TL_JAVASCRIPT'][] = 'bundles/con4gisprojects/js/more-button.js';
 
         if ($this->brickScript) {
             $GLOBALS['TL_JAVASCRIPT']['c4g_brick_script_'.$this->name] = $this->brickScript;

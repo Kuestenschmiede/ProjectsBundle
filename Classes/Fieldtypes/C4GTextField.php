@@ -18,8 +18,8 @@ use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldCompare;
 
 class C4GTextField extends C4GBrickField
 {
-    private $size = 255;
-    private $maxLength = 255;
+    protected $size = 255;
+    protected $maxLength = 255;
 
     /**
      * @param $field

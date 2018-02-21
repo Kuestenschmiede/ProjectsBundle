@@ -29,35 +29,35 @@ abstract class C4GBrickField
     //Todo globale Properties prüfen und ggf. den Feldklassen zuordnen (z.B. step zum IntField)
 
     //please follow alphabetical sorting
-    private $action = array(); //action for action callable fieldtypes
-    private $align = 'left';
-    private $additionalID = ''; //additional ID for switchable (hidden) Fields with same fieldname
-    private $addressField = null; //nominatim reverse search
-    private $callOnChange = false; //call function on change (useful with select and other types)
-    private $callOnChangeFunction = 'C4GCallOnChange(this)'; //call this function on change
-    private $columnWidth = 0; //culumn width on datatable view
-    private $comparable = true; //for field Compare on saving
-    private $condition = array(); //see C4GBrickCondition
-    private $contentId = ''; //for transfer contao content elements like Map
-    private $databaseField = true; //is this field with database mapping (saving, compare, ...)
-    private $dbUnique = false; //unique field value
-    private $dbUniqueResult = ''; //Achtung! Der Result Text muss im Modul vergeben werden, da die Abfrage über die ganze Datenbank alle Mitglieder betrifft und das Ergebnis entsprechend sensibel ist.
-    private $dbUniqueAdditionalCondition = ''; //Zusätzliche Bedingungen die in der Query berücksichtigt werden können.
-    private $description = ''; //field description (under input field)
-    private $display = true; // if false, the field is hidden & will not be checked during the mandatory check
-    private $editable = true; //is the field editable?
+    protected $action = array(); //action for action callable fieldtypes
+    protected $align = 'left';
+    protected $additionalID = ''; //additional ID for switchable (hidden) Fields with same fieldname
+    protected $addressField = null; //nominatim reverse search
+    protected $callOnChange = false; //call function on change (useful with select and other types)
+    protected $callOnChangeFunction = 'C4GCallOnChange(this)'; //call this function on change
+    protected $columnWidth = 0; //culumn width on datatable view
+    protected $comparable = true; //for field Compare on saving
+    protected $condition = array(); //see C4GBrickCondition
+    protected $contentId = ''; //for transfer contao content elements like Map
+    protected $databaseField = true; //is this field with database mapping (saving, compare, ...)
+    protected $dbUnique = false; //unique field value
+    protected $dbUniqueResult = ''; //Achtung! Der Result Text muss im Modul vergeben werden, da die Abfrage über die ganze Datenbank alle Mitglieder betrifft und das Ergebnis entsprechend sensibel ist.
+    protected $dbUniqueAdditionalCondition = ''; //Zusätzliche Bedingungen die in der Query berücksichtigt werden können.
+    protected $description = ''; //field description (under input field)
+    protected $display = true; // if false, the field is hidden & will not be checked during the mandatory check
+    protected $editable = true; //is the field editable?
 
     //new
-    private $addStrBeforeValue = '';
-    private $addStrBehindValue = '';
+    protected $addStrBeforeValue = '';
+    protected $addStrBehindValue = '';
 
     //special properties for external table fields
-    private $externalCallBackFunction = null;
-    private $externalFieldName = null;
-    private $externalIdField = null;
-    private $externalModel = null;
-    private $externalSearchValue = null;
-    private $externalSortField = null;
+    protected $externalCallBackFunction = null;
+    protected $externalFieldName = null;
+    protected $externalIdField = null;
+    protected $externalModel = null;
+    protected $externalSearchValue = null;
+    protected $externalSortField = null;
 
     private $extTitleField = null; //Sonderlocke für Feld in Feld zum Beispiel für Feldbewertungen
     private $fieldName = null; //the fieldName should be conform to the database field name
