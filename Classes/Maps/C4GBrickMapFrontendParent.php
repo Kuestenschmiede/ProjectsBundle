@@ -60,23 +60,25 @@ class C4GBrickMapFrontendParent extends \Frontend
     public function addRedirectButton($siteId, $state, $buttonText, $isEditButton, $member_id, $project_id, $brick, $group_id = null, $parent_id = null) {
         $result = '';
 
-        //testweise weitere Werte mit übergeben.
-        if ($group_id) {
-            $state = $state.':'.$group_id;
-            if ($project_id) {
-                $state = $state.':'.$project_id;
-                if ($parent_id) {
-                    $state = $state.':'.$parent_id;
+        if ($siteId) {
+            //testweise weitere Werte mit übergeben.
+            if ($group_id) {
+                $state = $state.':'.$group_id;
+                if ($project_id) {
+                    $state = $state.':'.$project_id;
+                    if ($parent_id) {
+                        $state = $state.':'.$parent_id;
+                    }
                 }
+
             }
 
-        }
+            $link = '{{link_url::'.$siteId.'}}?state='.$state;
 
-        $link = '{{link_url::'.$siteId.'}}?state='.$state;
-
-        if ((!$isEditButton) || (C4GBrickCommon::hasMemberRightsForBrick($member_id, $project_id, $brick))) {
-            $result = '<div class = "c4g_brick_popup_button"><a href="' .
-                $link . '"> '. $buttonText . ' </a></div>';
+            if ((!$isEditButton) || (C4GBrickCommon::hasMemberRightsForBrick($member_id, $project_id, $brick))) {
+                $result = '<div class = "c4g_brick_popup_button"><a href="' .
+                    $link . '"> '. $buttonText . ' </a></div>';
+            }
         }
 
         return $result;

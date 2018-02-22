@@ -14,11 +14,10 @@
 namespace con4gis\ProjectsBundle\Classes\Framework;
 
 
+use con4gis\CoreBundle\Resources\contao\classes\C4GJQueryGUI;
 use con4gis\CoreBundle\Resources\contao\classes\C4GUtils;
-use con4gis\CoreBundle\Resources\contao\models\C4gSettingsModel;
-use con4gis\GroupsBundle\Resources\contao\models\MemberModel;
 use con4gis\GroupsBundle\Resources\contao\models\MemberGroupModel;
-use con4gis\ProjectsBundle\Classes\Models\C4gProjectsModel;
+use con4gis\GroupsBundle\Resources\contao\models\MemberModel;
 use con4gis\ProjectsBundle\Classes\Actions\C4GBrickAction;
 use con4gis\ProjectsBundle\Classes\Actions\C4GBrickActionType;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickCommon;
@@ -29,14 +28,11 @@ use con4gis\ProjectsBundle\Classes\Database\C4GBrickDatabaseType;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GDialogChangeHandler;
 use con4gis\ProjectsBundle\Classes\Lists\C4GBrickListParams;
+use con4gis\ProjectsBundle\Classes\Models\C4gProjectsModel;
 use con4gis\ProjectsBundle\Classes\Views\C4GBrickView;
 use con4gis\ProjectsBundle\Classes\Views\C4GBrickViewParams;
 use con4gis\ProjectsBundle\Classes\Views\C4GBrickViewType;
-use con4gis\CoreBundle\Resources\contao\classes\C4GJQueryGUI;
-use Contao\Controller;
-use Contao\Files;
-use Contao\FilesModel;
-use Doctrine\ORM\Cache\DefaultCache;
+use Contao\Database;
 use Symfony\Component\Config\Definition\Exception\Exception;
 
 /**
@@ -324,7 +320,8 @@ class C4GBrickModuleParent extends \Module
             $contentId = $this->contentid;
             if (!$contentId) {
                 if (!$this->settings) {
-                    $settings = C4gSettingsModel::findAll();
+                    $settings = Database::getInstance()->execute("SELECT * FROM tl_c4g_settings LIMIT 1")->fetchAllAssoc();
+
                     if ($settings) {
                         $this->settings = $settings[0];
                     }
@@ -466,7 +463,7 @@ class C4GBrickModuleParent extends \Module
             );
 
 
-            $settings = C4gSettingsModel::findAll();
+            $settings = Database::getInstance()->execute("SELECT * FROM tl_c4g_settings LIMIT 1")->fetchAllAssoc();
 
             if ($settings) {
                 $this->settings = $settings[0];
