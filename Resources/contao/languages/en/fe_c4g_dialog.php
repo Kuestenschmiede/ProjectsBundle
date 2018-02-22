@@ -82,7 +82,7 @@ $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['MESSAGE_DIALOG_ARCHIVE_DIALOG_YES'] = 'Yes
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['MESSAGE_DIALOG_ARCHIVE_DIALOG_NO'] = 'No, cancel';
 
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['MESSAGE_DIALOG_BOOKING_ARCHIVE_DIALOG_QUESTION'] = 'DO you really want to archive (deactivate) your data?';
-$GLOBALS['TL_LANG']['FE_C4G_DIALOG']['MESSAGE_DIALOG_BOOKING_ARCHIVE_DIALOG_TEXT'] = 'Attention! You and your group members can no longer access the group data as long as the group is deactivated. YOu will no longer be billed as long as the group is deactivated for the entire billing period.'
+$GLOBALS['TL_LANG']['FE_C4G_DIALOG']['MESSAGE_DIALOG_BOOKING_ARCHIVE_DIALOG_TEXT'] = 'Attention! You and your group members can no longer access the group data as long as the group is deactivated. YOu will no longer be billed as long as the group is deactivated for the entire billing period.';
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['MESSAGE_DIALOG_BOOKING_ARCHIVE_DIALOG_YES'] = 'Yes, deactivate now';
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['MESSAGE_DIALOG_BOOKING_ARCHIVE_DIALOG_NO'] = 'No, cancel';
 
