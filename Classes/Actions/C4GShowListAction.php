@@ -12,19 +12,17 @@
 
 namespace con4gis\ProjectsBundle\Classes\Actions;
 
-use con4gis\ProjectsBundle\Classes\Database\C4GBrickDatabaseType;
-use con4gis\ProjectsBundle\Classes\Filter\C4GBrickFilterParams;
-use con4gis\ProjectsBundle\Classes\Models\C4gProjectsModel;
+use con4gis\CoreBundle\Resources\contao\classes\C4GHTMLFactory;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickCommon;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickConst;
+use con4gis\ProjectsBundle\Classes\Filter\C4GBrickFilterParams;
 use con4gis\ProjectsBundle\Classes\Lists\C4GBrickList;
 use con4gis\ProjectsBundle\Classes\Lists\C4GBrickRenderMode;
 use con4gis\ProjectsBundle\Classes\Lists\C4GBrickTiles;
+use con4gis\ProjectsBundle\Classes\Models\C4gProjectsModel;
 use con4gis\ProjectsBundle\Classes\Views\C4GBrickView;
 use con4gis\ProjectsBundle\Classes\Views\C4GBrickViewType;
-use con4gis\ProjectsBundle\Classes\Actions\C4GShowRedirectDialogAction;
 use Symfony\Component\Config\Definition\Exception\Exception;
-use con4gis\CoreBundle\Resources\contao\classes\C4GHTMLFactory;
 
 class C4GShowListAction extends C4GBrickDialogAction
 {
@@ -297,7 +295,7 @@ class C4GShowListAction extends C4GBrickDialogAction
                         }
                     }
                     break;
-                case C4GBrickViewType::PUBLICUUIDBASED:
+                case C4GBrickView::isPublicUUIDBased($viewType):
                     if($modelListFunction) {
                         $function = $modelListFunction;
                         $database = $brickDatabase->getParams()->getDatabase();

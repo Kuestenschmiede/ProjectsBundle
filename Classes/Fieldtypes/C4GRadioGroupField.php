@@ -53,6 +53,7 @@ class C4GRadioGroupField extends C4GBrickField
                 ($viewType == C4GBrickViewType::GROUPVIEW) ||
                 ($viewType == C4GBrickViewType::PROJECTPARENTVIEW) ||
                 ($viewType == C4GBrickViewType::MEMBERVIEW) ||
+                ($viewType == C4GBrickViewType::PUBLICUUIDVIEW) ||
                 (($viewType == C4GBrickViewType::GROUPPROJECT) && $is_frozen))
         ) {
             $required = "disabled readonly";

@@ -66,6 +66,20 @@ class C4GBrickView {
     /**
      * @return boolean
      */
+    public static function isPublicUUIDBased($viewType)
+    {
+        switch ($viewType) {
+            case C4GBrickViewType::PUBLICUUIDBASED:
+            case C4GBrickViewType::PUBLICUUIDVIEW:
+                return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * @return boolean
+     */
     public static function isProjectBased($viewType)
     {
         switch($viewType) {
@@ -138,6 +152,7 @@ class C4GBrickView {
             case C4GBrickViewType::MEMBERVIEW:
             case C4GBrickViewType::PROJECTPARENTVIEW:
             case C4GBrickViewType::PUBLICVIEW:
+            case C4GBrickViewType::PUBLICUUIDVIEW:
                 return true;
         }
 

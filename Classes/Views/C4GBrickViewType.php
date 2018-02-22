@@ -23,6 +23,7 @@ class C4GBrickViewType {
 
     const GROUPVIEW         = 'groupview'; //Gruppenansicht ohne Bearbeitungsmöglichkeit
     const MEMBERVIEW        = 'memberview'; //Mitgliederansicht ohne Bearbeitungsmöglichkeit
+    const PUBLICUUIDVIEW    = 'publicuuidview'; //Ansicht für PUBLICUUIDBASED ohne Bearbeitungsmöglichkeit
     const PUBLICVIEW        = 'publicview'; //Noch nicht benutzt
 
     const PROJECTPARENTVIEW = 'projectparentview'; //Ohne Bearbeitungsmöglichkeit
