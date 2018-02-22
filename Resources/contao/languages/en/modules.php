@@ -11,7 +11,7 @@
  * @link      https://www.kuestenschmiede.de
  */
 
-$GLOBALS['TL_LANG']['MOD']['ProjectsLogbook'] = array('Logbuch', 'Logbuch');
-$GLOBALS['TL_LANG']['MOD']['Projects'] = array('Projekte', 'Projekte');
-$GLOBALS['TL_LANG']['MOD']['Backups'] = array('Import/Export', 'Datensicherung von Projekten');
+$GLOBALS['TL_LANG']['MOD']['ProjectsLogbook'] = array('Log', 'Log');
+$GLOBALS['TL_LANG']['MOD']['Projects'] = array('Projects', 'Projects');
+$GLOBALS['TL_LANG']['MOD']['Backups'] = array('Import/Export', 'Project Backups');
 

@@ -1,2 +1,2 @@
 <?php
-$GLOBALS['TL_LANG']['tl_c4g_maps']['editable'] = array('Editierbar', 'Wählen Sie diese Option, wenn sie das Kartenstrukturelement in der Karte editierbar machen wollen.');
+$GLOBALS['TL_LANG']['tl_c4g_maps']['editable'] = array('Editable', 'Choose this if you want the map structure element in the map to be editable.');

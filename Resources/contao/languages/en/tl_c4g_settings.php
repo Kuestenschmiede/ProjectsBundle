@@ -11,7 +11,7 @@
  */
 
 /** FIELDS **/
-$GLOBALS['TL_LANG']['tl_c4g_settings']['position_map'] = array('Karteninhaltselement', 'Wählen Sie die Karte für den Geopicker.');
+$GLOBALS['TL_LANG']['tl_c4g_settings']['position_map'] = array('Map content element', 'Choose the map for the Geopicker.');
 
 /** LEGENDS **/
-$GLOBALS['TL_LANG']['tl_c4g_settings']['projects_legend'] = "Projekteinstellungen";
+$GLOBALS['TL_LANG']['tl_c4g_settings']['projects_legend'] = "Project settings";

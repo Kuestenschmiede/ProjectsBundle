@@ -11,19 +11,19 @@
  */
 
 /** FIELDS */
-$GLOBALS['TL_LANG']['tl_c4g_projects']['caption'] = array("Projektbezeichnung","Projektbezeichnung");
-$GLOBALS['TL_LANG']['tl_c4g_projects']['brick_key'] = array("Projektart","Projektart");
-$GLOBALS['TL_LANG']['tl_c4g_projects']['description'] = array("Projektbeschreibung","Projektbeschreibung");
-$GLOBALS['TL_LANG']['tl_c4g_projects']['group_id'] = array("Gruppe","Kein Projekt ohne Gruppe");
-$GLOBALS['TL_LANG']['tl_c4g_projects']['is_frozen'] = array("Projekt eingefroren","Projekt eingefroren");
+$GLOBALS['TL_LANG']['tl_c4g_projects']['caption'] = array("Project Name","Project Name");
+$GLOBALS['TL_LANG']['tl_c4g_projects']['brick_key'] = array("Kind of Project","Kind of Project");
+$GLOBALS['TL_LANG']['tl_c4g_projects']['description'] = array("Project Description","Project Description");
+$GLOBALS['TL_LANG']['tl_c4g_projects']['group_id'] = array("Group","No project without group");
+$GLOBALS['TL_LANG']['tl_c4g_projects']['is_frozen'] = array("Project frozen","Project frozen");
 
 /** LEGENDS **/
-$GLOBALS['TL_LANG']['tl_c4g_projects']['custom_legend']  = "Allgemeine Angaben";
-$GLOBALS['TL_LANG']['tl_c4g_projects']['group_legend']   = "Angaben zur Gruppe";
+$GLOBALS['TL_LANG']['tl_c4g_projects']['custom_legend']  = "General Data";
+$GLOBALS['TL_LANG']['tl_c4g_projects']['group_legend']   = "Group Data";
 
 /** OPERATIONS **/
-$GLOBALS['TL_LANG']['tl_c4g_projects']['new'] = array("Projekt hinzufügen","Projekt hinzufügen");
-$GLOBALS['TL_LANG']['tl_c4g_projects']['edit'] = array("Projekt bearbeiten","Projekt %s bearbeiten");
-$GLOBALS['TL_LANG']['tl_c4g_projects']['copy'] = array("Projekt kopieren","Projekt %s kopieren");
-$GLOBALS['TL_LANG']['tl_c4g_projects']['delete'] = array("Projekt löschen","Projekt %s löschen");
-$GLOBALS['TL_LANG']['tl_c4g_projects']['show'] = array("Projekt anzeigen","Projekt %s anzeigen");
+$GLOBALS['TL_LANG']['tl_c4g_projects']['new'] = array("Add Project","Add Project");
+$GLOBALS['TL_LANG']['tl_c4g_projects']['edit'] = array("Edit Project","Edit Project %s");
+$GLOBALS['TL_LANG']['tl_c4g_projects']['copy'] = array("Copy Project","Copy Project %s");
+$GLOBALS['TL_LANG']['tl_c4g_projects']['delete'] = array("Delete Project","Delete Project %s");
+$GLOBALS['TL_LANG']['tl_c4g_projects']['show'] = array("Show Project","Show Project %s");

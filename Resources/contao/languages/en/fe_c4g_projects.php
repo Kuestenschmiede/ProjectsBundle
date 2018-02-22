@@ -12,12 +12,12 @@
  */
 
 /** FIELDS */
-$GLOBALS['TL_LANG']['fe_c4g_projects']['caption']        = 'Projektbezeichnung';
-$GLOBALS['TL_LANG']['fe_c4g_projects']['brick_key']      = 'Projektart';
-$GLOBALS['TL_LANG']['fe_c4g_projects']['description']    = 'Projektbeschreibung';
-$GLOBALS['TL_LANG']['fe_c4g_projects']['group_id']       = 'Gruppe';
-$GLOBALS['TL_LANG']['fe_c4g_projects']['address_not_found']       = 'Adresse nicht ermittelbar';
+$GLOBALS['TL_LANG']['fe_c4g_projects']['caption']        = 'Project Name';
+$GLOBALS['TL_LANG']['fe_c4g_projects']['brick_key']      = 'Kind of Project';
+$GLOBALS['TL_LANG']['fe_c4g_projects']['description']    = 'Project Description';
+$GLOBALS['TL_LANG']['fe_c4g_projects']['group_id']       = 'Group';
+$GLOBALS['TL_LANG']['fe_c4g_projects']['address_not_found']       = 'Address indeterminate';
 
-$GLOBALS['TL_LANG']['tl_c4g_projects']['last_member_id'] = 'Letzter Bearbeiter';
-$GLOBALS['TL_LANG']['tl_c4g_projects']['is_frozen']      = 'Projekt einfrieren';
-$GLOBALS['TL_LANG']['tl_c4g_projects']['noentry']        = 'kein Eintrag';
+$GLOBALS['TL_LANG']['tl_c4g_projects']['last_member_id'] = 'Last Editor';
+$GLOBALS['TL_LANG']['tl_c4g_projects']['is_frozen']      = 'Freeze Project';
+$GLOBALS['TL_LANG']['tl_c4g_projects']['noentry']        = 'no Entry';
