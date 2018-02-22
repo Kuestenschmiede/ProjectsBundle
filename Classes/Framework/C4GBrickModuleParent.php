@@ -298,6 +298,14 @@ class C4GBrickModuleParent extends \Module
             //$this->listParams->setParentCount();
         }
 
+        if (!$this->settings) {
+            $settings = Database::getInstance()->execute("SELECT * FROM tl_c4g_settings LIMIT 1")->fetchAllAssoc();
+
+            if ($settings) {
+                $this->settings = $settings[0];
+            }
+        }
+
         //setting dialog params
         if (!$this->dialogParams) {
             $this->dialogParams = new C4GBrickDialogParams($this->brickKey, $this->viewType);
@@ -319,15 +327,7 @@ class C4GBrickModuleParent extends \Module
             $this->dialogParams->setC4gMap($this->c4g_map);
             $contentId = $this->contentid;
             if (!$contentId) {
-                if (!$this->settings) {
-                    $settings = Database::getInstance()->execute("SELECT * FROM tl_c4g_settings LIMIT 1")->fetchAllAssoc();
-
-                    if ($settings) {
-                        $this->settings = $settings[0];
-                    }
-                }
-
-                $contentId = $this->settings->position_map;
+                $contentId = $this->settings['position_map'];
             }
             $this->dialogParams->setContentId($contentId);
             $this->dialogParams->setHeadline($this->headline);
@@ -479,11 +479,11 @@ class C4GBrickModuleParent extends \Module
             } else if($this->c4g_uitheme_css_select) {
                 $theme = $this->c4g_uitheme_css_select;
                 $GLOBALS['TL_CSS']['c4g_jquery_ui'] = 'bundles/con4giscore/vendor/jQuery/ui-themes/themes/' . $theme . '/jquery-ui.css';
-            } else if ($this->settings && $this->settings->c4g_appearance_themeroller_css) {
-                $objFile = \FilesModel::findByUuid($this->settings->c4g_appearance_themeroller_css);
+            } else if ($this->settings && $this->settings['c4g_appearance_themeroller_css']) {
+                $objFile = \FilesModel::findByUuid($this->settings['c4g_appearance_themeroller_css']);
                 $GLOBALS['TL_CSS']['c4g_jquery_ui'] = $objFile->path;
-            } else if ($this->settings && $this->settings->c4g_uitheme_css_select) {
-                $theme = $this->settings->c4g_uitheme_css_select;
+            } else if ($this->settings && $this->settings['c4g_uitheme_css_select']) {
+                $theme = $this->settings['c4g_uitheme_css_select'];
                 $GLOBALS['TL_CSS']['c4g_jquery_ui'] = 'bundles/con4giscore/vendor/jQuery/ui-themes/themes/' . $theme . '/jquery-ui.css';
             } else {
                 $GLOBALS['TL_CSS']['c4g_jquery_ui'] = 'bundles/con4giscore/vendor/jQuery/ui-themes/themes/base/jquery-ui.css';
