@@ -31,9 +31,15 @@ class C4GActivationDialogAction extends C4GBrickDialogAction
             $mandatoryCheckResult = C4GBrickDialog::checkMandatoryFields($fieldList, $dlgValues);
             if ($mandatoryCheckResult !== true) {
                if ($mandatoryCheckResult instanceof C4GBrickField) {
-                    if ($mandatoryCheckResult->getSpecialMandatoryMessage() != '') {
-                        return array('usermessage' => $mandatoryCheckResult->getSpecialMandatoryMessage(), 'title' => $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_MANDATORY_TITLE']);
-                    }
+                   //ToDo JS function to scroll to the vertical position of the field
+                   if ($mandatoryCheckResult->getSpecialMandatoryMessage() != '') {
+                        return array('usermessage' => $mandatoryCheckResult->getSpecialMandatoryMessage(), 'title' => $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_MANDATORY_TITLE'],
+                            'callback' => array('function' => $mandatoryCheckResult->getMandatoryFunction(), 'params' => $mandatoryCheckResult->getMandatoryFunctionParams()));
+                   } elseif ($mandatoryCheckResult->getTitle() != '') {
+                      return array('usermessage' => $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_MANDATORY_FIELD'].'"'. $mandatoryCheckResult->getTitle().'".',
+                           'title' => $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_MANDATORY_TITLE'],
+                           'callback' => array('function' => 'focusOnField', 'params' => 'c4g_'. $mandatoryCheckResult->getFieldName()));
+                   }
                 }
                 return array('usermessage' => $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_MANDATORY'], 'title' => $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_MANDATORY_TITLE']);
             }
@@ -66,6 +72,10 @@ class C4GActivationDialogAction extends C4GBrickDialogAction
             $action = new C4GCloseDialogAction($dialogParams, $this->getListParams(), $this->getFieldList(), $this->getPutVars(), $this->getBrickDatabase());
             return $action->run();
         }
+
+        if(($viewType == C4GBrickViewType::PUBLICUUIDBASED) && !($this->dialogParams->getUuid())) {
+            return array('usermessage' => $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_MISSING_UUID'], 'title' => $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_MISSING_UUID_TITLE']);
+            }
 
         if($viewType == C4GBrickViewType::MEMBERBOOKING) {
             $result = C4GBrickDialog::showC4GMessageDialog(
