@@ -14,17 +14,17 @@
 namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
 
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
-use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
+use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldNumeric;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldCompare;
 
-class C4GNumberField extends C4GBrickField
+class C4GNumberField extends C4GBrickFieldNumeric
 {
     public function __construct()
     {
         $this->setAlign("right");
     }
 
-    private $thousands_sep = '';
+    protected $thousands_sep = '';
     /**
      * @param $fieldList
      * @param $field

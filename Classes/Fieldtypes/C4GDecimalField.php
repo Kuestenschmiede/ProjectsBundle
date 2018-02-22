@@ -15,14 +15,14 @@ namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
 
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickCommon;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
-use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
+use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldNumeric;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldCompare;
 
-class C4GDecimalField extends C4GBrickField
+class C4GDecimalField extends C4GBrickFieldNumeric
 {
-    private $thousands_sep = '';
+    /*private $thousands_sep = '';
     private $decimal_point = ',';
-    private $decimals = 2;
+    private $decimals = 2;*/
 
     public function __construct()
     {

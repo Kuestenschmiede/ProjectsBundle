@@ -13,16 +13,14 @@
 
 namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
 
+use con4gis\ProjectsBundle\Classes\Common\C4GBrickRegEx;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
-use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
+use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldNumeric;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldCompare;
 
-class C4GPostalField extends C4GBrickField
+class C4GPostalField extends C4GBrickFieldNumeric
 {
-    public function __construct()
-    {
-        $this->setAlign("right");
-    }
+    // GitKraken note: constructor moved to direct parent class
 
     public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = array())
     {
@@ -37,16 +35,16 @@ class C4GPostalField extends C4GBrickField
 
             $result =
                 $this->addC4GField($condition,$dialogParams,$fieldList,$data,
-                '<input type="text" pattern="[0-9]{5}" size="5"' . $required . ' ' . $condition['conditionPrepare'] . ' id="' . $id . '" class="formdata ' . $id . '" name="' . $this->getFieldName() . '" title="' . $this->getTitle() . '" value="' . $value . '">');
+                '<input type="text" pattern="'. C4GBrickRegEx::POSTAL .'" size="5"' . $required . ' ' . $condition['conditionPrepare'] . ' id="' . $id . '" class="formdata ' . $id . '" name="' . $this->getFieldName() . '" title="' . $this->getTitle() . '" value="' . $value . '">');
         }
         return $result;
     }
 
     /**
      * Method that will be called in the compareWithDB() in C4GBrickDialog
-     * @param $dbValue
-     * @param $dlgvalue
-     * @return array
+     * @param $dbValues
+     * @param $dlgValues
+     * @return array|C4GBrickFieldCompare
      */
     public function compareWithDB($dbValues, $dlgValues)
     {
