@@ -12,6 +12,9 @@
 
 namespace con4gis\ProjectsBundle\Classes\Actions;
 
+use con4gis\ProjectsBundle\Classes\Notifications\C4GBrickNotification;
+use MemberModel;
+
 class C4GSendEmailNotificationAction extends C4GBrickDialogAction
 {
     private $closeDialog = true;
