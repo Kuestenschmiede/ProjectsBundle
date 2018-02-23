@@ -6,7 +6,7 @@
  * @package   con4gis
  * @author    con4gis contributors (see "authors.txt")
  * @license   GNU/LGPL http://opensource.org/licenses/lgpl-3.0.html
- * @copyright Küstenschmiede GmbH Software & Design 2011 - 2017.
+ * @copyright Küstenschmiede GmbH Software & Design 2011 - 2018
  * @link      https://www.kuestenschmiede.de
  */
 
@@ -55,10 +55,14 @@ class C4GSaveDialogAction extends C4GBrickDialogAction
 
         $mandatoryCheckResult = C4GBrickDialog::checkMandatoryFields($fieldList, $dlgValues);
         if ($mandatoryCheckResult !== true) {
-            if (!$dialogParams->isSaveOnMandatory() && !$dialogParams->isSaveWithoutMessages()) {
+            if ((!$dialogParams->isSaveOnMandatory() || ($dialogParams->isMandatoryCheckOnActivate() && ($dlgValues['published'] == 'true' || $dlgValues['published'] == true))) && !$dialogParams->isSaveWithoutMessages()) {
                 if ($mandatoryCheckResult instanceof C4GBrickField) {
                     if ($mandatoryCheckResult->getSpecialMandatoryMessage() != '') {
+                        //ToDo JS function to scroll to the vertical position of the field
                         return array('usermessage' => $mandatoryCheckResult->getSpecialMandatoryMessage(),
+                            'title' => $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_MANDATORY_TITLE']);
+                    } elseif ($mandatoryCheckResult->getTitle() != '') {
+                        return array('usermessage' => $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_MANDATORY_FIELD'].'"'. $mandatoryCheckResult->getTitle().'".',
                             'title' => $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_MANDATORY_TITLE']);
                     }
                 }
@@ -244,6 +248,7 @@ class C4GSaveDialogAction extends C4GBrickDialogAction
             if($activation_button && $archive_button && $activation_button->isEnabled() && $archive_button->isEnabled()){
                 if(($dlgValues['published'] == false || $dlgValues['published'] == 'false') && $isWithActivationInfo && (!$dialogParams->isSaveWithoutMessages())){
                     $return['usermessage'] =  $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_DATA_NOT_ACTIVATED'];
+                    $return['title'] = $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_TITLE_DATA_NOT_ACTIVATED'];
                 }
             }
 

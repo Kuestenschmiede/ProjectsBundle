@@ -6,7 +6,7 @@
  * @package   con4gis
  * @author    con4gis contributors (see "authors.txt")
  * @license   GNU/LGPL http://opensource.org/licenses/lgpl-3.0.html
- * @copyright Küstenschmiede GmbH Software & Design 2011 - 2017.
+ * @copyright Küstenschmiede GmbH Software & Design 2011 - 2018
  * @link      https://www.kuestenschmiede.de
  */
 namespace con4gis\ProjectsBundle\Classes\Views;
@@ -15,6 +15,7 @@ class C4GBrickViewType {
     const GROUPBASED        = 'group'; //Gruppenbasiert - Unsere Daten
     const MEMBERBASED       = 'member'; //Mitgliederbasiert - Meine Daten
     const PUBLICBASED       = 'public'; //Öffentliche Ansicht ohne Bearbeitungsmöglichkeit
+    const PUBLICUUIDBASED   = 'publicuuid'; //Speicherung in Datenbank ohne Mitgliedschaft per UUID
     const PROJECTBASED      = 'projectbased'; //Ein Projekt muss geladen sein
 
     const PROJECTPARENTBASED = 'projectparentbased'; //Abhängig von einer pid (Parenttabelle bzw. brick)
@@ -22,6 +23,7 @@ class C4GBrickViewType {
 
     const GROUPVIEW         = 'groupview'; //Gruppenansicht ohne Bearbeitungsmöglichkeit
     const MEMBERVIEW        = 'memberview'; //Mitgliederansicht ohne Bearbeitungsmöglichkeit
+    const PUBLICUUIDVIEW    = 'publicuuidview'; //Ansicht für PUBLICUUIDBASED ohne Bearbeitungsmöglichkeit
     const PUBLICVIEW        = 'publicview'; //Noch nicht benutzt
 
     const PROJECTPARENTVIEW = 'projectparentview'; //Ohne Bearbeitungsmöglichkeit

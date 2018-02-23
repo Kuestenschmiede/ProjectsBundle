@@ -6,7 +6,7 @@
  * @package   con4gis
  * @author    con4gis contributors (see "authors.txt")
  * @license   GNU/LGPL http://opensource.org/licenses/lgpl-3.0.html
- * @copyright Küstenschmiede GmbH Software & Design 2011 - 2017.
+ * @copyright Küstenschmiede GmbH Software & Design 2011 - 2018
  * @link      https://www.kuestenschmiede.de
  */
 
@@ -18,8 +18,8 @@ use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldCompare;
 
 class C4GTextField extends C4GBrickField
 {
-    private $size = 255;
-    private $maxLength = 255;
+    protected $size = 255;
+    protected $maxLength = 255;
 
     /**
      * @param $field

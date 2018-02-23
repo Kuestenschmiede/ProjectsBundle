@@ -6,13 +6,14 @@
  * @package   con4gis
  * @author    con4gis contributors (see "authors.txt")
  * @license   GNU/LGPL http://opensource.org/licenses/lgpl-3.0.html
- * @copyright Küstenschmiede GmbH Software & Design 2011 - 2017.
+ * @copyright Küstenschmiede GmbH Software & Design 2011 - 2018
  * @link      https://www.kuestenschmiede.de
  */
 
 namespace con4gis\ProjectsBundle\Classes\Lists;
 use con4gis\ProjectsBundle\Classes\Buttons\C4GBrickButton;
 use con4gis\ProjectsBundle\Classes\Buttons\C4GExportButtons;
+use con4gis\ProjectsBundle\Classes\Buttons\C4GMoreButton;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickConst;
 use con4gis\ProjectsBundle\Classes\Filter\C4GBrickFilterParams;
 use con4gis\ProjectsBundle\Classes\Views\C4GBrickView;
@@ -51,6 +52,8 @@ class C4GBrickListParams
     private $captionField = 'caption'; //used for list tooltip
     private $rowCount = 0; //number of datasets (LISTBASED)
     private $redirectTo = '';
+    private $Uuid = '';
+
 
     /**
      * C4GBrickListParams constructor.
@@ -609,6 +612,22 @@ class C4GBrickListParams
     public function setRedirectTo($redirectTo)
     {
         $this->redirectTo = $redirectTo;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUuid()
+    {
+        return $this->Uuid;
+    }
+
+    /**
+     * @param string $Uuid
+     */
+    public function setUuid($Uuid)
+    {
+        $this->Uuid = $Uuid;
     }
 
 }

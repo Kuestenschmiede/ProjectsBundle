@@ -6,7 +6,7 @@
  * @package   con4gis
  * @author    con4gis contributors (see "authors.txt")
  * @license   GNU/LGPL http://opensource.org/licenses/lgpl-3.0.html
- * @copyright Küstenschmiede GmbH Software & Design 2011 - 2017.
+ * @copyright Küstenschmiede GmbH Software & Design 2011 - 2018
  * @link      https://www.kuestenschmiede.de
  */
 namespace con4gis\ProjectsBundle\Classes\Common;
@@ -254,7 +254,9 @@ class C4GBrickCommon
         $resultList = array();
         foreach ($maps as $map) {
             $map->name = C4gMapsModel::findByPk($map->c4g_map_id)->name;
-            $resultList[$map->id] = $map->name;
+            if ($map->name) {
+                $resultList[$map->id] = $map->name;
+            }
         }
         return $resultList;
     }

@@ -7,7 +7,7 @@
  * @package   con4gis
  * @author    con4gis contributors (see "authors.txt")
  * @license   GNU/LGPL http://opensource.org/licenses/lgpl-3.0.html
- * @copyright Küstenschmiede GmbH Software & Design 2011 - 2017.
+ * @copyright Küstenschmiede GmbH Software & Design 2011 - 2018
  * @link      https://www.kuestenschmiede.de
  */
 
@@ -181,6 +181,37 @@ class C4GGeopickerField extends C4GBrickField
             }
         }
         return $address;
+    }
+
+    /**
+     * Returns false if the field is not mandatory or if it is mandatory but its conditions are not met.
+     * Otherwise it checks whether the field has a valid value and returns the result.
+     * @param array $dlgValues
+     * @return bool|C4GBrickField
+     */
+
+    public function checkMandatory($dlgValues)
+    {
+        //$this->setSpecialMandatoryMessage($this->getFieldName()); //Useful for debugging
+        if (!$this->isMandatory()) {
+            return false;
+        } elseif(!$this->isDisplay()) {
+            return false;
+        } elseif ($this->getCondition()) {
+            foreach ($this->getCondition() as $con) {
+                $fieldName = $con->getFieldName();
+                if (!$con->checkAgainstCondition($dlgValues[$fieldName])) {
+                    return false;
+                }
+            }
+        }
+        $loc_geox = $dlgValues['geox'];
+        $loc_geoy = $dlgValues['geoy'];
+        if ($loc_geox && $loc_geoy) {
+            return true;
+        } else {
+            return $this;
+        }
     }
 
     /**

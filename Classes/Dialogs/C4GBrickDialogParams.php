@@ -6,7 +6,7 @@
  * @package   con4gis
  * @author    con4gis contributors (see "authors.txt")
  * @license   GNU/LGPL http://opensource.org/licenses/lgpl-3.0.html
- * @copyright Küstenschmiede GmbH Software & Design 2011 - 2017.
+ * @copyright Küstenschmiede GmbH Software & Design 2011 - 2018
  * @link      https://www.kuestenschmiede.de
  */
 
@@ -48,7 +48,7 @@ class C4GBrickDialogParams
     private $buttons = array(); //dialog buttons
     private $accordion = false; //activates accordion (every headline is an accordeon button)
     private $accordion_counter = 0; //counts the accordions button to calc end of div
-    private $accordion_all_opened = false; //opens all accordeon buttons by default
+    private $accordion_all_opened = false; //opens all accordion buttons by default
     private $tabContent = false; //activates tabContent (every headline is a tab button)
     private $tabContent_counter = 0; //counts the tab button to calc end of div
     private $withTabContentCheck = true; //tabContentCheck deactivates clear tabs
@@ -93,6 +93,8 @@ class C4GBrickDialogParams
     private $redirects = array();//C4GBrickRedirect
     private $saveWithUuid = false;
     private $saveTimestamp = true;
+    private $uuid = '';
+
 
     /**
      * C4GBrickDialogParams constructor.
@@ -499,7 +501,7 @@ class C4GBrickDialogParams
     }
 
     /**
-     * @param boolean $accordeon
+     * @param boolean $accordion
      */
     public function setAccordion($accordion)
     {
@@ -1435,4 +1437,20 @@ class C4GBrickDialogParams
         $this->saveTimestamp = $saveTimestamp;
     }
 
+
+    /**
+     * @return string
+     */
+    public function getUuid()
+    {
+        return $this->uuid;
+    }
+
+    /**
+     * @param string $uuid
+     */
+    public function setUuid($uuid)
+    {
+        $this->uuid = $uuid;
+    }
 }

@@ -7,7 +7,7 @@
  * @package   con4gis
  * @author    con4gis contributors (see "authors.txt")
  * @license   GNU/LGPL http://opensource.org/licenses/lgpl-3.0.html
- * @copyright Küstenschmiede GmbH Software & Design 2011 - 2017.
+ * @copyright Küstenschmiede GmbH Software & Design 2011 - 2018
  * @link      https://www.kuestenschmiede.de
  */
 
@@ -55,7 +55,9 @@ class C4GFileField extends C4GBrickField
                     ($viewType == C4GBrickViewType::PUBLICVIEW) ||
                     ($viewType == C4GBrickViewType::GROUPVIEW) ||
                     ($viewType == C4GBrickViewType::PROJECTPARENTVIEW) ||
-                    ($viewType == C4GBrickViewType::MEMBERVIEW) )
+                    ($viewType == C4GBrickViewType::MEMBERVIEW) ||
+                    ($viewType == C4GBrickViewType::PUBLICUUIDVIEW) )
+
             ))
         ) {
             $buttonRequired = 'disabled readonly style="display:none"';
@@ -286,7 +288,7 @@ class C4GFileField extends C4GBrickField
                 case C4GBrickFileType::IMAGES_PNG:
                 case C4GBrickFileType::IMAGES_PNG_JPG:
                 case C4GBrickFileType::IMAGES_PNG_JPG_TIFF:
-                   return $fieldTitle . '<div class="c4g_tile value">' . '<img src="bundles/con4gisprojects/images/missing.png">' . '</div>';
+                   return $fieldTitle . '<div class="c4g_tile value">' . '<img src="system/modules/con4gis_projects/assets/missing.png">' . '</div>';
                     break;
                 default:
                    return $fieldTitle . '<div class="c4g_tile value">' . '<div class="error"></div>' . '</div>';

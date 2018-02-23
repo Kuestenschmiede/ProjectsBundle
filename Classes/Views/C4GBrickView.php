@@ -6,7 +6,7 @@
  * @package   con4gis
  * @author    con4gis contributors (see "authors.txt")
  * @license   GNU/LGPL http://opensource.org/licenses/lgpl-3.0.html
- * @copyright Küstenschmiede GmbH Software & Design 2011 - 2017.
+ * @copyright Küstenschmiede GmbH Software & Design 2011 - 2018
  * @link      https://www.kuestenschmiede.de
  */
 namespace con4gis\ProjectsBundle\Classes\Views;
@@ -57,6 +57,20 @@ class C4GBrickView {
             case C4GBrickViewType::MEMBERBOOKING:
             case C4GBrickViewType::MEMBERVIEW:
             case C4GBrickViewType::MEMBERFORM:
+                return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * @return boolean
+     */
+    public static function isPublicUUIDBased($viewType)
+    {
+        switch ($viewType) {
+            case C4GBrickViewType::PUBLICUUIDBASED:
+            case C4GBrickViewType::PUBLICUUIDVIEW:
                 return true;
         }
 
@@ -138,6 +152,7 @@ class C4GBrickView {
             case C4GBrickViewType::MEMBERVIEW:
             case C4GBrickViewType::PROJECTPARENTVIEW:
             case C4GBrickViewType::PUBLICVIEW:
+            case C4GBrickViewType::PUBLICUUIDVIEW:
                 return true;
         }
 

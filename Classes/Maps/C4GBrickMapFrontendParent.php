@@ -7,7 +7,7 @@
  * @package   con4gis
  * @author    con4gis contributors (see "authors.txt")
  * @license   GNU/LGPL http://opensource.org/licenses/lgpl-3.0.html
- * @copyright Küstenschmiede GmbH Software & Design 2011 - 2017.
+ * @copyright Küstenschmiede GmbH Software & Design 2011 - 2018
  * @link      https://www.kuestenschmiede.de
  */
 
@@ -52,6 +52,33 @@ class C4GBrickMapFrontendParent extends \Frontend
         if ((!$isEditButton) || (C4GBrickCommon::hasMemberRightsForBrick($member_id, $project_id, $brick))) {
             $result = '<div class = "c4g_brick_popup_button"><a onclick="' .
                 C4GBrickCommon::getPopupWindowString($link) . '"> '. $buttonText . ' </a></div>';
+        }
+
+        return $result;
+    }
+
+    public function addRedirectButton($siteId, $state, $buttonText, $isEditButton, $member_id, $project_id, $brick, $group_id = null, $parent_id = null) {
+        $result = '';
+
+        if ($siteId) {
+            //testweise weitere Werte mit übergeben.
+            if ($group_id) {
+                $state = $state.':'.$group_id;
+                if ($project_id) {
+                    $state = $state.':'.$project_id;
+                    if ($parent_id) {
+                        $state = $state.':'.$parent_id;
+                    }
+                }
+
+            }
+
+            $link = '{{link_url::'.$siteId.'}}?state='.$state;
+
+            if ((!$isEditButton) || (C4GBrickCommon::hasMemberRightsForBrick($member_id, $project_id, $brick))) {
+                $result = '<div class = "c4g_brick_popup_button"><a href="' .
+                    $link . '"> '. $buttonText . ' </a></div>';
+            }
         }
 
         return $result;
@@ -123,13 +150,14 @@ class C4GBrickMapFrontendParent extends \Frontend
      * @param $description
      * @return string
      */
-    public function addPopupDescriptionElement($title, $description, $last_member_id) {
+    public function addPopupDescriptionElement($title, $description, $last_member_id = 0, $maxLength = 254) {
         $result = '';
         if (($title) && ($description)) {
+            $description = C4GBrickCommon::cutText($description, $maxLength);
             $result = $title.":".C4GHTMLFactory::lineBreak(). nl2br($description) . C4GHTMLFactory::lineBreak();
         }
 
-        if ($last_member_id) {
+        if ($last_member_id && $last_member_id > 0) {
             $result .= C4GHTMLFactory::lineBreak().'Letzter Bearbeiter: '. C4GBrickCommon::getNameForMember($last_member_id).
                 C4GHTMLFactory::lineBreak();
         }
@@ -156,7 +184,7 @@ class C4GBrickMapFrontendParent extends \Frontend
         //ToDo only refresh we do not use the url
         $arrData = array();
         $arrData['pid'] = $pid;
-        $arrData['id'] = $id;
+        $arrData['id']  = $id;
         $arrData['key'] = $key;
         $arrData['async_content'] = $content_async;
 
@@ -204,7 +232,7 @@ class C4GBrickMapFrontendParent extends \Frontend
      * @param bool $withUrl
      * @return array
      */
-    protected function addMapStructureElementWithIdCalc(
+    public function addMapStructureElementWithIdCalc(
             $elementId,
             $parentId,
             $parentPid,
@@ -378,7 +406,7 @@ class C4GBrickMapFrontendParent extends \Frontend
      * @param $arrData
      * @param $arrChildData
      */
-    protected function addMapStructureChilds($arrData, $arrChildData, $sort = true)
+    public function addMapStructureChilds($arrData, $arrChildData, $sort = true)
     {
         if ($arrChildData) {
             if (!$sort) {
@@ -410,7 +438,45 @@ class C4GBrickMapFrontendParent extends \Frontend
         return $arrData;
     }
 
+    /**
+     * @param $arrData
+     * @param $childData
+     * @param bool $sort
+     * @return mixed
+     */
+    public function addMapStructureChild($arrData, $childData, $sort = true)
+    {
+        if ($arrData && $childData) {
+            $arrData['childs'][] = $childData;
 
+            if (!$sort) {
+                $arrSortedData = $arrData['childs'];
+            } else if ($childData['layername'] != $childData['name']) {
+                $arrSortedData = C4GBrickCommon::array_sort($arrData['childs'], 'layername', SORT_ASC, true);
+            } else {
+                $arrSortedData = C4GBrickCommon::array_sort($arrData['childs'], 'name', SORT_ASC, true);
+            }
+
+            foreach ($arrSortedData as $key=>$arrSortedDataValue) {
+                $arrSortedData[$key]['pid'] = $arrData['id'];
+                if ($arrSortedData[$key]['content'] != null) {
+                    $arrSortedData[$key]['content'][0]['id'] = $arrSortedDataValue['id'] + 1;
+                    $arrSortedData[$key]['content'][0]['data']['position']['positionId'] = $arrSortedDataValue['id'] + 1;
+                }
+            }
+
+            $size = sizeof($arrSortedData);
+            $arrData['hasChilds'] = true;
+            $arrData['display'] = ($size > 0);
+            $arrData['childsCount'] = $size;
+            $arrData['childs'] = $arrSortedData;
+
+        } else {
+            $arrData['display'] = false;
+        }
+
+        return $arrData;
+    }
 
     /**
      * @param $level

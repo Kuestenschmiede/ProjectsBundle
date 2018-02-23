@@ -6,7 +6,7 @@
  * @package   con4gis
  * @author    con4gis contributors (see "authors.txt")
  * @license   GNU/LGPL http://opensource.org/licenses/lgpl-3.0.html
- * @copyright Küstenschmiede GmbH Software & Design 2011 - 2017.
+ * @copyright Küstenschmiede GmbH Software & Design 2011 - 2018
  * @link      https://www.kuestenschmiede.de
  */
 
@@ -200,7 +200,7 @@ $GLOBALS['TL_DCA']['tl_c4g_projects'] = array
  * Provide miscellaneous methods that are used by the data configuration array.
  * @package   con4gis_rescuemap
  * @author    Matthias Eilers
- * @copyright Küstenschmiede GmbH Software & Design 2015
+ * @copyright Küstenschmiede GmbH Software & Design 2011 - 2018
 */
 class tl_c4g_projects extends Backend
 {

@@ -3,11 +3,11 @@
 /**
  * con4gis - the gis-kit
  *
- * @version   php 7
+ * @version   php 5
  * @package   con4gis
  * @author    con4gis contributors (see "authors.txt")
  * @license   GNU/LGPL http://opensource.org/licenses/lgpl-3.0.html
- * @copyright Küstenschmiede GmbH Software & Design 2011 - 2017.
+ * @copyright Küstenschmiede GmbH Software & Design 2011 - 2018
  * @link      https://www.kuestenschmiede.de
  */
 
@@ -17,7 +17,6 @@ $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['BRICK_CAPTION_PLURAL'] = 'Datensätze';
 /** FE Buttons **/
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['SAVE']            = 'Speichern';
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['SAVE_AND_NEW']    = 'Speichern & Neu';
-$GLOBALS['TL_LANG']['FE_C4G_DIALOG']['TICKET']          = 'Ticket';
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['BOOKING_SAVE']    = 'Kostenpflichtig buchen';
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['BOOKING_CHANGE']  = 'Änderungen übernehmen';
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['SEARCH']          = 'Sofortsuche';
@@ -28,13 +27,13 @@ $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['SEND_NOTIFICATION'] = 'Nachricht verschick
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['FREEZE']          = 'Projekt einfrieren';
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['DEFROST']         = 'Projekt auftauen';
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['DELETE']          = 'Löschen';
-$GLOBALS['TL_LANG']['FE_C4G_DIALOG']['CANCEL']          = 'Schliessen';
+$GLOBALS['TL_LANG']['FE_C4G_DIALOG']['CANCEL']          = 'Schließen';
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['EXPORT']          = 'Export';
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['PRINT']           = 'Drucken';
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['CLICK']           = 'Unbekannt :)';
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['FILE_UPLOAD']     = 'Durchsuchen';
-$GLOBALS['TL_LANG']['FE_C4G_DIALOG']['NEXT']            = 'Nächste Seite';
-$GLOBALS['TL_LANG']['FE_C4G_DIALOG']['BACK']            = 'Vorherige Seite';
+$GLOBALS['TL_LANG']['FE_C4G_DIALOG']['NEXT']            = 'Weiter';
+$GLOBALS['TL_LANG']['FE_C4G_DIALOG']['BACK']            = 'Zurück';
 
 /** FE Layout **/
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['HEADLINES_ADD'] = 'hinzufügen';
@@ -43,6 +42,7 @@ $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['HEADLINES_SHOW'] = 'anzeigen';
 
 /** MESSAGES */
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_MANDATORY'] = 'Bitte befüllen Sie zumindest alle markierten Pflichtfelder.';
+$GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_MANDATORY_FIELD'] = 'Bitte befüllen Sie zumindest alle markierten Pflichtfelder. Es fehlt das Feld ';
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_MANDATORY_TITLE'] = 'Pflichtfelder prüfen';
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_SAVED'] = 'Ihre Angaben wurden gespeichert.';
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_DATA_NOT_ACTIVATED'] = 'Hinweis: Ihr Eintrag ist zurzeit noch deaktiviert.';
@@ -59,10 +59,12 @@ $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_SEND_NOTIFICATION'] = 'Die Inf
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_SEND_NOTIFICATION_TITLE'] = 'Information versendet';
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_DONT_SEND_NOTIFICATION'] = 'Die Information konnte nicht versendet werden.';
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_DONT_SEND_NOTIFICATION_TITLE'] = 'Nicht versendet';
+$GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_MISSING_UUID'] = 'Es ist ein Fehler aufgetreten. Bitte laden Sie die Seite neu und versuchen es erneut.';
+$GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_MISSING_UUID_TITLE'] = 'Fehler';
 
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['NO_ENTRY'] = 'Kein Eintrag';
 
-$GLOBALS['TL_LANG']['FE_C4G_DIALOG']['MESSAGE_DIALOG_CLOSE_DIALOG_QUESTION'] = 'Wollen Sie Ihre Eingaben wirklich verwerfen?';
+$GLOBALS['TL_LANG']['FE_C4G_DIALOG']['MESSAGE_DIALOG_CLOSE_DIALOG_QUESTION'] = 'Wollen Sie die Eingabemaske wirklich schließen?';
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['MESSAGE_DIALOG_CLOSE_DIALOG_TEXT'] = 'Achtung! Ihre bereits geänderten Werte gehen verloren!';
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['MESSAGE_DIALOG_CLOSE_DIALOG_FIELDLIST'] = 'Achtung! Die folgenden bereits veränderten Feldwerte gehen verloren:';
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['MESSAGE_DIALOG_CLOSE_DIALOG_YES'] = 'Ja, meine Änderungen gehen verloren';
@@ -109,11 +111,6 @@ $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['MESSAGE_DIALOG_EMAIL_NOTIFICATION_DIALOG_Q
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['MESSAGE_DIALOG_EMAIL_NOTIFICATION_DIALOG_TEXT'] = 'Durch die Bestätigung wird die Kontaktperson per E-Mail kontaktiert.';
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['MESSAGE_DIALOG_EMAIL_NOTIFICATION_DIALOG_YES'] = 'Ja, E-Mail versenden';
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['MESSAGE_DIALOG_EMAIL_NOTIFICATION_DIALOG_NO'] = 'Nein, Vorgang abbrechen';
-
-$GLOBALS['TL_LANG']['FE_C4G_DIALOG']['MESSAGE_DIALOG_REDIRECT_TITLE'] = 'Dialogwechsel erforderlich';
-$GLOBALS['TL_LANG']['FE_C4G_DIALOG']['MESSAGE_DIALOG_REDIRECT_OK'] = 'Weiterleiten';
-$GLOBALS['TL_LANG']['FE_C4G_DIALOG']['MESSAGE_DIALOG_REDIRECT_CANCEL'] = 'Abbruch';
-
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['SELECT_DIALOG_CONFIRM_QUESTION'] = 'Bitte treffen Sie eine Auswahl.';
 
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['SELECT_GROUP'] = 'Gruppenauswahl';
@@ -123,7 +120,7 @@ $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['SELECT_GROUP_DIALOG_CONFIRM_BUTTON'] = 'Au
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['SELECT_GROUP_DIALOG_CANCEL_BUTTON'] = 'Abbruch';
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['SELECT_GROUP_DIALOG_CONFIRM_QUESTION'] = 'Für welche Gruppen nehmen Sie Einstellungen vor?';
 
-$GLOBALS['TL_LANG']['FE_C4G_DIALOG']['SELECT_GROUP_DIALOG_PERMISSION_DENIED'] = 'Sie verfügen nicht über die erforderlichen Berechtigungen.';
+$GLOBALS['TL_LANG']['FE_C4G_DIALOG']['SELECT_GROUP_DIALOG_PERMISSION_DENIED'] = 'Sie verfügen nicht über die erfoderlichen Berechtigungen';
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['SELECT_GROUP_DIALOG_PERMISSION_DENIED_TITLE'] = 'Zugriff verweigert';
 
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['SELECT_PROJECT'] = 'Projektauswahl';
@@ -150,7 +147,7 @@ $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['CANCEL_BUTTON_TEXT']  = 'Abbrechen';
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['HEADLINE_TEXT']  = 'Filteroptionen';
 
 
-$GLOBALS['TL_LANG']['FE_C4G_DIALOG']['fromFilter'] = 'Beginndatum';
+$GLOBALS['TL_LANG']['FE_C4G_DIALOG']['fromFilter'] = 'Begindatum';
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['toFilter']   = 'Enddatum';
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['additional_email_text'] = 'Zusätzliche Bemerkungen in der E-Mail:';
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['headText']   = 'Filter';

@@ -6,7 +6,7 @@
  * @package   con4gis
  * @author    con4gis contributors (see "authors.txt")
  * @license   GNU/LGPL http://opensource.org/licenses/lgpl-3.0.html
- * @copyright Küstenschmiede GmbH Software & Design 2011 - 2017.
+ * @copyright Küstenschmiede GmbH Software & Design 2011 - 2018
  * @link      https://www.kuestenschmiede.de
  */
 
@@ -20,6 +20,7 @@ use con4gis\ProjectsBundle\Classes\Common\C4GBrickCommon;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickConst;
 use con4gis\ProjectsBundle\Classes\Conditions\C4GBrickConditionType;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldType;
+use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GMoreButtonField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GSelectField;
 use con4gis\ProjectsBundle\Classes\Filter\C4GBrickFilterParams;
 use Contao\Database;
@@ -367,13 +368,14 @@ class C4GBrickTiles
                         if ($column->isTableColumn()) {
                             if (property_exists($element, $fieldName) && $fieldName != 'id' && $element->$fieldName) {
                                 $view .= $fieldTitle . '<div class="c4g_tile value">' . $element->$fieldName . '</div>';
-                            } elseif ($column->isShowIfEmpty()) {
+                            } elseif ($column->isShowIfEmpty() && !($column instanceof C4GMoreButtonField)) {
                                 $view .= $fieldTitle . '<div class="c4g_tile value"></div>';
+                            } elseif ($column instanceof C4GMoreButtonField) {
+                                $view .= $column->getC4GTileField($fieldTitle, $element);
                             }
                         }
                     }
                 }
-
                 $view .= '</a>';
             }
 

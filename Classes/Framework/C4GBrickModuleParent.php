@@ -14,10 +14,10 @@
 namespace con4gis\ProjectsBundle\Classes\Framework;
 
 
+use con4gis\CoreBundle\Resources\contao\classes\C4GJQueryGUI;
 use con4gis\CoreBundle\Resources\contao\classes\C4GUtils;
-use con4gis\GroupsBundle\Resources\contao\models\MemberModel;
 use con4gis\GroupsBundle\Resources\contao\models\MemberGroupModel;
-use con4gis\ProjectsBundle\Classes\Models\C4gProjectsModel;
+use con4gis\GroupsBundle\Resources\contao\models\MemberModel;
 use con4gis\ProjectsBundle\Classes\Actions\C4GBrickAction;
 use con4gis\ProjectsBundle\Classes\Actions\C4GBrickActionType;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickCommon;
@@ -28,14 +28,11 @@ use con4gis\ProjectsBundle\Classes\Database\C4GBrickDatabaseType;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GDialogChangeHandler;
 use con4gis\ProjectsBundle\Classes\Lists\C4GBrickListParams;
+use con4gis\ProjectsBundle\Classes\Models\C4gProjectsModel;
 use con4gis\ProjectsBundle\Classes\Views\C4GBrickView;
 use con4gis\ProjectsBundle\Classes\Views\C4GBrickViewParams;
 use con4gis\ProjectsBundle\Classes\Views\C4GBrickViewType;
-use con4gis\CoreBundle\Resources\contao\classes\C4GJQueryGUI;
-use Contao\Controller;
-use Contao\Files;
-use Contao\FilesModel;
-use Doctrine\ORM\Cache\DefaultCache;
+use Contao\Database;
 use Symfony\Component\Config\Definition\Exception\Exception;
 
 /**
@@ -84,6 +81,9 @@ class C4GBrickModuleParent extends \Module
     protected $databaseType         = C4GBrickDatabaseType::DCA_MODEL; //see C4gBrickDatabaseType
     protected $entityClass          = '';
 
+    //con4gis global settings
+    protected $settings             = null; //tl_c4g_settings
+
     /**
      * @return string
      */
@@ -124,6 +124,8 @@ class C4GBrickModuleParent extends \Module
     protected $permalinkModelClass  = null; //if table filled by modelListFunction
     protected $loadUrlClear         = false; // if true, a js script will be loaded and trim the urls to remove the states
 
+
+//    protected $Uuid                 = '';
     /**
      * module class function to get fields
      */
@@ -296,6 +298,14 @@ class C4GBrickModuleParent extends \Module
             //$this->listParams->setParentCount();
         }
 
+        if (!$this->settings) {
+            $settings = Database::getInstance()->execute("SELECT * FROM tl_c4g_settings LIMIT 1")->fetchAllAssoc();
+
+            if ($settings) {
+                $this->settings = $settings[0];
+            }
+        }
+
         //setting dialog params
         if (!$this->dialogParams) {
             $this->dialogParams = new C4GBrickDialogParams($this->brickKey, $this->viewType);
@@ -315,7 +325,11 @@ class C4GBrickModuleParent extends \Module
                 $this->dialogParams->setBrickCaptionPlural($this->brickCaptionPlural);
             }
             $this->dialogParams->setC4gMap($this->c4g_map);
-            $this->dialogParams->setContentId($this->contentid);
+            $contentId = $this->contentid;
+            if (!$contentId) {
+                $contentId = $this->settings['position_map'];
+            }
+            $this->dialogParams->setContentId($contentId);
             $this->dialogParams->setHeadline($this->headline);
             $this->dialogParams->setSendEMails($this->sendEMails);
             $this->dialogParams->setWithNotification($this->withNotification);
@@ -341,6 +355,13 @@ class C4GBrickModuleParent extends \Module
         \Session::getInstance()->set("c4g_brick_dialog_id", $id);
         if ($id) {
             $this->dialogParams->setId($id);
+        }
+        if (!(\Session::getInstance()->get("uuid"))) {
+            \Session::getInstance()->set("uuid", C4GBrickCommon::getGUID());
+        }
+        if (\Session::getInstance()->get("uuid")) {
+            $this->dialogParams->setUuid(\Session::getInstance()->get("uuid"));
+            $this->listParams->setUuid(\Session::getInstance()->get("uuid"));
         }
 
         //set fieldList
@@ -442,6 +463,12 @@ class C4GBrickModuleParent extends \Module
             );
 
 
+            $settings = Database::getInstance()->execute("SELECT * FROM tl_c4g_settings LIMIT 1")->fetchAllAssoc();
+
+            if ($settings) {
+                $this->settings = $settings[0];
+            }
+
             // load custom themeroller-css if set
             if ($this->uiTheme) {
                 $GLOBALS['TL_CSS']['c4g_jquery_ui'] = $this->uiTheme;
@@ -449,8 +476,14 @@ class C4GBrickModuleParent extends \Module
             if ($this->c4g_appearance_themeroller_css) {
                 $objFile = \FilesModel::findByUuid($this->c4g_appearance_themeroller_css);
                 $GLOBALS['TL_CSS']['c4g_jquery_ui'] = $objFile->path;
-            } else if(!empty($this->c4g_uitheme_css_select)) {
+            } else if($this->c4g_uitheme_css_select) {
                 $theme = $this->c4g_uitheme_css_select;
+                $GLOBALS['TL_CSS']['c4g_jquery_ui'] = 'bundles/con4giscore/vendor/jQuery/ui-themes/themes/' . $theme . '/jquery-ui.css';
+            } else if ($this->settings && $this->settings['c4g_appearance_themeroller_css']) {
+                $objFile = \FilesModel::findByUuid($this->settings['c4g_appearance_themeroller_css']);
+                $GLOBALS['TL_CSS']['c4g_jquery_ui'] = $objFile->path;
+            } else if ($this->settings && $this->settings['c4g_uitheme_css_select']) {
+                $theme = $this->settings['c4g_uitheme_css_select'];
                 $GLOBALS['TL_CSS']['c4g_jquery_ui'] = 'bundles/con4giscore/vendor/jQuery/ui-themes/themes/' . $theme . '/jquery-ui.css';
             } else {
                 $GLOBALS['TL_CSS']['c4g_jquery_ui'] = 'bundles/con4giscore/vendor/jQuery/ui-themes/themes/base/jquery-ui.css';
@@ -469,7 +502,8 @@ class C4GBrickModuleParent extends \Module
         $GLOBALS['TL_JAVASCRIPT'][] = 'bundles/con4gisprojects/js/C4GBrickDialog.js';
 
         $GLOBALS['TL_JAVASCRIPT'][] = 'bundles/con4gisprojects/js/ConditionalFieldDisplay.js';
-//        $GLOBALS['TL_JAVASCRIPT'][] = 'bundles/con4gisproject/js/AjaxAutocomplete.js';
+        // load more button
+        $GLOBALS['TL_JAVASCRIPT'][] = 'bundles/con4gisprojects/js/more-button.js';
 
         if ($this->brickScript) {
             $GLOBALS['TL_JAVASCRIPT']['c4g_brick_script_'.$this->name] = $this->brickScript;
@@ -825,7 +859,7 @@ class C4GBrickModuleParent extends \Module
      * module event controller
      *
      * @param $action
-     * @return array|mixed|void
+     * @return array|mixed
      */
     private function performAction ($action, $withMemberCheck=true) {
         $values = explode(':', $action, 5);

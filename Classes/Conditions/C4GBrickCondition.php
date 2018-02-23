@@ -6,7 +6,7 @@
  * @package   con4gis
  * @author    con4gis contributors (see "authors.txt")
  * @license   GNU/LGPL http://opensource.org/licenses/lgpl-3.0.html
- * @copyright Küstenschmiede GmbH Software & Design 2011 - 2017.
+ * @copyright Küstenschmiede GmbH Software & Design 2011 - 2018
  * @link      https://www.kuestenschmiede.de
  */
 
@@ -26,6 +26,22 @@ class C4GBrickCondition
         $this->fieldName = $fieldName;
         $this->type      = $conditionType;
         $this->value     = $fieldValue;
+    }
+
+    /**
+     * Checks the given value against the condition and returns the result.
+     * @param string $givenValue
+     * @return bool
+     */
+
+    public function checkAgainstCondition($Value)
+    {
+        if ($Value == $this->value) {
+            return true;
+        } else {
+            return false;
+        }
+
     }
 
     /**

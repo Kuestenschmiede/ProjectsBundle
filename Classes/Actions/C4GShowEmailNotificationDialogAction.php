@@ -6,7 +6,7 @@
  * @package   con4gis
  * @author    con4gis contributors (see "authors.txt")
  * @license   GNU/LGPL http://opensource.org/licenses/lgpl-3.0.html
- * @copyright Küstenschmiede GmbH Software & Design 2011 - 2017.
+ * @copyright Küstenschmiede GmbH Software & Design 2011 - 2018
  * @link      https://www.kuestenschmiede.de
  */
 
@@ -14,6 +14,7 @@ namespace con4gis\ProjectsBundle\Classes\Actions;
 
 use con4gis\CoreBundle\Resources\contao\classes\C4GHTMLFactory;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialog;
+use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GTextareaField;
 
 class C4GShowEmailNotificationDialogAction extends C4GBrickDialogAction
 {

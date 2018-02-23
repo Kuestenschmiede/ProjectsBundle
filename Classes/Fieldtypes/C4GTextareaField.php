@@ -6,7 +6,7 @@
  * @package   con4gis
  * @author    con4gis contributors (see "authors.txt")
  * @license   GNU/LGPL http://opensource.org/licenses/lgpl-3.0.html
- * @copyright Küstenschmiede GmbH Software & Design 2011 - 2017.
+ * @copyright Küstenschmiede GmbH Software & Design 2011 - 2018
  * @link      https://www.kuestenschmiede.de
  */
 
@@ -32,7 +32,7 @@ class C4GTextareaField extends C4GBrickField
         $result = '';
         $maxlength = $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['MAX_LENGTH']. $this->getMaxLength(). ']';
 
-        if (empty($this->getSize())) {
+        if (!($this->getSize())) {
             $size = 15;
         }
         //onkeydown="if (event.keyCode == 13) { String.fromCharCode(13); return false; }"

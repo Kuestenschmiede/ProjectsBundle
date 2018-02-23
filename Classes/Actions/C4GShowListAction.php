@@ -6,25 +6,23 @@
  * @package   con4gis
  * @author    con4gis contributors (see "authors.txt")
  * @license   GNU/LGPL http://opensource.org/licenses/lgpl-3.0.html
- * @copyright Küstenschmiede GmbH Software & Design 2011 - 2017.
+ * @copyright Küstenschmiede GmbH Software & Design 2011 - 2018
  * @link      https://www.kuestenschmiede.de
  */
 
 namespace con4gis\ProjectsBundle\Classes\Actions;
 
-use con4gis\ProjectsBundle\Classes\Database\C4GBrickDatabaseType;
-use con4gis\ProjectsBundle\Classes\Filter\C4GBrickFilterParams;
-use con4gis\ProjectsBundle\Classes\Models\C4gProjectsModel;
+use con4gis\CoreBundle\Resources\contao\classes\C4GHTMLFactory;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickCommon;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickConst;
+use con4gis\ProjectsBundle\Classes\Filter\C4GBrickFilterParams;
 use con4gis\ProjectsBundle\Classes\Lists\C4GBrickList;
 use con4gis\ProjectsBundle\Classes\Lists\C4GBrickRenderMode;
 use con4gis\ProjectsBundle\Classes\Lists\C4GBrickTiles;
+use con4gis\ProjectsBundle\Classes\Models\C4gProjectsModel;
 use con4gis\ProjectsBundle\Classes\Views\C4GBrickView;
 use con4gis\ProjectsBundle\Classes\Views\C4GBrickViewType;
-use con4gis\ProjectsBundle\Classes\Actions\C4GShowRedirectDialogAction;
 use Symfony\Component\Config\Definition\Exception\Exception;
-use con4gis\CoreBundle\Resources\contao\classes\C4GHTMLFactory;
 
 class C4GShowListAction extends C4GBrickDialogAction
 {
@@ -284,6 +282,7 @@ class C4GShowListAction extends C4GBrickDialogAction
                         } else {
                             $elements = $class::$function();
                         }
+
                         if ($elements->headline) {
                             $list_headline = '<div class="c4g_brick_headtext_highlighted">' . $elements->headline . '</div>';
                             unset($elements->headline);
@@ -296,7 +295,24 @@ class C4GShowListAction extends C4GBrickDialogAction
                         }
                     }
                     break;
+                case C4GBrickView::isPublicUUIDBased($viewType):
+                    if($modelListFunction) {
+                        $function = $modelListFunction;
+                        $database = $brickDatabase->getParams()->getDatabase();
+                        $model = $modelClass;
+                        $elements = $model::$function($this->dialogParams->getUuid(), $tableName, $database, $fieldList, $listParams);
+                        if ($elements->headline) {
+                            $list_headline = '<div class="c4g_brick_headtext_highlighted">' . $elements->headline . '</div>';
+                            unset($elements->headline);
+                        }
+                    }
+                    else {
+                        $uuid = $this->dialogParams->getUuid();
+                        $elements = $brickDatabase->findBy('uuid', $uuid);
+                    }
+                    break;
                 default:
+
                     break;
             }
         } catch (Exception $e) {

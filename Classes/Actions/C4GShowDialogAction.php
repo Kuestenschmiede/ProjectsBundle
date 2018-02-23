@@ -6,7 +6,7 @@
  * @package   con4gis
  * @author    con4gis contributors (see "authors.txt")
  * @license   GNU/LGPL http://opensource.org/licenses/lgpl-3.0.html
- * @copyright Küstenschmiede GmbH Software & Design 2011 - 2017.
+ * @copyright Küstenschmiede GmbH Software & Design 2011 - 2018
  * @link      https://www.kuestenschmiede.de
  */
 
@@ -144,7 +144,7 @@ class C4GShowDialogAction extends C4GBrickDialogAction
             ($viewType == C4GBrickViewType::PROJECTFORMCOPY) ||
             ($viewType == C4GBrickViewType::GROUPPARENTVIEW) ||
             ($viewType == C4GBrickViewType::PUBLICFORM) ||
-            ($viewType == C4GBrickViewType::PROJECTPARENTFORMCOPY))) {
+            ($viewType == C4GBrickViewType::PROJECTPARENTFORMCOPY)) || ($viewType == C4GBrickViewType::PUBLICUUIDVIEW)) {
             $groupKeyField = $viewParams->getGroupKeyField();
             switch($viewType) {
                 case C4GBrickViewType::GROUPFORM:
@@ -197,6 +197,27 @@ class C4GShowDialogAction extends C4GBrickDialogAction
                         $modelClass = $brickDatabase->getParams()->getModelClass();
                         $model = $modelClass;
                         $elements = $model::$function($memberId, $tablename, $database, $this->getFieldList(), $this->getListParams());
+                        if ($id >= 0) {
+                            foreach ($elements as $value) {
+                                if ($value->id == $id) {
+                                    $element = $value;
+                                    $elements = null;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    break;
+                case C4GBrickViewType::PUBLICUUIDVIEW:
+                    if($modelListFunction){
+                        $function = $modelListFunction;
+
+                        //Todo überarbeiten brickDatabase
+                        $database = $brickDatabase->getParams()->getDatabase();
+                        $tablename = $brickDatabase->getParams()->getTableName();
+                        $modelClass = $brickDatabase->getParams()->getModelClass();
+                        $model = $modelClass;
+                        $elements = $model::$function($this->dialogParams->getUuid(), $tablename, $database, $this->getFieldList(), $this->getListParams());
                         if ($id >= 0) {
                             foreach ($elements as $value) {
                                 if ($value->id == $id) {

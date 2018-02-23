@@ -7,7 +7,7 @@
  * @package   con4gis
  * @author    con4gis contributors (see "authors.txt")
  * @license   GNU/LGPL http://opensource.org/licenses/lgpl-3.0.html
- * @copyright Küstenschmiede GmbH Software & Design 2011 - 2017.
+ * @copyright Küstenschmiede GmbH Software & Design 2011 - 2018
  * @link      https://www.kuestenschmiede.de
  */
 
@@ -62,18 +62,18 @@ class C4GHeadlineField extends C4GBrickField
             $headline =
                 '<h2 class="c4g_brick_headline" '.$condition['conditionPrepare'].'>' . $headlineText . '</h2>';
             $class = 'formdata ';
-            $headline =
-                '<div id="c4g_condition" '
-                . $class
-                . $condition['conditionName']
-                . $condition['conditionType']
-                . $condition['conditionValue']
-                . $condition['conditionFunction']
-                . $condition['conditionDisable']
-                . '>'
-                . $headline
-                . $this->additionalHeaderText
-                . '</div>';
+            $headline = $this->generateC4GFieldHTML($condition, $headline . $this->additionalHeaderText, $class);
+            /*'<div id="c4g_condition" '
+            . $class
+            . $condition['conditionName']
+            . $condition['conditionType']
+            . $condition['conditionValue']
+            . $condition['conditionFunction']
+            . $condition['conditionDisable']
+            . '>'
+            . $headline
+            . $this->additionalHeaderText
+            . '</div>';*/
             if ($dialogParams->isAccordion()) {
                 if ($dialogParams->getAccordionCounter() > 0) {
                     if ($dialogParams->getAccordionCounter() >= $headline_count) {
@@ -96,8 +96,8 @@ class C4GHeadlineField extends C4GBrickField
                 $dialogParams->setAccordionCounter($dialogParams->getAccordionCounter()+1);
                 $headline = '<h3 class="c4g_brick_headline ui-accordion-header ui-corner-top ui-accordion-icons c4gGuiCollapsible_trigger_target"><a href="#">' . $this->getTitle() . '</a></h3>';
                 $class = 'formdata ';
-                $headline =
-                    '<div id="c4g_condition" '
+                $headline = $this->generateC4GFieldHTML($condition, $headline . $this->additionalHeaderText, $class);
+                    /*'<div id="c4g_condition" '
                     . $class
                     . $condition['conditionName']
                     . $condition['conditionType']
@@ -107,7 +107,7 @@ class C4GHeadlineField extends C4GBrickField
                     . '>'
                     . $headline
                     . $this->additionalHeaderText
-                    . '</div>';
+                    . '</div>';*/
             } else if ($dialogParams->isTabContent()) {
                 $tabField = "c4g_tab_".$dialogParams->getTabContentCounter()."_content";
                 if ($dialogParams->getTabContentCounter() > 0) {
