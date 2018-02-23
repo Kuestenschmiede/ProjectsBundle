@@ -302,7 +302,7 @@ class C4GBrickMapFrontendParent extends \Frontend
      * @param string $graphicTitle
      * @return array
      */
-    protected function addMapStructureContent($locationStyle, $loc_geox, $loc_geoy, $popupInfo, $label = '', $graphicTitle = '',$cluster_distance , $url = null, $interval = 60000)
+    protected function addMapStructureContent($locationStyle, $loc_geox, $loc_geoy, $popupInfo, $label = '', $graphicTitle = '',$cluster , $url = null, $interval = 60000)
     {
         $stringClass = $GLOBALS['con4gis']['stringClass'];
         $popupInfo   = $stringClass::toHtml5($popupInfo);
@@ -320,7 +320,7 @@ class C4GBrickMapFrontendParent extends \Frontend
                 'interval'     => $interval,
                 'crossOrigin'  => false,
                 'boundingBox'  => false,
-                'cluster'      => $cluster_distance
+                'cluster'      => $cluster['cluster_distance']
             );
 
             $content = array(
@@ -329,6 +329,10 @@ class C4GBrickMapFrontendParent extends \Frontend
                 'format' => 'GeoJSON',
                 //'origType' => 'single',
                 'locationStyle' => $locationStyle,
+                'cluster_fillcolor'  => $cluster['cluster_fillcolor'],
+                'cluster_fontcolor'  => $cluster['cluster_fontcolor'],
+                'cluster_popup'      => $cluster['cluster_popup'],
+                'cluster_zoom'       => $cluster['cluster_zoom'],
                 'data' => array(
                     'url' => $url,
                     'type' => 'Feature',
@@ -363,7 +367,7 @@ class C4GBrickMapFrontendParent extends \Frontend
                 'refresh'      => false,
                 'crossOrigine' => false,
                 'boundingBox'  => false,
-                'cluster'      => $cluster_distance
+                'cluster'      => $cluster['cluster_distance']
             );
 
             $content = array(
@@ -372,6 +376,10 @@ class C4GBrickMapFrontendParent extends \Frontend
                 'format' => 'GeoJSON',
                 //'origType' => 'single',
                 'locationStyle' => $locationStyle,
+                'cluster_fillcolor'  => $cluster['cluster_fillcolor'],
+                'cluster_fontcolor'  => $cluster['cluster_fontcolor'],
+                'cluster_popup'      => $cluster['cluster_popup'],
+                'cluster_zoom'       => $cluster['cluster_zoom'],
                 'data' => array(
                     'type' => 'Feature',
                     'geometry' => array(
