@@ -313,15 +313,28 @@ class C4GBrickMapFrontendParent extends \Frontend
         $popupInfo   = $objComments->parseBbCode($popupInfo);
 
         if (($url) && ($interval != null) && ($interval > 0)) {
-           $settings = array
-            (
-                'loadAsync'    => true,
-                'refresh'      => true,
-                'interval'     => $interval,
-                'crossOrigin'  => false,
-                'boundingBox'  => false,
-                'cluster'      => $cluster['cluster_distance']
-            );
+            if($cluster['cluster_locations']){
+                $settings = array
+                (
+                    'loadAsync'    => true,
+                    'refresh'      => true,
+                    'interval'     => $interval,
+                    'crossOrigin'  => false,
+                    'boundingBox'  => false,
+                    'cluster'      => $cluster['cluster_distance']
+                );
+            }
+            else{
+                $settings = array
+                (
+                    'loadAsync'    => true,
+                    'refresh'      => true,
+                    'interval'     => $interval,
+                    'crossOrigin'  => false,
+                    'boundingBox'  => false
+                );
+            }
+
 
             $content = array(
                 'id' => 0,
@@ -361,14 +374,26 @@ class C4GBrickMapFrontendParent extends \Frontend
 
 
         } else {
-            $settings = array
-            (
-                'loadAsync'    => false,
-                'refresh'      => false,
-                'crossOrigine' => false,
-                'boundingBox'  => false,
-                'cluster'      => $cluster['cluster_distance']
-            );
+            if($cluster['cluster_locations']){
+                $settings = array
+                (
+                    'loadAsync'    => false,
+                    'refresh'      => false,
+                    'crossOrigine' => false,
+                    'boundingBox'  => false,
+                    'cluster'      => $cluster['cluster_distance']
+                );
+            }
+            else{
+                $settings = array
+                (
+                    'loadAsync'    => false,
+                    'refresh'      => false,
+                    'crossOrigine' => false,
+                    'boundingBox'  => false
+                );
+            }
+
 
             $content = array(
                 'id' => 0,
