@@ -151,13 +151,14 @@ class C4GBrickMapFrontendParent extends \Frontend
      * @param bool $withUrl
      * @return array
      */
-    protected function addMapStructureElement($pid, $id, $key, $type, $name, $layername, $display, $hide, $content = null, $withUrl = false)
+    protected function addMapStructureElement($pid, $id, $key, $type, $name, $layername, $display, $hide, $content_async = null, $content = null, $withUrl = false)
     {
         //ToDo only refresh we do not use the url
         $arrData = array();
         $arrData['pid'] = $pid;
         $arrData['id'] = $id;
         $arrData['key'] = $key;
+        $arrData['async_content'] = $content_async;
 
         if ($content != null) {
             $content[0]['id'] = $id+1;
@@ -273,7 +274,7 @@ class C4GBrickMapFrontendParent extends \Frontend
      * @param string $graphicTitle
      * @return array
      */
-    protected function addMapStructureContent($locationStyle, $loc_geox, $loc_geoy, $popupInfo, $label = '', $graphicTitle = '', $url = null, $interval = 60000)
+    protected function addMapStructureContent($locationStyle, $loc_geox, $loc_geoy, $popupInfo, $label = '', $graphicTitle = '',$cluster_distance , $url = null, $interval = 60000)
     {
         $stringClass = $GLOBALS['con4gis']['stringClass'];
         $popupInfo   = $stringClass::toHtml5($popupInfo);
@@ -291,6 +292,7 @@ class C4GBrickMapFrontendParent extends \Frontend
                 'interval'     => $interval,
                 'crossOrigin'  => false,
                 'boundingBox'  => false,
+                'cluster'      => $cluster_distance
             );
 
             $content = array(
@@ -332,7 +334,8 @@ class C4GBrickMapFrontendParent extends \Frontend
                 'loadAsync'    => false,
                 'refresh'      => false,
                 'crossOrigine' => false,
-                'boundingBox'  => false
+                'boundingBox'  => false,
+                'cluster'      => $cluster_distance
             );
 
             $content = array(
