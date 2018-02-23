@@ -218,7 +218,7 @@ class C4GBrickFilterParams
     /**
      * @return string
      */
-    public function getFilterField(): string
+    public function getFilterField()
     {
         return $this->filterField;
     }
@@ -226,7 +226,7 @@ class C4GBrickFilterParams
     /**
      * @param string $filterField
      */
-    public function setFilterField(string $filterField)
+    public function setFilterField($filterField)
     {
         $this->filterField = $filterField;
     }
