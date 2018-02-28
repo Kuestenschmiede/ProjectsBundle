@@ -468,7 +468,7 @@ class C4GBrickDialog
                 )),
                 'dialogid' => C4GBrickActionType::IDENTIFIER_DIALOG . $dataset->id,
                 'dialogstate' => C4GBrickActionType::IDENTIFIER_DIALOG . ':' . $dataset->id,
-                'dialogbuttons' => C4GBrickDialog::getDialogButtons($dialogParams, $dataset, $dataset)
+                'dialogbuttons' => C4GBrickDialog::getDialogButtons($dialogParams, $dataset)
             );
         }
         return $result;

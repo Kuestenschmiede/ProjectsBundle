@@ -79,9 +79,17 @@ class C4GMoreButtonEntry extends C4GAbstractListEntry
         }
     }
 
-    public function call()
+    /**
+     * @param $params   array An array of params passed to the callback.
+     * @return mixed
+     */
+    public function call($params = array())
     {
-        return call_user_func($this->callable);
+        if (count($params) > 0) {
+            return call_user_func($this->callable, $params);
+        } else {
+            return call_user_func($this->callable);
+        }
     }
 
     /**
