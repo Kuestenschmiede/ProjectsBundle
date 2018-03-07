@@ -32,7 +32,7 @@ class C4GMoreButtonEntry extends C4GAbstractListEntry
     /**
      * @return string
      */
-    public function getTitle(): string
+    public function getTitle()
     {
         return $this->title;
     }
@@ -40,7 +40,7 @@ class C4GMoreButtonEntry extends C4GAbstractListEntry
     /**
      * @param string $title
      */
-    public function setTitle(string $title)
+    public function setTitle($title)
     {
         $this->title = $title;
     }
@@ -48,7 +48,7 @@ class C4GMoreButtonEntry extends C4GAbstractListEntry
     /**
      * @return int
      */
-    public function getCallMode(): int
+    public function getCallMode()
     {
         return $this->callMode;
     }
