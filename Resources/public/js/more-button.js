@@ -52,15 +52,15 @@ function animateTableMode(button, container) {
  */
 function animateTileMode(button, container) {
   var x,y;
-  $(container.parentElement).css({position: 'relative'});
+
   if (container.style.display === 'none') {
     container.style.display = 'block';
     container.style.position = 'relative';
     // x = $(button).offset().left - button.offsetWidth * (container.offsetWidth / button.offsetWidth);
     x = $(button).offset().left - button.offsetWidth * (2.75);
-    var tileWidth = container.parentElement.parentElement.offsetWidth;
+    var tileWidth = container.parentElement.offsetWidth;
     var marginLeft = (tileWidth - container.offsetWidth) / 2;
-    x = $(container.parentElement.parentElement).offset().left + marginLeft;
+    x = $(container.parentElement).offset().left + marginLeft;
     y = $(button).offset().top + button.offsetHeight;
     $(container).offset({ top: y, left: x });
   } else {
