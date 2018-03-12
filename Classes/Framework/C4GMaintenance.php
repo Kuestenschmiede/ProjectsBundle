@@ -35,7 +35,9 @@ class C4GMaintenance
         $session->remove('c4g_brick_parent_id');
         $session->remove('c4g_brick_project_uuid');
         $db = Database::getInstance();
-        $userId = $user->id;
-        $db->execute("UPDATE tl_member SET session = DEFAULT WHERE id = $userId");
+        if ($user instanceof \FrontendUser) {
+            $userId = $user->id;
+            $db->execute("UPDATE tl_member SET session = DEFAULT WHERE id = $userId");
+        }
     }
 }
