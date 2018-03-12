@@ -785,7 +785,22 @@ a.c4g_tile_button:hover {
     padding-right: 8px;
 }
 
+.c4g_more_button_hidden {
+
+}
+
+.c4g_more_button_container
+{
+    min-width: 300px;
+    position: absolute;
+    padding: 10px;
+    z-index: 55;
+}
+
+.c4g_more_button_container_hidden
+{
+    position: relative;
+}
 .c4g_more_button_entry {
-    float: left;
-    clear: left;
+    display:block;
 }

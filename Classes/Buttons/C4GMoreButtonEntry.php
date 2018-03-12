@@ -29,10 +29,12 @@ class C4GMoreButtonEntry extends C4GAbstractListEntry
 
     private $callable = '';
 
+    private $condition = array(); //C4GBrickCondition. Type must be Method Switch.
+
     /**
      * @return string
      */
-    public function getTitle()
+    public function getTitle(): string
     {
         return $this->title;
     }
@@ -40,15 +42,31 @@ class C4GMoreButtonEntry extends C4GAbstractListEntry
     /**
      * @param string $title
      */
-    public function setTitle($title)
+    public function setTitle(string $title)
     {
         $this->title = $title;
     }
 
     /**
+     * @return array
+     */
+    public function getCondition(): array
+    {
+        return $this->condition;
+    }
+
+    /**
+     * @param array $condition
+     */
+    public function setCondition(array $condition): void
+    {
+        $this->condition = $condition;
+    }
+
+    /**
      * @return int
      */
-    public function getCallMode()
+    public function getCallMode(): int
     {
         return $this->callMode;
     }
