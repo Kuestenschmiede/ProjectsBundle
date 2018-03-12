@@ -725,6 +725,11 @@ class C4GBrickModuleParent extends \Module
 
             if (($_SERVER['REQUEST_METHOD']) == 'PUT') {
                 parse_str(file_get_contents("php://input"), $this->putVars);
+                foreach ($this->putVars as $key => $putVar) {
+                    $tmpVar = C4GUtils::secure_ugc($putVar);
+                    $tmpVar = C4GUtils::cleanHtml($tmpVar);
+                    $this->putVars[$key] = $tmpVar;
+                }
             }
 
             // if there was an initial get parameter "state" then use it for jumping directly
