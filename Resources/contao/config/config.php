@@ -32,6 +32,8 @@ $GLOBALS['con4gis']['projects']['api']['starboardTab']      = $apiBaseUrl . '/st
  */
 $GLOBALS['TL_HOOKS']['C4gMapsLoadPlugins']['projects'] = array('con4gis\ProjectsBundle\Classes\Maps\C4GCustomEditorTabs','load');
 
+$GLOBALS['TL_HOOKS']['postLogout'][] = array('con4gis\ProjectsBundle\Classes\Framework\C4GMaintenance', 'onLogoutClearSessions');
+
 /**
  * API MODULES
  */
