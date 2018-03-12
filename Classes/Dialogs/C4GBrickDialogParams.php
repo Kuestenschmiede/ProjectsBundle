@@ -14,6 +14,7 @@ namespace con4gis\ProjectsBundle\Classes\Dialogs;
 use con4gis\ProjectsBundle\Classes\Buttons\C4GBrickButton;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickConst;
 use con4gis\ProjectsBundle\Classes\Views\C4GBrickView;
+use con4gis\ProjectsBundle\Classes\Views\C4GBrickViewParams;
 use con4gis\ProjectsBundle\Classes\Views\C4GBrickViewType;
 
 /**
@@ -103,6 +104,10 @@ class C4GBrickDialogParams
     {
         $this->brickKey = $brickKey;
         $this->viewType = $viewType;
+
+        if (!$this->viewParams) {
+            $this->viewParams = new C4GBrickViewParams($this->viewType);
+        }
 
         $this->brickCaption = $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['BRICK_CAPTION'];
         $this->brickCaptionPlural = $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['BRICK_CAPTION_PLURAL'];
