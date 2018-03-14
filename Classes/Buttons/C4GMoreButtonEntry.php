@@ -31,6 +31,9 @@ class C4GMoreButtonEntry extends C4GAbstractListEntry
 
     private $condition = array(); //C4GBrickCondition. Type must be Method Switch.
 
+    // for creating a title via callback, [Model, function]
+    private $dynamicTitleCallback = array();
+
     /**
      * @return string
      */
@@ -129,5 +132,21 @@ class C4GMoreButtonEntry extends C4GAbstractListEntry
             }
         }
         return false;
+    }
+
+    /**
+     * @return array
+     */
+    public function getDynamicTitleCallback(): array
+    {
+        return $this->dynamicTitleCallback;
+    }
+
+    /**
+     * @param array $dynamicTitleCallback
+     */
+    public function setDynamicTitleCallback(array $dynamicTitleCallback)
+    {
+        $this->dynamicTitleCallback = $dynamicTitleCallback;
     }
 }

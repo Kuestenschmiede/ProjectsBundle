@@ -11,7 +11,6 @@ function toggleContainer(button) {
   } else if ($(container).hasClass('c4g_more_button_mode_tiles')) {
     animateTileMode(button, container);
   } else {
-
     if (container.style.display === 'none') {
       container.style.display = 'block';
     } else {

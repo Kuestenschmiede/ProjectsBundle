@@ -44,6 +44,16 @@ class C4GMoreButtonField extends C4GBrickField
     protected $buttonTitle = '...';
 
     /**
+     * C4GMoreButtonField constructor.
+     */
+    public function __construct()
+    {
+        $this->setSortColumn(false);
+        $this->setSort(false);
+    }
+
+
+    /**
      * Method that will be called in the compareWithDB() in C4GBrickDialog
      * @param $dbValue
      * @param $dlgvalue

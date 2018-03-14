@@ -309,7 +309,7 @@ class C4GShowDialogAction extends C4GBrickDialogAction
             }
         }
 
-        if ($viewType === C4GBrickViewType::GROUPBASED && $modelListFunction) {
+        if (C4GBrickView::isGroupBased($viewType) && $modelListFunction) {
             $function = $modelListFunction;
             $database = $brickDatabase->getParams()->getDatabase();
             //Todo überarbeiten brickDatabase

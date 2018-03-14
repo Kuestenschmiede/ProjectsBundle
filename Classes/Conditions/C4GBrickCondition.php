@@ -33,9 +33,13 @@ class C4GBrickCondition
      * @param string $givenValue
      * @return bool
      */
-
     public function checkAgainstCondition($Value)
     {
+        if ($this->model && $this->function) {
+            $model = $this->model;
+            $function = $this->function;
+            return $model::$function($Value);
+        }
         if ($Value == $this->value) {
             return true;
         } else {

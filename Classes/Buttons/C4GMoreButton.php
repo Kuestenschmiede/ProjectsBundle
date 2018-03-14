@@ -67,7 +67,16 @@ class C4GMoreButton extends C4GAbstractList
                     }
                 }
 
-                $element = '<li style="display: none;" data-index="'. $key .'">' . $entry->getTitle() . '</li>';
+                if ($entry->getDynamicTitleCallback() && count($entry->getDynamicTitleCallback()) == 2) {
+                    $callback = $entry->getDynamicTitleCallback();
+                    $callClass = $callback[0];
+                    $method = $callback[1];
+                    $element = '<li style="display: none;" data-index="'. $key .'">' . $callClass::$method($dataId) . '</li>';
+                    $title = $callClass::$method($dataId);
+                    $entry->setTitle($title);
+                } else {
+                    $element = '<li style="display: none;" data-index="'. $key .'">' . $entry->getTitle() . '</li>';
+                }
                 $view .= $element;
             }
         }
