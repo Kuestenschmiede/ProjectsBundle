@@ -551,7 +551,7 @@ abstract class C4GBrickField
 
         if ($this->isConditionalDisplay()) {
             // isset seems not to work with expression results
-            if ($this->getConditionalFieldName() && ($this->displayValue) != '-1') {
+            if ($this->getConditionalFieldName() != '' && ($this->displayValue !== '-1')) {
                 // all required properties are set
                 $string = ' data-condition-field="c4g_'. $this->getConditionalFieldName() .'" data-condition-value="'. $this->getDisplayValue() .'" ';
                 $class .= $string;
