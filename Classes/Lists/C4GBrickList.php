@@ -339,7 +339,7 @@ class C4GBrickList
                     'aTargets' => array(0),
                     'responsivePriority' => array(0));
                 $cnt++;
-            } else {
+            } else if ($cnt >= 0) {
                 if ($column->isTableColumn()) {
                     if ($column->isSortColumn()) {
                         $data['aoColumnDefs'][] = array(
