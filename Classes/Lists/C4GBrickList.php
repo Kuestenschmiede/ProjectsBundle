@@ -339,7 +339,7 @@ class C4GBrickList
                     'aTargets' => array(0),
                     'responsivePriority' => array(0));
                 $cnt++;
-            } else if ($cnt >= 0) {
+            } else {
                 if ($column->isTableColumn()) {
                     if ($column->isSortColumn()) {
                         $data['aoColumnDefs'][] = array(
@@ -350,6 +350,8 @@ class C4GBrickList
                             'aTargets' => array($cnt),
                             'sType' => $column->getSortType(),
                             'responsivePriority' => array($cnt));
+
+                        //ToDo prüfen
                         if($column->getSortSequence() == 'desc') {
                             $data['aaSorting'] = [[$cnt, 'desc']];
                         } else {
