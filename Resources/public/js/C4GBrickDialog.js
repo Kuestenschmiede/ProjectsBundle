@@ -1031,3 +1031,25 @@ function replaceC4GDialog(dialogId) {
     }
   }
 }
+
+function resizeChosen(fieldId) {
+  var chosenButton = document.getElementById(fieldId);
+  var firstRun = true;
+  jQuery(chosenButton).on('click', function(event) {
+    var chosenDrop = chosenButton.getElementsByClassName('chosen-drop')[0];
+    var chosenSearch = chosenButton.getElementsByClassName('chosen-search')[0];
+    jQuery(chosenSearch).on('click', function (event) {
+      event.stopPropagation();
+    });
+    chosenDrop.style.display = 'block';
+    chosenDrop.style.position = 'relative';
+    if (firstRun) {
+      jQuery(chosenDrop).on('click', function(event) {
+        this.style.display = 'none';
+        this.style.position = 'absolute';
+        event.stopPropagation();
+      });
+      firstRun = false;
+    }
+  });
+}
