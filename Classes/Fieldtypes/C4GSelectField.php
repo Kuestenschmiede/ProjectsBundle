@@ -59,15 +59,18 @@ class C4GSelectField extends C4GBrickField
             }
 
             $placeholder = $this->placeholder ? $this->placeholder :$GLOBALS['TL_LANG']['FE_C4G_DIALOG']['PLACEHOLDER_SELECT'];
+            $fieldData = '<select id="' . $id . '" ' . $required . ' ' . $condition['conditionPrepare']
+                . ' class="'.$class.'" name="' . $this->getFieldName() . '" ' . $changeAction . ' size="' . $this->getSize() . '"'
+                . ' data-placeholder="'. $placeholder .'" ';
+            if ($this->getInitialValue()) {
+                $fieldData .= 'value=' . $this->getInitialValue();
+            }
+            $fieldData .= '>'
+                . $options
+                . '</select>';
             $result = $this->addC4GField(
                 $condition,
-                $dialogParams, $fieldList, $data,
-                '<select id="' . $id . '" ' . $required . ' ' . $condition['conditionPrepare']
-                . ' class="'.$class.'" name="' . $this->getFieldName() . '" ' . $changeAction . ' size="' . $this->getSize() . '"'
-                . ' data-placeholder="'. $placeholder .'" '
-                . '>'
-                . $options
-                . '</select>'
+                $dialogParams, $fieldList, $data, $fieldData
             );
         }
         return $result;

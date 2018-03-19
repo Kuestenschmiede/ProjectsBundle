@@ -88,7 +88,7 @@ class C4GMoreButton extends C4GAbstractList
             $onclick = 'toggleContainer(this)';
 
         }
-        if ($renderMode == 'entry') {
+        if ($renderMode == 'entry' || $renderMode == 'entry_tiles') {
             $cssId = 'c4g_more_button_' . $fieldName . '_' . $dataId;
             $button = "<button id='" . $cssId . "' title='" . $title . "' style='display: none'>";
         } else {
@@ -103,16 +103,24 @@ class C4GMoreButton extends C4GAbstractList
 
     public function renderContainer($renderMode, $fieldName, $dataId)
     {
-        if ($renderMode == 'entry') {
-            $view = "<div><div class='c4g_more_button_container_hidden c4g_more_button_mode_$renderMode' id='c4g_more_button_" . $fieldName . "_" .
-                $dataId . "_container' style='display: flex;'>";
-        } elseif ($renderMode == 'tiles') {
-            // we do not need the outer div in this rendermode
-            $view = "<div class='c4g_more_button_container c4g_more_button_mode_$renderMode ui-widget-content ui-corner-all' id='c4g_more_button_" . $fieldName . "_" .
-                $dataId . "_container' style='display: none;'>";
-        } else {
-            $view = "<div><div class='c4g_more_button_container c4g_more_button_mode_$renderMode ui-widget-content ui-corner-all' id='c4g_more_button_" . $fieldName . "_" .
-                $dataId . "_container' style='display: none;'>";
+        switch($renderMode) {
+            case 'entry':
+                $view = "<div><div class='c4g_more_button_container_hidden c4g_more_button_mode_$renderMode' id='c4g_more_button_" . $fieldName . "_" .
+                    $dataId . "_container' style='display: flex;'>";
+                break;
+            case 'tiles':
+                // we do not need the outer div in this rendermode
+                $view = "<div class='c4g_more_button_container c4g_more_button_mode_$renderMode ui-widget-content ui-corner-all' id='c4g_more_button_" . $fieldName . "_" .
+                    $dataId . "_container' style='display: none;'>";
+                break;
+            case 'entry_tiles':
+                $view = "<div class='c4g_more_button_container_hidden c4g_more_button_mode_$renderMode' id='c4g_more_button_" . $fieldName . "_" .
+                    $dataId . "_container' style='display: inline-block;'>";
+                break;
+            default:
+                $view = "<div><div class='c4g_more_button_container c4g_more_button_mode_$renderMode ui-widget-content ui-corner-all' id='c4g_more_button_" . $fieldName . "_" .
+                    $dataId . "_container' style='display: none;'>";
+                break;
         }
         $onclick = "executeSelection(this)";
         foreach ($this->entries as $key => $entry) {
@@ -131,8 +139,8 @@ class C4GMoreButton extends C4GAbstractList
                 }
             }
 
-            if ($renderMode == 'entry') {
-                $element = "<span class='c4g_more_button_entry ui-button ui-corner-all'  href='morebutton_" . $fieldName . ":" . $dataId . ":" .
+            if ($renderMode == 'entry' || $renderMode == 'entry_tiles') {
+                $element = "<span class='c4g_more_button_". $renderMode ." ui-button ui-corner-all'  href='morebutton_" . $fieldName . ":" . $dataId . ":" .
                     $key . "' onclick='" . $onclick . "'>";
             } else {
                 $element = "<span class='c4g_more_button_entry ui-button'  href='morebutton_" . $fieldName . ":" . $dataId . ":" .
@@ -142,7 +150,7 @@ class C4GMoreButton extends C4GAbstractList
             $element .= "</span>";
             $view .= $element;
         }
-        if ($renderMode == 'tiles') {
+        if ($renderMode == 'tiles' || $renderMode == 'entry_tiles') {
             $view .= "</div>";
         } else {
             $view .= "</div></div>";
