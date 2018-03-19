@@ -101,7 +101,13 @@ class C4GModuleManager
                 if ($moreButton && $moreButton instanceof C4GMoreButton) {
                     $callable = $moreButton->getEntryByIndex($arrRequest[2]);
                     if ($callable instanceof C4GMoreButtonEntry) {
-                        $arrData = $callable->call([$arrRequest[1]]);
+                        $params = [$arrRequest[1]];
+                        if (count($arrRequest) > 3) {
+                            for ($i = 3; $i < count($arrRequest); $i++) {
+                                $params[] = $arrRequest[$i];
+                            }
+                        }
+                        $arrData = $callable->call($params);
                         return json_encode($arrData);
                     }
                 }
