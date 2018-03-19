@@ -1036,7 +1036,12 @@ function resizeChosen(fieldId) {
   var chosenButton = document.getElementById(fieldId);
   var firstRun = true;
   jQuery(chosenButton).on('click', function(event) {
+
     var chosenDrop = chosenButton.getElementsByClassName('chosen-drop')[0];
+    jQuery(this).on('mouseleave', function(event) {
+      chosenDrop.style.display = 'none';
+      chosenDrop.style.position = 'absolute';
+    });
     var chosenSearch = chosenButton.getElementsByClassName('chosen-search')[0];
     jQuery(chosenSearch).on('click', function (event) {
       event.stopPropagation();
