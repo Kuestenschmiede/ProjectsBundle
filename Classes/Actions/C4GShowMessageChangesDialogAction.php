@@ -41,6 +41,9 @@ class C4GShowMessageChangesDialogAction extends C4GBrickDialogAction
             $message_cnt = 0;
             foreach ($changes as $changedField) {
                 $field = $changedField->getField();
+                if ($field->getFieldName() == 'uuid') {
+                    continue;
+                }
                 $fieldTitle = $field->getTitle();
                 $value1 = false;
                 $value2 = false;

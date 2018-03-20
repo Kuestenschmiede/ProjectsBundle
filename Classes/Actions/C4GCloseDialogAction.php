@@ -18,6 +18,8 @@ use con4gis\ProjectsBundle\Classes\Views\C4GBrickViewType;
 
 class C4GCloseDialogAction extends C4GBrickDialogAction
 {
+    private $ignoreChanges = false;
+
     public function run()
     {
         $dialogParams = $this->getDialogParams();
@@ -59,7 +61,7 @@ class C4GCloseDialogAction extends C4GBrickDialogAction
         $changes = C4GBrickDialog::compareWithDB($fieldList, $dlgValues, $dbValues, $viewType, $is_frozen);
         //}
 
-        if (count($changes) > 0) {
+        if (count($changes) > 0 && $this->ignoreChanges == false) {
             $action = new C4GShowMessageChangesDialogAction($dialogParams, $this->getListParams(), $this->getFieldList(), $this->getPutVars(), $this->getBrickDatabase());
             $action->setChanges($changes);
             return $action->run();
@@ -71,4 +73,13 @@ class C4GCloseDialogAction extends C4GBrickDialogAction
 
         return $return;
     }
+
+    /**
+     * @param bool $ignoreChanges
+     */
+    public function setIgnoreChanges($ignoreChanges)
+    {
+        $this->ignoreChanges = $ignoreChanges;
+    }
+
 }

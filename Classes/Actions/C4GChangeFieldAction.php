@@ -13,22 +13,15 @@ use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
 
 class C4GChangeFieldAction extends C4GBrickAction
 {
-    private $module = null;
 
-    /**
-     * C4GChangeFieldAction constructor.
-     * @param $dialogParams
-     * @param $listParams
-     * @param $fieldList
-     * @param $putVars
-     * @param $brickDatabase
-     * @param $module
-     */
-    public function __construct($dialogParams, $listParams, $fieldList, $putVars, $brickDatabase, $module)
+    public function __construct($dialogParams, $listParams, $fieldList, $putVars, $brickDatabase, $module = null)
     {
         parent::__construct($dialogParams, $listParams, $fieldList, $putVars, $brickDatabase);
-        $this->module = $module;
+        if (isset($module)) {
+            $this->setmodule($module);
+        }
     }
+
 
     public function run()
     {
@@ -36,6 +29,7 @@ class C4GChangeFieldAction extends C4GBrickAction
         $changeHandler = $this->module->getDialogChangeHandler();
         $changes = $this->getChangesFromPost($fieldList);
         $fieldList = $changeHandler->applyChanges($changes, $fieldList, $this->module->getBrickKey(), true);
+        $this->getModule()->setFieldList($fieldList);
         return $fieldList;
     }
 

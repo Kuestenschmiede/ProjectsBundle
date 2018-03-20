@@ -21,6 +21,7 @@ class C4GPrintDialogAction extends C4GBrickDialogAction
         //ToDo Spezialkomponenten wie Tabellen, Karten, ... abbilden
         //ToDo Speicherung der Dokumente abhängig vom ViewType in den Mitglieder-/Gruppenverzeichnissen
         //ToDo Verschiedene Schalter implementieren, damit einige Druckparameter über das Modul übersteuert werden könnten.
+        //Todo Return statement missing?
 
         $dlgValues = $this->getPutVars();
         $dialogParams = $this->getDialogParams();

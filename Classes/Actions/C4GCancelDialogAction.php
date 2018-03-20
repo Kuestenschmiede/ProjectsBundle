@@ -17,10 +17,14 @@ class C4GCancelDialogAction extends C4GBrickDialogAction
     public function run()
     {
         $dialogId = $this->getDialogParams()->getId();
+        $module = $this->getModule();
 
         $return = array(
             'dialogclose' => C4GBrickActionType::IDENTIFIER_MESSAGE.$dialogId,
         );
+        if ($module->getDialogChangeHandler()) {
+            $module->getDialogChangeHandler()->clearSession($module->getBrickKey());
+        }
         return $return;
     }
 }

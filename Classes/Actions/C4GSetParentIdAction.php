@@ -19,12 +19,16 @@ class C4GSetParentIdAction extends C4GBrickDialogAction
         $dlgValues = $this->getPutVars();
         $dialogParams = $this->getDialogParams();
         $dialogParams->setParentId($dlgValues['parent_id']);
+        $module = $this->getModule();
 
         \Session::getInstance()->set("c4g_brick_parent_id", $dlgValues['parent_id']);
         $this->setPutVars(null);
 
         $dialogParams->setId(-1);
         $action = new C4GShowListAction($dialogParams, $this->getListParams(), $this->getFieldList(), $this->getPutVars(), $this->getBrickDatabase());
-        return $action;
+        $fieldList = $module->addFields();
+        $module->setFieldList($fieldList);
+        $action->setFieldList($fieldList);
+        return $action->run();
     }
 }
