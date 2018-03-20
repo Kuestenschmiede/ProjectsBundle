@@ -124,8 +124,9 @@ class C4GBrickModuleParent extends \Module
     protected $permalinkModelClass  = null; //if table filled by modelListFunction
     protected $loadUrlClear         = false; // if true, a js script will be loaded and trim the urls to remove the states
 
-
-//    protected $Uuid                 = '';
+    //UUID params
+    protected $UUID                 = 'c4g_brick_uuid'; //Name of the uuid cookie in the browser. Can be overridden in child.
+    protected $useUuidCookie        = true; //Can be overridden in child to suppress the uuid cookie.
     /**
      * module class function to get fields
      */
@@ -356,12 +357,40 @@ class C4GBrickModuleParent extends \Module
         if ($id) {
             $this->dialogParams->setId($id);
         }
-        if (!(\Session::getInstance()->get("uuid"))) {
-            \Session::getInstance()->set("uuid", C4GBrickCommon::getGUID());
-        }
-        if (\Session::getInstance()->get("uuid")) {
-            $this->dialogParams->setUuid(\Session::getInstance()->get("uuid"));
-            $this->listParams->setUuid(\Session::getInstance()->get("uuid"));
+        
+        //Setting UUID
+        if ($this->useUuidCookie) {
+            if (!($_COOKIE[$this->UUID])) {
+                if (!\Session::getInstance()->get($this->UUID)) {
+                    \Session::getInstance()->set($this->UUID, C4GBrickCommon::getGUID());
+                }
+                setcookie($this->UUID, \Session::getInstance()->get($this->UUID), time() + 60 * 60 * 24 * 30, '/');
+            } else {
+                \Session::getInstance()->set($this->UUID, $_COOKIE[$this->UUID]);
+                setcookie($this->UUID, ($_COOKIE[$this->UUID]), time() + 60 * 60 * 24 * 30, '/');
+            }
+            if (\Session::getInstance()->get($this->UUID)) {
+                $this->dialogParams->setUuid(\Session::getInstance()->get($this->UUID));
+                $this->listParams->setUuid(\Session::getInstance()->get($this->UUID));
+            }
+
+            if ((C4GBrickView::isMemberBased($this->viewType)) || (C4GBrickView::isPublicUUIDBased($this->viewType))) {
+                if (($this->dialogParams->getMemberID() > 0) && ($this->dialogParams->getUuid())) {
+                    $database = \Database::getInstance();
+
+                    //in case the module table does not have a member_id field (otherwise an exception will be thrown and the site won't work)
+                    $query = $database->prepare("SHOW COLUMNS FROM $this->tableName LIKE 'member_id'")->execute();
+                    if ($query->numRows) {
+                        $query = $database->prepare("SELECT * FROM " . $this->tableName .
+                            " WHERE member_id = 0 AND uuid = '" . $this->dialogParams->getUuid() . "'")->execute();
+                        if ($query) {
+                            $stmt = $database->prepare("UPDATE " . $this->tableName . " SET member_id = " . $this->dialogParams->getMemberID()
+                                . " WHERE member_id = 0 AND uuid = '" . $this->dialogParams->getUuid() . "'");
+                            $stmt->execute();
+                        }
+                    }
+                }
+            }
         }
 
         //set fieldList
