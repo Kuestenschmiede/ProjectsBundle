@@ -61,7 +61,6 @@ class C4GPercentField extends C4GBrickFieldNumeric
                 } else {
                     $value = $this->generateInitialValue($data);
                 }
-                $onChange = 'onChange="changeNumberFormat(\'' . $id . '\',this.value)"';
                 $type = 'text';
             } else {
                 $value = $this->generateInitialValue($data);
@@ -70,11 +69,11 @@ class C4GPercentField extends C4GBrickFieldNumeric
             if ($this->isShowIfEmpty() || !empty($value)) {
 
                 $condition = $this->createConditionData($fieldList, $data);
-
+                $this->setPattern(C4GBrickRegEx::NUMBERS_NO_SEP);
                 $result =
                     $this->addC4GField($condition, $dialogParams, $fieldList, $data,
                         '<input ' . $required . ' ' . $condition['conditionPrepare'] . ' type="' . $type . '" ' . $onChange . ' id="' . $id . '" class="formdata ' . $id . '" size="' .
-                        $this->getSize() . '" min="' . $this->getMin() . '" max="' . $this->getMax() . '" step="' . $this->getStep() . '" pattern="'. C4GBrickRegEx::NUMBERS_NO_SEP .'" name="' .
+                        $this->getSize() . '" min="' . $this->getMin() . '" max="' . $this->getMax() . '" step="' . $this->getStep() . '" pattern="'. $this->pattern .'" name="' .
                         $this->getFieldName() . '" value="' . $value . '">');
             }
 
@@ -92,10 +91,10 @@ class C4GPercentField extends C4GBrickFieldNumeric
             if ($this->isShowIfEmpty() || !empty($value)) {
 
                 $condition = $this->createConditionData($fieldList, $data);
-
+                $this->setPattern(C4GBrickRegEx::generateNumericRegEx($this->getDecimals(), false, $this->getThousandsSep(), $this->getDecimalPoint()));
                 $result =
                     $this->addC4GField($condition,$dialogParams,$fieldList,$data,
-                        '<input pattern="' . C4GBrickRegEx::generateNumericRegEx($this->getDecimals(), false, $this->getThousandsSep(), $this->getDecimalPoint()) . '" ' . $required . ' ' . $condition['conditionPrepare'] . ' type="number" step="any" id="' . $id . '" class="formdata ' . $id . '" size="' . $this->getSize() . '" min="' . $this->getMin() . '" max="' . $this->getMax() . '" name="' . $this->getFieldName() . '" value="' . $value . '" >');
+                        '<input pattern="' . $this->pattern . '" ' . $required . ' ' . $condition['conditionPrepare'] . ' type="number" step="any" id="' . $id . '" class="formdata ' . $id . '" size="' . $this->getSize() . '" min="' . $this->getMin() . '" max="' . $this->getMax() . '" name="' . $this->getFieldName() . '" value="' . $value . '" >');
             }
             return $result;
         }
@@ -171,9 +170,9 @@ class C4GPercentField extends C4GBrickFieldNumeric
                 }
             }
         }
-         elseif (strcmp($dbValue, $dlgValue) != 0) {
+        elseif (strcmp($dbValue, $dlgValue) != 0) {
             $result = new C4GBrickFieldCompare($this, $dbValue, $dlgValue);
-         }
+        }
         return $result;
     }
 
@@ -202,6 +201,17 @@ class C4GPercentField extends C4GBrickFieldNumeric
     public function setPercentGroup($percentGroup)
     {
         $this->percentGroup = $percentGroup;
+    }
+
+    public function getRegEx()
+    {
+        if ($this->getDecimals() <= 0) {
+
+            return C4GBrickRegEx::NUMBERS_NO_SEP;
+
+        } else {
+            return C4GBrickRegEx::generateNumericRegEx($this->getDecimals(), false, $this->getThousandsSep(), $this->getDecimalPoint());
+        }
     }
 
 

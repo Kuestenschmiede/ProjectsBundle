@@ -16,9 +16,11 @@ namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldNumeric;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldCompare;
-
+use con4gis\ProjectsBundle\Classes\Common\C4GBrickRegEx;
 class C4GNumberField extends C4GBrickFieldNumeric
 {
+    protected $pattern = C4GBrickRegEx::DIGITS_NEG;
+
     public function __construct()
     {
         $this->setAlign("right");
@@ -27,11 +29,6 @@ class C4GNumberField extends C4GBrickFieldNumeric
     protected $thousands_sep = '';
     /**
      * @param $fieldList
-     * @param $field
-     * @param $data
-     * @return string
-     */
-    /**
      * @param $field
      * @param $data
      * @return string
@@ -51,7 +48,7 @@ class C4GNumberField extends C4GBrickFieldNumeric
             } else {
                 $value = $this->generateInitialValue($data);
             }
-            $onChange = 'onChange="changeNumberFormat(\'' . $id . '\',this.value)"';
+//            $onChange = 'onChange="changeNumberFormat(\'' . $id . '\',this.value)"'; This neither seems to work properly nor does it seem needed - rro
             $type = 'text';
         } else {
             $value = $this->generateInitialValue($data);
@@ -63,9 +60,9 @@ class C4GNumberField extends C4GBrickFieldNumeric
 
             $result =
                 $this->addC4GField($condition,$dialogParams,$fieldList,$data,
-                 '<input ' . $required . ' ' . $condition['conditionPrepare'] .  ' type="'.$type. '" ' .$onChange . ' id="' . $id . '" class="formdata ' . $id . '" size="' .
-                $this->getSize() . '" min="' . $this->getMin() . '" max="' . $this->getMax() . '" step="'.$this->getStep().'" pattern="^[+-]?[0-9\.]*" name="' .
-                $this->getFieldName() . '" value="' . $value . '">');
+                    '<input ' . $required . ' ' . $condition['conditionPrepare'] .  ' type="'.$type. '" ' .$onChange . ' id="' . $id . '" class="formdata ' . $id . '" size="' .
+                    $this->getSize() . '" min="' . $this->getMin() . '" max="' . $this->getMax() . '" step="'.$this->getStep().'" pattern="'.$this->pattern.'" name="' .
+                    $this->getFieldName() . '" value="' . $value . '">');
         }
 
         return $result;
@@ -108,9 +105,9 @@ class C4GNumberField extends C4GBrickFieldNumeric
                 }
             }
         }
-         elseif (strcmp($dbValue, $dlgValue) != 0) {
+        elseif (strcmp($dbValue, $dlgValue) != 0) {
             $result = new C4GBrickFieldCompare($this, $dbValue, $dlgValue);
-         }
+        }
         return $result;
     }
 

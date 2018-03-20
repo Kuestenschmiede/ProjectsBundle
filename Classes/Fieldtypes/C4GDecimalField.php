@@ -14,16 +14,13 @@
 namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
 
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickCommon;
+use con4gis\ProjectsBundle\Classes\Common\C4GBrickRegEx;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldNumeric;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldCompare;
 
 class C4GDecimalField extends C4GBrickFieldNumeric
 {
-    /*private $thousands_sep = '';
-    private $decimal_point = ',';
-    private $decimals = 2;*/
-
     public function __construct()
     {
         $this->setAlign("right");
@@ -39,6 +36,7 @@ class C4GDecimalField extends C4GBrickFieldNumeric
      */
     public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = array())
     {
+        $this->setPattern(C4GBrickRegEx::generateNumericRegEx($this->getDecimals(), false, $this->getThousandsSep(), $this->getDecimalPoint()));
         $id = "c4g_" . $this->getFieldName();
         $required = $this->generateRequiredString($data, $dialogParams);
         if($this->getThousandsSep() !== '') {
@@ -54,7 +52,7 @@ class C4GDecimalField extends C4GBrickFieldNumeric
 
             $result =
                 $this->addC4GField($condition,$dialogParams,$fieldList,$data,
-                '<input pattern="^[+-]?(\d+)(\.*)(\d+)(,*)(\d+)[^a-zA-Z]" ' . $required . ' ' . $condition['conditionPrepare'] . ' type="text" step="any" id="' . $id . '" class="formdata ' . $id . '" size="' . $this->getSize() . '" min="' . $this->getMin() . '" max="' . $this->getMax() . '" name="' . $this->getFieldName() . '" value="' . $value . '" >');
+                    '<input pattern="' . $this->pattern . '" ' . $required . ' ' . $condition['conditionPrepare'] . ' type="text" step="any" id="' . $id . '" class="formdata ' . $id . '" size="' . $this->getSize() . '" min="' . $this->getMin() . '" max="' . $this->getMax() . '" name="' . $this->getFieldName() . '" value="' . $value . '" >');
         }
         return $result;
     }
@@ -209,6 +207,11 @@ class C4GDecimalField extends C4GBrickFieldNumeric
     public function setDecimals($decimals)
     {
         $this->decimals = $decimals;
+    }
+
+    public function getRegEx()
+    {
+        return C4GBrickRegEx::generateNumericRegEx($this->getDecimals(), false, $this->getThousandsSep(), $this->getDecimalPoint());
     }
 
 }

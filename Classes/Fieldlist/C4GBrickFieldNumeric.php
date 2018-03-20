@@ -35,7 +35,7 @@ abstract class C4GBrickFieldNumeric extends C4GBrickField
     protected $thousands_sep = '';
     protected $decimal_point = ',';
     protected $decimals = 0;
-
+    protected $pattern = '';
 
     /**
      * C4GBrickFieldNumeric constructor.
@@ -139,6 +139,27 @@ abstract class C4GBrickFieldNumeric extends C4GBrickField
     public function setDecimals($decimals)
     {
         $this->decimals = $decimals;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPattern()
+    {
+        return $this->pattern;
+    }
+
+    /**
+     * @param string $pattern
+     */
+    public function setPattern($pattern)
+    {
+        $this->pattern = $pattern;
+    }
+
+    public function getRegEx()
+    {
+        return '';
     }
 
 }

@@ -96,6 +96,7 @@ abstract class C4GBrickField
     private $notificationField = false; // for Notification Center
     private $options = array(); //Options for select boxes, radio groups, ...
     private $radiusFieldName = ''; //???
+    private $randomValue  = ''; //Use this instead of initialValue if the value is randomly generated. The generated value must not be an empty string. If the Field is not a FormField, use initialValue.
     private $searchField = false; //für C4GMatching
     private $searchMaximumField = false; // C4GMatching
     private $searchMinimumField = false; // C4GMatching
@@ -2092,5 +2093,23 @@ abstract class C4GBrickField
     public function setInitInvisible($invisible)
     {
         $this->initInvisible = $invisible;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRandomValue()
+    {
+        return $this->randomValue;
+    }
+
+    /**
+     * @param string $randomValue
+     * @param string $caption The value shown in the FormField where the value normally would be if no value has been stored in the Database yet.
+     */
+    public function setRandomValue($randomValue, $caption = '')
+    {
+        $this->randomValue = $randomValue;
+        $this->initialValue = $caption;
     }
 }

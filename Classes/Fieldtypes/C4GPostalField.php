@@ -20,7 +20,7 @@ use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldCompare;
 
 class C4GPostalField extends C4GBrickFieldNumeric
 {
-    // GitKraken note: constructor moved to direct parent class
+    protected $pattern = C4GBrickRegEx::POSTAL;
 
     public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = array())
     {
@@ -35,7 +35,7 @@ class C4GPostalField extends C4GBrickFieldNumeric
 
             $result =
                 $this->addC4GField($condition,$dialogParams,$fieldList,$data,
-                '<input type="text" pattern="'. C4GBrickRegEx::POSTAL .'" size="5"' . $required . ' ' . $condition['conditionPrepare'] . ' id="' . $id . '" class="formdata ' . $id . '" name="' . $this->getFieldName() . '" title="' . $this->getTitle() . '" value="' . $value . '">');
+                '<input type="text" pattern="'. $this->pattern .'" size="5"' . $required . ' ' . $condition['conditionPrepare'] . ' id="' . $id . '" class="formdata ' . $id . '" name="' . $this->getFieldName() . '" title="' . $this->getTitle() . '" value="' . $value . '">');
         }
         return $result;
     }

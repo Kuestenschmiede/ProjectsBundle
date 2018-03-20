@@ -21,6 +21,7 @@ use con4gis\ProjectsBundle\Classes\Common\C4GBrickConst;
 use con4gis\ProjectsBundle\Classes\Conditions\C4GBrickConditionType;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldCompare;
+use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldNumeric;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldType;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GCheckboxField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GDateTimeLocationField;
@@ -843,6 +844,7 @@ class C4GBrickDialog
     public static function validateFields($fieldList, $dlgValues)
     {
         if (($fieldList) && ($dlgValues)) {
+            $percentGroups = array();
             foreach ($fieldList as $field) {
                 if ($field instanceof C4GEmailField) {
                     $fieldName = $field->getFieldName();
@@ -864,7 +866,7 @@ class C4GBrickDialog
                             return $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['validate_fax'];
                         }
                     }
-                } elseif ($field instanceof C4GPostalField) {
+                } /*elseif ($field instanceof C4GPostalField) {
                     $fieldName = $field->getFieldName();
                     $dlgValue = $dlgValues[$fieldName];
                     if ($dlgValue && (trim($dlgValue) != '')) {
@@ -873,7 +875,7 @@ class C4GBrickDialog
                             return $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['validate_postal'];
                         }
                     }
-                } else if ($field instanceof C4GUrlField) {
+                }*/ else if ($field instanceof C4GUrlField) {
                     $fieldName = $field->getFieldName();
                     $dlgValue = $dlgValues[$fieldName];
                     if ($dlgValue && (trim($dlgValue) != '')) {
@@ -881,14 +883,26 @@ class C4GBrickDialog
                             return $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['validate_website'];
                         }
                     }
-                } else if ($field instanceof C4GDecimalField || $field instanceof C4GNumberField) {
+                } else if ($field instanceof C4GBrickFieldNumeric) {
                     $fieldName = $field->getFieldName();
                     $dlgValue = $dlgValues[$fieldName];
+                    $pattern = $field->getPattern();
+                    if ($pattern == '') {
+                        $pattern = $field->getRegEx();
+                    }
+                    $test = preg_match('/'.$field->getPattern().'/', $dlgValue);
                     if ($dlgValue && (trim($dlgValue) != '')) {
-                        if (!preg_match("/(^[+-]?[0-9,.]+$)/", $dlgValue)) {
-                            return $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['validate_float'].$fieldName;
+                        if (($pattern != '') && !(preg_match('/'.$pattern.'/', $dlgValue))) {
+                            return $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['CHECK_FIELD'].'"'.$field->getTitle().'".';
+                        } elseif ($dlgValue > $field->getMax() || $dlgValue < $field->getMin()) {
+                            return $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['CHECK_FIELD'].'"'.$field->getTitle().'".';
                         }
                     }
+                    //Todo
+                    /*if ($field instanceof C4GPercentField) {
+                        array_push($percentGroups[$field->getPercentGroup()], $field);
+
+                    }*/
                 } else {
                     continue;
                 }
@@ -998,16 +1012,37 @@ class C4GBrickDialog
         }
 
         if ($fieldList) {
-
             $id = null;
             $id_fieldName = null;
             foreach ($fieldList as $field) {
-                if (!$field->isDatabaseField())
+
+                if ($field instanceof C4GKeyField) {
+                    $fieldName = $field->getFieldName();
+                    $fieldData = $field->validateFieldValue($dlgValues[$fieldName]);
+                    if ($fieldData == 0) {
+                        $fieldData = null;
+                    }
+                    $id = $fieldData;
+                    $id_fieldName = $fieldName;
+                    break;
+                }
+            }
+
+            if (($id == null) && ($elementId >= 0)) {
+                $id = $elementId;
+                $set[$id_fieldName] = $id;
+            }
+
+            foreach ($fieldList as $field) {
+                if ($field instanceof C4GKeyField || !$field->isDatabaseField() || ($id != null && !$field->isEditable()))
                     continue;
                 $fieldName = $field->getFieldName();
                 $fieldData = $dlgValues[$fieldName];
-                if ( (!$field->isFormField()) && (!$fieldData) && ($field->getInitialValue()) ) {
-                    $fieldData = $field->getInitialValue();
+                if ( (!$field->isFormField()) && (!$fieldData) && ($field->getInitialValue() || $field->getRandomValue()) ) {
+                    $fieldData = $field->getRandomValue();
+                    if ($fieldData === '') {
+                        $fieldData = $field->getInitialValue();
+                    }
                 } else if (($field instanceof C4GGeopickerField) || ($field instanceof C4GDateTimeLocationField)) {
                     $loc_geox = $dlgValues['geox'];
                     if (!$loc_geox) {
@@ -1021,17 +1056,17 @@ class C4GBrickDialog
                     $set['loc_geoy'] = $loc_geoy;
 
                     $fieldData = null;
-                } else if ($field instanceof C4GKeyField) {
-                    $fieldData = $field->validateFieldValue($fieldData);
-                    if ($fieldData == 0) {
-                        $fieldData = null;
-                    }
-                    $id = $fieldData;
-                    $id_fieldName = $fieldName;
                 } else if ($field instanceof C4GFileField){
                     $fieldData = $field->createFieldData($dlgValues, $dbValues);
                 } else {
                     $fieldData = $field->createFieldData($dlgValues);
+                    if (!$field->getRandomValue()) {
+                        if ($id == null && $field->isFormField() && $field->getInitialValue() !== '' && $fieldData !== $field->getInitialValue()) {
+                            continue;
+                        }
+                    } else {
+                        $fieldData = $field->getRandomValue();
+                    }
                 }
 
                 if ($fieldData !== NULL) {
