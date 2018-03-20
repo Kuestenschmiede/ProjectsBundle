@@ -15,17 +15,25 @@ namespace con4gis\ProjectsBundle\Classes\Actions;
 class C4GBrickActionType
 {
     //TABLE LIST IDENTIFIER
-    const IDENTIFIER_LIST = 'C4GIdentifierListAction';
+    const IDENTIFIER_LIST = 'list';
 
     //TABLE DIALOG IDENTIFIER
-    const IDENTIFIER_DIALOG = 'C4GShowDialogAction';
-    const IDENTIFIER_PARENT = 'C4GIdentifierParentAction';
+    const IDENTIFIER_DIALOG = 'brickdialog';
+    const IDENTIFIER_PARENT = 'brickparent';
     const IDENTIFIER_PROJECT = 'brickproject';
-    const IDENTIFIER_MESSAGE = 'C4GShowMessageDialogAction';
+    const IDENTIFIER_MESSAGE = 'brickmessage';
     const IDENTIFIER_SELECT = 'brickselect';
     const IDENTIFIER_REDIRECT = 'brickredirect';
     const IDENTIFIER_FILTER = 'brickfilter';
     const IDENTIFIER_PERMALINK = 'permalink';
+
+    //IDENTIFIER ACTIONS
+    const IDENTIFIER_LIST_ACTION = 'C4GIdentifierListAction';
+
+    //TABLE DIALOG IDENTIFIER
+    const IDENTIFIER_DIALOG_ACTION = 'C4GShowDialogAction';
+    const IDENTIFIER_PARENT_ACTION = 'C4GIdentifierParentAction';
+    const IDENTIFIER_MESSAGE_ACTION = 'C4GShowMessageDialogAction';
 
     //MESSAGE DIALOG ACTIONS
 
