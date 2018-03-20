@@ -179,5 +179,8 @@ $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['EMAIL_MESSAGE']             =
 [MESSAGE]
 ------------------------------------------------------------------------------------------';
 
+/** MISC */
+$GLOBALS['TL_LANG']['FE_C4G_DIALOG']['RNG'] = 'Wird automatisch generiert.';
+
 //Placeholder
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['PLACEHOLDER_SELECT'] = 'Please choose an option ...';
