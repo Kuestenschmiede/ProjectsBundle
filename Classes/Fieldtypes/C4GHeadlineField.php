@@ -25,6 +25,7 @@ class C4GHeadlineField extends C4GBrickField
     private $additionalHeaderText = '';
     private $showHeadlineNumber = false;
     private $showFieldCount = false;
+    private $accordionOpened = false;
 
     /**
      * @param $fieldList
@@ -88,7 +89,7 @@ class C4GHeadlineField extends C4GBrickField
                 }
 
                 $accordion_state = 'c4gGuiCollapsible_target c4gGuiCollapsible_hide';
-                if ($dialogParams->isAccordionAllOpened()) {
+                if ($dialogParams->isAccordionAllOpened()  || ($this->accordionOpened)) {
                     $accordion_state = 'c4gGuiCollapsible_target';
                 }
                 $accordion_content = '</div><div class="'.$accordion_state.' ui-accordion-content ui-corner-bottom ui-widget-content"><br>';
@@ -220,6 +221,21 @@ class C4GHeadlineField extends C4GBrickField
     public function setShowHeadlineNumber($showHeadlineNumber)
     {
         $this->showHeadlineNumber = $showHeadlineNumber;
+    }
+    /**
+     * @return bool
+     */
+    public function isAccordionOpened()
+    {
+        return $this->accordionOpened;
+    }
+
+    /**
+     * @param bool $accordionOpened
+     */
+    public function setAccordionOpened($accordionOpened)
+    {
+        $this->accordionOpened = $accordionOpened;
     }
 
 
