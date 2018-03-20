@@ -21,6 +21,7 @@ class C4GBrickViewParams {
     private $parentKeyField = 'pid';
     private $modelListFunction = null; //Lädt die Datensätze der Tabelle über eine spezielle Modelfunktion.
     private $loginRedirect  = '';
+    private $actionNamespaces = array();    //Namespaces for custom actions, full path including the name of the action.
 
     /**
      * C4GBrickViewParams constructor.
@@ -125,5 +126,21 @@ class C4GBrickViewParams {
     public function setLoginRedirect($loginRedirect)
     {
         $this->loginRedirect = $loginRedirect;
+    }
+
+    /**
+     * @return array
+     */
+    public function getActionNamespaces()
+    {
+        return $this->actionNamespaces;
+    }
+
+    /**
+     * @param string $actionNamespace
+     */
+    public function setActionNamespaces($actionNamespace)
+    {
+        $this->actionNamespaces = $actionNamespace;
     }
 }
