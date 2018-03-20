@@ -1800,7 +1800,7 @@ abstract class C4GBrickField
     public function addStyleClass($styleClass)
     {
         if ($this->styleClass != '') {
-            $this->styleClass .= $styleClass;
+            $this->styleClass .= ' ' . $styleClass;
         } else {
             $this->styleClass = $styleClass;
         }
