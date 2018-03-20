@@ -1058,3 +1058,20 @@ function resizeChosen(fieldId) {
     }
   });
 }
+
+/**
+ * Focuses ("selects") and scrolls to the element with the given id. The element must be visible, i.e. not hidden under an accordion, etc.
+ * @param elementId
+ */
+
+function focusOnElement(elementId) {
+    if (elementId === '') {
+        return
+    }
+    elementId = document.getElementById(elementId);
+    if (elementId === null) {
+        return
+    }
+    elementId.focus();
+    elementId.scrollIntoView(false);
+}
