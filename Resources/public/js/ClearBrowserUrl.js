@@ -10,4 +10,6 @@ var clearBrowserUrl = function() {
 };
 jQuery(document).ready(function () {
   clearBrowserUrl();
+  c4g.projects = c4g.projects || {};
+  c4g.projects.clearUrl = true;
 });
