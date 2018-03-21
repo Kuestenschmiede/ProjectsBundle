@@ -162,7 +162,7 @@ class C4GBrickDialog
      * @return array
      */
     public static function showC4GSelectDialog(
-        $dialogParams,
+        C4GBrickDialogParams $dialogParams,
         C4GBrickField $field,
         $messageTitle,
         $confirmAction,
@@ -175,12 +175,11 @@ class C4GBrickDialog
         $view = '<div class="' . C4GBrickConst::CLASS_SELECT_DIALOG . ' ui-widget ui-widget-content ui-corner-bottom">';
         $view .= C4GHTMLFactory::lineBreak() .
             $field->getC4GDialogField(null, null, $dialogParams) . C4GHTMLFactory::lineBreak();
-
         $GLOBALS['c4g']['brickdialog']['include']['js'][] = 'jQuery(".chzn-select").chosen();';
         foreach ($GLOBALS['c4g']['brickdialog']['include']['js'] as $string) {
             $view .= "<script>jQuery(document).ready(function () { $string })</script>";
         }
-
+        $view .= "<script>jQuery(document).ready(function () { resizeChosen(\"c4g_". $field->getFieldName() ."_chosen\") })</script>";
         return array
         (
             'dialogtype' => 'html',
@@ -386,6 +385,12 @@ class C4GBrickDialog
                     $dialogParams,
                     $additionalParameters
                 ) .$afterDiv;
+                if ($field instanceof C4GSelectField && $field->isChosen()) {
+                    $onLoadScript = $dialogParams->getOnloadScript();
+                    $id = "c4g_" . $field->getFieldName();
+                    $onLoadScript .= " resizeChosen(\"" . $id . "_chosen\");";
+                    $dialogParams->setOnloadScript($onLoadScript);
+                }
             }
         }
 

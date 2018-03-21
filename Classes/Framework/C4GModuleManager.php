@@ -23,7 +23,7 @@ class C4GModuleManager
      */
     private $moduleMap = array();
 
-    public function getC4gFrontendModule($id, $request)
+    public function getC4gFrontendModule($id, $request, $putVars = [])
     {
         if (!strlen($id) || $id < 1) {
             header('HTTP/1.1 412 Precondition Failed');
@@ -113,6 +113,7 @@ class C4GModuleManager
                 }
             }
         }
+
         return $objModule->generateAjax($request);
     }
 }

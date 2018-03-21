@@ -20,7 +20,14 @@ class AjaxController extends Controller
     public function ajaxAction(Request $request, $module, $action)
     {
         $moduleManager = new C4GModuleManager();
-        $returnData = $moduleManager->getC4gFrontendModule($module, $action);
+        if ($request->getMethod() === HTTP_METH_PUT) {
+            $rawData = $request->getContent();
+            $data = json_decode($rawData);
+            $arrData = (array) $data;
+            $returnData = $moduleManager->getC4gFrontendModule($module, $action, $arrData);
+        } else {
+            $returnData = $moduleManager->getC4gFrontendModule($module, $action);
+        }
         $response = new JsonResponse();
         if ($returnData === null) {
             $referer = $request->server->get('HTTP_REFERER');
