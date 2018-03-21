@@ -253,7 +253,7 @@ class C4GSaveDialogAction extends C4GBrickDialogAction
                     $return['title'] = $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_TITLE_DATA_NOT_ACTIVATED'];
                 }
             }
-            if (!$dialogParams->isSaveWithoutClose() && $module->getDialogChangeHandler()) {
+            if (!$dialogParams->isSaveWithoutClose() && $module && $module->getDialogChangeHandler()) {
                 $module->getDialogChangeHandler()->clearSession($module->getBrickKey());
             }
             return $return;

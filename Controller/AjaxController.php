@@ -22,8 +22,14 @@ class AjaxController extends Controller
         $moduleManager = new C4GModuleManager();
         $returnData = $moduleManager->getC4gFrontendModule($module, $action);
         $response = new JsonResponse();
-        $response->setData(json_decode($returnData));
-        return $response;
+        if ($returnData === null) {
+            $referer = $request->server->get('HTTP_REFERER');
+            $referer = substr($referer, 0, strpos($referer, '?state'));
+            $this->redirectToRoute($referer . '?state=list:-1');
+        } else {
+            $response->setData(json_decode($returnData));
+            return $response;
+        }
     }
 
     public function getAddressAction(Request $request, $profileId, $lat, $lon)

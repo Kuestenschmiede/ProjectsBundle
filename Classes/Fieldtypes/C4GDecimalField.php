@@ -21,6 +21,8 @@ use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldCompare;
 
 class C4GDecimalField extends C4GBrickFieldNumeric
 {
+    protected $decimals = 2;
+
     public function __construct()
     {
         $this->setAlign("right");

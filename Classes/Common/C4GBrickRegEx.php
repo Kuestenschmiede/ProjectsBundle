@@ -67,6 +67,6 @@ class C4GBrickRegEx
             $decimals = 0;
             $decimalPoint = '';
         }
-        return '^'. $allowNegative .'[1-9](\d+)(('. $thousandsSep .')(\d{3}))*((('. $decimalPoint .'))(\d{0,'. $decimals .'}))?$';
+        return '^'. $allowNegative .'(\d+)(('. $thousandsSep .')(\d{3}))*((('. $decimalPoint .'))(\d{0,'. $decimals .'}))?$';
     }
 }

@@ -12,6 +12,7 @@
 
 namespace con4gis\ProjectsBundle\Classes\Actions;
 
+use con4gis\CoreBundle\Resources\contao\classes\C4GUtils;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickCommon;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickConst;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GDateTimeLocationField;
@@ -319,12 +320,16 @@ abstract class C4GBrickAction
                 $className = $namespace;
             }
         }
-            if ($className === '') {
-                $className = 'con4gis\ProjectsBundle\Classes\Actions\\' . $brickAction;
-            }
+        if ($className === '') {
+            $className = 'con4gis\ProjectsBundle\Classes\Actions\\' . $brickAction;
+        }
+        if (class_exists($className)) {
             $action = new $className($dialogParams, $listParams, $fieldList, $putVars, $brickDatabase);
             $action->setModule($module);
             return $action->run();  //If the class does not exist, an exception will be thrown.
+        } else {
+            return null;
+        }
     }
 
 

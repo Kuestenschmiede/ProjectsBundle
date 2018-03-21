@@ -97,7 +97,7 @@ function ConditionalFieldDisplay(moduleId) {
 
   var sendChanges = function(changes) {
     var ajaxUrl = 'con4gis/brick_ajax_api/';
-    ajaxUrl = ajaxUrl + scope.moduleId + '/changefield';
+    ajaxUrl = ajaxUrl + scope.moduleId + '/C4GChangeFieldAction';
     jQuery.post(ajaxUrl, changes, function(data) {
     });
   }

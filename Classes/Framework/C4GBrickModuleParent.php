@@ -618,7 +618,14 @@ class C4GBrickModuleParent extends \Module
             $request = C4GBrickActionType::IDENTIFIER_LIST.':-1';
         }
 
-        $data['initData'] = $this->generateAjax($request);
+        $initData = $this->generateAjax($request);
+        if ($initData && count(json_decode($initData)) > 0) {
+            $data['initData'] = $initData;
+        } else {
+            $initData = $this->generateAjax(C4GBrickActionType::IDENTIFIER_LIST.':-1');
+            $data['initData'] = $initData;
+        }
+
 
         $data['div'] = 'c4g_brick';
 

@@ -56,6 +56,10 @@ class C4GSelectField extends C4GBrickField
                 } else {
                     $class = $class.' chzn-select'; // class 'chzn-select' triggers javascript to make the select list a filterable combobox
                 }
+                // render the chosen field more nicely
+                $onLoadScript = $dialogParams->getOnloadScript();
+                $onLoadScript .= " resizeChosen(\"c4g_" . $id . "_chosen\");";
+                $dialogParams->setOnloadScript($onLoadScript);
             }
 
             $placeholder = $this->placeholder ? $this->placeholder :$GLOBALS['TL_LANG']['FE_C4G_DIALOG']['PLACEHOLDER_SELECT'];
