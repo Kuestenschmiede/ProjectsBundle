@@ -533,7 +533,7 @@ class C4GBrickModuleParent extends \Module
         $GLOBALS['TL_JAVASCRIPT'][] = 'bundles/con4gisprojects/js/ConditionalFieldDisplay.js';
         // load more button
         $GLOBALS['TL_JAVASCRIPT'][] = 'bundles/con4gisprojects/js/more-button.js';
-        $GLOBALS['TL_JAVASCRIPT'][] = "https://use.fontawesome.com/releases/v5.0.8/js/all.js";
+        $GLOBALS['TL_JAVASCRIPT'][] = "bundles/con4gisprojects/vendor/js/fontawesome-all.min.js";
 
         if ($this->brickScript) {
             $GLOBALS['TL_JAVASCRIPT']['c4g_brick_script_'.$this->name] = $this->brickScript;
