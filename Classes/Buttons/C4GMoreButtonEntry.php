@@ -37,7 +37,7 @@ class C4GMoreButtonEntry extends C4GAbstractListEntry
     /**
      * @return string
      */
-    public function getTitle(): string
+    public function getTitle()
     {
         return $this->title;
     }
@@ -45,7 +45,7 @@ class C4GMoreButtonEntry extends C4GAbstractListEntry
     /**
      * @param string $title
      */
-    public function setTitle(string $title)
+    public function setTitle($title)
     {
         $this->title = $title;
     }
@@ -61,7 +61,7 @@ class C4GMoreButtonEntry extends C4GAbstractListEntry
     /**
      * @param array $condition
      */
-    public function setCondition(array $condition): void
+    public function setCondition(array $condition)
     {
         $this->condition = $condition;
     }
@@ -69,7 +69,7 @@ class C4GMoreButtonEntry extends C4GAbstractListEntry
     /**
      * @return int
      */
-    public function getCallMode(): int
+    public function getCallMode()
     {
         return $this->callMode;
     }
@@ -137,7 +137,7 @@ class C4GMoreButtonEntry extends C4GAbstractListEntry
     /**
      * @return array
      */
-    public function getDynamicTitleCallback(): array
+    public function getDynamicTitleCallback()
     {
         return $this->dynamicTitleCallback;
     }
@@ -145,7 +145,7 @@ class C4GMoreButtonEntry extends C4GAbstractListEntry
     /**
      * @param array $dynamicTitleCallback
      */
-    public function setDynamicTitleCallback(array $dynamicTitleCallback)
+    public function setDynamicTitleCallback($dynamicTitleCallback)
     {
         $this->dynamicTitleCallback = $dynamicTitleCallback;
     }
