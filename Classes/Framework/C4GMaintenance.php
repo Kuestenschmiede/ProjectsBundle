@@ -40,4 +40,23 @@ class C4GMaintenance
             $db->execute("UPDATE tl_member SET session = DEFAULT WHERE id = $userId");
         }
     }
+
+    /**
+     * Clears all brick variables from the session.
+     * @param User $user
+     */
+    public function onLoginClearSessions(User $user)
+    {
+        $session = \Session::getInstance();
+        $session->remove('c4g_brick_project_id');
+        $session->remove('c4g_brick_group_id');
+        $session->remove('c4g_brick_member_id');
+        $session->remove('c4g_brick_parent_id');
+        $session->remove('c4g_brick_project_uuid');
+        $db = Database::getInstance();
+        if ($user instanceof \FrontendUser) {
+            $userId = $user->id;
+            $db->execute("UPDATE tl_member SET session = DEFAULT WHERE id = $userId");
+        }
+    }
 }
