@@ -31,6 +31,8 @@ class C4GMoreButtonEntry extends C4GAbstractListEntry
 
     private $condition = array(); //C4GBrickCondition. Type must be Method Switch.
 
+    private $toolTip = '';
+
     // for creating a title via callback, [Model, function]
     private $dynamicTitleCallback = array();
 
@@ -64,6 +66,22 @@ class C4GMoreButtonEntry extends C4GAbstractListEntry
     public function setCondition(array $condition)
     {
         $this->condition = $condition;
+    }
+
+    /**
+     * @return string
+     */
+    public function getToolTip(): string
+    {
+        return $this->toolTip;
+    }
+
+    /**
+     * @param string $toolTip
+     */
+    public function setToolTip(string $toolTip): void
+    {
+        $this->toolTip = $toolTip;
     }
 
     /**

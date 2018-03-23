@@ -22,6 +22,8 @@ class C4GMoreButton extends C4GAbstractList
     private $renderModeOverride = '';
     //'entry' => Render each entry individually, preferably with font awesome icons.
 
+    private $toolTip = '';
+
     public function deleteEntryByTitle(string $title)
     {
         foreach ($this->entries as $key => $currentEntry) {
@@ -45,7 +47,7 @@ class C4GMoreButton extends C4GAbstractList
     public function renderButton($class, $title, $fieldName, $renderMode, $dataId)
     {
         if ($this->getRenderModeOverride() !== '') {
-           $renderMode = $this->getRenderModeOverride();
+            $renderMode = $this->getRenderModeOverride();
         }
         $class .= " ui-button ui-corner-all";
         $view = '';
@@ -90,10 +92,10 @@ class C4GMoreButton extends C4GAbstractList
         }
         if ($renderMode == 'entry' || $renderMode == 'entry_tiles') {
             $cssId = 'c4g_more_button_' . $fieldName . '_' . $dataId;
-            $button = "<button id='" . $cssId . "' title='" . $title . "' style='display: none'>";
+            $button = "<button id='" . $cssId . "' title='" . $this->toolTip . "' style='display: none'>";
         } else {
             $cssId = 'c4g_more_button_' . $fieldName . '_' . $dataId;
-            $button = "<button id='" . $cssId . "' class='" . $class . "' title='" . $title . "' role='button' onclick='" . $onclick . "'>";
+            $button = "<button id='" . $cssId . "' class='" . $class . "' title='" . $this->toolTip . "' role='button' onclick='" . $onclick . "'>";
         }
         $view .= $button;
         $view .= $title . '</button>';
@@ -140,8 +142,9 @@ class C4GMoreButton extends C4GAbstractList
             }
 
             if ($renderMode == 'entry' || $renderMode == 'entry_tiles') {
+                $tooltip = 'title="' . $entry->getToolTip() . '"';
                 $element = "<span class='c4g_more_button_". $renderMode ." ui-button ui-corner-all'  href='morebutton_" . $fieldName . ":" . $dataId . ":" .
-                    $key . "' onclick='" . $onclick . "'>";
+                    $key . "' onclick='" . $onclick . "' $tooltip>";
             } else {
                 $element = "<span class='c4g_more_button_entry ui-button'  href='morebutton_" . $fieldName . ":" . $dataId . ":" .
                     $key . "' onclick='" . $onclick . "'>";
@@ -172,6 +175,22 @@ class C4GMoreButton extends C4GAbstractList
     public function setRenderModeOverride($renderModeOverride)
     {
         $this->renderModeOverride = $renderModeOverride;
+    }
+
+    /**
+     * @return string
+     */
+    public function getToolTip()
+    {
+        return $this->toolTip;
+    }
+
+    /**
+     * @param string $toolTip
+     */
+    public function setToolTip(string $toolTip)
+    {
+        $this->toolTip = $toolTip;
     }
 
 }
