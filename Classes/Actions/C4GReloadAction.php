@@ -20,4 +20,9 @@ class C4GReloadAction extends C4GBrickDialogAction
         $return['jump_to_url'] = $jumpTo;
         return $return;
     }
+
+    public function isReadOnly()
+    {
+        return true;
+    }
 }

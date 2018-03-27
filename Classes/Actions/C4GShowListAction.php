@@ -443,4 +443,9 @@ class C4GShowListAction extends C4GBrickDialogAction
         }
         return $result;
     }
+
+    public function isReadOnly()
+    {
+        return true;
+    }
 }

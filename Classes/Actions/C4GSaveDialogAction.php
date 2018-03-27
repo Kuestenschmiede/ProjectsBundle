@@ -314,4 +314,9 @@ class C4GSaveDialogAction extends C4GBrickDialogAction
         $this->setSessionIdAfterInsert = $setSessionIdAfterInsert;
     }
 
+    public function isReadOnly()
+    {
+        return true;
+    }
+
 }

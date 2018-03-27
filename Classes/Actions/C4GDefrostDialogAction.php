@@ -41,4 +41,9 @@ class C4GDefrostDialogAction extends C4GBrickDialogAction
 
         return $result;
     }
+
+    public function isReadOnly()
+    {
+        return false;
+    }
 }

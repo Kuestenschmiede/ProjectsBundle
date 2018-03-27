@@ -88,5 +88,10 @@ class C4GSendEmailAction extends C4GBrickDialogAction
         $this->text = $text;
     }
 
+    public function isReadOnly()
+    {
+        return false;
+    }
+
 
 }

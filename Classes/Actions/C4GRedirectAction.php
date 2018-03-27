@@ -162,4 +162,9 @@ class C4GRedirectAction extends C4GBrickDialogAction
         $this->redirectToDetail = $redirectToDetail;
     }
 
+    public function isReadOnly()
+    {
+        return true;
+    }
+
 }

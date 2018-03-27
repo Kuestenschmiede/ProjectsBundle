@@ -32,20 +32,4 @@ class C4GSaveAndNewDialogAction extends C4GSaveDialogAction
         return parent::run();
     }
 
-    /**
-     * @return boolean
-     */
-    public function isWithRedirect()
-    {
-        return $this->withRedirect;
-    }
-
-    /**
-     * @param boolean $withRedirect
-     */
-    public function setWithRedirect($withRedirect)
-    {
-        $this->withRedirect = $withRedirect;
-    }
-
 }

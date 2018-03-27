@@ -28,4 +28,9 @@ class C4GIdentifierParentAction extends C4GBrickAction
         $action = new C4GShowDialogAction($dialogParams, $listParams, $fieldList, $putVars, $brickDatabase);
         return $action->run();
     }
+
+    public function isReadOnly()
+    {
+        return true;
+    }
 }

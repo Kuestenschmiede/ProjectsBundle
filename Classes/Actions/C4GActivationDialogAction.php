@@ -96,4 +96,11 @@ class C4GActivationDialogAction extends C4GBrickDialogAction
 
         return $result;
     }
+
+    public function isReadOnly()
+    {
+        return false;
+    }
+
+
 }

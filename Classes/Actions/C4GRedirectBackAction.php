@@ -31,4 +31,9 @@ class C4GRedirectBackAction extends C4GBrickDialogAction
 
         return $return;
     }
+
+    public function isReadOnly()
+    {
+        return true;
+    }
 }

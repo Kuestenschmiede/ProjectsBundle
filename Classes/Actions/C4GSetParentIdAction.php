@@ -31,4 +31,9 @@ class C4GSetParentIdAction extends C4GBrickDialogAction
         $action->setFieldList($fieldList);
         return $action->run();
     }
+
+    public function isReadOnly()
+    {
+        return true;
+    }
 }

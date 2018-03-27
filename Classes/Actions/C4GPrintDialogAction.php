@@ -60,4 +60,9 @@ class C4GPrintDialogAction extends C4GBrickDialogAction
         $pdfManager->content    = $content;
         $pdfManager->output();
     }
+
+    public function isReadOnly()
+    {
+        return true;
+    }
 }
