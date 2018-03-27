@@ -15,6 +15,7 @@ namespace con4gis\ProjectsBundle\Classes\Actions;
 use con4gis\CoreBundle\Resources\contao\classes\C4GHTMLFactory;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickCommon;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickConst;
+use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldText;
 use con4gis\ProjectsBundle\Classes\Filter\C4GBrickFilterParams;
 use con4gis\ProjectsBundle\Classes\Lists\C4GBrickList;
 use con4gis\ProjectsBundle\Classes\Lists\C4GBrickRenderMode;
@@ -341,6 +342,27 @@ class C4GShowListAction extends C4GBrickDialogAction
         // call formatter if set
         if ($viewFormatFunction && $modelClass) {
             $elements = $modelClass::$viewFormatFunction($elements);
+        }
+
+        foreach ($fieldList as $field) {
+            if ($field instanceof C4GBrickFieldText && $field->isTableColumn()) {
+                $fieldName = $field->getFieldName();
+                foreach ($elements as $element) {
+                    if ($element instanceof \stdClass) {
+                        $width = $field->getColumnWidth();
+                        if ($width > 0 && (strlen($element->$fieldName) > $width)) {
+                            $element->$fieldName = $field->cutFieldValue($element->$fieldName, $width);
+                        }
+                    } else {
+                        $e = $element->row();
+                        $width = $field->getColumnWidth();
+                        if ($width > 0 && (strlen($e[$fieldName]) > $width)) {
+                            $e[$fieldName] = $field->cutFieldValue($e[$fieldName], $width);
+                            $element->setRow($e);
+                        }
+                    }
+                }
+            }
         }
 
         if (!$elements) {
