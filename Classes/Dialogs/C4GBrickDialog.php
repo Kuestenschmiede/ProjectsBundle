@@ -895,13 +895,10 @@ class C4GBrickDialog
                     if ($pattern == '') {
                         $pattern = $field->getRegEx();
                     }
-                    $test = preg_match('/'.$field->getPattern().'/', $dlgValue);
-                    if ($dlgValue && (trim($dlgValue) != '')) {
-                        if (($pattern != '') && !(preg_match('/'.$pattern.'/', $dlgValue))) {
-                            return $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['CHECK_FIELD'].'"'.$field->getTitle().'".';
-                        } elseif ($dlgValue > $field->getMax() || $dlgValue < $field->getMin()) {
-                            return $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['CHECK_FIELD'].'"'.$field->getTitle().'".';
-                        }
+                    if (($pattern != '') && !(preg_match('/' . $pattern . '/', $dlgValue))) {
+                        return $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['CHECK_FIELD'] . '"' . $field->getTitle() . '".';
+                    } elseif ($dlgValue > $field->getMax() || $dlgValue < $field->getMin()) {
+                        return $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['CHECK_FIELD'] . '"' . $field->getTitle() . '".';
                     }
                     //Todo
                     /*if ($field instanceof C4GPercentField) {
