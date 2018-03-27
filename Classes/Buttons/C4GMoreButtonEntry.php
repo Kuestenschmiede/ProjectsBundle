@@ -55,7 +55,7 @@ class C4GMoreButtonEntry extends C4GAbstractListEntry
     /**
      * @return array
      */
-    public function getCondition(): array
+    public function getCondition()
     {
         return $this->condition;
     }
@@ -63,7 +63,7 @@ class C4GMoreButtonEntry extends C4GAbstractListEntry
     /**
      * @param array $condition
      */
-    public function setCondition(array $condition)
+    public function setCondition($condition)
     {
         $this->condition = $condition;
     }
@@ -71,7 +71,7 @@ class C4GMoreButtonEntry extends C4GAbstractListEntry
     /**
      * @return string
      */
-    public function getToolTip(): string
+    public function getToolTip()
     {
         return $this->toolTip;
     }
@@ -79,7 +79,7 @@ class C4GMoreButtonEntry extends C4GAbstractListEntry
     /**
      * @param string $toolTip
      */
-    public function setToolTip(string $toolTip): void
+    public function setToolTip($toolTip)
     {
         $this->toolTip = $toolTip;
     }
