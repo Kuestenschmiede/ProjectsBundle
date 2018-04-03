@@ -896,10 +896,12 @@ class C4GBrickDialog
                     if ($pattern == '') {
                         $pattern = $field->getRegEx();
                     }
-                    if (($pattern != '') && !(preg_match('/' . $pattern . '/', $dlgValue))) {
-                        return $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['CHECK_FIELD'] . '"' . $field->getTitle() . '".';
-                    } elseif ($dlgValue > $field->getMax() || $dlgValue < $field->getMin()) {
-                        return $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['CHECK_FIELD'] . '"' . $field->getTitle() . '".';
+                    if ($dlgValue !== null) {
+                        if (($pattern != '') && !(preg_match('/' . $pattern . '/', $dlgValue))) {
+                            return $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['CHECK_FIELD'] . '"' . $field->getTitle() . '".';
+                        } elseif ($dlgValue > $field->getMax() || $dlgValue < $field->getMin()) {
+                            return $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['CHECK_FIELD'] . '"' . $field->getTitle() . '".';
+                        }
                     }
                     //Todo
                     /*if ($field instanceof C4GPercentField) {
@@ -910,9 +912,11 @@ class C4GBrickDialog
                     $fieldName = $field->getFieldName();
                     $dlgValue = $dlgValues[$fieldName];
                     $pattern = $field->getPattern();
-                    if ($dlgValue && (trim($dlgValue) != '')) {
-                        if (($pattern != '') && !(preg_match('/' . $pattern . '/', $dlgValue))) {
-                            return $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['CHECK_FIELD'] . '"' . $field->getTitle() . '".';
+                    if ($pattern != '') {
+                        if ($dlgValue && (trim($dlgValue) != '')) {
+                            if (($pattern != '') && !(preg_match('/' . $pattern . '/', $dlgValue))) {
+                                return $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['CHECK_FIELD'] . '"' . $field->getTitle() . '".';
+                            }
                         }
                     }
                 } else {
