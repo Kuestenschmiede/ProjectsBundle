@@ -77,11 +77,52 @@ class C4GDateField extends C4GBrickField
 
         if ($this->isShowIfEmpty() || !empty($value)) {
 
+            $buttonId = "'". $id . "'";
             $condition = $this->createConditionData($fieldList, $data);
+            //We need to check the condition here and display the field, since the JS does not do that it seems.
+            $display = true;
+            $conditions = $this->getCondition();
+            if ($conditions) {
+                if (is_array($conditions)) {
+                    foreach ($conditions as $con) {
+                        $conField = $con->getFieldName();
+                        $conValue = $con->getValue();
+                        $fieldValue = '';
+                        if ($data) {
+                            if ($data instanceof \stdClass) {
+                                $fieldValue = $data->$conField;
+                            } else {
+                                $fieldValue = $data->row()[$conField];
+                            }
+                        } elseif ($this->getInitialValue()) {
+                            $fieldValue = $this->getInitialValue();
+                        }
+                        if ($fieldValue && !$con->checkAgainstCondition($fieldValue)) {
+                            $display = false;
+                        }
+                    }
+                } else {
+                    $conField = $conditions->getFieldName();
+                    $conValue = $conditions->getValue();
+                    $fieldValue = $data->row()[$conField];
+                    if (!$conditions->checkAgainstCondition($fieldValue)) {
+                        $display = false;
+                    }
+                }
 
+            }
+            if (!$display) {
+                $html = '<div class="c4g_date_field_container" style="display: none" onmousedown="C4GDatePicker(\'' . $id . '\', \'date\', \'' .$this->minDate. '\', \'' . $this->maxDate . '\', \''.$format.'\',\'' . $GLOBALS["TL_LANGUAGE"] .'\',\'' . $this->excludeWeekdays . '\',\'' . $this->excludeDates . '\')" >';
+            } else {
+                $html = '<div class="c4g_date_field_container" onmousedown="C4GDatePicker(\'' . $id . '\', \'date\', \'' .$this->minDate. '\', \'' . $this->maxDate . '\', \''.$format.'\',\'' . $GLOBALS["TL_LANGUAGE"] .'\',\'' . $this->excludeWeekdays . '\',\'' . $this->excludeDates . '\')" >';
+            }
+            $html .= '<input autocomplete="off" ' . $required . ' type="text" id="' . $id . '" class="formdata c4g_date_field_input ' . $id . '" '.$changeAction.' name="' . $fieldName . '" value="' . $value . '" ' . $condition['conditionPrepare'] . '>';
+            $html .= '<span onclick="getElementById('.$buttonId.').focus()" class="ui-button ui-corner-all c4g_date_field_button"><i class="far fa-calendar-alt"></i></span>';
+            $html .= '</div>';
             $result =
                 $this->addC4GField($condition,$dialogParams,$fieldList,$data,
-                    '<input ' . $required . ' type="text" id="' . $id . '" class="formdata ' . $id . '" '.$changeAction.' onmousedown="C4GDatePicker(\'' . $id . '\', \'date\', \'' .$this->minDate. '\', \'' . $this->maxDate . '\', \''.$format.'\',\'' . $GLOBALS["TL_LANGUAGE"] .'\',\'' . $this->excludeWeekdays . '\',\'' . $this->excludeDates . '\')" name="' . $fieldName . '" value="' . $value . '" ' . $condition['conditionPrepare'] . '>');
+                    $html);
+
         }
 
         return $result;
@@ -197,6 +238,9 @@ class C4GDateField extends C4GBrickField
      */
     public function translateFieldValue($value)
     {
+        if ($value === '') {
+            $value = 0;
+        }
         $date = $value;
         $timestamp = strtotime($value);
         if(is_numeric($timestamp)){
