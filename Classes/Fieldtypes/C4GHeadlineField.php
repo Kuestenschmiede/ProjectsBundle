@@ -22,15 +22,23 @@ use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
  */
 class C4GHeadlineField extends C4GBrickField
 {
-    private $additionalHeaderText = '';
-    private $showHeadlineNumber = false;
-    private $showFieldCount = false;
-    private $accordionOpened = false;
+    protected $additionalHeaderText = '';
+    protected $showHeadlineNumber = false;
+    protected $showFieldCount = false;
+    protected $accordionIcon = ''; //HTML of the icon to be displayed before the title.
+
+    const ACCORDION_HEADLINE_CLASS = 'c4g_accordion_headline';
+    const ACCORDION_HEADLINE_ICON_CLASS = 'c4g_accordion_icon';
+    const ACCORDION_HEADLINE_TEXT_CLASS = 'c4g_accordion_text';
+    const ACCORDION_TARGET_CLASS = 'c4g_accordion_target';
+    const ACCORDION_HEADLINE_STATE_ACTIVE = 'c4g_accordion_headline_active';
+    const ACCORDION_TARGET_STATE_ACTIVE = 'c4g_accordion_target_active';
 
     /**
      * @param $fieldList
-     * @param $field
      * @param $data
+     * @param $dialogParams
+     * @param $additionalParams
      * @return string
      */
     public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = array())
@@ -48,8 +56,7 @@ class C4GHeadlineField extends C4GBrickField
             $headline_count = 0;
             $tablist = array();
             foreach($fieldList as $field) {
-                if ((get_class($field) == 'con4gis\ProjectsBundle\Classes\Fieldtypes\C4GHeadlineField')
-                    && ($field->isFormField())) {
+                if (($field instanceof C4GHeadlineField) && ($field->isFormField())) {
                     $headline_count++;
                     $tablist[] = $field;
                 }
@@ -63,42 +70,44 @@ class C4GHeadlineField extends C4GBrickField
             $headline =
                 '<h2 class="c4g_brick_headline" '.$condition['conditionPrepare'].'>' . $headlineText . '</h2>';
             $class = 'formdata ';
-            $headline = $this->generateC4GFieldHTML($condition, $headline . $this->additionalHeaderText, $class);
-            /*'<div id="c4g_condition" '
-            . $class
-            . $condition['conditionName']
-            . $condition['conditionType']
-            . $condition['conditionValue']
-            . $condition['conditionFunction']
-            . $condition['conditionDisable']
-            . '>'
-            . $headline
-            . $this->additionalHeaderText
-            . '</div>';*/
+//            $headline = $this->generateC4GFieldHTML($condition, $headline . $this->additionalHeaderText, $class);
+            $headline = '<div id="c4g_condition" '
+                . $class
+                . $condition['conditionName']
+                . $condition['conditionType']
+                . $condition['conditionValue']
+                . $condition['conditionFunction']
+                . $condition['conditionDisable']
+                . '>'
+                . $headline
+                . $this->additionalHeaderText
+                . '</div>';
             if ($dialogParams->isAccordion()) {
+                $accordion_state = 'c4gGuiCollapsible_target c4gGuiCollapsible_hide';
+                $accordionClass = 'c4gGuiAccordion ui-accordion ui-corner-top c4gGuiCollapsible_trigger';
+
                 if ($dialogParams->getAccordionCounter() > 0) {
                     if ($dialogParams->getAccordionCounter() >= $headline_count) {
                         //last headline
-                        $accordion = '</div><br><div class ="c4gGuiAccordion ui-accordion ui-corner-top c4gGuiCollapsible_trigger">';
+                        $accordion = '</div><br><div class ="' .  $accordionClass . '">';
                     } else {
-                        $accordion = '</div><br><div class ="c4gGuiAccordion ui-accordion ui-corner-top c4gGuiCollapsible_trigger">';
+                        $accordion = '</div><br><div class ="' .  $accordionClass . '">';
                     }
                 } else {
                     //first headline
-                    $accordion =  '<div class="c4gGuiAccordion ui-accordion ui-corner-top c4gGuiCollapsible_trigger">';
+                    $accordion =  '<div class="' .  $accordionClass . '">';
                 }
 
-                $accordion_state = 'c4gGuiCollapsible_target c4gGuiCollapsible_hide';
-                if ($dialogParams->isAccordionAllOpened()  || ($this->accordionOpened)) {
-                    $accordion_state = 'c4gGuiCollapsible_target';
-                }
                 $accordion_content = '</div><div class="'.$accordion_state.' ui-accordion-content ui-corner-bottom ui-widget-content"><br>';
+                $icon = $this->getAccordionIcon();
+                if ($icon == '') {
+                    $icon = $dialogParams->getAccordionIcon();
+                }
 
                 $dialogParams->setAccordionCounter($dialogParams->getAccordionCounter()+1);
-                $headline = '<h3 class="c4g_brick_headline ui-accordion-header ui-corner-top ui-accordion-icons c4gGuiCollapsible_trigger_target"><a href="#">' . $this->getTitle() . '</a></h3>';
+                $headline = '<h3 class="c4g_brick_headline ui-accordion-header ui-corner-top ui-accordion-icons c4gGuiCollapsible_trigger_target"><a href="#">' . $icon . $this->getTitle() . '</a></h3>';
                 $class = 'formdata ';
-                $headline = $this->generateC4GFieldHTML($condition, $headline . $this->additionalHeaderText, $class);
-                    /*'<div id="c4g_condition" '
+                $headline = '<div id="c4g_condition" '
                     . $class
                     . $condition['conditionName']
                     . $condition['conditionType']
@@ -108,7 +117,7 @@ class C4GHeadlineField extends C4GBrickField
                     . '>'
                     . $headline
                     . $this->additionalHeaderText
-                    . '</div>';*/
+                    . '</div>';
             } else if ($dialogParams->isTabContent()) {
                 $tabField = "c4g_tab_".$dialogParams->getTabContentCounter()."_content";
                 if ($dialogParams->getTabContentCounter() > 0) {
@@ -222,20 +231,21 @@ class C4GHeadlineField extends C4GBrickField
     {
         $this->showHeadlineNumber = $showHeadlineNumber;
     }
+
     /**
-     * @return bool
+     * @return string
      */
-    public function isAccordionOpened()
+    public function getAccordionIcon()
     {
-        return $this->accordionOpened;
+        return $this->accordionIcon;
     }
 
     /**
-     * @param bool $accordionOpened
+     * @param string $accordionIcon
      */
-    public function setAccordionOpened($accordionOpened)
+    public function setAccordionIcon($accordionIcon)
     {
-        $this->accordionOpened = $accordionOpened;
+        $this->accordionIcon = $accordionIcon;
     }
 
 
