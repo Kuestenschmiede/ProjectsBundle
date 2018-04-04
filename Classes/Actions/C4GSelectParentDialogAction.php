@@ -21,4 +21,9 @@ class C4GSelectParentDialogAction extends C4GBrickDialogAction
         $dialog = new C4GBrickSelectParentDialog($this->getDialogParams(), $this->brickDatabase, $this->module);
         return $dialog->show();
     }
+
+    public function isReadOnly()
+    {
+        return true;
+    }
 }

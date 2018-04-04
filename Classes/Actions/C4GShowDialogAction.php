@@ -476,4 +476,9 @@ class C4GShowDialogAction extends C4GBrickDialogAction
 
         return $homeDir;
     }
+
+    public function isReadOnly()
+    {
+        return true;
+    }
 }

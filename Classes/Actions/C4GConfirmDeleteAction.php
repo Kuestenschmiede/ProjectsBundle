@@ -108,4 +108,9 @@ class C4GConfirmDeleteAction extends C4GBrickDialogAction
         return $return;
 
     }
+
+    public function isReadOnly()
+    {
+        return false;
+    }
 }

@@ -20,6 +20,7 @@ use con4gis\ProjectsBundle\Classes\Common\C4GBrickRegEx;
 class C4GNumberField extends C4GBrickFieldNumeric
 {
     protected $pattern = C4GBrickRegEx::DIGITS_NEG;
+    protected $initialValue = 0;
 
     public function __construct()
     {

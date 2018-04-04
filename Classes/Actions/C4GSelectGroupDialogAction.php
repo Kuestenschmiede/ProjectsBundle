@@ -21,5 +21,10 @@ class C4GSelectGroupDialogAction extends C4GBrickDialogAction
         $dialog = new C4GBrickSelectGroupDialog($this->getDialogParams());
         return $dialog->show();
     }
+
+    public function isReadOnly()
+    {
+        return true;
+    }
 }
 

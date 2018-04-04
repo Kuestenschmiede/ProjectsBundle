@@ -29,4 +29,9 @@ class C4GShowMessageDialogAction extends C4GBrickDialogAction
             $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['MESSAGE_DIALOG_CLOSE_DIALOG_NO'],
             $dlgValues);
     }
+
+    public function isReadOnly()
+    {
+        return true;
+    }
 }

@@ -50,4 +50,9 @@ class C4GChangeFieldAction extends C4GBrickAction
         }
         return $changes;
     }
+
+    public function isReadOnly()
+    {
+        return true;
+    }
 }

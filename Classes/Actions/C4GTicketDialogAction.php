@@ -66,4 +66,9 @@ class C4GTicketDialogAction extends C4GBrickDialogAction
 
     }
 
+    public function isReadOnly()
+    {
+        return true;
+    }
+
 }

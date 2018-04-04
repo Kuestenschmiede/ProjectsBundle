@@ -29,6 +29,7 @@ use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GDialogChangeHandler;
 use con4gis\ProjectsBundle\Classes\Lists\C4GBrickListParams;
 use con4gis\ProjectsBundle\Classes\Models\C4gProjectsModel;
+use con4gis\ProjectsBundle\Classes\Permission\C4GTablePermission;
 use con4gis\ProjectsBundle\Classes\Views\C4GBrickView;
 use con4gis\ProjectsBundle\Classes\Views\C4GBrickViewParams;
 use con4gis\ProjectsBundle\Classes\Views\C4GBrickViewType;
@@ -407,11 +408,30 @@ class C4GBrickModuleParent extends \Module
             }
         }
 
-
-//        } else {
-//            \Session::getInstance()->set("c4g_brick_dialog_id", -1);
-//            \Session::getInstance()->set("c4g_brick_dialog_values", null);
-//        }
+        if ($this instanceof C4GInterfaceModulePermissions) {
+            if (C4GBrickView::isWithoutEditing($this->viewType)) {
+                $level = 1;
+            } else {
+                $level = 2;
+            }
+            $permission = $this->getC4GTablePermission();
+            if ($permission instanceof C4GTablePermission) {
+                $permission->setLevel($level);
+                $permission->set();
+            } elseif (is_array($permission)) {
+                foreach ($permission as $perm) {
+                    if ($perm instanceof C4GTablePermission) {
+                        $permission->setLevel($level);
+                        $permission->set();
+                    }
+                }
+            }
+            if ($id != '-1' && $id != -1 && $id != '' && $id != null) {
+                $permission = new C4GTablePermission($this->getC4GTablePermissionTable(), $id);
+                $permission->setLevel($level);
+                $permission->check();
+            }
+        }
     }
 
     /**

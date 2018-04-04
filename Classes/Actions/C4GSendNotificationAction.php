@@ -37,4 +37,9 @@ class C4GSendNotificationAction extends C4GBrickDialogAction
             $dialogParams,$object);
         return $this->sendNotifications($notifications, $dlgValues, $fieldList, $memberId);
     }
+
+    public function isReadOnly()
+    {
+        return false;
+    }
 }

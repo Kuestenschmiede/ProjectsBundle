@@ -808,3 +808,30 @@ a.c4g_tile_button:hover {
 .c4g_more_button_entry_tiles {
     display:inline-block;
 }
+
+.c4g_date_field_container {
+    display: flex;
+    margin-right: 1.25%
+
+}
+
+.c4g_date_field_button {
+    display: inherit !important;
+    cursor: pointer;
+}
+
+.c4g_date_field_input {
+    display: inherit !important;
+    margin-right: 1.25%
+}
+
+.c4g_accordion_icon {
+    vertical-align: middle;
+    font-size: 30px;
+    margin-right: 1%;
+    margin-bottom: 0.5%;
+}
+
+.ui-accordion-header-active .c4g_accordion_icon  {
+    transform: rotate(90deg);
+}

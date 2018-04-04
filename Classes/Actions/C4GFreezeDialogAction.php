@@ -42,4 +42,9 @@ class C4GFreezeDialogAction extends C4GBrickDialogAction
         return $result;
 
     }
+
+    public function isReadOnly()
+    {
+        return false;
+    }
 }

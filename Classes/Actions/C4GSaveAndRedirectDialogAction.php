@@ -27,20 +27,4 @@ class C4GSaveAndRedirectDialogAction extends C4GSaveDialogAction
 {
     protected $withRedirect = true;
 
-    /**
-     * @return boolean
-     */
-    public function isWithRedirect()
-    {
-        return $this->withRedirect;
-    }
-
-    /**
-     * @param boolean $withRedirect
-     */
-    public function setWithRedirect($withRedirect)
-    {
-        $this->withRedirect = $withRedirect;
-    }
-
 }

@@ -56,4 +56,9 @@ class C4GArchiveDialogAction extends C4GBrickDialogAction
         return $result;
 
     }
+
+    public function isReadOnly()
+    {
+        return false;
+    }
 }

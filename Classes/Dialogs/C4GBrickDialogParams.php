@@ -465,6 +465,11 @@ class C4GBrickDialogParams
         return false;
     }
 
+    public function removeAccordionIcons()
+    {
+        $this->addOnLoadScript('removeAccordionIcons();');
+    }
+
     /**
      * @return array
      */
@@ -530,19 +535,14 @@ class C4GBrickDialogParams
     }
 
     /**
-     * @return boolean
-     */
-    public function isAccordionAllOpened()
-    {
-        return $this->accordion_all_opened;
-    }
-
-    /**
+     * Unused parameter is left in for backwards compatibility.
      * @param boolean $accordion_all_opened
      */
-    public function setAccordionAllOpened($accordion_all_opened)
+    public function setAccordionAllOpened($accordion_all_opened = true)
     {
-        $this->accordion_all_opened = $accordion_all_opened;
+        if ($accordion_all_opened == true) {
+            $this->addOnLoadScript('openAccordion("all");');
+        }
     }
 
     /**

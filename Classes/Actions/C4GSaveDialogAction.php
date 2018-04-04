@@ -25,6 +25,7 @@ use NotificationCenter\Model\Notification;
 
 class C4GSaveDialogAction extends C4GBrickDialogAction
 {
+    use C4GTraitCheckMandatoryFields;
     private $withRedirect = false;
     private $andNew = false;
     private $setParentIdAfterSave = false;
@@ -54,22 +55,10 @@ class C4GSaveDialogAction extends C4GBrickDialogAction
         $isWithActivationInfo = $dialogParams->isWithActivationInfo();
         $module = $this->getModule();
 
-        $mandatoryCheckResult = C4GBrickDialog::checkMandatoryFields($fieldList, $dlgValues);
-        if ($mandatoryCheckResult !== true) {
-            if ((!$dialogParams->isSaveOnMandatory() || ($dialogParams->isMandatoryCheckOnActivate() && ($dlgValues['published'] === 'true' || $dlgValues['published'] === true))) && !$dialogParams->isSaveWithoutMessages()) {
-                if ($mandatoryCheckResult instanceof C4GBrickField) {
-                    if ($mandatoryCheckResult->getSpecialMandatoryMessage() != '') {
-                        return array('usermessage' => $mandatoryCheckResult->getSpecialMandatoryMessage(),
-                            'title' => $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_MANDATORY_TITLE'],
-                            'callback' => array('function' => 'focusOnElement', 'params' => 'c4g_'. $mandatoryCheckResult->getFieldName()));
-                    } elseif ($mandatoryCheckResult->getTitle() != '') {
-                        return array('usermessage' => $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_MANDATORY_FIELD'].'"'. $mandatoryCheckResult->getTitle().'".',
-                            'title' => $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_MANDATORY_TITLE'],
-                            'callback' => array('function' => 'focusOnElement', 'params' => 'c4g_'. $mandatoryCheckResult->getFieldName()));
-                    }
-                }
-                return array('usermessage' => $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_MANDATORY'],
-                    'title' => $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_MANDATORY_TITLE']);
+        if ((!$dialogParams->isSaveOnMandatory() || ($dialogParams->isMandatoryCheckOnActivate() && ($dlgValues['published'] === 'true' || $dlgValues['published'] === true))) && !$dialogParams->isSaveWithoutMessages()) {
+            $check = $this->checkMandatoryFields($fieldList, $dlgValues);
+            if (!empty($check)) {
+                return $check;
             }
         }
 
@@ -323,6 +312,11 @@ class C4GSaveDialogAction extends C4GBrickDialogAction
     public function setSetSessionIdAfterInsert($setSessionIdAfterInsert)
     {
         $this->setSessionIdAfterInsert = $setSessionIdAfterInsert;
+    }
+
+    public function isReadOnly()
+    {
+        return true;
     }
 
 }

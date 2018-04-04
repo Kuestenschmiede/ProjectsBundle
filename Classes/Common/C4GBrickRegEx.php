@@ -31,7 +31,7 @@ class C4GBrickRegEx
     const DIGITS = '^[0-9](\d*)$'; //Whole numbers, from 0 to infinite, no negatives and no separators.
     const DIGITS_NEG = '^[-]?[0-9](\d*)$'; //Digits, but allowed to go negative.
     const NUMBERS = '^[1-9](\d*)$'; //Whole numbers, from 1 to infinite, no negatives and no separators.
-    const NUMBERS_NO_SEP = '^[-]?[1-9](\d*)$';  //Whole numbers, not allowing thousand separators.
+    const NUMBERS_NO_SEP = '^[-]?[0-9](\d*)$';  //Whole numbers, not allowing thousand separators.
     const NUMBERS_DOT_SEP = '^[-]?[1-9](\d*)((.)(\d{3}))*$';  //Whole numbers, allowing dots as thousand separators.
     const HEX_DEC_ID = '^[0-9A-Fa-f]*$'; //Hexadecimal IDs, e.g. 00A51B.
     const NUMBERS_COMMA_SEP = '[-]?[1-9](\d*)((,)(\d{3}))*$';  //Whole numbers, allowing commas as thousand separators.

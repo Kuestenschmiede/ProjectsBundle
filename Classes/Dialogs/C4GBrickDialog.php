@@ -22,6 +22,7 @@ use con4gis\ProjectsBundle\Classes\Conditions\C4GBrickConditionType;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldCompare;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldNumeric;
+use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldText;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldType;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GCheckboxField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GDateTimeLocationField;
@@ -851,7 +852,7 @@ class C4GBrickDialog
         if (($fieldList) && ($dlgValues)) {
             $percentGroups = array();
             foreach ($fieldList as $field) {
-                if ($field instanceof C4GEmailField) {
+                /*if ($field instanceof C4GEmailField) {
                     $fieldName = $field->getFieldName();
                     $dlgValue = $dlgValues[$fieldName];
                     if ($dlgValue && (trim($dlgValue) != '')) {
@@ -860,7 +861,7 @@ class C4GBrickDialog
                             return $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['validate_email'];
                         }
                     }
-                } elseif ($field instanceof C4GTelField) {
+                }*/ if ($field instanceof C4GTelField) {
                     $fieldName = $field->getFieldName();
                     $dlgValue = $dlgValues[$fieldName];
                     if ($dlgValue && (trim($dlgValue) != '')) {
@@ -895,12 +896,11 @@ class C4GBrickDialog
                     if ($pattern == '') {
                         $pattern = $field->getRegEx();
                     }
-                    $test = preg_match('/'.$field->getPattern().'/', $dlgValue);
-                    if ($dlgValue && (trim($dlgValue) != '')) {
-                        if (($pattern != '') && !(preg_match('/'.$pattern.'/', $dlgValue))) {
-                            return $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['CHECK_FIELD'].'"'.$field->getTitle().'".';
+                    if ($dlgValue !== null) {
+                        if (($pattern != '') && !(preg_match('/' . $pattern . '/', $dlgValue))) {
+                            return $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['CHECK_FIELD'] . '"' . $field->getTitle() . '".';
                         } elseif ($dlgValue > $field->getMax() || $dlgValue < $field->getMin()) {
-                            return $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['CHECK_FIELD'].'"'.$field->getTitle().'".';
+                            return $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['CHECK_FIELD'] . '"' . $field->getTitle() . '".';
                         }
                     }
                     //Todo
@@ -908,6 +908,17 @@ class C4GBrickDialog
                         array_push($percentGroups[$field->getPercentGroup()], $field);
 
                     }*/
+                } elseif ($field instanceof C4GBrickFieldText) {
+                    $fieldName = $field->getFieldName();
+                    $dlgValue = $dlgValues[$fieldName];
+                    $pattern = $field->getPattern();
+                    if ($pattern != '') {
+                        if ($dlgValue && (trim($dlgValue) != '')) {
+                            if (($pattern != '') && !(preg_match('/' . $pattern . '/', $dlgValue))) {
+                                return $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['CHECK_FIELD'] . '"' . $field->getTitle() . '".';
+                            }
+                        }
+                    }
                 } else {
                     continue;
                 }

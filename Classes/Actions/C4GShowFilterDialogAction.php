@@ -26,4 +26,9 @@ class C4GShowFilterDialogAction extends C4GBrickDialogAction
         $dialog = new C4GBrickFilterDialog($dialogParams);
         return $dialog->show();
     }
+
+    public function isReadOnly()
+    {
+        return true;
+    }
 }

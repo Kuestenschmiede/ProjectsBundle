@@ -98,4 +98,9 @@ class C4GSendEmailNotificationAction extends C4GBrickDialogAction
         $this->closeDialog = $closeDialog;
     }
 
+    public function isReadOnly()
+    {
+        return false;
+    }
+
 }

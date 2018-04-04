@@ -66,4 +66,9 @@ class C4GShowRedirectDialogAction extends C4GBrickDialogAction
             return $return;
         }
     }
+
+    public function isReadOnly()
+    {
+        return true;
+    }
 }

@@ -21,4 +21,9 @@ class C4GSelectProjectDialogAction extends C4GBrickDialogAction
         $dialog = new C4GBrickSelectProjectDialog($this->getDialogParams());
         return $dialog->show();
     }
+
+    public function isReadOnly()
+    {
+        return true;
+    }
 }

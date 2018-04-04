@@ -93,5 +93,8 @@ class C4GConfirmActivationAction extends C4GBrickDialogAction
         $this->module = $module;
     }
 
-
+    public function isReadOnly()
+    {
+        return false;
+    }
 }

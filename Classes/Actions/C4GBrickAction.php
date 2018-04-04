@@ -18,7 +18,9 @@ use con4gis\ProjectsBundle\Classes\Common\C4GBrickConst;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GDateTimeLocationField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GGeopickerField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GGridField;
+use con4gis\ProjectsBundle\Classes\Framework\C4GInterfaceModulePermissions;
 use con4gis\ProjectsBundle\Classes\Models\C4gProjectsModel;
+use con4gis\ProjectsBundle\Classes\Permission\C4GTablePermission;
 use con4gis\ProjectsBundle\Classes\Views\C4GBrickView;
 use con4gis\ProjectsBundle\Classes\Views\C4GBrickViewType;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialog;
@@ -151,11 +153,10 @@ abstract class C4GBrickAction
     }
 
 
-
-
     /**
-     * execute functions for "actionstrings"
-     * @param string $action
+     * @param $action
+     * @param $module
+     * @return null
      */
     public static function performAction(&$action, &$module)
     {
@@ -312,7 +313,6 @@ abstract class C4GBrickAction
             }
         }
 
-
         $className = '';
         $namespaces = $viewParams->getActionNamespaces();
         foreach ($namespaces as $namespace) {
@@ -326,6 +326,16 @@ abstract class C4GBrickAction
         if (class_exists($className)) {
             $action = new $className($dialogParams, $listParams, $fieldList, $putVars, $brickDatabase);
             $action->setModule($module);
+            if ($module instanceof C4GInterfaceModulePermissions) {
+                $permission = new C4GTablePermission($module->getC4GTablePermissionTable(), array($dialogParams->getId()));
+                if ($action->isReadOnly()) {
+                    $permission->setLevel(1);
+                } else {
+                    $permission->setLevel(2);
+                }
+                $permission->setAction($brickAction);
+                $permission->check();
+            }
             return $action->run();  //If the class does not exist, an exception will be thrown.
         } else {
             return null;
@@ -468,5 +478,13 @@ abstract class C4GBrickAction
 
         return $resultList;
     }
+
+    /**
+     * Needed for the permission check. If the action does more than simply show data to the user, it should not be considered read only.
+     * @return bool
+     */
+    public abstract function isReadOnly();
+
+
 
 }

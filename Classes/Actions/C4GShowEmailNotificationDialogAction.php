@@ -52,4 +52,9 @@ class C4GShowEmailNotificationDialogAction extends C4GBrickDialogAction
         return $result;
 
     }
+
+    public function isReadOnly()
+    {
+        return false;
+    }
 }

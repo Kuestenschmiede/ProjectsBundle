@@ -63,4 +63,9 @@ class C4GIdentifierListAction extends C4GBrickAction
     {
         $this->module = $module;
     }
+
+    public function isReadOnly()
+    {
+        return true;
+    }
 }

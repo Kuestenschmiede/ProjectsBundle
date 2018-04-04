@@ -47,4 +47,9 @@ class C4GSetFilterAction extends C4GBrickDialogAction
 
         return $return;
     }
+
+    public function isReadOnly()
+    {
+        return true;
+    }
 }

@@ -145,4 +145,9 @@ class C4GExportDialogAction extends C4GBrickDialogAction
         $action = new C4GShowListAction($dialogParams, $this->getListParams(), $this->getFieldList(), $this->getPutVars(), $this->getBrickDatabase());
         return $action->run();
     }
+
+    public function isReadOnly()
+    {
+        return true;
+    }
 }

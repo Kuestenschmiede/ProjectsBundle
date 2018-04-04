@@ -14,11 +14,14 @@
 namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
 
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
-use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldCompare;
+use con4gis\ProjectsBundle\Classes\Common\C4GBrickRegEx;
+use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldText;
 
-class C4GEmailField extends C4GBrickField
+class C4GEmailField extends C4GBrickFieldText
 {
+    protected $pattern = C4GBrickRegEx::EMAIL;
+
     public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = array())
     {
         $id = "c4g_" . $this->getFieldName();
@@ -31,17 +34,11 @@ class C4GEmailField extends C4GBrickField
 
             $result =
                 $this->addC4GField($condition,$dialogParams,$fieldList,$data,
-                '<input type="email"' . $required . ' pattern="[^ @]*@[^ @]*" ' . $condition['conditionPrepare'] . ' id="' . $id . '" class="formdata ' . $id . '" name="' . $this->getFieldName() . '" title="' . $this->getTitle() . '" value="' . $value . '">');
+                    '<input type="email"' . $required . ' pattern="'.$this->pattern.'" ' . $condition['conditionPrepare'] . ' id="' . $id . '" class="formdata ' . $id . '" name="' . $this->getFieldName() . '" title="' . $this->getTitle() . '" value="' . $value . '">');
         }
         return $result;
     }
 
-    /**
-     * Method that will be called in the compareWithDB() in C4GBrickDialog
-     * @param $dbValue
-     * @param $dlgvalue
-     * @return array
-     */
     public function compareWithDB($dbValues, $dlgValues)
     {
         $fieldname = $this->getFieldName();

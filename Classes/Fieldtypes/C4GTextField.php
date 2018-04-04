@@ -13,19 +13,14 @@
 namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
 
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
-use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldCompare;
+use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldText;
 
-class C4GTextField extends C4GBrickField
+class C4GTextField extends C4GBrickFieldText
 {
     protected $size = 255;
     protected $maxLength = 255;
 
-    /**
-     * @param $field
-     * @param $data
-     * @return string
-     */
     public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = array())
     {
         $id = "c4g_" . $this->getFieldName();
@@ -45,10 +40,9 @@ class C4GTextField extends C4GBrickField
     }
 
     /**
-     * Method that will be called in the compareWithDB() in C4GBrickDialog
-     * @param $dbValue
-     * @param $dlgvalue
-     * @return array
+     * @param $dbValues
+     * @param $dlgValues
+     * @return array|C4GBrickFieldCompare|null
      */
     public function compareWithDB($dbValues, $dlgValues)
     {

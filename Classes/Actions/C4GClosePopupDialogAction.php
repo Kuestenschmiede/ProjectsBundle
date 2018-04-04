@@ -19,4 +19,9 @@ class C4GClosePopupDialogAction extends C4GBrickDialogAction
         //ToDo Lösung finden den Dialog zu schließen
         //echo '<script type="text/javascript">closePopupWindow();</script>';
     }
+
+    public function isReadOnly()
+    {
+        return true;
+    }
 }
