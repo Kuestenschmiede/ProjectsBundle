@@ -374,24 +374,6 @@ class C4GBrickModuleParent extends \Module
                 $this->dialogParams->setUuid(\Session::getInstance()->get($this->UUID));
                 $this->listParams->setUuid(\Session::getInstance()->get($this->UUID));
             }
-
-            if ((C4GBrickView::isMemberBased($this->viewType)) || (C4GBrickView::isPublicUUIDBased($this->viewType))) {
-                if (($this->dialogParams->getMemberID() > 0) && ($this->dialogParams->getUuid())) {
-                    $database = \Database::getInstance();
-
-                    //in case the module table does not have a member_id field (otherwise an exception will be thrown and the site won't work)
-                    $query = $database->prepare("SHOW COLUMNS FROM $this->tableName LIKE 'member_id'")->execute();
-                    if ($query->numRows) {
-                        $query = $database->prepare("SELECT * FROM " . $this->tableName .
-                            " WHERE member_id = 0 AND uuid = '" . $this->dialogParams->getUuid() . "'")->execute();
-                        if ($query) {
-                            $stmt = $database->prepare("UPDATE " . $this->tableName . " SET member_id = " . $this->dialogParams->getMemberID()
-                                . " WHERE member_id = 0 AND uuid = '" . $this->dialogParams->getUuid() . "'");
-                            $stmt->execute();
-                        }
-                    }
-                }
-            }
         }
 
         //set fieldList
@@ -408,28 +390,45 @@ class C4GBrickModuleParent extends \Module
             }
         }
 
-        if ($this instanceof C4GInterfaceModulePermissions) {
-            if (C4GBrickView::isWithoutEditing($this->viewType)) {
-                $level = 1;
-            } else {
-                $level = 2;
-            }
-            $permission = $this->getC4GTablePermission();
-            if ($permission instanceof C4GTablePermission) {
-                $permission->setLevel($level);
-                $permission->set();
-            } elseif (is_array($permission)) {
-                foreach ($permission as $perm) {
-                    if ($perm instanceof C4GTablePermission) {
-                        $permission->setLevel($level);
-                        $permission->set();
-                    }
+        if (C4GBrickView::isWithoutEditing($this->viewType)) {
+            $level = 1;
+        } else {
+            $level = 2;
+        }
+        $permission = $this->getC4GTablePermission();
+        if ($permission instanceof C4GTablePermission) {
+            $permission->setLevel($level);
+            $permission->set();
+        } elseif (is_array($permission)) {
+            foreach ($permission as $perm) {
+                if ($perm instanceof C4GTablePermission) {
+                    $permission->setLevel($level);
+                    $permission->set();
                 }
             }
-            if ($id != '-1' && $id != -1 && $id != '' && $id != null) {
-                $permission = new C4GTablePermission($this->getC4GTablePermissionTable(), $id);
-                $permission->setLevel($level);
-                $permission->check();
+        }
+        if ($id != '-1' && $id != -1 && $id != '' && $id != null) {
+            $permission = new C4GTablePermission($this->getC4GTablePermissionTable(), $id);
+            $permission->setLevel($level);
+            $permission->check();
+        }
+
+        //Synchronize MemberBased and PublicUuidBased view types
+        if ((C4GBrickView::isMemberBased($this->viewType)) || (C4GBrickView::isPublicUUIDBased($this->viewType))) {
+            if (($this->dialogParams->getMemberID() > 0) && ($this->dialogParams->getUuid())) {
+                $database = \Database::getInstance();
+                $query = $database->prepare("SELECT * FROM " . $this->tableName .
+                    " WHERE member_id = 0 AND uuid = '" . $this->dialogParams->getUuid() . "'")->execute();
+                if ($query) {
+                    $stmt = $database->prepare("UPDATE " . $this->tableName . " SET member_id = " . $this->dialogParams->getMemberID()
+                        . " WHERE member_id = 0 AND uuid = '" . $this->dialogParams->getUuid() . "'");
+                    $stmt->execute();
+                    if (($this->dialogParams->getMemberID() !== 0) && ($this->dialogParams->getMemberID() !== '0')) {
+                        $stmt = $database->prepare("UPDATE " . $this->tableName . " SET uuid = '" . $this->dialogParams->getUuid()
+                            . "' WHERE member_id = '" . $this->dialogParams->getMemberID() . "'");
+                        $stmt->execute();
+                    }
+                }
             }
         }
     }
@@ -966,6 +965,92 @@ class C4GBrickModuleParent extends \Module
         }
 
     }
+
+
+    /**
+     * Get the permissions given by this module.
+     * Modules that need non-standard permissions MUST override this method.
+     * This is common if your module uses a model function to load database values.
+     * The return value must be an instance of C4GTablePermission or an array of instances of C4GTablePermission.
+     * @param string $viewType This module's viewtype.
+     * @return C4GTablePermission
+     */
+    public function getC4GTablePermission($viewType)
+    {
+        //Unhandled view types: (Will throw exceptions)
+        //Todo PublicView
+        //Todo PublicBased
+        //Todo PublicForm
+        //Todo ProjectBased
+        //Todo ProjectForm
+        //Todo ProjectFormCopy
+        //Todo ProjectParentBased
+        //Todo ProjectParentView
+        //Todo ProjectParentForm
+        //Todo ProjectParentFormCopy
+        //Todo ProjectParentBased
+
+        //Untested view types: (May or may not work, also may or may not throw exceptions)
+        //Todo MemberBooking
+        //Todo MemberForm
+        //Todo GroupProject
+        //Todo GroupParentView
+        //Todo GroupParentBased
+        //Todo GroupView
+        //Todo GroupForm
+        //Todo GroupFormCopy
+
+        //Might need special attention: (because they might fall into multiple cases)
+        //Todo GroupParentBased is part of isGroupBased and isGroupParentBased
+        //Todo GroupParentView is part of isGroupBased and isGroupParentBased
+
+        //If you need to handle a view type specifically, use "case $viewType == C4GBrickViewType::VIEW_TYPE"
+        //but try to keep the number of cases civil.
+
+        //Also keep in mind you might have to find a non-standard (i.e. module specific) solution.
+
+        switch (true) {
+            case C4GBrickView::isMemberBased($viewType):
+                $elements = $this->brickDatabase->findBy('member_id', $this->getDialogParams()->getMemberId());
+                break;
+            case C4GBrickView::isPublicUUIDBased($viewType):
+                $elements = $this->brickDatabase->findBy('uuid', $this->getDialogParams()->getUuid());
+                break;
+            case C4GBrickView::isGroupBased($viewType):
+                $elements = $this->brickDatabase->findBy('group_id', $this->getDialogParams()->getGroupId());
+                break;
+            default:
+                $elements =  null;
+                break;
+        }
+
+        $array = array();
+        if ($elements != null) {
+            foreach ($elements as $element) {
+                $e = $element->row();
+                $array[] = $e['id'];
+            }
+        } else {
+            $array = '-1';
+        }
+        if (sizeof($array) > 0) {
+            $result = new C4GTablePermission($this->getC4GTablePermissionTable(), $array);
+            return $result;
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Get the table this module needs permission for. Most of the time, this is $this->tableName.
+     * If for whatever reason the module needs access to a different table, override this method.
+     * @return string
+     */
+    public function getC4GTablePermissionTable()
+    {
+        return $this->tableName;
+    }
+
 
     /**
      * perform a history action
