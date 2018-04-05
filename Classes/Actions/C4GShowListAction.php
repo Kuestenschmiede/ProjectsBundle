@@ -347,18 +347,20 @@ class C4GShowListAction extends C4GBrickDialogAction
         foreach ($fieldList as $field) {
             if ($field instanceof C4GBrickFieldText && $field->isTableColumn()) {
                 $fieldName = $field->getFieldName();
-                foreach ($elements as $element) {
-                    if ($element instanceof \stdClass) {
-                        $width = $field->getColumnWidth();
-                        if ($width > 0 && (strlen($element->$fieldName) > $width)) {
-                            $element->$fieldName = $field->cutFieldValue($element->$fieldName, $width);
-                        }
-                    } else {
-                        $e = $element->row();
-                        $width = $field->getColumnWidth();
-                        if ($width > 0 && (strlen($e[$fieldName]) > $width)) {
-                            $e[$fieldName] = $field->cutFieldValue($e[$fieldName], $width);
-                            $element->setRow($e);
+                if ($elements != null) {
+                    foreach ($elements as $element) {
+                        if ($element instanceof \stdClass) {
+                            $width = $field->getColumnWidth();
+                            if ($width > 0 && (strlen($element->$fieldName) > $width)) {
+                                $element->$fieldName = $field->cutFieldValue($element->$fieldName, $width);
+                            }
+                        } else {
+                            $e = $element->row();
+                            $width = $field->getColumnWidth();
+                            if ($width > 0 && (strlen($e[$fieldName]) > $width)) {
+                                $e[$fieldName] = $field->cutFieldValue($e[$fieldName], $width);
+                                $element->setRow($e);
+                            }
                         }
                     }
                 }
