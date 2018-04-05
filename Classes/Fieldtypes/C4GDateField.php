@@ -97,7 +97,7 @@ class C4GDateField extends C4GBrickField
                         } elseif ($this->getInitialValue()) {
                             $fieldValue = $this->getInitialValue();
                         }
-                        if ($fieldValue && !$con->checkAgainstCondition($fieldValue)) {
+                        if (!$con->checkAgainstCondition($fieldValue)) {
                             $display = false;
                         }
                     }
