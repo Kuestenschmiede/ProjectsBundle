@@ -326,14 +326,20 @@ abstract class C4GBrickAction
         if (class_exists($className)) {
             $action = new $className($dialogParams, $listParams, $fieldList, $putVars, $brickDatabase);
             $action->setModule($module);
-            $permission = new C4GTablePermission($module->getC4GTablePermissionTable(), array($dialogParams->getId()));
-            if ($action->isReadOnly()) {
-                $permission->setLevel(1);
-            } else {
-                $permission->setLevel(2);
+
+            if ((!$action instanceof C4GConfirmGroupSelectAction) &&
+                (!$action instanceof C4GSetProjectIdAction) &&
+                (!$action instanceof C4GSetParentIdAction) &&
+                (!(C4GBrickView::isPublicBased($dialogParams->getViewType())))) {
+                    $permission = new C4GTablePermission($module->getC4GTablePermissionTable(), array($dialogParams->getId()));
+                    if ($action->isReadOnly()) {
+                        $permission->setLevel(1);
+                    } else {
+                        $permission->setLevel(2);
+                    }
+                    $permission->setAction($brickAction);
+                    $permission->check();
             }
-            $permission->setAction($brickAction);
-            $permission->check();
             return $action->run();  //If the class does not exist, an exception will be thrown.
         } else {
             return null;

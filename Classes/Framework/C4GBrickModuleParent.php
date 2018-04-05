@@ -395,7 +395,7 @@ class C4GBrickModuleParent extends \Module
         } else {
             $level = 2;
         }
-        $permission = $this->getC4GTablePermission();
+        $permission = $this->getC4GTablePermission($this->viewType);
         if ($permission instanceof C4GTablePermission) {
             $permission->setLevel($level);
             $permission->set();
@@ -407,11 +407,11 @@ class C4GBrickModuleParent extends \Module
                 }
             }
         }
-        if ($id != '-1' && $id != -1 && $id != '' && $id != null) {
-            $permission = new C4GTablePermission($this->getC4GTablePermissionTable(), $id);
-            $permission->setLevel($level);
-            $permission->check();
-        }
+//        if ($id != '-1' && $id != -1 && $id != '' && $id != null) {
+//            $permission = new C4GTablePermission($this->getC4GTablePermissionTable(), $id);
+//            $permission->setLevel($level);
+//            $permission->check();
+//        }
 
         //Synchronize MemberBased and PublicUuidBased view types
         if ((C4GBrickView::isMemberBased($this->viewType)) || (C4GBrickView::isPublicUUIDBased($this->viewType))) {
@@ -977,21 +977,7 @@ class C4GBrickModuleParent extends \Module
      */
     public function getC4GTablePermission($viewType)
     {
-        //Unhandled view types: (Will throw exceptions)
-        //Todo PublicView
-        //Todo PublicBased
-        //Todo PublicForm
-        //Todo ProjectBased
-        //Todo ProjectForm
-        //Todo ProjectFormCopy
-        //Todo ProjectParentBased
-        //Todo ProjectParentView
-        //Todo ProjectParentForm
-        //Todo ProjectParentFormCopy
-        //Todo ProjectParentBased
-
         //Untested view types: (May or may not work, also may or may not throw exceptions)
-        //Todo MemberBooking
         //Todo MemberForm
         //Todo GroupProject
         //Todo GroupParentView
@@ -1009,15 +995,36 @@ class C4GBrickModuleParent extends \Module
 
         //Also keep in mind you might have to find a non-standard (i.e. module specific) solution.
 
+        $elements = null;
         switch (true) {
             case C4GBrickView::isMemberBased($viewType):
-                $elements = $this->brickDatabase->findBy('member_id', $this->getDialogParams()->getMemberId());
+                $memberId = $this->getDialogParams()->getMemberId();
+                if ($memberId > 0) {
+                    $elements = $this->brickDatabase->findBy($this->viewParams->getMemberKeyField(), $memberId);
+                }
                 break;
             case C4GBrickView::isPublicUUIDBased($viewType):
-                $elements = $this->brickDatabase->findBy('uuid', $this->getDialogParams()->getUuid());
+                if ($this->getDialogParams()->getUuid()) {
+                    $elements = $this->brickDatabase->findBy('uuid', $this->getDialogParams()->getUuid());
+                }
                 break;
             case C4GBrickView::isGroupBased($viewType):
-                $elements = $this->brickDatabase->findBy('group_id', $this->getDialogParams()->getGroupId());
+                $groupId = $this->getDialogParams()->getGroupId();
+                if ($groupId > 0) {
+                    $elements = $this->brickDatabase->findBy($this->viewParams->getGroupKeyField(), $groupId);
+                }
+                break;
+            case C4GBrickView::isProjectBased($viewType):
+                $projectId = $this->getDialogParams()->getProjectId();
+                if ($projectId > 0) {
+                    $elements = $this->brickDatabase->findBy('project_id', $projectId);
+                }
+                break;
+            case C4GBrickView::isWithParent($viewType):
+                $parentId = $this->getDialogParams()->getParentId();
+                if ($parentId > 0) {
+                    $elements = $this->brickDatabase->findBy($this->viewParams->getParentKeyField(), $parentId);
+                }
                 break;
             default:
                 $elements =  null;
