@@ -330,6 +330,7 @@ abstract class C4GBrickAction
             if ((!$action instanceof C4GConfirmGroupSelectAction) &&
                 (!$action instanceof C4GSetProjectIdAction) &&
                 (!$action instanceof C4GSetParentIdAction) &&
+                (!$action instanceof C4GSetFilterAction) &&
                 (!(C4GBrickView::isPublicBased($dialogParams->getViewType())))) {
                     $permission = new C4GTablePermission($module->getC4GTablePermissionTable(), array($dialogParams->getId()));
                     if ($action->isReadOnly()) {
