@@ -1003,6 +1003,12 @@ class C4GBrickModuleParent extends \Module
                     $elements = $this->brickDatabase->findBy($this->viewParams->getMemberKeyField(), $memberId);
                 }
                 break;
+            case C4GBrickView::isWithParent($viewType):
+                $parentId = $this->getDialogParams()->getParentId();
+                if ($parentId > 0) {
+                    $elements = $this->brickDatabase->findBy($this->viewParams->getParentKeyField(), $parentId);
+                }
+                break;
             case C4GBrickView::isPublicUUIDBased($viewType):
                 if ($this->getDialogParams()->getUuid()) {
                     $elements = $this->brickDatabase->findBy('uuid', $this->getDialogParams()->getUuid());
@@ -1018,12 +1024,6 @@ class C4GBrickModuleParent extends \Module
                 $projectId = $this->getDialogParams()->getProjectId();
                 if ($projectId > 0) {
                     $elements = $this->brickDatabase->findBy('project_id', $projectId);
-                }
-                break;
-            case C4GBrickView::isWithParent($viewType):
-                $parentId = $this->getDialogParams()->getParentId();
-                if ($parentId > 0) {
-                    $elements = $this->brickDatabase->findBy($this->viewParams->getParentKeyField(), $parentId);
                 }
                 break;
             default:

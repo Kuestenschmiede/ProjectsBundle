@@ -42,7 +42,7 @@ class C4GBrickDatabase
  * @param $dataset
  * @return array
  */
-    private function entitiesToContao($dataset) {
+    public function entitiesToContao($dataset) {
         $arrModels = array();
 
         $serializer = new C4GBrickEntitySerializer($this->entityManager);
