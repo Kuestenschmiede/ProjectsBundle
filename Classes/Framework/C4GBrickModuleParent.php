@@ -209,6 +209,7 @@ class C4GBrickModuleParent extends \Module
 
             if ($init) {
                 $this->initBrickModule(-1);
+                $this->initPermissions();
             }
 
             if ($this->dialogParams && $this->dialogParams->getViewParams()->getLoginRedirect()) {
@@ -244,11 +245,7 @@ class C4GBrickModuleParent extends \Module
         }
     }
 
-    /**
-     * @param $id
-     *
-     * initialize global objects
-     */
+
     public function initBrickModule($id)
     {
         //loading language files
@@ -374,6 +371,29 @@ class C4GBrickModuleParent extends \Module
                 $this->dialogParams->setUuid(\Session::getInstance()->get($this->UUID));
                 $this->listParams->setUuid(\Session::getInstance()->get($this->UUID));
             }
+
+            //Synchronize MemberBased and PublicUuidBased view types
+            if ((C4GBrickView::isMemberBased($this->viewType)) || (C4GBrickView::isPublicUUIDBased($this->viewType))) {
+                if (($this->dialogParams->getMemberID() > 0) && ($this->dialogParams->getUuid())) {
+                    $database = \Database::getInstance();
+                    //in case the module table does not have a member_id field (otherwise an exception will be thrown and the site won't work)
+                    $query = $database->prepare("SHOW COLUMNS FROM $this->tableName LIKE 'member_id'")->execute();
+                    if ($query->numRows) {
+                        $query = $database->prepare("SELECT * FROM " . $this->tableName .
+                            " WHERE member_id = 0 AND uuid = '" . $this->dialogParams->getUuid() . "'")->execute();
+                        if ($query) {
+                            $stmt = $database->prepare("UPDATE " . $this->tableName . " SET member_id = " . $this->dialogParams->getMemberID()
+                                . " WHERE member_id = 0 AND uuid = '" . $this->dialogParams->getUuid() . "'");
+                            $stmt->execute();
+                            if (($this->dialogParams->getMemberID() !== 0) && ($this->dialogParams->getMemberID() !== '0')) {
+                                $stmt = $database->prepare("UPDATE " . $this->tableName . " SET uuid = '" . $this->dialogParams->getUuid()
+                                    . "' WHERE member_id = '" . $this->dialogParams->getMemberID() . "'");
+                                $stmt->execute();
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         //set fieldList
@@ -390,47 +410,7 @@ class C4GBrickModuleParent extends \Module
             }
         }
 
-        if (C4GBrickView::isWithoutEditing($this->viewType)) {
-            $level = 1;
-        } else {
-            $level = 2;
-        }
-        $permission = $this->getC4GTablePermission($this->viewType);
-        if ($permission instanceof C4GTablePermission) {
-            $permission->setLevel($level);
-            $permission->set();
-        } elseif (is_array($permission)) {
-            foreach ($permission as $perm) {
-                if ($perm instanceof C4GTablePermission) {
-                    $permission->setLevel($level);
-                    $permission->set();
-                }
-            }
-        }
-//        if ($id != '-1' && $id != -1 && $id != '' && $id != null) {
-//            $permission = new C4GTablePermission($this->getC4GTablePermissionTable(), $id);
-//            $permission->setLevel($level);
-//            $permission->check();
-//        }
 
-        //Synchronize MemberBased and PublicUuidBased view types
-        if ((C4GBrickView::isMemberBased($this->viewType)) || (C4GBrickView::isPublicUUIDBased($this->viewType))) {
-            if (($this->dialogParams->getMemberID() > 0) && ($this->dialogParams->getUuid())) {
-                $database = \Database::getInstance();
-                $query = $database->prepare("SELECT * FROM " . $this->tableName .
-                    " WHERE member_id = 0 AND uuid = '" . $this->dialogParams->getUuid() . "'")->execute();
-                if ($query) {
-                    $stmt = $database->prepare("UPDATE " . $this->tableName . " SET member_id = " . $this->dialogParams->getMemberID()
-                        . " WHERE member_id = 0 AND uuid = '" . $this->dialogParams->getUuid() . "'");
-                    $stmt->execute();
-                    if (($this->dialogParams->getMemberID() !== 0) && ($this->dialogParams->getMemberID() !== '0')) {
-                        $stmt = $database->prepare("UPDATE " . $this->tableName . " SET uuid = '" . $this->dialogParams->getUuid()
-                            . "' WHERE member_id = '" . $this->dialogParams->getMemberID() . "'");
-                        $stmt->execute();
-                    }
-                }
-            }
-        }
     }
 
     /**
@@ -803,6 +783,7 @@ class C4GBrickModuleParent extends \Module
             ) {
                 if (!$this->brickDatabase) {
                     $this->initBrickModule(-1);
+                    $this->initPermissions();
                 }
 
                 if ($_GET[C4GBrickActionType::IDENTIFIER_PERMALINK]) {
@@ -816,6 +797,7 @@ class C4GBrickModuleParent extends \Module
                     if ($dataset) {
                         $id = $dataset->id;
                         $this->initBrickModule($id);
+                        $this->initPermissions();
                         $action = C4GBrickActionType::IDENTIFIER_LIST.':'.$id;
                         $result = $this->performAction($action);
                     }
@@ -830,6 +812,7 @@ class C4GBrickModuleParent extends \Module
                     if ($dataset) {
                         $id = $dataset->id;
                         $this->initBrickModule($id);
+                        $this->initPermissions();
                         $action = C4GBrickActionType::IDENTIFIER_LIST.':'.$id;
                         $result = $this->performAction($action);
                     }
@@ -843,11 +826,10 @@ class C4GBrickModuleParent extends \Module
                     if ($dataset) {
                         $id = $dataset->id;
                         $this->initBrickModule($id);
+                        $this->initPermissions();
                         $action = C4GBrickActionType::IDENTIFIER_LIST.':'.$id;
                         $result = $this->performAction($action);
-//
-//                            $action = new C4GShowListAction($this->dialogParams, $this->listParams, $this->fieldList, $this->putVars, $this->brickDatabase);
-//                            $result = $action->run();
+
                     }
                 }
                 // History navigation
@@ -864,8 +846,6 @@ class C4GBrickModuleParent extends \Module
                     case 'initnav' :
                         $action = C4GBrickActionType::IDENTIFIER_LIST.':-1';
                         $result = $this->performAction($action);
-//                        $action = new C4GShowListAction($this->dialogParams, $this->listParams, $this->fieldList, $this->putVars, $this->brickDatabase);
-//                        $result = $action->run();
                         break;
                     default:
                         $actions = explode(';', $request);
@@ -926,11 +906,14 @@ class C4GBrickModuleParent extends \Module
         $values = explode(':', $action, 5);
         if (is_numeric($values[1])) {
             $this->initBrickModule($values[1]);
+            $this->initPermissions();
         } elseif ($values[0] == C4GBrickActionType::ACTION_BUTTONCLICK && is_numeric($values[2])) {
             // this case is needed for the ACTION_BUTTONCLICK action
             $this->initBrickModule($values[2]);
+            $this->initPermissions();
         } else {
             $this->initBrickModule($values[1]);
+            $this->initPermissions();
         }
 
         if ($withMemberCheck) {
@@ -968,6 +951,30 @@ class C4GBrickModuleParent extends \Module
 
 
     /**
+     * Initialize C4GPermissions for this module.
+     */
+    private final function initPermissions()
+    {
+        if (C4GBrickView::isWithoutEditing($this->viewType)) {
+            $level = 1;
+        } else {
+            $level = 2;
+        }
+        $permission = $this->getC4GTablePermission($this->viewType);
+        if ($permission instanceof C4GTablePermission) {
+            $permission->setLevel($level);
+            $permission->set();
+        } elseif (is_array($permission)) {
+            foreach ($permission as $perm) {
+                if ($perm instanceof C4GTablePermission) {
+                    $permission->setLevel($level);
+                    $permission->set();
+                }
+            }
+        }
+    }
+
+    /**
      * Get the permissions given by this module.
      * Modules that need non-standard permissions MUST override this method.
      * This is common if your module uses a model function to load database values.
@@ -997,48 +1004,51 @@ class C4GBrickModuleParent extends \Module
 
         $elements = null;
         switch (true) {
+            case $viewType == C4GBrickViewType::GROUPPARENTBASED:
+                $id = $this->getDialogParams()->getGroupId();
+                $idField = $this->viewParams->getGroupKeyField();
+                break;
             case C4GBrickView::isMemberBased($viewType):
-                $memberId = $this->getDialogParams()->getMemberId();
-                if ($memberId > 0) {
-                    $elements = $this->brickDatabase->findBy($this->viewParams->getMemberKeyField(), $memberId);
-                }
+                $id = $this->getDialogParams()->getMemberId();
+                $idField = $this->viewParams->getMemberKeyField();
                 break;
             case C4GBrickView::isWithParent($viewType):
-                $parentId = $this->getDialogParams()->getParentId();
-                if ($parentId > 0) {
-                    $elements = $this->brickDatabase->findBy($this->viewParams->getParentKeyField(), $parentId);
-                }
+                $id = $this->getDialogParams()->getParentId();
+                $idField = $this->viewParams->getParentKeyField();
                 break;
             case C4GBrickView::isPublicUUIDBased($viewType):
-                if ($this->getDialogParams()->getUuid()) {
-                    $elements = $this->brickDatabase->findBy('uuid', $this->getDialogParams()->getUuid());
-                }
+                $id = $this->getDialogParams()->getUuid();
+                $idField = 'uuid';
                 break;
             case C4GBrickView::isGroupBased($viewType):
-                $groupId = $this->getDialogParams()->getGroupId();
-                if ($groupId > 0) {
-                    $elements = $this->brickDatabase->findBy($this->viewParams->getGroupKeyField(), $groupId);
-                }
+                $id = $this->getDialogParams()->getGroupId();
+                $idField = $this->viewParams->getGroupKeyField();
                 break;
             case C4GBrickView::isProjectBased($viewType):
-                $projectId = $this->getDialogParams()->getProjectId();
-                if ($projectId > 0) {
-                    $elements = $this->brickDatabase->findBy('project_id', $projectId);
-                }
+                $id = $this->getDialogParams()->getProjectId();
+                $idField = 'project_id';
                 break;
             default:
-                $elements =  null;
+                $id = 0;
+                $idField = '';
                 break;
         }
 
+        if (($idField !== '') && ($id > 0)) {
+            $elements = $this->brickDatabase->findBy($idField, $id);
+        } else {
+            $elements = null;
+        }
         $array = array();
         if ($elements != null) {
             foreach ($elements as $element) {
-                $e = $element->row();
-                $array[] = $e['id'];
+                if ($element instanceof \stdClass) {
+                    $array[] = $element->id;
+                } else {
+                    $e = $element->row();
+                    $array[] = $e['id'];
+                }
             }
-        } else {
-            $array = '-1';
         }
         if (sizeof($array) > 0) {
             $result = new C4GTablePermission($this->getC4GTablePermissionTable(), $array);
@@ -1057,7 +1067,6 @@ class C4GBrickModuleParent extends \Module
     {
         return $this->tableName;
     }
-
 
     /**
      * perform a history action
