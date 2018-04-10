@@ -117,7 +117,11 @@ class C4GDateField extends C4GBrickField
                 $html = '<div class="c4g_date_field_container" onmousedown="C4GDatePicker(\'' . $id . '\', \'date\', \'' .$this->minDate. '\', \'' . $this->maxDate . '\', \''.$format.'\',\'' . $GLOBALS["TL_LANGUAGE"] .'\',\'' . $this->excludeWeekdays . '\',\'' . $this->excludeDates . '\')" >';
             }
             $html .= '<input autocomplete="off" ' . $required . ' type="text" id="' . $id . '" class="formdata c4g_date_field_input ' . $id . '" '.$changeAction.' name="' . $fieldName . '" value="' . $value . '" ' . $condition['conditionPrepare'] . '>';
-            $html .= '<span onclick="getElementById('.$buttonId.').focus()" class="ui-button ui-corner-all c4g_date_field_button"><i class="far fa-calendar-alt"></i></span>';
+            if ($this->isEditable()) {
+                $html .= '<span onclick="getElementById(' . $buttonId . ').focus()" class="ui-button ui-corner-all c4g_date_field_button_interactive"><i class="far fa-calendar-alt"></i></span>';
+            } else {
+                $html .= '<span class="ui-button ui-corner-all c4g_date_field_button"><i class="far fa-calendar-alt"></i></span>';
+            }
             $html .= '</div>';
             $result =
                 $this->addC4GField($condition,$dialogParams,$fieldList,$data,

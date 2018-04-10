@@ -817,6 +817,11 @@ a.c4g_tile_button:hover {
 
 .c4g_date_field_button {
     display: inherit !important;
+    pointer-events: none;
+}
+
+.c4g_date_field_button_interactive {
+    display: inherit !important;
     cursor: pointer;
 }
 
