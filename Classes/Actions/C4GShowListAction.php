@@ -345,7 +345,7 @@ class C4GShowListAction extends C4GBrickDialogAction
         }
 
         foreach ($fieldList as $field) {
-            if ($field instanceof C4GBrickFieldText && $field->isTableColumn()) {
+            if ($field instanceof C4GBrickFieldText && $field->isTableColumn() && $field->isTableAutoCut()) {
                 $fieldName = $field->getFieldName();
                 if ($elements != null) {
                     foreach ($elements as $element) {

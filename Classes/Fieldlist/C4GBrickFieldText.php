@@ -24,6 +24,7 @@ abstract class C4GBrickFieldText extends C4GBrickField
 
 
     protected $pattern = '';
+    protected $tableAutoCut = false;
 
     /**
      * Will be called by ShowListAction if the field value is longer than the column width. Return a value that will replace it.
@@ -53,5 +54,22 @@ abstract class C4GBrickFieldText extends C4GBrickField
     {
         $this->pattern = $pattern;
     }
+
+    /**
+     * @return bool
+     */
+    public function isTableAutoCut()
+    {
+        return $this->tableAutoCut;
+    }
+
+    /**
+     * @param bool $tableAutoCut
+     */
+    public function setTableAutoCut($tableAutoCut = true)
+    {
+        $this->tableAutoCut = $tableAutoCut;
+    }
+
 
 }
