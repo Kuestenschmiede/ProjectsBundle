@@ -1034,7 +1034,7 @@ class C4GBrickModuleParent extends \Module
                 break;
         }
 
-        if (($idField !== '') && ($id)) {
+        if (($idField !== '') && ($id) && $this->databaseType !== C4GBrickDatabaseType::NO_DB) {
             $elements = $this->brickDatabase->findBy($idField, $id);
         } else {
             $elements = null;
