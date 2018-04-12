@@ -20,7 +20,7 @@ $GLOBALS['con4gis']['projects']['installed'] = true;
 /**
  * Kartenstrukturelemente
  */
-$GLOBALS['c4g_locationtypes'][] = \con4gis\ProjectsBundle\Classes\Maps\C4GProjectsFrontend::STARBOARD_TAB;
+//$GLOBALS['c4g_locationtypes'][] = \con4gis\ProjectsBundle\Classes\Maps\C4GProjectsFrontend::STARBOARD_TAB;
 
 $apiBaseUrl = 'con4gis';
 
