@@ -332,14 +332,17 @@ abstract class C4GBrickAction
                 (!$action instanceof C4GSetParentIdAction) &&
                 (!$action instanceof C4GSetFilterAction) &&
                 (!(C4GBrickView::isPublicBased($dialogParams->getViewType())))) {
-                    $permission = new C4GTablePermission($module->getC4GTablePermissionTable(), array($dialogParams->getId()));
-                    if ($action->isReadOnly()) {
-                        $permission->setLevel(1);
-                    } else {
-                        $permission->setLevel(2);
+                    $table = $module->getC4GTablePermissionTable();
+                    if ($table) {
+                        $permission = new C4GTablePermission($table, array($dialogParams->getId()));
+                        if ($action->isReadOnly()) {
+                            $permission->setLevel(1);
+                        } else {
+                            $permission->setLevel(2);
+                        }
+                        $permission->setAction($brickAction);
+                        $permission->check();
                     }
-                    $permission->setAction($brickAction);
-                    $permission->check();
             }
             return $action->run();  //If the class does not exist, an exception will be thrown.
         } else {
