@@ -80,4 +80,12 @@ class C4GBrickConst {
     const ID_TYPE_GROUP   = 'GROUP';
     const ID_TYPE_PROJECT = 'PROJECT';
     const ID_TYPE_PARENT  = 'PARENT';
+
+    //INCLUDE TYPES
+    const INCLUDE_ARTICLE = 'ARTICLE';
+    const INCLUDE_CONTENT = 'CONTENT';
+    const INCLUDE_MODULE  = 'MODULE';
+    const INCLUDE_FORM    = 'FORM';
+    const INCLUDE_NEWS    = 'NEWS';
+    const INCLUDE_EVENT   = 'EVENT';
 }

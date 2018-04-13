@@ -840,3 +840,8 @@ a.c4g_tile_button:hover {
 .ui-accordion-header-active .c4g_accordion_icon  {
     transform: rotate(90deg);
 }
+
+.c4g_include_fields .teaser {
+    margin-left: 2.5%;
+    margin-right: 2.5%;
+}
