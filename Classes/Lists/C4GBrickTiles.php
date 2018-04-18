@@ -314,6 +314,7 @@ class C4GBrickTiles
                 foreach ($fieldList as $column) {
                     $fieldName = $column->getFieldName();
                     $fieldType = $column->getType();
+
                     $fieldTitle = '<label class="c4g_label '.$fieldType.'" >'.$column->getTitle().'</label>';
                     if ($element && $column->getExternalModel() &&
                         $column->getExternalIdField() && (!$listParams->isWithModelListFunction())) {
@@ -366,6 +367,7 @@ class C4GBrickTiles
                     } elseif ($listParams->isWithModelListFunction()) {
                         //Check if $fieldName is a property of $element and is not the id-Field
                         if ($column->isTableColumn()) {
+                            $view .= '<div class="c4g_tile_style">';
                             if (property_exists($element, $fieldName) && $fieldName != 'id' && $element->$fieldName) {
                                 $view .= $fieldTitle . '<div class="c4g_tile value">' . $element->$fieldName . '</div>';
                             } elseif ($column->isShowIfEmpty() && !($column instanceof C4GMoreButtonField)) {
@@ -373,6 +375,7 @@ class C4GBrickTiles
                             } elseif ($column instanceof C4GMoreButtonField) {
                                 $view .= $column->getC4GTileField($fieldTitle, $element);
                             }
+                            $view .= '</div>';
                         }
                     }
                 }
