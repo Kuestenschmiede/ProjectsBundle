@@ -1040,6 +1040,7 @@ class C4GBrickDialog
                     }
                     $id = $fieldData;
                     $id_fieldName = $fieldName;
+                    $set[$id_fieldName] = $id;
                     break;
                 }
             }
