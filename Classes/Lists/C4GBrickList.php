@@ -351,7 +351,7 @@ class C4GBrickList
                             'sTitle' => $column->getTitle(),
                             'aDataSort' => array($cnt),
                             'sWidth' => $column->getColumnWidth() . '%',
-                            'aTargets' => array(100-$cnt),
+                            'aTargets' => array($cnt),
                             'sType' => $column->getSortType(),
                             'responsivePriority' => array($priority));
 
