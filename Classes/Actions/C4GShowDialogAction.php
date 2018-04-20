@@ -381,8 +381,9 @@ class C4GShowDialogAction extends C4GBrickDialogAction
                 }
             }
         }
+        $headlineTag = $dialogParams->getHeadlineTag();
 
-        $headtext = '<h1>'.$dialogParams->getHeadline().'</h1>';
+        $headtext = '<'.$headlineTag.'>'.$dialogParams->getHeadline().'</'.$headlineTag.'>';
         if ( ($group_headline) && ($project_headline) && ($parent_headline)) {
             $headtext = $headtext . $group_headline . $project_headline . $parent_headline;
         } else if ( ($group_headline) && ($project_headline)){

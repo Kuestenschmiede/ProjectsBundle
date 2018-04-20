@@ -61,6 +61,7 @@ class C4GBrickDialogParams
     private $saveWithoutSavingMessage = false;//save without saving confirmation
     private $withoutGuiHeader = false; // do not show the dialog gui header
     private $headline = ''; //headline of the dialog
+    private $headlineTag = 'h1'; //HTML tag the headline is in
     private $withInitialSaving = false; //initial saving by dialog create
     private $redirectSite = null; //site to redirect (redirect button)
     private $redirectBackSite = null; //site to redirect by pushing back button
@@ -1458,4 +1459,21 @@ class C4GBrickDialogParams
     {
         $this->uuid = $uuid;
     }
+
+    /**
+     * @return string
+     */
+    public function getHeadlineTag()
+    {
+        return $this->headlineTag;
+    }
+
+    /**
+     * @param string $headlineTag
+     */
+    public function setHeadlineTag($headlineTag)
+    {
+        $this->headlineTag = $headlineTag;
+    }
+
 }

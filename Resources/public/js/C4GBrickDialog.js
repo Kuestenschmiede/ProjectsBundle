@@ -1075,3 +1075,67 @@ function focusOnElement(elementId) {
     elementId.focus();
     elementId.scrollIntoView(false);
 }
+
+function callActionViaAjax(action) {
+    var gui = c4g.projects.C4GGui;
+    var url = gui.options.ajaxUrl + '/' + gui.options.moduleId + '/' + action;
+    $.ajax({
+        url: url
+    }).done(function (data) {
+        gui.fnHandleAjaxResponse(data, gui.options.moduleId);
+    });
+}
+
+/**
+ * Function that removes all the default accordion icons. Use it as an onLoadScript in DialogParams.
+ */
+
+function removeAccordionIcons() {
+    var icons = document.getElementsByClassName('ui-accordion-header-icon');
+    if (icons.length > 0) {
+        var index = icons.length;
+        while (index > 0) {
+            index -= 1;
+            icons.item(index).remove();
+            var icon = icons.item(index);
+        }
+    } else {
+        setTimeout(function(){removeAccordionIcons();}, 200);
+    }
+}
+
+/**
+ * Opens the accordion with the given index. Use 'all' to open all accordions.
+ * @param index
+ */
+
+function openAccordion(index) {
+    if (index === 'all') {
+        setTimeout(function () {
+            var accordions = document.getElementsByClassName('c4g_brick_headline');
+            var event = new MouseEvent('click', {
+                view: window,
+                bubbles: true,
+                cancelable: true
+            });
+            var length = accordions.length;
+            while (length > 0) {
+                length -= 1;
+                accordions[length].dispatchEvent(event);
+                // console.log('clicked ' + length);
+            }
+        }, 100);
+    } else {
+        setTimeout(function () {
+            var accordions = document.getElementsByClassName('c4g_brick_headline');
+            var target = accordions[index];
+            var event = new MouseEvent('click', {
+                view: window,
+                bubbles: true,
+                cancelable: true
+            });
+            target.dispatchEvent(event);
+            // console.log('clicked ' + index);
+        }, 100);
+    }
+}

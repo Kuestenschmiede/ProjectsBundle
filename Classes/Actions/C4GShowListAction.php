@@ -379,10 +379,11 @@ class C4GShowListAction extends C4GBrickDialogAction
         } else {
             $content = $dialogParams->getC4gMap();
         }
+        $headlineTag = $dialogParams->getHeadlineTag();
 
-        $headtext = '<h1>'.$dialogParams->getHeadline().'</h1>';
+        $headtext = '<'.$headlineTag.'>'.$dialogParams->getHeadline().'</'.$headlineTag.'>';
         if ($listParams->getHeadline()) {
-            $headtext = '<h1>'.$listParams->getHeadline().'</h1>';
+            $headtext = '<'.$headlineTag.'>'.$listParams->getHeadline().'</'.$headlineTag.'>';
         } elseif (($group_headline) && ($project_headline) && ($parent_headline)) {
             $headtext = $headtext .
                 $group_headline . $project_headline . $parent_headline;

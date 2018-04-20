@@ -330,6 +330,7 @@ class C4GBrickModuleParent extends \Module
             }
             $this->dialogParams->setContentId($contentId);
             $this->dialogParams->setHeadline($this->headline);
+            $this->dialogParams->setHeadlineTag($this->hl);
             $this->dialogParams->setSendEMails($this->sendEMails);
             $this->dialogParams->setWithNotification($this->withNotification);
             $this->dialogParams->setNotificationType($this->notification_type);
@@ -438,6 +439,7 @@ class C4GBrickModuleParent extends \Module
 
             $objTemplate->wildcard = '### '.$this->name.' ###';
             $objTemplate->title = $this->headline;
+            $objTemplate->hl = $this->hl;
             $objTemplate->id = $this->id;
             $objTemplate->link = $this->name;
             $objTemplate->href = 'contao/main.php?do=themes&amp;table=tl_module&amp;act=edit&amp;id=' . $this->id;

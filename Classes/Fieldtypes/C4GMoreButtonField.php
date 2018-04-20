@@ -20,8 +20,6 @@ use con4gis\ProjectsBundle\Classes\Lists\C4GBrickRenderMode;
 
 class C4GMoreButtonField extends C4GBrickField
 {
-    //Todo It is possible to sort the table by the more button, is there a way to suppress that?
-    //Todo When using font awesome icons as caption for the button, it will show the html code of the icon when you hover over it
     // override parent fields
     protected $databaseField = false;
 
