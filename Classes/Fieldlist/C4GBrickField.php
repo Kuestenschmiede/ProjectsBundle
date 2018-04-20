@@ -112,6 +112,7 @@ abstract class C4GBrickField
     private $sourceField = null; //field content not database field
     private $styleClass = ''; //additional css class for this field
     private $tableColumn = false; //show this field in datatable?
+    private $tableColumnPriority = 0; //lowest values (> 0) will be removed last on small displays.
     private $tableRow = false; //show field as table row -> label, input in one row
     private $tableRowLabelWidth = '25%'; //table row label width
     private $tableRowWidth = '98.2%'; //table row width
@@ -2107,5 +2108,21 @@ abstract class C4GBrickField
     {
         $this->randomValue = $randomValue;
         $this->initialValue = $caption;
+    }
+
+    /**
+     * @return int
+     */
+    public function getTableColumnPriority()
+    {
+        return $this->tableColumnPriority;
+    }
+
+    /**
+     * @param int $tableColumnPriority
+     */
+    public function setTableColumnPriority($tableColumnPriority)
+    {
+        $this->tableColumnPriority = $tableColumnPriority;
     }
 }

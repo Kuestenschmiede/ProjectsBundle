@@ -330,6 +330,10 @@ class C4GBrickList
             if ($column->isShowSum()) {
                 $additionalClasses .= ' c4g_sum';
             }
+            $priority = $cnt;
+            if ($column->getTableColumnPriority() > 0) {
+                $priority = $column->getTableColumnPriority();
+            }
             if ($cnt == 0) {
                 $data['aoColumnDefs'][] = array(
                     'sClass' => 'c4g_brick_col_'.$cnt,
@@ -337,7 +341,7 @@ class C4GBrickList
                     'bVisible' => false,
                     'bSearchable' => false,
                     'aTargets' => array(0),
-                    'responsivePriority' => array(0));
+                    'responsivePriority' => array($priority));
                 $cnt++;
             } else {
                 if ($column->isTableColumn()) {
@@ -347,9 +351,9 @@ class C4GBrickList
                             'sTitle' => $column->getTitle(),
                             'aDataSort' => array($cnt),
                             'sWidth' => $column->getColumnWidth() . '%',
-                            'aTargets' => array($cnt),
+                            'aTargets' => array(100-$cnt),
                             'sType' => $column->getSortType(),
-                            'responsivePriority' => array($cnt));
+                            'responsivePriority' => array($priority));
 
                         //ToDo prüfen
                         if($column->getSortSequence() == 'desc') {
@@ -365,7 +369,7 @@ class C4GBrickList
                             'sWidth' => $column->getColumnWidth() . '%',
                             'sType' => $column->getSortType(),
                             'aTargets' => array($cnt),
-                            'aResponsivePriority' => array($cnt));
+                            'responsivePriority' => array($priority));
                     }
                     $cnt++;
                 }
