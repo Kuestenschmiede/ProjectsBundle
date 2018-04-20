@@ -23,6 +23,7 @@ class C4GMoreButtonField extends C4GBrickField
     // override parent fields
     protected $databaseField = false;
 
+
     /**
      * The C4GMoreButton object that belongs to this field.
      * @var C4GMoreButton
@@ -48,6 +49,7 @@ class C4GMoreButtonField extends C4GBrickField
     {
         $this->setSortColumn(false);
         $this->setSort(false);
+        $this->setTableColumnPriority(1);
     }
 
 
