@@ -334,7 +334,7 @@ class C4GShowListAction extends C4GBrickDialogAction
             $filterField = $filterParams->getFilterField();
             foreach ($elements as $key => $element) {
                 if ($element->$filterField < $rangeFrom || $rangeTo < $element->$filterField) {
-                    unset($elements[$key]);
+                    unset($elements->$key);
                 }
             }
         }
