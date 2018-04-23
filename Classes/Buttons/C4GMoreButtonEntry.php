@@ -22,6 +22,8 @@ class C4GMoreButtonEntry extends C4GAbstractListEntry
     const CALLMODE_FUNCTION = 2;
     // $callable = array($object, 'myFunction') -> $obj->myFunction()
     const CALLMODE_OBJECT = 3;
+    // $callable = 'myFunction'; -> Javascript function
+    const CALLMODE_JS = 4;
 
     private $title = '';
 
@@ -113,9 +115,19 @@ class C4GMoreButtonEntry extends C4GAbstractListEntry
                     $this->callable = $callable;
                 }
                 break;
+            case self::CALLMODE_JS:
+                if (is_string($callable)) { //Todo refine this
+                    $this->callMode = $callmode;
+                    $this->callable = $callable;
+                }
+                break;
             default:
                 break;
         }
+    }
+
+    public function getCallable() {
+        return $this->callable;
     }
 
     /**
