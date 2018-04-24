@@ -23,6 +23,8 @@ class C4GMoreButtonEntry extends C4GAbstractListEntry
     // $callable = array($object, 'myFunction') -> $obj->myFunction()
     const CALLMODE_OBJECT = 3;
     // $callable = 'myFunction'; -> Javascript function
+    // In this callmode, the click event will be received by the element below the entry.
+    // It can therefore not be used in tables set to be with details.
     const CALLMODE_JS = 4;
 
     private $title = '';
