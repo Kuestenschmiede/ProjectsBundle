@@ -61,6 +61,10 @@ $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_DONT_SEND_NOTIFICATION'] = 'Di
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_DONT_SEND_NOTIFICATION_TITLE'] = 'Nicht versendet';
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_MISSING_UUID'] = 'Es ist ein Fehler aufgetreten. Bitte laden Sie die Seite neu und versuchen es erneut.';
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_MISSING_UUID_TITLE'] = 'Fehler';
+$GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_MISSING_TICKET'] = 'Der Ticketbereich wurde nicht definiert. Bitte wenden Sie sich an den Betreiber der Website.';
+$GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_MISSING_TICKET_TITLE'] = 'Fehlender Ticketbereich';
+$GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_MISSING_PARENT'] = 'Bitte erzeugen Sie zunächst ein(en) ';
+$GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_MISSING_PARENT_TITLE'] = 'Fehlender ';
 
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['NO_ENTRY'] = 'Kein Eintrag';
 

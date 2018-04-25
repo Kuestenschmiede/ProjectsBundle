@@ -176,9 +176,8 @@ class C4GShowListAction extends C4GBrickDialogAction
                 } elseif (!$dialogParams->isWithCommonParentOption()) {
                     \Session::getInstance()->set("c4g_brick_parent_id", '');
 
-                    //ToDo language
-                    return array(
-                        'usermessage' => 'Bitte erzeugen Sie zuerst ein(en) '. $parentCaption . '.' //ToDo Language
+                    return array('title' => $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_MISSING_PARENT_TITLE'] .$parentCaption,
+                        'usermessage' => $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_MISSING_PARENT']. $parentCaption . '.'
                     );
                 }
             }

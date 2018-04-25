@@ -60,8 +60,7 @@ class C4GTicketDialogAction extends C4GBrickDialogAction
         if ($this->module->forum) {
             return $redirect->run();
         } else {
-            //ToDo Language
-            return array('title' => 'Fehlender Ticketbereich', 'usermessage' => 'Der Ticketbereich wurde nicht definiert. Bitte wenden Sie sich an den Betreiber der Website.');
+            return array('title' => $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_MISSING_TICKET_TITLE'], 'usermessage' => $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_MISSING_TICKET']);
         }
 
     }
