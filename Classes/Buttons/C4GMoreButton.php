@@ -126,7 +126,7 @@ class C4GMoreButton extends C4GAbstractList
                     $dataId . "_container' style='display: none;'>";
                 break;
         }
-        $onclick = "executeSelection(this)";
+
         foreach ($this->entries as $key => $entry) {
             //Block added to render entries based on conditions
             if ($entry instanceof C4GMoreButtonEntry) {
@@ -142,6 +142,15 @@ class C4GMoreButton extends C4GAbstractList
                     }
                 }
             }
+            if ($entry->getCallMode() == C4GMoreButtonEntry::CALLMODE_JS) {
+                $callable = $entry->getCallable();
+                $onclick = $callable . '(' . $dataId;
+                $onclick .= ');';
+            } else {
+                $onclick = "executeSelection(this)";
+            }
+
+
 
             if ($renderMode == self::RENDER_MODE_ENTRY || $renderMode == self::RENDER_MODE_ENTRY_TILES) {
                 $tooltip = 'title="' . $entry->getToolTip() . '"';

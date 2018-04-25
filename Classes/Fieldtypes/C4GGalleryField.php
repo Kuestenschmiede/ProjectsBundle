@@ -71,7 +71,7 @@ class C4GGalleryField extends C4GBrickField
                     $src = $imageFile->path;
                     $title = $this->withTitle ? $imageFile->name : '';
                     $image_cnt++;
-                    $images .= '<div class="ce_image c4g_gallery_image c4g_' . $this->getFieldName() .'_'.$image_cnt.' block"><figure class="image_container" itemscope="" itemtype="http://schema.org/ImageObject"><a href="' . $src . '" data-lightbox="c4g_' . $this->getFieldName() .'_'.$image_cnt.'" data-title="' . $title . '"><img src="' . $src . '" itemprop="image" title="' . $title . '" '.$size.'/></a></figure></div>';
+                    $images .= '<li class="ce_image c4g_gallery_image c4g_' . $this->getFieldName() .'_'.$image_cnt.' block"><figure class="image_container" itemscope="" itemtype="http://schema.org/ImageObject"><a href="' . $src . '" data-lightbox="c4g_' . $this->getFieldName() .'_'.$image_cnt.'" data-title="' . $title . '"><img src="' . $src . '" itemprop="image" title="' . $title . '" '.$size.'/></a></figure></li>';
                 }
 
                 $result = '<div '
@@ -79,7 +79,7 @@ class C4GGalleryField extends C4GBrickField
                     . $condition['conditionType']
                     . $condition['conditionValue']
                     . $condition['conditionDisable'] . '>
-                        <div class="c4g_gallery formdata c4g_' . $this->getFieldName() . '"><div class="c4g_image_label"><label>' . $this->getTitle() . '</label></div><div class="c4g_gallery_images c4g_' . $this->getFieldName() . '_images">'.$images.'</div><div class="c4g_gallery_description">' .
+                        <div class="c4g_gallery formdata c4g_' . $this->getFieldName() . '"><div class="c4g_image_label"><label>' . $this->getTitle() . '</label></div><ul class="c4g_gallery_images c4g_' . $this->getFieldName() . '_images">'.$images.'</ul><div class="c4g_gallery_description">' .
                     $description . '</div></div></div>';
             }
         }
