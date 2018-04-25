@@ -46,6 +46,9 @@ class C4GDecimalField extends C4GBrickFieldNumeric
         } else {
             $value = $this->generateInitialValue($data);
         }
+        if ($this->getDecimalPoint() === ',' && strpos($value, ',') === FALSE) {
+            $value = str_replace('.', ',', $value);
+        }
         $result = '';
 
         if ($this->isShowIfEmpty() || !empty($value)) {
@@ -64,8 +67,7 @@ class C4GDecimalField extends C4GBrickFieldNumeric
         $fieldName = $this->getFieldName();
         $value = $rowData->$fieldName;
         if($this->getThousandsSep() !== '') {
-//            $value = number_format(str_replace(',','.',$value), $this->getDecimals(), $this->getDecimalPoint(), $this->getThousandsSep());
-            $value = 'LoL';
+            $value = number_format(str_replace(',','.',$value), $this->getDecimals(), $this->getDecimalPoint(), $this->getThousandsSep());
         } else {
             $value = number_format($value, $this->getDecimals(), $this->getDecimalPoint(), '');
         }
@@ -158,6 +160,10 @@ class C4GDecimalField extends C4GBrickFieldNumeric
      */
     public function createFieldData($dlgValues) {
         $value = str_replace($this->getThousandsSep(),'',$dlgValues[$this->getFieldName()]);
+        if ($this->getDecimalPoint() === ',') {
+            // floatval expects the argument to use a dot as decimal seperator
+            $value = str_replace($this->getDecimalPoint(), '.', $value);
+        }
         $value = floatval($value);
         $dlgValues[$this->getFieldName()] = $value;
         return $dlgValues[$this->getFieldName()];
