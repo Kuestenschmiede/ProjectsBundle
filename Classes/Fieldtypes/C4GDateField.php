@@ -28,6 +28,7 @@ class C4GDateField extends C4GBrickField
 
     // customize single date fields
     private $customFormat = null;
+    protected $sortType = 'de_date';
 
     /**
      * @param C4GBrickField[] $fieldList
