@@ -22,6 +22,7 @@ use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldCompare;
 class C4GDecimalField extends C4GBrickFieldNumeric
 {
     protected $decimals = 2;
+    protected $allowNegative = false;
 
     public function __construct()
     {
@@ -38,7 +39,7 @@ class C4GDecimalField extends C4GBrickFieldNumeric
      */
     public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = array())
     {
-        $this->setPattern(C4GBrickRegEx::generateNumericRegEx($this->getDecimals(), false, $this->getThousandsSep(), $this->getDecimalPoint()));
+        $this->setPattern(C4GBrickRegEx::generateNumericRegEx($this->getDecimals(), $this->allowNegative, $this->getThousandsSep(), $this->getDecimalPoint()));
         $id = "c4g_" . $this->getFieldName();
         $required = $this->generateRequiredString($data, $dialogParams);
         if($this->getThousandsSep() !== '') {
@@ -66,17 +67,18 @@ class C4GDecimalField extends C4GBrickFieldNumeric
     {
         $fieldName = $this->getFieldName();
         $value = $rowData->$fieldName;
+        /*
         if($this->getThousandsSep() !== '') {
-            $value = number_format(str_replace(',','.',$value), $this->getDecimals(), $this->getDecimalPoint(), $this->getThousandsSep());
+            $value = number_format(str_replace(',','.',$value), $decimals, $this->getDecimalPoint(), $this->getThousandsSep());
         } else {
-            $value = number_format($value, $this->getDecimals(), $this->getDecimalPoint(), '');
+            $value = number_format($value, $this->getListDecimals(), $decimals, '');
         }
         if ($this->getAddStrBeforeValue()) {
             $value = $this->getAddStrBeforeValue().$value;
         }
         if ($this->getAddStrBehindValue()) {
             $value = $value.$this->getAddStrBehindValue();
-        }
+        }*/
 
         return $value;
     }
@@ -217,9 +219,27 @@ class C4GDecimalField extends C4GBrickFieldNumeric
         $this->decimals = $decimals;
     }
 
+    /**
+     * @return bool
+     */
+    public function isAllowNegative()
+    {
+        return $this->allowNegative;
+    }
+
+    /**
+     * @param bool $allowNegative
+     */
+    public function setAllowNegative($allowNegative)
+    {
+        $this->allowNegative = $allowNegative;
+    }
+
+
+
     public function getRegEx()
     {
-        return C4GBrickRegEx::generateNumericRegEx($this->getDecimals(), false, $this->getThousandsSep(), $this->getDecimalPoint());
+        return C4GBrickRegEx::generateNumericRegEx($this->getDecimals(), $this->allowNegative, $this->getThousandsSep(), $this->getDecimalPoint());
     }
 
 }
