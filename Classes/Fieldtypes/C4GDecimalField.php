@@ -169,54 +169,6 @@ class C4GDecimalField extends C4GBrickFieldNumeric
         return $dlgValues[$this->getFieldName()];
     }
 
-    /**
-     * @return string
-     */
-    public function getThousandsSep()
-    {
-        return $this->thousands_sep;
-    }
-
-    /**
-     * @param string $thousands_sep
-     */
-    public function setThousandsSep($thousands_sep)
-    {
-        $this->thousands_sep = $thousands_sep;
-    }
-
-    /**
-     * @return string
-     */
-    public function getDecimalPoint()
-    {
-        return $this->decimal_point;
-    }
-
-    /**
-     * @param string $decimal_point
-     */
-    public function setDecimalPoint($decimal_point)
-    {
-        $this->decimal_point = $decimal_point;
-    }
-
-    /**
-     * @return int
-     */
-    public function getDecimals()
-    {
-        return $this->decimals;
-    }
-
-    /**
-     * @param int $decimals
-     */
-    public function setDecimals($decimals)
-    {
-        $this->decimals = $decimals;
-    }
-
     public function getRegEx()
     {
         return C4GBrickRegEx::generateNumericRegEx($this->getDecimals(), false, $this->getThousandsSep(), $this->getDecimalPoint());
