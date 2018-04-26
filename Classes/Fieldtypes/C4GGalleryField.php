@@ -19,8 +19,8 @@ use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
 
 class C4GGalleryField extends C4GBrickField
 {
-    private $imageWidth  = '256px';
-    private $imageHeight = '256px';
+    private $imageWidth  = '';
+    private $imageHeight = '';
     private $withTitle   = false;
 
     /**
@@ -38,19 +38,22 @@ class C4GGalleryField extends C4GBrickField
         if ($size) {
             $width = $size;
             $height = $size;
-            $size = 'width="' . $width . '" height="' . $height . '"';
+            $size = 'width: ' . $width .';'. ' height: ' . $height . ';';
 
         } else {
             $width = $this->getImageWidth();
             $height = $this->getImageHeight();
 
             if ($width && $height) {
-                $size = 'width="' . $width . '" height="' . $height . '"';
+                $size = 'width: ' . $width . ';'.'height: ' . $height . ';';
             } else if ($width) {
-                $size = 'width="' . $width . '"';
+                $size = 'width: ' . $width . ';';
             } else if ($height) {
-                $size = 'height="' . $height . '"';
+                $size = 'height: ' . $height . ';';
             }
+        }
+        if ($size) {
+            $size = 'style="'.$size.'"';
         }
 
         $value = $this->generateInitialValue($data);
