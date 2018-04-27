@@ -18,25 +18,54 @@ abstract class C4GBrickFieldText extends C4GBrickField
     /**
      * Properties
      * @property string $pattern Regular expression this field's value must meet.
+     * @property int $maxChars Maximum number of characters to be displayed in the list
      */
     //Todo Alle nötigen Properties aus BrickField und den Kindern hier einfügen
     //Todo Prüfen, ob alles funktioniert und erst danach die Properties aus BrickField und den Kindern löschen.
 
 
     protected $pattern = '';
-    protected $tableAutoCut = false;
+    protected $maxChars = 0;
 
     /**
-     * Will be called by ShowListAction if the field value is longer than the column width. Return a value that will replace it.
+     * Will be called by if the field value is longer than $maxChars. Return a value that will replace it.
      * This will not overwrite the value stored in the database.
      * @param $value
-     * @param $columnWidth
+     * @param $maxChars
      * @return string
      */
 
-    public function cutFieldValue($value, $columnWidth)
+    public function cutFieldValue($value, $maxChars)
     {
-        return substr($value, 0, $columnWidth - 3) . '...';
+        return substr($value, 0, $maxChars - 3) . '...';
+    }
+
+    /**
+     * Public method for creating the field specific list HTML
+     * @param $rowData
+     * @param $content
+     * @return mixed
+     */
+    public function getC4GListField($rowData, $content)
+    {
+        $fieldName = $this->getFieldName();
+
+        $value = $rowData->$fieldName;
+        if ($this->getAddStrBeforeValue()) {
+            $value = $this->getAddStrBeforeValue().$value;
+        }
+        if ($this->getAddStrBehindValue()) {
+            $value = $value.$this->getAddStrBehindValue();
+        }
+        
+        //Cut field value if enabled and if it is too long
+        if ($this->maxChars > 2) {
+            if ($this->maxChars > 0 && (strlen($value) > $this->maxChars)) {
+                $value = $this->cutFieldValue($value, $this->maxChars);
+            }
+        }
+
+        return $value;
     }
 
     /**
@@ -56,20 +85,22 @@ abstract class C4GBrickFieldText extends C4GBrickField
     }
 
     /**
-     * @return bool
+     * @return int
      */
-    public function isTableAutoCut()
+    public function getMaxChars()
     {
-        return $this->tableAutoCut;
+        return $this->maxChars;
     }
 
     /**
-     * @param bool $tableAutoCut
+     * @param int $maxChars
      */
-    public function setTableAutoCut($tableAutoCut = true)
+    public function setMaxChars($maxChars)
     {
-        $this->tableAutoCut = $tableAutoCut;
+        $this->maxChars = $maxChars;
     }
+
+
 
 
 }
