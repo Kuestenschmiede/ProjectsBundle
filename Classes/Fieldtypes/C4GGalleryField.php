@@ -22,6 +22,7 @@ class C4GGalleryField extends C4GBrickField
     private $imageWidth  = '';
     private $imageHeight = '';
     private $withTitle   = false;
+    private $maxImages   = 0; //0 show all
 
     /**
      * @param C4GBrickField[] $fieldList
@@ -75,6 +76,10 @@ class C4GGalleryField extends C4GBrickField
                     $title = $this->withTitle ? $imageFile->name : '';
                     $image_cnt++;
                     $images .= '<li class="ce_image c4g_gallery_image c4g_' . $this->getFieldName() .'_'.$image_cnt.' block"><figure class="image_container" itemscope="" itemtype="http://schema.org/ImageObject"><a href="' . $src . '" data-lightbox="c4g_' . $this->getFieldName() .'_'.$image_cnt.'" data-title="' . $title . '"><img src="' . $src . '" itemprop="image" title="' . $title . '" '.$size.'/></a></figure></li>';
+
+                    if ($image_cnt >= $this->maxImages) {
+                        break;
+                    }
                 }
 
                 $result = '<div '
@@ -239,4 +244,19 @@ class C4GGalleryField extends C4GBrickField
         $this->withTitle = $withTitle;
     }
 
+    /**
+     * @return int
+     */
+    public function getMaxImages(): int
+    {
+        return $this->maxImages;
+    }
+
+    /**
+     * @param int $maxImages
+     */
+    public function setMaxImages(int $maxImages)
+    {
+        $this->maxImages = $maxImages;
+    }
 }
