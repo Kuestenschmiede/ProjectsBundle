@@ -231,7 +231,7 @@ class C4GGalleryField extends C4GBrickField
     /**
      * @return bool
      */
-    public function isWithTitle(): bool
+    public function isWithTitle()
     {
         return $this->withTitle;
     }
@@ -239,7 +239,7 @@ class C4GGalleryField extends C4GBrickField
     /**
      * @param bool $withTitle
      */
-    public function setWithTitle(bool $withTitle)
+    public function setWithTitle($withTitle)
     {
         $this->withTitle = $withTitle;
     }
@@ -247,7 +247,7 @@ class C4GGalleryField extends C4GBrickField
     /**
      * @return int
      */
-    public function getMaxImages(): int
+    public function getMaxImages()
     {
         return $this->maxImages;
     }
@@ -255,7 +255,7 @@ class C4GGalleryField extends C4GBrickField
     /**
      * @param int $maxImages
      */
-    public function setMaxImages(int $maxImages)
+    public function setMaxImages($maxImages)
     {
         $this->maxImages = $maxImages;
     }
