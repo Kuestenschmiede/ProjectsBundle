@@ -118,7 +118,7 @@ class C4GMoreButtonEntry extends C4GAbstractListEntry
                 }
                 break;
             case self::CALLMODE_JS:
-                if (is_string($callable)) { //Todo refine this
+                if (is_string($callable)) {
                     $this->callMode = $callmode;
                     $this->callable = $callable;
                 }

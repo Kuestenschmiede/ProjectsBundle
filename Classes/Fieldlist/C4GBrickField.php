@@ -40,7 +40,7 @@ abstract class C4GBrickField
      * @property bool $tableColumn Whether this field is shown in the data table. Default: false.
      *
      */
-    //Todo globale Properties prüfen und ggf. den Feldklassen zuordnen (z.B. step zum IntField)
+    //Todo globale Properties prüfen und ggf. den Feldklassen zuordnen
 
     //please follow alphabetical sorting
     private $action = array(); //action for action callable fieldtypes
@@ -80,7 +80,7 @@ abstract class C4GBrickField
     private $extTitleField = null; //Sonderlocke für Feld in Feld zum Beispiel für Feldbewertungen
     private $fieldName = null; //the fieldName should be conform to the database field name
     private $fileTypes = ''; //see C4GBrickFileType
-    private $formField = true; //you can use this property. If the field shouldn't part of the formular
+    private $formField = true; //you can use this property if the field shouldn't be part of the formular
     private $hidden = false; //for hidden fields
     private $ignoreViewType = false; //special to set over viewType properties like disabled fields
     private $initialFields = array(); //z.B. für die Bildgallerie
@@ -103,7 +103,6 @@ abstract class C4GBrickField
     private $searchWeightings = 1; //für C4GMatching
     private $showIfEmpty = true; //do not show clear fields?
     private $size = 0; //size for some types
-    private $step = 1; //step for int fields with interval steps
     private $sort = true; //activate sorting for fieldtypes with options
     private $sortColumn = false; //is this a sort column in datatable?
     private $sortSequence = 'asc'; //sort sequence
@@ -1418,23 +1417,6 @@ abstract class C4GBrickField
     {
         $this->max = $max;
     }
-
-    /**
-     * @return int
-     */
-    public function getStep()
-    {
-        return $this->step;
-    }
-
-    /**
-     * @param int $step
-     */
-    public function setStep($step)
-    {
-        $this->step = $step;
-    }
-
 
     /**
      * @return null

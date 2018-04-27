@@ -20,10 +20,6 @@ namespace con4gis\ProjectsBundle\Classes\Common;
  */
 class C4GBrickRegEx
 {
-    //Todo Prüfen, welche Regulären Ausdrücke wirklich nützlich sind und aufgenommen werden sollten.
-    //Todo Dabei darauf achten, welche dynamisch (function) und welche konstant (const) sein sollen.
-
-
     /**
      * Constant Expressions
      */
