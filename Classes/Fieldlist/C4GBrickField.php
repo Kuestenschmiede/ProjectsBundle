@@ -134,6 +134,7 @@ abstract class C4GBrickField
     private $tileClassTable = ''; // soll der value für die class aus einer Tabelle geholt werden?
     private $tileClassField = ''; // aus welchem Feld soll der value für die class geholt werden?
     protected $initInvisible = false;  //ToDo das gehört in die Felder rein, die es auch benutzen können
+    private $conditionType = null; //see C4GBrickConditionType
 
     /**
      * C4GBrickField constructor.
@@ -1130,7 +1131,7 @@ abstract class C4GBrickField
     public function setInitialFields($initialFields)
     {
         $this->initialFields = $initialFields;
-    } //siehe C4GBrickConditionType
+    }
 
     /**
      * @param string $conditionType
@@ -1139,10 +1140,7 @@ abstract class C4GBrickField
     {
         $this->conditionType = $conditionType;
     }
-
-    /**
-     * @param string $conditionType
-     */
+    
     public function getConditionType()
     {
         return $this->conditionType;
