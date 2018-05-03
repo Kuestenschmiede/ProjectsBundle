@@ -882,7 +882,7 @@ abstract class C4GBrickField
     /**
      * @param boolean $notificationField
      */
-    public function setNotificationField($notificationField)
+    public function setNotificationField($notificationField = true)
     {
         $this->notificationField = $notificationField;
     }
@@ -898,7 +898,7 @@ abstract class C4GBrickField
     /**
      * @param boolean $searchField
      */
-    public function setSearchField($searchField)
+    public function setSearchField($searchField = true)
     {
         $this->searchField = $searchField;
     }
@@ -914,7 +914,7 @@ abstract class C4GBrickField
     /**
      * @param boolean $searchMinimumField
      */
-    public function setSearchMinimumField($searchMinimumField)
+    public function setSearchMinimumField($searchMinimumField = true)
     {
         $this->searchMinimumField = $searchMinimumField;
     }
@@ -930,7 +930,7 @@ abstract class C4GBrickField
     /**
      * @param boolean $searchMaximumField
      */
-    public function setSearchMaximumField($searchMaximumField)
+    public function setSearchMaximumField($searchMaximumField = true)
     {
         $this->searchMaximumField = $searchMaximumField;
     }
@@ -981,7 +981,7 @@ abstract class C4GBrickField
     /**
      * @param boolean $withLinkDescription
      */
-    public function setWithLinkDescription($withLinkDescription)
+    public function setWithLinkDescription($withLinkDescription = true)
     {
         $this->withLinkDescription = $withLinkDescription;
     }
@@ -997,7 +997,7 @@ abstract class C4GBrickField
     /**
      * @param boolean $withEmptyOption
      */
-    public function setWithEmptyOption($withEmptyOption)
+    public function setWithEmptyOption($withEmptyOption = true)
     {
         $this->withEmptyOption = $withEmptyOption;
     }
@@ -1060,7 +1060,7 @@ abstract class C4GBrickField
     /**
      * @param boolean $comparable
      */
-    public function setComparable($comparable)
+    public function setComparable($comparable = true)
     {
         $this->comparable = $comparable;
     }
@@ -1077,7 +1077,7 @@ abstract class C4GBrickField
     /**
      * @param boolean $showIfEmpty
      */
-    public function setShowIfEmpty($showIfEmpty)
+    public function setShowIfEmpty($showIfEmpty = true)
     {
         $this->showIfEmpty = $showIfEmpty;
     }
@@ -1230,7 +1230,7 @@ abstract class C4GBrickField
     /**
      * @param boolean $databaseField
      */
-    public function setDatabaseField($databaseField)
+    public function setDatabaseField($databaseField = true)
     {
         $this->databaseField = $databaseField;
     }
@@ -1333,7 +1333,7 @@ abstract class C4GBrickField
     /**
      * @param boolean $formField
      */
-    public function setFormField($formField)
+    public function setFormField($formField = true)
     {
         $this->formField = $formField;
     }
@@ -1349,7 +1349,7 @@ abstract class C4GBrickField
     /**
      * @param boolean $editable
      */
-    public function setEditable($editable)
+    public function setEditable($editable = true)
     {
         $this->editable = $editable;
     }
@@ -1365,7 +1365,7 @@ abstract class C4GBrickField
     /**
      * @param boolean $mandatory
      */
-    public function setMandatory($mandatory)
+    public function setMandatory($mandatory = true)
     {
         $this->mandatory = $mandatory;
     }
@@ -1512,7 +1512,7 @@ abstract class C4GBrickField
     /**
      * @param boolean $sortColumn
      */
-    public function setSortColumn($sortColumn)
+    public function setSortColumn($sortColumn = true)
     {
         $this->sortColumn = $sortColumn;
     }
@@ -1528,7 +1528,7 @@ abstract class C4GBrickField
     /**
      * @param boolean $tableColumn
      */
-    public function setTableColumn($tableColumn)
+    public function setTableColumn($tableColumn = true)
     {
         $this->tableColumn = $tableColumn;
     }
@@ -1544,7 +1544,7 @@ abstract class C4GBrickField
     /**
      * @param boolean $callOnChange
      */
-    public function setCallOnChange($callOnChange)
+    public function setCallOnChange($callOnChange = true)
     {
         $this->callOnChange = $callOnChange;
     }
@@ -1574,9 +1574,9 @@ abstract class C4GBrickField
     }
 
     /**
-     * @param boolean $isUnique
+     * @param boolean $unique
      */
-    public function setUnique($unique)
+    public function setUnique($unique = true)
     {
         $this->unique = $unique;
     }
@@ -1592,7 +1592,7 @@ abstract class C4GBrickField
     /**
      * @param boolean $dbUnique
      */
-    public function setDbUnique($dbUnique)
+    public function setDbUnique($dbUnique = true)
     {
         $this->dbUnique = $dbUnique;
     }
@@ -1640,7 +1640,7 @@ abstract class C4GBrickField
     /**
      * @param boolean $tableRow
      */
-    public function setTableRow($tableRow)
+    public function setTableRow($tableRow = true)
     {
         $this->tableRow = $tableRow;
     }
@@ -1688,7 +1688,7 @@ abstract class C4GBrickField
     /**
      * @param boolean $sort
      */
-    public function setSort($sort)
+    public function setSort($sort = true)
     {
         $this->sort = $sort;
     }
@@ -1720,7 +1720,7 @@ abstract class C4GBrickField
     /**
      * @param boolean $hidden
      */
-    public function setHidden($hidden)
+    public function setHidden($hidden = true)
     {
         $this->hidden = $hidden;
     }
@@ -1736,7 +1736,7 @@ abstract class C4GBrickField
     /**
      * @param boolean $withoutLabel
      */
-    public function setWithoutLabel($withoutLabel)
+    public function setWithoutLabel($withoutLabel = true)
     {
         $this->withoutLabel = $withoutLabel;
     }
@@ -1752,7 +1752,7 @@ abstract class C4GBrickField
     /**
      * @param boolean $withoutDescriptionLineBreak
      */
-    public function setWithoutDescriptionLineBreak($withoutDescriptionLineBreak)
+    public function setWithoutDescriptionLineBreak($withoutDescriptionLineBreak = true)
     {
         $this->withoutDescriptionLineBreak = $withoutDescriptionLineBreak;
     }
@@ -1797,7 +1797,7 @@ abstract class C4GBrickField
     /**
      * @param boolean $switchTitleLabel
      */
-    public function setSwitchTitleLabel($switchTitleLabel)
+    public function setSwitchTitleLabel($switchTitleLabel = true)
     {
         $this->switchTitleLabel = $switchTitleLabel;
     }
@@ -1813,7 +1813,7 @@ abstract class C4GBrickField
     /**
      * @param boolean $withoutMandatoryStar
      */
-    public function setWithoutMandatoryStar($withoutMandatoryStar)
+    public function setWithoutMandatoryStar($withoutMandatoryStar = true)
     {
         $this->withoutMandatoryStar = $withoutMandatoryStar;
     }
@@ -1861,7 +1861,7 @@ abstract class C4GBrickField
     /**
      * @param bool $ignoreViewType
      */
-    public function setIgnoreViewType($ignoreViewType)
+    public function setIgnoreViewType($ignoreViewType = true)
     {
         $this->ignoreViewType = $ignoreViewType;
     }
@@ -1893,7 +1893,7 @@ abstract class C4GBrickField
     /**
      * @param bool $conditionalDisplay
      */
-    public function setConditionalDisplay($conditionalDisplay)
+    public function setConditionalDisplay($conditionalDisplay = true)
     {
         $this->conditionalDisplay = $conditionalDisplay;
     }
@@ -1973,7 +1973,7 @@ abstract class C4GBrickField
     /**
      * @param bool $display
      */
-    public function setDisplay($display)
+    public function setDisplay($display = true)
     {
         $this->display = $display;
     }
@@ -1989,7 +1989,7 @@ abstract class C4GBrickField
     /**
      * @param bool $removeWithEmptyCondition
      */
-    public function setRemoveWithEmptyCondition($removeWithEmptyCondition)
+    public function setRemoveWithEmptyCondition($removeWithEmptyCondition = true)
     {
         $this->removeWithEmptyCondition = $removeWithEmptyCondition;
     }
@@ -2005,7 +2005,7 @@ abstract class C4GBrickField
     /**
      * @param bool $tileClass
      */
-    public function setTileClass($tileClass)
+    public function setTileClass($tileClass = true)
     {
         $this->tileClass = $tileClass;
     }
@@ -2053,7 +2053,7 @@ abstract class C4GBrickField
     /**
      * @param bool $showSum
      */
-    public function setShowSum($showSum)
+    public function setShowSum($showSum = true)
     {
         $this->showSum = $showSum;
     }
@@ -2069,7 +2069,7 @@ abstract class C4GBrickField
     /**
      * @param bool $invisible
      */
-    public function setInitInvisible($invisible)
+    public function setInitInvisible($invisible = true)
     {
         $this->initInvisible = $invisible;
     }
