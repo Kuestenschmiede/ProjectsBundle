@@ -57,7 +57,10 @@ abstract class C4GBrickFieldText extends C4GBrickField
         if ($this->getAddStrBehindValue()) {
             $value = $value.$this->getAddStrBehindValue();
         }
-        
+
+        //remove critical characters
+        $value = htmlentities($value);
+
         //Cut field value if enabled and if it is too long
         if ($this->maxChars > 2) {
             if ($this->maxChars > 0 && (strlen($value) > $this->maxChars)) {
