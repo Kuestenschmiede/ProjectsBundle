@@ -313,7 +313,7 @@ class C4GSelectField extends C4GBrickField
         if (!empty($additionalId)) {
             $fieldData = $dlgValues[$fieldName.'_'.$additionalId];
         }
-        if ($fieldData == '-1') {
+        if (($fieldData == '-1') || ($fieldData == ''))  {
             return $this;
         } else {
             return false;
