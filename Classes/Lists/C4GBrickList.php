@@ -521,7 +521,7 @@ class C4GBrickList
             $buttons = C4GBrickList::getDialogButtons($listParams, $parentCaption);
         }
 
-        return array
+        $return = array
         (
             'contenttype' => 'datatable',
             'contentdata' => $data,
@@ -529,13 +529,18 @@ class C4GBrickList
             (
                 'actioncol' => 0,
                 'selectrow' => $selectRow,
-                'tooltipcol' => $col,
                 'clickAction' => $withDetails,
             ),
             'state' => C4GBrickActionType::IDENTIFIER_LIST . ':' . $key, //Listenstatus
             'headline' => $listHeadline,
             'buttons' => $buttons
         );
+
+        if ($listParams->isshowToolTips()) {
+            $return['contentoptions']['tooltipcol']  = $col;
+        }
+
+        return $return;
     }
 
     public static function showC4GList($listCaption, $database, $content, $listHeadline,  $fieldList, $tableElements, $key, $parentCaption, $listParams)

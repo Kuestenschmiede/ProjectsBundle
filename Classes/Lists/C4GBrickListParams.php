@@ -53,6 +53,7 @@ class C4GBrickListParams
     private $rowCount = 0; //number of datasets (LISTBASED)
     private $redirectTo = '';
     private $Uuid = '';
+    private $showToolTips = true; //press false to not show tooltips for the table rows
 
 
     /**
@@ -630,4 +631,19 @@ class C4GBrickListParams
         $this->Uuid = $Uuid;
     }
 
+    /**
+     * @return bool
+     */
+    public function isShowToolTips()
+    {
+        return $this->showToolTips;
+    }
+
+    /**
+     * @param bool $showToolTips
+     */
+    public function setShowToolTips($showToolTips)
+    {
+        $this->showToolTips = $showToolTips;
+    }
 }
