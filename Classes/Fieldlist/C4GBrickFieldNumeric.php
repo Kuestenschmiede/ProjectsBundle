@@ -54,11 +54,13 @@ abstract class C4GBrickFieldNumeric extends C4GBrickField
     }
 
     /**
-     * @param int $max
+     * @param $max
+     * @return $this|C4GBrickField
      */
     public function setMax($max)
     {
         $this->max = $max;
+        return $this;
     }
 
     /**
@@ -70,11 +72,13 @@ abstract class C4GBrickFieldNumeric extends C4GBrickField
     }
 
     /**
-     * @param int $min
+     * @param $min
+     * @return $this|C4GBrickField
      */
     public function setMin($min)
     {
         $this->min = $min;
+        return $this;
     }
 
     /**
@@ -86,11 +90,13 @@ abstract class C4GBrickFieldNumeric extends C4GBrickField
     }
 
     /**
-     * @param int $step
+     * @param $step
+     * @return $this
      */
     public function setStep($step)
     {
         $this->step = $step;
+        return $this;
     }
 
     /**
@@ -102,11 +108,13 @@ abstract class C4GBrickFieldNumeric extends C4GBrickField
     }
 
     /**
-     * @param string $thousands_sep
+     * @param $thousands_sep
+     * @return $this
      */
     public function setThousandsSep($thousands_sep)
     {
         $this->thousands_sep = $thousands_sep;
+        return $this;
     }
 
     /**
@@ -118,11 +126,13 @@ abstract class C4GBrickFieldNumeric extends C4GBrickField
     }
 
     /**
-     * @param string $decimal_point
+     * @param $decimal_point
+     * @return $this
      */
     public function setDecimalPoint($decimal_point)
     {
         $this->decimal_point = $decimal_point;
+        return $this;
     }
 
     /**
@@ -134,11 +144,13 @@ abstract class C4GBrickFieldNumeric extends C4GBrickField
     }
 
     /**
-     * @param int $decimals
+     * @param $decimals
+     * @return $this
      */
     public function setDecimals($decimals)
     {
         $this->decimals = $decimals;
+        return $this;
     }
 
     /**
@@ -150,11 +162,13 @@ abstract class C4GBrickFieldNumeric extends C4GBrickField
     }
 
     /**
-     * @param string $pattern
+     * @param $pattern
+     * @return $this
      */
     public function setPattern($pattern)
     {
         $this->pattern = $pattern;
+        return $this;
     }
 
     public function getRegEx()

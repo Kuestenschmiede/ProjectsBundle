@@ -325,11 +325,13 @@ class C4GFileField extends C4GBrickField
     }
 
     /**
-     * @param string $maxFileSize
+     * @param $maxFileSize
+     * @return $this
      */
     public function setMaxFileSize($maxFileSize)
     {
         $this->maxFileSize = $maxFileSize;
+        return $this;
     }
 
     /**
@@ -341,11 +343,13 @@ class C4GFileField extends C4GBrickField
     }
 
     /**
-     * @param string $nameFormat
+     * @param $nameFormat
+     * @return $this
      */
     public function setNameFormat($nameFormat)
     {
         $this->nameFormat = $nameFormat;
+        return $this;
     }
 
     /**
@@ -357,11 +361,13 @@ class C4GFileField extends C4GBrickField
     }
 
     /**
-     * @param boolean $withDate
+     * @param $withDate
+     * @return $this
      */
     public function setWithDate($withDate)
     {
         $this->withDate = $withDate;
+        return $this;
     }
 
     /**
@@ -373,10 +379,12 @@ class C4GFileField extends C4GBrickField
     }
 
     /**
-     * @param boolean $withNumber
+     * @param $withNumber
+     * @return $this
      */
     public function setWithNumber($withNumber)
     {
         $this->withNumber = $withNumber;
+        return $this;
     }
 }

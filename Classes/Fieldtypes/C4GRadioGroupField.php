@@ -306,11 +306,13 @@ class C4GRadioGroupField extends C4GBrickField
     }
 
     /**
-     * @param boolean $turnButton
+     * @param $turnButton
+     * @return $this
      */
     public function setTurnButton($turnButton)
     {
         $this->turnButton = $turnButton;
+        return $this;
     }
 
     /**
@@ -322,10 +324,12 @@ class C4GRadioGroupField extends C4GBrickField
     }
 
     /**
-     * @param string $clearGroupText
+     * @param $clearGroupText
+     * @return $this
      */
     public function setClearGroupText($clearGroupText)
     {
         $this->clearGroupText = $clearGroupText;
+        return $this;
     }
 }

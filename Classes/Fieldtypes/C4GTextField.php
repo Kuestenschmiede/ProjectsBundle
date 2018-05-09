@@ -67,11 +67,13 @@ class C4GTextField extends C4GBrickFieldText
     }
 
     /**
-     * @param int $size
+     * @param $size
+     * @return $this|C4GBrickFieldText
      */
     public function setSize($size)
     {
         $this->size = $size;
+        return $this;
     }
 
     /**
@@ -83,11 +85,13 @@ class C4GTextField extends C4GBrickFieldText
     }
 
     /**
-     * @param int $maxLength
+     * @param $maxLength
+     * @return $this|C4GBrickFieldText
      */
     public function setMaxLength($maxLength)
     {
         $this->maxLength = $maxLength;
+        return $this;
     }
 
 

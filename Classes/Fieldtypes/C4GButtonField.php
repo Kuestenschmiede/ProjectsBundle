@@ -120,11 +120,13 @@ class C4GButtonField extends C4GBrickField
     }
 
     /**
-     * @param null $button
+     * @param $button
+     * @return $this
      */
     public function setButton($button)
     {
         $this->button = $button;
+        return $this;
     }
 
     /**
@@ -136,11 +138,13 @@ class C4GButtonField extends C4GBrickField
     }
 
     /**
-     * @param boolean $circleButton
+     * @param $circleButton
+     * @return $this
      */
     public function setCircleButton($circleButton)
     {
         $this->circleButton = $circleButton;
+        return $this;
     }
 
     /**
@@ -152,11 +156,13 @@ class C4GButtonField extends C4GBrickField
     }
 
     /**
-     * @param string $onClick
+     * @param $onClick
+     * @return $this
      */
     public function setOnClick($onClick)
     {
         $this->onClick = $onClick;
+        return $this;
     }
 
     /**
@@ -168,11 +174,13 @@ class C4GButtonField extends C4GBrickField
     }
 
     /**
-     * @param null $overlay
+     * @param $overlay
+     * @return $this
      */
     public function setOverlay($overlay)
     {
         $this->overlay = $overlay;
+        return $this;
     }
 
     /**
@@ -184,11 +192,13 @@ class C4GButtonField extends C4GBrickField
     }
 
     /**
-     * @param string $color
+     * @param $color
+     * @return $this
      */
     public function setColor($color)
     {
         $this->color = $color;
+        return $this;
     }
 
     /**
@@ -200,10 +210,12 @@ class C4GButtonField extends C4GBrickField
     }
 
     /**
-     * @param string $onClickType
+     * @param $onClickType
+     * @return $this
      */
     public function setOnClickType($onClickType)
     {
         $this->onClickType = $onClickType;
+        return $this;
     }
 }

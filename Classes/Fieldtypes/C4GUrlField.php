@@ -79,11 +79,13 @@ class C4GUrlField extends C4GBrickField
     }
 
     /**
-     * @param bool $withLink
+     * @param $withLink
+     * @return $this
      */
     public function setWithLink($withLink)
     {
         $this->withLink = $withLink;
+        return $this;
     }
 
 }

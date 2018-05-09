@@ -328,11 +328,13 @@ class C4GMultiCheckboxField extends C4GBrickField
     }
 
     /**
-     * @param boolean $modernStyle
+     * @param $modernStyle
+     * @return $this
      */
     public function setModernStyle($modernStyle)
     {
         $this->modernStyle = $modernStyle;
+        return $this;
     }
 
     /**
@@ -344,11 +346,13 @@ class C4GMultiCheckboxField extends C4GBrickField
     }
 
     /**
-     * @param bool $serialize
+     * @param $serializeResult
+     * @return $this
      */
     public function setSerialize($serializeResult)
     {
         $this->serializeResult = $serializeResult;
+        return $this;
     }
 
 }

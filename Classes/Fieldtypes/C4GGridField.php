@@ -127,10 +127,12 @@ class C4GGridField extends C4GBrickField
     }
 
     /**
-     * @param C4GBrickGrid|null $grid
+     * @param $grid
+     * @return $this
      */
     public function setGrid($grid)
     {
         $this->grid = $grid;
+        return $this;
     }
 }

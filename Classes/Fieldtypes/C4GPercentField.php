@@ -196,11 +196,13 @@ class C4GPercentField extends C4GBrickFieldNumeric
     }
 
     /**
-     * @param mixed $percentGroup
+     * @param $percentGroup
+     * @return $this
      */
     public function setPercentGroup($percentGroup)
     {
         $this->percentGroup = $percentGroup;
+        return $this;
     }
 
     public function getRegEx()

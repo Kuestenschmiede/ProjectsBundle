@@ -220,11 +220,13 @@ class C4GImageField extends C4GBrickField
     }
 
     /**
-     * @param string $weight
+     * @param $width
+     * @return $this
      */
     public function setWidth($width)
     {
         $this->width = $width;
+        return $this;
     }
 
     /**
@@ -236,11 +238,13 @@ class C4GImageField extends C4GBrickField
     }
 
     /**
-     * @param string $height
+     * @param $height
+     * @return $this
      */
     public function setHeight($height)
     {
         $this->height = $height;
+        return $this;
     }
 
     /**
@@ -252,11 +256,13 @@ class C4GImageField extends C4GBrickField
     }
 
     /**
-     * @param bool $deserialize
+     * @param $deserialize
+     * @return $this
      */
     public function setDeserialize($deserialize)
     {
         $this->deserialize = $deserialize;
+        return $this;
     }
 
 }

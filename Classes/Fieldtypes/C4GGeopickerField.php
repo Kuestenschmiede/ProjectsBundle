@@ -223,11 +223,13 @@ class C4GGeopickerField extends C4GBrickField
     }
 
     /**
-     * @param bool $withoutAddressReloadButton
+     * @param $withoutAddressReloadButton
+     * @return $this
      */
     public function setWithoutAddressReloadButton($withoutAddressReloadButton)
     {
         $this->withoutAddressReloadButton = $withoutAddressReloadButton;
+        return $this;
     }
 
     /**
@@ -239,11 +241,13 @@ class C4GGeopickerField extends C4GBrickField
     }
 
     /**
-     * @param bool $withoutAddressRow
+     * @param $withoutAddressRow
+     * @return $this
      */
     public function setWithoutAddressRow($withoutAddressRow)
     {
         $this->withoutAddressRow = $withoutAddressRow;
+        return $this;
     }
 
 

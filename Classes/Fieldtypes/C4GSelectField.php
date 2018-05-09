@@ -329,11 +329,13 @@ class C4GSelectField extends C4GBrickField
     }
 
     /**
-     * @param bool $chosen
+     * @param $chosen
+     * @return $this
      */
     public function setChosen($chosen)
     {
         $this->chosen = $chosen;
+        return $this;
     }
 
     /**
@@ -345,11 +347,13 @@ class C4GSelectField extends C4GBrickField
     }
 
     /**
-     * @param int $minChosenCount
+     * @param $minChosenCount
+     * @return $this
      */
     public function setMinChosenCount($minChosenCount)
     {
         $this->minChosenCount = $minChosenCount;
+        return $this;
     }
 
     /**
@@ -361,11 +365,13 @@ class C4GSelectField extends C4GBrickField
     }
 
     /**
-     * @param string $placeholder
+     * @param $placeholder
+     * @return $this
      */
     public function setPlaceholder($placeholder)
     {
         $this->placeholder = $placeholder;
+        return $this;
     }
 
     /**
@@ -377,10 +383,12 @@ class C4GSelectField extends C4GBrickField
     }
 
     /**
-     * @param string $emptyOptionLabel
+     * @param $emptyOptionLabel
+     * @return $this
      */
     public function setEmptyOptionLabel($emptyOptionLabel)
     {
         $this->emptyOptionLabel = $emptyOptionLabel;
+        return $this;
     }
 }

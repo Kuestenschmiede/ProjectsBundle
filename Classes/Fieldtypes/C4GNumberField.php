@@ -121,11 +121,13 @@ class C4GNumberField extends C4GBrickFieldNumeric
     }
 
     /**
-     * @param string $thousands_sep
+     * @param $thousands_sep
+     * @return $this|C4GBrickFieldNumeric
      */
     public function setThousandsSep($thousands_sep)
     {
         $this->thousands_sep = $thousands_sep;
+        return $this;
     }
 
 }
