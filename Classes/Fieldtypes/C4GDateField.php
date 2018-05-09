@@ -198,7 +198,7 @@ class C4GDateField extends C4GBrickField
             $date->setTime(0,0,0);
             $fieldData = $date->getTimestamp();
         } else {
-            $fieldData = '';
+            $fieldData = 0;
         }
         return $fieldData;
     }
