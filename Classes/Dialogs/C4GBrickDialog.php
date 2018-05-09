@@ -896,14 +896,14 @@ class C4GBrickDialog
                     if ($pattern == '') {
                         $pattern = $field->getRegEx();
                     }
-                    if ($dlgValue !== null) {
+                    if ($dlgValue !== null && $dlgValue !== '') {
                         if (($pattern != '') && !(preg_match('/' . $pattern . '/', $dlgValue))) {
                             return $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['CHECK_FIELD'] . '"' . $field->getTitle() . '".';
                         } elseif ($dlgValue > $field->getMax() || $dlgValue < $field->getMin()) {
                             return $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['CHECK_FIELD'] . '"' . $field->getTitle() . '".';
                         }
                     }
-                    //Todo
+                    //Todo percentGroups
                     /*if ($field instanceof C4GPercentField) {
                         array_push($percentGroups[$field->getPercentGroup()], $field);
 
