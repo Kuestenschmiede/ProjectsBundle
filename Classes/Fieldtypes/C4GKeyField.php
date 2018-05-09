@@ -39,7 +39,7 @@ class C4GKeyField extends C4GBrickField
             $result =
                 $this->addC4GField($condition,$dialogParams,$fieldList,$data,
                 '<input ' . $required . ' ' . $condition['conditionPrepare'] . ' type="number" id="' . $id . '" class="formdata ' . $id . '" size="' .
-                $this->getSize() . '" min="' . $this->getMin() . '" max="' . $this->getMax() . '" step="'.$this->getStep().'" pattern="\d*" name="' .
+                $this->getSize() . '" pattern="\d*" name="' .
                 $this->getFieldName() . '" value="' . $value . '" >');
         }
 
