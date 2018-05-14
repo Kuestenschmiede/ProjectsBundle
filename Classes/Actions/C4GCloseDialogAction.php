@@ -76,10 +76,12 @@ class C4GCloseDialogAction extends C4GBrickDialogAction
 
     /**
      * @param bool $ignoreChanges
+     * @return $this
      */
-    public function setIgnoreChanges($ignoreChanges)
+    public function setIgnoreChanges($ignoreChanges = true)
     {
         $this->ignoreChanges = $ignoreChanges;
+        return $this;
     }
 
     public function isReadOnly()

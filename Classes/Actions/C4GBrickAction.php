@@ -65,11 +65,13 @@ abstract class C4GBrickAction
     }
 
     /**
-     * @param mixed $dialogParams
+     * @param $dialogParams
+     * @return $this
      */
     public function setDialogParams($dialogParams)
     {
         $this->dialogParams = $dialogParams;
+        return $this;
     }
 
     /**
@@ -81,11 +83,13 @@ abstract class C4GBrickAction
     }
 
     /**
-     * @param mixed $fieldList
+     * @param $fieldList
+     * @return $this
      */
     public function setFieldList($fieldList)
     {
         $this->fieldList = $fieldList;
+        return $this;
     }
 
     /**
@@ -97,11 +101,13 @@ abstract class C4GBrickAction
     }
 
     /**
-     * @param mixed $putVars
+     * @param $putVars
+     * @return $this
      */
     public function setPutVars($putVars)
     {
         $this->putVars = $putVars;
+        return $this;
     }
 
     /**
@@ -113,11 +119,13 @@ abstract class C4GBrickAction
     }
 
     /**
-     * @param mixed $brickDatabase
+     * @param $brickDatabase
+     * @return $this
      */
     public function setBrickDatabase($brickDatabase)
     {
         $this->brickDatabase = $brickDatabase;
+        return $this;
     }
 
     /**
@@ -129,11 +137,13 @@ abstract class C4GBrickAction
     }
 
     /**
-     * @param mixed $listParams
+     * @param $listParams
+     * @return $this
      */
     public function setListParams($listParams)
     {
         $this->listParams = $listParams;
+        return $this;
     }
 
     /**
@@ -146,10 +156,12 @@ abstract class C4GBrickAction
 
     /**
      * @param $module
+     * @return $this
      */
     public function setModule($module)
     {
         $this->module = $module;
+        return $this;
     }
 
 

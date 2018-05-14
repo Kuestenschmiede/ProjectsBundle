@@ -75,11 +75,13 @@ class C4GRedirectAction extends C4GBrickDialogAction
     }
 
     /**
-     * @param string $redirectWithAction
+     * @param $redirectWithAction
+     * @return $this
      */
     public function setRedirectWithAction($redirectWithAction)
     {
         $this->redirectWithAction = $redirectWithAction;
+        return $this;
     }
 
     /**
@@ -92,10 +94,12 @@ class C4GRedirectAction extends C4GBrickDialogAction
 
     /**
      * @param bool $setParentIdAfterSave
+     * @return $this
      */
-    public function setSetParentIdAfterSave($setParentIdAfterSave)
+    public function setSetParentIdAfterSave($setParentIdAfterSave = true)
     {
         $this->setParentIdAfterSave = $setParentIdAfterSave;
+        return $this;
     }
 
     /**
@@ -107,11 +111,13 @@ class C4GRedirectAction extends C4GBrickDialogAction
     }
 
     /**
-     * @param string $redirectSite
+     * @param $redirectSite
+     * @return $this
      */
     public function setRedirectSite($redirectSite)
     {
         $this->redirectSite = $redirectSite;
+        return $this;
     }
 
     /**
@@ -123,11 +129,13 @@ class C4GRedirectAction extends C4GBrickDialogAction
     }
 
     /**
-     * @param string $setSessionIdAfterInsert
+     * @param $setSessionIdAfterInsert
+     * @return $this
      */
     public function setSetSessionIdAfterInsert($setSessionIdAfterInsert)
     {
         $this->setSessionIdAfterInsert = $setSessionIdAfterInsert;
+        return $this;
     }
 
     /**
@@ -139,11 +147,13 @@ class C4GRedirectAction extends C4GBrickDialogAction
     }
 
     /**
-     * @param bool $redirectWithSaving
+     * @param $redirectWithSaving
+     * @return $this
      */
-    public function setRedirectWithSaving($redirectWithSaving)
+    public function setRedirectWithSaving($redirectWithSaving = true)
     {
         $this->redirectWithSaving = $redirectWithSaving;
+        return $this;
     }
 
     /**
@@ -155,11 +165,13 @@ class C4GRedirectAction extends C4GBrickDialogAction
     }
 
     /**
-     * @param bool $redirectToDetail
+     * @param $redirectToDetail
+     * @return $this
      */
-    public function setRedirectToDetail($redirectToDetail)
+    public function setRedirectToDetail($redirectToDetail = true)
     {
         $this->redirectToDetail = $redirectToDetail;
+        return $this;
     }
 
     public function isReadOnly()
