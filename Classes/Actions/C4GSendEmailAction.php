@@ -49,11 +49,13 @@ class C4GSendEmailAction extends C4GBrickDialogAction
     }
 
     /**
-     * @param string $recipient
+     * @param $recipient
+     * @return $this
      */
     public function setRecipient($recipient)
     {
         $this->recipient = $recipient;
+        return $this;
     }
 
     /**
@@ -65,11 +67,13 @@ class C4GSendEmailAction extends C4GBrickDialogAction
     }
 
     /**
-     * @param string $senderName
+     * @param $senderName
+     * @return $this
      */
     public function setSenderName($senderName)
     {
         $this->senderName = $senderName;
+        return $this;
     }
 
     /**
@@ -81,11 +85,13 @@ class C4GSendEmailAction extends C4GBrickDialogAction
     }
 
     /**
-     * @param string $text
+     * @param $text
+     * @return $this
      */
     public function setText($text)
     {
         $this->text = $text;
+        return $this;
     }
 
     public function isReadOnly()

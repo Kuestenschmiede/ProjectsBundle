@@ -261,11 +261,13 @@ class C4GSaveDialogAction extends C4GBrickDialogAction
     }
 
     /**
-     * @param boolean $withRedirect
+     * @param bool $withRedirect
+     * @return $this
      */
-    public function setWithRedirect($withRedirect)
+    public function setWithRedirect($withRedirect = true)
     {
         $this->withRedirect = $withRedirect;
+        return $this;
     }
 
     /**
@@ -277,11 +279,13 @@ class C4GSaveDialogAction extends C4GBrickDialogAction
     }
 
     /**
-     * @param boolean $andNew
+     * @param bool $andNew
+     * @return $this
      */
-    public function setAndNew($andNew)
+    public function setAndNew($andNew = true)
     {
         $this->andNew = $andNew;
+        return $this;
     }
 
     /**
@@ -294,10 +298,12 @@ class C4GSaveDialogAction extends C4GBrickDialogAction
 
     /**
      * @param bool $setParentIdAfterSave
+     * @return $this
      */
-    public function setSetParentIdAfterSave($setParentIdAfterSave)
+    public function setSetParentIdAfterSave($setParentIdAfterSave = true)
     {
         $this->setParentIdAfterSave = $setParentIdAfterSave;
+        return $this;
     }
 
     /**
@@ -309,11 +315,13 @@ class C4GSaveDialogAction extends C4GBrickDialogAction
     }
 
     /**
-     * @param string $setSessionIdAfterInsert
+     * @param bool $setSessionIdAfterInsert
+     * @return $this
      */
-    public function setSetSessionIdAfterInsert($setSessionIdAfterInsert)
+    public function setSetSessionIdAfterInsert($setSessionIdAfterInsert = true)
     {
         $this->setSessionIdAfterInsert = $setSessionIdAfterInsert;
+        return $this;
     }
 
     public function isReadOnly()

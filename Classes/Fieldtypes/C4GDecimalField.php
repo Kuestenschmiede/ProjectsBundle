@@ -180,11 +180,13 @@ class C4GDecimalField extends C4GBrickFieldNumeric
     }
 
     /**
-     * @param string $thousands_sep
+     * @param $thousands_sep
+     * @return $this|C4GBrickFieldNumeric
      */
     public function setThousandsSep($thousands_sep)
     {
         $this->thousands_sep = $thousands_sep;
+        return $this;
     }
 
     /**
@@ -196,11 +198,13 @@ class C4GDecimalField extends C4GBrickFieldNumeric
     }
 
     /**
-     * @param string $decimal_point
+     * @param $decimal_point
+     * @return $this|C4GBrickFieldNumeric
      */
     public function setDecimalPoint($decimal_point)
     {
         $this->decimal_point = $decimal_point;
+        return $this;
     }
 
     /**
@@ -212,11 +216,13 @@ class C4GDecimalField extends C4GBrickFieldNumeric
     }
 
     /**
-     * @param int $decimals
+     * @param $decimals
+     * @return $this|C4GBrickFieldNumeric
      */
     public function setDecimals($decimals)
     {
         $this->decimals = $decimals;
+        return $this;
     }
 
     /**
@@ -228,11 +234,13 @@ class C4GDecimalField extends C4GBrickFieldNumeric
     }
 
     /**
-     * @param bool $allowNegative
+     * @param $allowNegative
+     * @return $this
      */
     public function setAllowNegative($allowNegative)
     {
         $this->allowNegative = $allowNegative;
+        return $this;
     }
 
 

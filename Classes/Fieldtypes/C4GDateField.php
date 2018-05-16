@@ -268,11 +268,13 @@ class C4GDateField extends C4GBrickField
     }
 
     /**
-     * @param null $minDate
+     * @param $minDate
+     * @return $this
      */
     public function setMinDate($minDate)
     {
         $this->minDate = $minDate;
+        return $this;
     }
 
     /**
@@ -284,11 +286,13 @@ class C4GDateField extends C4GBrickField
     }
 
     /**
-     * @param null $maxDate
+     * @param $maxDate
+     * @return $this
      */
     public function setMaxDate($maxDate)
     {
         $this->maxDate = $maxDate;
+        return $this;
     }
 
     /**
@@ -300,11 +304,13 @@ class C4GDateField extends C4GBrickField
     }
 
     /**
-     * @param null $excludeWeekdays
+     * @param $excludeWeekdays
+     * @return $this
      */
     public function setExcludeWeekdays($excludeWeekdays)
     {
         $this->excludeWeekdays = $excludeWeekdays;
+        return $this;
     }
 
     /**
@@ -316,11 +322,13 @@ class C4GDateField extends C4GBrickField
     }
 
     /**
-     * @param null $excludeDates
+     * @param $excludeDates
+     * @return $this
      */
     public function setExcludeDates($excludeDates)
     {
         $this->excludeDates = $excludeDates;
+        return $this;
     }
 
     /**
@@ -332,10 +340,12 @@ class C4GDateField extends C4GBrickField
     }
 
     /**
-     * @param null $customFormat
+     * @param $customFormat
+     * @return $this
      */
     public function setCustomFormat($customFormat)
     {
         $this->customFormat = $customFormat;
+        return $this;
     }
 }

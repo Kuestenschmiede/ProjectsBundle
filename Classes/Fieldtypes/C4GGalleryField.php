@@ -205,11 +205,13 @@ class C4GGalleryField extends C4GBrickField
     }
 
     /**
-     * @param string $imageWidth
+     * @param $imageWidth
+     * @return $this
      */
     public function setImageWidth($imageWidth)
     {
         $this->imageWidth = $imageWidth;
+        return $this;
     }
 
     /**
@@ -221,11 +223,13 @@ class C4GGalleryField extends C4GBrickField
     }
 
     /**
-     * @param string $imageHeight
+     * @param $imageHeight
+     * @return $this
      */
     public function setImageHeight($imageHeight)
     {
         $this->imageHeight = $imageHeight;
+        return $this;
     }
 
     /**
@@ -237,11 +241,13 @@ class C4GGalleryField extends C4GBrickField
     }
 
     /**
-     * @param bool $withTitle
+     * @param $withTitle
+     * @return $this
      */
     public function setWithTitle($withTitle)
     {
         $this->withTitle = $withTitle;
+        return $this;
     }
 
     /**
@@ -253,10 +259,12 @@ class C4GGalleryField extends C4GBrickField
     }
 
     /**
-     * @param int $maxImages
+     * @param $maxImages
+     * @return $this
      */
     public function setMaxImages($maxImages)
     {
         $this->maxImages = $maxImages;
+        return $this;
     }
 }

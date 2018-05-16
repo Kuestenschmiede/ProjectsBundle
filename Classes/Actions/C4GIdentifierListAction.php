@@ -62,6 +62,7 @@ class C4GIdentifierListAction extends C4GBrickAction
     public function setModule($module)
     {
         $this->module = $module;
+        return $this;
     }
 
     public function isReadOnly()

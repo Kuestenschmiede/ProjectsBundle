@@ -75,10 +75,12 @@ class C4GAudioField extends C4GBrickField
     }
 
     /**
-     * @param mixed $sound
+     * @param $sound
+     * @return $this
      */
     public function setSound($sound)
     {
         $this->sound = $sound;
+        return $this;
     }
 }

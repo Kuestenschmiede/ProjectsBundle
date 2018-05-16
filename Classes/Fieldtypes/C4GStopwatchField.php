@@ -97,11 +97,13 @@ class C4GStopwatchField extends C4GBrickField
     }
 
     /**
-     * @param int $seconds
+     * @param $seconds
+     * @return $this
      */
     public function setSeconds($seconds)
     {
         $this->seconds = $seconds;
+        return $this;
     }
 
     /**
@@ -113,11 +115,13 @@ class C4GStopwatchField extends C4GBrickField
     }
 
     /**
-     * @param null $runningOutAction
+     * @param $runningOutAction
+     * @return $this
      */
     public function setRunningOutAction($runningOutAction)
     {
         $this->runningOutAction = $runningOutAction;
+        return $this;
     }
 
     /**
@@ -129,11 +133,13 @@ class C4GStopwatchField extends C4GBrickField
     }
 
     /**
-     * @param int $runningOutID
+     * @param $runningOutId
+     * @return $this
      */
     public function setRunningOutId($runningOutId)
     {
         $this->runningOutId = $runningOutId;
+        return $this;
     }
 
     /**
@@ -145,10 +151,12 @@ class C4GStopwatchField extends C4GBrickField
     }
 
     /**
-     * @param null $animation
+     * @param $overlay
+     * @return $this
      */
     public function setOverlay($overlay)
     {
         $this->overlay = $overlay;
+        return $this;
     }
 }

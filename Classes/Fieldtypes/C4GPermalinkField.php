@@ -77,11 +77,13 @@ class C4GPermalinkField extends C4GBrickField
     }
 
     /**
-     * @param string $permaLinkName
+     * @param $permaLinkName
+     * @return $this
      */
     public function setPermaLinkName($permaLinkName)
     {
         $this->permaLinkName = $permaLinkName;
+        return $this;
     }
 
 

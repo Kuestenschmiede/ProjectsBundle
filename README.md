@@ -8,7 +8,6 @@ The framework brick of the Contao GIS-kit **con4gis**. Useful for developing fro
 
 **Requires:**
 - [Contao](https://github.com/contao/core) (***4.4.x***)   
-For Contao 3 you can use [con4igs_maps3](https://github.com/Kuestenschmiede/con4gis_maps3/releases) Extension.
 - [CoreBundle](https://github.com/Kuestenschmiede/CoreBundle/releases) (*latest stable release*)
 
 **Extendable with all other con4gis and Contao bundles**  

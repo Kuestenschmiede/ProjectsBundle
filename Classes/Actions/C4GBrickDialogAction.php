@@ -55,10 +55,12 @@ abstract class C4GBrickDialogAction extends C4GBrickAction
     }
 
     /**
-     * @param null $module
+     * @param $module
+     * @return $this|C4GBrickAction
      */
     public function setModule($module)
     {
         $this->module = $module;
+        return $this;
     }
 }

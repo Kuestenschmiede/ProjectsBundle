@@ -94,11 +94,13 @@ class C4GIncludeField extends C4GBrickField
     }
 
     /**
-     * @param mixed $includeType
+     * @param $includeType
+     * @return $this
      */
     public function setIncludeType($includeType)
     {
         $this->includeType = $includeType;
+        return $this;
     }
 
     /**
@@ -110,11 +112,13 @@ class C4GIncludeField extends C4GBrickField
     }
 
     /**
-     * @param array $ids
+     * @param $ids
+     * @return $this
      */
     public function setIds($ids)
     {
         $this->ids = $ids;
+        return $this;
     }
 
 }

@@ -72,11 +72,13 @@ class C4GLabelField extends C4GBrickField
     }
 
     /**
-     * @param string $align
+     * @param $align
+     * @return $this|C4GBrickField
      */
     public function setAlign($align)
     {
         $this->align = $align;
+        return $this;
     }
 
 }

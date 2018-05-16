@@ -111,11 +111,13 @@ class C4GShowMessageChangesDialogAction extends C4GBrickDialogAction
     }
 
     /**
-     * @param null $changes
+     * @param $changes
+     * @return $this
      */
     public function setChanges($changes)
     {
         $this->changes = $changes;
+        return $this;
     }
 
     public function isReadOnly()

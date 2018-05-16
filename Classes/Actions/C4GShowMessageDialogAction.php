@@ -12,6 +12,8 @@
 
 namespace con4gis\ProjectsBundle\Classes\Actions;
 
+use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialog;
+
 class C4GShowMessageDialogAction extends C4GBrickDialogAction
 {
     public function run()

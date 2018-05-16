@@ -80,11 +80,13 @@ abstract class C4GBrickFieldText extends C4GBrickField
     }
 
     /**
-     * @param string $pattern
+     * @param $pattern
+     * @return $this
      */
     public function setPattern($pattern)
     {
         $this->pattern = $pattern;
+        return $this;
     }
 
     /**
@@ -96,11 +98,13 @@ abstract class C4GBrickFieldText extends C4GBrickField
     }
 
     /**
-     * @param int $maxChars
+     * @param $maxChars
+     * @return $this
      */
     public function setMaxChars($maxChars)
     {
         $this->maxChars = $maxChars;
+        return $this;
     }
 
 

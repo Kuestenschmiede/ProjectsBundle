@@ -164,10 +164,12 @@ class C4GMoreButtonField extends C4GBrickField
 
     /**
      * @param bool $databaseField
+     * @return $this|C4GBrickField
      */
     public function setDatabaseField($databaseField)
     {
         $this->databaseField = $databaseField;
+        return $this;
     }
 
     /**
@@ -179,11 +181,13 @@ class C4GMoreButtonField extends C4GBrickField
     }
 
     /**
-     * @param C4GMoreButton $moreButton
+     * @param $moreButton
+     * @return $this
      */
     public function setMoreButton($moreButton)
     {
         $this->moreButton = $moreButton;
+        return $this;
     }
 
     /**
@@ -195,11 +199,13 @@ class C4GMoreButtonField extends C4GBrickField
     }
 
     /**
-     * @param string $className
+     * @param $className
+     * @return $this
      */
     public function setClassName($className)
     {
         $this->className = $className;
+        return $this;
     }
 
     /**
@@ -211,10 +217,12 @@ class C4GMoreButtonField extends C4GBrickField
     }
 
     /**
-     * @param string $buttonTitle
+     * @param $buttonTitle
+     * @return $this
      */
     public function setButtonTitle($buttonTitle)
     {
         $this->buttonTitle = $buttonTitle;
+        return $this;
     }
 }

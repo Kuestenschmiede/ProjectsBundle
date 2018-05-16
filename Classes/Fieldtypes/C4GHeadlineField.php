@@ -193,11 +193,13 @@ class C4GHeadlineField extends C4GBrickField
     }
 
     /**
-     * @param string $additionalHeaderText
+     * @param $additionalHeaderText
+     * @return $this
      */
     public function setAdditionalHeaderText($additionalHeaderText)
     {
         $this->additionalHeaderText = $additionalHeaderText;
+        return $this;
     }
 
     /**
@@ -209,11 +211,13 @@ class C4GHeadlineField extends C4GBrickField
     }
 
     /**
-     * @param boolean $showFieldCount
+     * @param $showFieldCount
+     * @return $this
      */
     public function setShowFieldCount($showFieldCount)
     {
         $this->showFieldCount = $showFieldCount;
+        return $this;
     }
 
     /**
@@ -225,11 +229,13 @@ class C4GHeadlineField extends C4GBrickField
     }
 
     /**
-     * @param boolean $showHeadlineNumber
+     * @param $showHeadlineNumber
+     * @return $this
      */
     public function setShowHeadlineNumber($showHeadlineNumber)
     {
         $this->showHeadlineNumber = $showHeadlineNumber;
+        return $this;
     }
 
     /**
@@ -241,11 +247,13 @@ class C4GHeadlineField extends C4GBrickField
     }
 
     /**
-     * @param string $accordionIcon
+     * @param $accordionIcon
+     * @return $this
      */
     public function setAccordionIcon($accordionIcon)
     {
         $this->accordionIcon = $accordionIcon;
+        return $this;
     }
 
 

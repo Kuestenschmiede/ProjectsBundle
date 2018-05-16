@@ -33,7 +33,7 @@ function toggleContainer(button) {
 }
 
 /**
- * Handles the rendering of the button when the rendermode is table.
+ * Handles the rendering of the button if the rendermode is table.
  * @param button
  * @param container
  */
@@ -51,7 +51,7 @@ function animateTableMode(button, container) {
 }
 
 /**
- * Handles the rendering of the button when the rendermode is tiles.
+ * Handles the rendering of the button if the rendermode is tiles.
  * @param button
  * @param container
  */
@@ -74,7 +74,9 @@ function animateTileMode(button, container) {
 }
 
 function executeSelection(span) {
-  event.stopPropagation();
+  if (typeof(event) !== 'undefined') {
+    event.stopPropagation();
+  }
   var gui = c4g.projects.C4GGui;
   var url = gui.options.ajaxUrl + '/' + gui.options.moduleId + '/' + span.getAttribute('href');
   $.ajax({
