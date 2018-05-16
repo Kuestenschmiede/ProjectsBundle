@@ -192,7 +192,8 @@ class C4GShowListAction extends C4GBrickDialogAction
                 case C4GBrickView::isGroupBased($viewType):
                     if ($tableName == 'tl_c4g_projects') {
                         $t = $tableName;
-                        $arrColumns = array("$t.group_id=? AND $t.brick_key=?");
+                        $groupIdField = $viewParams->getGroupKeyField();
+                        $arrColumns = array("$t.$groupIdField=? AND $t.brick_key=?");
                         $arrValues = array($groupId, $projectKey);
                         $arrOptions = array(
                             'order' => "$t.tstamp DESC"
