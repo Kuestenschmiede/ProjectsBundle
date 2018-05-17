@@ -177,11 +177,13 @@ class C4GBrickDialogParams
     }
 
     /**
-     * @param int $id
+     * @param $id
+     * @return $this
      */
     public function setId($id)
     {
         $this->id = $id;
+        return $this;
     }
 
     /**
@@ -193,11 +195,13 @@ class C4GBrickDialogParams
     }
 
     /**
-     * @param int $group_id
+     * @param $groupId
+     * @return $this
      */
     public function setGroupId($groupId)
     {
         $this->groupId = $groupId;
+        return $this;
     }
 
     /**
@@ -209,11 +213,13 @@ class C4GBrickDialogParams
     }
 
     /**
-     * @param int $member_id
+     * @param $memberId
+     * @return $this
      */
     public function setMemberId($memberId)
     {
         $this->memberId = $memberId;
+        return $this;
     }
 
     /**
@@ -225,11 +231,13 @@ class C4GBrickDialogParams
     }
 
     /**
-     * @param int $project_id
+     * @param $projectId
+     * @return $this
      */
     public function setProjectId($projectId)
     {
         $this->projectId = $projectId;
+        return $this;
     }
 
     /**
@@ -241,11 +249,13 @@ class C4GBrickDialogParams
     }
 
     /**
-     * @param string $project_uuid
+     * @param $projectUuid
+     * @return $this
      */
     public function setProjectUuid($projectUuid)
     {
         $this->projectUuid = $projectUuid;
+        return $this;
     }
 
     /**
@@ -257,11 +267,13 @@ class C4GBrickDialogParams
     }
 
     /**
-     * @param int $parent_id
+     * @param $parentId
+     * @return $this
      */
     public function setParentId($parentId)
     {
         $this->parentId = $parentId;
+        return $this;
     }
 
     /**
@@ -273,11 +285,13 @@ class C4GBrickDialogParams
     }
 
     /**
-     * @param string $parentIdField
+     * @param $parentIdField
+     * @return $this
      */
     public function setParentIdField($parentIdField)
     {
         $this->parentIdField = $parentIdField;
+        return $this;
     }
 
     /**
@@ -289,11 +303,13 @@ class C4GBrickDialogParams
     }
 
     /**
-     * @param string $homeDir
+     * @param $homeDir
+     * @return $this
      */
     public function setHomeDir($homeDir)
     {
         $this->homeDir = $homeDir;
+        return $this;
     }
 
     /**
@@ -305,11 +321,13 @@ class C4GBrickDialogParams
     }
 
     /**
-     * @param string $viewType
+     * @param $viewType
+     * @return $this
      */
     public function setViewType($viewType)
     {
         $this->viewType = $viewType;
+        return $this;
     }
 
     /**
@@ -321,11 +339,13 @@ class C4GBrickDialogParams
     }
 
     /**
-     * @param null $viewParams
+     * @param $viewParams
+     * @return $this
      */
     public function setViewParams($viewParams)
     {
         $this->viewParams = $viewParams;
+        return $this;
     }
 
     /**
@@ -337,11 +357,13 @@ class C4GBrickDialogParams
     }
 
     /**
-     * @param boolean $frozen
+     * @param bool $frozen
+     * @return $this
      */
-    public function setFrozen($frozen)
+    public function setFrozen($frozen = true)
     {
         $this->frozen = $frozen;
+        return $this;
     }
 
     public function addButton($type, $caption='', $visible=true, $enabled=true, $action = '', $accesskey = '', $defaultByEnter = false, $notification = null, $condition = null, $additionalClass = '') {
@@ -480,11 +502,13 @@ class C4GBrickDialogParams
     }
 
     /**
-     * @param array $buttons
+     * @param $buttons
+     * @return $this
      */
     public function setButtons($buttons)
     {
         $this->buttons = $buttons;
+        return $this;
     }
 
     /**
@@ -496,11 +520,13 @@ class C4GBrickDialogParams
     }
 
     /**
-     * @param boolean $tableRows
+     * @param bool $tableRows
+     * @return $this
      */
-    public function setTableRows($tableRows)
+    public function setTableRows($tableRows = true)
     {
         $this->tableRows = $tableRows;
+        return $this;
     }
 
     /**
@@ -512,11 +538,13 @@ class C4GBrickDialogParams
     }
 
     /**
-     * @param boolean $accordion
+     * @param bool $accordion
+     * @return $this
      */
-    public function setAccordion($accordion)
+    public function setAccordion($accordion = true)
     {
         $this->accordion = $accordion;
+        return $this;
     }
 
     /**
@@ -528,21 +556,23 @@ class C4GBrickDialogParams
     }
 
     /**
-     * @param int $accordion_counter
+     * @param $accordion_counter
+     * @return $this
      */
     public function setAccordionCounter($accordion_counter)
     {
         $this->accordion_counter = $accordion_counter;
+        return $this;
     }
 
     /**
-     * Unused parameter is left in for backwards compatibility.
-     * @param boolean $accordion_all_opened
+     * @param bool $accordion_all_opened
+     * @return mixed
      */
     public function setAccordionAllOpened($accordion_all_opened = true)
     {
         if ($accordion_all_opened == true) {
-            $this->addOnLoadScript('openAccordion("all");');
+            return $this->addOnLoadScript('openAccordion("all");');
         }
     }
 
@@ -555,11 +585,13 @@ class C4GBrickDialogParams
     }
 
     /**
-     * @param boolean $saveOnMandatory
+     * @param bool $saveOnMandatory
+     * @return $this
      */
-    public function setSaveOnMandatory($saveOnMandatory)
+    public function setSaveOnMandatory($saveOnMandatory = true)
     {
         $this->saveOnMandatory = $saveOnMandatory;
+        return $this;
     }
 
     /**
@@ -571,11 +603,13 @@ class C4GBrickDialogParams
     }
 
     /**
-     * @param boolean $mandatoryCheckOnActivate
+     * @param bool $mandatoryCheckOnActivate
+     * @return $this
      */
-    public function setMandatoryCheckOnActivate($mandatoryCheckOnActivate)
+    public function setMandatoryCheckOnActivate($mandatoryCheckOnActivate = true)
     {
         $this->mandatoryCheckOnActivate = $mandatoryCheckOnActivate;
+        return $this;
     }
 
     /**
@@ -587,11 +621,13 @@ class C4GBrickDialogParams
     }
 
     /**
-     * @param boolean $redirectWithSaving
+     * @param bool $redirectWithSaving
+     * @return $this
      */
-    public function setRedirectWithSaving($redirectWithSaving)
+    public function setRedirectWithSaving($redirectWithSaving = true)
     {
         $this->redirectWithSaving = $redirectWithSaving;
+        return $this;
     }
 
     /**
@@ -604,10 +640,12 @@ class C4GBrickDialogParams
 
     /**
      * @param bool $redirectWithActivation
+     * @return $this
      */
-    public function setRedirectWithActivation($redirectWithActivation)
+    public function setRedirectWithActivation($redirectWithActivation = true)
     {
         $this->redirectWithActivation = $redirectWithActivation;
+        return $this;
     }
 
     /**
@@ -619,11 +657,13 @@ class C4GBrickDialogParams
     }
 
     /**
-     * @param boolean $withoutGuiHeader
+     * @param bool $withoutGuiHeader
+     * @return $this
      */
-    public function setWithoutGuiHeader($withoutGuiHeader)
+    public function setWithoutGuiHeader($withoutGuiHeader = true)
     {
         $this->withoutGuiHeader = $withoutGuiHeader;
+        return $this;
     }
 
     /**
@@ -635,11 +675,13 @@ class C4GBrickDialogParams
     }
 
     /**
-     * @param boolean $saveWithoutWithoutMessages
+     * @param bool $saveWithoutMessages
+     * @return $this
      */
-    public function setSaveWithoutMessages($saveWithoutMessages)
+    public function setSaveWithoutMessages($saveWithoutMessages = true)
     {
         $this->saveWithoutMessages = $saveWithoutMessages;
+        return $this;
     }
 
     /**
@@ -651,11 +693,13 @@ class C4GBrickDialogParams
     }
 
     /**
-     * @param boolean $saveWithoutSavingMessage
+     * @param bool $saveWithoutSavingMessage
+     * @return $this
      */
-    public function setSaveWithoutSavingMessage($saveWithoutSavingMessage)
+    public function setSaveWithoutSavingMessage($saveWithoutSavingMessage = true)
     {
         $this->saveWithoutSavingMessage = $saveWithoutSavingMessage;
+        return $this;
     }
 
     /**
@@ -667,11 +711,13 @@ class C4GBrickDialogParams
     }
 
     /**
-     * @param boolean $withInitialSaving
+     * @param bool $withInitialSaving
+     * @return $this
      */
-    public function setWithInitialSaving($withInitialSaving)
+    public function setWithInitialSaving($withInitialSaving = true)
     {
         $this->withInitialSaving = $withInitialSaving;
+        return $this;
     }
 
     /**
@@ -683,11 +729,13 @@ class C4GBrickDialogParams
     }
 
     /**
-     * @param null $redirectSite
+     * @param $redirectSite
+     * @return $this
      */
     public function setRedirectSite($redirectSite)
     {
         $this->redirectSite = $redirectSite;
+        return $this;
     }
 
     /**
@@ -699,11 +747,13 @@ class C4GBrickDialogParams
     }
 
     /**
-     * @param null $redirectBackSite
+     * @param $redirectBackSite
+     * @return $this
      */
     public function setRedirectBackSite($redirectBackSite)
     {
         $this->redirectBackSite = $redirectBackSite;
+        return $this;
     }
 
     /**
@@ -715,11 +765,13 @@ class C4GBrickDialogParams
     }
 
     /**
-     * @param string $brickKey
+     * @param $brickKey
+     * @return $this
      */
     public function setBrickKey($brickKey)
     {
         $this->brickKey = $brickKey;
+        return $this;
     }
 
     /**
@@ -731,11 +783,13 @@ class C4GBrickDialogParams
     }
 
     /**
-     * @param string $projectKey
+     * @param $projectKey
+     * @return $this
      */
     public function setProjectKey($projectKey)
     {
         $this->projectKey = $projectKey;
+        return $this;
     }
 
     /**
@@ -755,19 +809,23 @@ class C4GBrickDialogParams
     }
 
     /**
-     * @param string $brickCaption
+     * @param $brickCaption
+     * @return $this
      */
     public function setBrickCaption($brickCaption)
     {
         $this->brickCaption = $brickCaption;
+        return $this;
     }
 
     /**
-     * @param string $brickCaptionPlural
+     * @param $brickCaptionPlural
+     * @return $this
      */
     public function setBrickCaptionPlural($brickCaptionPlural)
     {
         $this->brickCaptionPlural = $brickCaptionPlural;
+        return $this;
     }
 
     /**
@@ -779,11 +837,13 @@ class C4GBrickDialogParams
     }
 
     /**
-     * @param string $captionField
+     * @param $captionField
+     * @return $this
      */
     public function setCaptionField($captionField)
     {
         $this->captionField = $captionField;
+        return $this;
     }
 
     /**
@@ -795,11 +855,13 @@ class C4GBrickDialogParams
     }
 
     /**
-     * @param string $parentModel
+     * @param $parentModel
+     * @return $this
      */
     public function setParentModel($parentModel)
     {
         $this->parentModel = $parentModel;
+        return $this;
     }
 
     /**
@@ -811,11 +873,13 @@ class C4GBrickDialogParams
     }
 
     /**
-     * @param string $parentCaption
+     * @param $parentCaption
+     * @return $this
      */
     public function setParentCaption($parentCaption)
     {
         $this->parentCaption = $parentCaption;
+        return $this;
     }
 
     /**
@@ -827,11 +891,13 @@ class C4GBrickDialogParams
     }
 
     /**
-     * @param string $parentCaptionPlural
+     * @param $parentCaptionPlural
+     * @return $this
      */
     public function setParentCaptionPlural($parentCaptionPlural)
     {
         $this->parentCaptionPlural = $parentCaptionPlural;
+        return $this;
     }
 
     /**
@@ -843,11 +909,13 @@ class C4GBrickDialogParams
     }
 
     /**
-     * @param boolean $c4gMap
+     * @param $c4gMap
+     * @return $this
      */
     public function setC4gMap($c4gMap)
     {
         $this->c4gMap = $c4gMap;
+        return $this;
     }
 
     /**
@@ -859,11 +927,13 @@ class C4GBrickDialogParams
     }
 
     /**
-     * @param string $contentId
+     * @param $contentId
+     * @return $this
      */
     public function setContentId($contentId)
     {
         $this->contentId = $contentId;
+        return $this;
     }
 
 
@@ -876,11 +946,13 @@ class C4GBrickDialogParams
     }
 
     /**
-     * @param string $headline
+     * @param $headline
+     * @return $this
      */
     public function setHeadline($headline)
     {
         $this->headline = $headline;
+        return $this;
     }
 
     /**
@@ -892,11 +964,13 @@ class C4GBrickDialogParams
     }
 
     /**
-     * @param null $sendEMails
+     * @param $sendEMails
+     * @return $this
      */
     public function setSendEMails($sendEMails)
     {
         $this->sendEMails = $sendEMails;
+        return $this;
     }
 
     /**
@@ -908,11 +982,13 @@ class C4GBrickDialogParams
     }
 
     /**
-     * @param null $notificationTypeContactRequest
+     * @param $notificationTypeContactRequest
+     * @return $this
      */
     public function setNotificationTypeContactRequest($notificationTypeContactRequest)
     {
         $this->notificationTypeContactRequest = $notificationTypeContactRequest;
+        return $this;
     }
 
     /**
@@ -924,11 +1000,13 @@ class C4GBrickDialogParams
     }
 
     /**
-     * @param null $notificationType
+     * @param $notificationType
+     * @return $this
      */
     public function setNotificationType($notificationType)
     {
         $this->notificationType = $notificationType;
+        return $this;
     }
 
     /**
@@ -940,11 +1018,13 @@ class C4GBrickDialogParams
     }
 
     /**
-     * @param boolean $withNotification
+     * @param $withNotification
+     * @return $this
      */
     public function setWithNotification($withNotification)
     {
         $this->withNotification = $withNotification;
+        return $this;
     }
 
     /**
@@ -956,11 +1036,13 @@ class C4GBrickDialogParams
     }
 
     /**
-     * @param boolean $withBackup
+     * @param $withBackup
+     * @return $this
      */
     public function setWithBackup($withBackup)
     {
         $this->withBackup = $withBackup;
+        return $this;
     }
 
     /**
@@ -972,11 +1054,13 @@ class C4GBrickDialogParams
     }
 
     /**
-     * @param boolean $popup
+     * @param bool $popup
+     * @return $this
      */
-    public function setPopup($popup)
+    public function setPopup($popup = true)
     {
         $this->popup = $popup;
+        return $this;
     }
 
     /**
@@ -988,11 +1072,13 @@ class C4GBrickDialogParams
     }
 
     /**
-     * @param boolean $withActivationInfo
+     * @param bool $withActivationInfo
+     * @return $this
      */
-    public function setWithActivationInfo($withActivationInfo)
+    public function setWithActivationInfo($withActivationInfo = true)
     {
         $this->withActivationInfo = $withActivationInfo;
+        return $this;
     }
 
     /**
@@ -1004,11 +1090,13 @@ class C4GBrickDialogParams
     }
 
     /**
-     * @param null $modelListFunction
+     * @param $modelListFunction
+     * @return $this
      */
     public function setModelListFunction($modelListFunction)
     {
         $this->modelListFunction = $modelListFunction;
+        return $this;
     }
 
     /**
@@ -1020,11 +1108,13 @@ class C4GBrickDialogParams
     }
 
     /**
-     * @param boolean $withLabels
+     * @param bool $withLabels
+     * @return $this
      */
-    public function setWithLabels($withLabels)
+    public function setWithLabels($withLabels = true)
     {
         $this->withLabels = $withLabels;
+        return $this;
     }
 
     /**
@@ -1037,10 +1127,12 @@ class C4GBrickDialogParams
 
     /**
      * @param bool $withDescriptions
+     * @return $this
      */
-    public function setWithDescriptions($withDescriptions)
+    public function setWithDescriptions($withDescriptions = true)
     {
         $this->withDescriptions = $withDescriptions;
+        return $this;
     }
 
     /**
@@ -1052,11 +1144,13 @@ class C4GBrickDialogParams
     }
 
     /**
-     * @param int $additionalId
+     * @param $additionalId
+     * @return $this
      */
     public function setAdditionalId($additionalId)
     {
         $this->additionalId = $additionalId;
+        return $this;
     }
 
     /**
@@ -1068,11 +1162,13 @@ class C4GBrickDialogParams
     }
 
     /**
-     * @param string $additionalIdField
+     * @param $additionalIdField
+     * @return $this
      */
     public function setAdditionalIdField($additionalIdField)
     {
         $this->additionalIdField = $additionalIdField;
+        return $this;
     }
 
     /**
@@ -1084,11 +1180,13 @@ class C4GBrickDialogParams
     }
 
     /**
-     * @param string $uniqueResultText
+     * @param $uniqueMessage
+     * @return $this
      */
     public function setUniqueMessage($uniqueMessage)
     {
         $this->uniqueMessage = $uniqueMessage;
+        return $this;
     }
 
     /**
@@ -1100,11 +1198,13 @@ class C4GBrickDialogParams
     }
 
     /**
-     * @param string $uniqueTitle
+     * @param $uniqueTitle
+     * @return $this
      */
     public function setUniqueTitle($uniqueTitle)
     {
         $this->uniqueTitle = $uniqueTitle;
+        return $this;
     }
 
     /**
@@ -1117,10 +1217,12 @@ class C4GBrickDialogParams
 
     /**
      * @param bool $withPrintButton
+     * @return $this
      */
-    public function setWithPrintButton($withPrintButton)
+    public function setWithPrintButton($withPrintButton = true)
     {
         $this->withPrintButton = $withPrintButton;
+        return $this;
     }
 
     /**
@@ -1133,10 +1235,12 @@ class C4GBrickDialogParams
 
     /**
      * @param bool $tabContent
+     * @return $this
      */
-    public function setTabContent($tabContent)
+    public function setTabContent($tabContent = true)
     {
         $this->tabContent = $tabContent;
+        return $this;
     }
 
     /**
@@ -1148,11 +1252,13 @@ class C4GBrickDialogParams
     }
 
     /**
-     * @param int $tabContent_counter
+     * @param $tabContent_counter
+     * @return $this
      */
     public function setTabContentCounter($tabContent_counter)
     {
         $this->tabContent_counter = $tabContent_counter;
+        return $this;
     }
 
     /**
@@ -1165,10 +1271,12 @@ class C4GBrickDialogParams
 
     /**
      * @param bool $withTabContentCheck
+     * @return $this
      */
-    public function setWithTabContentCheck($withTabContentCheck)
+    public function setWithTabContentCheck($withTabContentCheck = true)
     {
         $this->withTabContentCheck = $withTabContentCheck;
+        return $this;
     }
 
     /**
@@ -1180,11 +1288,13 @@ class C4GBrickDialogParams
     }
 
     /**
-     * @param null $filterParams
+     * @param $filterParams
+     * @return $this
      */
     public function setFilterParams($filterParams)
     {
         $this->filterParams = $filterParams;
+        return $this;
     }
 
     /**
@@ -1197,10 +1307,12 @@ class C4GBrickDialogParams
 
     /**
      * @param bool $confirmActivation
+     * @return $this
      */
-    public function setConfirmActivation($confirmActivation)
+    public function setConfirmActivation($confirmActivation = true)
     {
         $this->confirmActivation = $confirmActivation;
+        return $this;
     }
 
     /**
@@ -1213,10 +1325,12 @@ class C4GBrickDialogParams
 
     /**
      * @param bool $notifyOnChanges
+     * @return $this
      */
-    public function setNotifyOnChanges($notifyOnChanges)
+    public function setNotifyOnChanges($notifyOnChanges = true)
     {
         $this->notifyOnChanges = $notifyOnChanges;
+        return $this;
     }
 
     /**
@@ -1229,10 +1343,12 @@ class C4GBrickDialogParams
 
     /**
      * @param bool $saveWithoutClose
+     * @return $this
      */
-    public function setSaveWithoutClose($saveWithoutClose)
+    public function setSaveWithoutClose($saveWithoutClose = true)
     {
         $this->saveWithoutClose = $saveWithoutClose;
+        return $this;
     }
 
     /**
@@ -1245,10 +1361,12 @@ class C4GBrickDialogParams
 
     /**
      * @param bool $withNextPrevButtons
+     * @return $this
      */
-    public function setWithNextPrevButtons($withNextPrevButtons)
+    public function setWithNextPrevButtons($withNextPrevButtons = true)
     {
         $this->withNextPrevButtons = $withNextPrevButtons;
+        return $this;
     }
 
     /**
@@ -1260,11 +1378,13 @@ class C4GBrickDialogParams
     }
 
     /**
-     * @param string $groupKeyField
+     * @param $groupKeyField
+     * @return $this
      */
     public function setGroupKeyField($groupKeyField)
     {
         $this->groupKeyField = $groupKeyField;
+        return $this;
     }
 
     /**
@@ -1276,11 +1396,13 @@ class C4GBrickDialogParams
     }
 
     /**
-     * @param string $onloadScript
+     * @param $onloadScript
+     * @return $this
      */
     public function setOnloadScript($onloadScript)
     {
         $this->onloadScript = $onloadScript;
+        return $this;
     }
 
     /**
@@ -1292,11 +1414,13 @@ class C4GBrickDialogParams
     }
 
     /**
-     * @param mixed $parentCaptionField
+     * @param $parentCaptionField
+     * @return $this
      */
     public function setParentCaptionFields($parentCaptionField)
     {
         $this->parentCaptionFields = $parentCaptionField;
+        return $this;
     }
 
     /**
@@ -1308,11 +1432,13 @@ class C4GBrickDialogParams
     }
 
     /**
-     * @param C4GBeforeDialogSave $beforeSaveAction
+     * @param $beforeSaveAction
+     * @return $this
      */
     public function setBeforeSaveAction($beforeSaveAction)
     {
         $this->beforeSaveAction = $beforeSaveAction;
+        return $this;
     }
 
     /**
@@ -1324,11 +1450,13 @@ class C4GBrickDialogParams
     }
 
     /**
-     * @param string $additionalHeadText
+     * @param $additionalHeadText
+     * @return $this
      */
     public function setAdditionalHeadText($additionalHeadText)
     {
         $this->additionalHeadText = $additionalHeadText;
+        return $this;
     }
 
     /**
@@ -1341,10 +1469,12 @@ class C4GBrickDialogParams
 
     /**
      * @param bool $isWithEmptyParentOption
+     * @return $this
      */
-    public function setIsWithEmptyParentOption($isWithEmptyParentOption)
+    public function setIsWithEmptyParentOption($isWithEmptyParentOption = true)
     {
         $this->isWithEmptyParentOption = $isWithEmptyParentOption;
+        return $this;
     }
 
     /**
@@ -1356,11 +1486,13 @@ class C4GBrickDialogParams
     }
 
     /**
-     * @param array $parentCaptionCallback
+     * @param $parentCaptionCallback
+     * @return $this
      */
     public function setParentCaptionCallback($parentCaptionCallback)
     {
         $this->parentCaptionCallback = $parentCaptionCallback;
+        return $this;
     }
 
     /**
@@ -1372,11 +1504,13 @@ class C4GBrickDialogParams
     }
 
     /**
-     * @param array $redirects
+     * @param $redirects
+     * @return $this
      */
     public function setRedirects($redirects)
     {
         $this->redirects = $redirects;
+        return $this;
     }
 
     public function addRedirect($newRedirect) {
@@ -1393,6 +1527,7 @@ class C4GBrickDialogParams
                 $this->redirects[] = $newRedirect;
             }
         }
+        return $this;
     }
 
     /**
@@ -1405,10 +1540,12 @@ class C4GBrickDialogParams
 
     /**
      * @param bool $saveWithUuid
+     * @return $this
      */
-    public function setSaveWithUuid($saveWithUuid)
+    public function setSaveWithUuid($saveWithUuid = true)
     {
         $this->saveWithUuid = $saveWithUuid;
+        return $this;
     }
 
     /**
@@ -1421,10 +1558,12 @@ class C4GBrickDialogParams
 
     /**
      * @param bool $isWithCommonParentOption
+     * @return $this
      */
-    public function setIsWithCommonParentOption($isWithCommonParentOption)
+    public function setIsWithCommonParentOption($isWithCommonParentOption = true)
     {
         $this->isWithCommonParentOption = $isWithCommonParentOption;
+        return $this;
     }
 
     /**
@@ -1437,10 +1576,12 @@ class C4GBrickDialogParams
 
     /**
      * @param bool $saveTimestamp
+     * @return $this
      */
-    public function setSaveTimestamp($saveTimestamp)
+    public function setSaveTimestamp($saveTimestamp = true)
     {
         $this->saveTimestamp = $saveTimestamp;
+        return $this;
     }
 
 
@@ -1453,11 +1594,13 @@ class C4GBrickDialogParams
     }
 
     /**
-     * @param string $uuid
+     * @param $uuid
+     * @return $this
      */
     public function setUuid($uuid)
     {
         $this->uuid = $uuid;
+        return $this;
     }
 
     /**
@@ -1469,11 +1612,13 @@ class C4GBrickDialogParams
     }
 
     /**
-     * @param string $headlineTag
+     * @param $headlineTag
+     * @return $this
      */
     public function setHeadlineTag($headlineTag)
     {
         $this->headlineTag = $headlineTag;
+        return $this;
     }
 
 }

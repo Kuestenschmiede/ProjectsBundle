@@ -49,11 +49,13 @@ class C4GBrickGridElement
     }
 
     /**
-     * @param int $column
+     * @param $col
+     * @return $this
      */
     public function setCol($col)
     {
         $this->col = $col;
+        return $this;
     }
 
     /**
@@ -65,11 +67,13 @@ class C4GBrickGridElement
     }
 
     /**
-     * @param string $width
+     * @param $width
+     * @return $this
      */
     public function setWidth($width)
     {
         $this->width = $width;
+        return $this;
     }
 
     /**
@@ -81,11 +85,13 @@ class C4GBrickGridElement
     }
 
     /**
-     * @param null $field
+     * @param $field
+     * @return $this
      */
     public function setField($field)
     {
         $this->field = $field;
+        return $this;
     }
 
     /**
@@ -97,11 +103,13 @@ class C4GBrickGridElement
     }
 
     /**
-     * @param int $row
+     * @param $row
+     * @return $this
      */
     public function setRow($row)
     {
         $this->row = $row;
+        return $this;
     }
 
     /**
@@ -113,11 +121,13 @@ class C4GBrickGridElement
     }
 
     /**
-     * @param string $horizontal
+     * @param $horizontal
+     * @return $this
      */
     public function setHorizontal($horizontal)
     {
         $this->horizontal = $horizontal;
+        return $this;
     }
 
     /**
@@ -129,11 +139,13 @@ class C4GBrickGridElement
     }
 
     /**
-     * @param string $vertical
+     * @param $vertical
+     * @return $this
      */
     public function setVertical($vertical)
     {
         $this->vertical = $vertical;
+        return $this;
     }
 
     /**
@@ -145,11 +157,13 @@ class C4GBrickGridElement
     }
 
     /**
-     * @param int $rowspan
+     * @param $rowspan
+     * @return $this
      */
     public function setRowspan($rowspan)
     {
         $this->rowspan = $rowspan;
+        return $this;
     }
 
     /**
@@ -161,11 +175,13 @@ class C4GBrickGridElement
     }
 
     /**
-     * @param int $colspan
+     * @param $colspan
+     * @return $this
      */
     public function setColspan($colspan)
     {
         $this->colspan = $colspan;
+        return $this;
     }
 
 

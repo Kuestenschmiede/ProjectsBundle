@@ -996,10 +996,9 @@ class C4GBrickModuleParent extends \Module
         //Todo GroupFormCopy
 
         //Might need special attention: (because they might fall into multiple cases)
-        //Todo GroupParentBased is part of isGroupBased and isGroupParentBased
         //Todo GroupParentView is part of isGroupBased and isGroupParentBased
 
-        //If you need to handle a view type specifically, use "case $viewType == C4GBrickViewType::VIEW_TYPE"
+        //If you need to handle a view type specifically, use "case $viewType == C4GBrickViewType::VIEW_TYPE:"
         //but try to keep the number of cases civil.
 
         //Also keep in mind you might have to find a non-standard (i.e. module specific) solution.
@@ -1096,11 +1095,13 @@ class C4GBrickModuleParent extends \Module
     }
 
     /**
-     * @param string $brickCaption
+     * @param $brickCaption
+     * @return $this
      */
     public function setBrickCaption($brickCaption)
     {
         $this->brickCaption = $brickCaption;
+        return $this;
     }
 
     /**
@@ -1112,11 +1113,13 @@ class C4GBrickModuleParent extends \Module
     }
 
     /**
-     * @param string $brickCaptionPlural
+     * @param $brickCaptionPlural
+     * @return $this
      */
     public function setBrickCaptionPlural($brickCaptionPlural)
     {
         $this->brickCaptionPlural = $brickCaptionPlural;
+        return $this;
     }
 
     /**
@@ -1128,11 +1131,13 @@ class C4GBrickModuleParent extends \Module
     }
 
     /**
-     * @param null $brickDatabase
+     * @param $brickDatabase
+     * @return $this
      */
     public function setBrickDatabase($brickDatabase)
     {
         $this->brickDatabase = $brickDatabase;
+        return $this;
     }
 
     /**
@@ -1144,11 +1149,13 @@ class C4GBrickModuleParent extends \Module
     }
 
     /**
-     * @param null $listParams
+     * @param $listParams
+     * @return $this
      */
     public function setListParams($listParams)
     {
         $this->listParams = $listParams;
+        return $this;
     }
 
     /**
@@ -1160,11 +1167,13 @@ class C4GBrickModuleParent extends \Module
     }
 
     /**
-     * @param null $dialogParams
+     * @param $dialogParams
+     * @return $this
      */
     public function setDialogParams($dialogParams)
     {
         $this->dialogParams = $dialogParams;
+        return $this;
     }
 
     /**
@@ -1176,11 +1185,13 @@ class C4GBrickModuleParent extends \Module
     }
 
     /**
-     * @param null $putVars
+     * @param $putVars
+     * @return $this
      */
     public function setPutVars($putVars)
     {
         $this->putVars = $putVars;
+        return $this;
     }
 
     /**
@@ -1192,11 +1203,13 @@ class C4GBrickModuleParent extends \Module
     }
 
     /**
-     * @param null $fieldList
+     * @param $fieldList
+     * @return $this
      */
     public function setFieldList($fieldList)
     {
         $this->fieldList = $fieldList;
+        return $this;
     }
 
     /**
@@ -1235,11 +1248,13 @@ class C4GBrickModuleParent extends \Module
     }
 
     /**
-     * @param null $dialogChangeHandler
+     * @param $dialogChangeHandler
+     * @return $this
      */
     public function setDialogChangeHandler($dialogChangeHandler)
     {
         $this->dialogChangeHandler = $dialogChangeHandler;
+        return $this;
     }
 
     /**
@@ -1260,10 +1275,12 @@ class C4GBrickModuleParent extends \Module
 
     /**
      * @param bool $loadUrlClear
+     * @return $this
      */
-    public function setLoadUrlClear($loadUrlClear)
+    public function setLoadUrlClear($loadUrlClear = true)
     {
         $this->loadUrlClear = $loadUrlClear;
+        return $this;
     }
 
     /**
@@ -1275,11 +1292,13 @@ class C4GBrickModuleParent extends \Module
     }
 
     /**
-     * @param string $findBy
+     * @param $findBy
+     * @return $this
      */
     public function setFindBy($findBy)
     {
         $this->findBy = $findBy;
+        return $this;
     }
 
 

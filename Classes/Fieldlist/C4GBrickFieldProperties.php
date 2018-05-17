@@ -44,11 +44,13 @@ class C4GBrickFieldProperties
     }
 
     /**
-     * @param null $data
+     * @param $data
+     * @return $this
      */
     public function setData($data)
     {
         $this->data = $data;
+        return $this;
     }
 
     /**
@@ -76,11 +78,13 @@ class C4GBrickFieldProperties
     }
 
     /**
-     * @param boolean $frozen
+     * @param $frozen
+     * @return $this
      */
-    public function setFrozen($frozen)
+    public function setFrozen($frozen = true)
     {
         $this->frozen = $frozen;
+        return $this;
     }
 
 

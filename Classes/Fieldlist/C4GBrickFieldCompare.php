@@ -50,11 +50,13 @@ class C4GBrickFieldCompare
     }
 
     /**
-     * @param mixed $field
+     * @param $field
+     * @return $this
      */
     public function setField($field)
     {
         $this->field = $field;
+        return $this;
     }
 
     /**
@@ -66,11 +68,13 @@ class C4GBrickFieldCompare
     }
 
     /**
-     * @param mixed $dbValue
+     * @param $dbValue
+     * @return $this
      */
     public function setDbValue($dbValue)
     {
         $this->dbValue = $dbValue;
+        return $this;
     }
 
     /**
@@ -82,11 +86,13 @@ class C4GBrickFieldCompare
     }
 
     /**
-     * @param mixed $dlgValue
+     * @param $dlgValue
+     * @return $this
      */
     public function setDlgValue($dlgValue)
     {
         $this->dlgValue = $dlgValue;
+        return $this;
     }
 
 

@@ -56,11 +56,13 @@ class C4GBeforeDialogSave
     }
 
     /**
-     * @param null $function
+     * @param $function
+     * @return $this
      */
     public function setFunction($function)
     {
         $this->function = $function;
+        return $this;
     }
 
     /**
@@ -72,11 +74,13 @@ class C4GBeforeDialogSave
     }
 
     /**
-     * @param null $class
+     * @param $class
+     * @return $this
      */
     public function setClass($class)
     {
         $this->class = $class;
+        return $this;
     }
 
 }

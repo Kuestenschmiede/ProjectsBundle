@@ -48,11 +48,13 @@ class C4GBrickFilterParams
     }
 
     /**
-     * @param string $headtext
+     * @param $headtext
+     * @return $this
      */
     public function setHeadtext($headtext)
     {
         $this->headtext = $headtext;
+        return $this;
     }
 
     /**
@@ -64,11 +66,13 @@ class C4GBrickFilterParams
     }
 
     /**
-     * @param string $buttontext
+     * @param $buttontext
+     * @return $this
      */
     public function setButtontext($buttontext)
     {
         $this->buttontext = $buttontext;
+        return $this;
     }
 
     /**
@@ -80,11 +84,13 @@ class C4GBrickFilterParams
     }
 
     /**
-     * @param int $minItems
+     * @param $minItems
+     * @return $this
      */
     public function setMinItems($minItems)
     {
         $this->minItems = $minItems;
+        return $this;
     }
 
     /**
@@ -96,11 +102,13 @@ class C4GBrickFilterParams
     }
 
     /**
-     * @param boolean $withRangeFilter
+     * @param bool $withRangeFilter
+     * @return $this
      */
-    public function setWithRangeFilter($withRangeFilter)
+    public function setWithRangeFilter($withRangeFilter = true)
     {
         $this->withRangeFilter = $withRangeFilter;
+        return $this;
     }
 
     /**
@@ -112,11 +120,13 @@ class C4GBrickFilterParams
     }
 
     /**
-     * @param string $rangeFrom
+     * @param $rangeFrom
+     * @return $this
      */
     public function setRangeFrom($rangeFrom)
     {
         $this->rangeFrom = $rangeFrom;
+        return $this;
     }
 
     /**
@@ -128,11 +138,13 @@ class C4GBrickFilterParams
     }
 
     /**
-     * @param string $rangeTo
+     * @param $rangeTo
+     * @return $this
      */
     public function setRangeTo($rangeTo)
     {
         $this->rangeTo = $rangeTo;
+        return $this;
     }
 
     /**
@@ -144,11 +156,13 @@ class C4GBrickFilterParams
     }
 
     /**
-     * @param boolean $withSelectFilter
+     * @param bool $withSelectFilter
+     * @return $this
      */
-    public function setWithSelectFilter($withSelectFilter)
+    public function setWithSelectFilter($withSelectFilter  = true)
     {
         $this->withSelectFilter = $withSelectFilter;
+        return $this;
     }
 
     /**
@@ -160,11 +174,13 @@ class C4GBrickFilterParams
     }
 
     /**
-     * @param boolean $withCheckboxFilter
+     * @param bool $withCheckboxFilter
+     * @return $this
      */
-    public function setWithCheckboxFilter($withCheckboxFilter)
+    public function setWithCheckboxFilter($withCheckboxFilter = true)
     {
         $this->withCheckboxFilter = $withCheckboxFilter;
+        return $this;
     }
 
     /**
@@ -176,11 +192,13 @@ class C4GBrickFilterParams
     }
 
     /**
-     * @param array $fields
+     * @param $fields
+     * @return $this
      */
     public function setFields($fields)
     {
         $this->fields = $fields;
+        return $this;
     }
 
     /**
@@ -192,11 +210,13 @@ class C4GBrickFilterParams
     }
 
     /**
-     * @param array $options
+     * @param $options
+     * @return $this
      */
     public function setOptions($options)
     {
         $this->options = $options;
+        return $this;
     } // Werten wonach gesucht werden soll || $list[] = array('id' => 'der zu suchende Wert', 'name' => 'Name');
 
     /**
@@ -208,11 +228,13 @@ class C4GBrickFilterParams
     }
 
     /**
-     * @param boolean $withGeofilter
+     * @param $withGeofilter
+     * @return $this
      */
-    public function setWithGeofilter($withGeofilter)
+    public function setWithGeofilter($withGeofilter = true)
     {
         $this->withGeofilter = $withGeofilter;
+        return $this;
     }
 
     /**
@@ -224,11 +246,13 @@ class C4GBrickFilterParams
     }
 
     /**
-     * @param string $filterField
+     * @param $filterField
+     * @return $this
      */
     public function setFilterField($filterField)
     {
         $this->filterField = $filterField;
+        return $this;
     }
 
     public function setBrickFilterCookies($brickKey) {
@@ -238,6 +262,7 @@ class C4GBrickFilterParams
             setcookie($brickKey.'_rangeFrom', $fromValue, time()+3600, '/');
             setcookie($brickKey.'_rangeTo', $toValue, time()+3600, '/');
         }
+        return $this;
     }
 
     public function getBrickFilterCookies($brickKey) {

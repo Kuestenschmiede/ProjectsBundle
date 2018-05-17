@@ -30,11 +30,13 @@ class C4GBrickLoadOptions
     }
 
     /**
-     * @param string $model
+     * @param $publishedField
+     * @return $this
      */
     public function setPublishedField($publishedField)
     {
         $this->publishedField = $publishedField;
+        return $this;
     }
 
 
@@ -47,11 +49,13 @@ class C4GBrickLoadOptions
     }
 
     /**
-     * @param string $model
+     * @param $model
+     * @return $this
      */
     public function setModel($model)
     {
         $this->model = $model;
+        return $this;
     }
 
     /**
@@ -63,11 +67,13 @@ class C4GBrickLoadOptions
     }
 
     /**
-     * @param string $keyField
+     * @param $keyField
+     * @return $this
      */
     public function setKeyField($keyField)
     {
         $this->keyField = $keyField;
+        return $this;
     }
 
     /**
@@ -79,11 +85,13 @@ class C4GBrickLoadOptions
     }
 
     /**
-     * @param string $idField
+     * @param $idField
+     * @return $this
      */
     public function setIdField($idField)
     {
         $this->idField = $idField;
+        return $this;
     }
 
     /**
@@ -95,11 +103,13 @@ class C4GBrickLoadOptions
     }
 
     /**
-     * @param string $nameField
+     * @param $nameField
+     * @return $this
      */
     public function setNameField($nameField)
     {
         $this->nameField = $nameField;
+        return $this;
     }
 
     /**
@@ -111,11 +121,13 @@ class C4GBrickLoadOptions
     }
 
     /**
-     * @param string $pathField
+     * @param $pathField
+     * @return $this
      */
     public function setPathField($pathField)
     {
         $this->pathField = $pathField;
+        return $this;
     }
 
 

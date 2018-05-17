@@ -60,11 +60,13 @@ class C4GBrickDatabaseParams
     }
 
     /**
-     * @param string $pkField
+     * @param $pkField
+     * @return $this
      */
     public function setPkField($pkField)
     {
         $this->pkField = $pkField;
+        return $this;
     }
 
     /**
@@ -76,11 +78,13 @@ class C4GBrickDatabaseParams
     }
 
     /**
-     * @param string $type
+     * @param $type
+     * @return $this
      */
     public function setType($type)
     {
         $this->type = $type;
+        return $this;
     }
 
     /**
@@ -92,11 +96,13 @@ class C4GBrickDatabaseParams
     }
 
     /**
-     * @param string $tableName
+     * @param $tableName
+     * @return $this
      */
     public function setTableName($tableName)
     {
         $this->tableName = $tableName;
+        return $this;
     }
 
     /**
@@ -108,11 +114,13 @@ class C4GBrickDatabaseParams
     }
 
     /**
-     * @param string $modelClass
+     * @param $modelClass
+     * @return $this
      */
     public function setModelClass($modelClass)
     {
         $this->modelClass = $modelClass;
+        return $this;
     }
 
     /**
@@ -124,11 +132,13 @@ class C4GBrickDatabaseParams
     }
 
     /**
-     * @param string $entityClass
+     * @param $entityClass
+     * @return $this
      */
     public function setEntityClass($entityClass)
     {
         $this->entityClass = $entityClass;
+        return $this;
     }
 
     /**
@@ -140,11 +150,13 @@ class C4GBrickDatabaseParams
     }
 
     /**
-     * @param array $entityNamespace
+     * @param $entityNamespace
+     * @return $this
      */
     public function setEntityNamespace($entityNamespace)
     {
         $this->entityNamespace = $entityNamespace;
+        return $this;
     }
 
     /**
@@ -156,11 +168,13 @@ class C4GBrickDatabaseParams
     }
 
     /**
-     * @param boolean $deviceMode
+     * @param bool $deviceMode
+     * @return $this
      */
-    public function setDeviceMode($deviceMode)
+    public function setDeviceMode($deviceMode = true)
     {
         $this->deviceMode = $deviceMode;
+        return $this;
     }
 
     /**
@@ -172,11 +186,13 @@ class C4GBrickDatabaseParams
     }
 
     /**
-     * @param null $config
+     * @param $config
+     * @return $this
      */
     public function setConfig($config)
     {
         $this->config = $config;
+        return $this;
     }
 
     /**
@@ -188,11 +204,13 @@ class C4GBrickDatabaseParams
     }
 
     /**
-     * @param null $entityManager
+     * @param $entityManager
+     * @return $this
      */
     public function setEntityManager($entityManager)
     {
         $this->entityManager = $entityManager;
+        return $this;
     }
 
     /**
@@ -204,11 +222,13 @@ class C4GBrickDatabaseParams
     }
 
     /**
-     * @param null $database
+     * @param $database
+     * @return $this
      */
     public function setDatabase($database)
     {
         $this->database = $database;
+        return $this;
     }
 
     /**
@@ -220,11 +240,13 @@ class C4GBrickDatabaseParams
     }
 
     /**
-     * @param string $modelListFunction
+     * @param $modelListFunction
+     * @return $this
      */
     public function setModelListFunction($modelListFunction)
     {
         $this->modelListFunction = $modelListFunction;
+        return $this;
     }
 
     /**
@@ -236,11 +258,13 @@ class C4GBrickDatabaseParams
     }
 
     /**
-     * @param string $findBy
+     * @param $findBy
+     * @return $this
      */
     public function setFindBy($findBy)
     {
         $this->findBy = $findBy;
+        return $this;
     }
 
 }

@@ -75,11 +75,13 @@ class C4GBrickDialog
     }
 
     /**
-     * @param null $dialogParams
+     * @param $dialogParams
+     * @return $this
      */
     public function setDialogParams($dialogParams)
     {
         $this->dialogParams = $dialogParams;
+        return $this;
     }
 
 

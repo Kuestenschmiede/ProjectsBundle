@@ -57,11 +57,13 @@ class C4GBrickCondition
     }
 
     /**
-     * @param string $fieldName
+     * @param $fieldName
+     * @return $this
      */
     public function setFieldName($fieldName)
     {
         $this->fieldName = $fieldName;
+        return $this;
     }
 
     /**
@@ -73,11 +75,13 @@ class C4GBrickCondition
     }
 
     /**
-     * @param string $type
+     * @param $type
+     * @return $this
      */
     public function setType($type)
     {
         $this->type = $type;
+        return $this;
     }
 
 
@@ -90,11 +94,13 @@ class C4GBrickCondition
     }
 
     /**
-     * @param string $value
+     * @param $value
+     * @return $this
      */
     public function setValue($value)
     {
         $this->value = $value;
+        return $this;
     }
 
     /**
@@ -106,11 +112,13 @@ class C4GBrickCondition
     }
 
     /**
-     * @param string $model
+     * @param $model
+     * @return $this
      */
     public function setModel($model)
     {
         $this->model = $model;
+        return $this;
     }
 
     /**
@@ -122,11 +130,13 @@ class C4GBrickCondition
     }
 
     /**
-     * @param string $function
+     * @param $function
+     * @return $this
      */
     public function setFunction($function)
     {
         $this->function = $function;
+        return $this;
     }
 
 

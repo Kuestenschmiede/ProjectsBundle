@@ -87,11 +87,13 @@ class C4GBrickOverlay
     }
 
     /**
-     * @param string $id
+     * @param $id
+     * @return $this
      */
     public function setId($id)
     {
         $this->id = $id;
+        return $this;
     }
 
     /**
@@ -103,11 +105,13 @@ class C4GBrickOverlay
     }
 
     /**
-     * @param string $link
+     * @param $link
+     * @return $this
      */
     public function setLink($link)
     {
         $this->link = $link;
+        return $this;
     }
 
     /**
@@ -127,11 +131,13 @@ class C4GBrickOverlay
     }
 
     /**
-     * @param string $type
+     * @param $type
+     * @return $this
      */
     public function setType($type)
     {
         $this->type = $type;
+        return $this;
     }
 
 

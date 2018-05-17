@@ -33,11 +33,13 @@ class C4GBrickGrid
     }
 
     /**
-     * @param array $elements
+     * @param $elements
+     * @return $this
      */
     public function setElements($elements)
     {
         $this->elements = $elements;
+        return $this;
     }
 
 }

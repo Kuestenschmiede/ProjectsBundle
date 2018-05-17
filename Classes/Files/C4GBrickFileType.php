@@ -25,4 +25,5 @@ class C4GBrickFileType
     const WORD = 'application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document';
 
     //Beliebig erweiterbar :)
+    //OK! ( ͡° ͜ʖ ͡°)
 }

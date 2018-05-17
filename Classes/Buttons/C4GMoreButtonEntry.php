@@ -49,11 +49,13 @@ class C4GMoreButtonEntry extends C4GAbstractListEntry
     }
 
     /**
-     * @param string $title
+     * @param $title
+     * @return $this
      */
     public function setTitle($title)
     {
         $this->title = $title;
+        return $this;
     }
 
     /**
@@ -65,11 +67,13 @@ class C4GMoreButtonEntry extends C4GAbstractListEntry
     }
 
     /**
-     * @param array $condition
+     * @param $condition
+     * @return $this
      */
     public function setCondition($condition)
     {
         $this->condition = $condition;
+        return $this;
     }
 
     /**
@@ -81,11 +85,13 @@ class C4GMoreButtonEntry extends C4GAbstractListEntry
     }
 
     /**
-     * @param string $toolTip
+     * @param $toolTip
+     * @return $this
      */
     public function setToolTip($toolTip)
     {
         $this->toolTip = $toolTip;
+        return $this;
     }
 
     /**
@@ -126,6 +132,7 @@ class C4GMoreButtonEntry extends C4GAbstractListEntry
             default:
                 break;
         }
+        return $this;
     }
 
     public function getCallable() {
@@ -175,10 +182,12 @@ class C4GMoreButtonEntry extends C4GAbstractListEntry
     }
 
     /**
-     * @param array $dynamicTitleCallback
+     * @param $dynamicTitleCallback
+     * @return $this
      */
     public function setDynamicTitleCallback($dynamicTitleCallback)
     {
         $this->dynamicTitleCallback = $dynamicTitleCallback;
+        return $this;
     }
 }

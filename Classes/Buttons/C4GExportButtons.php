@@ -57,11 +57,13 @@ class C4GExportButtons
     }
 
     /**
-     * @param bool $withPrintButton
+     * @param $withPrintButton
+     * @return $this
      */
-    public function setWithPrintButton($withPrintButton)
+    public function setWithPrintButton($withPrintButton = true)
     {
         $this->withPrintButton = $withPrintButton;
+        return $this;
     }
 
     /**
@@ -74,10 +76,12 @@ class C4GExportButtons
 
     /**
      * @param bool $withPdfButton
+     * @return $this#
      */
-    public function setWithPdfButton($withPdfButton)
+    public function setWithPdfButton($withPdfButton = true)
     {
         $this->withPdfButton = $withPdfButton;
+        return $this;
     }
 
     /**
@@ -90,10 +94,12 @@ class C4GExportButtons
 
     /**
      * @param bool $withCsvButton
+     * @return $this
      */
-    public function setWithCsvButton($withCsvButton)
+    public function setWithCsvButton($withCsvButton = true)
     {
         $this->withCsvButton = $withCsvButton;
+        return $this;
     }
 
     /**
@@ -106,10 +112,12 @@ class C4GExportButtons
 
     /**
      * @param bool $withExcelButton
+     * @return $this
      */
-    public function setWithExcelButton($withExcelButton)
+    public function setWithExcelButton($withExcelButton = true)
     {
         $this->withExcelButton = $withExcelButton;
+        return $this;
     }
 
     /**
@@ -122,10 +130,12 @@ class C4GExportButtons
 
     /**
      * @param bool $withCopyButton
+     * @return $this
      */
-    public function setWithCopyButton($withCopyButton)
+    public function setWithCopyButton($withCopyButton = true)
     {
         $this->withCopyButton = $withCopyButton;
+        return $this;
     }
 
     /**
@@ -137,11 +147,13 @@ class C4GExportButtons
     }
 
     /**
-     * @param string $orientation
+     * @param $orientation
+     * @return $this
      */
     public function setOrientation($orientation)
     {
         $this->orientation = $orientation;
+        return $this;
     }
 
     /**
@@ -153,11 +165,13 @@ class C4GExportButtons
     }
 
     /**
-     * @param string $pageSize
+     * @param $pageSize
+     * @return $this
      */
     public function setPageSize($pageSize)
     {
         $this->pageSize = $pageSize;
+        return $this;
     }
 
     /**
@@ -169,11 +183,13 @@ class C4GExportButtons
     }
 
     /**
-     * @param array $exportOptions
+     * @param $exportOptions
+     * @return $this
      */
     public function setExportOptions($exportOptions)
     {
         $this->exportOptions = $exportOptions;
+        return $this;
     }
 
 }

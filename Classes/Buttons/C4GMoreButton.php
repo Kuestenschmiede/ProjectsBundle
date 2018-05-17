@@ -181,11 +181,13 @@ class C4GMoreButton extends C4GAbstractList
     }
 
     /**
-     * @param string $renderModeOverride
+     * @param $renderModeOverride
+     * @return $this
      */
     public function setRenderModeOverride($renderModeOverride)
     {
         $this->renderModeOverride = $renderModeOverride;
+        return $this;
     }
 
     /**
@@ -197,11 +199,13 @@ class C4GMoreButton extends C4GAbstractList
     }
 
     /**
-     * @param string $toolTip
+     * @param $toolTip
+     * @return $this
      */
     public function setToolTip($toolTip)
     {
         $this->toolTip = $toolTip;
+        return $this;
     }
 
 }

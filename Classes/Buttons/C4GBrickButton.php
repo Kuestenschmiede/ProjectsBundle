@@ -256,11 +256,13 @@ class C4GBrickButton
     }
 
     /**
-     * @param string $caption
+     * @param $caption
+     * @return $this
      */
     public function setCaption($caption)
     {
         $this->caption = $caption;
+        return $this;
     }
 
     /**
@@ -272,11 +274,13 @@ class C4GBrickButton
     }
 
     /**
-     * @param boolean $enabled
+     * @param $enabled
+     * @return $this
      */
     public function setEnabled($enabled)
     {
         $this->enabled = $enabled;
+        return $this;
     }
 
     /**
@@ -288,11 +292,13 @@ class C4GBrickButton
     }
 
     /**
-     * @param boolean $visible
+     * @param bool $visible
+     * @return $this
      */
-    public function setVisible($visible)
+    public function setVisible($visible = true)
     {
         $this->visible = $visible;
+        return $this;
     }
 
     /**
@@ -304,11 +310,13 @@ class C4GBrickButton
     }
 
     /**
-     * @param null $type
+     * @param $type
+     * @return $this
      */
     public function setType($type)
     {
         $this->type = $type;
+        return $this;
     }
 
     /**
@@ -320,11 +328,13 @@ class C4GBrickButton
     }
 
     /**
-     * @param string $action
+     * @param $action
+     * @return $this
      */
     public function setAction($action)
     {
         $this->action = $action;
+        return $this;
     }
 
     /**
@@ -336,11 +346,13 @@ class C4GBrickButton
     }
 
     /**
-     * @param string $accesskey
+     * @param $accesskey
+     * @return $this
      */
     public function setAccesskey($accesskey)
     {
         $this->accesskey = $accesskey;
+        return $this;
     }
 
     /**
@@ -352,11 +364,13 @@ class C4GBrickButton
     }
 
     /**
-     * @param boolean $defaultByEnter
+     * @param bool $defaultByEnter
+     * @return $this
      */
-    public function setDefaultByEnter($defaultByEnter)
+    public function setDefaultByEnter($defaultByEnter = true)
     {
         $this->defaultByEnter = $defaultByEnter;
+        return $this;
     }
 
     /**
@@ -368,11 +382,13 @@ class C4GBrickButton
     }
 
     /**
-     * @param null $notification
+     * @param $notification
+     * @return $this
      */
     public function setNotification($notification)
     {
         $this->notification = $notification;
+        return $this;
     }
 
     /**
@@ -384,11 +400,13 @@ class C4GBrickButton
     }
 
     /**
-     * @param null $condition
+     * @param $condition
+     * @return $this
      */
     public function setCondition($condition)
     {
         $this->condition = $condition;
+        return $this;
     }
 
     /**
@@ -400,10 +418,12 @@ class C4GBrickButton
     }
 
     /**
-     * @param string $additionalCssClass
+     * @param $additionalCssClass
+     * @return $this
      */
     public function setAdditionalCssClass($additionalCssClass)
     {
         $this->additionalCssClass = $additionalCssClass;
+        return $this;
     }
 }

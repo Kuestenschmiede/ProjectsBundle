@@ -192,11 +192,13 @@ class C4GBrickListParams
     }
 
     /**
-     * @param int $displayLength
+     * @param $displayLength
+     * @return $this
      */
     public function setDisplayLength($displayLength)
     {
         $this->displayLength = $displayLength;
+        return $this;
     }
 
     /**
@@ -208,11 +210,13 @@ class C4GBrickListParams
     }
 
     /**
-     * @param boolean $withModelListFunction
+     * @param bool $withModelListFunction
+     * @return $this
      */
-    public function setWithModelListFunction($withModelListFunction)
+    public function setWithModelListFunction($withModelListFunction = true)
     {
         $this->withModelListFunction = $withModelListFunction;
+        return $this;
     }
 
     /**
@@ -224,11 +228,13 @@ class C4GBrickListParams
     }
 
     /**
-     * @param boolean $withDetails
+     * @param bool $withDetails
+     * @return $this
      */
-    public function setWithDetails($withDetails)
+    public function setWithDetails($withDetails = true)
     {
         $this->withDetails = $withDetails;
+        return $this;
     }
 
     /**
@@ -240,11 +246,13 @@ class C4GBrickListParams
     }
 
     /**
-     * @param null $filterParams
+     * @param $filterParams
+     * @return $this
      */
     public function setFilterParams(&$filterParams)
     {
         $this->filterParams = $filterParams;
+        return $this;
     }
 
     /**
@@ -256,11 +264,13 @@ class C4GBrickListParams
     }
 
     /**
-     * @param string $renderMode
+     * @param $renderMode
+     * @return $this
      */
     public function setRenderMode($renderMode)
     {
         $this->renderMode = $renderMode;
+        return $this;
     }
 
     /**
@@ -272,11 +282,13 @@ class C4GBrickListParams
     }
 
     /**
-     * @param array $buttons
+     * @param $buttons
+     * @return $this
      */
     public function setButtons($buttons)
     {
         $this->buttons = $buttons;
+        return $this;
     }
 
     /**
@@ -288,11 +300,13 @@ class C4GBrickListParams
     }
 
     /**
-     * @param boolean $withExportButtons
+     * @param bool $withExportButtons
+     * @return $this
      */
-    public function setWithExportButtons($withExportButtons)
+    public function setWithExportButtons($withExportButtons = true)
     {
         $this->withExportButtons = $withExportButtons;
+        return $this;
     }
 
     /**
@@ -304,11 +318,13 @@ class C4GBrickListParams
     }
 
     /**
-     * @param string $headline
+     * @param $headline
+     * @return $this
      */
     public function setHeadline($headline)
     {
         $this->headline = $headline;
+        return $this;
     }
 
     /**
@@ -320,11 +336,13 @@ class C4GBrickListParams
     }
 
     /**
-     * @param int $selectRow
+     * @param $selectRow
+     * @return $this
      */
     public function setSelectRow($selectRow)
     {
         $this->selectRow = $selectRow;
+        return $this;
     }
 
     /**
@@ -337,10 +355,12 @@ class C4GBrickListParams
 
     /**
      * @param bool $paginate
+     * @return $this
      */
-    public function setPaginate($paginate)
+    public function setPaginate($paginate = true)
     {
         $this->paginate = $paginate;
+        return $this;
     }
 
     /**
@@ -353,10 +373,12 @@ class C4GBrickListParams
 
     /**
      * @param bool $lengthChange
+     * @return $this
      */
-    public function setLengthChange($lengthChange)
+    public function setLengthChange($lengthChange = true)
     {
         $this->lengthChange = $lengthChange;
+        return $this;
     }
 
     /**
@@ -369,10 +391,12 @@ class C4GBrickListParams
 
     /**
      * @param bool $filter
+     * @return $this
      */
-    public function setFilter($filter)
+    public function setFilter($filter = true)
     {
         $this->filter = $filter;
+        return $this;
     }
 
     /**
@@ -384,11 +408,13 @@ class C4GBrickListParams
     }
 
     /**
-     * @param bool $info
+     * @param $info
+     * @return $this
      */
-    public function setInfo($info)
+    public function setInfo($info = true)
     {
         $this->info = $info;
+        return $this;
     }
 
     /**
@@ -401,10 +427,12 @@ class C4GBrickListParams
 
     /**
      * @param bool $withoutListButtons
+     * @return $this
      */
-    public function setWithoutListButtons($withoutListButtons)
+    public function setWithoutListButtons($withoutListButtons = true)
     {
         $this->withoutListButtons = $withoutListButtons;
+        return $this;
     }
 
     /**
@@ -416,11 +444,13 @@ class C4GBrickListParams
     }
 
     /**
-     * @param boolean $withFunctionCallOnClick
+     * @param bool $withFunctionCallOnClick
+     * @return $this
      */
-    public function setWithFunctionCallOnClick($withFunctionCallOnClick)
+    public function setWithFunctionCallOnClick($withFunctionCallOnClick = true)
     {
         $this->withFunctionCallOnClick = $withFunctionCallOnClick;
+        return $this;
     }
 
     /**
@@ -432,11 +462,13 @@ class C4GBrickListParams
     }
 
     /**
-     * @param string $onClickFunction
+     * @param $onClickFunction
+     * @return $this
      */
     public function setOnClickFunction($onClickFunction)
     {
         $this->onClickFunction = $onClickFunction;
+        return $this;
     }
 
     /**
@@ -448,11 +480,13 @@ class C4GBrickListParams
     }
 
     /**
-     * @param array $additionalOnClickParams
+     * @param $additionalOnClickParams
+     * @return $this
      */
     public function setAdditionalOnClickParams($additionalOnClickParams)
     {
         $this->additionalOnClickParams = $additionalOnClickParams;
+        return $this;
     }
 
     /**
@@ -465,10 +499,12 @@ class C4GBrickListParams
 
     /**
      * @param bool $withHoverText
+     * @return $this
      */
-    public function setWithHoverText($withHoverText)
+    public function setWithHoverText($withHoverText = true)
     {
         $this->withHoverText = $withHoverText;
+        return $this;
     }
 
     /**
@@ -481,10 +517,12 @@ class C4GBrickListParams
 
     /**
      * @param bool $removeUnpublishedElements
+     * @return $this
      */
-    public function setRemoveUnpublishedElements($removeUnpublishedElements)
+    public function setRemoveUnpublishedElements($removeUnpublishedElements = true)
     {
         $this->removeUnpublishedElements = $removeUnpublishedElements;
+        return $this;
     }
 
     /**
@@ -496,11 +534,13 @@ class C4GBrickListParams
     }
 
     /**
-     * @param int $groupCount
+     * @param $groupCount
+     * @return $this
      */
     public function setGroupCount($groupCount)
     {
         $this->groupCount = $groupCount;
+        return $this;
     }
 
     /**
@@ -512,11 +552,13 @@ class C4GBrickListParams
     }
 
     /**
-     * @param string $viewFormatFunction
+     * @param $viewFormatFunction
+     * @return $this
      */
     public function setViewFormatFunction($viewFormatFunction)
     {
         $this->viewFormatFunction = $viewFormatFunction;
+        return $this;
     }
 
     /**
@@ -529,10 +571,12 @@ class C4GBrickListParams
 
     /**
      * @param bool $withJQueryUI
+     * @return $this
      */
-    public function setWithJQueryUI($withJQueryUI)
+    public function setWithJQueryUI($withJQueryUI = true)
     {
         $this->withJQueryUI = $withJQueryUI;
+        return $this;
     }
 
     /**
@@ -545,10 +589,12 @@ class C4GBrickListParams
 
     /**
      * @param bool $printOnlyVisibleColumns
+     * @return $this
      */
-    public function setPrintOnlyVisibleColumns($printOnlyVisibleColumns)
+    public function setPrintOnlyVisibleColumns($printOnlyVisibleColumns = true)
     {
         $this->printOnlyVisibleColumns = $printOnlyVisibleColumns;
+        return $this;
     }
 
     /**
@@ -560,11 +606,13 @@ class C4GBrickListParams
     }
 
     /**
-     * @param array $exportButtons
+     * @param $exportButtons
+     * @return $this
      */
     public function setExportButtons($exportButtons)
     {
         $this->exportButtons = $exportButtons;
+        return $this;
     }
 
     /**
@@ -576,11 +624,13 @@ class C4GBrickListParams
     }
 
     /**
-     * @param string $captionField
+     * @param $captionField
+     * @return $this
      */
     public function setCaptionField($captionField)
     {
         $this->captionField = $captionField;
+        return $this;
     }
 
     /**
@@ -592,11 +642,13 @@ class C4GBrickListParams
     }
 
     /**
-     * @param int $rowCount
+     * @param $rowCount
+     * @return $this
      */
     public function setRowCount($rowCount)
     {
         $this->rowCount = $rowCount;
+        return $this;
     }
 
     /**
@@ -608,11 +660,13 @@ class C4GBrickListParams
     }
 
     /**
-     * @param string $redirectTo
+     * @param $redirectTo
+     * @return $this
      */
     public function setRedirectTo($redirectTo)
     {
         $this->redirectTo = $redirectTo;
+        return $this;
     }
 
     /**
@@ -624,11 +678,13 @@ class C4GBrickListParams
     }
 
     /**
-     * @param string $Uuid
+     * @param $Uuid
+     * @return $this
      */
     public function setUuid($Uuid)
     {
         $this->Uuid = $Uuid;
+        return $this;
     }
 
     /**
@@ -641,9 +697,11 @@ class C4GBrickListParams
 
     /**
      * @param bool $showToolTips
+     * @return $this
      */
-    public function setShowToolTips($showToolTips)
+    public function setShowToolTips($showToolTips = true)
     {
         $this->showToolTips = $showToolTips;
+        return $this;
     }
 }
