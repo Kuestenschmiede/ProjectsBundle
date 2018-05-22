@@ -1065,6 +1065,7 @@ class C4GBrickDialog
                         $fieldData = $field->getInitialValue();
                     }
                 } else if (($field instanceof C4GGeopickerField) || ($field instanceof C4GDateTimeLocationField)) {
+
                     $loc_geox = $dlgValues['geox'];
                     if (!$loc_geox) {
                         $loc_geox = '';
@@ -1073,9 +1074,16 @@ class C4GBrickDialog
                     if (!$loc_geoy) {
                         $loc_geoy = '';
                     }
-                    $set['loc_geox'] = $loc_geox;
-                    $set['loc_geoy'] = $loc_geoy;
-
+                    // dynamic field names in the database
+                    if ($field instanceof C4GGeopickerField) {
+                        $geoxFieldname = $field->getLocGeoxFieldname();
+                        $geoyFieldname = $field->getLocGeoyFieldname();
+                        $set[$geoxFieldname] = $loc_geox;
+                        $set[$geoyFieldname] = $loc_geoy;
+                    } else {
+                        $set['loc_geox'] = $loc_geox;
+                        $set['loc_geoy'] = $loc_geoy;
+                    }
                     $fieldData = null;
                 } else if ($field instanceof C4GFileField){
                     $fieldData = $field->createFieldData($dlgValues, $dbValues);
@@ -1100,6 +1108,7 @@ class C4GBrickDialog
 
             $memberKeyField = $dialogParams->getViewParams()->getMemberKeyField();
             $groupKeyField = $dialogParams->getViewParams()->getGroupKeyField();
+            $projectKeyField = $dialogParams->getViewParams()->getProjectKeyField();
 
             // only save member id when memberbased or publicform
             if (C4GBrickView::isWithMember($viewType) || $viewType == C4GBrickViewType::PUBLICFORM) {
@@ -1119,7 +1128,7 @@ class C4GBrickDialog
             if (C4GBrickView::isWithProject($viewType)) {
                 $projectId = $dlgValues['c4g_project_id'];
                 if ( ($projectId) && ($projectId > 0) ) {
-                    $set['project_id'] = $projectId;
+                    $set[$projectKeyField] = $projectId;
                 }
             }
 

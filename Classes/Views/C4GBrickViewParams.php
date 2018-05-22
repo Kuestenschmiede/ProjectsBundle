@@ -19,6 +19,7 @@ class C4GBrickViewParams {
     private $memberKeyField = 'member_id';
     private $groupKeyField  = 'group_id';
     private $parentKeyField = 'pid';
+    private $projectKeyField = 'project_id';
     private $modelListFunction = null; //Lädt die Datensätze der Tabelle über eine spezielle Modelfunktion.
     private $loginRedirect  = '';
     private $actionNamespaces = array();    //Namespaces for custom actions, full path including the name of the action.
@@ -142,5 +143,21 @@ class C4GBrickViewParams {
     public function setActionNamespaces($actionNamespace)
     {
         $this->actionNamespaces = $actionNamespace;
+    }
+
+    /**
+     * @return string
+     */
+    public function getProjectKeyField()
+    {
+        return $this->projectKeyField;
+    }
+
+    /**
+     * @param string $projectKeyField
+     */
+    public function setProjectKeyField($projectKeyField)
+    {
+        $this->projectKeyField = $projectKeyField;
     }
 }

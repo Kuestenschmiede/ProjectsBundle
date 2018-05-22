@@ -86,6 +86,7 @@ class C4GBrickView {
             case C4GBrickViewType::PROJECTBASED:
             case C4GBrickViewType::PROJECTFORM:
             case C4GBrickViewType::PROJECTFORMCOPY:
+            case C4GBrickViewType::GROUPPROJECT:
                 return true;
         }
 

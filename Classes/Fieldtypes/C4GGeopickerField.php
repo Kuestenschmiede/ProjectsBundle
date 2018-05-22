@@ -22,6 +22,8 @@ class C4GGeopickerField extends C4GBrickField
 {
     private $withoutAddressReloadButton = true; //do not show the address reload field
     private $withoutAddressRow = false; //do not show address row
+    private $locGeoxFieldname = 'loc_geox';
+    private $locGeoyFieldname = 'loc_geoy';
 
     /**
      * @param C4GBrickField[] $fieldList
@@ -250,5 +252,40 @@ class C4GGeopickerField extends C4GBrickField
         return $this;
     }
 
+    /**
+     * @return string
+     */
+    public function getLocGeoxFieldname()
+    {
+        return $this->locGeoxFieldname;
+    }
+
+    /**
+     * @param string $locGeoxFieldname
+     * @return C4GGeopickerField
+     */
+    public function setLocGeoxFieldname($locGeoxFieldname)
+    {
+        $this->locGeoxFieldname = $locGeoxFieldname;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLocGeoyFieldname()
+    {
+        return $this->locGeoyFieldname;
+    }
+
+    /**
+     * @param string $locGeoyFieldname
+     * @return C4GGeopickerField
+     */
+    public function setLocGeoyFieldname($locGeoyFieldname)
+    {
+        $this->locGeoyFieldname = $locGeoyFieldname;
+        return $this;
+    }
 
 }
