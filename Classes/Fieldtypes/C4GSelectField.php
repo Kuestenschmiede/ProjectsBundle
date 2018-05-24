@@ -88,7 +88,6 @@ class C4GSelectField extends C4GBrickField
             $fieldOptions = $this->getOptions();
             if ($fieldOptions) {
                 array_unshift($fieldOptions, array('id' => '-1', 'name' => $this->emptyOptionLabel));
-//                $fieldOptions[-1] = array('id' => '', 'name' => '');
                 $this->setOptions($fieldOptions);
             }
         }
