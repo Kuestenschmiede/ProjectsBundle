@@ -170,6 +170,8 @@ $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['validate_uniqe']  = 'Für das Feld';
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['validate_uniqe_2'] = 'existiert der folgende Feldwert bereits in der Datenbank: ';
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['validate_title'] = 'Bereits vorhanden ...';
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['MAX_LENGTH'] = ' [max. Zeichen: ';
+$GLOBALS['TL_LANG']['FE_C4G_DIALOG']['INVALID_INPUT'] = 'Ungültige Eingabe';
+$GLOBALS['TL_LANG']['FE_C4G_DIALOG']['CHECK_FIELD'] = 'Ungültige Eingabe im Feld  ';
 
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG_COMPARE']['newEntry']     = 'Neuer Eintrag';
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG_COMPARE']['deletedEntry'] = 'Feldinhalt wurde geleert';
