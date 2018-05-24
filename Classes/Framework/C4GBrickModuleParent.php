@@ -120,6 +120,8 @@ class C4GBrickModuleParent extends \Module
     //UUID params
     protected $UUID                 = 'c4g_brick_uuid'; //Name of the uuid cookie in the browser. Can be overridden in child.
     protected $useUuidCookie        = true; //Can be overridden in child to suppress the uuid cookie.
+
+
     /**
      * module class function to get fields
      */
@@ -1009,6 +1011,9 @@ class C4GBrickModuleParent extends \Module
                 $id = $this->getDialogParams()->getGroupId();
                 $idField = $this->viewParams->getGroupKeyField();
                 break;
+            case $viewType == C4GBrickViewType::ADMINBASED:
+                $idField = '';
+                break;
             case C4GBrickView::isMemberBased($viewType):
                 $id = $this->getDialogParams()->getMemberId();
                 $idField = $this->viewParams->getMemberKeyField();
@@ -1037,6 +1042,8 @@ class C4GBrickModuleParent extends \Module
 
         if (($idField !== '') && ($id) && $this->databaseType !== C4GBrickDatabaseType::NO_DB) {
             $elements = $this->brickDatabase->findBy($idField, $id);
+        } elseif ($viewType == C4GBrickViewType::ADMINBASED) {
+            $elements = $this->brickDatabase->findAll();
         } else {
             $elements = null;
         }
@@ -1300,6 +1307,5 @@ class C4GBrickModuleParent extends \Module
         $this->findBy = $findBy;
         return $this;
     }
-
 
 }

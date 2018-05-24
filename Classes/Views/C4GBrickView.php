@@ -57,6 +57,7 @@ class C4GBrickView {
             case C4GBrickViewType::MEMBERBOOKING:
             case C4GBrickViewType::MEMBERVIEW:
             case C4GBrickViewType::MEMBERFORM:
+            case C4GBrickViewType::ADMINBASED:
                 return true;
         }
 
