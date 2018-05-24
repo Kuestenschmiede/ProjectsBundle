@@ -307,7 +307,7 @@ abstract class C4GBrickField
         }
     }
 
-    protected function checkCondition($fieldList, $data, $conditions)
+    public function checkCondition($fieldList, $data, $conditions)
     {
         if ($conditions) {
             $emptyConditionFieldData = false;

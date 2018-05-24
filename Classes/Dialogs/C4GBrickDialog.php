@@ -25,6 +25,7 @@ use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldNumeric;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldText;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldType;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GCheckboxField;
+use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GDateField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GDateTimeLocationField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GDecimalField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GEmailField;
@@ -852,18 +853,17 @@ class C4GBrickDialog
     public static function validateFields($fieldList, $dlgValues)
     {
         if (($fieldList) && ($dlgValues)) {
+            
             $percentGroups = array();
             foreach ($fieldList as $field) {
-                /*if ($field instanceof C4GEmailField) {
-                    $fieldName = $field->getFieldName();
-                    $dlgValue = $dlgValues[$fieldName];
-                    if ($dlgValue && (trim($dlgValue) != '')) {
-                        $mail = C4GUtils::emailIsValid($dlgValue);
-                        if (!$mail) {
-                            return $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['validate_email'];
-                        }
+
+                if ($field->getCondition()) {
+                    if (!$field->checkCondition($fieldList, $dlgValues, $field->getCondition())) {
+                        continue;
                     }
-                }*/ if ($field instanceof C4GTelField) {
+                }
+
+                 if ($field instanceof C4GTelField) {
                     $fieldName = $field->getFieldName();
                     $dlgValue = $dlgValues[$fieldName];
                     if ($dlgValue && (trim($dlgValue) != '')) {
@@ -874,21 +874,21 @@ class C4GBrickDialog
                             return $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['validate_fax'];
                         }
                     }
-                } /*elseif ($field instanceof C4GPostalField) {
-                    $fieldName = $field->getFieldName();
-                    $dlgValue = $dlgValues[$fieldName];
-                    if ($dlgValue && (trim($dlgValue) != '')) {
-                        $postal = C4GUtils::postalIsValid($dlgValue);
-                        if (!$postal) {
-                            return $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['validate_postal'];
-                        }
-                    }
-                }*/ else if ($field instanceof C4GUrlField) {
+                }  else if ($field instanceof C4GUrlField) {
                     $fieldName = $field->getFieldName();
                     $dlgValue = $dlgValues[$fieldName];
                     if ($dlgValue && (trim($dlgValue) != '')) {
                         if (!preg_match("/\b(?:(?:https?|ftp):\/\/|www\.)[-a-z0-9+&@#\/%?=~_|!:,.;]*[-a-z0-9+&@#\/%=~_|]/i", $dlgValue)) {
                             return $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['validate_website'];
+                        }
+                    }
+                }  else if ($field instanceof C4GDateField) {
+                    $fieldName = $field->getFieldName();
+                    $dlgValue = $dlgValues[$fieldName];
+                    if ($dlgValue && (trim($dlgValue) != '')) {
+                        $pattern = $field->getPattern();
+                        if (($pattern != '') && (!preg_match("/".$pattern."/i", $dlgValue))) {
+                            return $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['CHECK_FIELD'] . '"' . $field->getTitle() . '".';
                         }
                     }
                 } else if ($field instanceof C4GBrickFieldNumeric) {
