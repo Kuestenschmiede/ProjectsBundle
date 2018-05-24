@@ -85,14 +85,6 @@ class C4GBrickModuleParent extends \Module
     //con4gis global settings
     protected $settings             = null; //tl_c4g_settings
 
-    /**
-     * @return string
-     */
-    public function getCaptionField()
-    {
-        return $this->captionField;
-    } //doctrine entity class
-
     //caption params
     protected $brickCaption         = ''; //default singular dataset caption
     protected $brickCaptionPlural   = ''; //default plural dataset caption
@@ -135,6 +127,14 @@ class C4GBrickModuleParent extends \Module
     {
         //to fill $this->fieldList in your module class
     }
+
+    /**
+     * @return string
+     */
+    public function getCaptionField()
+    {
+        return $this->captionField;
+    } //doctrine entity class
 
     /**
      * module class function after saving
