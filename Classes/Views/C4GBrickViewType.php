@@ -12,8 +12,13 @@
 namespace con4gis\ProjectsBundle\Classes\Views;
 
 class C4GBrickViewType {
+
     const GROUPBASED        = 'group'; //Gruppenbasiert - Unsere Daten
     const MEMBERBASED       = 'member'; //Mitgliederbasiert - Meine Daten
+
+    /** ADMINBASED View and Editing for administrators. C4GPermissions grant access to the entire table.  */
+    const ADMINBASED        = 'admin';
+
     const PUBLICBASED       = 'public'; //Öffentliche Ansicht ohne Bearbeitungsmöglichkeit
     const PUBLICUUIDBASED   = 'publicuuid'; //Speicherung in Datenbank ohne Mitgliedschaft per UUID
     const PROJECTBASED      = 'projectbased'; //Ein Projekt muss geladen sein

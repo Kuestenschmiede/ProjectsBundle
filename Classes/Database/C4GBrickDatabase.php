@@ -96,7 +96,7 @@ class C4GBrickDatabase
             return $this->entitiesToContao($this->entityManager->getRepository($entityClass)->findBy([$fieldname => $value]));
         } else {
             $modelClass = $this->params->getModelClass();
-            if ($modelClass) {
+            if ($modelClass  && method_exists($modelClass, 'findBy')) {
                 return $modelClass::findBy($fieldname, $value, $arrOptions);
             } else {
                 return array();

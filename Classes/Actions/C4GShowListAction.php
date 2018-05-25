@@ -257,6 +257,9 @@ class C4GShowListAction extends C4GBrickDialogAction
                     }
                     $elements = $brickDatabase->findBy($pid_field, $parentId);
                     break;
+                case C4GBrickViewType::ADMINBASED;
+                    $elements = $brickDatabase->findAll();
+                    break;
                 case C4GBrickView::isMemberBased($viewType):
                     if($modelListFunction) {
                         $function = $modelListFunction;
@@ -334,7 +337,11 @@ class C4GShowListAction extends C4GBrickDialogAction
             $filterField = $filterParams->getFilterField();
             foreach ($elements as $key => $element) {
                 if ($element->$filterField < $rangeFrom || $rangeTo < $element->$filterField) {
-                    unset($elements->$key);
+                    if ($elements instanceof \stdClass) {
+                        unset($elements->$key);
+                    } else {
+                        unset($elements[$key]);
+                    }
                 }
             }
         }
