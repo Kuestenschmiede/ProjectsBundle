@@ -1396,13 +1396,25 @@ class C4GBrickDialogParams
     }
 
     /**
-     * @param $onloadScript
-     * @return $this
+     * Calls the adder to remain backwards compatible.
+     * @param string $onloadScript
      */
     public function setOnloadScript($onloadScript)
     {
-        $this->onloadScript = $onloadScript;
-        return $this;
+        $this->addOnLoadScript($onloadScript);
+    }
+
+    /**
+     * @param string $onloadScript
+     */
+
+    public function addOnLoadScript($onloadScript)
+    {
+        if ($this->onloadScript !== '') {
+            $this->onloadScript .= $onloadScript;
+        } else {
+            $this->onloadScript = $onloadScript;
+        }
     }
 
     /**
