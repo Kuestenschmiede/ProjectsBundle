@@ -335,15 +335,28 @@ class C4GShowListAction extends C4GBrickDialogAction
             $filterText = "Zeitraum von " . $highlightSpan . $dateFrom . $highlightSpanEnd . ' bis zum ' .
                 $highlightSpan . $dateTo . $highlightSpanEnd;
             $filterField = $filterParams->getFilterField();
-            foreach ($elements as $key => $element) {
-                if ($element->$filterField < $rangeFrom || $rangeTo < $element->$filterField) {
-                    if ($elements instanceof \stdClass) {
-                        unset($elements->$key);
+            if ($filterField) {
+                foreach ($elements as $key => $element) {
+                    if (is_array($element)) {
+                        if ($element[$filterField] < $rangeFrom || $rangeTo < $element[$filterField]) {
+                            if ($elements instanceof \stdClass) {
+                                unset($elements->$key);
+                            } else {
+                                unset($elements[$key]);
+                            }
+                        }
                     } else {
-                        unset($elements[$key]);
+                        if ($element->$filterField < $rangeFrom || $rangeTo < $element->$filterField) {
+                            if ($elements instanceof \stdClass) {
+                                unset($elements->$key);
+                            } else {
+                                unset($elements[$key]);
+                            }
+                        }
                     }
                 }
             }
+
         }
 
         // call formatter if set
