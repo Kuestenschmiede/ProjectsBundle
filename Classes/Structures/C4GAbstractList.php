@@ -27,7 +27,7 @@ abstract class C4GAbstractList
     /**
      * @return C4GAbstractListEntry[]
      */
-    public function getEntries(): array
+    public function getEntries()
     {
         return $this->entries;
     }
@@ -37,7 +37,7 @@ abstract class C4GAbstractList
      * @param C4GAbstractListEntry $entry   The entry to add.
      * @return int                          The index of the entry.
      */
-    public function addEntry(C4GAbstractListEntry $entry)
+    public function addEntry($entry)
     {
         $this->entries[] = $entry;
         return count($this->entries);
@@ -48,7 +48,7 @@ abstract class C4GAbstractList
      * @param C4GAbstractListEntry $entry   The entry to delete.
      * @return C4GAbstractListEntry|bool    The removed entry or false, if the entry was not found.
      */
-    public function deleteEntry(C4GAbstractListEntry $entry)
+    public function deleteEntry($entry)
     {
         foreach ($this->entries as $key => $currentEntry) {
             if ($currentEntry->equals($entry)) {
@@ -65,7 +65,7 @@ abstract class C4GAbstractList
      * @param int $index                    The index of the entry to delete.
      * @return bool|C4GAbstractListEntry    The removed entry or false, if the index does not exist.
      */
-    public function deleteEntryByIndex(int $index)
+    public function deleteEntryByIndex($index)
     {
         foreach ($this->entries as $key => $currentEntry) {
             if ($key == $index) {
@@ -82,7 +82,7 @@ abstract class C4GAbstractList
      * @param int $index                    The index of the entry to get.
      * @return bool|C4GAbstractListEntry    The desired entry or false, if the index does not exist.
      */
-    public function getEntryByIndex(int $index)
+    public function getEntryByIndex($index)
     {
         foreach ($this->entries as $key => $currentEntry) {
             if ($key == $index) {
