@@ -18,7 +18,6 @@ use con4gis\ProjectsBundle\Classes\Common\C4GBrickConst;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GDateTimeLocationField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GGeopickerField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GGridField;
-use con4gis\ProjectsBundle\Classes\Framework\C4GInterfaceModulePermissions;
 use con4gis\ProjectsBundle\Classes\Models\C4gProjectsModel;
 use con4gis\ProjectsBundle\Classes\Permission\C4GTablePermission;
 use con4gis\ProjectsBundle\Classes\Views\C4GBrickView;
