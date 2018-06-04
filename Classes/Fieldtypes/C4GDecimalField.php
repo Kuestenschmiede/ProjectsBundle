@@ -112,7 +112,7 @@ class C4GDecimalField extends C4GBrickFieldNumeric
         //ToDo zur Berechnung, Speicherung, etc. muss die Umwandlung auch noch anderer Stelle gemacht/geprüft werden.
         //Hier setzen wir für die Berechnung bis dahin Standardwerte.
         if ($value && ($point || $comma)) {
-            $value = number_format($value,$this->getDecimals(),'.','');
+            $value = number_format($value,$this->getDecimals(),$this->getDecimalPoint(),'');
         }
         return $value;
     }
