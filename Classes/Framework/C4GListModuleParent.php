@@ -20,7 +20,7 @@ namespace con4gis\ProjectsBundle\Classes\Framework;
  * Class C4GListModuleParent
  * @package c4g\projects
  */
-abstract class C4GListModuleParent extends \Module
+/*abstract*/ class C4GListModuleParent extends \Module
 {
     protected $headline = '';           //String to be displayed above the list
     protected $headerGallery = null;    //C4GGalleryField to be displayed above the list, above the headline if it exists
@@ -28,16 +28,16 @@ abstract class C4GListModuleParent extends \Module
     protected $id = '';                 //numeric identifier that tells the ajax response which list sent the request
     protected $tableName = '';
 
-    public abstract function getFields();
+    /*public abstract function getFields();*/
     /**
      *  Example:
      *  $fieldList = array();
      * $fieldLIst[]
      */
 
-    public abstract function getListSearchFields();
+    /*public abstract function getListSearchFields();*/
 
-    public abstract function getDefaultList();
+    /*public abstract function getDefaultList();*/
 
     /**
      * Parse the template
@@ -51,7 +51,7 @@ abstract class C4GListModuleParent extends \Module
         $this->Template->id = $this->id;
         $this->Template->headerGallery = null;
         $this->Template->headline = $this->headline;
-        $this->Template->defaultList = $this->getDefaultList();
+//        $this->Template->defaultList = $this->getDefaultList();
 
         $GLOBALS['TL_JAVASCRIPT'][] = $this->javascript;
 

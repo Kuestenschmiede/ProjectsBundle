@@ -5,7 +5,7 @@ function requestListContentFromServer() {
 
     if (result) {
         var id = this.id.replace('c4g_list_search_');
-        jQuery.get({url:'/con4gis/projectsbundle/ajax/' + value}).done(function(data) {
+        jQuery.get({url:'/con4gis/projectsbundle/updatelist/' + value + ':' + this.name}).done(function(data) {
             var list = document.getElementById('c4g_list_' + id);
 
             //remove list items

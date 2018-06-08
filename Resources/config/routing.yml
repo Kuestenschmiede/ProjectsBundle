@@ -39,3 +39,12 @@ con4gis_brick_file_upload:
         _scope: frontend
         _controller: "con4gisProjectsBundle:Ajax:upload"
     methods: [POST]
+
+con4gis_projects_update_list:
+    path: /con4gis/projectsbundle/updatelist/{dataId}
+    defaults:
+        _scope: frontend
+        _controller: "con4gisProjectsBundle:UpdateList:findInDatabase"
+    methods: [GET]
+    requirements:
+        profileId: \d+
