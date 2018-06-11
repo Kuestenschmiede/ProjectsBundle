@@ -26,14 +26,14 @@ $GLOBALS['TL_DCA']['tl_c4g_projects'] = array
             array('\con4gis\CoreBundle\Resources\contao\classes\C4GAutomator', 'purgeApiCache')
         ),
         'databaseAssisted'  => true,
-        'sql'               => array
-        (
-            'keys' => array
-            (
-                'id' => 'primary',
-                'uuid' => 'unique',
-            )
-        )
+//        'sql'               => array
+//        (
+//            'keys' => array
+//            (
+//                'id' => 'primary',
+//                'uuid' => 'unique',
+//            )
+//        )
     ),
 
 
@@ -107,18 +107,18 @@ $GLOBALS['TL_DCA']['tl_c4g_projects'] = array
     (
         'id' => array
         (
-            'sql'               => "int(10) unsigned NOT NULL auto_increment"
+//            'sql'               => "int(10) unsigned NOT NULL auto_increment"
         ),
 
         'tstamp' => array
         (
-            'sql'               => "int(10) unsigned NOT NULL default '0'"
+//            'sql'               => "int(10) unsigned NOT NULL default '0'"
         ),
 
         'uuid' => array
         (
             'save_callback'     => array(array('tl_c4g_projects','generateUuid')),
-            'sql'               => "varchar(128) NOT NULL default ''"
+//            'sql'               => "varchar(128) NOT NULL default ''"
         ),
 
         'brick_key' => array
@@ -129,7 +129,7 @@ $GLOBALS['TL_DCA']['tl_c4g_projects'] = array
             'search'            => true,
             'inputType'         => 'text',
             'eval'              => array('mandatory' => true, 'tl_class' => 'w50', 'maxlength' => 255),
-            'sql'               => "varchar(255) NOT NULL"
+//            'sql'               => "varchar(255) NOT NULL"
         ),
 
         'group_id' => array
@@ -142,7 +142,7 @@ $GLOBALS['TL_DCA']['tl_c4g_projects'] = array
             'inputType'         => 'select',
             'foreignKey'        => 'tl_member_group.name',
             'eval'              => array('mandatory' => true),
-            'sql'               => "int(10) unsigned NOT NULL",
+//            'sql'               => "int(10) unsigned NOT NULL",
             'relation'          => array('type' => 'hasOne', 'load' => 'lazy')
         ),
 
@@ -154,7 +154,7 @@ $GLOBALS['TL_DCA']['tl_c4g_projects'] = array
             'search'            => true,
             'inputType'         => 'text',
             'eval'              => array('mandatory' => true, 'maxlength' => 255),
-            'sql'               => "varchar(255) NOT NULL"
+//            'sql'               => "varchar(255) NOT NULL"
         ),
 
         'description' => array
@@ -164,7 +164,7 @@ $GLOBALS['TL_DCA']['tl_c4g_projects'] = array
             'inputType'               => 'textarea',
             'search'                  => true,
             'eval'                    => array('tl_class'=>'long','style'=>'height:60px', 'decodeEntities'=>true),
-            'sql'                     => "text NULL"
+//            'sql'                     => "text NULL"
         ),
 
         'last_member_id' => array
@@ -178,7 +178,7 @@ $GLOBALS['TL_DCA']['tl_c4g_projects'] = array
             'exclude'           => true,
             'foreignKey'        => 'tl_member.firstname',
             'relation'          => array('type' => 'hasOne', 'load' => 'lazy'),
-            'sql'               => "int(10) unsigned NOT NULL default '0'"
+//            'sql'               => "int(10) unsigned NOT NULL default '0'"
         ),
 
         'is_frozen' => array(
@@ -188,7 +188,7 @@ $GLOBALS['TL_DCA']['tl_c4g_projects'] = array
             //'search'                  => true,
             'inputType'               => 'checkbox',
             'eval'                    => array('tl_class'=>'w50'),
-            'sql'                     => "char(1) NOT NULL default '0'"
+//            'sql'                     => "char(1) NOT NULL default '0'"
         ),
 )
 
