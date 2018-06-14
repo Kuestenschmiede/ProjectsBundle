@@ -73,7 +73,7 @@ function animateTileMode(button, container) {
   }
 }
 
-function executeSelection(span) {
+function executeSelection(span, event) {
   if (typeof(event) !== 'undefined') {
     event.stopPropagation();
   }
