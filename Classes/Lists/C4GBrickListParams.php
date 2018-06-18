@@ -54,6 +54,7 @@ class C4GBrickListParams
     private $redirectTo = '';
     private $Uuid = '';
     private $showToolTips = true; //press false to not show tooltips for the table rows
+    private $columsPerContainer = 2; //Number of Columns per container (Interactive List)
 
 
     /**
@@ -704,4 +705,24 @@ class C4GBrickListParams
         $this->showToolTips = $showToolTips;
         return $this;
     }
+
+    /**
+     * @return string
+     */
+    public function getColumsPerContainer()
+    {
+        return $this->columsPerContainer;
+    }
+
+    /**
+     * @param string $columsPerContainer
+     * @return C4GBrickListParams
+     */
+    public function setColumsPerContainer($columsPerContainer)
+    {
+        $this->columsPerContainer = $columsPerContainer;
+        return $this;
+    }
+
+
 }

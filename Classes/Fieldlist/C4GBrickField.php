@@ -137,6 +137,12 @@ abstract class C4GBrickField
     private $withLinkDescription = false;
     private $conditionType = null; //see C4GBrickConditionType
 
+    //interactive lists
+    private $ajaxTarget = '';       //id of this field's target element for ajax requests
+    private $confirmInput = '';     //separate input element to confirm the first (like it is common with password input)
+    private $requiresAuthentication = false;    //if true, the user must provide their password before the field value is visible
+    private $multiple = false;      //if true, the same field will generate multiple input elements of the same nature
+
     /**
      * C4GBrickField constructor.
      */
@@ -2271,4 +2277,60 @@ abstract class C4GBrickField
         $this->tableColumnPriority = $tableColumnPriority;
         return $this;
     }
+
+    /**
+     * @return string
+     */
+    public function getAjaxTarget()
+    {
+        return $this->ajaxTarget;
+    }
+
+    /**
+     * @param string $ajaxTarget
+     * @return C4GBrickField
+     */
+    public function setAjaxTarget($ajaxTarget)
+    {
+        $this->ajaxTarget = $ajaxTarget;
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isConfirmInput()
+    {
+        return $this->confirmInput;
+    }
+
+    /**
+     * @param bool $confirmInput
+     * @return C4GBrickField
+     */
+    public function setConfirmInput($confirmInput = true)
+    {
+        $this->confirmInput = $confirmInput;
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isRequiresAuthentication()
+    {
+        return $this->requiresAuthentication;
+    }
+
+    /**
+     * @param bool $requiresAuthentication
+     * @return C4GBrickField
+     */
+    public function setRequiresAuthentication($requiresAuthentication = true)
+    {
+        $this->requiresAuthentication = $requiresAuthentication;
+        return $this;
+    }
+
+
 }
