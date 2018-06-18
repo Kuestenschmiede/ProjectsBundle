@@ -147,7 +147,7 @@ class C4GMoreButton extends C4GAbstractList
                 $onclick = $callable . '(' . $dataId;
                 $onclick .= ');';
             } else {
-                $onclick = "executeSelection(this)";
+                $onclick = "executeSelection(this, event)";
             }
 
 
