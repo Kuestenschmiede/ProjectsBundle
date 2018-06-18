@@ -23,6 +23,7 @@ use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GDateTimeLocationField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GDecimalField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GGeopickerField;
+use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GHeadlineField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GSelectField;
 use con4gis\CoreBundle\Resources\contao\classes\C4GHTMLFactory;
 
@@ -702,6 +703,72 @@ class C4GBrickList
             }
             $view .= '</ul></a>';
         }
+        return $view;
+    }
+
+    public static function showC4GInteractiveList($listCaption, $database, $content, $listHeadline,  $fieldList, $tableElements, $key, $parentCaption, $listParams)
+    {
+        $view = C4GBrickList::buildInteractiveListView($fieldList, $database, $tableElements, $content, $listParams);
+
+        $result = array
+        (
+            'headline' => $listHeadline,
+            'dialogtype' => 'html',
+            'dialogdata' => $view,
+            'dialogid' =>C4GBrickActionType::IDENTIFIER_LIST . ':' . $key, //Listenstatus
+            'dialogstate' =>C4GBrickActionType::IDENTIFIER_LIST . ':' . $key, //Listenstatus
+        );
+        return $result;
+    }
+
+    public static function buildInteractiveListView(
+        $fieldList,
+        $database,
+        $listValues,
+        $content,
+        $listParams
+    ) {
+        $view = '<div class="c4g_interactive_list">';
+
+        $headlineFields = array();
+        $firstHeadline = true;
+
+        switch ($listParams->getColumsPerContainer() == '') {
+            case 1:
+                $columsClass = 'cols_1';
+                break;
+            case 2:
+                $columsClass = 'cols_2';
+                break;
+            case 3:
+                $columsClass = 'cols_3';
+                break;
+            default:
+                $columsClass = '';
+                break;
+        }
+
+        foreach ($fieldList as $field) {
+            if ($field instanceof C4GHeadlineField) {
+                if ($firstHeadline) {
+                    $firstHeadline = false;
+                } else {
+                    $view .= '</div>';
+                }
+                $view .= '<div class="c4g_interactive_list_container">';
+            } else {
+                $view .= '<div class="c4g_interactive_list_item_container '.$columsClass.'">';
+                $view .= '<span class="c4g_interactive_list_item" id="'.$field->getAjaxTarget().'">'. '' .'</span>';
+                if ($field->isEditable()) {
+                    $view .= '<a class="c4g_interactive_list_edit_button" href="" data-target="'. 'c4g_' .$field->getName() .'"></a>';
+                    $view .= '<div class="c4g_interactive_list_input">'. $field->getC4GInteractiveListInput() .'</div>';
+                }
+                $view .= '</div>';
+            }
+        }
+
+        $view .= '</div>';
+
         return $view;
     }
 

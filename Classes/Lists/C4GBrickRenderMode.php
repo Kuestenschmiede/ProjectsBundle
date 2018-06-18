@@ -15,4 +15,5 @@ class C4GBrickRenderMode {
     const LISTBASED  = 'list';
     const TILEBASED  = 'tiles';
     const TABLEBASED = 'table';
+    const INTERACTIVE_LIST_BASED = 'interactivelist';
 }

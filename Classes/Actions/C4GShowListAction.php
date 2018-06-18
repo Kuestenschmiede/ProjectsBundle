@@ -440,6 +440,19 @@ class C4GShowListAction extends C4GBrickDialogAction
                     $withLabels
                 );
                 break;
+            case C4GBrickRenderMode::INTERACTIVE_LIST_BASED:
+                $result = C4GBrickList::showC4GInteractiveList(
+                    $headtext,
+                    $database,
+                    $brickCaptionPlural,
+                    $fieldList,
+                    $elements,
+                    $id,
+                    $listParams,
+                    $parentCaption,
+                    $withLabels
+                );
+                break;
         }
         return $result;
     }
