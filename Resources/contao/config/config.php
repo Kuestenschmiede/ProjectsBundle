@@ -20,17 +20,7 @@ $GLOBALS['con4gis']['projects']['installed'] = true;
 /**
  * Kartenstrukturelemente
  */
-//$GLOBALS['c4g_locationtypes'][] = \con4gis\ProjectsBundle\Classes\Maps\C4GProjectsFrontend::STARBOARD_TAB;
-
 $apiBaseUrl = 'con4gis';
-
-$GLOBALS['con4gis']['projects']['api']['editorTab']      = $apiBaseUrl . '/editorTabService';
-$GLOBALS['con4gis']['projects']['api']['starboardTab']      = $apiBaseUrl . '/starboardTabService';
-
-/**
- * Load Editor Plugin
- */
-$GLOBALS['TL_HOOKS']['C4gMapsLoadPlugins']['projects'] = array('con4gis\ProjectsBundle\Classes\Maps\C4GCustomEditorTabs','load');
 
 $GLOBALS['TL_HOOKS']['postLogout'][] = array('con4gis\ProjectsBundle\Classes\Framework\C4GMaintenance', 'onLogoutClearSessions');
 $GLOBALS['TL_HOOKS']['postLogin'][] = array('con4gis\ProjectsBundle\Classes\Framework\C4GMaintenance', 'onLoginClearSessions');
