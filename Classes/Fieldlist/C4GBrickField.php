@@ -222,6 +222,11 @@ abstract class C4GBrickField
         return $element->$fieldName;
     }
 
+    public function getC4GPopupField($data, $groupId)
+    {
+        return "<p><b>". $this->getTitle() . "</b>: " . $data[$this->getFieldName()] ."</p>";
+    }
+
     /**
      * Public method that will be called in translateFieldValues in C4GBrickModuleParent
      * @param $value
