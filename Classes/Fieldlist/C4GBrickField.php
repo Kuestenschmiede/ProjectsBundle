@@ -95,6 +95,7 @@ abstract class C4GBrickField
     private $min = 0; //min value
     private $notificationField = false; // for Notification Center
     private $options = array(); //Options for select boxes, radio groups, ...
+    private $popupField = true; // show in popup or not
     private $radiusFieldName = ''; //???
     private $randomValue  = ''; //Use this instead of initialValue if the value is randomly generated. The generated value must not be an empty string. If the Field is not a FormField, use initialValue.
     private $searchField = false; //für C4GMatching
@@ -2274,6 +2275,24 @@ abstract class C4GBrickField
     public function setTableColumnPriority($tableColumnPriority)
     {
         $this->tableColumnPriority = $tableColumnPriority;
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isPopupField()
+    {
+        return $this->popupField;
+    }
+
+    /**
+     * @param $popupField
+     * @return $this
+     */
+    public function setPopupField($popupField)
+    {
+        $this->popupField = $popupField;
         return $this;
     }
 }
