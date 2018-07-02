@@ -177,7 +177,8 @@ this.c4g = this.c4g || {};
           name: this.options.tabConfig.headline,
           triggerConfig: {
             tipLabel: options.tabConfig.tipLabel,
-            className: this.className
+            className: this.className,
+            withHeadline: false
           },
           sectionElements: [
             {section: editor.contentContainer, element: this.drawContent},
@@ -361,7 +362,8 @@ this.c4g = this.c4g || {};
           label: styleTriggerLabel,
           tipLabel: name,
           className: c4g.maps.constant.css.EDITOR_DRAW_TRIGGER + ' project-' + opt_projectId,
-          target: opt_container || this.drawContent
+          target: opt_container || this.drawContent,
+          withHeadline: false
         },
         sectionElements: [
           {section: editor.contentContainer, element: this.drawContent},
