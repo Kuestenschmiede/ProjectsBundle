@@ -15,8 +15,9 @@ namespace con4gis\ProjectsBundle\Classes\Maps;
 
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickCommon;
 use con4gis\CoreBundle\Resources\contao\classes\C4GHTMLFactory;
+use Contao\Frontend;
 
-class C4GBrickMapFrontendParent extends \Frontend
+class C4GBrickMapFrontendParent 
 {
 
     public function getClosePopupString() {
