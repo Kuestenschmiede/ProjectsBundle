@@ -15,6 +15,8 @@ namespace con4gis\ProjectsBundle\Classes\Maps;
 
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickCommon;
 use con4gis\CoreBundle\Resources\contao\classes\C4GHTMLFactory;
+use Contao\Controller;
+use Contao\System;
 
 class C4GBrickMapFrontendParent
 {
@@ -306,9 +308,9 @@ class C4GBrickMapFrontendParent
     {
         $stringClass = $GLOBALS['con4gis']['stringClass'];
         $popupInfo   = $stringClass::toHtml5($popupInfo);
-        $popupInfo   = $this->replaceInsertTags($popupInfo, false);
+        $popupInfo   = Controller::replaceInsertTags($popupInfo, false);
         $popupInfo   = str_replace(array('{{request_token}}', '[{]', '[}]'), array(REQUEST_TOKEN, '{{', '}}'), $popupInfo);
-        $popupInfo   = $this->replaceDynamicScriptTags($popupInfo);
+        $popupInfo   = Controller::replaceDynamicScriptTags($popupInfo);
         $objComments = new \Comments();
         $popupInfo   = $objComments->parseBbCode($popupInfo);
 
