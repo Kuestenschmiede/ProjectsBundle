@@ -225,7 +225,12 @@ abstract class C4GBrickField
 
     public function getC4GPopupField($data, $groupId)
     {
-        return "<p><b>". $this->getTitle() . "</b>: " . $data[$this->getFieldName()] ."</p>";
+        $styleClass = $this->getStyleClass();
+        if ($this->isWithoutLabel()) {
+            return "<div class=".$styleClass.">" . $data[$this->getFieldName()] ."</div>";
+        } else {
+            return "<p class=".$styleClass."><b>". $this->getTitle() . "</b>: " . $data[$this->getFieldName()] ."</p>";
+        }
     }
 
     /**
