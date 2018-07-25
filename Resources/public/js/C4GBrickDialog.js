@@ -881,7 +881,7 @@ function showAnimation(id, callFunction) {
     jQuery.ajax({
         dataType: "json",
         url: brick_api + "/"+id+"/" + "buttonclick:" + callFunction + "?id=0",
-        success: function (data) {
+        done: function (data) {
             animation_id = data["animation_name"] + "_animation";
             animation_source = data["animation_source"];
             animation_function = data["animation_function"];

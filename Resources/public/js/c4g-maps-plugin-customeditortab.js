@@ -226,13 +226,13 @@ this.c4g = this.c4g || {};
               editor.proxy.loadLocationStyles(
                 neededStyles,
                 {
-                  success: function () {
+                  done: function () {
                     self.sortAndAddStyles();
                     selectBox = self.createProjectSelect();
                     self.drawContent.appendChild(selectBox);
                     addProject();
                   },
-                  complete: function () {
+                  always: function () {
                     // Hide loading-animation
                     editor.spinner.hide();
                     editor.update();
@@ -632,7 +632,7 @@ this.c4g = this.c4g || {};
       if (missingStyles.length > 0) {
         this.editor.proxy.loadLocationStyles(missingStyles,
           {
-            success: function() {
+            done: function() {
               for (var i = 0; i < missingElements.length; i++) {
                 addElement(missingElements[i]);
               }

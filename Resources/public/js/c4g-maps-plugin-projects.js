@@ -245,7 +245,7 @@ this.c4g.maps.plugins = this.c4g.maps.plugins || {};
               vectorSource.set('refreshFunction', function () {
                 $.ajax({
                   url: contentData.data.url,
-                  success: function (data) {
+                  done: function (data) {
                     if (data.stationResponse) {
                       // update of stations
                       $.each(data.features, function (index, featureData) {
