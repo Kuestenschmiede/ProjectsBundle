@@ -66,7 +66,7 @@ function C4GDatePicker(id,
             dMax = new Date(maxDate * 1000);
         }
 
-        jQuery("#"+id).datepicker({
+        jQuery("#"+id).appendDtpicker({
             beforeShowDay: function(date){
                 if (weekdays) {
                     var wd = new Array();
@@ -94,15 +94,15 @@ function C4GDatePicker(id,
             minDate: dMin,
             maxDate: dMax
         });
-        jQuery(function($){
-            var regional = $.datepicker.regional[lang];
-            if (!regional) {
-                // fallback
-              regional = $.datepicker.regional[lang.substr(0, 2)];
-            }
-            regional.dateFormat = format;
-            $.datepicker.setDefaults(regional);
-        });
+        // jQuery(function($){
+        //     var regional = $.dtpicker().regional[lang];
+        //     if (!regional) {
+        //         // fallback
+        //       regional = $.dtpicker().regional[lang.substr(0, 2)];
+        //     }
+        //     regional.dateFormat = format;
+        //     $.datepicker.setDefaults(regional);
+        // });
     }
 }
 
