@@ -54,6 +54,8 @@ class C4GBrickListParams
     private $redirectTo = '';
     private $Uuid = '';
     private $showToolTips = true; //press false to not show tooltips for the table rows
+    private $customListViewFunction = array();  //array(Object instance, String function); To build a custom list view. The function takes the following parameters: $fieldList, $database, $tableElements, $content, $listParams
+    private $forceShowListAction = false; //Press true to force a ShowListAction to be used to display the module instead of a ShowDialogAction if id > 0
 
 
     /**
@@ -704,4 +706,42 @@ class C4GBrickListParams
         $this->showToolTips = $showToolTips;
         return $this;
     }
+
+    /**
+     * @return array
+     */
+    public function getCustomListViewFunction()
+    {
+        return $this->customListViewFunction;
+    }
+
+    /**
+     * @param array $customListViewFunction
+     * @return C4GBrickListParams
+     */
+    public function setCustomListViewFunction($customListViewFunction)
+    {
+        $this->customListViewFunction = $customListViewFunction;
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isForceShowListAction()
+    {
+        return $this->forceShowListAction;
+    }
+
+    /**
+     * @param $forceShowListAction
+     * @return $this
+     */
+    public function setForceShowListAction($forceShowListAction = true)
+    {
+        $this->forceShowListAction = $forceShowListAction;
+        return $this;
+    }
+
+
 }
