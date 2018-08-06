@@ -545,7 +545,13 @@ class C4GBrickList
 
     public static function showC4GList($listCaption, $database, $content, $listHeadline,  $fieldList, $tableElements, $key, $parentCaption, $listParams)
     {
-        $view = C4GBrickList::buildListView($fieldList, $database, $tableElements, $content, $listParams);
+        $customListViewFunction = $listParams->getCustomListViewFunction();
+        if (empty($customListViewFunction)) {
+            $view = C4GBrickList::buildListView($fieldList, $database, $tableElements, $content, $listParams);
+        } else {
+            $method = $customListViewFunction[1];
+            $view = $customListViewFunction[0]->$method($fieldList, $database, $tableElements, $content, $listParams);
+        }
 
         $buttons = '';
         if (!$listParams->isWithoutListButtons()) {

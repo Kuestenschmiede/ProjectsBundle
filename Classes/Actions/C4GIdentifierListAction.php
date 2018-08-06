@@ -30,8 +30,7 @@ class C4GIdentifierListAction extends C4GBrickAction
         $id = $dialogParams->getId();
         $module = $this->getModule();
 
-
-        if (C4GBrickView::isWithoutList($viewType) || ($id > 0)) {
+        if ((C4GBrickView::isWithoutList($viewType) || ($id > 0)) && ($listParams->isForceShowListAction() == false)) {
             $action = new C4GShowDialogAction($dialogParams, $listParams, $fieldList, $putVars, $brickDatabase);
             $return = $action->run();
             if ($module->getDialogChangeHandler()) {
