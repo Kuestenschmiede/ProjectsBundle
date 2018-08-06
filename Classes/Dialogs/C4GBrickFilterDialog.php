@@ -35,7 +35,7 @@ class C4GBrickFilterDialog extends C4GBrickDialog
         $confirmButtonText = $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['CONFIRM_BUTTON_TEXT'];
         $cancelAction = C4GBrickActionType::ACTION_CANCELPARENTFILTER;
         $cancelButtonText = $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['CANCEL_BUTTON_TEXT'];
-        $dialogId = $dialogParams->getMemberId();
+        $dialogId = -1;
         $brickKey = $dialogParams->getBrickKey();
         $filterParams = $dialogParams->getFilterParams();
 
