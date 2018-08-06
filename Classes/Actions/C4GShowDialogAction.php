@@ -144,7 +144,7 @@ class C4GShowDialogAction extends C4GBrickDialogAction
             ($viewType == C4GBrickViewType::PROJECTFORMCOPY) ||
             ($viewType == C4GBrickViewType::GROUPPARENTVIEW) ||
             ($viewType == C4GBrickViewType::PUBLICFORM) ||
-            ($viewType == C4GBrickViewType::PROJECTPARENTFORMCOPY)) || ($viewType == C4GBrickViewType::PUBLICUUIDVIEW)) {
+            ($viewType == C4GBrickViewType::PROJECTPARENTFORMCOPY)) || ($viewType == C4GBrickViewType::PUBLICUUIDVIEW) || ($viewType == C4GBrickViewType::PUBLICVIEW)) {
             $groupKeyField = $viewParams->getGroupKeyField();
             switch($viewType) {
                 case C4GBrickViewType::GROUPFORM:
@@ -230,6 +230,7 @@ class C4GShowDialogAction extends C4GBrickDialogAction
                     }
                     break;
                 case C4GBrickViewType::PUBLICFORM:
+                case C4GBrickViewType::PUBLICVIEW:
                     if($modelListFunction){
                         $function = $modelListFunction;
 
@@ -399,6 +400,11 @@ class C4GShowDialogAction extends C4GBrickDialogAction
         }
 
         $database = $brickDatabase->getParams()->getDatabase();
+        if ((empty($element)) && ($dialogParams->getModelDialogFunction())) {
+            $model = $this->module->getModelClass();
+            $function = $dialogParams->getModelDialogFunction();
+            $element = $model::$function($dialogParams->getId());
+        }
 
         //Wenn $element an dieser Stelle null ist wird ein neuer Datensatz angelegt (Hinzufügen),
         //ansonsten wird der bestehende Datensatz zur Bearbeitung angeboten
