@@ -96,6 +96,7 @@ class C4GBrickDialogParams
     private $saveWithUuid = false;
     private $saveTimestamp = true;
     private $uuid = '';
+    private $modelDialogFunction = '';  //Model function to load the data for the dialog from the database. The function takes the dialog id as a parameter.
 
 
     /**
@@ -1632,5 +1633,25 @@ class C4GBrickDialogParams
         $this->headlineTag = $headlineTag;
         return $this;
     }
+
+    /**
+     * @return string
+     */
+    public function getModelDialogFunction()
+    {
+        return $this->modelDialogFunction;
+    }
+
+    /**
+     * @param string $modelDialogFunction
+     * @return C4GBrickDialogParams
+     */
+    public function setModelDialogFunction($modelDialogFunction)
+    {
+        $this->modelDialogFunction = $modelDialogFunction;
+        return $this;
+    }
+
+
 
 }

@@ -400,6 +400,11 @@ class C4GShowDialogAction extends C4GBrickDialogAction
         }
 
         $database = $brickDatabase->getParams()->getDatabase();
+        if ((empty($element)) && ($dialogParams->getModelDialogFunction())) {
+            $model = $this->module->getModelClass();
+            $function = $dialogParams->getModelDialogFunction();
+            $element = $model::$function($dialogParams->getId());
+        }
 
         //Wenn $element an dieser Stelle null ist wird ein neuer Datensatz angelegt (Hinzufügen),
         //ansonsten wird der bestehende Datensatz zur Bearbeitung angeboten

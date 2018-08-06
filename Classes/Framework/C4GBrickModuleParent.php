@@ -1308,4 +1308,14 @@ class C4GBrickModuleParent extends \Module
         return $this;
     }
 
+    /**
+     * @return string
+     */
+    public function getModelClass()
+    {
+        return $this->modelClass;
+    }
+
+
+
 }
