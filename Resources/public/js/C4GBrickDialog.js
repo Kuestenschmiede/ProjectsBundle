@@ -95,10 +95,10 @@ function C4GDatePicker(id,
             maxDate: dMax
         });
         // jQuery(function($){
-        //     var regional = $.dtpicker().regional[lang];
+        //     var regional = $.datepicker.regional[lang];
         //     if (!regional) {
         //         // fallback
-        //       regional = $.dtpicker().regional[lang.substr(0, 2)];
+        //       regional = $.datepicker.regional[lang.substr(0, 2)];
         //     }
         //     regional.dateFormat = format;
         //     $.datepicker.setDefaults(regional);
