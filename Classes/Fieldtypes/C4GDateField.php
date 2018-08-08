@@ -194,7 +194,7 @@ class C4GDateField extends C4GBrickField
                 $fieldData = $arrParts[0] . '.' . $arrParts[1] . '.20' . $arrParts[2];
             }
         }
-        $date = \DateTime::createFromFormat($format, $fieldData);
+        $date = new \DateTime($fieldData);
         if ($date) {
             $date->Format($format);
             $date->setTime(0,0,0);
