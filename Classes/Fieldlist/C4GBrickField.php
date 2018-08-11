@@ -437,13 +437,13 @@ abstract class C4GBrickField
 
         $result = '';
         if ($description && ($description != '') && $withLinkDescription) {
-            $result = '<p class="c4g_description" ' . $condition['conditionPrepare'] . '><a href="' . $description . '" target="_blank">Link</a>' . C4GHTMLFactory::lineBreak() . C4GHTMLFactory::lineBreak() . '</p>';
+            $result = '<p class="c4g_field_description" ' . $condition['conditionPrepare'] . '><a href="' . $description . '" target="_blank">Link</a>' . C4GHTMLFactory::lineBreak() . C4GHTMLFactory::lineBreak() . '</p>';
         } else if ($description && ($description != '')) {
-            $result = '<p class="c4g_description" ' . $condition['conditionPrepare'] . '>' . $description . C4GHTMLFactory::lineBreak() . C4GHTMLFactory::lineBreak() . '</p>';
+            $result = '<p class="c4g_field_description" ' . $condition['conditionPrepare'] . '>' . $description . C4GHTMLFactory::lineBreak() . C4GHTMLFactory::lineBreak() . '</p>';
         } else if (!$withoutLineBreak) {
             $result = '<p ' . $condition['conditionPrepare'] . '>' . '</p>';
         } else {
-            $result = '<div class="c4g_descripton_hole"></div>';
+            $result = '<div class="c4g_field_descripton_hole"></div>';
         }
 
         return $result;

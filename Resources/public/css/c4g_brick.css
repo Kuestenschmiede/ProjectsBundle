@@ -71,6 +71,9 @@ input:invalid {
     padding-left: 3px;
     padding-right: 3px;
 }
+.c4g_brick_dialog .c4g_description {
+    width: 93.333333%; //ToDo Test
+}
 .c4g_brick_dialog input[type='checkbox'] {
     width: 1.0em;
     vertical-align: middle;
@@ -166,14 +169,14 @@ input:invalid {
     font-weight: bold;
     margin-left: 2.5%;
 }
-.c4g_brick_dialog p.c4g_description {
+.c4g_brick_dialog p.c4g_field_description {
     font-size: 0.8rem;
     font-weight: lighter;
     margin: 0 2.5%;
     font-size: inherit;
     color: darkgrey;
 }
-.c4g_brick_dialog .c4g_descripton_hole {
+.c4g_brick_dialog .c4g_field_descripton_hole {
     margin-bottom: 4px;
 }
 .c4g_brick_dialog .c4g_brick_header_text {
@@ -401,7 +404,7 @@ div.cg_block {
 .c4g_brick_dialog .c4g_gallery .c4g_gallery_images img {
     padding-right: 5px;
 }
-.c4g_gallery_description p.c4g_description {
+.c4g_gallery_description p.c4g_field_description {
     margin-left: 0px;
     margin-right: 0px;
 }
