@@ -1022,7 +1022,7 @@ class C4GBrickDialogParams
      * @param $withNotification
      * @return $this
      */
-    public function setWithNotification($withNotification)
+    public function setWithNotification($withNotification = true)
     {
         $this->withNotification = $withNotification;
         return $this;

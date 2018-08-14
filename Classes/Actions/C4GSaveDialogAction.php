@@ -140,6 +140,12 @@ class C4GSaveDialogAction extends C4GBrickDialogAction
             if ($addition && $addition instanceof C4GBrickDialogParams) {
                 $dialogParams = $addition;
             }
+
+            /** Send Notifications if desired */
+
+            if ($dialogParams->isWithNotification()) {
+                $this->module->sendNotifications($dlgValues);
+            }
         }
 
         C4GBrickCommon::logEntry($dialogId,
