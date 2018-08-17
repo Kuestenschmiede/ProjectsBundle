@@ -14,6 +14,7 @@ namespace con4gis\ProjectsBundle\Classes\Lists;
 
 
 use con4gis\CoreBundle\Resources\contao\classes\C4GUtils;
+use con4gis\MapsBundle\Resources\contao\models\C4gMapsModel;
 use con4gis\ProjectsBundle\Classes\Actions\C4GBrickActionType;
 use con4gis\ProjectsBundle\Classes\Buttons\C4GBrickButton;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickCommon;
@@ -25,6 +26,7 @@ use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GDecimalField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GGeopickerField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GSelectField;
 use con4gis\CoreBundle\Resources\contao\classes\C4GHTMLFactory;
+use Contao\ContentModel;
 
 class C4GBrickList
 {
@@ -443,6 +445,13 @@ class C4GBrickList
                             $address_db = $extDbValues->$addressField;
                             $profile_id = null;
 
+                            if ($row_data->$fieldName) {
+                                // when the value is already set, i.e. in a modellistfunction
+                                $fields[] = $row_data->$fieldName;
+                                $cnt++;
+                                continue;
+                            }
+
                             if ($content) {
                                 $find = 'profile":"';
                                 $pos = strpos($content, $find);
@@ -469,15 +478,26 @@ class C4GBrickList
                                     $address = $time .' ('.C4GBrickCommon::convert_coordinates_to_address($lat, $lon, $profile_id, $database). ')';
                                 }
                                 $convertingCount = 0;
-                            }
-                            else if ($profile_id) {
+                            } elseif ($profile_id) {
                                 if($address_db) {
                                     $address = $time. ' ('.$address_db. ' )';
                                     $convertingCount = 1;
-                                }
-                                else {
+                                } else {
                                     $address = $time . ' (' . C4GBrickCommon::convert_coordinates_to_address($lat, $lon, $profile_id, $database) . ')';
                                     $convertingCount = 1;
+                                }
+                            } elseif ($column->getContentId()) {
+                                $contentId = $column->getContentId();
+                                // get content element from table
+                                $contentElement = ContentModel::findByPk($contentId);
+                                if ($contentElement) {
+                                    // get map from contentElement
+                                    $mapId = $contentElement->c4g_map_id;
+                                    $map = C4gMapsModel::findByPk($mapId);
+                                    if ($map) {
+                                        $address = $time . ' (' . C4GBrickCommon::convert_coordinates_to_address($lat, $lon, $map->profile, $database) . ')';
+                                        $convertingCount = 1;
+                                    }
                                 }
                             }
                             $fields[] = $address;
