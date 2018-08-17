@@ -574,7 +574,7 @@ class C4GBrickCommon
      * @param $intProfileId     integer Profile-Id of map
      * @return mixed
      */
-    public static function convert_coordinates_to_address($lat, $lon, $intProfileId, $database = null)
+    public static function convert_coordinates_to_address($lat, $lon, $intProfileId = 0, $database = null)
     {
         if ($database) {
             if ($GLOBALS['con4gis']['trackingPortal']['installed'] == true) {
