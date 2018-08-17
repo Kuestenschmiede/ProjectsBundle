@@ -64,7 +64,8 @@ class C4GBrickModuleParent extends \Module
     protected $uiTheme              = ''; //loading your own ui theme for your module class (https://jqueryui.com/themeroller/)
 
     //group params
-    protected $group_id             = -1; //the current group id for group- and memberbased modules.
+    protected $group_id             = -1; //the current group id for group-
+    protected $ignoreCon4GisRights = false; //Press true to use Contao rights only
 
     //project params
     protected $project_id           = -1; //the current project id for projectbased modules.
@@ -187,6 +188,9 @@ class C4GBrickModuleParent extends \Module
     private function groupCheck() {
 
         //memberBased and groups
+        if ($this->ignoreCon4GisRights) {
+            return false;
+        }
         if ($this->brickKey && $GLOBALS['con4gis']['groups']['installed'] &&
             (C4GBrickView::isMemberBased($this->viewType) ||
              C4GBrickView::isGroupBased($this->viewType))) {
