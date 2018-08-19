@@ -162,6 +162,16 @@ class C4GHeadlineField extends C4GBrickField
     }
 
     /**
+     * @param $data
+     * @param $groupId
+     * @return string
+     */
+    public function getC4GPopupField($data, $groupId)
+    {
+       return '<div class="c4g_popup_headline"><h1>'. $this->getTitle() .'</h1></div>';
+    }
+
+    /**
      * Method that will be called in the compareWithDB() in C4GBrickDialog
      * @param $dbValue
      * @param $dlgvalue
