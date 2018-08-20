@@ -343,34 +343,6 @@ class C4GShowDialogAction extends C4GBrickDialogAction
             $content = $dialogParams->getC4gMap();
         }
 
-//        if (($this->viewType == C4GBrickViewType::MEMBERBOOKING) && ($id == -1)) {
-//
-//        }
-
-        $project_id = $this->project_id;
-        if (($viewType != C4GBrickViewType::GROUPPROJECT) && $projectId) {
-            $project = C4gProjectsModel::findByPk($projectId);
-            if ($project) {
-                $groupKeyField = $viewParams->getGroupKeyField();
-                if ($project->$groupKeyField) {
-                    $dialogParams->setGroupId($project->$groupKeyField);
-                }
-
-                $dialogParams->setFrozen($project->is_frozen);
-                $project_headline = '<div class="c4g_brick_headtext"> Aktives Projekt: <b>'.$project->caption.'</b></div>';
-            }
-        }
-
-        if (!$project) {
-            if ($viewType == C4GBrickViewType::GROUPPROJECT) {
-                if ($id) {
-                    $project = C4gProjectsModel::findByPk($id);
-                    if ($project && $dialogParams) {
-                        $dialogParams->setFrozen($project->is_frozen);
-                    }
-                }
-            }
-        }
 
         if (C4GBrickView::isWithGroup($viewType)) {
 
@@ -385,10 +357,10 @@ class C4GShowDialogAction extends C4GBrickDialogAction
         $headlineTag = $dialogParams->getHeadlineTag();
 
         $headtext = '<'.$headlineTag.'>'.$dialogParams->getHeadline().'</'.$headlineTag.'>';
-        if ( ($group_headline) && ($project_headline) && ($parent_headline)) {
-            $headtext = $headtext . $group_headline . $project_headline . $parent_headline;
-        } else if ( ($group_headline) && ($project_headline)){
-            $headtext = $headtext.$group_headline.$project_headline;
+        if ( ($group_headline) && ($parent_headline)) {
+            $headtext = $headtext . $group_headline . $parent_headline;
+        } else if ($group_headline){
+            $headtext = $headtext.$group_headline;
         } else if (($group_headline) && ($parent_headline)) {
             $headtext = $headtext.$group_headline . $parent_headline;
         } else if ($group_headline) {
