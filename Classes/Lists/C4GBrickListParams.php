@@ -56,6 +56,7 @@ class C4GBrickListParams
     private $showToolTips = true; //press false to not show tooltips for the table rows
     private $customListViewFunction = array();  //array(Object instance, String function); To build a custom list view. The function takes the following parameters: $fieldList, $database, $tableElements, $content, $listParams
     private $forceShowListAction = false; //Press true to force a ShowListAction to be used to display the module instead of a ShowDialogAction if id > 0
+    private $customHeadline = false; // if true, only the headline from the list data will be displayed
 
 
     /**
@@ -743,5 +744,20 @@ class C4GBrickListParams
         return $this;
     }
 
+    /**
+     * @return bool
+     */
+    public function isCustomHeadline()
+    {
+        return $this->customHeadline;
+    }
+
+    /**
+     * @param bool $customHeadline
+     */
+    public function setCustomHeadline($customHeadline)
+    {
+        $this->customHeadline = $customHeadline;
+    }
 
 }

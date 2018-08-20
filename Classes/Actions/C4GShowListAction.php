@@ -377,26 +377,44 @@ class C4GShowListAction extends C4GBrickDialogAction
             $content = $dialogParams->getC4gMap();
         }
         $headlineTag = $dialogParams->getHeadlineTag();
+        // ignore default headlines if set
+        if ($listParams->isCustomHeadline() && $list_headline) {
+            $headtext = "";
+            if ($listParams->getHeadline()) {
+                $headtext = '<'.$headlineTag.'>'.$listParams->getHeadline().'</'.$headlineTag.'>';
+            }
+            $headtext .= C4GHTMLFactory::lineBreak() . $list_headline;
+            if ($group_headline) {
+                $headtext .= $group_headline;
+            }
+            if ($project_headline) {
+                $headtext .= $project_headline;
+            }
+            if ($parent_headline) {
+                $headtext .= $parent_headline;
+            }
+        } else {
+            $headtext = '<'.$headlineTag.'>'.$dialogParams->getHeadline().'</'.$headlineTag.'>';
+            if ($listParams->getHeadline()) {
+                $headtext = '<'.$headlineTag.'>'.$listParams->getHeadline().'</'.$headlineTag.'>';
+            } elseif (($group_headline) && ($project_headline) && ($parent_headline)) {
+                $headtext = $headtext .
+                    $group_headline . $project_headline . $parent_headline;
+            } elseif (($group_headline) && ($project_headline)) {
+                $headtext = $headtext.$group_headline.$project_headline;
+            } elseif (($group_headline) && ($parent_headline)) {
+                $headtext = $headtext.$group_headline.$parent_headline;
+            } elseif ($group_headline) {
+                $headtext = $headtext.$group_headline;
+            }
+            if ($list_headline) {
+                $headtext .= C4GHTMLFactory::lineBreak().$list_headline;
+            }
+            if ($filterText) {
+                $headtext .= $filterText;
+            }
+        }
 
-        $headtext = '<'.$headlineTag.'>'.$dialogParams->getHeadline().'</'.$headlineTag.'>';
-        if ($listParams->getHeadline()) {
-            $headtext = '<'.$headlineTag.'>'.$listParams->getHeadline().'</'.$headlineTag.'>';
-        } elseif (($group_headline) && ($project_headline) && ($parent_headline)) {
-            $headtext = $headtext .
-                $group_headline . $project_headline . $parent_headline;
-        } elseif (($group_headline) && ($project_headline)) {
-            $headtext = $headtext.$group_headline.$project_headline;
-        } elseif (($group_headline) && ($parent_headline)) {
-            $headtext = $headtext.$group_headline.$parent_headline;
-        } elseif ($group_headline) {
-            $headtext = $headtext.$group_headline;
-        }
-        if ($list_headline) {
-            $headtext .= C4GHTMLFactory::lineBreak().$list_headline;
-        }
-        if ($filterText) {
-            $headtext .= $filterText;
-        }
 
         $renderMode = $listParams->getRenderMode();
         switch ($renderMode) {
