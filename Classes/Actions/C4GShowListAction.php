@@ -190,60 +190,47 @@ class C4GShowListAction extends C4GBrickDialogAction
             $tableName = $brickDatabase->getParams()->getTableName();
             switch($viewType) {
                 case C4GBrickView::isGroupBased($viewType):
-                    if ($tableName == 'tl_c4g_projects') {
-                        $t = $tableName;
-                        $groupIdField = $viewParams->getGroupKeyField();
-                        $arrColumns = array("$t.$groupIdField=? AND $t.brick_key=?");
-                        $arrValues = array($groupId, $projectKey);
-                        $arrOptions = array(
-                            'order' => "$t.tstamp DESC"
-                        );
+                    if($viewType == C4GBrickViewType::GROUPPARENTVIEW || $viewType == C4GBrickViewType::GROUPPARENTBASED) {
+                        $pid_field = 'pid';
+                        if ($parentIdField) {
+                            $pid_field = $parentIdField;
+                        }
 
-                        $elements = $brickDatabase->findBy($arrColumns, $arrValues, $arrOptions);
-                    } else {
-                        if($viewType == C4GBrickViewType::GROUPPARENTVIEW || $viewType == C4GBrickViewType::GROUPPARENTBASED) {
-                            $pid_field = 'pid';
-                            if ($parentIdField) {
-                                $pid_field = $parentIdField;
+                        if ($modelListFunction) {
+                            $function = $modelListFunction;
+                            $database = $brickDatabase->getParams()->getDatabase();
+
+                            //ToDo Umbau brickDatabase
+                            $model = $modelClass ? $modelClass : $brickDatabase->getParams()->getModelClass();
+                            $elements = $model::$function($groupId, $pid_field, $parentId, $database, $listParams);
+
+                            if ($elements->headline) {
+                                $list_headline = '<div class="c4g_brick_headtext_highlighted">' . $elements->headline . '</div>';
+                                unset($elements->headline);
                             }
-
-                            if ($modelListFunction) {
-                                $function = $modelListFunction;
-                                $database = $brickDatabase->getParams()->getDatabase();
-
-                                //ToDo Umbau brickDatabase
-                                $model = $modelClass ? $modelClass : $brickDatabase->getParams()->getModelClass();
-                                $elements = $model::$function($groupId, $pid_field, $parentId, $database, $listParams);
-
-                                if ($elements->headline) {
-                                    $list_headline = '<div class="c4g_brick_headtext_highlighted">' . $elements->headline . '</div>';
-                                    unset($elements->headline);
-                                }
+                        } else {
+                            if ($dialogParams->isWithCommonParentOption() && $parentId == -1) {
+                                $elements = $brickDatabase->findBy($viewParams->getGroupKeyField(), $groupId);
+                                $this->listParams->deleteButton(C4GBrickConst::BUTTON_ADD);
                             } else {
-                                if ($dialogParams->isWithCommonParentOption() && $parentId == -1) {
-                                    $elements = $brickDatabase->findBy($viewParams->getGroupKeyField(), $groupId);
-                                    $this->listParams->deleteButton(C4GBrickConst::BUTTON_ADD);
-                                } else {
-                                    $elements = $brickDatabase->findBy($pid_field, $parentId);
-                                }
+                                $elements = $brickDatabase->findBy($pid_field, $parentId);
                             }
                         }
-                        else {
-                            if ($modelListFunction) {
-                                $function = $modelListFunction;
-                                $database = $brickDatabase->getParams()->getDatabase();
+                    } else {
+                        if ($modelListFunction) {
+                            $function = $modelListFunction;
+                            $database = $brickDatabase->getParams()->getDatabase();
 
-                                //ToDo Umbau brickDatabase
-                                $model = $modelClass ? $modelClass : $brickDatabase->getParams()->getModelClass();
-                                $elements = $model::$function($groupId, $database, $listParams, $brickDatabase);
-                                if ($elements->headline) {
-                                    $list_headline = '<div class="c4g_brick_headtext_highlighted">' . $elements->headline . '</div>';
-                                    unset($elements->headline);
-                                }
-                            } else {
-                                $groupKeyField = $viewParams->getGroupKeyField();
-                                $elements = $brickDatabase->findBy($groupKeyField, $groupId);
+                            //ToDo Umbau brickDatabase
+                            $model = $modelClass ? $modelClass : $brickDatabase->getParams()->getModelClass();
+                            $elements = $model::$function($groupId, $database, $listParams, $brickDatabase);
+                            if ($elements->headline) {
+                                $list_headline = '<div class="c4g_brick_headtext_highlighted">' . $elements->headline . '</div>';
+                                unset($elements->headline);
                             }
+                        } else {
+                            $groupKeyField = $viewParams->getGroupKeyField();
+                            $elements = $brickDatabase->findBy($groupKeyField, $groupId);
                         }
                     }
                     break;
@@ -377,26 +364,44 @@ class C4GShowListAction extends C4GBrickDialogAction
             $content = $dialogParams->getC4gMap();
         }
         $headlineTag = $dialogParams->getHeadlineTag();
+        // ignore default headlines if set
+        if ($listParams->isCustomHeadline() && $list_headline) {
+            $headtext = "";
+            if ($listParams->getHeadline()) {
+                $headtext = '<'.$headlineTag.'>'.$listParams->getHeadline().'</'.$headlineTag.'>';
+            }
+            $headtext .= C4GHTMLFactory::lineBreak() . $list_headline;
+            if ($group_headline) {
+                $headtext .= $group_headline;
+            }
+            if ($project_headline) {
+                $headtext .= $project_headline;
+            }
+            if ($parent_headline) {
+                $headtext .= $parent_headline;
+            }
+        } else {
+            $headtext = '<'.$headlineTag.'>'.$dialogParams->getHeadline().'</'.$headlineTag.'>';
+            if ($listParams->getHeadline()) {
+                $headtext = '<'.$headlineTag.'>'.$listParams->getHeadline().'</'.$headlineTag.'>';
+            } elseif (($group_headline) && ($project_headline) && ($parent_headline)) {
+                $headtext = $headtext .
+                    $group_headline . $project_headline . $parent_headline;
+            } elseif (($group_headline) && ($project_headline)) {
+                $headtext = $headtext.$group_headline.$project_headline;
+            } elseif (($group_headline) && ($parent_headline)) {
+                $headtext = $headtext.$group_headline.$parent_headline;
+            } elseif ($group_headline) {
+                $headtext = $headtext.$group_headline;
+            }
+            if ($list_headline) {
+                $headtext .= C4GHTMLFactory::lineBreak().$list_headline;
+            }
+            if ($filterText) {
+                $headtext .= $filterText;
+            }
+        }
 
-        $headtext = '<'.$headlineTag.'>'.$dialogParams->getHeadline().'</'.$headlineTag.'>';
-        if ($listParams->getHeadline()) {
-            $headtext = '<'.$headlineTag.'>'.$listParams->getHeadline().'</'.$headlineTag.'>';
-        } elseif (($group_headline) && ($project_headline) && ($parent_headline)) {
-            $headtext = $headtext .
-                $group_headline . $project_headline . $parent_headline;
-        } elseif (($group_headline) && ($project_headline)) {
-            $headtext = $headtext.$group_headline.$project_headline;
-        } elseif (($group_headline) && ($parent_headline)) {
-            $headtext = $headtext.$group_headline.$parent_headline;
-        } elseif ($group_headline) {
-            $headtext = $headtext.$group_headline;
-        }
-        if ($list_headline) {
-            $headtext .= C4GHTMLFactory::lineBreak().$list_headline;
-        }
-        if ($filterText) {
-            $headtext .= $filterText;
-        }
 
         $renderMode = $listParams->getRenderMode();
         switch ($renderMode) {
