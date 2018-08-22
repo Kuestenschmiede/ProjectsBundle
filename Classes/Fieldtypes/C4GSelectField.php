@@ -320,6 +320,25 @@ class C4GSelectField extends C4GBrickField
     }
 
     /**
+     * @param $data
+     * @param $groupId
+     * @return string
+     */
+    public function getC4GPopupField($data, $groupId)
+    {
+        if ($data[$this->getFieldName()]) {
+            $styleClass = $this->getStyleClass();
+            if ($this->isWithoutLabel()) {
+                return "<div class=".$styleClass.">" . C4GBrickCommon::translateSelectOption($data[$this->getFieldName()],$this->getOptions()) ."</div>";
+            } else {
+                return "<p class=".$styleClass."><b>". $this->getTitle() . "</b>: " . C4GBrickCommon::translateSelectOption($data[$this->getFieldName()],$this->getOptions()) ."</p>";
+            }
+        } else {
+            return '';
+        }
+    }
+
+    /**
      * @return bool
      */
     public function isChosen()
