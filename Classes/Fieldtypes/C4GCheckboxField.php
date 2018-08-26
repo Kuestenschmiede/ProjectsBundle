@@ -170,4 +170,20 @@ class C4GCheckboxField extends C4GBrickField
             return false;
         }
     }
+
+    /**
+     * @param $data
+     * @param $groupId
+     * @return string
+     */
+    public function getC4GPopupField($data, $groupId)
+    {
+        if ($data[$this->getFieldName()]) {
+            $styleClass = $this->getStyleClass();
+            $checked = 'checked';
+            return "<p class=".$styleClass."><b>". $this->getTitle() . "</b>: ".'<input type="checkbox" name="' . $this->getFieldName() . '" value="' . $this->getFieldName() . '" ' . $checked . '>'. "</p>";
+        } else {
+            return '';
+        }
+    }
 }
