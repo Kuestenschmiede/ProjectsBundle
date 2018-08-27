@@ -87,13 +87,13 @@ class C4GDateTimePickerField extends C4GBrickField
      */
     public function createFieldData($dlgValues)
     {
+        // TODO kommt anscheinend mit "dd.mm.yy - H:i:s" nicht klar
         $fieldData = $dlgValues[$this->getFieldName()];
-        $date = \DateTime::createFromFormat($GLOBALS['TL_CONFIG']['datimFormat'], $fieldData);
+        $date = strtotime($fieldData);
         if ($date) {
-            $date->Format($GLOBALS['TL_CONFIG']['datimFormat']);
-            $fieldData = $date->getTimestamp();
+            $fieldData = $date;
         } else {
-            $fieldData = '';
+            $fieldData = "";
         }
         return $fieldData;
     }
