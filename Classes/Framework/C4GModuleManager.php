@@ -8,6 +8,7 @@
 
 namespace con4gis\ProjectsBundle\Classes\Framework;
 
+use con4gis\ProjectsBundle\Classes\Actions\C4GLoadDataTableAction;
 use con4gis\ProjectsBundle\Classes\Buttons\C4GMoreButton;
 use con4gis\ProjectsBundle\Classes\Buttons\C4GMoreButtonEntry;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GMoreButtonField;
@@ -112,6 +113,18 @@ class C4GModuleManager
                     }
                 }
             }
+        }
+
+        if (strpos($request, 'datatable') === 0) {
+            $arrRequest = explode(':', $request);
+            //0 is the datatable string, 1 is the dialogId, 2 is the position in which the datatable field appears in the fieldlist
+            //i.e. a position of 0 is the first datatable field in the field list, 1 is the second, etc.
+            $objModule->initBrickModule($arrRequest[1]);
+            $action = new C4GLoadDataTableAction($objModule->getDialogParams(), $objModule->getListParams(), $objModule->getFieldList(), $objModule->getPutVars(), $objModule->getBrickDatabase());
+            $action->setModule($objModule);
+            $arrData = $action->run();
+            return $arrData;
+
         }
 
         return $objModule->generateAjax($request);
