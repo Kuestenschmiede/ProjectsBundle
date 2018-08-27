@@ -65,14 +65,9 @@ input:invalid {
     margin-bottom: .25em;
     margin-top: .25em;
     margin-left: 2.5%;
+    margin-right: 2.5%;
     width: 95%;
-    /*border-radius: 3px;*/
     min-height: 27px;
-    padding-left: 3px;
-    padding-right: 3px;
-}
-.c4g_brick_dialog .c4g_description {
-    width: 93.333333%; //ToDo Test
 }
 .c4g_brick_dialog input[type='checkbox'] {
     width: 1.0em;
@@ -820,11 +815,17 @@ a.c4g_tile_button:hover {
 .c4g_date_field_button {
     display: inherit !important;
     pointer-events: none;
+    margin-right: 2.5%;
+    margin-top: auto;
+    margin-bottom: auto;
 }
 
 .c4g_date_field_button_interactive {
     display: inherit !important;
     cursor: pointer;
+    margin-right: 2.5%;
+    margin-top: auto;
+    margin-bottom: auto;
 }
 
 .c4g_date_field_input {

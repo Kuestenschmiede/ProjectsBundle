@@ -168,7 +168,11 @@ class C4GHeadlineField extends C4GBrickField
      */
     public function getC4GPopupField($data, $groupId)
     {
-       return '<div class="c4g_popup_headline"><h1>'. $this->getTitle() .'</h1></div>';
+       if ($this->getTitle()) {
+           return '<div class="c4g_popup_headline"><h2>'. $this->getTitle() .'</h2></div>';
+       } else {
+           return '';
+       }
     }
 
     /**
