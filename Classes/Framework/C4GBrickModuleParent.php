@@ -640,9 +640,9 @@ class C4GBrickModuleParent extends \Module
     }
 
     /**
-     * function is called by every Ajax requests
-     * @param string $request
-     * @return json
+     * @param null $request
+     * @return false|string
+     * @throws \Exception
      */
     public function generateAjax($request = null)
     {

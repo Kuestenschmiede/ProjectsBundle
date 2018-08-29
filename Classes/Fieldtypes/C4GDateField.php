@@ -120,7 +120,7 @@ class C4GDateField extends C4GBrickField
             } else {
                 $html = '<div class="c4g_date_field_container" onmousedown="C4GDatePicker(\'' . $id . '\', \'date\', \'' .$this->minDate. '\', \'' . $this->maxDate . '\', \''.$format.'\',\'' . $GLOBALS["TL_LANGUAGE"] .'\',\'' . $this->excludeWeekdays . '\',\'' . $this->excludeDates . '\')" >';
             }
-            $html .= '<input autocomplete="off" ' . $required . ' type="text" id="' . $id . '" class="formdata c4g_date_field_input ' . $id . '" '.$changeAction.' name="' . $fieldName . '" value="' . $value . '" ' . $condition['conditionPrepare'] . 'pattern="' . $this->pattern. '"' .'>';
+            $html .= '<input readonly="true" autocomplete="off" ' . $required . ' type="text" id="' . $id . '" class="formdata c4g_date_field_input ' . $id . '" '.$changeAction.' name="' . $fieldName . '" value="' . $value . '" ' . $condition['conditionPrepare'] . 'pattern="' . $this->pattern. '"' .'>';
             if (C4GBrickView::isWithoutEditing($dialogParams->getViewType()) || !$this->isEditable()) {
                 $html .= '<span class="ui-button ui-corner-all c4g_date_field_button"><i class="far fa-calendar-alt"></i></span>';
             }
