@@ -102,4 +102,7 @@ class C4GBrickActionType
     const ACTION_CANCELPARENTSELECT     = 'C4GCancelDialogAction';
     const ACTION_CONFIRMPARENTFILTER    = 'C4GSetFilterAction';
     const ACTION_CANCELPARENTFILTER     = 'C4GShowListAction';
+
+    //DATATABLE ACTIONS
+    const ACTION_LOAD_DATATABLE = 'C4GLoadDataTableAction';
 }
