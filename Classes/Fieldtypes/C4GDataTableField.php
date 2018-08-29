@@ -19,6 +19,7 @@ use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
 class C4GDataTableField extends C4GBrickField
 {
     private $usesEditor = true;         //Enhance the Datatable using Editor
+    private $columns = array();         //The columns in the table, see C4GDataTableFieldColumns
 
     /*
         hidden input field that holds the ids as csv
