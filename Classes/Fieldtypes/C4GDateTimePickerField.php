@@ -87,7 +87,6 @@ class C4GDateTimePickerField extends C4GBrickField
      */
     public function createFieldData($dlgValues)
     {
-        // TODO kommt anscheinend mit "dd.mm.yy - H:i:s" nicht klar
         $fieldData = $dlgValues[$this->getFieldName()];
         if (strpos($fieldData, "-") === 9) {
             // special case. format "dd.mm.yy - H:i:s"
