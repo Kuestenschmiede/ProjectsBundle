@@ -89,13 +89,36 @@ class C4GDateTimePickerField extends C4GBrickField
     {
         // TODO kommt anscheinend mit "dd.mm.yy - H:i:s" nicht klar
         $fieldData = $dlgValues[$this->getFieldName()];
-        $date = strtotime($fieldData);
-        if ($date) {
-            $fieldData = $date;
+        if (strpos($fieldData, "-") === 9) {
+            // special case. format "dd.mm.yy - H:i:s"
+            $arrDate = explode("-", $fieldData);
+            $date = $arrDate[0];
+            $time = $arrDate[1];
+            // split into hour, minute and seconds
+            $arrTime = explode(":", $time);
+            $objDate = new \DateTime($date);
+            try {
+                $diff = new \DateInterval("PT" . trim($arrTime[0]) . "H" . trim($arrTime[1]) . "M");
+            } catch (\Exception $exception) {
+                // fallback, this results in $diff being a time difference of 0
+                $diff = \DateInterval::createFromDateString($time);
+            }
+            $objDate->add($diff);
+            $fieldData = $objDate->getTimestamp();
+            return $fieldData;
         } else {
-            $fieldData = "";
+            $date = strtotime($fieldData);
+            $datetime = new \DateTime($fieldData);
+            if ($date) {
+                $fieldData = $date;
+            } elseif ($datetime) {
+                $fieldData = $datetime->getTimestamp();
+            } else {
+                $fieldData = "";
+            }
+            return $fieldData;
         }
-        return $fieldData;
+
     }
 
     /**
