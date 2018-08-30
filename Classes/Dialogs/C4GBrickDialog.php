@@ -481,6 +481,7 @@ class C4GBrickDialog
                 'dialogbuttons' => C4GBrickDialog::getDialogButtons($dialogParams, $dataset)
             );
         }
+
         return $result;
     }
 

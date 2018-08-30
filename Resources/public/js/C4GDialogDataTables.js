@@ -18,6 +18,7 @@ $(document).ready( function () {
 
     while (index < tables.length) {
         let table = tables.item(index);
+        $(table).data = data;
         let dataNames = table.dataset.columnNames.split(',');
         let dataLabels = table.dataset.columnLabels.split(',');
         let i = 0;
@@ -32,7 +33,10 @@ $(document).ready( function () {
 
         editors['editor_' + table.id] = new $.fn.dataTable.Editor( {
             table: table.id,
-            fields: fields
+            fields: fields,
+            create :function () {
+                
+            }
         } );
         table.DataTable( {
             ajax: ajax + ':' + index,
