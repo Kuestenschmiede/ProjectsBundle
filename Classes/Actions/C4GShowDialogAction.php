@@ -15,7 +15,11 @@ namespace con4gis\ProjectsBundle\Classes\Actions;
 use con4gis\CoreBundle\Resources\contao\classes\C4GHTMLFactory;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickCommon;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickConst;
+use con4gis\ProjectsBundle\Classes\Database\C4GBrickDatabase;
+use con4gis\ProjectsBundle\Classes\Database\C4GBrickDatabaseParams;
+use con4gis\ProjectsBundle\Classes\Database\C4GBrickDatabaseType;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialog;
+use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GSubDialogField;
 use con4gis\ProjectsBundle\Classes\Models\C4gProjectsModel;
 use con4gis\ProjectsBundle\Classes\Views\C4GBrickView;
 use con4gis\ProjectsBundle\Classes\Views\C4GBrickViewType;
@@ -376,6 +380,54 @@ class C4GShowDialogAction extends C4GBrickDialogAction
             $model = $this->module->getModelClass();
             $function = $dialogParams->getModelDialogFunction();
             $element = $model::$function($dialogParams->getId());
+        }
+
+        $count = 0;
+        foreach ($this->fieldList as $field) {
+            if ($field instanceof C4GSubDialogField) {
+                $subFields = $field->getFieldList();
+                $table = $field->getTable();
+                $subDlgValues = array();
+
+
+                $databaseParams = new C4GBrickDatabaseParams($field->getDatabaseType());
+                $databaseParams->setPkField('id');
+                $databaseParams->setTableName($table);
+
+                if (class_exists($field->getEntityClass())) {
+                    $class      = new \ReflectionClass($field->getEntityClass());
+                    $namespace  = $class->getNamespaceName();
+                    $dbClass    = str_replace($namespace . '\\', '', $field->getEntityClass());
+                    $dbClass    = str_replace('\\', '', $dbClass);
+                } else {
+                    $class      = new \ReflectionClass(get_called_class());
+                    $namespace  = str_replace("contao\\modules", "database", $class->getNamespaceName());
+                    $dbClass    = $field->getModelClass();
+                }
+
+                $databaseParams->setFindBy($field->getFindBy());
+                $databaseParams->setEntityNamespace($namespace);
+                $databaseParams->setDatabase($field->getDatabase());
+
+                if ($field->getDatabaseType() == C4GBrickDatabaseType::DCA_MODEL) {
+                    $databaseParams->setModelClass($field->getModelClass());
+                } else {
+                    $databaseParams->setEntityClass($dbClass);
+                }
+                $field->setBrickDatabase(new C4GBrickDatabase($databaseParams));
+
+                $values = $field->getBrickDatabase()->findBy($field->getPidField(), $id);
+
+                foreach ($values as $value) {
+                    $count += 1;
+                    if ($value instanceof \stdClass) {
+                        foreach ($value as $key => $val) {
+                            $index = $field->getFieldName().'_'.$key.'_'.$count;
+                            $element->$index = $val;
+                        }
+                    }
+                }
+            }
         }
 
         //Wenn $element an dieser Stelle null ist wird ein neuer Datensatz angelegt (Hinzufügen),

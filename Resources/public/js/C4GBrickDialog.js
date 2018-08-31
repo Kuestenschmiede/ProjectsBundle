@@ -1139,3 +1139,28 @@ function openAccordion(index) {
         }, 100);
     }
 }
+
+/**
+ * Method to remove data sets from the sub dialog (C4GSubDialogField)
+ * @param button
+ * @param event
+ */
+
+function removeSubDialog(button, event) {
+    if (typeof(event) !== 'undefined') {
+        event.stopPropagation();
+    }
+    button.parentNode.parentNode.removeChild(button.parentNode);
+}
+
+/**
+ * Method to add data sets to the sub dialog (C4GSubDialogField)
+ * @param button
+ * @param event
+ */
+function addSubDialog(button, event) {
+    if (typeof(event) !== 'undefined') {
+        event.stopPropagation();
+    }
+    jQuery.parseHTML(button.dataset.form, button.dataset.target);
+}

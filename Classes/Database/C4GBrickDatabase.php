@@ -86,8 +86,10 @@ class C4GBrickDatabase
 
 
     /**
-     * @param string $fieldname
-     * @param string $value
+     * @param $fieldname
+     * @param $value
+     * @param array $arrOptions
+     * @return array
      */
     public function findBy($fieldname, $value, $arrOptions = array()) {
         if ($this->params->getType() == C4GBrickDatabaseType::DOCTRINE) {
@@ -122,7 +124,8 @@ class C4GBrickDatabase
     }
 
     /**
-     * @param string $pk
+     * @param $pk
+     * @return array
      */
     public function findByPk($pk) {
         if (!$pk || $pk <= 0) {
