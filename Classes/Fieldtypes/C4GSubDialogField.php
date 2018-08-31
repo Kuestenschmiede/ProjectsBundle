@@ -16,9 +16,6 @@ use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
 
 class C4GSubDialogField extends C4GBrickField
 {
-    private $tableColumn = false;
-    private $formField = true;
-
     private $table = '';
     private $fieldList = array();
     private $keyField = null;
@@ -35,6 +32,8 @@ class C4GSubDialogField extends C4GBrickField
 
     public function __construct() {
         $this->database = \Database::getInstance();
+        $this->setTableColumn(false);
+        $this->setFormField(true);
     }
 
     public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = array())
