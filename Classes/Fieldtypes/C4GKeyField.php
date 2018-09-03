@@ -31,14 +31,19 @@ class C4GKeyField extends C4GBrickField
         $required = $this->generateRequiredString($data, $dialogParams);
         $value = $this->generateInitialValue($data);
         $result = '';
-        $id = "c4g_" . $this->getDescription();
+        $id = "c4g_" . $this->getFieldName();
+        if ($this->isHidden()) {
+            $type = 'hidden';
+        } else {
+            $type = 'number';
+        }
         if ($this->isShowIfEmpty() || !empty($value)) {
 
             $condition = $this->createConditionData($fieldList, $data);
 
             $result =
                 $this->addC4GField($condition,$dialogParams,$fieldList,$data,
-                '<input ' . $required . ' ' . $condition['conditionPrepare'] . ' type="number" id="' . $id . '" class="formdata ' . $id . '" size="' .
+                '<input ' . $required . ' ' . $condition['conditionPrepare'] . ' type="'.$type.'" id="' . $id . '" class="formdata ' . $id . '" size="' .
                 $this->getSize() . '" pattern="\d*" name="' .
                 $this->getFieldName() . '" value="' . $value . '" >');
         }
