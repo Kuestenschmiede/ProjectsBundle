@@ -20,6 +20,7 @@ class C4GSubDialogField extends C4GBrickField
     private $fieldList = array();
     private $keyField = null;
     private $addButton = '';
+    private $addButtonLabel = '';
     private $removeButton = '';
     private $databaseType = C4GBrickDatabaseType::DCA_MODEL;
     private $entityClass = '';
@@ -38,28 +39,32 @@ class C4GSubDialogField extends C4GBrickField
 
     public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = array())
     {
-        if (!$this->keyField instanceof C4GKeyField) {
-            return '';
-        }
 
         $name = $this->getFieldName();
         $title = $this->getTitle();
         $addButton = $this->addButton;
         $removeButton = $this->removeButton;
 
-        $fieldsHtml = "<div class='c4g_sub_dialog_template'>";
+        $fieldsHtml = "<div class='c4g_sub_dialog_set'>";
+        $fieldName = $this->keyField->getFieldName();
+        $this->keyField->setFieldName($this->getFieldName().'_'.$fieldName.'_?');
+        $fieldsHtml .= $this->keyField->getC4GDialogField($this->getFieldList(), $data, $dialogParams, $additionalParams = array());
+        $this->keyField->setFieldName($fieldName);
         foreach ($this->fieldList as $field) {
             $fieldName = $field->getFieldName();
             $field->setFieldName($this->getFieldName().'_'.$fieldName.'_?');
-            $fieldsHtml .= $field->getC4GDialogField();
-            $fieldsHtml .= "<span class='c4g_sub_dialog_remove_button' onclick='removeSubDialog(this,event);'>$removeButton</span>";
+            $fieldsHtml .= $field->getC4GDialogField($this->getFieldList(), $data, $dialogParams, $additionalParams = array());
             $field->setFieldName($fieldName);
         }
         $fieldsHtml .= '</div>';
+        $fieldsHtml .= "<span class='ui-button ui-corner-all c4g_sub_dialog_remove_button' onclick='removeSubDialog(this,event);'>$removeButton</span>";
+        $fieldsHtml = str_replace('"', "'", $fieldsHtml);
 
         $html = "<div class='c4g_sub_dialog_container' id='c4g_$name'>";
-        $html .= "<span class='c4g_sub_dialog_title'>$title</span>";
-        $html .= "<span class='c4g_sub_dialog_add_button' onclick='addSubDialog(this,event)' data-form='$fieldsHtml' data-target='c4g_dialog_$name' data-field='$name'>$addButton</span>";
+        $this->setAdditionalLabel("<span class='ui-button ui-corner-all c4g_sub_dialog_add_button' onclick='addSubDialog(this,event);' data-form=\"$fieldsHtml\" data-target='c4g_dialog_$name' data-field='$name' data-index='0'>$addButton</span><span class='c4g_sub_dialog_add_button_label'>$this->addButtonLabel</span>");
+        $html .= $this->addC4GFieldLabel("c4g_$name", $title, $this->isMandatory(), $this->createConditionData($fieldList, $data), $fieldList, $data, $dialogParams);
+//        $html .= "<span class='c4g_sub_dialog_title'>$title</span>";
+//        $html .= "<span class='c4g_sub_dialog_add_button' onclick='addSubDialog(this,event)' data-form=\"$fieldsHtml\" data-target='c4g_dialog_$name' data-field='$name'>$addButton</span>";
         $html .= "<div class='c4g_sub_dialog' id='c4g_dialog_$name'>";
 
         $html .= "</div>";
@@ -133,10 +138,10 @@ class C4GSubDialogField extends C4GBrickField
     }
 
     /**
-     * @param C4GKeyField $keyField
+     * @param C4GBrickField $keyField
      * @return C4GSubDialogField
      */
-    public function setKeyField($keyField): C4GSubDialogField
+    public function setKeyField(C4GBrickField $keyField): C4GSubDialogField
     {
         $this->keyField = $keyField;
         return $this;
@@ -298,6 +303,22 @@ class C4GSubDialogField extends C4GBrickField
         return $this;
     }
 
+    /**
+     * @return string
+     */
+    public function getAddButtonLabel(): string
+    {
+        return $this->addButtonLabel;
+    }
 
+    /**
+     * @param string $addButtonLabel
+     * @return C4GSubDialogField
+     */
+    public function setAddButtonLabel(string $addButtonLabel): C4GSubDialogField
+    {
+        $this->addButtonLabel = $addButtonLabel;
+        return $this;
+    }
 
 }

@@ -1150,7 +1150,10 @@ function removeSubDialog(button, event) {
     if (typeof(event) !== 'undefined') {
         event.stopPropagation();
     }
-    button.parentNode.parentNode.removeChild(button.parentNode);
+    // button.parentNode.parentNode.removeChild(button.parentNode);
+    while (button.parentNode.firstChild) {
+        button.parentNode.removeChild(button.parentNode.firstChild);
+    }
 }
 
 /**
@@ -1162,5 +1165,9 @@ function addSubDialog(button, event) {
     if (typeof(event) !== 'undefined') {
         event.stopPropagation();
     }
-    jQuery.parseHTML(button.dataset.form, button.dataset.target);
+    var target = document.getElementById(button.dataset.target);
+    var index = button.dataset.index;
+    button.dataset.index = parseInt(button.dataset.index, 10) + 1;
+    var string = button.dataset.form.split('?').join(button.dataset.index);
+    target.innerHTML = target.innerHTML + string;
 }
