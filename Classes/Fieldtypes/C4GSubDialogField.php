@@ -30,6 +30,7 @@ class C4GSubDialogField extends C4GBrickField
     private $database = null;
     private $brickDatabase = null;
     private $pidField = 'pid';
+    private $where = array();
 
 
     public function __construct() {
@@ -71,6 +72,14 @@ class C4GSubDialogField extends C4GBrickField
                 $numLoadedDataSets += 1;
                 $propertyName = $this->getFieldName() . '_' . $this->keyField->getFieldName() . '_' . $numLoadedDataSets;
                 if ($data->$propertyName) {
+                    /** skip data sets where any where clause is not met  */
+                    foreach ($this->where as $clause) {
+                        $field = $this->getFieldName() . '_' . $clause[0] . '_' . $numLoadedDataSets;
+                        $value = $clause[1];
+                        if ($data->$field != $value) {
+                            continue 2;
+                        }
+                    }
                     $setData = new \stdClass();
                     foreach ($data as $key => $value) {
                         $start = C4GUtils::startsWith($key,$this->getFieldName());
@@ -83,7 +92,7 @@ class C4GSubDialogField extends C4GBrickField
                         }
                     }
 
-                    $loadedDataHtml = "<div class='c4g_sub_dialog_set'>";
+                    $loadedDataHtml .= "<div class='c4g_sub_dialog_set'>";
                     $fieldName = $this->keyField->getFieldName();
                     $this->keyField->setFieldName($this->getFieldName().'_'.$fieldName. '_' . $numLoadedDataSets);
                     $loadedDataHtml .= $this->keyField->getC4GDialogField($this->getFieldList(), $setData, $dialogParams, $additionalParams = array());
@@ -94,10 +103,8 @@ class C4GSubDialogField extends C4GBrickField
                         $loadedDataHtml .= $field->getC4GDialogField($this->getFieldList(), $setData, $dialogParams, $additionalParams = array());
                         $field->setFieldName($fieldName);
                     }
-                    $loadedDataHtml .= '</div>';
                     $loadedDataHtml .= "<span class='ui-button ui-corner-all c4g_sub_dialog_remove_button' onclick='removeSubDialog(this,event);'>$removeButton</span>";
-                    $loadedDataHtml = str_replace('"', "'", $loadedDataHtml);
-
+                    $loadedDataHtml .= '</div>';
                 } else {
                     break;
                 }
@@ -111,6 +118,7 @@ class C4GSubDialogField extends C4GBrickField
 //        $html .= "<span class='c4g_sub_dialog_add_button' onclick='addSubDialog(this,event)' data-form=\"$fieldsHtml\" data-target='c4g_dialog_$name' data-field='$name'>$addButton</span>";
         $html .= "<div class='c4g_sub_dialog' id='c4g_dialog_$name'>";
 
+        $loadedDataHtml = str_replace('"', "'", $loadedDataHtml);
         $html .= $loadedDataHtml;
 
         $html .= "</div>";
@@ -367,4 +375,23 @@ class C4GSubDialogField extends C4GBrickField
         return $this;
     }
 
+    /**
+     * @return array
+     */
+    public function getWhere(): array
+    {
+        return $this->where;
+    }
+
+    /**
+     * @param array $where
+     * @return $this
+     */
+    public function addWhere(array $where)
+    {
+        if ($where[0] && $where[1]) {
+            $this->where[] = array($where[0], $where[1]);
+        }
+        return $this;
+    }
 }
