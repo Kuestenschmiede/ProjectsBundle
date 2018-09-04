@@ -1253,6 +1253,7 @@ class C4GBrickDialog
                 foreach ($fieldList as $field) {
                     if ($field instanceof C4GSubDialogField) {
                         $subFields = $field->getFieldList();
+                        $subFields[] = $field->getKeyField();
                         $table = $field->getTable();
                         $subDlgValues = array();
                         foreach ($dlgValues as $key => $value) {
@@ -1289,7 +1290,14 @@ class C4GBrickDialog
 
                             $field->setBrickDatabase(new C4GBrickDatabase($databaseParams));
                             foreach ($subDlgValues as $key => $value) {
-                                self::saveC4GDialog($key, $table, $subFields, $value, $field->getBrickDatabase(),  $dbValues,  $dialogParams, $user_id);
+                                if (!$value[$id_fieldName]) {
+                                    $value['pid'] = $elementId;
+                                    //Todo use $foreignKeyField->getFieldName() instead of $value['pid']
+                                    //Todo delete sets that have no dialog values associated with them from the database
+                                    self::saveC4GDialog(0, $table, $subFields, $value, $field->getBrickDatabase(),  $dbValues,  $dialogParams, $user_id);
+                                } else {
+                                    self::saveC4GDialog($value[$id_fieldName], $table, $subFields, $value, $field->getBrickDatabase(),  $dbValues,  $dialogParams, $user_id);
+                                }
                             }
                             //delete data from the database if the data has been deleted on the client
 
