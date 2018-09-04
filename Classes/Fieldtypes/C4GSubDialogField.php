@@ -9,6 +9,7 @@
 namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
 
 
+use con4gis\CoreBundle\Resources\contao\classes\C4GUtils;
 use con4gis\ProjectsBundle\Classes\Database\C4GBrickDatabase;
 use con4gis\ProjectsBundle\Classes\Database\C4GBrickDatabaseType;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
@@ -45,7 +46,8 @@ class C4GSubDialogField extends C4GBrickField
         $addButton = $this->addButton;
         $removeButton = $this->removeButton;
 
-        $fieldsHtml = "<div class='c4g_sub_dialog_set'>";
+//        $fieldsHtml = "<div class='c4g_sub_dialog_set'>";
+        $fieldsHtml = "";
         $fieldName = $this->keyField->getFieldName();
         $this->keyField->setFieldName($this->getFieldName().'_'.$fieldName.'_?');
         $fieldsHtml .= $this->keyField->getC4GDialogField($this->getFieldList(), $data, $dialogParams, $additionalParams = array());
@@ -56,16 +58,60 @@ class C4GSubDialogField extends C4GBrickField
             $fieldsHtml .= $field->getC4GDialogField($this->getFieldList(), $data, $dialogParams, $additionalParams = array());
             $field->setFieldName($fieldName);
         }
-        $fieldsHtml .= '</div>';
+//        $fieldsHtml .= '</div>';
         $fieldsHtml .= "<span class='ui-button ui-corner-all c4g_sub_dialog_remove_button' onclick='removeSubDialog(this,event);'>$removeButton</span>";
         $fieldsHtml = str_replace('"', "'", $fieldsHtml);
 
+        /** Generate html for already loaded data sets if there are any */
+
+        $numLoadedDataSets = 0;
+        $loadedDataHtml = '';
+        if ($data) {
+            while (true) {  /** We break manually if the condition is not met. */
+                $numLoadedDataSets += 1;
+                $propertyName = $this->getFieldName() . '_' . $this->keyField->getFieldName() . '_' . $numLoadedDataSets;
+                if ($data->$propertyName) {
+                    $setData = new \stdClass();
+                    foreach ($data as $key => $value) {
+                        $start = C4GUtils::startsWith($key,$this->getFieldName());
+                        $end = C4GUtils::endsWith($key,(string)$numLoadedDataSets);
+                        if ($start && $end) {
+//                            $keyArray = explode('_',$key);
+//                            $propertyName = $keyArray[1];
+//                            $setData->$propertyName = $value;
+                            $setData->$key = $value;
+                        }
+                    }
+
+                    $loadedDataHtml = "<div class='c4g_sub_dialog_set'>";
+                    $fieldName = $this->keyField->getFieldName();
+                    $this->keyField->setFieldName($this->getFieldName().'_'.$fieldName. '_' . $numLoadedDataSets);
+                    $loadedDataHtml .= $this->keyField->getC4GDialogField($this->getFieldList(), $setData, $dialogParams, $additionalParams = array());
+                    $this->keyField->setFieldName($fieldName);
+                    foreach ($this->fieldList as $field) {
+                        $fieldName = $field->getFieldName();
+                        $field->setFieldName($this->getFieldName().'_'.$fieldName. '_' . $numLoadedDataSets);
+                        $loadedDataHtml .= $field->getC4GDialogField($this->getFieldList(), $setData, $dialogParams, $additionalParams = array());
+                        $field->setFieldName($fieldName);
+                    }
+                    $loadedDataHtml .= '</div>';
+                    $loadedDataHtml .= "<span class='ui-button ui-corner-all c4g_sub_dialog_remove_button' onclick='removeSubDialog(this,event);'>$removeButton</span>";
+                    $loadedDataHtml = str_replace('"', "'", $loadedDataHtml);
+
+                } else {
+                    break;
+                }
+            }
+        }
+
         $html = "<div class='c4g_sub_dialog_container' id='c4g_$name'>";
-        $this->setAdditionalLabel("<span class='ui-button ui-corner-all c4g_sub_dialog_add_button' onclick='addSubDialog(this,event);' data-form=\"$fieldsHtml\" data-target='c4g_dialog_$name' data-field='$name' data-index='0'>$addButton</span><span class='c4g_sub_dialog_add_button_label'>$this->addButtonLabel</span>");
+        $this->setAdditionalLabel("<span class='ui-button ui-corner-all c4g_sub_dialog_add_button' onclick='addSubDialog(this,event);' data-form=\"$fieldsHtml\" data-target='c4g_dialog_$name' data-field='$name' data-index='$numLoadedDataSets'>$addButton</span><span class='c4g_sub_dialog_add_button_label'>$this->addButtonLabel</span>");
         $html .= $this->addC4GFieldLabel("c4g_$name", $title, $this->isMandatory(), $this->createConditionData($fieldList, $data), $fieldList, $data, $dialogParams);
 //        $html .= "<span class='c4g_sub_dialog_title'>$title</span>";
 //        $html .= "<span class='c4g_sub_dialog_add_button' onclick='addSubDialog(this,event)' data-form=\"$fieldsHtml\" data-target='c4g_dialog_$name' data-field='$name'>$addButton</span>";
         $html .= "<div class='c4g_sub_dialog' id='c4g_dialog_$name'>";
+
+        $html .= $loadedDataHtml;
 
         $html .= "</div>";
         $html .= "</div>";
