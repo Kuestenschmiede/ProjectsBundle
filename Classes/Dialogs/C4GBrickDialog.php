@@ -1379,6 +1379,18 @@ class C4GBrickDialog
                     }
                 }
 
+
+                $db = \Database::getInstance();
+                foreach ($fieldList as $field) {
+                    if ($field instanceof C4GSubDialogField) {
+                        $table = $field->getTable();
+                        $pidField = $field->getForeignKeyField()->getFieldName();
+                        $stmt = $db->prepare("DELETE FROM $table WHERE $pidField = ?");
+                        $stmt->execute($elementId);
+                    }
+                }
+
+
                 return true;
             } else {
                 if ($deleteFlag) {
