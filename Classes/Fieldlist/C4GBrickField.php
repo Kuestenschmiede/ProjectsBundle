@@ -137,6 +137,7 @@ abstract class C4GBrickField
     protected $initInvisible = false;  //ToDo das gehört in die Felder rein, die es auch benutzen können
     private $withLinkDescription = false;
     private $conditionType = null; //see C4GBrickConditionType
+    private $additionalLabel = ''; //Additional String to be added to the label, e.g.
 
     /**
      * C4GBrickField constructor.
@@ -312,10 +313,14 @@ abstract class C4GBrickField
             if ($showExtTitleField && $this->getExtTitleField()) {
                 $extTitleField = $this->getExtTitleField()->getC4GDialogField($fieldList, $data, $dialogParams);
             }
+            $additionalLabel = '';
+            if ($this->getAdditionalLabel()) {
+                $additionalLabel = $this->getAdditionalLabel();
+            }
             if($this->isWithoutLabel()){
-                return $tdo.'<label for="' . $id . '" ' . $condition['conditionPrepare'] . '>' . $star . $linebreak . '</label>'.$tdc.$extTitleField;
+                return $tdo.'<label for="' . $id . '" ' . $condition['conditionPrepare'] . '>' . $star . $additionalLabel . $linebreak . '</label>'.$tdc.$extTitleField;
             } else {
-                return $tdo.'<label for="' . $id . '" ' . $condition['conditionPrepare'] . '>' . $star . $title . $linebreak . '</label>'.$tdc.$extTitleField;
+                return $tdo.'<label for="' . $id . '" ' . $condition['conditionPrepare'] . '>' . $star . $title . $additionalLabel . $linebreak . '</label>'.$tdc.$extTitleField;
             }
         } else {
             return '';
@@ -2304,4 +2309,22 @@ abstract class C4GBrickField
         $this->popupField = $popupField;
         return $this;
     }
+
+    /**
+     * @return string
+     */
+    public function getAdditionalLabel()
+    {
+        return $this->additionalLabel;
+    }
+
+    /**
+     * @param string $additionalLabel
+     */
+    public function setAdditionalLabel($additionalLabel)
+    {
+        $this->additionalLabel = $additionalLabel;
+    }
+
+
 }

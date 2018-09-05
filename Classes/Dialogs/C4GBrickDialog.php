@@ -19,6 +19,9 @@ use con4gis\ProjectsBundle\Classes\Buttons\C4GBrickButton;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickCommon;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickConst;
 use con4gis\ProjectsBundle\Classes\Conditions\C4GBrickConditionType;
+use con4gis\ProjectsBundle\Classes\Database\C4GBrickDatabase;
+use con4gis\ProjectsBundle\Classes\Database\C4GBrickDatabaseParams;
+use con4gis\ProjectsBundle\Classes\Database\C4GBrickDatabaseType;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldCompare;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldNumeric;
@@ -39,6 +42,7 @@ use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GNumberField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GPostalField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GRadioGroupField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GSelectField;
+use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GSubDialogField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GTelField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GUrlField;
 use con4gis\ProjectsBundle\Classes\Views\C4GBrickView;
@@ -1001,13 +1005,14 @@ class C4GBrickDialog
     /**
      * @param $elementId
      * @param $tableName
-     * @param C4GBrickField[] $fieldList
+     * @param $fieldList
      * @param $dlgValues
-     * @param $database
+     * @param $brickDatabase
      * @param $dbValues
-     * @param $viewType
+     * @param C4GBrickDialogParams $dialogParams
      * @param $user_id
      * @return bool
+     * @throws \ReflectionException
      */
     public static function saveC4GDialog($elementId, $tableName, $fieldList, $dlgValues, $brickDatabase,  $dbValues, C4GBrickDialogParams $dialogParams, $user_id)
     {
@@ -1243,6 +1248,87 @@ class C4GBrickDialog
                 $result = $brickDatabase->update($id, $set, $id_fieldName);
             }
 
+            //See if there are any C4GSubDialogFields to save
+            if ($result['insertId']) {
+                foreach ($fieldList as $field) {
+                    if ($field instanceof C4GSubDialogField) {
+                        $subFields = $field->getFieldList();
+                        $subFields[] = $field->getKeyField();
+                        $subFields[] = $field->getForeignKeyField();
+                        $table = $field->getTable();
+                        $subDlgValues = array();
+                        foreach ($dlgValues as $key => $value) {
+                            $keyArray = explode('_',$key);
+                            if ($keyArray && $keyArray[0] == $field->getFieldName()) {
+                                $subDlgValues[$keyArray[0].'_'.$keyArray[2]][$keyArray[1]] = $value;
+                            }
+                        }
+                        if ($subDlgValues) {
+                            $databaseParams = new C4GBrickDatabaseParams($field->getDatabaseType());
+                            $databaseParams->setPkField('id');
+                            $databaseParams->setTableName($table);
+
+                            if (class_exists($field->getEntityClass())) {
+                                $class      = new \ReflectionClass($field->getEntityClass());
+                                $namespace  = $class->getNamespaceName();
+                                $dbClass    = str_replace($namespace . '\\', '', $field->getEntityClass());
+                                $dbClass    = str_replace('\\', '', $dbClass);
+                            } else {
+                                $class      = new \ReflectionClass(get_called_class());
+                                $namespace  = str_replace("contao\\modules", "database", $class->getNamespaceName());
+                                $dbClass    = $field->getModelClass();
+                            }
+
+                            $databaseParams->setFindBy($field->getFindBy());
+                            $databaseParams->setEntityNamespace($namespace);
+                            $databaseParams->setDatabase($field->getDatabase());
+
+                            if ($field->getDatabaseType() == C4GBrickDatabaseType::DCA_MODEL) {
+                                $databaseParams->setModelClass($field->getModelClass());
+                            } else {
+                                $databaseParams->setEntityClass($dbClass);
+                            }
+
+                            $field->setBrickDatabase(new C4GBrickDatabase($databaseParams));
+
+                            /** First, delete all data sets from the database that have been deleted on the client. */
+
+                            $deleteResult = $field->getBrickDatabase()->findBy($field->getForeignKeyField()->getFieldName(),$elementId);
+                            $deleteIds = array();
+                            foreach ($deleteResult as $r) {
+                                foreach ($subDlgValues as $key => $value) {
+                                    if (strval($r->$id_fieldName) == strval($value[$id_fieldName])) {
+                                        continue 2;
+                                    }
+                                }
+                                $deleteIds[] = $r->$id_fieldName;
+                            }
+                            $db = \Database::getInstance();
+                            $table = $field->getTable();
+                            $stmt = $db->prepare("DELETE FROM $table WHERE id = ?");
+                            foreach ($deleteIds as $deleteId) {
+                                $stmt->execute($deleteId);
+                            }
+
+                            /** Then save all the data sets. */
+
+                            if (strval($elementId) == '-1') {
+                                $elementId = $result['insertId'];
+                            }
+                            foreach ($subDlgValues as $key => $value) {
+                                if (!$value[$id_fieldName]) {
+                                    $value[$field->getForeignKeyField()->getFieldName()] = $elementId;
+                                    self::saveC4GDialog(0, $table, $subFields, $value, $field->getBrickDatabase(),  $dbValues,  $dialogParams, $user_id);
+                                } else {
+                                    $value[$field->getForeignKeyField()->getFieldName()] = $elementId;
+                                    self::saveC4GDialog($value[$id_fieldName], $table, $subFields, $value, $field->getBrickDatabase(),  $dbValues,  $dialogParams, $user_id);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
             return $result;
         }
     }
@@ -1251,11 +1337,12 @@ class C4GBrickDialog
      * @param $elementId
      * @param $tableName
      * @param $database
-     * @param C4GBrickField[] $fieldList
+     * @param $fieldList
      * @param $dbValues
      * @param $dlgValues
      * @param $userId
      * @return bool
+     * @throws \ReflectionException
      */
     public static function deleteC4GTableDataById($elementId, $tableName, $database, $fieldList,  $dbValues, $dlgValues, $userId){
         if ($elementId >= 0) {
@@ -1291,6 +1378,18 @@ class C4GBrickDialog
                         C4GBrickCommon::deleteFileByUUID($file);
                     }
                 }
+
+
+                $db = \Database::getInstance();
+                foreach ($fieldList as $field) {
+                    if ($field instanceof C4GSubDialogField) {
+                        $table = $field->getTable();
+                        $pidField = $field->getForeignKeyField()->getFieldName();
+                        $stmt = $db->prepare("DELETE FROM $table WHERE $pidField = ?");
+                        $stmt->execute($elementId);
+                    }
+                }
+
 
                 return true;
             } else {

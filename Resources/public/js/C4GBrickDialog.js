@@ -1139,3 +1139,67 @@ function openAccordion(index) {
         }, 100);
     }
 }
+
+/**
+ * Method to remove data sets from the sub dialog (C4GSubDialogField)
+ * @param button
+ * @param event
+ */
+
+function removeSubDialog(button, event) {
+    if (typeof(event) !== 'undefined') {
+        event.stopPropagation();
+    }
+    showConfirmationDialog(button.innerHTML, 'Bestätigung', 'Ja', 'Nein',  function() {
+        while (button.parentNode.firstChild) {
+            button.parentNode.removeChild(button.parentNode.firstChild);
+        }
+    });
+}
+
+/**
+ * Method to add data sets to the sub dialog (C4GSubDialogField)
+ * @param button
+ * @param event
+ */
+function addSubDialog(button, event) {
+    if (typeof(event) !== 'undefined') {
+        event.stopPropagation();
+    }
+    var target = document.getElementById(button.dataset.target);
+    var index = button.dataset.index;
+    button.dataset.index = parseInt(button.dataset.index, 10) + 1;
+    var string = button.dataset.form.split('?').join(button.dataset.index);
+    // target.innerHTML = target.innerHTML + string;
+    var newElement = document.createElement('div');
+    newElement.classList.add('c4g_sub_dialog_set');
+    newElement.innerHTML = string;
+    target.appendChild(newElement);
+}
+
+function showConfirmationDialog(message,title,yesLabel, noLabel, yesCallback){
+    $('<div></div>').appendTo('body')
+        .html('<div>'+message+'?</div>')
+        .dialog({
+            modal: true, title: title, zIndex: 10000, autoOpen: true,
+            width: 'auto', resizable: false,
+            buttons: [
+                {
+                    text: yesLabel,
+                    click: function () {
+                    $(this).dialog("close");
+                    yesCallback();
+                    }
+                },
+                {
+                    text: noLabel,
+                    click: function () {
+                        $(this).dialog("close");
+                    }
+                }
+            ],
+            close: function (event, ui) {
+                $(this).remove();
+            }
+        });
+};
