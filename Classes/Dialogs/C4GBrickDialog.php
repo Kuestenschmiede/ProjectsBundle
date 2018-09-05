@@ -1293,9 +1293,9 @@ class C4GBrickDialog
 
                             /** First, delete all data sets from the database that have been deleted on the client. */
 
-                            $result = $field->getBrickDatabase()->findBy($field->getForeignKeyField()->getFieldName(),$elementId);
+                            $deleteResult = $field->getBrickDatabase()->findBy($field->getForeignKeyField()->getFieldName(),$elementId);
                             $deleteIds = array();
-                            foreach ($result as $r) {
+                            foreach ($deleteResult as $r) {
                                 foreach ($subDlgValues as $key => $value) {
                                     if (strval($r->$id_fieldName) == strval($value[$id_fieldName])) {
                                         continue 2;
@@ -1310,8 +1310,11 @@ class C4GBrickDialog
                                 $stmt->execute($deleteId);
                             }
 
+                            /** Then save all the data sets. */
 
-
+                            if (strval($elementId) == '-1') {
+                                $elementId = $result['insertId'];
+                            }
                             foreach ($subDlgValues as $key => $value) {
                                 if (!$value[$id_fieldName]) {
                                     $value[$field->getForeignKeyField()->getFieldName()] = $elementId;
