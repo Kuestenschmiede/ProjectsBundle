@@ -870,3 +870,7 @@ a.c4g_tile_button:hover {
 .c4g_sub_dialog_container {
     margin-bottom: 20px;
 }
+
+.ui-button {
+    cursor: pointer;
+}
