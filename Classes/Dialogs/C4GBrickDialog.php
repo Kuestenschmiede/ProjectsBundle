@@ -1258,8 +1258,8 @@ class C4GBrickDialog
                         $table = $field->getTable();
                         $subDlgValues = array();
                         foreach ($dlgValues as $key => $value) {
-                            if (C4GUtils::startsWith($key,$field->getFieldName())) {
-                                $keyArray = explode('_',$key);
+                            $keyArray = explode('_',$key);
+                            if ($keyArray && $keyArray[0] == $field->getFieldName()) {
                                 $subDlgValues[$keyArray[0].'_'.$keyArray[2]][$keyArray[1]] = $value;
                             }
                         }
