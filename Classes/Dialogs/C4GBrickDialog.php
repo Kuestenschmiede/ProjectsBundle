@@ -1254,6 +1254,7 @@ class C4GBrickDialog
                     if ($field instanceof C4GSubDialogField) {
                         $subFields = $field->getFieldList();
                         $subFields[] = $field->getKeyField();
+                        $subFields[] = $field->getForeignKeyField();
                         $table = $field->getTable();
                         $subDlgValues = array();
                         foreach ($dlgValues as $key => $value) {
@@ -1289,18 +1290,37 @@ class C4GBrickDialog
                             }
 
                             $field->setBrickDatabase(new C4GBrickDatabase($databaseParams));
+
+                            /** First, delete all data sets from the database that have been deleted on the client. */
+
+                            $result = $field->getBrickDatabase()->findBy($field->getForeignKeyField()->getFieldName(),$elementId);
+                            $deleteIds = array();
+                            foreach ($result as $r) {
+                                foreach ($subDlgValues as $key => $value) {
+                                    if (strval($r->$id_fieldName) == strval($value[$id_fieldName])) {
+                                        continue 2;
+                                    }
+                                }
+                                $deleteIds[] = $r->$id_fieldName;
+                            }
+                            $db = \Database::getInstance();
+                            $table = $field->getTable();
+                            $stmt = $db->prepare("DELETE FROM $table WHERE id = ?");
+                            foreach ($deleteIds as $deleteId) {
+                                $stmt->execute($deleteId);
+                            }
+
+
+
                             foreach ($subDlgValues as $key => $value) {
                                 if (!$value[$id_fieldName]) {
-                                    $value['pid'] = $elementId;
-                                    //Todo use $foreignKeyField->getFieldName() instead of $value['pid']
-                                    //Todo delete sets that have no dialog values associated with them from the database
+                                    $value[$field->getForeignKeyField()->getFieldName()] = $elementId;
                                     self::saveC4GDialog(0, $table, $subFields, $value, $field->getBrickDatabase(),  $dbValues,  $dialogParams, $user_id);
                                 } else {
+                                    $value[$field->getForeignKeyField()->getFieldName()] = $elementId;
                                     self::saveC4GDialog($value[$id_fieldName], $table, $subFields, $value, $field->getBrickDatabase(),  $dbValues,  $dialogParams, $user_id);
                                 }
                             }
-                            //delete data from the database if the data has been deleted on the client
-
                         }
                     }
                 }
