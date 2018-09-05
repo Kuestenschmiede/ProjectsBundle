@@ -1150,10 +1150,11 @@ function removeSubDialog(button, event) {
     if (typeof(event) !== 'undefined') {
         event.stopPropagation();
     }
-    // button.parentNode.parentNode.removeChild(button.parentNode);
-    while (button.parentNode.firstChild) {
-        button.parentNode.removeChild(button.parentNode.firstChild);
-    }
+    showConfirmationDialog(button.innerHTML, 'Bestätigung', 'Ja', 'Nein',  function() {
+        while (button.parentNode.firstChild) {
+            button.parentNode.removeChild(button.parentNode.firstChild);
+        }
+    });
 }
 
 /**
@@ -1175,3 +1176,30 @@ function addSubDialog(button, event) {
     newElement.innerHTML = string;
     target.appendChild(newElement);
 }
+
+function showConfirmationDialog(message,title,yesLabel, noLabel, yesCallback){
+    $('<div></div>').appendTo('body')
+        .html('<div>'+message+'?</div>')
+        .dialog({
+            modal: true, title: title, zIndex: 10000, autoOpen: true,
+            width: 'auto', resizable: false,
+            buttons: [
+                {
+                    text: yesLabel,
+                    click: function () {
+                    $(this).dialog("close");
+                    yesCallback();
+                    }
+                },
+                {
+                    text: noLabel,
+                    click: function () {
+                        $(this).dialog("close");
+                    }
+                }
+            ],
+            close: function (event, ui) {
+                $(this).remove();
+            }
+        });
+};
