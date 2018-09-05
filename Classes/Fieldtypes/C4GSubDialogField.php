@@ -20,6 +20,7 @@ class C4GSubDialogField extends C4GBrickField
     private $table = '';
     private $fieldList = array();
     private $keyField = null;
+    private $foreignKeyField = null;
     private $addButton = '';
     private $addButtonLabel = '';
     private $removeButton = '';
@@ -198,6 +199,24 @@ class C4GSubDialogField extends C4GBrickField
     public function setKeyField(C4GBrickField $keyField): C4GSubDialogField
     {
         $this->keyField = $keyField;
+        return $this;
+    }
+
+    /**
+     * @return null
+     */
+    public function getForeignKeyField()
+    {
+        return $this->foreignKeyField;
+    }
+
+    /**
+     * @param null $foreignKeyField
+     * @return C4GSubDialogField
+     */
+    public function setForeignKeyField($foreignKeyField)
+    {
+        $this->foreignKeyField = $foreignKeyField;
         return $this;
     }
 
