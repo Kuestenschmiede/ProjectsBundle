@@ -30,7 +30,6 @@ class C4GSubDialogField extends C4GBrickField
     private $findBy = array();
     private $database = null;
     private $brickDatabase = null;
-    private $pidField = 'pid';
     private $where = array();
 
 
@@ -355,24 +354,6 @@ class C4GSubDialogField extends C4GBrickField
     public function setBrickDatabase(C4GBrickDatabase $brickDatabase): C4GSubDialogField
     {
         $this->brickDatabase = $brickDatabase;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getPidField(): string
-    {
-        return $this->pidField;
-    }
-
-    /**
-     * @param string $pidField
-     * @return C4GSubDialogField
-     */
-    public function setPidField(string $pidField): C4GSubDialogField
-    {
-        $this->pidField = $pidField;
         return $this;
     }
 

@@ -866,3 +866,7 @@ a.c4g_tile_button:hover {
 .c4g_sub_dialog_remove_button {
     align-self: center;
 }
+
+.c4g_sub_dialog_container {
+    margin-bottom: 20px;
+}

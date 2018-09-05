@@ -416,8 +416,8 @@ class C4GShowDialogAction extends C4GBrickDialogAction
                 }
                 $field->setBrickDatabase(new C4GBrickDatabase($databaseParams));
 
-                $values = $field->getBrickDatabase()->findBy($field->getPidField(), $id);
-
+                $values = $field->getBrickDatabase()->findBy($field->getForeignKeyField()->getFieldName(), $id);
+                $count = 0;
                 foreach ($values as $value) {
                     $count += 1;
                     if ($value instanceof \stdClass) {
