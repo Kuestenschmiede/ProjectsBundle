@@ -11,9 +11,11 @@ namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
 
 use con4gis\CoreBundle\Resources\contao\classes\C4GUtils;
 use con4gis\ProjectsBundle\Classes\Database\C4GBrickDatabase;
+use con4gis\ProjectsBundle\Classes\Database\C4GBrickDatabaseParams;
 use con4gis\ProjectsBundle\Classes\Database\C4GBrickDatabaseType;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
+use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldCompare;
 
 class C4GSubDialogField extends C4GBrickField
 {
@@ -37,6 +39,7 @@ class C4GSubDialogField extends C4GBrickField
         $this->database = \Database::getInstance();
         $this->setTableColumn(false);
         $this->setFormField(true);
+//        $this->setComparable(false);
     }
 
     public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = array())
@@ -127,7 +130,59 @@ class C4GSubDialogField extends C4GBrickField
         return $html;
     }
 
-    public function compareWithDB($dbValue, $dlgvalue) {}
+    public function compareWithDB($dbValues, $dlgValues) {
+        $failures = array();
+
+        $subDlgValues = array();
+        foreach ($dlgValues as $key => $value) {
+            $keyArray = explode('_',$key);
+            if ($keyArray && $keyArray[0] == $this->getFieldName()) {
+                $subDlgValues[$keyArray[0].'_'.$keyArray[2]][$keyArray[1]] = $value;
+            }
+        }
+        if ($subDlgValues && $this->brickDatabase == null) {
+            $databaseParams = new C4GBrickDatabaseParams($this->getDatabaseType());
+            $databaseParams->setPkField('id');
+            $databaseParams->setTableName($this->table);
+
+            if (class_exists($this->entityClass)) {
+                $class      = new \ReflectionClass($this->entityClass);
+                $namespace  = $class->getNamespaceName();
+                $dbClass    = str_replace($namespace . '\\', '', $this->entityClass);
+                $dbClass    = str_replace('\\', '', $dbClass);
+            } else {
+                $class      = new \ReflectionClass(get_called_class());
+                $namespace  = str_replace("contao\\modules", "database", $class->getNamespaceName());
+                $dbClass    = $this->modelClass;
+            }
+
+            $databaseParams->setFindBy($this->findBy);
+            $databaseParams->setEntityNamespace($namespace);
+            $databaseParams->setDatabase($this->database);
+
+            if ($this->databaseType == C4GBrickDatabaseType::DCA_MODEL) {
+                $databaseParams->setModelClass($this->modelClass);
+            } else {
+                $databaseParams->setEntityClass($dbClass);
+            }
+
+            $this->brickDatabase = new C4GBrickDatabase($databaseParams);
+        }
+
+        foreach ($subDlgValues as $sDlgvalues) {
+            $idFieldName = $this->keyField->getFieldName();
+            $subDbValues = $this->brickDatabase->findBy($idFieldName,$sDlgvalues[$idFieldName]);
+            foreach ($this->fieldList as $field) {
+                foreach ($subDbValues as $sDbValues) {
+                    $compare = $field->compareWithDB($sDbValues, $sDlgvalues);
+                    if ($compare instanceof C4GBrickFieldCompare) {
+                        $failures[] = $compare;
+                    }
+                }
+            }
+        }
+        return $failures;
+    }
 
     /**
      * @return string
@@ -333,7 +388,7 @@ class C4GSubDialogField extends C4GBrickField
      * @param $database
      * @return C4GSubDialogField
      */
-    public function setDatabase($database): C4GSubDialogField
+    public function setDatabase(C4GBrickDatabase $database): C4GSubDialogField
     {
         $this->database = $database;
         return $this;
@@ -342,7 +397,7 @@ class C4GSubDialogField extends C4GBrickField
     /**
      * @return C4GBrickDatabase
      */
-    public function getBrickDatabase(): C4GBrickDatabase
+    public function getBrickDatabase()
     {
         return $this->brickDatabase;
     }

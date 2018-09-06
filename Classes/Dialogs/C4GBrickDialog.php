@@ -33,6 +33,7 @@ use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GDateTimeLocationField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GDecimalField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GEmailField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GFileField;
+use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GForeignArrayField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GGeopickerField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GGridField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GHeadlineField;
@@ -998,10 +999,6 @@ class C4GBrickDialog
         return $result;
     }
 
-   /* public static function field2db($field) {
-        return;
-    }*/
-
     /**
      * @param $elementId
      * @param $tableName
@@ -1090,8 +1087,10 @@ class C4GBrickDialog
                         $set['loc_geoy'] = $loc_geoy;
                     }
                     $fieldData = null;
-                } else if ($field instanceof C4GFileField){
+                } else if ($field instanceof C4GFileField) {
                     $fieldData = $field->createFieldData($dlgValues, $dbValues);
+                } elseif ($field instanceof C4GForeignArrayField) {
+                    $fieldData = $field->createValue($dbValues, $dialogParams, $dlgValues, ($brickDatabase->getParams()->getEntityClass() !== ''));
                 } else {
                     $fieldData = $field->createFieldData($dlgValues);
                     if (!$field->getRandomValue()) {
@@ -1105,7 +1104,7 @@ class C4GBrickDialog
 
                 if ($fieldData !== NULL) {
                     $set[$fieldName] = $fieldData;
-                    if (!($field instanceof C4GFileField) && !($field instanceof C4GMultiCheckboxField)) {
+                    if (!($field instanceof C4GFileField) && !($field instanceof C4GMultiCheckboxField) && (!$field instanceof C4GForeignArrayField)) {
                         $set[$fieldName] = html_entity_decode(C4GUtils::secure_ugc($fieldData));
                     }
                 }
@@ -1263,20 +1262,20 @@ class C4GBrickDialog
                                 $subDlgValues[$keyArray[0].'_'.$keyArray[2]][$keyArray[1]] = $value;
                             }
                         }
-                        if ($subDlgValues) {
+                        if ($subDlgValues && $field->getBrickDatabase() == null) {
                             $databaseParams = new C4GBrickDatabaseParams($field->getDatabaseType());
                             $databaseParams->setPkField('id');
                             $databaseParams->setTableName($table);
 
                             if (class_exists($field->getEntityClass())) {
-                                $class      = new \ReflectionClass($field->getEntityClass());
-                                $namespace  = $class->getNamespaceName();
-                                $dbClass    = str_replace($namespace . '\\', '', $field->getEntityClass());
-                                $dbClass    = str_replace('\\', '', $dbClass);
+                                $class = new \ReflectionClass($field->getEntityClass());
+                                $namespace = $class->getNamespaceName();
+                                $dbClass = str_replace($namespace . '\\', '', $field->getEntityClass());
+                                $dbClass = str_replace('\\', '', $dbClass);
                             } else {
-                                $class      = new \ReflectionClass(get_called_class());
-                                $namespace  = str_replace("contao\\modules", "database", $class->getNamespaceName());
-                                $dbClass    = $field->getModelClass();
+                                $class = new \ReflectionClass(get_called_class());
+                                $namespace = str_replace("contao\\modules", "database", $class->getNamespaceName());
+                                $dbClass = $field->getModelClass();
                             }
 
                             $databaseParams->setFindBy($field->getFindBy());
@@ -1290,7 +1289,9 @@ class C4GBrickDialog
                             }
 
                             $field->setBrickDatabase(new C4GBrickDatabase($databaseParams));
+                        }
 
+                        if ($subDlgValues) {
                             /** First, delete all data sets from the database that have been deleted on the client. */
 
                             $deleteResult = $field->getBrickDatabase()->findBy($field->getForeignKeyField()->getFieldName(),$elementId);
@@ -1318,10 +1319,12 @@ class C4GBrickDialog
                             foreach ($subDlgValues as $key => $value) {
                                 if (!$value[$id_fieldName]) {
                                     $value[$field->getForeignKeyField()->getFieldName()] = $elementId;
-                                    self::saveC4GDialog(0, $table, $subFields, $value, $field->getBrickDatabase(),  $dbValues,  $dialogParams, $user_id);
+                                    $subDbValues = $field->getBrickDatabase()->findByPk(0);
+                                    self::saveC4GDialog(0, $table, $subFields, $value, $field->getBrickDatabase(),  $subDbValues,  $dialogParams, $user_id);
                                 } else {
                                     $value[$field->getForeignKeyField()->getFieldName()] = $elementId;
-                                    self::saveC4GDialog($value[$id_fieldName], $table, $subFields, $value, $field->getBrickDatabase(),  $dbValues,  $dialogParams, $user_id);
+                                    $subDbValues = $field->getBrickDatabase()->findByPk($value[$id_fieldName]);
+                                    self::saveC4GDialog($value[$id_fieldName], $table, $subFields, $value, $field->getBrickDatabase(),  $subDbValues,  $dialogParams, $user_id);
                                 }
                             }
                         }
