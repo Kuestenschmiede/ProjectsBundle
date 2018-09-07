@@ -19,6 +19,7 @@ use con4gis\ProjectsBundle\Classes\Database\C4GBrickDatabase;
 use con4gis\ProjectsBundle\Classes\Database\C4GBrickDatabaseParams;
 use con4gis\ProjectsBundle\Classes\Database\C4GBrickDatabaseType;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialog;
+use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GForeignArrayField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GSubDialogField;
 use con4gis\ProjectsBundle\Classes\Models\C4gProjectsModel;
 use con4gis\ProjectsBundle\Classes\Views\C4GBrickView;
@@ -427,8 +428,11 @@ class C4GShowDialogAction extends C4GBrickDialogAction
                         }
                     }
                 }
+                $element = $this->loadC4GForeignArrayFieldData($this->fieldList, $element);
             }
         }
+
+        $element = $this->loadC4GForeignArrayFieldData($this->fieldList, $element);
 
         //Wenn $element an dieser Stelle null ist wird ein neuer Datensatz angelegt (Hinzufügen),
         //ansonsten wird der bestehende Datensatz zur Bearbeitung angeboten
@@ -511,5 +515,66 @@ class C4GShowDialogAction extends C4GBrickDialogAction
     public function isReadOnly()
     {
         return true;
+    }
+
+    public function loadC4GForeignArrayFieldData($fieldList, $element) {
+        foreach ($fieldList as $field) {
+            if ($field instanceof C4GForeignArrayField) {
+                $index = $field->getFieldName();
+
+                $databaseParams = new C4GBrickDatabaseParams($field->getDatabaseType());
+                $databaseParams->setPkField('id');
+                $databaseParams->setTableName($field->getForeignTable());
+
+                if (class_exists($field->getEntityClass())) {
+                    $class      = new \ReflectionClass($field->getEntityClass());
+                    $namespace  = $class->getNamespaceName();
+                    $dbClass    = str_replace($namespace . '\\', '', $field->getEntityClass());
+                    $dbClass    = str_replace('\\', '', $dbClass);
+                } else {
+                    $class      = new \ReflectionClass(get_called_class());
+                    $namespace  = str_replace("contao\\modules", "database", $class->getNamespaceName());
+                    $dbClass    = $field->getModelClass();
+                }
+
+                $databaseParams->setFindBy($field->getFindBy());
+                $databaseParams->setEntityNamespace($namespace);
+                $databaseParams->setDatabase($field->getDatabase());
+
+                if ($field->getDatabaseType() == C4GBrickDatabaseType::DCA_MODEL) {
+                    $databaseParams->setModelClass($field->getModelClass());
+                } else {
+                    $databaseParams->setEntityClass($dbClass);
+                }
+                $field->setBrickDatabase(new C4GBrickDatabase($databaseParams));
+
+                if ($field->getDatabaseType() == C4GBrickDatabaseType::DOCTRINE) {
+                    foreach ($element->$index as $value) {
+                        $dbValues = $field->getBrickDatabase()->findBy($field->getForeignKey(), $value);
+                        foreach ($dbValues as $dbVal) {
+                            if ($dbVal instanceof \stdClass) {
+                                foreach ($dbVal as $key => $val) {
+                                    $ind = $field->getFieldName().'_'.$key.'_'.$value;
+                                    $element->$ind = $val;
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    foreach (unserialize($element->$index) as $value) {
+                        $dbValues = $field->getBrickDatabase()->findBy($field->getForeignKey(), $value);
+                        foreach ($dbValues as $dbVal) {
+                            if ($dbVal instanceof \stdClass) {
+                                foreach ($dbVal as $key => $val) {
+                                    $ind = $field->getFieldName().'_'.$key.'_'.$value;
+                                    $element->$ind = $val;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return $element;
     }
 }

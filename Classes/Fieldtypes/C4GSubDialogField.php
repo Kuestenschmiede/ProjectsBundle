@@ -117,8 +117,6 @@ class C4GSubDialogField extends C4GBrickField
         $html = "<div class='c4g_sub_dialog_container' id='c4g_$name'>";
         $this->setAdditionalLabel("<span class='ui-button ui-corner-all c4g_sub_dialog_add_button' onclick='addSubDialog(this,event);' data-form=\"$fieldsHtml\" data-target='c4g_dialog_$name' data-field='$name' data-index='$numLoadedDataSets'>$addButton</span><span class='c4g_sub_dialog_add_button_label'>$this->addButtonLabel</span>");
         $html .= $this->addC4GFieldLabel("c4g_$name", $title, $this->isMandatory(), $this->createConditionData($fieldList, $data), $fieldList, $data, $dialogParams);
-//        $html .= "<span class='c4g_sub_dialog_title'>$title</span>";
-//        $html .= "<span class='c4g_sub_dialog_add_button' onclick='addSubDialog(this,event)' data-form=\"$fieldsHtml\" data-target='c4g_dialog_$name' data-field='$name'>$addButton</span>";
         $html .= "<div class='c4g_sub_dialog' id='c4g_dialog_$name'>";
 
         $loadedDataHtml = str_replace('"', "'", $loadedDataHtml);

@@ -13,16 +13,24 @@
 namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
 
 
+use con4gis\ProjectsBundle\Classes\Database\C4GBrickDatabase;
+use con4gis\ProjectsBundle\Classes\Database\C4GBrickDatabaseType;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
 
 class C4GForeignArrayField extends C4GBrickField
 {
-    // private $fieldName = '';
 
     private $foreignTable = '';             //Source table for the data (frontend display). May be empty if $foreignFieldList is empty.
     private $foreignKey = '';               //Key by which the data will be matched (foreign key comparison). May be empty if $foreignFieldList is empty.
     private $foreignFieldList = array();    //The fields which display the data. If no fields are give, no frontend output is created.
+    private $databaseType = C4GBrickDatabaseType::DCA_MODEL;
+    private $entityClass = '';
+    private $modelClass = '';
+    private $findBy = array();
+    private $database = null;
+    private $brickDatabase = null;
+    private $where = array();
 
     private $autoAdd = false;   //Automatically add a value to the array in the database if it does not exist yet.
     private $autoAddData = '';  //The data to add automatically. "member" = The current member id.
@@ -36,6 +44,33 @@ class C4GForeignArrayField extends C4GBrickField
         if (!$this->foreignFieldList) {
             return '';
         } else {
+            $loadedDataHtml = '';
+            foreach ($data as $key => $value) {
+                $keyArray = explode('_',$key);
+                $subData = array();
+                if ($keyArray && $keyArray[0] == $this->getFieldName()) {
+                    $subData[$keyArray[0].'_'.$keyArray[2]][$keyArray[1]] = $value;
+                }
+                foreach ($subData as $dbVals) {
+                    foreach ($this->foreignFieldList as $field) {
+                        $loadedDataHtml .= $field->getC4GDialogField($this->foreignFieldList, $dbVals, $dialogParams, $additionalParams);
+                    }
+                }
+            }
+
+            $name = $this->getFieldName();
+            $title = $this->getTitle();
+            $html = "<div class='c4g_sub_dialog_container' id='c4g_$name'>";
+            $this->setAdditionalLabel("<span class='ui-button ui-corner-all c4g_sub_dialog_add_button' onclick='addSubDialog(this,event);' >");
+            $html .= $this->addC4GFieldLabel("c4g_$name", $title, $this->isMandatory(), $this->createConditionData($fieldList, $data), $fieldList, $data, $dialogParams);
+            $html .= "<div class='c4g_sub_dialog' id='c4g_dialog_$name'>";
+
+            $loadedDataHtml = str_replace('"', "'", $loadedDataHtml);
+            $html .= $loadedDataHtml;
+
+            $html .= "</div>";
+            $html .= "</div>";
+
             return '';
         }
     }
@@ -120,6 +155,132 @@ class C4GForeignArrayField extends C4GBrickField
     public function setForeignFieldList(array $foreignFieldList): C4GForeignArrayField
     {
         $this->foreignFieldList = $foreignFieldList;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDatabaseType()
+    {
+        return $this->databaseType;
+    }
+
+    /**
+     * @param mixed $databaseType
+     * @return C4GForeignArrayField
+     */
+    public function setDatabaseType($databaseType)
+    {
+        $this->databaseType = $databaseType;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEntityClass(): string
+    {
+        return $this->entityClass;
+    }
+
+    /**
+     * @param string $entityClass
+     * @return C4GForeignArrayField
+     */
+    public function setEntityClass(string $entityClass): C4GForeignArrayField
+    {
+        $this->entityClass = $entityClass;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getModelClass(): string
+    {
+        return $this->modelClass;
+    }
+
+    /**
+     * @param string $modelClass
+     * @return C4GForeignArrayField
+     */
+    public function setModelClass(string $modelClass): C4GForeignArrayField
+    {
+        $this->modelClass = $modelClass;
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getFindBy(): array
+    {
+        return $this->findBy;
+    }
+
+    /**
+     * @param array $findBy
+     * @return C4GForeignArrayField
+     */
+    public function setFindBy(array $findBy): C4GForeignArrayField
+    {
+        $this->findBy = $findBy;
+        return $this;
+    }
+
+    /**
+     * @return null
+     */
+    public function getDatabase()
+    {
+        return $this->database;
+    }
+
+    /**
+     * @param \Contao\Database $database
+     * @return $this
+     */
+    public function setDatabase(\Contao\Database $database)
+    {
+        $this->database = $database;
+        return $this;
+    }
+
+    /**
+     * @return null
+     */
+    public function getBrickDatabase()
+    {
+        return $this->brickDatabase;
+    }
+
+    /**
+     * @param C4GBrickDatabase $brickDatabase
+     * @return C4GForeignArrayField
+     */
+    public function setBrickDatabase(C4GBrickDatabase $brickDatabase)
+    {
+        $this->brickDatabase = $brickDatabase;
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getWhere(): array
+    {
+        return $this->where;
+    }
+
+    /**
+     * @param array $where
+     * @return C4GForeignArrayField
+     */
+    public function setWhere(array $where): C4GForeignArrayField
+    {
+        $this->where = $where;
         return $this;
     }
 
