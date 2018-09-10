@@ -1,4 +1,5 @@
 <?php
+
 /**
  * con4gis - the gis-kit
  *
@@ -10,43 +11,48 @@
  * @link      https://www.kuestenschmiede.de
  */
 
-namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
+namespace con4gis\ProjectsBundle\Classes\Fieldlist;
 
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
-use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
-use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldCompare;
 
-class C4GTelField extends C4GBrickField
+abstract class C4GBaseKeyField extends C4GBrickField
 {
     /**
-     * @param $field
+     * @param C4GBrickField[] $fieldList
      * @param $data
+     * @param C4GBrickDialogParams $dialogParams
+     * @param array $additionalParams
      * @return string
      */
     public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = array())
     {
-        $id = "c4g_" . $this->getFieldName();
         $required = $this->generateRequiredString($data, $dialogParams);
         $value = $this->generateInitialValue($data);
         $result = '';
-
+        $id = "c4g_" . $this->getFieldName();
+        if ($this->isHidden()) {
+            $type = 'hidden';
+        } else {
+            $type = 'number';
+        }
         if ($this->isShowIfEmpty() || !empty($value)) {
 
             $condition = $this->createConditionData($fieldList, $data);
 
             $result =
                 $this->addC4GField($condition,$dialogParams,$fieldList,$data,
-                '<input type="tel" ' . $required . ' ' . $condition['conditionPrepare'] . ' id="' . $id . '"' . ' class="formdata ' . $id . '" name="' . $this->getFieldName() . '" title="' . $this->getTitle() . '" value="' . $value . '">');
+                '<input ' . $required . ' ' . $condition['conditionPrepare'] . ' type="'.$type.'" id="' . $id . '" class="formdata ' . $id . '" size="' .
+                $this->getSize() . '" pattern="\d*" name="' .
+                $this->getFieldName() . '" value="' . $value . '" >');
         }
 
         return $result;
     }
 
     /**
-     * Method that will be called in the compareWithDB() in C4GBrickDialog
-     * @param $dbValue
-     * @param $dlgvalue
-     * @return array
+     * @param $dbValues
+     * @param $dlgValues
+     * @return array|\con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldCompare|null
      */
     public function compareWithDB($dbValues, $dlgValues)
     {
@@ -60,5 +66,26 @@ class C4GTelField extends C4GBrickField
             $result = new C4GBrickFieldCompare($this, $dbValue, $dlgValue);
         }
         return $result;
+    }
+
+    /**
+     * Method that will be called in the saveC4GDialog() in C4GBrickDialog
+     * @return array
+     */
+    public function createFieldData($dlgValues) {
+        return intval($dlgValues[$this->getFieldName()]);
+    }
+
+    /**
+     * Checks if the datatype of the key is correct (integer)
+     * @param $value
+     * @return mixed
+     */
+    public function validateFieldValue($value) {
+        if (is_string($value)) {
+            return intval($value);
+        } else {
+            return $value;
+        }
     }
 }

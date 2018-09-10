@@ -844,7 +844,33 @@ a.c4g_tile_button:hover {
     transform: rotate(90deg);
 }
 
+.c4g_sub_dialog {
+    display: block;
+    margin-left: 30px;
+    margin-right: 30px;
+}
+
+.c4g_sub_dialog_add_button {
+    margin-left: 10px;
+}
+
+.c4g_sub_dialog_set div {
+    /*width: 90%;*/
+}
+
 .c4g_include_fields .teaser {
     margin-left: 2.5%;
     margin-right: 2.5%;
+}
+
+.c4g_sub_dialog_remove_button {
+    align-self: center;
+}
+
+.c4g_sub_dialog_container {
+    margin-bottom: 20px;
+}
+
+.ui-button {
+    cursor: pointer;
 }

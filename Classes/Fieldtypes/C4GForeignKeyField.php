@@ -15,7 +15,7 @@ namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
 
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBaseKeyField;
 
-class C4GKeyField extends C4GBaseKeyField
+class C4GForeignKeyField extends C4GBaseKeyField
 {
 
 }
