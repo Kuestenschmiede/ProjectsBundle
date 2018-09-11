@@ -423,12 +423,12 @@ class C4GShowDialogAction extends C4GBrickDialogAction
                     $count += 1;
                     if ($value instanceof \stdClass) {
                         foreach ($value as $key => $val) {
-                            $index = $field->getFieldName().'_'.$key.'_'.$count;
+                            $index = $field->getFieldName().$field->getDelimiter().$key.$field->getDelimiter().$count;
                             $element->$index = $val;
                         }
                     }
                 }
-                $element = $this->loadC4GForeignArrayFieldData($this->fieldList, $element);
+                $element = $this->loadC4GForeignArrayFieldData($subFields, $element, $field);
             }
         }
 
@@ -517,7 +517,7 @@ class C4GShowDialogAction extends C4GBrickDialogAction
         return true;
     }
 
-    public function loadC4GForeignArrayFieldData($fieldList, $element) {
+    public function loadC4GForeignArrayFieldData($fieldList, $element, $subDialogField = null) {
         foreach ($fieldList as $field) {
             if ($field instanceof C4GForeignArrayField) {
                 $index = $field->getFieldName();
@@ -548,25 +548,45 @@ class C4GShowDialogAction extends C4GBrickDialogAction
                 }
                 $field->setBrickDatabase(new C4GBrickDatabase($databaseParams));
 
-                if ($field->getDatabaseType() == C4GBrickDatabaseType::DOCTRINE) {
-                    foreach ($element->$index as $value) {
+                if ($subDialogField instanceof C4GSubDialogField) {
+                    foreach ($element as $key => $value) {
+                        $keyArray = explode($field->getDelimiter(), $key);
+                        if ($index == $keyArray[1]) {
+                            $ids = $element->$key;
+                            break;
+                        }
+                    }
+                } else {
+                    $ids = $element->$index;
+                }
+
+                if (is_array($ids)) {
+                    foreach ($ids as $value) {
                         $dbValues = $field->getBrickDatabase()->findBy($field->getForeignKey(), $value);
-                        foreach ($dbValues as $dbVal) {
-                            if ($dbVal instanceof \stdClass) {
-                                foreach ($dbVal as $key => $val) {
-                                    $ind = $field->getFieldName().'_'.$key.'_'.$value;
-                                    $element->$ind = $val;
+                        if ($dbValues instanceof \Contao\Model) {
+                            foreach ($dbValues->row() as $key => $val) {
+                                $ind = $field->getFieldName().$field->getDelimiter().$key.$field->getDelimiter().$value;
+                                $element->$ind = $val;
+                            }
+
+                        } else {
+                            foreach ($dbValues as $dbVal) {
+                                if ($dbVal instanceof \stdClass) {
+                                    foreach ($dbVal as $key => $val) {
+                                        $ind = $field->getFieldName().$field->getDelimiter().$key.$field->getDelimiter().$value;
+                                        $element->$ind = $val;
+                                    }
                                 }
                             }
                         }
                     }
                 } else {
-                    foreach (unserialize($element->$index) as $value) {
+                    foreach (unserialize($ids) as $value) {
                         $dbValues = $field->getBrickDatabase()->findBy($field->getForeignKey(), $value);
                         foreach ($dbValues as $dbVal) {
                             if ($dbVal instanceof \stdClass) {
                                 foreach ($dbVal as $key => $val) {
-                                    $ind = $field->getFieldName().'_'.$key.'_'.$value;
+                                    $ind = $field->getFieldName().$field->getDelimiter().$key.$field->getDelimiter().$value;
                                     $element->$ind = $val;
                                 }
                             }

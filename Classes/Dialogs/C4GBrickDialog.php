@@ -1257,7 +1257,7 @@ class C4GBrickDialog
                         $table = $field->getTable();
                         $subDlgValues = array();
                         foreach ($dlgValues as $key => $value) {
-                            $keyArray = explode('_',$key);
+                            $keyArray = explode($field->getDelimiter(),$key);
                             if ($keyArray && $keyArray[0] == $field->getFieldName()) {
                                 $subDlgValues[$keyArray[0].'_'.$keyArray[2]][$keyArray[1]] = $value;
                             }

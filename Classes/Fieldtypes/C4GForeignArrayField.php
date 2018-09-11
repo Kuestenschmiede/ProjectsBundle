@@ -13,6 +13,8 @@
 namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
 
 
+use con4gis\CoreBundle\Resources\contao\classes\C4GUtils;
+use con4gis\ProjectsBundle\Classes\Common\C4GBrickCommon;
 use con4gis\ProjectsBundle\Classes\Database\C4GBrickDatabase;
 use con4gis\ProjectsBundle\Classes\Database\C4GBrickDatabaseType;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
@@ -31,6 +33,8 @@ class C4GForeignArrayField extends C4GBrickField
     private $database = null;
     private $brickDatabase = null;
     private $where = array();
+    private $identifier = '';               //Don't ask why, just set this to the same value as the field name.
+    private $delimiter = '#';
 
     private $autoAdd = false;   //Automatically add a value to the array in the database if it does not exist yet.
     private $autoAddData = '';  //The data to add automatically. "member" = The current member id.
@@ -45,25 +49,26 @@ class C4GForeignArrayField extends C4GBrickField
             return '';
         } else {
             $loadedDataHtml = '';
+            $subData = array();
             foreach ($data as $key => $value) {
-                $keyArray = explode('_',$key);
-                $subData = array();
-                if ($keyArray && $keyArray[0] == $this->getFieldName()) {
-                    $subData[$keyArray[0].'_'.$keyArray[2]][$keyArray[1]] = $value;
+                $keyArray = explode($this->delimiter,$key);
+                if ($keyArray && $keyArray[0] == $this->identifier) {
+                    $subData[$keyArray[0].$this->delimiter.$keyArray[2]][$keyArray[1]] = $value;
                 }
-                foreach ($subData as $dbVals) {
-                    foreach ($this->foreignFieldList as $field) {
-                        $loadedDataHtml .= $field->getC4GDialogField($this->foreignFieldList, $dbVals, $dialogParams, $additionalParams);
-                    }
+            }
+
+            foreach ($subData as $dbVals) {
+                $dbVals = C4GBrickCommon::arrayToObject($dbVals);
+                foreach ($this->foreignFieldList as $field) {
+                    $loadedDataHtml .= $field->getC4GDialogField($this->foreignFieldList, $dbVals, $dialogParams, $additionalParams);
                 }
             }
 
             $name = $this->getFieldName();
             $title = $this->getTitle();
-            $html = "<div class='c4g_sub_dialog_container' id='c4g_$name'>";
-            $this->setAdditionalLabel("<span class='ui-button ui-corner-all c4g_sub_dialog_add_button' onclick='addSubDialog(this,event);' >");
+            $html = "<div class='c4g_array_field_container' id='c4g_$name'>";
             $html .= $this->addC4GFieldLabel("c4g_$name", $title, $this->isMandatory(), $this->createConditionData($fieldList, $data), $fieldList, $data, $dialogParams);
-            $html .= "<div class='c4g_sub_dialog' id='c4g_dialog_$name'>";
+            $html .= "<div class='c4g_array_field' id='c4g_dialog_$name'>";
 
             $loadedDataHtml = str_replace('"', "'", $loadedDataHtml);
             $html .= $loadedDataHtml;
@@ -71,7 +76,7 @@ class C4GForeignArrayField extends C4GBrickField
             $html .= "</div>";
             $html .= "</div>";
 
-            return '';
+            return $html;
         }
     }
 
@@ -317,6 +322,42 @@ class C4GForeignArrayField extends C4GBrickField
     public function setAutoAddData(string $autoAddData): C4GForeignArrayField
     {
         $this->autoAddData = $autoAddData;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getIdentifier(): string
+    {
+        return $this->identifier;
+    }
+
+    /**
+     * @param string $identifier
+     * @return C4GForeignArrayField
+     */
+    public function setIdentifier(string $identifier): C4GForeignArrayField
+    {
+        $this->identifier = $identifier;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDelimiter(): string
+    {
+        return $this->delimiter;
+    }
+
+    /**
+     * @param string $delimiter
+     * @return C4GForeignArrayField
+     */
+    public function setDelimiter(string $delimiter): C4GForeignArrayField
+    {
+        $this->delimiter = $delimiter;
         return $this;
     }
 
