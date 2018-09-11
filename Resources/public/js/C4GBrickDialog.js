@@ -1169,7 +1169,10 @@ function addSubDialog(button, event) {
     var target = document.getElementById(button.dataset.target);
     var index = button.dataset.index;
     button.dataset.index = parseInt(button.dataset.index, 10) + 1;
-    var string = button.dataset.form.split('?').join(button.dataset.index);
+    // var string = button.dataset.form.split('?').join(button.dataset.index);
+    var string = document.getElementById(button.dataset.template).innerHTML.split('?').join(button.dataset.index);
+    console.log(document.getElementById(button.dataset.template));
+    console.log(document.getElementById(button.dataset.template).innerHTML);
     // target.innerHTML = target.innerHTML + string;
     var newElement = document.createElement('div');
     newElement.classList.add('c4g_sub_dialog_set');
