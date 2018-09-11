@@ -34,6 +34,7 @@ class C4GSubDialogField extends C4GBrickField
     private $brickDatabase = null;
     private $where = array();
     private $delimiter = '#';
+    private $identifier = '';       //Must be identical to the field name. Used to identify the field when multiple fields with field lists are involved.
 
 
     public function __construct() {
@@ -45,8 +46,7 @@ class C4GSubDialogField extends C4GBrickField
 
     public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = array())
     {
-
-        $name = $this->getFieldName();
+        $name = $this->identifier;
         $title = $this->getTitle();
         $addButton = $this->addButton;
         $removeButton = $this->removeButton;
@@ -54,7 +54,7 @@ class C4GSubDialogField extends C4GBrickField
 //        $fieldsHtml = "<div class='c4g_sub_dialog_set'>";
         $fieldsHtml = "";
         $fieldName = $this->keyField->getFieldName();
-        $this->keyField->setFieldName($this->getFieldName().$this->delimiter.$fieldName.$this->delimiter.'?');
+        $this->keyField->setFieldName($this->identifier.$this->delimiter.$fieldName.$this->delimiter.'?');
         $fieldsHtml .= $this->keyField->getC4GDialogField($this->getFieldList(), $data, $dialogParams, $additionalParams = array());
         $this->keyField->setFieldName($fieldName);
         foreach ($this->fieldList as $field) {
@@ -63,7 +63,7 @@ class C4GSubDialogField extends C4GBrickField
             foreach ($data as $key => $value) {
                 $templateData->$key = '';
             }
-            $field->setFieldName($this->getFieldName().$this->delimiter.$fieldName.$this->delimiter.'?');
+            $field->setFieldName($this->identifier.$this->delimiter.$fieldName.$this->delimiter.'?');
             $fieldsHtml .= $field->getC4GDialogField($this->getFieldList(), $templateData, $dialogParams, $additionalParams = array());
             $field->setFieldName($fieldName);
         }
@@ -78,11 +78,11 @@ class C4GSubDialogField extends C4GBrickField
         if ($data) {
             while (true) {  /** We break manually if the condition is not met. */
                 $numLoadedDataSets += 1;
-                $propertyName = $this->getFieldName() . $this->delimiter . $this->keyField->getFieldName() . $this->delimiter . $numLoadedDataSets;
+                $propertyName = $this->identifier . $this->delimiter . $this->keyField->getFieldName() . $this->delimiter . $numLoadedDataSets;
                 if ($data->$propertyName) {
                     /** skip data sets where any where clause is not met  */
                     foreach ($this->where as $clause) {
-                        $field = $this->getFieldName() . $this->delimiter . $clause[0] . $this->delimiter . $numLoadedDataSets;
+                        $field = $this->identifier . $this->delimiter . $clause[0] . $this->delimiter . $numLoadedDataSets;
                         $value = $clause[1];
                         if ($data->$field != $value) {
                             continue 2;
@@ -90,7 +90,7 @@ class C4GSubDialogField extends C4GBrickField
                     }
                     $setData = new \stdClass();
                     foreach ($data as $key => $value) {
-                        $start = C4GUtils::startsWith($key,$this->getFieldName());
+                        $start = C4GUtils::startsWith($key,$this->identifier);
                         $end = C4GUtils::endsWith($key,(string)$numLoadedDataSets);
                         if ($start && $end) {
                             $setData->$key = $value;
@@ -103,12 +103,12 @@ class C4GSubDialogField extends C4GBrickField
 
                     $loadedDataHtml .= "<div class='c4g_sub_dialog_set'>";
                     $fieldName = $this->keyField->getFieldName();
-                    $this->keyField->setFieldName($this->getFieldName().$this->delimiter.$fieldName. $this->delimiter . $numLoadedDataSets);
+                    $this->keyField->setFieldName($this->identifier.$this->delimiter.$fieldName. $this->delimiter . $numLoadedDataSets);
                     $loadedDataHtml .= $this->keyField->getC4GDialogField($this->getFieldList(), $data, $dialogParams, $additionalParams = array());
                     $this->keyField->setFieldName($fieldName);
                     foreach ($this->fieldList as $field) {
                         $fieldName = $field->getFieldName();
-                        $field->setFieldName($this->getFieldName().$this->delimiter.$fieldName. $this->delimiter . $numLoadedDataSets);
+                        $field->setFieldName($this->identifier.$this->delimiter.$fieldName. $this->delimiter . $numLoadedDataSets);
                         $loadedDataHtml .= $field->getC4GDialogField($this->getFieldList(), $data, $dialogParams, $additionalParams = array());
                         $field->setFieldName($fieldName);
                     }
@@ -140,11 +140,11 @@ class C4GSubDialogField extends C4GBrickField
         $subDlgValues = array();
         foreach ($dlgValues as $key => $value) {
             $keyArray = explode($this->delimiter,$key);
-            if ($keyArray && $keyArray[0] == $this->getFieldName()) {
+            if ($keyArray && $keyArray[0] == $this->identifier) {
                 $subDlgValues[$keyArray[0].$this->delimiter.$keyArray[2]][$keyArray[1]] = $value;
             }
         }
-        if ($subDlgValues && $this->brickDatabase == null) {
+        if ($this->brickDatabase == null) {
             $databaseParams = new C4GBrickDatabaseParams($this->getDatabaseType());
             $databaseParams->setPkField('id');
             $databaseParams->setTableName($this->table);
@@ -173,21 +173,48 @@ class C4GSubDialogField extends C4GBrickField
             $this->brickDatabase = new C4GBrickDatabase($databaseParams);
         }
 
-        foreach ($subDlgValues as $sDlgvalues) {
-            $idFieldName = $this->keyField->getFieldName();
-            $subDbValues = $this->brickDatabase->findBy($idFieldName,$sDlgvalues[$idFieldName]);
-            if ($subDbValues) {
-                foreach ($this->fieldList as $field) {
-                    foreach ($subDbValues as $sDbValues) {
-                        $compare = $field->compareWithDB($sDbValues, $sDlgvalues);
+        if ($subDlgValues) {
+            foreach ($subDlgValues as $sDlgvalues) {
+                $idFieldName = $this->keyField->getFieldName();
+                $subDbValues = $this->brickDatabase->findBy($idFieldName, $sDlgvalues[$idFieldName]);
+                if ($subDbValues) {
+                    foreach ($this->fieldList as $field) {
+                        foreach ($subDbValues as $sDbValues) {
+                            $compare = $field->compareWithDB($sDbValues, $sDlgvalues);
+                            if ($compare instanceof C4GBrickFieldCompare) {
+                                $changes[] = $compare;
+                            }
+                        }
+                    }
+                } else {
+                    foreach ($this->fieldList as $field) {
+                        $compare = $field->compareWithDB(array(), $sDlgvalues);
                         if ($compare instanceof C4GBrickFieldCompare) {
                             $changes[] = $compare;
                         }
                     }
                 }
-            } else {
+            }
+        } else {
+            /** check for missing dialog values (i.e. they were deleted on the client)  */
+
+            $foreignKey = $dbValues->id;
+            $result = $this->brickDatabase->findBy($this->foreignKeyField->getFieldName(), $foreignKey);
+            foreach ($result as $res) {
+                if ($this->where) {
+                    foreach ($this->where as $clause) {
+                        $name = $clause[0];
+                        $value = $clause[1];
+                        if (!$res->$name == $value) {
+                            continue 2;
+                        }
+                        $dbVals = $res;
+                    }
+                } else {
+                    $dbVals = $res;
+                }
                 foreach ($this->fieldList as $field) {
-                    $compare = $field->compareWithDB(array(), $sDlgvalues);
+                    $compare = $field->compareWithDB($dbVals, array());
                     if ($compare instanceof C4GBrickFieldCompare) {
                         $changes[] = $compare;
                     }
@@ -481,6 +508,24 @@ class C4GSubDialogField extends C4GBrickField
         return $this;
     }
 
+    /**
+     * @return string
+     */
+    public function getIdentifier(): string
+    {
+        return $this->identifier;
+    }
 
+    /**
+     * @param string $identifier
+     * @return C4GSubDialogField
+     */
+    public function setIdentifier(string $identifier): C4GSubDialogField
+    {
+        $this->identifier = $identifier;
+        return $this;
+    }
+
+    
 
 }

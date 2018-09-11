@@ -423,7 +423,7 @@ class C4GShowDialogAction extends C4GBrickDialogAction
                     $count += 1;
                     if ($value instanceof \stdClass) {
                         foreach ($value as $key => $val) {
-                            $index = $field->getFieldName().$field->getDelimiter().$key.$field->getDelimiter().$count;
+                            $index = $field->getIdentifier().$field->getDelimiter().$key.$field->getDelimiter().$count;
                             $element->$index = $val;
                         }
                     }

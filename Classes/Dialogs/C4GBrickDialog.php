@@ -1258,7 +1258,7 @@ class C4GBrickDialog
                         $subDlgValues = array();
                         foreach ($dlgValues as $key => $value) {
                             $keyArray = explode($field->getDelimiter(),$key);
-                            if ($keyArray && $keyArray[0] == $field->getFieldName()) {
+                            if ($keyArray && $keyArray[0] == $field->getIdentifier()) {
                                 $subDlgValues[$keyArray[0].'_'.$keyArray[2]][$keyArray[1]] = $value;
                             }
                         }
@@ -1326,6 +1326,20 @@ class C4GBrickDialog
                                     $subDbValues = $field->getBrickDatabase()->findByPk($value[$id_fieldName]);
                                     self::saveC4GDialog($value[$id_fieldName], $table, $subFields, $value, $field->getBrickDatabase(),  $subDbValues,  $dialogParams, $user_id);
                                 }
+                            }
+                        } else {
+                            /** Delete all data sets from the database that have been deleted on the client. */
+
+                            $deleteResult = $field->getBrickDatabase()->findBy($field->getForeignKeyField()->getFieldName(),$elementId);
+                            $deleteIds = array();
+                            foreach ($deleteResult as $r) {
+                                $deleteIds[] = $r->$id_fieldName;
+                            }
+                            $db = \Database::getInstance();
+                            $table = $field->getTable();
+                            foreach ($deleteIds as $deleteId) {
+                                $stmt = $db->prepare("DELETE FROM $table WHERE id = ?");
+                                $stmt->execute($deleteId);
                             }
                         }
                     }
