@@ -202,37 +202,41 @@ class C4GSubDialogField extends C4GBrickField
         }
 
         if ($subDlgValues) {
-            foreach ($subDlgValues as $sDlgValuesKey => $sDlgvalues) {
-                $idFieldName = $this->keyField->getFieldName();
-//                $subDbValues = $this->brickDatabase->findBy($idFieldName, $sDlgvalues[$idFieldName]);
-                $foreignKey = $dbValues->id;
-                $subDbValues = $this->brickDatabase->findBy($this->foreignKeyField->getFieldName(), $foreignKey);
-                if ($subDbValues) {
-                    foreach ($this->fieldList as $field) {
-                        foreach ($subDbValues as $sDbValues) {
+            $foreignKey = $dbValues->id;
+            $subDbValues = $this->brickDatabase->findBy($this->foreignKeyField->getFieldName(), $foreignKey);
+            if (count($subDbValues) > count($subDlgValues)) {
+                $changes[] = new C4GBrickFieldCompare($this, $subDbValues, $subDlgValues);
+            } else {
+                foreach ($subDlgValues as $sDlgValuesKey => $sDlgvalues) {
+                    $idFieldName = $this->keyField->getFieldName();
+                    $subDbValues = $this->brickDatabase->findBy($idFieldName, $sDlgvalues[$idFieldName]);
+                    if ($subDbValues) {
+                        foreach ($this->fieldList as $field) {
+                            foreach ($subDbValues as $sDbValues) {
+                                if ($field instanceof C4GSubDialogField) {
+                                    $compare = $field->compareWithDB($sDbValues, $sDlgvalues, $sDlgValuesKey);
+                                } else {
+                                    $compare = $field->compareWithDB($sDbValues, $sDlgvalues);
+                                }
+                                if ($compare instanceof C4GBrickFieldCompare) {
+                                    $changes[] = $compare;
+                                } elseif (is_array($compare) && sizeof($compare) > 0) {
+                                    $changes += $compare;
+                                }
+                            }
+                        }
+                    } else {
+                        foreach ($this->fieldList as $field) {
                             if ($field instanceof C4GSubDialogField) {
-                                $compare = $field->compareWithDB($sDbValues, $sDlgvalues, $sDlgValuesKey);
+                                $compare = $field->compareWithDB(array(), $sDlgvalues);
                             } else {
-                                $compare = $field->compareWithDB($sDbValues, $sDlgvalues);
+                                $compare = $field->compareWithDB(array(), $sDlgvalues);
                             }
                             if ($compare instanceof C4GBrickFieldCompare) {
                                 $changes[] = $compare;
                             } elseif (is_array($compare) && sizeof($compare) > 0) {
                                 $changes += $compare;
                             }
-                        }
-                    }
-                } else {
-                    foreach ($this->fieldList as $field) {
-                        if ($field instanceof C4GSubDialogField) {
-                            $compare = $field->compareWithDB(array(), $sDlgvalues);
-                        } else {
-                            $compare = $field->compareWithDB(array(), $sDlgvalues);
-                        }
-                        if ($compare instanceof C4GBrickFieldCompare) {
-                            $changes[] = $compare;
-                        } elseif (is_array($compare) && sizeof($compare) > 0) {
-                            $changes += $compare;
                         }
                     }
                 }
