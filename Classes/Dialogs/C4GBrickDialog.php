@@ -1345,7 +1345,7 @@ class C4GBrickDialog
 
                             /** Then save all the data sets. */
 
-                            if (strval($elementId) == '-1') {
+                            if (strval($elementId) == '-1' || strval($elementId) == '0') {
                                 $elementId = $result['insertId'];
                             }
                             foreach ($subDlgValues as $key => $value) {
