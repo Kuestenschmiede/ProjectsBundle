@@ -19,6 +19,7 @@ use con4gis\ProjectsBundle\Classes\Database\C4GBrickDatabase;
 use con4gis\ProjectsBundle\Classes\Database\C4GBrickDatabaseType;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
+use Symfony\Component\Config\Definition\Exception\Exception;
 
 class C4GForeignArrayField extends C4GBrickField
 {
@@ -33,7 +34,6 @@ class C4GForeignArrayField extends C4GBrickField
     private $database = null;
     private $brickDatabase = null;
     private $where = array();
-    private $identifier = '';               //Don't ask why, just set this to the same value as the field name.
     private $delimiter = '#';
 
     private $autoAdd = false;   //Automatically add a value to the array in the database if it does not exist yet.
@@ -52,7 +52,7 @@ class C4GForeignArrayField extends C4GBrickField
             $subData = array();
             foreach ($data as $key => $value) {
                 $keyArray = explode($this->delimiter,$key);
-                if ($keyArray && $keyArray[0] == $this->identifier) {
+                if ($keyArray && $keyArray[0] == $this->getFieldName()) {
                     $subData[$keyArray[0].$this->delimiter.$keyArray[2]][$keyArray[1]] = $value;
                 }
             }
@@ -328,24 +328,6 @@ class C4GForeignArrayField extends C4GBrickField
     /**
      * @return string
      */
-    public function getIdentifier(): string
-    {
-        return $this->identifier;
-    }
-
-    /**
-     * @param string $identifier
-     * @return C4GForeignArrayField
-     */
-    public function setIdentifier(string $identifier): C4GForeignArrayField
-    {
-        $this->identifier = $identifier;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
     public function getDelimiter(): string
     {
         return $this->delimiter;
@@ -354,9 +336,13 @@ class C4GForeignArrayField extends C4GBrickField
     /**
      * @param string $delimiter
      * @return C4GForeignArrayField
+     * @throws \Exception
      */
     public function setDelimiter(string $delimiter): C4GForeignArrayField
     {
+        if (($delimiter === '_') || ($delimiter === '?')) {
+            throw new \Exception('C4GForeignArrayField::delimiter must not be _ or ?.');
+        }
         $this->delimiter = $delimiter;
         return $this;
     }

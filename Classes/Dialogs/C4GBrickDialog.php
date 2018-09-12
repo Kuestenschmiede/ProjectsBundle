@@ -1260,7 +1260,7 @@ class C4GBrickDialog
                         $indexListIndex = 0;
                         foreach ($dlgValues as $key => $value) {
                             $keyArray = explode($field->getDelimiter(),$key);
-                            if ($keyArray && $keyArray[0] == $field->getIdentifier()) {
+                            if ($keyArray && $keyArray[0] == $field->getFieldName()) {
                                 $subDlgValues[$keyArray[0].$field->getDelimiter().$keyArray[2]][$keyArray[1]] = $value;
                                 $indexList[] = $keyArray[0].$field->getDelimiter().$keyArray[2];
                                 array_unique($indexList);
@@ -1275,7 +1275,26 @@ class C4GBrickDialog
                                 }
                             }
                         }
-                        if ($subDlgValues && $field->getBrickDatabase() == null) {
+
+                        $subFields = $field->getFieldList();
+                        $subFields[] = $field->getKeyField();
+                        $subFields[] = $field->getForeignKeyField();
+                        foreach ($subFields as $f) {
+                            if ($f instanceof C4GSubDialogField) {
+                                foreach ($subDlgValues as $key => $values) {
+                                    $keyArray = explode($f->getDelimiter(),$key);
+                                    if ($keyArray && $keyArray[0] && $keyArray[1] && $keyArray[2]) {
+                                        foreach ($subDlgValues[$key] as $k => $v) {
+                                            $index = $k.$f->getDelimiter().$keyArray[1].$f->getDelimiter().$keyArray[2];
+                                            $subDlgValues[$keyArray[0]][$index] = $v;
+                                            unset($subDlgValues[$key]);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        if ($field->getBrickDatabase() == null) {
                             $databaseParams = new C4GBrickDatabaseParams($field->getDatabaseType());
                             $databaseParams->setPkField('id');
                             $databaseParams->setTableName($table);
