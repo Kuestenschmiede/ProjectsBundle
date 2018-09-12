@@ -383,55 +383,7 @@ class C4GShowDialogAction extends C4GBrickDialogAction
             $element = $model::$function($dialogParams->getId());
         }
 
-        $count = 0;
-        foreach ($this->fieldList as $field) {
-            if ($field instanceof C4GSubDialogField) {
-                $subFields = $field->getFieldList();
-                $table = $field->getTable();
-                $subDlgValues = array();
-
-
-                $databaseParams = new C4GBrickDatabaseParams($field->getDatabaseType());
-                $databaseParams->setPkField('id');
-                $databaseParams->setTableName($table);
-
-                if (class_exists($field->getEntityClass())) {
-                    $class      = new \ReflectionClass($field->getEntityClass());
-                    $namespace  = $class->getNamespaceName();
-                    $dbClass    = str_replace($namespace . '\\', '', $field->getEntityClass());
-                    $dbClass    = str_replace('\\', '', $dbClass);
-                } else {
-                    $class      = new \ReflectionClass(get_called_class());
-                    $namespace  = str_replace("contao\\modules", "database", $class->getNamespaceName());
-                    $dbClass    = $field->getModelClass();
-                }
-
-                $databaseParams->setFindBy($field->getFindBy());
-                $databaseParams->setEntityNamespace($namespace);
-                $databaseParams->setDatabase($field->getDatabase());
-
-                if ($field->getDatabaseType() == C4GBrickDatabaseType::DCA_MODEL) {
-                    $databaseParams->setModelClass($field->getModelClass());
-                } else {
-                    $databaseParams->setEntityClass($dbClass);
-                }
-                $field->setBrickDatabase(new C4GBrickDatabase($databaseParams));
-
-                $values = $field->getBrickDatabase()->findBy($field->getForeignKeyField()->getFieldName(), $id);
-                $count = 0;
-                foreach ($values as $value) {
-                    $count += 1;
-                    if ($value instanceof \stdClass) {
-                        foreach ($value as $key => $val) {
-                            $index = $field->getIdentifier().$field->getDelimiter().$key.$field->getDelimiter().$count;
-                            $element->$index = $val;
-                        }
-                    }
-                }
-                $element = $this->loadC4GForeignArrayFieldData($subFields, $element, $field);
-            }
-        }
-
+        $element = $this->loadC4GSubFieldData($this->fieldList, $element, $id);
         $element = $this->loadC4GForeignArrayFieldData($this->fieldList, $element);
 
         //Wenn $element an dieser Stelle null ist wird ein neuer Datensatz angelegt (Hinzufügen),
@@ -593,6 +545,66 @@ class C4GShowDialogAction extends C4GBrickDialogAction
                         }
                     }
                 }
+            }
+        }
+        return $element;
+    }
+
+    public function loadC4GSubFieldData($fieldList, $element, $foreignKey, $superField = null, $superFieldCount = -1) {
+        $count = 0;
+        foreach ($fieldList as $field) {
+            if ($field instanceof C4GSubDialogField) {
+                $subFields = $field->getFieldList();
+                $table = $field->getTable();
+                $subDlgValues = array();
+
+
+                $databaseParams = new C4GBrickDatabaseParams($field->getDatabaseType());
+                $databaseParams->setPkField('id');
+                $databaseParams->setTableName($table);
+
+                if (class_exists($field->getEntityClass())) {
+                    $class      = new \ReflectionClass($field->getEntityClass());
+                    $namespace  = $class->getNamespaceName();
+                    $dbClass    = str_replace($namespace . '\\', '', $field->getEntityClass());
+                    $dbClass    = str_replace('\\', '', $dbClass);
+                } else {
+                    $class      = new \ReflectionClass(get_called_class());
+                    $namespace  = str_replace("contao\\modules", "database", $class->getNamespaceName());
+                    $dbClass    = $field->getModelClass();
+                }
+
+                $databaseParams->setFindBy($field->getFindBy());
+                $databaseParams->setEntityNamespace($namespace);
+                $databaseParams->setDatabase($field->getDatabase());
+
+                if ($field->getDatabaseType() == C4GBrickDatabaseType::DCA_MODEL) {
+                    $databaseParams->setModelClass($field->getModelClass());
+                } else {
+                    $databaseParams->setEntityClass($dbClass);
+                }
+                $field->setBrickDatabase(new C4GBrickDatabase($databaseParams));
+
+                $values = $field->getBrickDatabase()->findBy($field->getForeignKeyField()->getFieldName(), $foreignKey);
+                $count = 0;
+                foreach ($values as $value) {
+                    $count += 1;
+                    if ($value instanceof \stdClass) {
+                        foreach ($value as $key => $val) {
+                            if ($superField) {
+                                $name = $superField->getFieldName().$superField->getDelimiter().$field->getIdentifier().$superField->getDelimiter().$superFieldCount;
+                            } else {
+                                $name = $field->getIdentifier();
+                            }
+                            $index = $name.$field->getDelimiter().$key.$field->getDelimiter().$count;
+                            $element->$index = $val;
+                            if ($key === 'id') {
+                                $element = $this->loadC4GSubFieldData($subFields, $element, $val, $field, $count);
+                            }
+                        }
+                    }
+                }
+                $element = $this->loadC4GForeignArrayFieldData($subFields, $element, $field);
             }
         }
         return $element;

@@ -1256,10 +1256,23 @@ class C4GBrickDialog
                         $subFields[] = $field->getForeignKeyField();
                         $table = $field->getTable();
                         $subDlgValues = array();
+                        $indexList = array();
+                        $indexListIndex = 0;
                         foreach ($dlgValues as $key => $value) {
                             $keyArray = explode($field->getDelimiter(),$key);
                             if ($keyArray && $keyArray[0] == $field->getIdentifier()) {
-                                $subDlgValues[$keyArray[0].'_'.$keyArray[2]][$keyArray[1]] = $value;
+                                $subDlgValues[$keyArray[0].$field->getDelimiter().$keyArray[2]][$keyArray[1]] = $value;
+                                $indexList[] = $keyArray[0].$field->getDelimiter().$keyArray[2];
+                                array_unique($indexList);
+                            } else {
+                                foreach ($subFields as $subField) {
+                                    if ($subField instanceof C4GSubDialogField) {
+                                        if (strpos($key, $subField->getDelimiter()) !== false) {
+                                            $subDlgValues[$indexList[$indexListIndex]][$key] = $value;
+                                            $indexListIndex += 1;
+                                        }
+                                    }
+                                }
                             }
                         }
                         if ($subDlgValues && $field->getBrickDatabase() == null) {
