@@ -34,6 +34,7 @@ class C4GSubDialogField extends C4GBrickField
     private $brickDatabase = null;
     private $where = array();
     private $delimiter = '#';
+    private $wildcard = '?';
 
     public function __construct() {
         $this->database = \Database::getInstance();
@@ -52,7 +53,7 @@ class C4GSubDialogField extends C4GBrickField
 //        $fieldsHtml = "<div class='c4g_sub_dialog_set'>";
         $fieldsHtml = "";
         $fieldName = $this->keyField->getFieldName();
-        $this->keyField->setFieldName($this->getFieldName().$this->delimiter.$fieldName.$this->delimiter.'?');
+        $this->keyField->setFieldName($this->getFieldName().$this->delimiter.$fieldName.$this->delimiter.$this->wildcard);
         $fieldsHtml .= $this->keyField->getC4GDialogField($this->getFieldList(), $data, $dialogParams, $additionalParams = array());
         $this->keyField->setFieldName($fieldName);
         foreach ($this->fieldList as $field) {
@@ -61,7 +62,7 @@ class C4GSubDialogField extends C4GBrickField
             foreach ($data as $key => $value) {
                 $templateData->$key = '';
             }
-            $field->setFieldName($this->getFieldName().$this->delimiter.$fieldName.$this->delimiter.'?');
+            $field->setFieldName($this->getFieldName().$this->delimiter.$fieldName.$this->delimiter.$this->wildcard);
             $fieldsHtml .= $field->getC4GDialogField($this->getFieldList(), $templateData, $dialogParams, $additionalParams = array());
             $field->setFieldName($fieldName);
         }
@@ -120,7 +121,7 @@ class C4GSubDialogField extends C4GBrickField
 
         $html = "<div class='c4g_sub_dialog_container' id='c4g_$name'>";
         $html .= "<template id='c4g_$name" . "_template"."'>$fieldsHtml</template>";
-        $this->setAdditionalLabel("<span class='ui-button ui-corner-all c4g_sub_dialog_add_button' onclick='addSubDialog(this,event);' data-template='c4g_$name" . "_template"."' data-target='c4g_dialog_$name' data-field='$name' data-index='$numLoadedDataSets'>$addButton</span><span class='c4g_sub_dialog_add_button_label'>$this->addButtonLabel</span>");
+        $this->setAdditionalLabel("<span class='ui-button ui-corner-all c4g_sub_dialog_add_button' onclick='addSubDialog(this,event);' data-template='c4g_$name" . "_template"."' data-target='c4g_dialog_$name' data-field='$name' data-index='$numLoadedDataSets' data-wildcard='".$this->wildcard."'>$addButton</span><span class='c4g_sub_dialog_add_button_label'>$this->addButtonLabel</span>");
         $html .= $this->addC4GFieldLabel("c4g_$name", $title, $this->isMandatory(), $this->createConditionData($fieldList, $data), $fieldList, $data, $dialogParams);
         $html .= "<div class='c4g_sub_dialog' id='c4g_dialog_$name'>";
 
@@ -557,6 +558,24 @@ class C4GSubDialogField extends C4GBrickField
             throw new \Exception('C4GSubDialogField::delimiter must not be _ or ?.');
         }
         $this->delimiter = $delimiter;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getWildcard(): string
+    {
+        return $this->wildcard;
+    }
+
+    /**
+     * @param string $wildcard
+     * @return C4GSubDialogField
+     */
+    public function setWildcard(string $wildcard): C4GSubDialogField
+    {
+        $this->wildcard = $wildcard;
         return $this;
     }
 
