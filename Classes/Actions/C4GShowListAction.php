@@ -319,8 +319,12 @@ class C4GShowListAction extends C4GBrickDialogAction
             $rangeTo = strtotime($filterParams->getRangeTo());
             $highlightSpan = '<span class="c4g_brick_headtext_highlighted">';
             $highlightSpanEnd = '</span>';
-            $filterText = "Zeitraum von " . $highlightSpan . $dateFrom . $highlightSpanEnd . ' bis zum ' .
-                $highlightSpan . $dateTo . $highlightSpanEnd;
+            if ($filterParams->isWithoutFiltertext()) {
+                $filterText = "";
+            } else {
+                $filterText = "Zeitraum von " . $highlightSpan . $dateFrom . $highlightSpanEnd . ' bis zum ' .
+                    $highlightSpan . $dateTo . $highlightSpanEnd;
+            }
             $filterField = $filterParams->getFilterField();
             if ($filterField) {
                 foreach ($elements as $key => $element) {

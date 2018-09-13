@@ -29,6 +29,7 @@ class C4GBrickFilterParams
     private $options = array();
 
     private $filterField = ''; // The fieldname of the field which the data should be filtered by
+    private $withoutFiltertext = false;
 
     /**
      * C4GBrickFilterParams constructor.
@@ -273,4 +274,22 @@ class C4GBrickFilterParams
             $this->rangeTo = $toCookie;
         }
     }
+
+    /**
+     * @return bool
+     */
+    public function isWithoutFiltertext()
+    {
+        return $this->withoutFiltertext;
+    }
+
+    /**
+     * @param bool $withoutFiltertext
+     */
+    public function setWithoutFiltertext(bool $withoutFiltertext)
+    {
+        $this->withoutFiltertext = $withoutFiltertext;
+    }
+
+
 }

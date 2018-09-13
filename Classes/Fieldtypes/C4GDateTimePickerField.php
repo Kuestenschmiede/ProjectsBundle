@@ -91,7 +91,14 @@ class C4GDateTimePickerField extends C4GBrickField
         if (strpos($fieldData, "-") === 9) {
             // special case. format "dd.mm.yy - H:i:s"
             $arrDate = explode("-", $fieldData);
-            $date = $arrDate[0];
+            $date = trim($arrDate[0]);
+            // fill the year to 4 digits
+            $tmpDate = explode(".", $date);
+            if (strlen($tmpDate[2]) === 2) {
+                // ToDo filtern ob 19 oder 20 vorgehängt werden muss
+                $tmpDate[2] = "20" . $tmpDate[2];
+            }
+            $date = implode(".", $tmpDate);
             $time = $arrDate[1];
             // split into hour, minute and seconds
             $arrTime = explode(":", $time);
