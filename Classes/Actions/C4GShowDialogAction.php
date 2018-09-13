@@ -469,11 +469,19 @@ class C4GShowDialogAction extends C4GBrickDialogAction
         return true;
     }
 
-    public function loadC4GForeignArrayFieldData($fieldList, $element, $subDialogField = null) {
+    public function loadC4GForeignArrayFieldData($fieldList, $element, $subDialogField = null, $subDialogFieldCount = -1) {
         foreach ($fieldList as $field) {
             if ($field instanceof C4GForeignArrayField) {
-                $index = $field->getFieldName();
-
+                /*if ($subDialogField instanceof C4GSubDialogField) {
+                    $index = $subDialogField->getFieldName().$subDialogField->getDelimiter().$field->getFieldName().$subDialogField->getDelimiter().strval(1);
+                } else {*/
+                    $index = $field->getFieldName();
+//                }
+                if ($subDialogField instanceof C4GSubDialogField) {
+                    $delimiter = $subDialogField->getDelimiter();
+                } else {
+                    $delimiter = $field->getDelimiter();
+                }
                 $databaseParams = new C4GBrickDatabaseParams($field->getDatabaseType());
                 $databaseParams->setPkField('id');
                 $databaseParams->setTableName($field->getForeignTable());
@@ -502,7 +510,7 @@ class C4GShowDialogAction extends C4GBrickDialogAction
 
                 if ($subDialogField instanceof C4GSubDialogField) {
                     foreach ($element as $key => $value) {
-                        $keyArray = explode($field->getDelimiter(), $key);
+                        $keyArray = explode($delimiter, $key);
                         if ($index == $keyArray[1]) {
                             $ids = $element->$key;
                             break;
@@ -604,7 +612,7 @@ class C4GShowDialogAction extends C4GBrickDialogAction
                         }
                     }
                 }
-                $element = $this->loadC4GForeignArrayFieldData($subFields, $element, $field);
+                $element = $this->loadC4GForeignArrayFieldData($subFields, $element, $field, $superFieldCount);
             }
         }
         return $element;
