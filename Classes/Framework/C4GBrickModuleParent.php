@@ -108,6 +108,7 @@ class C4GBrickModuleParent extends \Module
 
     //expert params
     protected $modelListFunction    = null; //loading dataset by a special function
+    protected $modelDialogFunction  = null; //loading dataset by a special function
     protected $withBackup           = false; //doing automaticly exports (backups)
     protected $withActivationInfo   = false; //activation info
     protected $withLabels           = true; //switching on/off all labels
@@ -120,7 +121,7 @@ class C4GBrickModuleParent extends \Module
 
     //UUID params
     protected $UUID                 = 'c4g_brick_uuid'; //Name of the uuid cookie in the browser. Can be overridden in child.
-    protected $useUuidCookie        = true; //Can be overridden in child to suppress the uuid cookie.
+    protected $useUuidCookie        = false; //Can be overridden in child to suppress the uuid cookie.
 
 
     /**
@@ -210,6 +211,7 @@ class C4GBrickModuleParent extends \Module
     private function memberCheck($init = false) {
         if (FE_USER_LOGGED_IN) {
             \System::import('FrontendUser', 'User');
+            $this->User->authenticate();
         } else If (!C4GBrickView::isPublicBased($this->viewType) && $GLOBALS['con4gis']['groups']['installed']) {
             $this->loadLanguageFiles();
 
@@ -281,6 +283,9 @@ class C4GBrickModuleParent extends \Module
             if ($this->databaseType == C4GBrickDatabaseType::DCA_MODEL) {
                 $databaseParams->setModelClass($this->modelClass);
             } else {
+                if ($this->modelClass) {
+                    $databaseParams->setModelClass($this->modelClass);
+                }
                 $databaseParams->setEntityClass($dbClass);
             }
 
@@ -292,6 +297,7 @@ class C4GBrickModuleParent extends \Module
         if (!$this->listParams) {
             $this->listParams = new C4GBrickListParams($this->brickKey, $this->viewType);
             $this->listParams->setWithModelListFunction(!empty($this->modelListFunction));
+            //$this->listParams->setWithModelDialogFunction(!empty($this->modelDialogFunction));
 
             $groups = C4GBrickCommon::getGroupListForBrick($this->User->id, $this->brickKey);
             $groupCount = count($groups);
@@ -354,6 +360,7 @@ class C4GBrickModuleParent extends \Module
         if (!$this->viewParams) {
             $this->viewParams = new C4GBrickViewParams($this->viewType);
             $this->viewParams->setModelListFunction($this->modelListFunction);
+            $this->viewParams->setModelDialogFunction($this->modelDialogFunction);
             $this->dialogParams->setViewParams($this->viewParams);
         }
 
@@ -679,6 +686,11 @@ class C4GBrickModuleParent extends \Module
             }
 
             $session = $this->Session->getData();
+
+            if (FE_USER_LOGGED_IN) {
+                \System::import('FrontendUser', 'User');
+                $this->User->authenticate();
+            }
 
             if (C4GBrickView::isGroupBased($this->viewType)){
                     if (($this->group_id == -1) || ($this->group_id == null)) {

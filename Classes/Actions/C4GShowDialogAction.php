@@ -36,6 +36,7 @@ class C4GShowDialogAction extends C4GBrickDialogAction
         $viewParams        = $dialogParams->getViewParams();
         $viewType          = $viewParams->getViewType();
         $modelListFunction = $viewParams->getModelListFunction();
+        $modelDialogFunction = $viewParams->getModelDialogFunction();
         $id                = $dialogParams->getId();
         $memberId          = $dialogParams->getMemberId();
         $groupId           = $dialogParams->getGroupId();
@@ -323,6 +324,15 @@ class C4GShowDialogAction extends C4GBrickDialogAction
             $model = $modelClass;
             $elements = $model::$function($groupId, $database, $this->getListParams(), $brickDatabase);
             $element = $elements->$id;
+        }
+
+        if (C4GBrickView::isPublicBased($viewType) && $modelDialogFunction) {
+            $function = $modelDialogFunction;
+            $database = $brickDatabase->getParams()->getDatabase();
+            //Todo überarbeiten brickDatabase
+            $modelClass = $brickDatabase->getParams()->getModelClass();
+            $model = $modelClass;
+            $element = $model::$function($id);
         }
 
         //ToDo Weitere ViewTypes überprüfen

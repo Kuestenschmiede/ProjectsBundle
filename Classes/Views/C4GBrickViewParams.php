@@ -21,6 +21,7 @@ class C4GBrickViewParams {
     private $parentKeyField = 'pid';
     private $projectKeyField = 'project_id';
     private $modelListFunction = null; //Lädt die Datensätze der Tabelle über eine spezielle Modelfunktion.
+    private $modelDialogFunction = null; //Lädt die Datensätze der Tabelle über eine spezielle Modelfunktion.
     private $loginRedirect  = '';
     private $actionNamespaces = array();    //Namespaces for custom actions, full path including the name of the action.
 
@@ -111,6 +112,22 @@ class C4GBrickViewParams {
     public function setModelListFunction($modelListFunction)
     {
         $this->modelListFunction = $modelListFunction;
+    }
+
+    /**
+     * @return null
+     */
+    public function getModelDialogFunction()
+    {
+        return $this->modelDialogFunction;
+    }
+
+    /**
+     * @param null $modelDialogFunction
+     */
+    public function setModelDialogFunction($modelDialogFunction): void
+    {
+        $this->modelDialogFunction = $modelDialogFunction;
     }
 
     /**
