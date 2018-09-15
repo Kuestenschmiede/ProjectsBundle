@@ -48,6 +48,7 @@ class C4GBrickModuleParent extends \Module
     //mandatory params
     protected $brickKey             = ''; //unique string key for module request and con4gis-Groups rights.
     protected $viewType             = C4GBrickViewType::GROUPBASED; //see C4GBrickViewType
+    protected $publicViewType       = ''; //automatic switch from based to view type
     protected $tableName            = ''; //needed by default DatabaseType
     protected $findBy               = array(); //qualify default dataset
     protected $modelClass           = ''; //needed by default DatabaseType
@@ -212,7 +213,7 @@ class C4GBrickModuleParent extends \Module
         if (FE_USER_LOGGED_IN) {
             \System::import('FrontendUser', 'User');
             $this->User->authenticate();
-        } else If (!C4GBrickView::isPublicBased($this->viewType) && $GLOBALS['con4gis']['groups']['installed']) {
+        } else if (!C4GBrickView::isPublicBased($this->viewType) && $GLOBALS['con4gis']['groups']['installed']) {
             $this->loadLanguageFiles();
 
             if ($init) {
@@ -233,6 +234,8 @@ class C4GBrickModuleParent extends \Module
             );
 
             return json_encode($return);
+        } else if (($this->publicViewType) && ($this->viewType == C4GBrickViewType::PUBLICBASED)) {
+            $this->viewType = $this->publicViewType;
         }
 
         return false;
@@ -358,6 +361,9 @@ class C4GBrickModuleParent extends \Module
 
         //setting view params
         if (!$this->viewParams) {
+            if (($this->publicViewType) && ($this->viewType == C4GBrickViewType::PUBLICBASED)) {
+                $this->viewType = $this->publicViewType;
+            }
             $this->viewParams = new C4GBrickViewParams($this->viewType);
             $this->viewParams->setModelListFunction($this->modelListFunction);
             $this->viewParams->setModelDialogFunction($this->modelDialogFunction);
