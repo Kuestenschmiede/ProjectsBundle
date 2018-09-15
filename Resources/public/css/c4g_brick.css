@@ -1,3 +1,12 @@
+@CHARSET "ISO-8859-1";
+
+@import url("../../../bundles/con4giscore/vendor/fontawesome/css/all.css");
+@font-face {
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
+    font-style: normal;
+}
+
 .c4gGuiDialogTitle h1
 {
     margin-top: 0px;
@@ -541,8 +550,8 @@ label.c4g_multicheckbox{
     margin-left: 2.5%;
 }
 .c4g_multicheckbox_modern{
-    margin-left: 2.5%;
-    margin-right: 2.5%;
+    /*margin-left: 2.5%;*/
+    /*margin-right: 2.5%;*/
     font-weight: bold;
 }
 .c4g_brick_dialog input[type='checkbox'] + label {
