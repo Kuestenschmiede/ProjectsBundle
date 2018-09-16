@@ -18,6 +18,7 @@ use con4gis\ProjectsBundle\Classes\Conditions\C4GBrickConditionType;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GButtonField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GDecimalField;
+use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GSubDialogField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GEmailField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GLinkField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GNumberField;
@@ -294,7 +295,7 @@ abstract class C4GBrickField
      */
     protected function addC4GFieldLabel($id, $title, $mandatory, $condition, $fieldList, $data, $dialogParams, $showExtTitleField = true, $withoutLineBreak = false)
     {
-        if ($title && !$this->withoutLabel || $this instanceof C4GButtonField || $this instanceof C4GLinkField) {
+        if ($title && !$this->withoutLabel || $this instanceof C4GButtonField || $this instanceof C4GLinkField || $this instanceof C4GSubDialogField) {
             $star = '';
             if ($mandatory && (!$this->isWithoutMandatoryStar())) {
                 $star = '<strong class="c4g_mandatory_class">*</strong>';
@@ -1540,10 +1541,7 @@ abstract class C4GBrickField
      */
     public function getTitle()
     {
-        /*if ($this->isMandatory())
-            return '*'.$this->title;
-        else*/
-            return $this->title;
+        return $this->title;
     }
 
     /**
