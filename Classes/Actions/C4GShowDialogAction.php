@@ -459,6 +459,10 @@ class C4GShowDialogAction extends C4GBrickDialogAction
         $projectUuid  = $dialogParams->getProjectUuid();
         $viewType     = $dialogParams->getViewType();
 
+        if (C4GBrickView::isPublicBased($viewType)) {
+            $homeDir = '/' . C4GBrickConst::PATH_BRICK_DATA;
+        }
+
         if (C4GBrickView::isWithMember($viewType)) {
             $homeDir = '/' . C4GBrickConst::PATH_MEMBER_DATA . '/' . $memberId . '/';
         }
