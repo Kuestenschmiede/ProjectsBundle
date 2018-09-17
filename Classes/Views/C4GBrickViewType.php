@@ -25,6 +25,8 @@ class C4GBrickViewType {
 
     const PROJECTPARENTBASED = 'projectparentbased'; //Abhängig von einer pid (Parenttabelle bzw. brick)
     const GROUPPARENTBASED  = 'groupparentbased'; // wie groupparentview nur mit bearbeitungs-/hinzufügen-möglichkeit
+    const PUBLICPARENTBASED  = 'publicparentbased'; // Öffentliche Ansicht mit Parentauswahl vor Aufbau der Liste mit Bearbetungsmöglichkeit
+    const PUBLICPARENTVIEW  = 'publicparentview'; // Öffentliche Ansicht mit Parentauswahl vor Aufbau der Liste ohne Bearbetungsmöglichkeit
 
     const GROUPVIEW         = 'groupview'; //Gruppenansicht ohne Bearbeitungsmöglichkeit
     const MEMBERVIEW        = 'memberview'; //Mitgliederansicht ohne Bearbeitungsmöglichkeit

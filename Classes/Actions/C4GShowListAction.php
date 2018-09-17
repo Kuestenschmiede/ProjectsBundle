@@ -362,7 +362,8 @@ class C4GShowListAction extends C4GBrickDialogAction
         if (!$dialogParams->getC4gMap()) {
             $result = $this->withMap($fieldList, $dialogParams->getContentId());
             if ($result) {
-                $content = \Controller::replaceInsertTags('{{insert_content::'.$result.'}}');
+//                $content = \Controller::replaceInsertTags('{{insert_content::'.$result.'}}');
+                $content = $result;
             }
         } else {
             $content = $dialogParams->getC4gMap();
