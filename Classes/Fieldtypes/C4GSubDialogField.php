@@ -16,6 +16,7 @@ use con4gis\ProjectsBundle\Classes\Database\C4GBrickDatabaseType;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldCompare;
+use con4gis\ProjectsBundle\Classes\Views\C4GBrickView;
 
 class C4GSubDialogField extends C4GBrickField
 {
@@ -50,7 +51,6 @@ class C4GSubDialogField extends C4GBrickField
         $addButton = $this->addButton;
         $removeButton = $this->removeButton;
 
-//        $fieldsHtml = "<div class='c4g_sub_dialog_set'>";
         $fieldsHtml = "";
         $fieldName = $this->keyField->getFieldName();
         $this->keyField->setFieldName($this->getFieldName().$this->delimiter.$fieldName.$this->delimiter.$this->wildcard);
@@ -66,8 +66,9 @@ class C4GSubDialogField extends C4GBrickField
             $fieldsHtml .= $field->getC4GDialogField($this->getFieldList(), $templateData, $dialogParams, $additionalParams = array());
             $field->setFieldName($fieldName);
         }
-//        $fieldsHtml .= '</div>';
-        $fieldsHtml .= "<span class='ui-button ui-corner-all c4g_sub_dialog_remove_button' onclick='removeSubDialog(this,event);'>$removeButton</span>";
+        if (!C4GBrickView::isWithoutEditing($dialogParams->getViewType())) {
+            $fieldsHtml .= "<span class='ui-button ui-corner-all c4g_sub_dialog_remove_button' onclick='removeSubDialog(this,event);'>$removeButton</span>";
+        }
         $fieldsHtml = str_replace('"', "'", $fieldsHtml);
 
         /** Generate html for already loaded data sets if there are any */
@@ -111,7 +112,9 @@ class C4GSubDialogField extends C4GBrickField
                         $loadedDataHtml .= $field->getC4GDialogField($this->getFieldList(), $data, $dialogParams, $additionalParams = array());
                         $field->setFieldName($fieldName);
                     }
-                    $loadedDataHtml .= "<span class='ui-button ui-corner-all c4g_sub_dialog_remove_button' onclick='removeSubDialog(this,event);'>$removeButton</span>";
+                    if (!C4GBrickView::isWithoutEditing($dialogParams->getViewType())) {
+                        $loadedDataHtml .= "<span class='ui-button ui-corner-all c4g_sub_dialog_remove_button' onclick='removeSubDialog(this,event);'>$removeButton</span>";
+                    }
                     $loadedDataHtml .= '</div>';
                 } else {
                     break;
@@ -121,7 +124,9 @@ class C4GSubDialogField extends C4GBrickField
 
         $html = "<div class='c4g_sub_dialog_container' id='c4g_$name'>";
         $html .= "<template id='c4g_$name" . "_template"."'>$fieldsHtml</template>";
-        $this->setAdditionalLabel("<span class='ui-button ui-corner-all c4g_sub_dialog_add_button' onclick='addSubDialog(this,event);' data-template='c4g_$name" . "_template"."' data-target='c4g_dialog_$name' data-field='$name' data-index='$numLoadedDataSets' data-wildcard='".$this->wildcard."'>$addButton</span><span class='c4g_sub_dialog_add_button_label'>$this->addButtonLabel</span>");
+        if (!C4GBrickView::isWithoutEditing($dialogParams->getViewType())) {
+            $this->setAdditionalLabel("<span class='ui-button ui-corner-all c4g_sub_dialog_add_button' onclick='addSubDialog(this,event);' data-template='c4g_$name" . "_template"."' data-target='c4g_dialog_$name' data-field='$name' data-index='$numLoadedDataSets' data-wildcard='".$this->wildcard."'>$addButton</span><span class='c4g_sub_dialog_add_button_label'>$this->addButtonLabel</span>");
+        }
         $html .= $this->addC4GFieldLabel("c4g_$name", '', $this->isMandatory(), $this->createConditionData($fieldList, $data), $fieldList, $data, $dialogParams);
         $html .= "<div class='c4g_sub_dialog' id='c4g_dialog_$name'>";
 
@@ -578,7 +583,4 @@ class C4GSubDialogField extends C4GBrickField
         $this->wildcard = $wildcard;
         return $this;
     }
-
-
-
 }
