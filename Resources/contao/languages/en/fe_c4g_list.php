@@ -45,7 +45,7 @@ $GLOBALS['TL_LANG']['FE_C4G_LIST']['DATATABLE_CAPTION_SEARCH']                  
 $GLOBALS['TL_LANG']['FE_C4G_LIST']['DATATABLE_CAPTION_NONE']                     = 'No ';
 $GLOBALS['TL_LANG']['FE_C4G_LIST']['DATATABLE_CAPTION_EXISTS']                   = ' avaiĺable';
 $GLOBALS['TL_LANG']['FE_C4G_LIST']['DATATABLE_CAPTION_FOUND']                    = ' found';
-$GLOBALS['TL_LANG']['FE_C4G_LIST']['DATATABLE_CAPTION_FROM']                     = 'From ';
+$GLOBALS['TL_LANG']['FE_C4G_LIST']['DATATABLE_CAPTION_FROM']                     = 'from ';
 $GLOBALS['TL_LANG']['FE_C4G_LIST']['DATATABLE_CAPTION_TO']                       = ' until ';
 $GLOBALS['TL_LANG']['FE_C4G_LIST']['DATATABLE_CAPTION_SHOW']                     = 'Show ';
 

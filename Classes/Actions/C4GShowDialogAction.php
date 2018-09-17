@@ -19,6 +19,7 @@ use con4gis\ProjectsBundle\Classes\Database\C4GBrickDatabase;
 use con4gis\ProjectsBundle\Classes\Database\C4GBrickDatabaseParams;
 use con4gis\ProjectsBundle\Classes\Database\C4GBrickDatabaseType;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialog;
+use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GForeignArrayField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GSubDialogField;
 use con4gis\ProjectsBundle\Classes\Models\C4gProjectsModel;
 use con4gis\ProjectsBundle\Classes\Views\C4GBrickView;
@@ -35,6 +36,7 @@ class C4GShowDialogAction extends C4GBrickDialogAction
         $viewParams        = $dialogParams->getViewParams();
         $viewType          = $viewParams->getViewType();
         $modelListFunction = $viewParams->getModelListFunction();
+        $modelDialogFunction = $viewParams->getModelDialogFunction();
         $id                = $dialogParams->getId();
         $memberId          = $dialogParams->getMemberId();
         $groupId           = $dialogParams->getGroupId();
@@ -324,6 +326,15 @@ class C4GShowDialogAction extends C4GBrickDialogAction
             $element = $elements->$id;
         }
 
+        if (C4GBrickView::isPublicBased($viewType) && $modelDialogFunction) {
+            $function = $modelDialogFunction;
+            $database = $brickDatabase->getParams()->getDatabase();
+            //Todo überarbeiten brickDatabase
+            $modelClass = $brickDatabase->getParams()->getModelClass();
+            $model = $modelClass;
+            $element = $model::$function($id);
+        }
+
         //ToDo Weitere ViewTypes überprüfen
         if ($viewType != C4GBrickViewType::PROJECTPARENTFORMCOPY) {
             $uuid = $this->getElementUuid($element->uuid);
@@ -382,53 +393,8 @@ class C4GShowDialogAction extends C4GBrickDialogAction
             $element = $model::$function($dialogParams->getId());
         }
 
-        $count = 0;
-        foreach ($this->fieldList as $field) {
-            if ($field instanceof C4GSubDialogField) {
-                $subFields = $field->getFieldList();
-                $table = $field->getTable();
-                $subDlgValues = array();
-
-
-                $databaseParams = new C4GBrickDatabaseParams($field->getDatabaseType());
-                $databaseParams->setPkField('id');
-                $databaseParams->setTableName($table);
-
-                if (class_exists($field->getEntityClass())) {
-                    $class      = new \ReflectionClass($field->getEntityClass());
-                    $namespace  = $class->getNamespaceName();
-                    $dbClass    = str_replace($namespace . '\\', '', $field->getEntityClass());
-                    $dbClass    = str_replace('\\', '', $dbClass);
-                } else {
-                    $class      = new \ReflectionClass(get_called_class());
-                    $namespace  = str_replace("contao\\modules", "database", $class->getNamespaceName());
-                    $dbClass    = $field->getModelClass();
-                }
-
-                $databaseParams->setFindBy($field->getFindBy());
-                $databaseParams->setEntityNamespace($namespace);
-                $databaseParams->setDatabase($field->getDatabase());
-
-                if ($field->getDatabaseType() == C4GBrickDatabaseType::DCA_MODEL) {
-                    $databaseParams->setModelClass($field->getModelClass());
-                } else {
-                    $databaseParams->setEntityClass($dbClass);
-                }
-                $field->setBrickDatabase(new C4GBrickDatabase($databaseParams));
-
-                $values = $field->getBrickDatabase()->findBy($field->getForeignKeyField()->getFieldName(), $id);
-                $count = 0;
-                foreach ($values as $value) {
-                    $count += 1;
-                    if ($value instanceof \stdClass) {
-                        foreach ($value as $key => $val) {
-                            $index = $field->getFieldName().'_'.$key.'_'.$count;
-                            $element->$index = $val;
-                        }
-                    }
-                }
-            }
-        }
+        $element = $this->loadC4GSubFieldData($this->fieldList, $element, $id);
+        $element = $this->loadC4GForeignArrayFieldData($this->fieldList, $element);
 
         //Wenn $element an dieser Stelle null ist wird ein neuer Datensatz angelegt (Hinzufügen),
         //ansonsten wird der bestehende Datensatz zur Bearbeitung angeboten
@@ -511,5 +477,154 @@ class C4GShowDialogAction extends C4GBrickDialogAction
     public function isReadOnly()
     {
         return true;
+    }
+
+    public function loadC4GForeignArrayFieldData($fieldList, $element, $subDialogField = null, $subDialogFieldCount = -1) {
+        foreach ($fieldList as $field) {
+            if ($field instanceof C4GForeignArrayField) {
+                /*if ($subDialogField instanceof C4GSubDialogField) {
+                    $index = $subDialogField->getFieldName().$subDialogField->getDelimiter().$field->getFieldName().$subDialogField->getDelimiter().strval(1);
+                } else {*/
+                    $index = $field->getFieldName();
+//                }
+                if ($subDialogField instanceof C4GSubDialogField) {
+                    $delimiter = $subDialogField->getDelimiter();
+                } else {
+                    $delimiter = $field->getDelimiter();
+                }
+                $databaseParams = new C4GBrickDatabaseParams($field->getDatabaseType());
+                $databaseParams->setPkField('id');
+                $databaseParams->setTableName($field->getForeignTable());
+
+                if (class_exists($field->getEntityClass())) {
+                    $class      = new \ReflectionClass($field->getEntityClass());
+                    $namespace  = $class->getNamespaceName();
+                    $dbClass    = str_replace($namespace . '\\', '', $field->getEntityClass());
+                    $dbClass    = str_replace('\\', '', $dbClass);
+                } else {
+                    $class      = new \ReflectionClass(get_called_class());
+                    $namespace  = str_replace("contao\\modules", "database", $class->getNamespaceName());
+                    $dbClass    = $field->getModelClass();
+                }
+
+                $databaseParams->setFindBy($field->getFindBy());
+                $databaseParams->setEntityNamespace($namespace);
+                $databaseParams->setDatabase($field->getDatabase());
+
+                if ($field->getDatabaseType() == C4GBrickDatabaseType::DCA_MODEL) {
+                    $databaseParams->setModelClass($field->getModelClass());
+                } else {
+                    $databaseParams->setEntityClass($dbClass);
+                }
+                $field->setBrickDatabase(new C4GBrickDatabase($databaseParams));
+
+                if ($subDialogField instanceof C4GSubDialogField) {
+                    foreach ($element as $key => $value) {
+                        $keyArray = explode($delimiter, $key);
+                        if ($index == $keyArray[1]) {
+                            $ids = $element->$key;
+                            break;
+                        }
+                    }
+                } else {
+                    $ids = $element->$index;
+                }
+
+                if (is_array($ids)) {
+                    foreach ($ids as $value) {
+                        $dbValues = $field->getBrickDatabase()->findBy($field->getForeignKey(), $value);
+                        if ($dbValues instanceof \Contao\Model) {
+                            foreach ($dbValues->row() as $key => $val) {
+                                $ind = $field->getFieldName().$field->getDelimiter().$key.$field->getDelimiter().$value;
+                                $element->$ind = $val;
+                            }
+
+                        } else {
+                            foreach ($dbValues as $dbVal) {
+                                if ($dbVal instanceof \stdClass) {
+                                    foreach ($dbVal as $key => $val) {
+                                        $ind = $field->getFieldName().$field->getDelimiter().$key.$field->getDelimiter().$value;
+                                        $element->$ind = $val;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    foreach (unserialize($ids) as $value) {
+                        $dbValues = $field->getBrickDatabase()->findBy($field->getForeignKey(), $value);
+                        foreach ($dbValues as $dbVal) {
+                            if ($dbVal instanceof \stdClass) {
+                                foreach ($dbVal as $key => $val) {
+                                    $ind = $field->getFieldName().$field->getDelimiter().$key.$field->getDelimiter().$value;
+                                    $element->$ind = $val;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return $element;
+    }
+
+    public function loadC4GSubFieldData($fieldList, $element, $foreignKey, $superField = null, $superFieldCount = -1) {
+        $count = 0;
+        foreach ($fieldList as $field) {
+            if ($field instanceof C4GSubDialogField) {
+                $subFields = $field->getFieldList();
+                $table = $field->getTable();
+                $subDlgValues = array();
+
+
+                $databaseParams = new C4GBrickDatabaseParams($field->getDatabaseType());
+                $databaseParams->setPkField('id');
+                $databaseParams->setTableName($table);
+
+                if (class_exists($field->getEntityClass())) {
+                    $class      = new \ReflectionClass($field->getEntityClass());
+                    $namespace  = $class->getNamespaceName();
+                    $dbClass    = str_replace($namespace . '\\', '', $field->getEntityClass());
+                    $dbClass    = str_replace('\\', '', $dbClass);
+                } else {
+                    $class      = new \ReflectionClass(get_called_class());
+                    $namespace  = str_replace("contao\\modules", "database", $class->getNamespaceName());
+                    $dbClass    = $field->getModelClass();
+                }
+
+                $databaseParams->setFindBy($field->getFindBy());
+                $databaseParams->setEntityNamespace($namespace);
+                $databaseParams->setDatabase($field->getDatabase());
+
+                if ($field->getDatabaseType() == C4GBrickDatabaseType::DCA_MODEL) {
+                    $databaseParams->setModelClass($field->getModelClass());
+                } else {
+                    $databaseParams->setEntityClass($dbClass);
+                }
+                $field->setBrickDatabase(new C4GBrickDatabase($databaseParams));
+
+                $values = $field->getBrickDatabase()->findBy($field->getForeignKeyField()->getFieldName(), $foreignKey);
+                $count = 0;
+                foreach ($values as $value) {
+                    $count += 1;
+                    if ($value instanceof \stdClass) {
+                        foreach ($value as $key => $val) {
+                            if ($superField) {
+                                $name = $superField->getFieldName().$superField->getDelimiter().$field->getFieldName().$superField->getDelimiter().$superFieldCount;
+                            } else {
+                                $name = $field->getFieldName();
+                            }
+                            $index = $name.$field->getDelimiter().$key.$field->getDelimiter().$count;
+                            $element->$index = $val;
+                            if ($key === 'id') {
+                                $element = $this->loadC4GSubFieldData($subFields, $element, $val, $field, $count);
+                            }
+                        }
+                    }
+                }
+                $element = $this->loadC4GForeignArrayFieldData($subFields, $element, $field, $superFieldCount);
+            }
+        }
+        return $element;
     }
 }

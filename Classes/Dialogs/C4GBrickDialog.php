@@ -33,6 +33,7 @@ use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GDateTimeLocationField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GDecimalField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GEmailField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GFileField;
+use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GForeignArrayField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GGeopickerField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GGridField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GHeadlineField;
@@ -998,10 +999,6 @@ class C4GBrickDialog
         return $result;
     }
 
-   /* public static function field2db($field) {
-        return;
-    }*/
-
     /**
      * @param $elementId
      * @param $tableName
@@ -1090,8 +1087,10 @@ class C4GBrickDialog
                         $set['loc_geoy'] = $loc_geoy;
                     }
                     $fieldData = null;
-                } else if ($field instanceof C4GFileField){
+                } else if ($field instanceof C4GFileField) {
                     $fieldData = $field->createFieldData($dlgValues, $dbValues);
+                } elseif ($field instanceof C4GForeignArrayField) {
+                    $fieldData = $field->createValue($dbValues, $dialogParams, $dlgValues, ($brickDatabase->getParams()->getEntityClass() !== ''));
                 } else {
                     $fieldData = $field->createFieldData($dlgValues);
                     if (!$field->getRandomValue()) {
@@ -1105,7 +1104,7 @@ class C4GBrickDialog
 
                 if ($fieldData !== NULL) {
                     $set[$fieldName] = $fieldData;
-                    if (!($field instanceof C4GFileField) && !($field instanceof C4GMultiCheckboxField)) {
+                    if (!($field instanceof C4GFileField) && !($field instanceof C4GMultiCheckboxField) && (!$field instanceof C4GForeignArrayField)) {
                         $set[$fieldName] = html_entity_decode(C4GUtils::secure_ugc($fieldData));
                     }
                 }
@@ -1257,26 +1256,58 @@ class C4GBrickDialog
                         $subFields[] = $field->getForeignKeyField();
                         $table = $field->getTable();
                         $subDlgValues = array();
+                        $indexList = array();
+                        $indexListIndex = 0;
                         foreach ($dlgValues as $key => $value) {
-                            $keyArray = explode('_',$key);
+                            $keyArray = explode($field->getDelimiter(),$key);
                             if ($keyArray && $keyArray[0] == $field->getFieldName()) {
-                                $subDlgValues[$keyArray[0].'_'.$keyArray[2]][$keyArray[1]] = $value;
+                                $subDlgValues[$keyArray[0].$field->getDelimiter().$keyArray[2]][$keyArray[1]] = $value;
+                                $indexList[] = $keyArray[0].$field->getDelimiter().$keyArray[2];
+                                array_unique($indexList);
+                            } else {
+                                foreach ($subFields as $subField) {
+                                    if ($subField instanceof C4GSubDialogField) {
+                                        if (strpos($key, $subField->getDelimiter()) !== false) {
+                                            $subDlgValues[$indexList[$indexListIndex]][$key] = $value;
+                                            $indexListIndex += 1;
+                                        }
+                                    }
+                                }
                             }
                         }
-                        if ($subDlgValues) {
+
+                        $subFields = $field->getFieldList();
+                        $subFields[] = $field->getKeyField();
+                        $subFields[] = $field->getForeignKeyField();
+                        foreach ($subFields as $f) {
+                            if ($f instanceof C4GSubDialogField) {
+                                foreach ($subDlgValues as $key => $values) {
+                                    $keyArray = explode($f->getDelimiter(),$key);
+                                    if ($keyArray && $keyArray[0] && $keyArray[1] && $keyArray[2]) {
+                                        foreach ($subDlgValues[$key] as $k => $v) {
+                                            $index = $k.$f->getDelimiter().$keyArray[1].$f->getDelimiter().$keyArray[2];
+                                            $subDlgValues[$keyArray[0]][$index] = $v;
+                                            unset($subDlgValues[$key]);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        if ($field->getBrickDatabase() == null) {
                             $databaseParams = new C4GBrickDatabaseParams($field->getDatabaseType());
                             $databaseParams->setPkField('id');
                             $databaseParams->setTableName($table);
 
                             if (class_exists($field->getEntityClass())) {
-                                $class      = new \ReflectionClass($field->getEntityClass());
-                                $namespace  = $class->getNamespaceName();
-                                $dbClass    = str_replace($namespace . '\\', '', $field->getEntityClass());
-                                $dbClass    = str_replace('\\', '', $dbClass);
+                                $class = new \ReflectionClass($field->getEntityClass());
+                                $namespace = $class->getNamespaceName();
+                                $dbClass = str_replace($namespace . '\\', '', $field->getEntityClass());
+                                $dbClass = str_replace('\\', '', $dbClass);
                             } else {
-                                $class      = new \ReflectionClass(get_called_class());
-                                $namespace  = str_replace("contao\\modules", "database", $class->getNamespaceName());
-                                $dbClass    = $field->getModelClass();
+                                $class = new \ReflectionClass(get_called_class());
+                                $namespace = str_replace("contao\\modules", "database", $class->getNamespaceName());
+                                $dbClass = $field->getModelClass();
                             }
 
                             $databaseParams->setFindBy($field->getFindBy());
@@ -1290,7 +1321,9 @@ class C4GBrickDialog
                             }
 
                             $field->setBrickDatabase(new C4GBrickDatabase($databaseParams));
+                        }
 
+                        if ($subDlgValues) {
                             /** First, delete all data sets from the database that have been deleted on the client. */
 
                             $deleteResult = $field->getBrickDatabase()->findBy($field->getForeignKeyField()->getFieldName(),$elementId);
@@ -1312,17 +1345,33 @@ class C4GBrickDialog
 
                             /** Then save all the data sets. */
 
-                            if (strval($elementId) == '-1') {
+                            if (strval($elementId) == '-1' || strval($elementId) == '0') {
                                 $elementId = $result['insertId'];
                             }
                             foreach ($subDlgValues as $key => $value) {
                                 if (!$value[$id_fieldName]) {
                                     $value[$field->getForeignKeyField()->getFieldName()] = $elementId;
-                                    self::saveC4GDialog(0, $table, $subFields, $value, $field->getBrickDatabase(),  $dbValues,  $dialogParams, $user_id);
+                                    $subDbValues = $field->getBrickDatabase()->findByPk(0);
+                                    self::saveC4GDialog(0, $table, $subFields, $value, $field->getBrickDatabase(),  $subDbValues,  $dialogParams, $user_id);
                                 } else {
                                     $value[$field->getForeignKeyField()->getFieldName()] = $elementId;
-                                    self::saveC4GDialog($value[$id_fieldName], $table, $subFields, $value, $field->getBrickDatabase(),  $dbValues,  $dialogParams, $user_id);
+                                    $subDbValues = $field->getBrickDatabase()->findByPk($value[$id_fieldName]);
+                                    self::saveC4GDialog($value[$id_fieldName], $table, $subFields, $value, $field->getBrickDatabase(),  $subDbValues,  $dialogParams, $user_id);
                                 }
+                            }
+                        } else {
+                            /** Delete all data sets from the database that have been deleted on the client. */
+
+                            $deleteResult = $field->getBrickDatabase()->findBy($field->getForeignKeyField()->getFieldName(),$elementId);
+                            $deleteIds = array();
+                            foreach ($deleteResult as $r) {
+                                $deleteIds[] = $r->$id_fieldName;
+                            }
+                            $db = \Database::getInstance();
+                            $table = $field->getTable();
+                            foreach ($deleteIds as $deleteId) {
+                                $stmt = $db->prepare("DELETE FROM $table WHERE id = ?");
+                                $stmt->execute($deleteId);
                             }
                         }
                     }

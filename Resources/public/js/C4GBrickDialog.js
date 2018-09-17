@@ -1151,7 +1151,7 @@ function removeSubDialog(button, event) {
         event.stopPropagation();
     }
     showConfirmationDialog(button.innerHTML, 'Bestätigung', 'Ja', 'Nein',  function() {
-        while (button.parentNode.firstChild) {
+        while ((button) && (button.parentNode) && (button.parentNode.firstChild)) {
             button.parentNode.removeChild(button.parentNode.firstChild);
         }
     });
@@ -1167,10 +1167,8 @@ function addSubDialog(button, event) {
         event.stopPropagation();
     }
     var target = document.getElementById(button.dataset.target);
-    var index = button.dataset.index;
     button.dataset.index = parseInt(button.dataset.index, 10) + 1;
-    var string = button.dataset.form.split('?').join(button.dataset.index);
-    // target.innerHTML = target.innerHTML + string;
+    var string = document.getElementById(button.dataset.template).innerHTML.split(button.dataset.wildcard).join(button.dataset.index);
     var newElement = document.createElement('div');
     newElement.classList.add('c4g_sub_dialog_set');
     newElement.innerHTML = string;

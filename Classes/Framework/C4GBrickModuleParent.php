@@ -48,6 +48,7 @@ class C4GBrickModuleParent extends \Module
     //mandatory params
     protected $brickKey             = ''; //unique string key for module request and con4gis-Groups rights.
     protected $viewType             = C4GBrickViewType::GROUPBASED; //see C4GBrickViewType
+    protected $publicViewType       = ''; //automatic switch from based to view type
     protected $tableName            = ''; //needed by default DatabaseType
     protected $findBy               = array(); //qualify default dataset
     protected $modelClass           = ''; //needed by default DatabaseType
@@ -108,6 +109,7 @@ class C4GBrickModuleParent extends \Module
 
     //expert params
     protected $modelListFunction    = null; //loading dataset by a special function
+    protected $modelDialogFunction  = null; //loading dataset by a special function
     protected $withBackup           = false; //doing automaticly exports (backups)
     protected $withActivationInfo   = false; //activation info
     protected $withLabels           = true; //switching on/off all labels
@@ -120,7 +122,7 @@ class C4GBrickModuleParent extends \Module
 
     //UUID params
     protected $UUID                 = 'c4g_brick_uuid'; //Name of the uuid cookie in the browser. Can be overridden in child.
-    protected $useUuidCookie        = true; //Can be overridden in child to suppress the uuid cookie.
+    protected $useUuidCookie        = false; //Can be overridden in child to suppress the uuid cookie.
 
 
     /**
@@ -210,7 +212,8 @@ class C4GBrickModuleParent extends \Module
     private function memberCheck($init = false) {
         if (FE_USER_LOGGED_IN) {
             \System::import('FrontendUser', 'User');
-        } else If (!C4GBrickView::isPublicBased($this->viewType) && $GLOBALS['con4gis']['groups']['installed']) {
+            $this->User->authenticate();
+        } else if (!C4GBrickView::isPublicBased($this->viewType) && $GLOBALS['con4gis']['groups']['installed']) {
             $this->loadLanguageFiles();
 
             if ($init) {
@@ -231,6 +234,8 @@ class C4GBrickModuleParent extends \Module
             );
 
             return json_encode($return);
+        } else if (($this->publicViewType) && ($this->viewType == C4GBrickViewType::PUBLICBASED)) {
+            $this->viewType = $this->publicViewType;
         }
 
         return false;
@@ -281,6 +286,9 @@ class C4GBrickModuleParent extends \Module
             if ($this->databaseType == C4GBrickDatabaseType::DCA_MODEL) {
                 $databaseParams->setModelClass($this->modelClass);
             } else {
+                if ($this->modelClass) {
+                    $databaseParams->setModelClass($this->modelClass);
+                }
                 $databaseParams->setEntityClass($dbClass);
             }
 
@@ -292,6 +300,7 @@ class C4GBrickModuleParent extends \Module
         if (!$this->listParams) {
             $this->listParams = new C4GBrickListParams($this->brickKey, $this->viewType);
             $this->listParams->setWithModelListFunction(!empty($this->modelListFunction));
+            //$this->listParams->setWithModelDialogFunction(!empty($this->modelDialogFunction));
 
             $groups = C4GBrickCommon::getGroupListForBrick($this->User->id, $this->brickKey);
             $groupCount = count($groups);
@@ -352,8 +361,15 @@ class C4GBrickModuleParent extends \Module
 
         //setting view params
         if (!$this->viewParams) {
+            if (($this->publicViewType) && ($this->viewType == C4GBrickViewType::PUBLICBASED)) {
+                $this->viewType = $this->publicViewType;
+                foreach ($this->fieldList as $key=>$field) {
+                    $this->fieldList[$key]->setEditable(false);
+                }
+            }
             $this->viewParams = new C4GBrickViewParams($this->viewType);
             $this->viewParams->setModelListFunction($this->modelListFunction);
+            $this->viewParams->setModelDialogFunction($this->modelDialogFunction);
             $this->dialogParams->setViewParams($this->viewParams);
         }
 
@@ -679,6 +695,11 @@ class C4GBrickModuleParent extends \Module
             }
 
             $session = $this->Session->getData();
+
+            if (FE_USER_LOGGED_IN) {
+                \System::import('FrontendUser', 'User');
+                $this->User->authenticate();
+            }
 
             if (C4GBrickView::isGroupBased($this->viewType)){
                     if (($this->group_id == -1) || ($this->group_id == null)) {

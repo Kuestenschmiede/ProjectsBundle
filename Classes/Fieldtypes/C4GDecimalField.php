@@ -119,8 +119,8 @@ class C4GDecimalField extends C4GBrickFieldNumeric
 
     /**
      * Method that will be called in the compareWithDB() in C4GBrickDialog
-     * @param $dbValue
-     * @param $dlgvalue
+     * @param $dbValues
+     * @param $dlgValues
      * @return C4GBrickFieldCompare
      */
     public function compareWithDB($dbValues, $dlgValues)
