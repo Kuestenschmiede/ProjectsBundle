@@ -363,6 +363,9 @@ class C4GBrickModuleParent extends \Module
         if (!$this->viewParams) {
             if (($this->publicViewType) && ($this->viewType == C4GBrickViewType::PUBLICBASED)) {
                 $this->viewType = $this->publicViewType;
+                foreach ($this->fieldList as $key=>$field) {
+                    $this->fieldList[$key]->setEditable(false);
+                }
             }
             $this->viewParams = new C4GBrickViewParams($this->viewType);
             $this->viewParams->setModelListFunction($this->modelListFunction);

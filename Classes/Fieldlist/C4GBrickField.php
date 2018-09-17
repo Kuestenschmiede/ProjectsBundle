@@ -644,6 +644,8 @@ abstract class C4GBrickField
                 $thisName = $condition[0]->getFieldName();
                 if ($data && ($data->$thisName != $condition[0]->getValue())) {
                     $required = "disabled readonly";
+                    $this->setWithoutMandatoryStar(true);
+                    $this->setEditable(false);
                     return $required;
                 }
 
@@ -662,6 +664,7 @@ abstract class C4GBrickField
         ) {
             $required = "disabled readonly";
             $this->setWithoutMandatoryStar(true);
+            $this->setEditable(false);
             return $required;
 
         }
