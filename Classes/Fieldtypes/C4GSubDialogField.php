@@ -72,7 +72,7 @@ class C4GSubDialogField extends C4GBrickField
         if ($this->isEditable() && !C4GBrickView::isWithoutEditing($dialogParams->getViewType())) {
             $fieldsHtml .= "<span class='ui-button ui-corner-all c4g_sub_dialog_remove_button' onclick='removeSubDialog(this,event);'>$removeButton</span>";
         }
-        $fieldsHtml = str_replace('"', "'", $fieldsHtml);
+//        $fieldsHtml = str_replace('"', "'", $fieldsHtml);
 
         /** Generate html for already loaded data sets if there are any */
 
@@ -139,7 +139,7 @@ class C4GSubDialogField extends C4GBrickField
             $html .= $this->addC4GFieldLabel("c4g_$name", '', $this->isMandatory(), $this->createConditionData($fieldList, $data), $fieldList, $data, $dialogParams);
             $html .= "<div class='c4g_sub_dialog' id='c4g_dialog_$name'>";
 
-            $loadedDataHtml = str_replace('"', "'", $loadedDataHtml);
+//            $loadedDataHtml = str_replace('"', "'", $loadedDataHtml);
             $html .= $loadedDataHtml;
 
             $html .= "</div>";
