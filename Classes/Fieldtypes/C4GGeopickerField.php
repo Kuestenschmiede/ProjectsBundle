@@ -14,9 +14,11 @@
 namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
 
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickCommon;
+use con4gis\ProjectsBundle\Classes\Database\C4GBrickDatabase;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldCompare;
+use Contao\Database;
 
 class C4GGeopickerField extends C4GBrickField
 {
@@ -146,27 +148,35 @@ class C4GGeopickerField extends C4GBrickField
      */
     public function getC4GListField($rowData, $content, $database = null)
     {
+        // if there is already an address set, use that
+        $fieldName = $this->getFieldName();
+        if ($rowData->$fieldName) {
+            return $rowData->$fieldName;
+        }
         $lat = $rowData->loc_geoy;
         $lon = $rowData->loc_geox;
         $idFromModel = $rowData->id;
         $extModel = $this->getExternalModel();
         $profile_id = null;
         $withoutAddressRow = $this->isWithoutAddressRow();
-
-        if ($content) {
-            $find = 'profile":"';
-            $pos = strpos($content, $find);
-            if ($pos > 0) {
-                $str_profile_id = substr($content, $pos + 10, 4);
-                if ($str_profile_id) {
-                    $profile_id = intval($str_profile_id);
+        $db = Database::getInstance();
+        $settings = $db->execute("SELECT * FROM tl_c4g_settings LIMIT 1")->fetchAssoc();
+        if ($settings['defaultprofile']) {
+            $profile_id = $settings['defaultprofile'];
+        } else {
+            // old way of getting profile id; kept for backwards compatibility
+            if ($content) {
+                $find = 'profile":"';
+                $pos = strpos($content, $find);
+                if ($pos > 0) {
+                    $str_profile_id = substr($content, $pos + 10, 4);
+                    if ($str_profile_id) {
+                        $profile_id = intval($str_profile_id);
+                    }
                 }
             }
         }
-
-
         $address = '';
-
         if (!$withoutAddressRow && $profile_id) {
             $addressField = $this->getAddressField();
             $address_db = $rowData->$addressField;
