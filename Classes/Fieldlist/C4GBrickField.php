@@ -661,6 +661,7 @@ abstract class C4GBrickField
                 ($dialogParams->isFrozen() == 1))
         ) {
             $required = "disabled readonly";
+            $this->setWithoutMandatoryStar(true);
             return $required;
 
         }
