@@ -54,7 +54,6 @@ class C4GSubDialogField extends C4GBrickField
         //needful to set editable params
         $this->generateRequiredString($data, $dialogParams);
 
-//        $fieldsHtml = "<div class='c4g_sub_dialog_set'>";
         $fieldsHtml = "";
         $fieldName = $this->keyField->getFieldName();
         $this->keyField->setFieldName($this->getFieldName() . $this->delimiter . $fieldName . $this->delimiter . $this->wildcard);
@@ -128,7 +127,7 @@ class C4GSubDialogField extends C4GBrickField
         }
 
 
-        if ($fieldsHtml && $loadedDataHtml) {
+        if ($fieldsHtml || $loadedDataHtml) {
             $html = "<div class='c4g_sub_dialog_container' id='c4g_$name'>";
             $html .= "<template id='c4g_$name" . "_template" . "'>$fieldsHtml</template>";
             if ($this->isEditable() && !C4GBrickView::isWithoutEditing($dialogParams->getViewType())) {
