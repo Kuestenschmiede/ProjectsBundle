@@ -105,21 +105,24 @@ class C4GSubDialogField extends C4GBrickField
                         $data->$key = $value;
                     }
 
-                    $loadedDataHtml .= "<div class='c4g_sub_dialog_set'>";
-                    $fieldName = $this->keyField->getFieldName();
-                    $this->keyField->setFieldName($this->getFieldName() . $this->delimiter . $fieldName . $this->delimiter . $numLoadedDataSets);
-                    $loadedDataHtml .= $this->keyField->getC4GDialogField($this->getFieldList(), $data, $dialogParams, $additionalParams = array());
-                    $this->keyField->setFieldName($fieldName);
-                    foreach ($this->fieldList as $field) {
-                        $fieldName = $field->getFieldName();
-                        $field->setFieldName($this->getFieldName() . $this->delimiter . $fieldName . $this->delimiter . $numLoadedDataSets);
-                        $loadedDataHtml .= $field->getC4GDialogField($this->getFieldList(), $data, $dialogParams, $additionalParams = array());
-                        $field->setFieldName($fieldName);
+                    if ($fieldsHtml) {
+                        $loadedDataHtml .= "<div class='c4g_sub_dialog_set'>";
+                        $fieldName = $this->keyField->getFieldName();
+                        $this->keyField->setFieldName($this->getFieldName() . $this->delimiter . $fieldName . $this->delimiter . $numLoadedDataSets);
+                        $loadedDataHtml .= $this->keyField->getC4GDialogField($this->getFieldList(), $data, $dialogParams, $additionalParams = array());
+                        $this->keyField->setFieldName($fieldName);
+                        foreach ($this->fieldList as $field) {
+                            $fieldName = $field->getFieldName();
+                            $field->setFieldName($this->getFieldName() . $this->delimiter . $fieldName . $this->delimiter . $numLoadedDataSets);
+                            $loadedDataHtml .= $field->getC4GDialogField($this->getFieldList(), $data, $dialogParams, $additionalParams = array());
+                            $field->setFieldName($fieldName);
+                        }
+                        if ($this->isEditable() && !C4GBrickView::isWithoutEditing($dialogParams->getViewType())) {
+                            $loadedDataHtml .= "<span class='ui-button ui-corner-all c4g_sub_dialog_remove_button' onclick='removeSubDialog(this,event);'>$removeButton</span>";
+                        }
+
+                        $loadedDataHtml .= '</div>';
                     }
-                    if ($this->isEditable() && !C4GBrickView::isWithoutEditing($dialogParams->getViewType())) {
-                        $loadedDataHtml .= "<span class='ui-button ui-corner-all c4g_sub_dialog_remove_button' onclick='removeSubDialog(this,event);'>$removeButton</span>";
-                    }
-                    $loadedDataHtml .= '</div>';
                 } else {
                     break;
                 }
@@ -127,7 +130,7 @@ class C4GSubDialogField extends C4GBrickField
         }
 
 
-        if ($fieldsHtml || $loadedDataHtml) {
+        if (($this->isEditable() && !C4GBrickView::isWithoutEditing($dialogParams->getViewType())) || $loadedDataHtml) {
             $html = "<div class='c4g_sub_dialog_container' id='c4g_$name'>";
             $html .= "<template id='c4g_$name" . "_template" . "'>$fieldsHtml</template>";
             if ($this->isEditable() && !C4GBrickView::isWithoutEditing($dialogParams->getViewType())) {
