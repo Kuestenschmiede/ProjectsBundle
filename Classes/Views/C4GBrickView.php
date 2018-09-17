@@ -155,6 +155,7 @@ class C4GBrickView {
             case C4GBrickViewType::PROJECTPARENTVIEW:
             case C4GBrickViewType::PUBLICVIEW:
             case C4GBrickViewType::PUBLICUUIDVIEW:
+            case C4GBrickViewType::PUBLICPARENTVIEW:
                 return true;
         }
 
@@ -206,7 +207,9 @@ class C4GBrickView {
     {
 
         if (C4GBrickView::isProjectParentBased($viewType) ||
-            C4GBrickView::isGroupParentBased($viewType)) {
+            C4GBrickView::isGroupParentBased($viewType) ||
+            $viewType === C4GBrickViewType::PUBLICPARENTBASED ||
+            $viewType === C4GBrickViewType::PUBLICPARENTVIEW) {
             return true;
         }
 
