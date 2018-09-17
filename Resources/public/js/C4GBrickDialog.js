@@ -1151,7 +1151,7 @@ function removeSubDialog(button, event) {
         event.stopPropagation();
     }
     showConfirmationDialog(button.innerHTML, 'Bestätigung', 'Ja', 'Nein',  function() {
-        while (button.parentNode.firstChild) {
+        while ((button) && (button.parentNode) && (button.parentNode.firstChild)) {
             button.parentNode.removeChild(button.parentNode.firstChild);
         }
     });
