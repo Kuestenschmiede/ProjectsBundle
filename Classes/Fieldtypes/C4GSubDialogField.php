@@ -16,6 +16,7 @@ use con4gis\ProjectsBundle\Classes\Database\C4GBrickDatabaseType;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldCompare;
+use con4gis\ProjectsBundle\Classes\Views\C4GBrickView;
 
 class C4GSubDialogField extends C4GBrickField
 {
@@ -56,7 +57,7 @@ class C4GSubDialogField extends C4GBrickField
 //        $fieldsHtml = "<div class='c4g_sub_dialog_set'>";
         $fieldsHtml = "";
         $fieldName = $this->keyField->getFieldName();
-        $this->keyField->setFieldName($this->getFieldName().$this->delimiter.$fieldName.$this->delimiter.$this->wildcard);
+        $this->keyField->setFieldName($this->getFieldName() . $this->delimiter . $fieldName . $this->delimiter . $this->wildcard);
         $fieldsHtml .= $this->keyField->getC4GDialogField($this->getFieldList(), $data, $dialogParams, $additionalParams = array());
         $this->keyField->setFieldName($fieldName);
         foreach ($this->fieldList as $field) {
@@ -65,12 +66,11 @@ class C4GSubDialogField extends C4GBrickField
             foreach ($data as $key => $value) {
                 $templateData->$key = '';
             }
-            $field->setFieldName($this->getFieldName().$this->delimiter.$fieldName.$this->delimiter.$this->wildcard);
+            $field->setFieldName($this->getFieldName() . $this->delimiter . $fieldName . $this->delimiter . $this->wildcard);
             $fieldsHtml .= $field->getC4GDialogField($this->getFieldList(), $templateData, $dialogParams, $additionalParams = array());
             $field->setFieldName($fieldName);
         }
-//        $fieldsHtml .= '</div>';
-        if ($this->isEditable()) {
+        if ($this->isEditable() && !C4GBrickView::isWithoutEditing($dialogParams->getViewType())) {
             $fieldsHtml .= "<span class='ui-button ui-corner-all c4g_sub_dialog_remove_button' onclick='removeSubDialog(this,event);'>$removeButton</span>";
         }
         $fieldsHtml = str_replace('"', "'", $fieldsHtml);
@@ -80,7 +80,8 @@ class C4GSubDialogField extends C4GBrickField
         $numLoadedDataSets = 0;
         $loadedDataHtml = '';
         if ($data) {
-            while (true) {  /** We break manually if the condition is not met. */
+            while (true) {
+                /** We break manually if the condition is not met. */
                 $numLoadedDataSets += 1;
                 $propertyName = $this->getFieldName() . $this->delimiter . $this->keyField->getFieldName() . $this->delimiter . $numLoadedDataSets;
                 if ($data->$propertyName) {
@@ -94,8 +95,8 @@ class C4GSubDialogField extends C4GBrickField
                     }
                     $setData = new \stdClass();
                     foreach ($data as $key => $value) {
-                        $start = C4GUtils::startsWith($key,$this->getFieldName());
-                        $end = C4GUtils::endsWith($key,(string)$numLoadedDataSets);
+                        $start = C4GUtils::startsWith($key, $this->getFieldName());
+                        $end = C4GUtils::endsWith($key, (string)$numLoadedDataSets);
                         if ($start && $end) {
                             $setData->$key = $value;
                         }
@@ -107,16 +108,16 @@ class C4GSubDialogField extends C4GBrickField
 
                     $loadedDataHtml .= "<div class='c4g_sub_dialog_set'>";
                     $fieldName = $this->keyField->getFieldName();
-                    $this->keyField->setFieldName($this->getFieldName().$this->delimiter.$fieldName. $this->delimiter . $numLoadedDataSets);
+                    $this->keyField->setFieldName($this->getFieldName() . $this->delimiter . $fieldName . $this->delimiter . $numLoadedDataSets);
                     $loadedDataHtml .= $this->keyField->getC4GDialogField($this->getFieldList(), $data, $dialogParams, $additionalParams = array());
                     $this->keyField->setFieldName($fieldName);
                     foreach ($this->fieldList as $field) {
                         $fieldName = $field->getFieldName();
-                        $field->setFieldName($this->getFieldName().$this->delimiter.$fieldName. $this->delimiter . $numLoadedDataSets);
+                        $field->setFieldName($this->getFieldName() . $this->delimiter . $fieldName . $this->delimiter . $numLoadedDataSets);
                         $loadedDataHtml .= $field->getC4GDialogField($this->getFieldList(), $data, $dialogParams, $additionalParams = array());
                         $field->setFieldName($fieldName);
                     }
-                    if ($this->isEditable()) {
+                    if ($this->isEditable() && !C4GBrickView::isWithoutEditing($dialogParams->getViewType())) {
                         $loadedDataHtml .= "<span class='ui-button ui-corner-all c4g_sub_dialog_remove_button' onclick='removeSubDialog(this,event);'>$removeButton</span>";
                     }
                     $loadedDataHtml .= '</div>';
@@ -126,10 +127,11 @@ class C4GSubDialogField extends C4GBrickField
             }
         }
 
+
         if ($fieldsHtml && $loadedDataHtml) {
             $html = "<div class='c4g_sub_dialog_container' id='c4g_$name'>";
-            $html .= "<template id='c4g_$name" . "_template"."'>$fieldsHtml</template>";
-            if ($this->isEditable()) {
+            $html .= "<template id='c4g_$name" . "_template" . "'>$fieldsHtml</template>";
+            if ($this->isEditable() && !C4GBrickView::isWithoutEditing($dialogParams->getViewType())) {
                 $this->setAdditionalLabel("<span class='ui-button ui-corner-all c4g_sub_dialog_add_button' onclick='addSubDialog(this,event);' data-template='c4g_$name" . "_template" . "' data-target='c4g_dialog_$name' data-field='$name' data-index='$numLoadedDataSets' data-wildcard='" . $this->wildcard . "'>$addButton</span><span class='c4g_sub_dialog_add_button_label'>$this->addButtonLabel</span>");
             }
             $html .= $this->addC4GFieldLabel("c4g_$name", '', $this->isMandatory(), $this->createConditionData($fieldList, $data), $fieldList, $data, $dialogParams);
@@ -589,7 +591,4 @@ class C4GSubDialogField extends C4GBrickField
         $this->wildcard = $wildcard;
         return $this;
     }
-
-
-
 }
