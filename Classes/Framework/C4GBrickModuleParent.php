@@ -234,7 +234,7 @@ class C4GBrickModuleParent extends \Module
             );
 
             return json_encode($return);
-        } else if (($this->publicViewType) && ($this->viewType == C4GBrickViewType::PUBLICBASED)) {
+        } else if (($this->publicViewType) && (($this->viewType == C4GBrickViewType::PUBLICBASED) || ($this->viewType == C4GBrickViewType::PUBLICPARENTBASED))) {
             $this->viewType = $this->publicViewType;
         }
 
@@ -361,7 +361,7 @@ class C4GBrickModuleParent extends \Module
 
         //setting view params
         if (!$this->viewParams) {
-            if (($this->publicViewType) && ($this->viewType == C4GBrickViewType::PUBLICBASED)) {
+            if (($this->publicViewType) && (($this->viewType == C4GBrickViewType::PUBLICBASED) || ($this->viewType == C4GBrickViewType::PUBLICPARENTBASED))) {
                 $this->viewType = $this->publicViewType;
                 foreach ($this->fieldList as $key=>$field) {
                     $this->fieldList[$key]->setEditable(false);

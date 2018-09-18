@@ -22,6 +22,8 @@ class C4GBrickView {
             case C4GBrickViewType::PUBLICVIEW:
             case C4GBrickViewType::PUBLICBASED:
             case C4GBrickViewType::PUBLICFORM:
+//            case C4GBrickViewType::PUBLICPARENTBASED:
+//            case C4GBrickViewType::PUBLICPARENTVIEW:
                 return true;
         }
 
