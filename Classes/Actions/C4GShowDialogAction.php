@@ -150,7 +150,10 @@ class C4GShowDialogAction extends C4GBrickDialogAction
             ($viewType == C4GBrickViewType::PROJECTFORMCOPY) ||
             ($viewType == C4GBrickViewType::GROUPPARENTVIEW) ||
             ($viewType == C4GBrickViewType::PUBLICFORM) ||
-            ($viewType == C4GBrickViewType::PROJECTPARENTFORMCOPY)) || ($viewType == C4GBrickViewType::PUBLICUUIDVIEW) || ($viewType == C4GBrickViewType::PUBLICVIEW)) {
+            ($viewType == C4GBrickViewType::PROJECTPARENTFORMCOPY)) ||
+            ($viewType == C4GBrickViewType::PUBLICUUIDVIEW) ||
+            ($viewType == C4GBrickViewType::PUBLICVIEW) ||
+            ($viewType == C4GBrickViewType::PUBLICPARENTVIEW)) {
             $groupKeyField = $viewParams->getGroupKeyField();
             switch($viewType) {
                 case C4GBrickViewType::GROUPFORM:
@@ -336,7 +339,7 @@ class C4GShowDialogAction extends C4GBrickDialogAction
             $element = $elements->$id;
         }
 
-        if (C4GBrickView::isPublicBased($viewType) && $modelDialogFunction) {
+        if ((C4GBrickView::isPublicBased($viewType) || C4GBrickView::isPublicBased($viewType)) && $modelDialogFunction) {
             $function = $modelDialogFunction;
             $database = $brickDatabase->getParams()->getDatabase();
             //Todo überarbeiten brickDatabase
@@ -471,6 +474,10 @@ class C4GShowDialogAction extends C4GBrickDialogAction
 
         if (C4GBrickView::isPublicBased($viewType)) {
             $homeDir = '/' . C4GBrickConst::PATH_BRICK_DATA;
+        }
+
+        if (C4GBrickView::isPublicParentBased($viewType)) {
+            $homeDir = '/' . C4GBrickConst::PATH_BRICK_DATA . '/' . $dialogParams->getParentId() . '/';
         }
 
         if (C4GBrickView::isWithMember($viewType)) {
