@@ -184,7 +184,7 @@ class C4GShowListAction extends C4GBrickDialogAction
 
 
         } elseif (C4GBrickView::isPublicParentBased($viewType)) {
-            if ($dialogParams->getParentId() < 1) {
+            if ($dialogParams->getParentId() < 0) {
                 $action = new C4GSelectPublicParentDialogAction($dialogParams, $listParams, $fieldList, $putVars, $brickDatabase);
                 $action->setModule($this->module);
                 return $action->run();
@@ -333,7 +333,11 @@ class C4GShowListAction extends C4GBrickDialogAction
                             unset($elements->headline);
                         }
                     } else {
-                        $elements = $brickDatabase->findBy($dialogParams->getParentIdField(), $parentId);
+                        if ($parentId === 0 || $parentId === '0') {
+                            $elements = $brickDatabase->findAll();
+                        } else {
+                            $elements = $brickDatabase->findBy($dialogParams->getParentIdField(), $parentId);
+                        }
                     }
                     break;
                 default:

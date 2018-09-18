@@ -52,18 +52,21 @@ class C4GBrickSelectPublicParentDialog extends C4GBrickDialog
         $cancelButtonText = $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['SELECT_PARENT_DIALOG_CANCEL_BUTTON'];
 
         $parentList = array();
+        $parentList[0]['id'] = 0;
+        $parentList[0]['name'] = 'Alle';
 
         $parentData = $parentModel::findParents();
 
+
         if (is_array($parentData)) {
             foreach ($parentData as $key => $parent) {
-                $parentList[$key]['id'] = $parent['id'];
-                $parentList[$key]['name'] = $parent['name'];
+                $parentList[intval($key) + 1]['id'] = $parent['id'];
+                $parentList[intval($key) + 1]['name'] = $parent['name'];
             }
         } elseif ($parentData instanceof \stdClass) {
             foreach ($parentData as $key => $parent) {
-                $parentList[$key]['id'] = $parent->id;
-                $parentList[$key]['name'] = $parent->name;
+                $parentList[intval($key) + 1]['id'] = $parent->id;
+                $parentList[intval($key) + 1]['name'] = $parent->name;
             }
         }
 
