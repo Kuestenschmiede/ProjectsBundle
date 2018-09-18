@@ -338,11 +338,14 @@ abstract class C4GBrickAction
             $action = new $className($dialogParams, $listParams, $fieldList, $putVars, $brickDatabase);
             $action->setModule($module);
 
-            if ((!$action instanceof C4GConfirmGroupSelectAction) &&
+            if (
+                (!$action instanceof C4GConfirmGroupSelectAction) &&
                 (!$action instanceof C4GSetProjectIdAction) &&
                 (!$action instanceof C4GSetParentIdAction) &&
                 (!$action instanceof C4GSetFilterAction) &&
-                (!(C4GBrickView::isPublicBased($dialogParams->getViewType())))) {
+                (!(C4GBrickView::isPublicBased($dialogParams->getViewType()))) &&
+                (!(C4GBrickView::isPublicParentBased($dialogParams->getViewType())))
+                ) {
                     $table = $module->getC4GTablePermissionTable();
                     if ($table) {
                         $permission = new C4GTablePermission($table, array($dialogParams->getId()));
