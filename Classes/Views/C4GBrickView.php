@@ -125,6 +125,21 @@ class C4GBrickView {
     }
 
     /**
+     * @param $viewType
+     * @return bool
+     */
+    public static function isPublicParentBased($viewType)
+    {
+        switch ($viewType) {
+            case C4GBrickViewType::PUBLICPARENTBASED:
+            case C4GBrickViewType::PUBLICPARENTVIEW:
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    /**
      * @return boolean
      */
     public static function isWithoutList($viewType)
@@ -207,9 +222,7 @@ class C4GBrickView {
     {
 
         if (C4GBrickView::isProjectParentBased($viewType) ||
-            C4GBrickView::isGroupParentBased($viewType) ||
-            $viewType === C4GBrickViewType::PUBLICPARENTBASED ||
-            $viewType === C4GBrickViewType::PUBLICPARENTVIEW) {
+            C4GBrickView::isGroupParentBased($viewType)) {
             return true;
         }
 

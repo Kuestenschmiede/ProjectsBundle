@@ -87,6 +87,7 @@ class C4GBrickActionType
     const ACTION_SELECTGROUP    = 'C4GSelectGroupDialogAction';
     const ACTION_SELECTPROJECT  = 'C4GSelectProjectDialogAction';
     const ACTION_SELECTPARENT   = 'C4GSelectParentDialogAction';
+    const ACTION_SELECTPUBLICPARENT   = 'C4GSelectPublicParentDialogAction';
     const ACTION_FILTER         = 'C4GShowFilterDialogAction';
     const ACTION_PRINTLIST      = 'printlist'; //Todo Unused. Delete?
     const ACTION_IMPORT         = 'import'; //Todo Unused. Delete?

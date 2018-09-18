@@ -97,6 +97,8 @@ class C4GBrickDialogParams
     private $saveTimestamp = true;
     private $uuid = '';
     private $modelDialogFunction = '';  //Model function to load the data for the dialog from the database. The function takes the dialog id as a parameter.
+    private $selectParentCaption = '';
+    private $selectParentMessage = '';
 
 
     /**
@@ -1649,6 +1651,42 @@ class C4GBrickDialogParams
     public function setModelDialogFunction($modelDialogFunction)
     {
         $this->modelDialogFunction = $modelDialogFunction;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSelectParentCaption(): string
+    {
+        return $this->selectParentCaption;
+    }
+
+    /**
+     * @param string $selectParentCaption
+     * @return C4GBrickDialogParams
+     */
+    public function setSelectParentCaption(string $selectParentCaption): C4GBrickDialogParams
+    {
+        $this->selectParentCaption = $selectParentCaption;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSelectParentMessage(): string
+    {
+        return $this->selectParentMessage;
+    }
+
+    /**
+     * @param string $selectParentMessage
+     * @return C4GBrickDialogParams
+     */
+    public function setSelectParentMessage(string $selectParentMessage): C4GBrickDialogParams
+    {
+        $this->selectParentMessage = $selectParentMessage;
         return $this;
     }
 
