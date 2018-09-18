@@ -350,42 +350,49 @@ class C4GShowListAction extends C4GBrickDialogAction
 
         // filter elements, if filter is set
         $filterParams =  $listParams->getFilterParams();
-        if ($filterParams && $filterParams->isWithRangeFilter() && $filterParams instanceof C4GBrickFilterParams) {
-            $dateFrom = $filterParams->getRangeFrom();
-            $dateTo = $filterParams->getRangeTo();
-            $rangeFrom = strtotime($filterParams->getRangeFrom());
-            $rangeTo = strtotime($filterParams->getRangeTo());
-            $highlightSpan = '<span class="c4g_brick_headtext_highlighted">';
-            $highlightSpanEnd = '</span>';
-            if ($filterParams->isWithoutFiltertext()) {
-                $filterText = "";
-            } else {
-                $filterText = "Zeitraum von " . $highlightSpan . $dateFrom . $highlightSpanEnd . ' bis zum ' .
-                    $highlightSpan . $dateTo . $highlightSpanEnd;
-            }
-            $filterField = $filterParams->getFilterField();
-            if ($filterField) {
-                foreach ($elements as $key => $element) {
-                    if (is_array($element)) {
-                        if ($element[$filterField] < $rangeFrom || $rangeTo < $element[$filterField]) {
-                            if ($elements instanceof \stdClass) {
-                                unset($elements->$key);
-                            } else {
-                                unset($elements[$key]);
+        if ($filterParams instanceof C4GBrickFilterParams) {
+            if ($filterParams->isWithRangeFilter()) {
+                $dateFrom = $filterParams->getRangeFrom();
+                $dateTo = $filterParams->getRangeTo();
+                $rangeFrom = strtotime($filterParams->getRangeFrom());
+                $rangeTo = strtotime($filterParams->getRangeTo());
+                $highlightSpan = '<span class="c4g_brick_headtext_highlighted">';
+                $highlightSpanEnd = '</span>';
+                if ($filterParams->isWithoutFiltertext()) {
+                    $filterText = "";
+                } else {
+                    $filterText = "Zeitraum von " . $highlightSpan . $dateFrom . $highlightSpanEnd . ' bis zum ' .
+                        $highlightSpan . $dateTo . $highlightSpanEnd;
+                }
+                $filterField = $filterParams->getFilterField();
+                if ($filterField) {
+                    foreach ($elements as $key => $element) {
+                        if (is_array($element)) {
+                            if ($element[$filterField] < $rangeFrom || $rangeTo < $element[$filterField]) {
+                                if ($elements instanceof \stdClass) {
+                                    unset($elements->$key);
+                                } else {
+                                    unset($elements[$key]);
+                                }
                             }
-                        }
-                    } else {
-                        if ($element->$filterField < $rangeFrom || $rangeTo < $element->$filterField) {
-                            if ($elements instanceof \stdClass) {
-                                unset($elements->$key);
-                            } else {
-                                unset($elements[$key]);
+                        } else {
+                            if ($element->$filterField < $rangeFrom || $rangeTo < $element->$filterField) {
+                                if ($elements instanceof \stdClass) {
+                                    unset($elements->$key);
+                                } else {
+                                    unset($elements[$key]);
+                                }
                             }
                         }
                     }
                 }
+            } elseif ($filterParams->isWithMethodFilter() && $elements) {
+                if ($filterParams->getUseMethodFilter()) {
+                    $class = $filterParams->getFilterMethod()[0];
+                    $method = $filterParams->getFilterMethod()[1];
+                    $elements = $class::$method($elements, $dialogParams);
+                }
             }
-
         }
 
         // call formatter if set

@@ -184,6 +184,9 @@ class C4GBrickButton
             case C4GBrickConst::BUTTON_FILTER:
                 $action = C4GBrickActionType::ACTION_FILTER;
                 break;
+            case C4GBrickConst::BUTTON_TOGGLE_METHOD_FILTER:
+                $action = C4GBrickActionType::ACTION_CONFIRMPARENTFILTER;
+                break;
             case C4GBrickConst::BUTTON_PRINTLIST:
                 $action = C4GBrickActionType::ACTION_PRINTLIST;
                 break;

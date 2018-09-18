@@ -39,6 +39,9 @@ class C4GSetFilterAction extends C4GBrickDialogAction
 
                 $filterParams->setBrickFilterCookies($this->getModule()->getBrickKey());
                 $this->getListParams()->setFilterParams($filterParams);
+            } elseif ($filterParams->isWithMethodFilter()) {
+                $filterParams->toggleMethodFilter();
+                $filterParams->setBrickFilterCookies($this->getModule()->getBrickKey());
             }
 
             $action = new C4GShowListAction($dialogParams, $this->getListParams(), $this->getFieldList(), $this->getPutVars(), $this->getBrickDatabase());

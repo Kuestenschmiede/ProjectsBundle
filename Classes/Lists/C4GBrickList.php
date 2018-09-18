@@ -96,6 +96,11 @@ class C4GBrickList
             $result[] = static::addButtonArray($filter_button);
         }
 
+        if ($listParams->checkButtonVisibility(C4GBrickConst::BUTTON_TOGGLE_METHOD_FILTER)) {
+            $filter_button = $listParams->getButton(C4GBrickConst::BUTTON_TOGGLE_METHOD_FILTER);
+            $result[] = static::addButtonArray($filter_button);
+        }
+
         if ($listParams->checkButtonVisibility(C4GBrickConst::BUTTON_REDIRECT)) {
             $redirect_button = $listParams->getButton(C4GBrickConst::BUTTON_REDIRECT);
             $result[] = static::addButtonArray($redirect_button);
