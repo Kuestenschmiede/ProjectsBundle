@@ -255,6 +255,16 @@ class C4GShowDialogAction extends C4GBrickDialogAction
                         }
                     }
                     break;
+                case C4GBrickViewType::PUBLICPARENTBASED:
+                case C4GBrickViewType::PUBLICPARENTVIEW:
+                    if ($modelDialogFunction && $id) {
+                        $function = $modelDialogFunction;
+                        $modelClass = $brickDatabase->getParams()->getModelClass();
+                        $element = $modelClass::$function($id);
+                    } else {
+                        $element = $brickDatabase->findyByPk($id);
+                    }
+                    break;
                 case C4GBrickViewType::GROUPPARENTVIEW:
                     $pid_field = 'pid';
                     if ($parentIdField) {

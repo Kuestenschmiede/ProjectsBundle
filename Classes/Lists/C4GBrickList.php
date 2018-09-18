@@ -76,6 +76,11 @@ class C4GBrickList
             $result[] = static::addButtonArray($parent_button, $parentCaption);
         }
 
+        if ($listParams->checkButtonVisibility(C4GBrickConst::BUTTON_PUBLIC_PARENT)) {
+            $parent_button = $listParams->getButton(C4GBrickConst::BUTTON_PUBLIC_PARENT);
+            $result[] = static::addButtonArray($parent_button, $parentCaption);
+        }
+
         if ($listParams->checkButtonVisibility(C4GBrickConst::BUTTON_ADD)) {
             $add_button = $listParams->getButton(C4GBrickConst::BUTTON_ADD);
             $result[] = static::addButtonArray($add_button);
