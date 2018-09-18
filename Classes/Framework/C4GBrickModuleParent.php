@@ -213,7 +213,7 @@ class C4GBrickModuleParent extends \Module
         if (FE_USER_LOGGED_IN) {
             \System::import('FrontendUser', 'User');
             $this->User->authenticate();
-        } else if (!C4GBrickView::isPublicBased($this->viewType) && $GLOBALS['con4gis']['groups']['installed']) {
+        } else if (!C4GBrickView::isPublicBased($this->viewType) && !C4GBrickView::isPublicParentBased($this->viewType) && $GLOBALS['con4gis']['groups']['installed']) {
             $this->loadLanguageFiles();
 
             if ($init) {
