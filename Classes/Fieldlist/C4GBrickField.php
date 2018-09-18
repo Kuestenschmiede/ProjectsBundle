@@ -656,6 +656,7 @@ abstract class C4GBrickField
 
         if (!$this->ignoreViewType && $viewType && (
                 ($viewType == C4GBrickViewType::PUBLICVIEW) ||
+                ($viewType == C4GBrickViewType::PUBLICPARENTVIEW) ||
                 ($viewType == C4GBrickViewType::GROUPVIEW) ||
                 ($viewType == C4GBrickViewType::PROJECTPARENTVIEW) ||
                 ($viewType == C4GBrickViewType::MEMBERVIEW) ||
