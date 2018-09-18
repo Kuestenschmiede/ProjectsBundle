@@ -53,7 +53,7 @@ class C4GBrickSelectPublicParentDialog extends C4GBrickDialog
 
         $parentList = array();
         $parentList[0]['id'] = 0;
-        $parentList[0]['name'] = 'Alle';
+        $parentList[0]['name'] = ' - ';
 
         $parentData = $parentModel::findParents();
 
