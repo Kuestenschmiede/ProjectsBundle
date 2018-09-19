@@ -99,7 +99,9 @@ class C4GBrickDialogParams
     private $modelDialogFunction = '';  //Model function to load the data for the dialog from the database. The function takes the dialog id as a parameter.
     private $selectParentCaption = '';
     private $selectParentMessage = '';
-
+    private $saveInNewDataset = false;
+    private $originalIdName = '';
+    private $overrideValuesIfSavingInNewDataset = array();
 
     /**
      * C4GBrickDialogParams constructor.
@@ -1690,6 +1692,67 @@ class C4GBrickDialogParams
         return $this;
     }
 
+    /**
+     * @return bool
+     */
+    public function isSaveInNewDataset(): bool
+    {
+        return $this->saveInNewDataset;
+    }
 
+    /**
+     * @param bool $saveInNewDataset
+     * @return C4GBrickDialogParams
+     */
+    public function setSaveInNewDataset(bool $saveInNewDataset = true): C4GBrickDialogParams
+    {
+        $this->saveInNewDataset = $saveInNewDataset;
+        return $this;
+    }
 
+    /**
+     * @return string
+     */
+    public function getOriginalIdName(): string
+    {
+        return $this->originalIdName;
+    }
+
+    /**
+     * @param string $originalIdName
+     * @return C4GBrickDialogParams
+     */
+    public function setOriginalIdName(string $originalIdName): C4GBrickDialogParams
+    {
+        $this->originalIdName = $originalIdName;
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getOverrideValuesIfSavingInNewDataset(): array
+    {
+        return $this->overrideValuesIfSavingInNewDataset;
+    }
+
+    /**
+     * @param array $overrideValuesIfSavingInNewDataset
+     * @return C4GBrickDialogParams
+     */
+    public function addOverrideValuesIfSavingInNewDataset(array $overrideValuesIfSavingInNewDataset): C4GBrickDialogParams
+    {
+        $this->overrideValuesIfSavingInNewDataset[] = $overrideValuesIfSavingInNewDataset;
+        return $this;
+    }
+
+    /**
+     * @param array $overrideValuesIfSavingInNewDataset
+     * @return C4GBrickDialogParams
+     */
+    public function setOverrideValuesIfSavingInNewDataset(array $overrideValuesIfSavingInNewDataset): C4GBrickDialogParams
+    {
+        $this->overrideValuesIfSavingInNewDataset = $overrideValuesIfSavingInNewDataset;
+        return $this;
+    }
 }

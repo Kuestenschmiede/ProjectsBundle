@@ -39,6 +39,10 @@ class C4GSubDialogField extends C4GBrickField
     private $wildcard = '?';
     private $showButtons = true;
     private $finishEditingCaption = '';
+    private $allowDelete = true;
+    private $saveInNewDataset = false;
+    private $originalIdName = '';
+    private $overrideValuesIfSavingInNewDataset = array();
 
     public function __construct() {
         $this->database = \Database::getInstance();
@@ -167,7 +171,12 @@ class C4GSubDialogField extends C4GBrickField
                             } else {
                                 $editButtonHtml = '';
                             }
-                            $loadedDataHtml .= "$editButtonHtml<span class='ui-button ui-corner-all c4g_sub_dialog_remove_button' onclick='removeSubDialog(this,event);'>$removeButton</span>";
+                            if ($this->allowDelete) {
+                                $deleteButtonHtml = "<span class='ui-button ui-corner-all c4g_sub_dialog_remove_button' onclick='removeSubDialog(this,event);'>$removeButton</span>";
+                            } else {
+                                $deleteButtonHtml = '';
+                            }
+                            $loadedDataHtml .= "$editButtonHtml$deleteButtonHtml";
                         }
 
                         $loadedDataHtml .= '</div>';
@@ -697,6 +706,76 @@ class C4GSubDialogField extends C4GBrickField
         return $this;
     }
 
+    /**
+     * @return bool
+     */
+    public function isAllowDelete(): bool
+    {
+        return $this->allowDelete;
+    }
 
+    /**
+     * @param bool $allowDelete
+     * @return C4GSubDialogField
+     */
+    public function setAllowDelete(bool $allowDelete): C4GSubDialogField
+    {
+        $this->allowDelete = $allowDelete;
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isSaveInNewDataset(): bool
+    {
+        return $this->saveInNewDataset;
+    }
+
+    /**
+     * @param bool $saveInNewDataset
+     * @return C4GSubDialogField
+     */
+    public function setSaveInNewDataset(bool $saveInNewDataset): C4GSubDialogField
+    {
+        $this->saveInNewDataset = $saveInNewDataset;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getOriginalIdName(): string
+    {
+        return $this->originalIdName;
+    }
+
+    /**
+     * @param string $originalIdName
+     * @return C4GSubDialogField
+     */
+    public function setOriginalIdName(string $originalIdName): C4GSubDialogField
+    {
+        $this->originalIdName = $originalIdName;
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getOverrideValuesIfSavingInNewDataset(): array
+    {
+        return $this->overrideValuesIfSavingInNewDataset;
+    }
+
+    /**
+     * @param array $overrideValuesIfSavingInNewDataset
+     * @return C4GSubDialogField
+     */
+    public function addOverrideValuesIfSavingInNewDataset(array $overrideValuesIfSavingInNewDataset): C4GSubDialogField
+    {
+        $this->overrideValuesIfSavingInNewDataset[] = $overrideValuesIfSavingInNewDataset;
+        return $this;
+    }
 
 }
