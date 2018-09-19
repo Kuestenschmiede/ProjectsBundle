@@ -34,6 +34,8 @@ class C4GTextareaField extends C4GBrickField
 
         if (!($this->getSize())) {
             $size = 15;
+        } else {
+            $size = $this->getSize();
         }
         //onkeydown="if (event.keyCode == 13) { String.fromCharCode(13); return false; }"
 
@@ -43,7 +45,7 @@ class C4GTextareaField extends C4GBrickField
             $condition = $this->createConditionData($fieldList, $data);
             $result =
                 $this->addC4GField($condition,$dialogParams,$fieldList,$data,
-                '<textarea ' . $required . ' ' . $condition['conditionPrepare'] . ' id="' . $id . '" class="formdata ' . $id . ' ui-corner-all" name="' . $this->getFieldName() . '" cols="80" rows="' . $this->getSize() . '" maxlength="' . $this->getMaxLength(). '" >' . $value . ' </textarea>');
+                '<textarea ' . $required . ' ' . $condition['conditionPrepare'] . ' id="' . $id . '" class="formdata ' . $id . ' ui-corner-all" name="' . $this->getFieldName() . '" cols="80" rows="' . $size . '" maxlength="' . $this->getMaxLength(). '" >' . $value . ' </textarea>');
         }
 
         return $result;

@@ -36,6 +36,12 @@ class C4GCKEditorField extends C4GBrickField
         $value = $this->generateInitialValue($data);
         $result = '';
 
+        if (!($this->getSize())) {
+            $size = 15;
+        } else {
+            $size = $this->getSize();
+        }
+
         //ckeditor
         if ($this->isShowIfEmpty() || !empty($value)) {
 
@@ -43,7 +49,7 @@ class C4GCKEditorField extends C4GBrickField
 
             $result =
                 $this->addC4GField($condition,$dialogParams,$fieldList,$data,
-                '<textarea ' . $required . ' ' . $condition['conditionPrepare'] . ' id="ckeditor" class="formdata ' . $id . ' ui-corner-all" name="' . $this->getFieldName() . '" cols="80" rows="15" >' . $value . ' </textarea>');
+                '<textarea ' . $required . ' ' . $condition['conditionPrepare'] . ' id="ckeditor" class="formdata ' . $id . ' ui-corner-all" name="' . $this->getFieldName() . '" cols="80" rows="'.$size.'" >' . $value . ' </textarea>');
         }
         return $result;
     }
