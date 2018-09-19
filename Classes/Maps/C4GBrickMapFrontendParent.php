@@ -59,7 +59,7 @@ class C4GBrickMapFrontendParent
         return $result;
     }
 
-    public function addRedirectButton($siteId, $state, $buttonText, $isEditButton, $member_id, $project_id, $brick, $group_id = null, $parent_id = null) {
+    public function addRedirectButton($siteId, $state, $buttonText, $isEditButton, $member_id, $project_id, $brick, $group_id = null, $parent_id = null, $newTab = null) {
         $result = '';
 
         if ($siteId) {
@@ -78,8 +78,15 @@ class C4GBrickMapFrontendParent
             $link = '{{link_url::'.$siteId.'}}?state='.$state;
 
             if ((!$isEditButton) || (C4GBrickCommon::hasMemberRightsForBrick($member_id, $project_id, $brick))) {
-                $result = '<div class = "c4g_brick_popup_button"><a href="' .
-                    $link . '"> '. $buttonText . ' </a></div>';
+                if($newTab){
+                    $result = '<div class = "c4g_brick_popup_button"><a href="' .
+                        $link . '" target="_blank"> '. $buttonText . '</a></div>';
+                }
+                else{
+                    $result = '<div class = "c4g_brick_popup_button"><a href="' .
+                        $link . '"> '. $buttonText . ' </a></div>';
+                }
+
             }
         }
 

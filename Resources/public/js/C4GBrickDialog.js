@@ -1175,6 +1175,28 @@ function addSubDialog(button, event) {
     target.appendChild(newElement);
 }
 
+function editSubDialog(button, event) {
+    if (typeof(event) !== 'undefined') {
+        event.stopPropagation();
+    }
+    var ids = button.dataset.fields.split(',');
+    var index = 0;
+    while (index < ids.length) {
+        var element = document.getElementById('c4g_' + ids[index]);
+        element.disabled = !element.disabled;
+        element.readOnly = !element.readOnly;
+        index += 1;
+    }
+    var parent = button.parentNode;
+    if (parent.classList.contains('c4g_sub_dialog_set_uneditable')) {
+        parent.classList.remove('c4g_sub_dialog_set_uneditable');
+        button.innerHTML = button.dataset.captionfinishediting;
+    } else {
+        parent.classList.add('c4g_sub_dialog_set_uneditable');
+        button.innerHTML = button.dataset.captionbeginediting;
+    }
+}
+
 function showConfirmationDialog(message,title,yesLabel, noLabel, yesCallback){
     $('<div></div>').appendTo('body')
         .html('<div>'+message+'?</div>')
