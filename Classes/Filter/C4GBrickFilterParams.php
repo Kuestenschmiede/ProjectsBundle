@@ -350,10 +350,10 @@ class C4GBrickFilterParams
 
     public function toggleMethodFilter()
     {
-        if ($this->useMethodFilter === 0) {
-            $this->useMethodFilter = 1;
-        } else {
+        if (($this->useMethodFilter === 1) || ($this->useMethodFilter === '1')) {
             $this->useMethodFilter = 0;
+        } else {
+            $this->useMethodFilter = 1;
         }
     }
 

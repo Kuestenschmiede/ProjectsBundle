@@ -391,6 +391,9 @@ class C4GShowListAction extends C4GBrickDialogAction
                     $class = $filterParams->getFilterMethod()[0];
                     $method = $filterParams->getFilterMethod()[1];
                     $elements = $class::$method($elements, $dialogParams);
+                    setcookie($dialogParams->getBrickKey().'_methodFilter', '1', time()+3600, '/');
+                } else {
+                    setcookie($dialogParams->getBrickKey().'_methodFilter', '0', time()+3600, '/');
                 }
             }
         }
