@@ -18,7 +18,8 @@ class C4GBrickActionType
     const IDENTIFIER_LIST = 'list';
 
     //TABLE DIALOG IDENTIFIER
-    const IDENTIFIER_DIALOG = 'brickdialog';
+    const IDENTIFIER_DIALOG = 'item';
+    const IDENTIFIER_BRICKDIALOG = 'brickdialog';
     const IDENTIFIER_PARENT = 'brickparent';
     const IDENTIFIER_PROJECT = 'brickproject';
     const IDENTIFIER_MESSAGE = 'brickmessage';

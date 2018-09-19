@@ -182,7 +182,7 @@ abstract class C4GBrickAction
         $brickAction = $values[0];
         if ($brickAction == C4GBrickActionType::IDENTIFIER_LIST) {
             $brickAction = C4GBrickActionType::IDENTIFIER_LIST_ACTION;
-        } elseif ($brickAction == C4GBrickActionType::IDENTIFIER_DIALOG) {
+        } elseif (($brickAction == C4GBrickActionType::IDENTIFIER_DIALOG) || ($brickAction == C4GBrickActionType::IDENTIFIER_BRICKDIALOG)) {
             $brickAction = C4GBrickActionType::IDENTIFIER_DIALOG_ACTION;
         } elseif ($brickAction == C4GBrickActionType::IDENTIFIER_PARENT) {
             $brickAction = C4GBrickActionType::IDENTIFIER_PARENT_ACTION;
