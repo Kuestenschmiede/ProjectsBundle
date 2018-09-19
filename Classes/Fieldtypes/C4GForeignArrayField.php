@@ -87,17 +87,20 @@ class C4GForeignArrayField extends C4GBrickField
                 }
             }
 
-            $name = $this->getFieldName();
-            $title = $this->getTitle();
-            $html = "<div class='c4g_array_field_container' id='c4g_$name'>";
-            $html .= $this->addC4GFieldLabel("c4g_$name", $title, $this->isMandatory(), $this->createConditionData($fieldList, $data), $fieldList, $data, $dialogParams);
-            $html .= "<div class='c4g_array_field' id='c4g_dialog_$name'>";
+            $html = '';
+            if ($this->isEditable() || $loadedDataHtml) {
+                $name = $this->getFieldName();
+                $title = $this->getTitle();
+                $html = "<div class='c4g_array_field_container' id='c4g_$name'>";
+                $html .= $this->addC4GFieldLabel("c4g_$name", $title, $this->isMandatory(), $this->createConditionData($fieldList, $data), $fieldList, $data, $dialogParams);
+                $html .= "<div class='c4g_array_field' id='c4g_dialog_$name'>";
 
-            $loadedDataHtml = str_replace('"', "'", $loadedDataHtml);
-            $html .= $loadedDataHtml;
+                $loadedDataHtml = str_replace('"', "'", $loadedDataHtml);
+                $html .= $loadedDataHtml;
 
-            $html .= "</div>";
-            $html .= "</div>";
+                $html .= "</div>";
+                $html .= "</div><br>";
+            }
 
             return $html;
         }
