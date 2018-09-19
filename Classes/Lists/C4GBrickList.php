@@ -319,12 +319,19 @@ class C4GBrickList
             $data['iDisplayLength'] = 25;
         }
         $data['sPaginationType'] = 'full_numbers';
+
+        $listCaption2 = $listCaption;
+
+        if ($listCaption2 == $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['BRICK_CAPTION_PLURAL']) {
+            $listCaption2 = $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['BRICK_CAPTION_PLURAL2'];
+        }
+
         $data['oLanguage'] = array(
             'oPaginate' => $GLOBALS['TL_LANG']['FE_C4G_LIST']['DATATABLE_CAPTION_PAGINATION'],
             'sEmptyTable' => $GLOBALS['TL_LANG']['FE_C4G_LIST']['DATATABLE_CAPTION_NONE'] . $listCaption . $GLOBALS['TL_LANG']['FE_C4G_LIST']['DATATABLE_CAPTION_EXISTS'],
             'sInfo' => '_TOTAL_ ' . $listCaption . ' (_START_'.$GLOBALS['TL_LANG']['FE_C4G_LIST']['DATATABLE_CAPTION_TO'].'_END_'.')',
-            'sInfoEmpty' => '_TOTAL_ ' . $listCaption . ' (_START_'.$GLOBALS['TL_LANG']['FE_C4G_LIST']['DATATABLE_CAPTION_TO'].'_END_',
-            'sInfoFiltered' => ' '.$GLOBALS['TL_LANG']['FE_C4G_LIST']['DATATABLE_CAPTION_FROM'].'_MAX_ '. $listCaption,
+            'sInfoEmpty' => '_TOTAL_ ',
+            'sInfoFiltered' => ' '.$GLOBALS['TL_LANG']['FE_C4G_LIST']['DATATABLE_CAPTION_FROM'].'_MAX_ '. $listCaption2,
             'sInfoThousands' => $GLOBALS['TL_LANG']['FE_C4G_LIST']['DATATABLE_CAPTION_INFO_THOUSANDS'],
             'sLengthMenu' => $GLOBALS['TL_LANG']['FE_C4G_LIST']['DATATABLE_CAPTION_SHOW'].'_MENU_ ' . $listCaption,
             'sProcessing' => $GLOBALS['TL_LANG']['FE_C4G_LIST']['DATATABLE_CAPTION_PROCESSING'],

@@ -11,8 +11,9 @@
  * @link      https://www.kuestenschmiede.de
  */
 
-$GLOBALS['TL_LANG']['FE_C4G_DIALOG']['BRICK_CAPTION']        = 'Datensatz';
-$GLOBALS['TL_LANG']['FE_C4G_DIALOG']['BRICK_CAPTION_PLURAL'] = 'Datensätze';
+$GLOBALS['TL_LANG']['FE_C4G_DIALOG']['BRICK_CAPTION']         = 'Datensatz';
+$GLOBALS['TL_LANG']['FE_C4G_DIALOG']['BRICK_CAPTION_PLURAL']  = 'Datensätze';
+$GLOBALS['TL_LANG']['FE_C4G_DIALOG']['BRICK_CAPTION_PLURAL2'] = 'Datensätzen';
 
 /** FE Buttons **/
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['SAVE']            = 'Speichern';
