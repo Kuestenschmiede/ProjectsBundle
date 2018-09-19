@@ -338,6 +338,8 @@ class C4GBrickList
             $additionalClasses = ' c4g_list_align_left';
             if ($column->getAlign() == 'right') {
                 $additionalClasses = ' c4g_list_align_right';
+            } else if ($column->getAlign() == 'center') {
+                $additionalClasses = ' c4g_list_align_center';
             }
             if ($column->isShowSum()) {
                 $additionalClasses .= ' c4g_sum';
@@ -536,7 +538,7 @@ class C4GBrickList
         }
         if ($selectRow == -1) {
             foreach ($tableElements as $element) {
-                if ($element->selectrow) {
+                if (property_exists($element->selectrow) && $element->selectrow) {
                     $selectRow = $element->selectrow;
                     break;
                 }

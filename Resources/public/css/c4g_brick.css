@@ -556,7 +556,7 @@ label.c4g_multicheckbox{
 }
 .c4g_brick_dialog input[type='checkbox'] + label {
     display: inline-block;
-    font: normal normal normal 16px/1 FontAwesome;
+    font: FontAwesome;
     font-size: inherit;
     font-weight: 100;
     text-rendering: auto;
@@ -757,11 +757,15 @@ label.c4g_multicheckbox{
     text-align: left; //ToDo überprüfen und einfach konfigurierbar machen
 }
 
-.dataTable tr .c4g_list_align_right {
+.dataTable tr td.c4g_list_align_center {
+    text-align: center;
+}
+
+.dataTable tr td.c4g_list_align_right {
     text-align: right;
 }
 
-.dataTable tr .c4g_list_align_left {
+.dataTable tr td.c4g_list_align_left {
     text-align: left;
 }
 

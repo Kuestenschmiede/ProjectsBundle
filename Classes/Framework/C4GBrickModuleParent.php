@@ -212,7 +212,14 @@ class C4GBrickModuleParent extends \Module
     private function memberCheck($init = false) {
         if (FE_USER_LOGGED_IN) {
             \System::import('FrontendUser', 'User');
-            $this->User->authenticate();
+            $authenticated = $this->User->authenticate();
+
+            if (!$authenticated && ($this->publicViewType) && (
+                    ($this->viewType == C4GBrickViewType::PUBLICBASED) ||
+                    ($this->viewType == C4GBrickViewType::PUBLICPARENTBASED)
+                )) {
+                $this->viewType = $this->publicViewType;
+            }
         } else if (!C4GBrickView::isPublicBased($this->viewType) && !C4GBrickView::isPublicParentBased($this->viewType) && $GLOBALS['con4gis']['groups']['installed']) {
             $this->loadLanguageFiles();
 
@@ -264,6 +271,15 @@ class C4GBrickModuleParent extends \Module
     {
         //loading language files
         $this->loadLanguageFiles();
+
+        if (FE_USER_LOGGED_IN) {
+            \System::import('FrontendUser', 'User');
+            $authenticated = $this->User->authenticate();
+        }
+
+        if (!$authenticated && $this->publicViewType && (($this->viewType == C4GBrickViewType::PUBLICBASED) || ($this->viewType == C4GBrickViewType::PUBLICPARENTBASED))) {
+            $this->viewType = $this->publicViewType;
+        }
 
         //setting database
         if (!$this->brickDatabase) {
@@ -364,13 +380,6 @@ class C4GBrickModuleParent extends \Module
 
         //setting view params
         if (!$this->viewParams) {
-            if ($this->publicViewType && (
-                ($this->viewType == C4GBrickViewType::PUBLICBASED) || ($this->viewType == C4GBrickViewType::PUBLICPARENTBASED))) {
-                $this->viewType = $this->publicViewType;
-                foreach ($this->fieldList as $key=>$field) {
-                    $this->fieldList[$key]->setEditable(false);
-                }
-            }
             $this->viewParams = new C4GBrickViewParams($this->viewType);
             $this->viewParams->setModelListFunction($this->modelListFunction);
             $this->viewParams->setModelDialogFunction($this->modelDialogFunction);
@@ -436,6 +445,12 @@ class C4GBrickModuleParent extends \Module
 //                $this->setInitialValues($putVars);
             }
         }
+
+//        if (!$this->User && ($this->viewType == C4GBrickViewType::PUBLICVIEW) || ($this->viewType == C4GBrickViewType::PUBLICPARENTVIEW)) {
+//            foreach ($this->fieldList as $key=>$field) {
+//                $this->fieldList[$key]->setEditable(false);
+//            }
+//        }
 
 
     }
@@ -702,7 +717,7 @@ class C4GBrickModuleParent extends \Module
 
             if (FE_USER_LOGGED_IN) {
                 \System::import('FrontendUser', 'User');
-                $this->User->authenticate();
+                $authenticated = $this->User->authenticate();
             }
 
             if (C4GBrickView::isGroupBased($this->viewType)){
@@ -888,6 +903,11 @@ class C4GBrickModuleParent extends \Module
                             if ( ($pos !== false) && ($pos == 0)) {
                                 $id = substr($actions[0], strlen(C4GBrickActionType::IDENTIFIER_DIALOG));
                                 $actions[0] = C4GBrickActionType::IDENTIFIER_DIALOG.':'.$id;
+                            }
+                            $pos = strpos($actions[0],C4GBrickActionType::IDENTIFIER_BRICKDIALOG);
+                            if ( ($pos !== false) && ($pos == 0)) {
+                                $id = substr($actions[0], strlen(C4GBrickActionType::IDENTIFIER_BRICKDIALOG));
+                                $actions[0] = C4GBrickActionType::IDENTIFIER_BRICKDIALOG.':'.$id;
                             }
 
                             //Messagedialog

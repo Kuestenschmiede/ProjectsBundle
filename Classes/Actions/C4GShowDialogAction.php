@@ -84,7 +84,7 @@ class C4GShowDialogAction extends C4GBrickDialogAction
                         $parentId = $element->$pid;
                     }
                 }
-            } elseif (!$parentId) {
+            } else if (!$parentId) {
                 $parentId = \Session::getInstance()->get('c4g_brick_parent_id');
             }
         }
@@ -151,9 +151,9 @@ class C4GShowDialogAction extends C4GBrickDialogAction
             ($viewType == C4GBrickViewType::GROUPPARENTVIEW) ||
             ($viewType == C4GBrickViewType::PUBLICFORM) ||
             ($viewType == C4GBrickViewType::PROJECTPARENTFORMCOPY)) ||
-            ($viewType == C4GBrickViewType::PUBLICUUIDVIEW) ||
+            ($viewType == C4GBrickViewType::PUBLICUUIDVIEW)/* ||
             ($viewType == C4GBrickViewType::PUBLICVIEW) ||
-            ($viewType == C4GBrickViewType::PUBLICPARENTVIEW)) {
+            ($viewType == C4GBrickViewType::PUBLICPARENTVIEW)*/) {
             $groupKeyField = $viewParams->getGroupKeyField();
             switch($viewType) {
                 case C4GBrickViewType::GROUPFORM:
@@ -258,16 +258,16 @@ class C4GShowDialogAction extends C4GBrickDialogAction
                         }
                     }
                     break;
-                case C4GBrickViewType::PUBLICPARENTBASED:
-                case C4GBrickViewType::PUBLICPARENTVIEW:
-                    if ($modelDialogFunction && $id) {
-                        $function = $modelDialogFunction;
-                        $modelClass = $brickDatabase->getParams()->getModelClass();
-                        $element = $modelClass::$function($id);
-                    } else {
-                        $element = $brickDatabase->findyByPk($id);
-                    }
-                    break;
+//                case C4GBrickViewType::PUBLICPARENTBASED:
+//                case C4GBrickViewType::PUBLICPARENTVIEW:
+//                    if ($modelDialogFunction && $id) {
+//                        $function = $modelDialogFunction;
+//                        $modelClass = $brickDatabase->getParams()->getModelClass();
+//                        $element = $modelClass::$function($id);
+//                    } else {
+//                        $element = $brickDatabase->findyByPk($id);
+//                    }
+//                    break;
                 case C4GBrickViewType::GROUPPARENTVIEW:
                     $pid_field = 'pid';
                     if ($parentIdField) {
@@ -339,13 +339,13 @@ class C4GShowDialogAction extends C4GBrickDialogAction
             $element = $elements->$id;
         }
 
-        if ((C4GBrickView::isPublicBased($viewType) || C4GBrickView::isPublicBased($viewType)) && $modelDialogFunction) {
-            $function = $modelDialogFunction;
-            $database = $brickDatabase->getParams()->getDatabase();
-            //Todo überarbeiten brickDatabase
-            $modelClass = $brickDatabase->getParams()->getModelClass();
-            $model = $modelClass;
-            $element = $model::$function($id);
+        if (C4GBrickView::isPublicBased($viewType) || C4GBrickView::isPublicParentBased($viewType)) {
+            if ($modelDialogFunction && $id) {
+                $modelClass = $brickDatabase->getParams()->getModelClass();
+                $element = $modelClass::$modelDialogFunction($id);
+            } else {
+                $element = $brickDatabase->findyByPk($id);
+            }
         }
 
         //ToDo Weitere ViewTypes überprüfen
