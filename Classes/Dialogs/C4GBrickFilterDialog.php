@@ -78,6 +78,7 @@ class C4GBrickFilterDialog extends C4GBrickDialog
             $fromFilterField->setTableColumn(false);
             $fromFilterField->setMandatory(true);
             $fromFilterField->setEditable(true);
+            $fromFilterField->setCustomFormat($GLOBALS['TL_CONFIG']['dateFormat']);
 
             if($rangeFrom) {
                 $fromFilterField->setInitialValue($rangeFrom);
@@ -94,6 +95,7 @@ class C4GBrickFilterDialog extends C4GBrickDialog
             $toFilterField->setTableColumn(false);
             $toFilterField->setMandatory(true);
             $toFilterField->setEditable(true);
+            $toFilterField->setCustomFormat($GLOBALS['TL_CONFIG']['dateFormat']);
 
             if($rangeTo) {
                 $toFilterField->setInitialValue($rangeTo);
