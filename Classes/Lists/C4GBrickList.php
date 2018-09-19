@@ -538,7 +538,7 @@ class C4GBrickList
         }
         if ($selectRow == -1) {
             foreach ($tableElements as $element) {
-                if ($element->selectrow) {
+                if (property_exists($element->selectrow) && $element->selectrow) {
                     $selectRow = $element->selectrow;
                     break;
                 }
