@@ -30,7 +30,7 @@ abstract class C4GBrickField
     /**
      * Properties
      *
-     * @property string $align Where the field content aligns to. Valid values are 'left' and 'right'. Default: 'left'.
+     * @property string $align Where the field content aligns to. Valid values are 'left', 'center' and 'right'. Default: 'left'.
      * @property string $description Adds a description under the input field. Default: empty.
      * @property string $fieldName The name of the field in the database corresponding to this field. Default: null.
      * @property bool $initInvisible Press true to force the field to be invisible initially. Default: false. (Only works with fields that use the generateC4GFieldHTML method)
@@ -656,6 +656,7 @@ abstract class C4GBrickField
 
         if (!$this->ignoreViewType && $viewType && (
                 ($viewType == C4GBrickViewType::PUBLICVIEW) ||
+                ($viewType == C4GBrickViewType::PUBLICPARENTVIEW) ||
                 ($viewType == C4GBrickViewType::GROUPVIEW) ||
                 ($viewType == C4GBrickViewType::PROJECTPARENTVIEW) ||
                 ($viewType == C4GBrickViewType::MEMBERVIEW) ||

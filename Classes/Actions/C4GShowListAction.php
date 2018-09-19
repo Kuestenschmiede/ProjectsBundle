@@ -183,6 +183,26 @@ class C4GShowListAction extends C4GBrickDialogAction
             }
 
 
+        } elseif (C4GBrickView::isPublicParentBased($viewType)) {
+            if ($dialogParams->getParentId() < 0) {
+                $action = new C4GSelectPublicParentDialogAction($dialogParams, $listParams, $fieldList, $putVars, $brickDatabase);
+                $action->setModule($this->module);
+                return $action->run();
+                } else {
+                    if ($listParams->checkButtonVisibility(C4GBrickConst::BUTTON_PUBLIC_PARENT)) {
+                        $parent = $parentModel::findByPk($parentId);
+                        if ($parent) {
+                            if (is_array($parent)) {
+                                $caption = $parent['name'];
+                            } elseif ($parent instanceof \stdClass) {
+                                $caption = $parent->name;
+                            } else {
+                                $caption = 'NULL';
+                            }
+                            $parent_headline = '<div class="c4g_brick_headtext"> '.$parentCaption.': <b>'.$caption.'</b></div>';
+                    }
+                }
+            }
         }
 
         try
@@ -302,6 +322,24 @@ class C4GShowListAction extends C4GBrickDialogAction
                         $elements = $brickDatabase->findBy('uuid', $uuid);
                     }
                     break;
+                case C4GBrickView::isPublicParentBased($viewType):
+                    if ($modelListFunction) {
+                        $function = $modelListFunction;
+                        $database = $brickDatabase->getParams()->getDatabase();
+                        $model = $modelClass;
+                        $elements = $model::$function($parentId, $tableName, $database, $fieldList, $listParams);
+                        if ($elements->headline) {
+                            $list_headline = '<div class="c4g_brick_headtext_highlighted">' . $elements->headline . '</div>';
+                            unset($elements->headline);
+                        }
+                    } else {
+                        if ($parentId === 0 || $parentId === '0') {
+                            $elements = $brickDatabase->findAll();
+                        } else {
+                            $elements = $brickDatabase->findBy($dialogParams->getParentIdField(), $parentId);
+                        }
+                    }
+                    break;
                 default:
 
                     break;
@@ -312,42 +350,49 @@ class C4GShowListAction extends C4GBrickDialogAction
 
         // filter elements, if filter is set
         $filterParams =  $listParams->getFilterParams();
-        if ($filterParams && $filterParams->isWithRangeFilter() && $filterParams instanceof C4GBrickFilterParams) {
-            $dateFrom = $filterParams->getRangeFrom();
-            $dateTo = $filterParams->getRangeTo();
-            $rangeFrom = strtotime($filterParams->getRangeFrom());
-            $rangeTo = strtotime($filterParams->getRangeTo());
-            $highlightSpan = '<span class="c4g_brick_headtext_highlighted">';
-            $highlightSpanEnd = '</span>';
-            if ($filterParams->isWithoutFiltertext()) {
-                $filterText = "";
-            } else {
-                $filterText = "Zeitraum von " . $highlightSpan . $dateFrom . $highlightSpanEnd . ' bis zum ' .
-                    $highlightSpan . $dateTo . $highlightSpanEnd;
-            }
-            $filterField = $filterParams->getFilterField();
-            if ($filterField) {
-                foreach ($elements as $key => $element) {
-                    if (is_array($element)) {
-                        if ($element[$filterField] < $rangeFrom || $rangeTo < $element[$filterField]) {
-                            if ($elements instanceof \stdClass) {
-                                unset($elements->$key);
-                            } else {
-                                unset($elements[$key]);
+        if ($filterParams instanceof C4GBrickFilterParams) {
+            if ($filterParams->isWithRangeFilter()) {
+                $dateFrom = $filterParams->getRangeFrom();
+                $dateTo = $filterParams->getRangeTo();
+                $rangeFrom = strtotime($filterParams->getRangeFrom());
+                $rangeTo = strtotime($filterParams->getRangeTo());
+                $highlightSpan = '<span class="c4g_brick_headtext_highlighted">';
+                $highlightSpanEnd = '</span>';
+                if ($filterParams->isWithoutFiltertext()) {
+                    $filterText = "";
+                } else {
+                    $filterText = "Zeitraum von " . $highlightSpan . $dateFrom . $highlightSpanEnd . ' bis zum ' .
+                        $highlightSpan . $dateTo . $highlightSpanEnd;
+                }
+                $filterField = $filterParams->getFilterField();
+                if ($filterField) {
+                    foreach ($elements as $key => $element) {
+                        if (is_array($element)) {
+                            if ($element[$filterField] < $rangeFrom || $rangeTo < $element[$filterField]) {
+                                if ($elements instanceof \stdClass) {
+                                    unset($elements->$key);
+                                } else {
+                                    unset($elements[$key]);
+                                }
                             }
-                        }
-                    } else {
-                        if ($element->$filterField < $rangeFrom || $rangeTo < $element->$filterField) {
-                            if ($elements instanceof \stdClass) {
-                                unset($elements->$key);
-                            } else {
-                                unset($elements[$key]);
+                        } else {
+                            if ($element->$filterField < $rangeFrom || $rangeTo < $element->$filterField) {
+                                if ($elements instanceof \stdClass) {
+                                    unset($elements->$key);
+                                } else {
+                                    unset($elements[$key]);
+                                }
                             }
                         }
                     }
                 }
+            } elseif ($filterParams->isWithMethodFilter() && $elements) {
+                if ($filterParams->getUseMethodFilter()) {
+                    $class = $filterParams->getFilterMethod()[0];
+                    $method = $filterParams->getFilterMethod()[1];
+                    $elements = $class::$method($elements, $dialogParams);
+                }
             }
-
         }
 
         // call formatter if set
@@ -398,6 +443,8 @@ class C4GShowListAction extends C4GBrickDialogAction
                 $headtext = $headtext.$group_headline.$parent_headline;
             } elseif ($group_headline) {
                 $headtext = $headtext.$group_headline;
+            } elseif ($parent_headline) {
+                $headtext = $headtext.$parent_headline;
             }
             if ($list_headline) {
                 $headtext .= C4GHTMLFactory::lineBreak().$list_headline;

@@ -317,7 +317,7 @@ function C4GBrickFileUpload( file, path, targetField, mimeTypes )
     var xhr = new XMLHttpRequest();
 
     var fd = new FormData();
-    console.log(file);
+    //console.log(file);
     fd.append("File", file);
     fd.append("Path", path);
     fd.append("MimeTypes", mimeTypes);

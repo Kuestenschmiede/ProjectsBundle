@@ -182,6 +182,8 @@ class C4GBrickDialog
         $dialogId = $dialogParams->getMemberId();
 
         $view = '<div class="' . C4GBrickConst::CLASS_SELECT_DIALOG . ' ui-widget ui-widget-content ui-corner-bottom">';
+
+        $field->setIgnoreViewType(true); //no editable checking
         $view .= C4GHTMLFactory::lineBreak() .
             $field->getC4GDialogField(null, null, $dialogParams) . C4GHTMLFactory::lineBreak();
         $GLOBALS['c4g']['brickdialog']['include']['js'][] = 'jQuery(".chzn-select").chosen();';

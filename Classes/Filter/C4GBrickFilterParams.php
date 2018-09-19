@@ -24,6 +24,9 @@ class C4GBrickFilterParams
 
     private $withSelectFilter = false;
     private $withCheckboxFilter = false;
+    private $withMethodFilter = false;
+    private $useMethodFilter = 0;
+    private $filterMethod = array();
 
     private $fields = array();  // Checkbox = array('spaltenname' => 'Übersetzung', 'spaltenname' => 'Übersetzung');
     private $options = array();
@@ -259,9 +262,13 @@ class C4GBrickFilterParams
     public function setBrickFilterCookies($brickKey) {
         $fromValue = $this->rangeFrom;
         $toValue = $this->rangeTo;
+        $useMethodFilter = $this->useMethodFilter;
         if($fromValue && $toValue) {
             setcookie($brickKey.'_rangeFrom', $fromValue, time()+3600, '/');
             setcookie($brickKey.'_rangeTo', $toValue, time()+3600, '/');
+        }
+        if ($this->withMethodFilter) {
+            setcookie($brickKey.'_methodFilter', $useMethodFilter, time()+3600, '/');
         }
         return $this;
     }
@@ -269,9 +276,15 @@ class C4GBrickFilterParams
     public function getBrickFilterCookies($brickKey) {
         $fromCookie = $_COOKIE[$brickKey.'_rangeFrom'];
         $toCookie   = $_COOKIE[$brickKey.'_rangeTo'];
+        $methodFilterCookie = $_COOKIE[$brickKey.'_methodFilter'];
         if ($fromCookie && $toCookie) {
             $this->rangeFrom = $fromCookie;
             $this->rangeTo = $toCookie;
+        }
+        if ($methodFilterCookie === 1 || $methodFilterCookie === '1') {
+            $this->useMethodFilter = 1;
+        } else {
+            $this->useMethodFilter = 0;
         }
     }
 
@@ -289,6 +302,59 @@ class C4GBrickFilterParams
     public function setWithoutFiltertext(bool $withoutFiltertext)
     {
         $this->withoutFiltertext = $withoutFiltertext;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isWithMethodFilter(): bool
+    {
+        return $this->withMethodFilter;
+    }
+
+    /**
+     * @param bool $withMethodFilter
+     * @return C4GBrickFilterParams
+     */
+    public function setWithMethodFilter(bool $withMethodFilter = true): C4GBrickFilterParams
+    {
+        $this->withMethodFilter = $withMethodFilter;
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getFilterMethod(): array
+    {
+        return $this->filterMethod;
+    }
+
+    /**
+     * @param array $filterMethod
+     * @return $this
+     */
+    public function setFilterMethod(array $filterMethod)
+    {
+        $this->filterMethod = $filterMethod;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getUseMethodFilter(): int
+    {
+        return $this->useMethodFilter;
+    }
+
+    public function toggleMethodFilter()
+    {
+        if ($this->useMethodFilter === 0) {
+            $this->useMethodFilter = 1;
+        } else {
+            $this->useMethodFilter = 0;
+        }
     }
 
 

@@ -22,6 +22,8 @@ class C4GBrickView {
             case C4GBrickViewType::PUBLICVIEW:
             case C4GBrickViewType::PUBLICBASED:
             case C4GBrickViewType::PUBLICFORM:
+//            case C4GBrickViewType::PUBLICPARENTBASED:
+//            case C4GBrickViewType::PUBLICPARENTVIEW:
                 return true;
         }
 
@@ -125,6 +127,21 @@ class C4GBrickView {
     }
 
     /**
+     * @param $viewType
+     * @return bool
+     */
+    public static function isPublicParentBased($viewType)
+    {
+        switch ($viewType) {
+            case C4GBrickViewType::PUBLICPARENTBASED:
+            case C4GBrickViewType::PUBLICPARENTVIEW:
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    /**
      * @return boolean
      */
     public static function isWithoutList($viewType)
@@ -155,6 +172,7 @@ class C4GBrickView {
             case C4GBrickViewType::PROJECTPARENTVIEW:
             case C4GBrickViewType::PUBLICVIEW:
             case C4GBrickViewType::PUBLICUUIDVIEW:
+            case C4GBrickViewType::PUBLICPARENTVIEW:
                 return true;
         }
 
@@ -206,7 +224,8 @@ class C4GBrickView {
     {
 
         if (C4GBrickView::isProjectParentBased($viewType) ||
-            C4GBrickView::isGroupParentBased($viewType)) {
+            C4GBrickView::isGroupParentBased($viewType) /*||
+            C4GBrickView::isPublicParentBased($viewType)*/) {
             return true;
         }
 
@@ -219,6 +238,7 @@ class C4GBrickView {
      */
     public static function isWithSaving($viewType) {
         if ((C4GBrickView::isPublicBased($viewType) ||
+            C4GBrickView::isPublicParentBased($viewType) ||
             C4GBrickView::isGroupBased($viewType) ||
             C4GBrickView::isProjectBased($viewType) ||
             C4GBrickView::isMemberBased($viewType) ||

@@ -76,6 +76,11 @@ class C4GBrickList
             $result[] = static::addButtonArray($parent_button, $parentCaption);
         }
 
+        if ($listParams->checkButtonVisibility(C4GBrickConst::BUTTON_PUBLIC_PARENT)) {
+            $parent_button = $listParams->getButton(C4GBrickConst::BUTTON_PUBLIC_PARENT);
+            $result[] = static::addButtonArray($parent_button, $parentCaption);
+        }
+
         if ($listParams->checkButtonVisibility(C4GBrickConst::BUTTON_ADD)) {
             $add_button = $listParams->getButton(C4GBrickConst::BUTTON_ADD);
             $result[] = static::addButtonArray($add_button);
@@ -88,6 +93,11 @@ class C4GBrickList
 
         if ($listParams->checkButtonVisibility(C4GBrickConst::BUTTON_FILTER)) {
             $filter_button = $listParams->getButton(C4GBrickConst::BUTTON_FILTER);
+            $result[] = static::addButtonArray($filter_button);
+        }
+
+        if ($listParams->checkButtonVisibility(C4GBrickConst::BUTTON_TOGGLE_METHOD_FILTER)) {
+            $filter_button = $listParams->getButton(C4GBrickConst::BUTTON_TOGGLE_METHOD_FILTER);
             $result[] = static::addButtonArray($filter_button);
         }
 
@@ -328,6 +338,8 @@ class C4GBrickList
             $additionalClasses = ' c4g_list_align_left';
             if ($column->getAlign() == 'right') {
                 $additionalClasses = ' c4g_list_align_right';
+            } else if ($column->getAlign() == 'center') {
+                $additionalClasses = ' c4g_list_align_center';
             }
             if ($column->isShowSum()) {
                 $additionalClasses .= ' c4g_sum';
@@ -526,7 +538,7 @@ class C4GBrickList
         }
         if ($selectRow == -1) {
             foreach ($tableElements as $element) {
-                if ($element->selectrow) {
+                if (property_exists($element->selectrow) && $element->selectrow) {
                     $selectRow = $element->selectrow;
                     break;
                 }

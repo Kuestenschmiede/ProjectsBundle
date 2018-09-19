@@ -148,6 +148,9 @@ class C4GBrickButton
             case C4GBrickConst::BUTTON_NEXT:
                 $caption = $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['NEXT'];
                 break;
+            default:
+                $caption = '';
+                break;
         }
 
         return $caption;
@@ -175,8 +178,14 @@ class C4GBrickButton
             case C4GBrickConst::BUTTON_PARENT:
                 $action = C4GBrickActionType::ACTION_SELECTPARENT;
                 break;
+            case C4GBrickConst::BUTTON_PUBLIC_PARENT:
+                $action = C4GBrickActionType::ACTION_SELECTPUBLICPARENT;
+                break;
             case C4GBrickConst::BUTTON_FILTER:
                 $action = C4GBrickActionType::ACTION_FILTER;
+                break;
+            case C4GBrickConst::BUTTON_TOGGLE_METHOD_FILTER:
+                $action = C4GBrickActionType::ACTION_CONFIRMPARENTFILTER;
                 break;
             case C4GBrickConst::BUTTON_PRINTLIST:
                 $action = C4GBrickActionType::ACTION_PRINTLIST;

@@ -27,6 +27,7 @@ class C4GFileField extends C4GBrickField
     private $nameFormat   = ''; //standardmäßig wird eine eindeutiger Name generiert (uuid)
     private $withDate     = false;
     private $withNumber   = false;
+    private $path         = '';
 
     /**
      * @param C4GBrickField[] $fieldList
@@ -37,7 +38,12 @@ class C4GFileField extends C4GBrickField
      */
     public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = array())
     {
-        $homeDir = $dialogParams->getHomeDir();
+        if ($this->path) {
+            $homeDir = $this->path;
+        } else {
+            $homeDir = $dialogParams->getHomeDir();
+        }
+
         $viewType = $dialogParams->getViewType();
         if (!$homeDir) {
             return '';
@@ -386,5 +392,21 @@ class C4GFileField extends C4GBrickField
     {
         $this->withNumber = $withNumber;
         return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPath(): string
+    {
+        return $this->path;
+    }
+
+    /**
+     * @param string $path
+     */
+    public function setPath(string $path): void
+    {
+        $this->path = $path;
     }
 }

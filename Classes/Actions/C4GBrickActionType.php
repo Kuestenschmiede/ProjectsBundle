@@ -18,7 +18,8 @@ class C4GBrickActionType
     const IDENTIFIER_LIST = 'list';
 
     //TABLE DIALOG IDENTIFIER
-    const IDENTIFIER_DIALOG = 'brickdialog';
+    const IDENTIFIER_DIALOG = 'item';
+    const IDENTIFIER_BRICKDIALOG = 'brickdialog';
     const IDENTIFIER_PARENT = 'brickparent';
     const IDENTIFIER_PROJECT = 'brickproject';
     const IDENTIFIER_MESSAGE = 'brickmessage';
@@ -87,6 +88,7 @@ class C4GBrickActionType
     const ACTION_SELECTGROUP    = 'C4GSelectGroupDialogAction';
     const ACTION_SELECTPROJECT  = 'C4GSelectProjectDialogAction';
     const ACTION_SELECTPARENT   = 'C4GSelectParentDialogAction';
+    const ACTION_SELECTPUBLICPARENT   = 'C4GSelectPublicParentDialogAction';
     const ACTION_FILTER         = 'C4GShowFilterDialogAction';
     const ACTION_PRINTLIST      = 'printlist'; //Todo Unused. Delete?
     const ACTION_IMPORT         = 'import'; //Todo Unused. Delete?
