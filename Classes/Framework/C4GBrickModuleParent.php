@@ -212,8 +212,9 @@ class C4GBrickModuleParent extends \Module
     private function memberCheck($init = false) {
         if (FE_USER_LOGGED_IN) {
             \System::import('FrontendUser', 'User');
-            $this->User->authenticate();
-            if (!$this->User->id && ($this->publicViewType) && (
+            $authenticated = $this->User->authenticate();
+
+            if (!$authenticated && ($this->publicViewType) && (
                     ($this->viewType == C4GBrickViewType::PUBLICBASED) ||
                     ($this->viewType == C4GBrickViewType::PUBLICPARENTBASED)
                 )) {
@@ -271,7 +272,12 @@ class C4GBrickModuleParent extends \Module
         //loading language files
         $this->loadLanguageFiles();
 
-        if (!$this->User && $this->publicViewType && ($this->viewType == C4GBrickViewType::PUBLICBASED) || ($this->viewType == C4GBrickViewType::PUBLICPARENTBASED)) {
+        if (FE_USER_LOGGED_IN) {
+            \System::import('FrontendUser', 'User');
+            $authenticated = $this->User->authenticate();
+        }
+
+        if (!$authenticated && $this->publicViewType && (($this->viewType == C4GBrickViewType::PUBLICBASED) || ($this->viewType == C4GBrickViewType::PUBLICPARENTBASED))) {
             $this->viewType = $this->publicViewType;
         }
 
@@ -711,7 +717,7 @@ class C4GBrickModuleParent extends \Module
 
             if (FE_USER_LOGGED_IN) {
                 \System::import('FrontendUser', 'User');
-                $this->User->authenticate();
+                $authenticated = $this->User->authenticate();
             }
 
             if (C4GBrickView::isGroupBased($this->viewType)){
