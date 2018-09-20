@@ -67,38 +67,40 @@ class C4GSubDialogField extends C4GBrickField
         $this->keyField->setFieldName($this->getFieldName() . $this->delimiter . $fieldName . $this->delimiter . $this->wildcard);
         $fieldsHtml .= $this->keyField->getC4GDialogField($this->getFieldList(), $data, $dialogParams, $additionalParams = array());
         $this->keyField->setFieldName($fieldName);
-        $dataFieldNamesArray = array();
+//        $dataFieldNamesArray = array();
         foreach ($this->fieldList as $field) {
             $fieldName = $field->getFieldName();
-            if ($editButton) {
-                $editable = $field->isEditable();
-                $field->setEditable(false);
-            }
+//            if ($editButton) {
+//                $editable = $field->isEditable();
+//                $field->setEditable(false);
+//            }
             $templateData = new \stdClass();
             foreach ($data as $key => $value) {
                 $templateData->$key = '';
             }
             $field->setFieldName($this->getFieldName() . $this->delimiter . $fieldName . $this->delimiter . $this->wildcard);
-            if ((!$field instanceof C4GSubDialogField) && (!$field instanceof C4GForeignArrayField))  {
-                if ((!$editButton) || ($editable)) {
-                    $dataFieldNamesArray[] = $field->getFieldName();
-                }
-            }
+//            if (!$field instanceof C4GForeignArrayField)  {
+//                if ((!$editButton) || ($editable)) {
+//                    $dataFieldNamesArray[] = $field->getFieldName();
+//                }
+//            }
+//            $field->addStyleClass($this->getFieldName());
             $fieldsHtml .= $field->getC4GDialogField($this->getFieldList(), $templateData, $dialogParams, $additionalParams = array());
             $field->setFieldName($fieldName);
-            if ($editButton) {
-                $field->setEditable($editable);
-            }
+//            if ($editButton) {
+//                $field->setEditable($editable);
+//            }
         }
-        $dataFieldNames = implode(',', $dataFieldNamesArray);
+//        $dataFieldNames = implode(',', $dataFieldNamesArray);
         if ($this->showButtons && !C4GBrickView::isWithoutEditing($dialogParams->getViewType())) {
-            if ($editButton) {
-                $captionFinish = $this->finishEditingCaption;
-                $editButtonHtml = "<span class='ui-button ui-corner-all c4g_sub_dialog_edit_button' onclick='editSubDialog(this,event);' data-fields='$dataFieldNames' data-captionFinishEditing='$captionFinish' data-captionBeginEditing='$editButton'>$editButton</span>";
-            } else {
-                $editButtonHtml = '';
-            }
-            $fieldsHtml .= "$editButtonHtml<span class='ui-button ui-corner-all c4g_sub_dialog_remove_button' onclick='removeSubDialog(this,event);'>$removeButton</span>";
+//            if ($editButton || !$this->isEditable()) {
+//                $captionFinish = $this->finishEditingCaption;
+//                $editButtonHtml = "<span class='ui-button ui-corner-all c4g_sub_dialog_edit_button' onclick='editSubDialog(this,event);' data-fields='$dataFieldNames' data-captionFinishEditing='$captionFinish' data-captionBeginEditing='$editButton'>$editButton</span>";
+//            } else {
+//                $editButtonHtml = '';
+//            }
+//            $fieldsHtml .= "$editButtonHtml<span class='ui-button ui-corner-all c4g_sub_dialog_remove_button' onclick='removeSubDialog(this,event);'>$removeButton</span>";
+            $fieldsHtml .= "<span class='ui-button ui-corner-all c4g_sub_dialog_remove_button' onclick='removeSubDialog(this,event);'>$removeButton</span>";
         }
 //        $fieldsHtml = str_replace('"', "'", $fieldsHtml);
 
@@ -147,16 +149,17 @@ class C4GSubDialogField extends C4GBrickField
                         $dataFieldNamesArray = array();
                         foreach ($this->fieldList as $field) {
                             $fieldName = $field->getFieldName();
-                            if ($editButton) {
+                            if ($editButton || !$this->isEditable()) {
                                 $editable = $field->isEditable();
                                 $field->setEditable(false);
                             }
                             $field->setFieldName($this->getFieldName() . $this->delimiter . $fieldName . $this->delimiter . $numLoadedDataSets);
-                            if ((!$field instanceof C4GSubDialogField) && (!$field instanceof C4GForeignArrayField))  {
+                            if (!$field instanceof C4GForeignArrayField) {
                                 if ((!$editButton) || ($editable)) {
                                     $dataFieldNamesArray[] = $field->getFieldName();
                                 }
                             }
+                            $field->addStyleClass($this->getFieldName());
                             $loadedDataHtml .= $field->getC4GDialogField($this->getFieldList(), $data, $dialogParams, $additionalParams = array());
                             $field->setFieldName($fieldName);
                             if ($editButton) {
