@@ -266,9 +266,9 @@ function handleBoolSwitch(checkbox, element, reverse) {
  * @param path
  * @param targetField
  */
-function handleC4GBrickFile(fileList, path, targetField, mimeTypes) {
+function handleC4GBrickFile(fileList, path, fieldName, targetField, mimeTypes) {
     if (fileList) {
-        if (document.getElementById("c4g_uploadURL").value !== fileList[0]) {
+        if (document.getElementById("c4g_uploadURL_"+fieldName).value !== fileList[0]) {
             var img = document.createElement("img");
             img.file = fileList[0];
             img.name = "img_" + 0;
@@ -281,7 +281,7 @@ function handleC4GBrickFile(fileList, path, targetField, mimeTypes) {
             })(img);
             reader.readAsDataURL(fileList[0]);
 
-            C4GBrickFileUpload(fileList[0], path, targetField, mimeTypes);
+            C4GBrickFileUpload(fileList[0], path, fieldName, targetField, mimeTypes);
         }
     }
 }
@@ -290,12 +290,12 @@ function handleC4GBrickFile(fileList, path, targetField, mimeTypes) {
  *
  * @param targetField
  */
-function deleteC4GBrickFile(targetField) {
-    document.getElementById("c4g_deleteURL").value =  document.getElementById("c4g_uploadURL").value;
-    document.getElementById("c4g_uploadURL").value = "";
-    document.getElementById("c4g_uploadLink").innerHTML = "";
-    if (document.getElementById("c4g_deleteButton")) {
-        document.getElementById("c4g_deleteButton").style = "display:none";
+function deleteC4GBrickFile(fieldName, targetField) {
+    document.getElementById("c4g_deleteURL_"+fieldName).value =  document.getElementById("c4g_uploadURL_"+fieldName).value;
+    document.getElementById("c4g_uploadURL_"+fieldName).value = "";
+    document.getElementById("c4g_uploadLink_"+fieldName).innerHTML = "";
+    if (document.getElementById("c4g_deleteButton_"+fieldName)) {
+        document.getElementById("c4g_deleteButton_"+fieldName).style = "display:none";
     }
 
     if (targetField) {
@@ -312,12 +312,11 @@ function deleteC4GBrickFile(targetField) {
  * @param targetField
  * @constructor
  */
-function C4GBrickFileUpload( file, path, targetField, mimeTypes )
+function C4GBrickFileUpload( file, path, fieldName, targetField, mimeTypes )
 {
     var xhr = new XMLHttpRequest();
 
     var fd = new FormData();
-    //console.log(file);
     fd.append("File", file);
     fd.append("Path", path);
     fd.append("MimeTypes", mimeTypes);
@@ -326,12 +325,12 @@ function C4GBrickFileUpload( file, path, targetField, mimeTypes )
     xhr.onreadystatechange = function(){
         if (xhr.readyState==4 && xhr.status==200) {
             var filename = JSON.parse(xhr.responseText)[0];
-            document.getElementById("c4g_uploadURL").value = filename;
-            document.getElementById("c4g_uploadLink").innerHTML = "<a href='" + filename + "' target='_blank'>" + file.name.replace("C:\\fakepath\\", "") + "</a>";
-            if (document.getElementById("c4g_deleteButton")) {
-                document.getElementById("c4g_deleteButton").style = "display:inline";
+            document.getElementById("c4g_uploadURL_"+fieldName).value = filename;
+            document.getElementById("c4g_uploadLink_"+fieldName).innerHTML = "<a href='" + filename + "' target='_blank'>" + file.name.replace("C:\\fakepath\\", "") + "</a>";
+            if (document.getElementById("c4g_deleteButton_"+fieldName)) {
+                document.getElementById("c4g_deleteButton_"+fieldName).style = "display:inline";
             }
-            document.getElementById("c4g_deleteURL").value = "";
+            document.getElementById("c4g_deleteURL_"+fieldName).value = "";
             if (targetField) {
                 if (document.getElementsByClassName("c4g_"+targetField+"_src")[0]) {
                     document.getElementsByClassName("c4g_"+targetField+"_src")[0].getElementsByTagName("img")[0].src = filename;

@@ -61,6 +61,7 @@ class C4GFileField extends C4GBrickField
                     ($viewType == C4GBrickViewType::PUBLICVIEW) ||
                     ($viewType == C4GBrickViewType::GROUPVIEW) ||
                     ($viewType == C4GBrickViewType::PROJECTPARENTVIEW) ||
+                    ($viewType == C4GBrickViewType::PUBLICPARENTVIEW) ||
                     ($viewType == C4GBrickViewType::MEMBERVIEW) ||
                     ($viewType == C4GBrickViewType::PUBLICUUIDVIEW) )
 
@@ -86,8 +87,8 @@ class C4GFileField extends C4GBrickField
             }
         }
 
-        $file_link = '<label id="c4g_uploadLink"></label>' .
-            '<button id="c4g_deleteButton" ' . $buttonRequired . ' onClick="deleteC4GBrickFile(\'' . $targetField . '\')" style="display:none"></button>';
+        $file_link = '<label id="c4g_uploadLink_'.$fieldName.'" class="c4g_uploadLink"></label>' .
+            '<button id="c4g_deleteButton_'.$fieldName.'" class="c4g_deleteButton"' . $buttonRequired . ' onClick="deleteC4GBrickFile(\'' . fieldName.'\',\''.$targetField . '\')" style="display:none"></button>';
 
         if ($fileObject) {
             $file_uuid  = $fileObject->uuid;
@@ -97,8 +98,8 @@ class C4GFileField extends C4GBrickField
                 $file_label = str_replace("C:\\fakepath\\", "", $file_label);
             }
             $file_link =
-                '<label id="c4g_uploadLink"><a href="' . $file_url . '" target="_blank">' . $file_label . '</a>' .
-                '<button id="c4g_deleteButton" ' . $buttonRequired . ' onClick="deleteC4GBrickFile(\'' . $targetField . '\')"></button></label>';
+                '<label id="c4g_uploadLink_'.$fieldName.'" class="c4g_uploadLink"><a href="' . $file_url . '" target="_blank">' . $file_label . '</a>' .
+                '<button id="c4g_deleteButton_'.$fieldName.'" class="c4g_deleteButton"' . $buttonRequired . ' onClick="deleteC4GBrickFile(\'' . $fieldName.'\',\''.$targetField . '\')"></button></label>';
         }
 
 
@@ -110,13 +111,13 @@ class C4GFileField extends C4GBrickField
 
             $result =
                 $this->addC4GField($condition,$dialogParams,$fieldList,$data,
-                '<button id="c4g_uploadButton" ' . $buttonRequired . ' ' . $condition['conditionPrepare'] . ' onClick="document.getElementById(\'' . $id . '\').click()">'.$GLOBALS['TL_LANG']['FE_C4G_DIALOG']['FILE_UPLOAD'].'</button>' .
+                '<button id="c4g_uploadButton_'.$fieldName.'" class="c4g_uploadButton"' . $buttonRequired . ' ' . $condition['conditionPrepare'] . ' onClick="document.getElementById(\'' . $id . '\').click()">'.$GLOBALS['TL_LANG']['FE_C4G_DIALOG']['FILE_UPLOAD'].'</button>' .
                 $file_link . C4GHTMLFactory::lineBreak() .
-                '<input type="hidden" id="c4g_uploadURL" name="c4g_uploadURL" class="formdata" ' . $condition['conditionPrepare'] . ' value="' . $file_url . '">' .
-                '<input type="hidden" id="c4g_deleteURL" name="c4g_deleteURL" class="formdata" ' . $condition['conditionPrepare'] . ' value="">' .
+                '<input type="hidden" id="c4g_uploadURL_'.$fieldName.'" name="c4g_uploadURL" class="formdata" ' . $condition['conditionPrepare'] . ' value="' . $file_url . '">' .
+                '<input type="hidden" id="c4g_deleteURL_'.$fieldName.'" name="c4g_deleteURL" class="formdata" ' . $condition['conditionPrepare'] . ' value="">' .
                 '<input type="file" id="' . $id . '"  class="formdata ' . $id . '" ' . $condition['conditionPrepare'] . ' name="' . $fieldName . '"' .
                 ' multiple="false" accept="' . $fileTypes . '" maxlength="'.$this->maxFileSize.'"' .
-                'onchange="handleC4GBrickFile(this.files,\'' . $homeDir . '\',\'' . $targetField . '\',\'' . $fileTypes . '\');" value="' . $file_url . '" ' . $required . ' style="display:none">');
+                'onchange="handleC4GBrickFile(this.files,\'' . $homeDir . '\',\'' . $fieldName.'\',\''.$targetField . '\',\'' . $fileTypes . '\');" value="' . $file_url . '" ' . $required . ' style="display:none">');
         }
 
         return $result;

@@ -333,25 +333,26 @@ div.cg_block {
     border-bottom-color: darkgrey;
     border-bottom-style: solid;
 }
-#c4g_uploadButton {
+.c4g_uploadButton {
     margin-left: 2.5%;
     margin-bottom: 4px;
     cursor: pointer;
 }
-#c4g_uploadLink {
+.c4g_uploadLink {
     cursor: pointer;
 }
-#c4g_uploadLink a {
+.c4g_uploadLink a {
     color: #000000!important;
 }
-#c4g_deleteButton {
+.c4g_deleteButton {
     margin-left: 5px;
     padding: 1px;
     color: red;
     cursor: pointer;
-    font-family: 'FontAwesome';
+    font-family: 'FontAwesome'!important;
+    font-size: inherit;
 }
-#c4g_deleteButton:before {
+.c4g_deleteButton:before {
     content: "\f00d";
 }
 #c4g_brick .c4gGuiContentWrapper,
