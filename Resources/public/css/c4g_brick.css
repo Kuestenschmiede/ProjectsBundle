@@ -876,6 +876,10 @@ a.c4g_tile_button:hover {
     display:none;
 }
 
+.c4g_sub_dialog_set_uneditable .c4g_sub_dialog_remove_button {
+    display:none;
+}
+
 .c4g_include_fields .teaser {
     margin-left: 2.5%;
     margin-right: 2.5%;
