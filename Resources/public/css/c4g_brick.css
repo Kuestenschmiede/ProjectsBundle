@@ -885,6 +885,10 @@ a.c4g_tile_button:hover {
     margin-right: 2.5%;
 }
 
+.c4g_sub_dialog_add_button {
+    margin-left: 8px;
+}
+
 .c4g_sub_dialog_edit_button {
     margin-right: 8px;
 }
