@@ -880,6 +880,10 @@ a.c4g_tile_button:hover {
     margin-right: 2.5%;
 }
 
+.c4g_sub_dialog_edit_button {
+    margin-right: 8px;
+}
+
 .c4g_sub_dialog_remove_button, .c4g_sub_dialog_edit_button{
     align-self: center;
     margin-bottom: 20px;
