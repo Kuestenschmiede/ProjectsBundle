@@ -1205,7 +1205,7 @@ function editSubDialog(button, event) {
             var textareas = elements[i].getElementsByTagName('textarea');
             // console.log(inputs);
             var k = 0;
-            while (j < textareas.length) {
+            while (k < textareas.length) {
                 if (typeof(textareas[k]) !== 'undefined') {
                     textareas[k].disabled = !textareas[k].disabled;
                     textareas[k].readOnly = !textareas[k].readOnly;
