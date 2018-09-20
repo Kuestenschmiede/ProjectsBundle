@@ -1182,8 +1182,28 @@ function editSubDialog(button, event) {
     var index = 0;
     while (index < ids.length) {
         var element = document.getElementById('c4g_' + ids[index]);
-        element.disabled = !element.disabled;
-        element.readOnly = !element.readOnly;
+        console.log(element);
+        if ((typeof(element) !== 'undefined')) {
+            element.disabled = !element.disabled;
+            element.readOnly = !element.readOnly;
+        }
+        console.log(ids[index]);
+        var elements = document.getElementsByClassName(ids[index]);
+        console.log(elements);
+        var i = 0;
+        while (i < elements.length) {
+            var inputs = elements[i].getElementsByTagName('input');
+            console.log(inputs);
+            var j = 0;
+            while (j < inputs.length) {
+                if (typeof(inputs[j]) !== 'undefined') {
+                    inputs[j].disabled = !inputs[j].disabled;
+                    inputs[j].readOnly = !inputs[j].readOnly;
+                }
+                j += 1;
+            }
+            i += 1;
+        }
         index += 1;
     }
     var parent = button.parentNode;
@@ -1221,4 +1241,4 @@ function showConfirmationDialog(message,title,yesLabel, noLabel, yesCallback){
                 $(this).remove();
             }
         });
-};
+}
