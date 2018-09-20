@@ -1187,13 +1187,13 @@ function editSubDialog(button, event) {
             element.disabled = !element.disabled;
             element.readOnly = !element.readOnly;
         }
-        console.log(ids[index]);
+        // console.log(ids[index]);
         var elements = document.getElementsByClassName(ids[index]);
-        console.log(elements);
+        // console.log(elements);
         var i = 0;
         while (i < elements.length) {
             var inputs = elements[i].getElementsByTagName('input');
-            console.log(inputs);
+            // console.log(inputs);
             var j = 0;
             while (j < inputs.length) {
                 if (typeof(inputs[j]) !== 'undefined') {
@@ -1201,6 +1201,16 @@ function editSubDialog(button, event) {
                     inputs[j].readOnly = !inputs[j].readOnly;
                 }
                 j += 1;
+            }
+            var textareas = elements[i].getElementsByTagName('textarea');
+            // console.log(inputs);
+            var k = 0;
+            while (j < textareas.length) {
+                if (typeof(textareas[k]) !== 'undefined') {
+                    textareas[k].disabled = !textareas[k].disabled;
+                    textareas[k].readOnly = !textareas[k].readOnly;
+                }
+                k += 1;
             }
             i += 1;
         }
