@@ -1118,6 +1118,12 @@ class C4GBrickDialog
                 }
 
                 if ($fieldData !== NULL) {
+                    if ($field->getChangeValueToIf()) {
+                        $array = $field->getChangeValueToIf();
+                        if ($fieldData == $array['if']) {
+                            $fieldData = $array['to'];
+                        }
+                    }
                     $set[$fieldName] = $fieldData;
                     if (!($field instanceof C4GFileField) && !($field instanceof C4GMultiCheckboxField) && (!$field instanceof C4GForeignArrayField)) {
                         $set[$fieldName] = html_entity_decode(C4GUtils::secure_ugc($fieldData));
@@ -1254,24 +1260,35 @@ class C4GBrickDialog
                 $set = $action->call($set);
             }
 
+            $abortSave = false;
+            if ($dialogParams->isDoNotSaveIfValuesDidNotChange() && $set[$id_fieldName]) {
+                if ($dbValues) {
+                    foreach ($set as $key => $value) {
+                        if ($key !== 'tstamp' && $key !== 'state' && $dbValues->$key != $value) {
+                            $abortSave = false;
+                            break;
+                        }
+                        $abortSave = true;
+                    }
+                }
+            }
+
             $result = false;
-            if ($set[$id_fieldName] == null) {
-                foreach ($dialogParams->getOverrideValuesIfSavingInNewDataset() as $overrides) {
-                    $set[$overrides[0]] = $overrides[1];
-                }
-                $result = $brickDatabase->insert($set);
-            } elseif ($saveInNew) {
-                if ($dialogParams->getOriginalIdName()) {
-                    $set[$dialogParams->getOriginalIdName()] = $set[$id_fieldName];
-                }
-                foreach ($dialogParams->getOverrideValuesIfSavingInNewDataset() as $overrides) {
-                    $set[$overrides[0]] = $overrides[1];
-                }
-                unset($set[$id_fieldName]);
-                $result = $brickDatabase->insert($set);
-            } else
-            if (($id) && ($id_fieldName)) {
-                $result = $brickDatabase->update($id, $set, $id_fieldName);
+            if (!$abortSave) {
+                if ($set[$id_fieldName] == null) {
+                    $result = $brickDatabase->insert($set);
+                } elseif ($saveInNew) {
+                    if ($dialogParams->getOriginalIdName()) {
+                        $set[$dialogParams->getOriginalIdName()] = $set[$id_fieldName];
+                    }
+                    unset($set[$id_fieldName]);
+                    $result = $brickDatabase->insert($set);
+                } else
+                    if (($id) && ($id_fieldName)) {
+                        $result = $brickDatabase->update($id, $set, $id_fieldName);
+                    }
+            } else {
+                $result['insertId'] = $set[$id_fieldName];
             }
 
             //See if there are any C4GSubDialogFields to save
@@ -1380,7 +1397,6 @@ class C4GBrickDialog
                             foreach ($subDlgValues as $key => $value) {
                                 $dialogParams->setSaveInNewDataset($field->isSaveInNewDataset());
                                 $dialogParams->setOriginalIdName($field->getOriginalIdName());
-                                $dialogParams->setOverrideValuesIfSavingInNewDataset($field->getOverrideValuesIfSavingInNewDataset());
                                 $dialogParams->setSaveInNewDatasetIfCondition($field->getSaveInNewDatasetIfCondition());
                                 if (!$value[$id_fieldName]) {
                                     $value[$field->getForeignKeyField()->getFieldName()] = $elementId;

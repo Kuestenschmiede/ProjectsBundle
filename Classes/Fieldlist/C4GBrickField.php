@@ -139,6 +139,7 @@ abstract class C4GBrickField
     private $withLinkDescription = false;
     private $conditionType = null; //see C4GBrickConditionType
     private $additionalLabel = ''; //Additional String to be added to the label, e.g.
+    private $changeValueToIf = array(); //Changes the field value to the 'to' value if it is the 'if' value.
 
     /**
      * C4GBrickField constructor.
@@ -2327,6 +2328,25 @@ abstract class C4GBrickField
     public function setAdditionalLabel($additionalLabel)
     {
         $this->additionalLabel = $additionalLabel;
+    }
+
+    /**
+     * @return array
+     */
+    public function getChangeValueToIf(): array
+    {
+        return $this->changeValueToIf;
+    }
+
+    /**
+     * @param $to
+     * @param $if
+     * @return C4GBrickField
+     */
+    public function setChangeValueToIf($to, $if): C4GBrickField
+    {
+        $this->changeValueToIf = array('to' => $to, 'if' => $if);
+        return $this;
     }
 
 

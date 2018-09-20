@@ -43,7 +43,7 @@ class C4GSubDialogField extends C4GBrickField
     private $allowDelete = true;
     private $saveInNewDataset = false;
     private $originalIdName = '';
-    private $overrideValuesIfSavingInNewDataset = array();
+//    private $overrideValuesIfSavingInNewDataset = array();
     private $saveInNewDataSetIfCondition = null;
 
     public function __construct() {
@@ -763,24 +763,6 @@ class C4GSubDialogField extends C4GBrickField
     public function setOriginalIdName(string $originalIdName): C4GSubDialogField
     {
         $this->originalIdName = $originalIdName;
-        return $this;
-    }
-
-    /**
-     * @return array
-     */
-    public function getOverrideValuesIfSavingInNewDataset(): array
-    {
-        return $this->overrideValuesIfSavingInNewDataset;
-    }
-
-    /**
-     * @param array $overrideValuesIfSavingInNewDataset
-     * @return C4GSubDialogField
-     */
-    public function addOverrideValuesIfSavingInNewDataset(array $overrideValuesIfSavingInNewDataset): C4GSubDialogField
-    {
-        $this->overrideValuesIfSavingInNewDataset[] = $overrideValuesIfSavingInNewDataset;
         return $this;
     }
 

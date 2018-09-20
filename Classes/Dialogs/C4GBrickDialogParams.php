@@ -102,8 +102,9 @@ class C4GBrickDialogParams
     private $selectParentMessage = '';
     private $saveInNewDataset = false;
     private $originalIdName = '';
-    private $overrideValuesIfSavingInNewDataset = array();
+//    private $overrideValuesIfSavingInNewDataset = array();
     private $saveInNewDataSetIfCondition = null;
+    private $doNotSaveIfValuesDidNotChange = false;     //Will not save to the database if the values did not change, but will not interrupt saving of sub dialogs.
 
     /**
      * C4GBrickDialogParams constructor.
@@ -1731,35 +1732,6 @@ class C4GBrickDialogParams
     }
 
     /**
-     * @return array
-     */
-    public function getOverrideValuesIfSavingInNewDataset(): array
-    {
-        return $this->overrideValuesIfSavingInNewDataset;
-    }
-
-    /**
-     * @param array $overrideValuesIfSavingInNewDataset
-     * @return $this
-     */
-    public function setOverrideValuesIfSavingInNewDataset(array $overrideValuesIfSavingInNewDataset)
-    {
-        $this->overrideValuesIfSavingInNewDataset = $overrideValuesIfSavingInNewDataset;
-        return $this;
-    }
-
-    /**
-     * @param array $overrideValuesIfSavingInNewDataset
-     * @return C4GBrickDialogParams
-     */
-    public function addOverrideValuesIfSavingInNewDataset(array $overrideValuesIfSavingInNewDataset): C4GBrickDialogParams
-    {
-        $this->overrideValuesIfSavingInNewDataset[] = $overrideValuesIfSavingInNewDataset;
-        return $this;
-    }
-
-
-    /**
      * @return C4GBrickCondition
      */
     public function getSaveInNewDataSetIfCondition(): ?C4GBrickCondition
@@ -1777,5 +1749,21 @@ class C4GBrickDialogParams
         return $this;
     }
 
+    /**
+     * @return bool
+     */
+    public function isDoNotSaveIfValuesDidNotChange(): bool
+    {
+        return $this->doNotSaveIfValuesDidNotChange;
+    }
 
+    /**
+     * @param bool $doNotSaveIfValuesDidNotChange
+     * @return C4GBrickDialogParams
+     */
+    public function setDoNotSaveIfValuesDidNotChange(bool $doNotSaveIfValuesDidNotChange): C4GBrickDialogParams
+    {
+        $this->doNotSaveIfValuesDidNotChange = $doNotSaveIfValuesDidNotChange;
+        return $this;
+    }
 }
