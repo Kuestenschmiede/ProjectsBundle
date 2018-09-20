@@ -13,6 +13,7 @@
 namespace con4gis\ProjectsBundle\Classes\Dialogs;
 use con4gis\ProjectsBundle\Classes\Buttons\C4GBrickButton;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickConst;
+use con4gis\ProjectsBundle\Classes\Conditions\C4GBrickCondition;
 use con4gis\ProjectsBundle\Classes\Views\C4GBrickView;
 use con4gis\ProjectsBundle\Classes\Views\C4GBrickViewParams;
 use con4gis\ProjectsBundle\Classes\Views\C4GBrickViewType;
@@ -102,6 +103,7 @@ class C4GBrickDialogParams
     private $saveInNewDataset = false;
     private $originalIdName = '';
     private $overrideValuesIfSavingInNewDataset = array();
+    private $saveInNewDataSetIfCondition = null;
 
     /**
      * C4GBrickDialogParams constructor.
@@ -1738,6 +1740,16 @@ class C4GBrickDialogParams
 
     /**
      * @param array $overrideValuesIfSavingInNewDataset
+     * @return $this
+     */
+    public function setOverrideValuesIfSavingInNewDataset(array $overrideValuesIfSavingInNewDataset)
+    {
+        $this->overrideValuesIfSavingInNewDataset = $overrideValuesIfSavingInNewDataset;
+        return $this;
+    }
+
+    /**
+     * @param array $overrideValuesIfSavingInNewDataset
      * @return C4GBrickDialogParams
      */
     public function addOverrideValuesIfSavingInNewDataset(array $overrideValuesIfSavingInNewDataset): C4GBrickDialogParams
@@ -1746,13 +1758,24 @@ class C4GBrickDialogParams
         return $this;
     }
 
+
     /**
-     * @param array $overrideValuesIfSavingInNewDataset
-     * @return C4GBrickDialogParams
+     * @return C4GBrickCondition
      */
-    public function setOverrideValuesIfSavingInNewDataset(array $overrideValuesIfSavingInNewDataset): C4GBrickDialogParams
+    public function getSaveInNewDataSetIfCondition(): ?C4GBrickCondition
     {
-        $this->overrideValuesIfSavingInNewDataset = $overrideValuesIfSavingInNewDataset;
+        return $this->saveInNewDataSetIfCondition;
+    }
+
+    /**
+     * @param C4GBrickCondition $saveInNewDataSetIfCondition
+     * @return $this
+     */
+    public function setSaveInNewDataSetIfCondition(C4GBrickCondition $saveInNewDataSetIfCondition = null)
+    {
+        $this->saveInNewDataSetIfCondition = $saveInNewDataSetIfCondition;
         return $this;
     }
+
+
 }

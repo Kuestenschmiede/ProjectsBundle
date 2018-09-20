@@ -1015,6 +1015,19 @@ class C4GBrickDialog
      */
     public static function saveC4GDialog($elementId, $tableName, $fieldList, $dlgValues, $brickDatabase,  $dbValues, C4GBrickDialogParams $dialogParams, $user_id)
     {
+        if ($dialogParams->getSaveInNewDatasetIfCondition()) {
+            $condition = $dialogParams->getSaveInNewDataSetIfCondition();
+            if ($condition->checkAgainstCondition($dlgValues[$condition->getFieldName()])) {
+                $saveInNew = true;
+            } else {
+                $saveInNew = false;
+            }
+        } elseif ($dialogParams->isSaveInNewDataset()) {
+            $saveInNew = true;
+        } else {
+            $saveInNew = false;
+        }
+
         $viewType = $dialogParams->getViewType();
         if ($viewType == C4GBrickViewType::PUBLICVIEW) {
             return false;
@@ -1247,7 +1260,7 @@ class C4GBrickDialog
                     $set[$overrides[0]] = $overrides[1];
                 }
                 $result = $brickDatabase->insert($set);
-            } elseif ($dialogParams->isSaveInNewDataset()) {
+            } elseif ($saveInNew) {
                 if ($dialogParams->getOriginalIdName()) {
                     $set[$dialogParams->getOriginalIdName()] = $set[$id_fieldName];
                 }
@@ -1368,6 +1381,7 @@ class C4GBrickDialog
                                 $dialogParams->setSaveInNewDataset($field->isSaveInNewDataset());
                                 $dialogParams->setOriginalIdName($field->getOriginalIdName());
                                 $dialogParams->setOverrideValuesIfSavingInNewDataset($field->getOverrideValuesIfSavingInNewDataset());
+                                $dialogParams->setSaveInNewDatasetIfCondition($field->getSaveInNewDatasetIfCondition());
                                 if (!$value[$id_fieldName]) {
                                     $value[$field->getForeignKeyField()->getFieldName()] = $elementId;
                                     $subDbValues = $field->getBrickDatabase()->findByPk(0);

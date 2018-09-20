@@ -10,6 +10,7 @@ namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
 
 
 use con4gis\CoreBundle\Resources\contao\classes\C4GUtils;
+use con4gis\ProjectsBundle\Classes\Conditions\C4GBrickCondition;
 use con4gis\ProjectsBundle\Classes\Database\C4GBrickDatabase;
 use con4gis\ProjectsBundle\Classes\Database\C4GBrickDatabaseParams;
 use con4gis\ProjectsBundle\Classes\Database\C4GBrickDatabaseType;
@@ -43,6 +44,7 @@ class C4GSubDialogField extends C4GBrickField
     private $saveInNewDataset = false;
     private $originalIdName = '';
     private $overrideValuesIfSavingInNewDataset = array();
+    private $saveInNewDataSetIfCondition = null;
 
     public function __construct() {
         $this->database = \Database::getInstance();
@@ -781,5 +783,24 @@ class C4GSubDialogField extends C4GBrickField
         $this->overrideValuesIfSavingInNewDataset[] = $overrideValuesIfSavingInNewDataset;
         return $this;
     }
+
+    /**
+     * @return null
+     */
+    public function getSaveInNewDataSetIfCondition(): ?C4GBrickCondition
+    {
+        return $this->saveInNewDataSetIfCondition;
+    }
+
+    /**
+     * @param C4GBrickCondition $saveInNewDataSetIfCondition
+     * @return $this
+     */
+    public function setSaveInNewDataSetIfCondition(C4GBrickCondition $saveInNewDataSetIfCondition = null)
+    {
+        $this->saveInNewDataSetIfCondition = $saveInNewDataSetIfCondition;
+        return $this;
+    }
+
 
 }
