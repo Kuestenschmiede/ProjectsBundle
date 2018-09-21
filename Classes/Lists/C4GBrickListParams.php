@@ -16,6 +16,7 @@ use con4gis\ProjectsBundle\Classes\Buttons\C4GExportButtons;
 use con4gis\ProjectsBundle\Classes\Buttons\C4GMoreButton;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickConst;
 use con4gis\ProjectsBundle\Classes\Filter\C4GBrickFilterParams;
+use con4gis\ProjectsBundle\Classes\Filter\C4GListFilter;
 use con4gis\ProjectsBundle\Classes\Views\C4GBrickView;
 
 /**
@@ -27,7 +28,8 @@ class C4GBrickListParams
     private $displayLength = 25; //dataTable displayLength
     private $withModelListFunction = false; //calls modelListFunction
     private $withDetails = true; //show details by tablerow click
-    private $filterParams = null; //filterParams to filter big datasets
+    private $filterParams = null; //filterParams to filter big datasets *DEPRECATED*
+    private $filterObject = null; //Filter object to filter the data.
     private $renderMode = C4GBrickRenderMode::TABLEBASED; //see C4GBrickRenderMode
     private $buttons = array(); //table buttons
     private $withExportButtons = true; //show exportButtons under datatable
@@ -759,5 +761,24 @@ class C4GBrickListParams
     {
         $this->customHeadline = $customHeadline;
     }
+
+    /**
+     * @return C4GListFilter|null
+     */
+    public function getFilterObject(): ?C4GListFilter
+    {
+        return $this->filterObject;
+    }
+
+    /**
+     * @param C4GListFilter $filterObject
+     * @return $this
+     */
+    public function setFilterObject(C4GListFilter $filterObject)
+    {
+        $this->filterObject = $filterObject;
+        return $this;
+    }
+
 
 }

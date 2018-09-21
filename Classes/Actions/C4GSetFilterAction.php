@@ -18,11 +18,17 @@ class C4GSetFilterAction extends C4GBrickDialogAction
     {
         $dlgValues = $this->getPutVars();
         $dialogParams = $this->getDialogParams();
+        $listParams = $this->getListParams();
+        $filter = $listParams->getFilterObject();
 
-        $return = null;
+        if ($filter) {
+            $filter->setFilter($dlgValues, $this->module->getBrickKey());
+            $action = new C4GShowListAction($dialogParams, $listParams, $this->getFieldList(), $dlgValues, $this->getBrickDatabase());
+            return $action->run();
+        }
 
-        $filterParams = $this->getListParams()->getFilterParams();
-
+        /** DEPRECATED; use a C4GListFilter object instead. */
+        $filterParams = $listParams->getFilterParams();
         if ($filterParams) {
             if ($filterParams->isWithRangeFilter()) {
                 $from = $dlgValues['fromFilter'];
@@ -45,10 +51,10 @@ class C4GSetFilterAction extends C4GBrickDialogAction
             }
 
             $action = new C4GShowListAction($dialogParams, $this->getListParams(), $this->getFieldList(), $this->getPutVars(), $this->getBrickDatabase());
-            $return = $action->run();
+            return $action->run();
         }
 
-        return $return;
+        return null;
     }
 
     public function isReadOnly()
