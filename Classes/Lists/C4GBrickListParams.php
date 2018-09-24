@@ -765,7 +765,7 @@ class C4GBrickListParams
     /**
      * @return C4GListFilter|null
      */
-    public function getFilterObject(): ?C4GListFilter
+    public function getFilterObject()
     {
         return $this->filterObject;
     }
@@ -780,5 +780,11 @@ class C4GBrickListParams
         return $this;
     }
 
-
+    /**
+     *
+     */
+    public function removeFilterObject()
+    {
+        $this->filterObject = null;
+    }
 }
