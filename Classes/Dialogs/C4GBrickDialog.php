@@ -1277,16 +1277,33 @@ class C4GBrickDialog
             if (!$abortSave) {
                 if ($set[$id_fieldName] == null) {
                     $result = $brickDatabase->insert($set);
+                    if ($dialogParams->getSaveCallback()) {
+                        $cb = $dialogParams->getSaveCallback();
+                        $class = $cb[0];
+                        $method = $cb[1];
+                        $class::$method($set, $result['insertId'], 'insert', $fieldList);
+                    }
                 } elseif ($saveInNew) {
                     if ($dialogParams->getOriginalIdName()) {
                         $set[$dialogParams->getOriginalIdName()] = $set[$id_fieldName];
                     }
                     unset($set[$id_fieldName]);
                     $result = $brickDatabase->insert($set);
-                } else
-                    if (($id) && ($id_fieldName)) {
-                        $result = $brickDatabase->update($id, $set, $id_fieldName);
+                    if ($dialogParams->getSaveCallback()) {
+                        $cb = $dialogParams->getSaveCallback();
+                        $class = $cb[0];
+                        $method = $cb[1];
+                        $class::$method($set, $result['insertId'], 'insert', $fieldList);
                     }
+                } elseif (($id) && ($id_fieldName)) {
+                        $result = $brickDatabase->update($id, $set, $id_fieldName);
+                    if ($dialogParams->getSaveCallback()) {
+                        $cb = $dialogParams->getSaveCallback();
+                        $class = $cb[0];
+                        $method = $cb[1];
+                        $class::$method($set, $result['insertId'], 'insert', $fieldList);
+                    }
+                }
             } else {
                 $result['insertId'] = $set[$id_fieldName];
             }

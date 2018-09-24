@@ -908,3 +908,9 @@ a.c4g_tile_button:hover {
 .ui-button {
     cursor: pointer;
 }
+
+/*
+.c4g_sub_dialog_container input {
+    pointer-events: none;
+    background-color: grey;
+}*/

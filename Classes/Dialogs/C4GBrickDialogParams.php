@@ -105,6 +105,8 @@ class C4GBrickDialogParams
 //    private $overrideValuesIfSavingInNewDataset = array();
     private $saveInNewDataSetIfCondition = null;
     private $doNotSaveIfValuesDidNotChange = false;     //Will not save to the database if the values did not change, but will not interrupt saving of sub dialogs.
+    private $saveCallback = array();
+
 
     /**
      * C4GBrickDialogParams constructor.
@@ -1766,4 +1768,24 @@ class C4GBrickDialogParams
         $this->doNotSaveIfValuesDidNotChange = $doNotSaveIfValuesDidNotChange;
         return $this;
     }
+
+    /**
+     * @return array
+     */
+    public function getSaveCallback(): array
+    {
+        return $this->saveCallback;
+    }
+
+    /**
+     * @param array $saveCallback
+     * @return C4GBrickDialogParams
+     */
+    public function setSaveCallback(array $saveCallback): C4GBrickDialogParams
+    {
+        $this->saveCallback = $saveCallback;
+        return $this;
+    }
+
+
 }
