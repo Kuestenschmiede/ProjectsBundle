@@ -1182,13 +1182,13 @@ function editSubDialog(button, event) {
     var index = 0;
     while (index < ids.length) {
         var element = document.getElementById('c4g_' + ids[index]);
-        console.log(element);
+        //console.log(element);
         if ((typeof(element) !== 'undefined')) {
             element.disabled = !element.disabled;
             element.readOnly = !element.readOnly;
         }
         // console.log(ids[index]);
-        var elements = document.getElementsByClassName(ids[index]);
+        var elements = button.parentNode.getElementsByClassName(ids[index]);
         // console.log(elements);
         var i = 0;
         while (i < elements.length) {
