@@ -179,6 +179,9 @@ input:invalid {
     margin: 0 2.5%;
     color: darkgrey;
 }
+.c4g_brick_dialog p.c4g_field_description a{
+    text-decoration: underline;
+}
 .c4g_brick_dialog .c4g_field_descripton_hole {
     margin-bottom: 4px;
 }
