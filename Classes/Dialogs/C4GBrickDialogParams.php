@@ -106,6 +106,7 @@ class C4GBrickDialogParams
     private $saveInNewDataSetIfCondition = null;
     private $doNotSaveIfValuesDidNotChange = false;     //Will not save to the database if the values did not change, but will not interrupt saving of sub dialogs.
     private $saveCallback = array();
+    private $deleteCallback = array();
 
 
     /**
@@ -1787,5 +1788,21 @@ class C4GBrickDialogParams
         return $this;
     }
 
+    /**
+     * @return array
+     */
+    public function getDeleteCallback(): array
+    {
+        return $this->deleteCallback;
+    }
 
+    /**
+     * @param array $deleteCallback
+     * @return C4GBrickDialogParams
+     */
+    public function setDeleteCallback(array $deleteCallback): C4GBrickDialogParams
+    {
+        $this->deleteCallback = $deleteCallback;
+        return $this;
+    }
 }

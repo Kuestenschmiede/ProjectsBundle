@@ -1301,7 +1301,7 @@ class C4GBrickDialog
                         $cb = $dialogParams->getSaveCallback();
                         $class = $cb[0];
                         $method = $cb[1];
-                        $class::$method($set, $result['insertId'], 'insert', $fieldList);
+                        $class::$method($tableName, $set , $result['insertId'], 'update', $fieldList);
                     }
                 }
             } else {
@@ -1402,7 +1402,13 @@ class C4GBrickDialog
                                 $table = $field->getTable();
                                 $stmt = $db->prepare("DELETE FROM $table WHERE id = ?");
                                 foreach ($deleteIds as $deleteId) {
-                                    $stmt->execute($deleteId);
+                                    $deleteResult = $stmt->execute($deleteId);
+                                    if ($dialogParams->getDeleteCallback()) {
+                                        $array = $dialogParams->getDeleteCallback();
+                                        $class = $array[0];
+                                        $method = $array[1];
+                                        $class::$method($tableName, $deleteResult['insertId'], $fieldList);
+                                    }
                                 }
                             }
 
@@ -1439,6 +1445,13 @@ class C4GBrickDialog
                                 foreach ($deleteIds as $deleteId) {
                                     $stmt = $db->prepare("DELETE FROM $table WHERE id = ?");
                                     $stmt->execute($deleteId);
+                                    $deleteResult = $stmt->execute($deleteId);
+                                    if ($dialogParams->getDeleteCallback()) {
+                                        $array = $dialogParams->getDeleteCallback();
+                                        $class = $array[0];
+                                        $method = $array[1];
+                                        $class::$method($tableName, $deleteResult['insertId'], $fieldList);
+                                    }
                                 }
                             }
                         }
