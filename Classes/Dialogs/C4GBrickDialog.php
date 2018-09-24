@@ -1015,6 +1015,19 @@ class C4GBrickDialog
      */
     public static function saveC4GDialog($elementId, $tableName, $fieldList, $dlgValues, $brickDatabase,  $dbValues, C4GBrickDialogParams $dialogParams, $user_id)
     {
+        if ($dialogParams->getSaveInNewDatasetIfCondition()) {
+            $condition = $dialogParams->getSaveInNewDataSetIfCondition();
+            if ($condition->checkAgainstCondition($dlgValues[$condition->getFieldName()])) {
+                $saveInNew = true;
+            } else {
+                $saveInNew = false;
+            }
+        } elseif ($dialogParams->isSaveInNewDataset()) {
+            $saveInNew = true;
+        } else {
+            $saveInNew = false;
+        }
+
         $viewType = $dialogParams->getViewType();
         if ($viewType == C4GBrickViewType::PUBLICVIEW) {
             return false;
@@ -1105,6 +1118,12 @@ class C4GBrickDialog
                 }
 
                 if ($fieldData !== NULL) {
+                    if ($field->getChangeValueToIf()) {
+                        $array = $field->getChangeValueToIf();
+                        if ($fieldData == $array['if']) {
+                            $fieldData = $array['to'];
+                        }
+                    }
                     $set[$fieldName] = $fieldData;
                     if (!($field instanceof C4GFileField) && !($field instanceof C4GMultiCheckboxField) && (!$field instanceof C4GForeignArrayField)) {
                         $set[$fieldName] = html_entity_decode(C4GUtils::secure_ugc($fieldData));
@@ -1241,12 +1260,35 @@ class C4GBrickDialog
                 $set = $action->call($set);
             }
 
+            $abortSave = false;
+            if ($dialogParams->isDoNotSaveIfValuesDidNotChange() && $set[$id_fieldName]) {
+                if ($dbValues) {
+                    foreach ($set as $key => $value) {
+                        if ($key !== 'tstamp' && $key !== 'state' && $dbValues->$key != $value) {
+                            $abortSave = false;
+                            break;
+                        }
+                        $abortSave = true;
+                    }
+                }
+            }
+
             $result = false;
-            if ($set[$id_fieldName] == null) {
-                $result = $brickDatabase->insert($set);
-            } else
-            if (($id) && ($id_fieldName)) {
-                $result = $brickDatabase->update($id, $set, $id_fieldName);
+            if (!$abortSave) {
+                if ($set[$id_fieldName] == null) {
+                    $result = $brickDatabase->insert($set);
+                } elseif ($saveInNew) {
+                    if ($dialogParams->getOriginalIdName()) {
+                        $set[$dialogParams->getOriginalIdName()] = $set[$id_fieldName];
+                    }
+                    unset($set[$id_fieldName]);
+                    $result = $brickDatabase->insert($set);
+                } else
+                    if (($id) && ($id_fieldName)) {
+                        $result = $brickDatabase->update($id, $set, $id_fieldName);
+                    }
+            } else {
+                $result['insertId'] = $set[$id_fieldName];
             }
 
             //See if there are any C4GSubDialogFields to save
@@ -1327,30 +1369,35 @@ class C4GBrickDialog
 
                         if ($subDlgValues) {
                             /** First, delete all data sets from the database that have been deleted on the client. */
+                            if ($field->isAllowDelete()) {
 
-                            $deleteResult = $field->getBrickDatabase()->findBy($field->getForeignKeyField()->getFieldName(),$elementId);
-                            $deleteIds = array();
-                            foreach ($deleteResult as $r) {
-                                foreach ($subDlgValues as $key => $value) {
-                                    if (strval($r->$id_fieldName) == strval($value[$id_fieldName])) {
-                                        continue 2;
+                                $deleteResult = $field->getBrickDatabase()->findBy($field->getForeignKeyField()->getFieldName(), $elementId);
+                                $deleteIds = array();
+                                foreach ($deleteResult as $r) {
+                                    foreach ($subDlgValues as $key => $value) {
+                                        if (strval($r->$id_fieldName) == strval($value[$id_fieldName])) {
+                                            continue 2;
+                                        }
                                     }
+                                    $deleteIds[] = $r->$id_fieldName;
                                 }
-                                $deleteIds[] = $r->$id_fieldName;
-                            }
-                            $db = \Database::getInstance();
-                            $table = $field->getTable();
-                            $stmt = $db->prepare("DELETE FROM $table WHERE id = ?");
-                            foreach ($deleteIds as $deleteId) {
-                                $stmt->execute($deleteId);
+                                $db = \Database::getInstance();
+                                $table = $field->getTable();
+                                $stmt = $db->prepare("DELETE FROM $table WHERE id = ?");
+                                foreach ($deleteIds as $deleteId) {
+                                    $stmt->execute($deleteId);
+                                }
                             }
 
                             /** Then save all the data sets. */
 
-                            if (strval($elementId) == '-1' || strval($elementId) == '0') {
+//                            if (strval($elementId) == '-1' || strval($elementId) == '0') {
                                 $elementId = $result['insertId'];
-                            }
+//                            }
                             foreach ($subDlgValues as $key => $value) {
+                                $dialogParams->setSaveInNewDataset($field->isSaveInNewDataset());
+                                $dialogParams->setOriginalIdName($field->getOriginalIdName());
+                                $dialogParams->setSaveInNewDatasetIfCondition($field->getSaveInNewDatasetIfCondition());
                                 if (!$value[$id_fieldName]) {
                                     $value[$field->getForeignKeyField()->getFieldName()] = $elementId;
                                     $subDbValues = $field->getBrickDatabase()->findByPk(0);
@@ -1363,17 +1410,19 @@ class C4GBrickDialog
                             }
                         } else {
                             /** Delete all data sets from the database that have been deleted on the client. */
+                            if ($field->isAllowDelete()) {
 
-                            $deleteResult = $field->getBrickDatabase()->findBy($field->getForeignKeyField()->getFieldName(),$elementId);
-                            $deleteIds = array();
-                            foreach ($deleteResult as $r) {
-                                $deleteIds[] = $r->$id_fieldName;
-                            }
-                            $db = \Database::getInstance();
-                            $table = $field->getTable();
-                            foreach ($deleteIds as $deleteId) {
-                                $stmt = $db->prepare("DELETE FROM $table WHERE id = ?");
-                                $stmt->execute($deleteId);
+                                $deleteResult = $field->getBrickDatabase()->findBy($field->getForeignKeyField()->getFieldName(), $elementId);
+                                $deleteIds = array();
+                                foreach ($deleteResult as $r) {
+                                    $deleteIds[] = $r->$id_fieldName;
+                                }
+                                $db = \Database::getInstance();
+                                $table = $field->getTable();
+                                foreach ($deleteIds as $deleteId) {
+                                    $stmt = $db->prepare("DELETE FROM $table WHERE id = ?");
+                                    $stmt->execute($deleteId);
+                                }
                             }
                         }
                     }

@@ -38,7 +38,7 @@ class C4GUrlField extends C4GBrickField
             $fieldDataBefore = '';
             $fieldDataAfter  = '';
 
-            if ($this->withLink) {
+            if ($this->withLink && !$this->isEditable()) {
                 $fieldDataBefore = '<a href="'.$value.'" target="_blank" >';
                 $fieldDataAfter = '</a>';
             };

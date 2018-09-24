@@ -111,6 +111,7 @@ class C4GBrickFilterParams
      */
     public function setWithRangeFilter($withRangeFilter = true)
     {
+        @trigger_error('Use of C4GBrickFilterParams is deprecated, use a C4GListFilter object instead.');
         $this->withRangeFilter = $withRangeFilter;
         return $this;
     }
@@ -165,6 +166,7 @@ class C4GBrickFilterParams
      */
     public function setWithSelectFilter($withSelectFilter  = true)
     {
+        @trigger_error('Use of C4GBrickFilterParams is deprecated, use a C4GListFilter object instead.');
         $this->withSelectFilter = $withSelectFilter;
         return $this;
     }
@@ -183,6 +185,7 @@ class C4GBrickFilterParams
      */
     public function setWithCheckboxFilter($withCheckboxFilter = true)
     {
+        @trigger_error('Use of C4GBrickFilterParams is deprecated, use a C4GListFilter object instead.');
         $this->withCheckboxFilter = $withCheckboxFilter;
         return $this;
     }
@@ -237,6 +240,7 @@ class C4GBrickFilterParams
      */
     public function setWithGeofilter($withGeofilter = true)
     {
+        @trigger_error('Use of C4GBrickFilterParams is deprecated, use a C4GListFilter object instead.');
         $this->withGeofilter = $withGeofilter;
         return $this;
     }
@@ -318,6 +322,7 @@ class C4GBrickFilterParams
      */
     public function setWithMethodFilter(bool $withMethodFilter = true): C4GBrickFilterParams
     {
+        @trigger_error('Use of C4GBrickFilterParams is deprecated, use a C4GListFilter object instead.');
         $this->withMethodFilter = $withMethodFilter;
         return $this;
     }
@@ -350,10 +355,10 @@ class C4GBrickFilterParams
 
     public function toggleMethodFilter()
     {
-        if ($this->useMethodFilter === 0) {
-            $this->useMethodFilter = 1;
-        } else {
+        if (($this->useMethodFilter === 1) || ($this->useMethodFilter === '1')) {
             $this->useMethodFilter = 0;
+        } else {
+            $this->useMethodFilter = 1;
         }
     }
 

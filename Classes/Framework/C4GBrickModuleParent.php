@@ -266,6 +266,10 @@ class C4GBrickModuleParent extends \Module
         }
     }
 
+    public function beforeAction($action)
+    {
+        //use it in your module class
+    }
 
     public function initBrickModule($id)
     {
@@ -997,6 +1001,7 @@ class C4GBrickModuleParent extends \Module
             $result = $this->$function($values, $putVars);
             return $result;
         } else {
+            $this->beforeAction($action);
             return C4GBrickAction::performAction($action, $this);
         }
 

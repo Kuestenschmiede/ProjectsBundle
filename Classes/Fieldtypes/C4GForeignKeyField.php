@@ -17,5 +17,8 @@ use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBaseKeyField;
 
 class C4GForeignKeyField extends C4GBaseKeyField
 {
-
+    public function __construct() {
+        $this->setEditable();
+        $this->setDatabaseField();
+    }
 }

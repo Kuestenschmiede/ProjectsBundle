@@ -15,7 +15,6 @@ namespace con4gis\ProjectsBundle\Classes\Actions;
 use con4gis\CoreBundle\Resources\contao\classes\C4GHTMLFactory;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickCommon;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickConst;
-use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldText;
 use con4gis\ProjectsBundle\Classes\Filter\C4GBrickFilterParams;
 use con4gis\ProjectsBundle\Classes\Lists\C4GBrickList;
 use con4gis\ProjectsBundle\Classes\Lists\C4GBrickRenderMode;
@@ -348,49 +347,58 @@ class C4GShowListAction extends C4GBrickDialogAction
             $elements = null;
         }
 
-        // filter elements, if filter is set
-        $filterParams =  $listParams->getFilterParams();
-        if ($filterParams instanceof C4GBrickFilterParams) {
-            if ($filterParams->isWithRangeFilter()) {
-                $dateFrom = $filterParams->getRangeFrom();
-                $dateTo = $filterParams->getRangeTo();
-                $rangeFrom = strtotime($filterParams->getRangeFrom());
-                $rangeTo = strtotime($filterParams->getRangeTo());
-                $highlightSpan = '<span class="c4g_brick_headtext_highlighted">';
-                $highlightSpanEnd = '</span>';
-                if ($filterParams->isWithoutFiltertext()) {
-                    $filterText = "";
-                } else {
-                    $filterText = "Zeitraum von " . $highlightSpan . $dateFrom . $highlightSpanEnd . ' bis zum ' .
-                        $highlightSpan . $dateTo . $highlightSpanEnd;
-                }
-                $filterField = $filterParams->getFilterField();
-                if ($filterField) {
-                    foreach ($elements as $key => $element) {
-                        if (is_array($element)) {
-                            if ($element[$filterField] < $rangeFrom || $rangeTo < $element[$filterField]) {
-                                if ($elements instanceof \stdClass) {
-                                    unset($elements->$key);
-                                } else {
-                                    unset($elements[$key]);
+        $filterObject = $listParams->getFilterObject();
+        if ($filterObject) {
+            $elements = $filterObject->filter($elements, $dialogParams);
+            $filterObject->addButton($listParams);
+        } else {
+            /** DEPRECATED; use a C4GListFilter object. */
+            $filterParams =  $listParams->getFilterParams();
+            if ($filterParams instanceof C4GBrickFilterParams) {
+                if ($filterParams->isWithRangeFilter()) {
+                    $dateFrom = $filterParams->getRangeFrom();
+                    $dateTo = $filterParams->getRangeTo();
+                    $rangeFrom = strtotime($filterParams->getRangeFrom());
+                    $rangeTo = strtotime($filterParams->getRangeTo());
+                    $highlightSpan = '<span class="c4g_brick_headtext_highlighted">';
+                    $highlightSpanEnd = '</span>';
+                    if ($filterParams->isWithoutFiltertext()) {
+                        $filterText = "";
+                    } else {
+                        $filterText = "Zeitraum von " . $highlightSpan . $dateFrom . $highlightSpanEnd . ' bis zum ' .
+                            $highlightSpan . $dateTo . $highlightSpanEnd;
+                    }
+                    $filterField = $filterParams->getFilterField();
+                    if ($filterField) {
+                        foreach ($elements as $key => $element) {
+                            if (is_array($element)) {
+                                if ($element[$filterField] < $rangeFrom || $rangeTo < $element[$filterField]) {
+                                    if ($elements instanceof \stdClass) {
+                                        unset($elements->$key);
+                                    } else {
+                                        unset($elements[$key]);
+                                    }
                                 }
-                            }
-                        } else {
-                            if ($element->$filterField < $rangeFrom || $rangeTo < $element->$filterField) {
-                                if ($elements instanceof \stdClass) {
-                                    unset($elements->$key);
-                                } else {
-                                    unset($elements[$key]);
+                            } else {
+                                if ($element->$filterField < $rangeFrom || $rangeTo < $element->$filterField) {
+                                    if ($elements instanceof \stdClass) {
+                                        unset($elements->$key);
+                                    } else {
+                                        unset($elements[$key]);
+                                    }
                                 }
                             }
                         }
                     }
-                }
-            } elseif ($filterParams->isWithMethodFilter() && $elements) {
-                if ($filterParams->getUseMethodFilter()) {
-                    $class = $filterParams->getFilterMethod()[0];
-                    $method = $filterParams->getFilterMethod()[1];
-                    $elements = $class::$method($elements, $dialogParams);
+                } elseif ($filterParams->isWithMethodFilter() && $elements) {
+                    if ($filterParams->getUseMethodFilter()) {
+                        $class = $filterParams->getFilterMethod()[0];
+                        $method = $filterParams->getFilterMethod()[1];
+                        $elements = $class::$method($elements, $dialogParams);
+                        setcookie($dialogParams->getBrickKey().'_methodFilter', '1', time()+3600, '/');
+                    } else {
+                        setcookie($dialogParams->getBrickKey().'_methodFilter', '0', time()+3600, '/');
+                    }
                 }
             }
         }

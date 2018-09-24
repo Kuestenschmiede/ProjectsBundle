@@ -344,7 +344,7 @@ class C4GShowDialogAction extends C4GBrickDialogAction
                 $modelClass = $brickDatabase->getParams()->getModelClass();
                 $element = $modelClass::$modelDialogFunction($id);
             } else {
-                $element = $brickDatabase->findyByPk($id);
+                $element = $brickDatabase->findByPk($id);
             }
         }
 

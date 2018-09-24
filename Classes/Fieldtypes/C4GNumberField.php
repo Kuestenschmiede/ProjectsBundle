@@ -39,7 +39,10 @@ class C4GNumberField extends C4GBrickFieldNumeric
         $required = $this->generateRequiredString($data, $dialogParams);
 
         $result = '';
-        $id = "c4g_" . $this->getFieldName() . '_' . $this->getAdditionalId();
+        $id = "c4g_" . $this->getFieldName();
+        if ($this->getAdditionalID()) {
+            $id .= '_' . $this->getAdditionalId();
+        }
         $onChange = '';
 
         if($this->getThousandsSep() !== '') {
