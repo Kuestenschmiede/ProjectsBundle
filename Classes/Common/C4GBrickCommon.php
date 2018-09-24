@@ -408,7 +408,7 @@ class C4GBrickCommon
             }
         }
 
-        return '';
+        return $id;
     }
 
 
