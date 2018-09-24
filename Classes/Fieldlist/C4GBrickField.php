@@ -1911,6 +1911,15 @@ abstract class C4GBrickField
     }
 
     /**
+     * @param $class
+     * @return bool
+     */
+    public function hasStyleClass($class)
+    {
+        return (strpos($this->styleClass, $class) !== false);
+    }
+
+    /**
      * @param $styleClass
      * @return $this
      */

@@ -87,6 +87,9 @@ class C4GSubDialogField extends C4GBrickField
 //                }
 //            }
 //            $field->addStyleClass($this->getFieldName());
+            if (!$field->hasStyleClass($this->getFieldName())) {
+                $field->addStyleClass($this->getFieldName());
+            }
             $fieldsHtml .= $field->getC4GDialogField($this->getFieldList(), $templateData, $dialogParams, $additionalParams = array());
             $field->setFieldName($fieldName);
 //            if ($editButton) {
@@ -161,7 +164,9 @@ class C4GSubDialogField extends C4GBrickField
                                     $dataFieldNamesArray[] = $field->getFieldName();
                                 }
                             }
-                            $field->addStyleClass($this->getFieldName());
+                            if (!$field->hasStyleClass($this->getFieldName())) {
+                                $field->addStyleClass($this->getFieldName());
+                            }
                             $loadedDataHtml .= $field->getC4GDialogField($this->getFieldList(), $data, $dialogParams, $additionalParams = array());
                             $field->setFieldName($fieldName);
                             if ($editButton) {

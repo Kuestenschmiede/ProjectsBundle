@@ -1171,7 +1171,36 @@ function addSubDialog(button, event) {
     var newElement = document.createElement('div');
     newElement.classList.add('c4g_sub_dialog_set');
     newElement.innerHTML = string;
-    target.appendChild(newElement);
+    var child = target.appendChild(newElement);
+    var inputs = child.getElementsByTagName('input');
+    // console.log(inputs);
+    var j = 0;
+    while (j < inputs.length) {
+        if (typeof(inputs[j]) !== 'undefined') {
+            if (inputs[j].disabled === true) {
+                inputs[j].disabled = false;
+            }
+            if (inputs[j].readOnly === true) {
+                inputs[j].readOnly = false;
+            }
+        }
+        j += 1;
+    }
+    var textareas = child.getElementsByTagName('textarea');
+    // console.log(inputs);
+    var k = 0;
+    while (k < textareas.length) {
+        if (typeof(textareas[k]) !== 'undefined') {
+            if (textareas[k].disabled === true) {
+                textareas[k].disabled = false;
+            }
+            if (textareas[k].readOnly === true) {
+                textareas[k].readOnly = false;
+            }
+        }
+        k += 1;
+    }
+    i += 1;
 }
 
 function editSubDialog(button, event) {
@@ -1184,12 +1213,32 @@ function editSubDialog(button, event) {
         var element = document.getElementById('c4g_' + ids[index]);
         //console.log(element);
         if ((typeof(element) !== 'undefined')) {
+            /*if (element.disabled) {
+                element.disabled = false;
+            } else {
+                element.disabled = true;
+            }
+            if (element.readOnly) {
+                element.readonly = false;
+            } else {
+                element.readonly = true;
+            }*//*
             element.disabled = !element.disabled;
-            element.readOnly = !element.readOnly;
+            element.readOnly = !element.readOnly;*/
+            if (element.hasAttribute('disabled')) {
+                element.removeAttribute('disabled');
+            } else {
+                element.setAttribute('disabled', '')
+            }
+            if (element.hasAttribute('readonly')) {
+                element.removeAttribute('readonly');
+            } else {
+                element.setAttribute('readonly', '')
+            }
         }
         // console.log(ids[index]);
         var elements = button.parentNode.getElementsByClassName(ids[index]);
-        // console.log(elements);
+        console.log(elements);
         var i = 0;
         while (i < elements.length) {
             var inputs = elements[i].getElementsByTagName('input');
@@ -1197,8 +1246,28 @@ function editSubDialog(button, event) {
             var j = 0;
             while (j < inputs.length) {
                 if (typeof(inputs[j]) !== 'undefined') {
+                    /*if (inputs[j].disabled) {
+                        inputs[j].disabled = false;
+                    } else {
+                        inputs[j].disabled = true;
+                    }
+                    if (inputs[j].readonly) {
+                        inputs[j].readonly = false;
+                    } else {
+                        inputs[j].readonly = true;
+                    }*//*
                     inputs[j].disabled = !inputs[j].disabled;
-                    inputs[j].readOnly = !inputs[j].readOnly;
+                    inputs[j].readOnly = !inputs[j].readOnly;*/
+                    if (inputs[j].hasAttribute('disabled')) {
+                        inputs[j].removeAttribute('disabled');
+                    } else {
+                        inputs[j].setAttribute('disabled', '')
+                    }
+                    if (inputs[j].hasAttribute('readonly')) {
+                        inputs[j].removeAttribute('readonly');
+                    } else {
+                        inputs[j].setAttribute('readonly', '')
+                    }
                 }
                 j += 1;
             }
@@ -1207,8 +1276,28 @@ function editSubDialog(button, event) {
             var k = 0;
             while (k < textareas.length) {
                 if (typeof(textareas[k]) !== 'undefined') {
+                    /*if (textareas[k].disabled) {
+                        textareas[k].disabled = false;
+                    } else {
+                        textareas[k].disabled = true;
+                    }
+                    if (textareas[k].readonly) {
+                        textareas[k].readonly = false;
+                    } else {
+                        textareas[k].readonly = true;
+                    }*//*
                     textareas[k].disabled = !textareas[k].disabled;
-                    textareas[k].readOnly = !textareas[k].readOnly;
+                    textareas[k].readOnly = !textareas[k].readOnly;*/
+                    if (textareas[k].hasAttribute('disabled')) {
+                        textareas[k].removeAttribute('disabled');
+                    } else {
+                        textareas[k].setAttribute('disabled', '')
+                    }
+                    if (textareas[k].hasAttribute('readonly')) {
+                        textareas[k].removeAttribute('readonly');
+                    } else {
+                        textareas[k].setAttribute('readonly', '')
+                    }
                 }
                 k += 1;
             }
