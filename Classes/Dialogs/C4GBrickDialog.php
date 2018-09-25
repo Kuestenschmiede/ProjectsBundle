@@ -1402,12 +1402,12 @@ class C4GBrickDialog
                                 $table = $field->getTable();
                                 $stmt = $db->prepare("DELETE FROM $table WHERE id = ?");
                                 foreach ($deleteIds as $deleteId) {
-                                    $deleteResult = $stmt->execute($deleteId);
+                                    $stmt->execute($deleteId);
                                     if ($dialogParams->getDeleteCallback()) {
                                         $array = $dialogParams->getDeleteCallback();
                                         $class = $array[0];
                                         $method = $array[1];
-                                        $class::$method($tableName, $deleteResult['insertId'], $fieldList);
+                                        $class::$method($table, $deleteId, $fieldList);
                                     }
                                 }
                             }
@@ -1445,12 +1445,11 @@ class C4GBrickDialog
                                 foreach ($deleteIds as $deleteId) {
                                     $stmt = $db->prepare("DELETE FROM $table WHERE id = ?");
                                     $stmt->execute($deleteId);
-                                    $deleteResult = $stmt->execute($deleteId);
                                     if ($dialogParams->getDeleteCallback()) {
                                         $array = $dialogParams->getDeleteCallback();
                                         $class = $array[0];
                                         $method = $array[1];
-                                        $class::$method($tableName, $deleteResult['insertId'], $fieldList);
+                                        $class::$method($table, $deleteId, $fieldList);
                                     }
                                 }
                             }
