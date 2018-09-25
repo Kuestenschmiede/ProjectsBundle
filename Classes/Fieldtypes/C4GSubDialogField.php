@@ -120,11 +120,21 @@ class C4GSubDialogField extends C4GBrickField
                 $propertyName = $this->getFieldName() . $this->delimiter . $this->keyField->getFieldName() . $this->delimiter . $numLoadedDataSets;
                 if ($data->$propertyName) {
                     /** skip data sets where any where clause is not met  */
-                    foreach ($this->where as $clause) {
+                    foreach ($this->where as $key => $clause) {
                         $field = $this->getFieldName() . $this->delimiter . $clause[0] . $this->delimiter . $numLoadedDataSets;
                         $value = $clause[1];
-                        if ($data->$field != $value) {
-                            continue 2;
+                        if (!is_array($data->$field) && $data->$field != $value) {
+                            if ($clause[2] === 'and' || !$this->where[$key + 1]) {
+                                continue 2;
+                            } elseif ($clause[2] === 'or')  {
+                                continue 1;
+                            }
+                        } elseif (is_array($data->$field) && !in_array($value, $data->$field)) {
+                            if ($clause[2] === 'and' || !$this->where[$key + 1]) {
+                                continue 2;
+                            } elseif ($clause[2] === 'or')  {
+                                continue 1;
+                            }
                         }
                     }
                     $setData = new \stdClass();
@@ -630,14 +640,14 @@ class C4GSubDialogField extends C4GBrickField
     }
 
     /**
-     * @param array $where
+     * @param String $field
+     * @param $value
+     * @param String $type
      * @return $this
      */
-    public function addWhere(array $where)
+    public function addWhere(String $field, $value, String $type)
     {
-        if ($where[0] && $where[1]) {
-            $this->where[] = array($where[0], $where[1]);
-        }
+        $this->where[] = array($field, $value, $type);
         return $this;
     }
 
