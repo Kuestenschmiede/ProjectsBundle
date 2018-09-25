@@ -107,6 +107,7 @@ class C4GBrickDialogParams
     private $doNotSaveIfValuesDidNotChange = false;     //Will not save to the database if the values did not change, but will not interrupt saving of sub dialogs.
     private $saveCallback = array();
     private $deleteCallback = array();
+    private $showSuccessfullySavedMessage = true;
 
 
     /**
@@ -1805,4 +1806,24 @@ class C4GBrickDialogParams
         $this->deleteCallback = $deleteCallback;
         return $this;
     }
+
+    /**
+     * @return bool
+     */
+    public function isShowSuccessfullySavedMessage(): bool
+    {
+        return $this->showSuccessfullySavedMessage;
+    }
+
+    /**
+     * @param bool $showSuccessfullySavedMessage
+     * @return C4GBrickDialogParams
+     */
+    public function setShowSuccessfullySavedMessage(bool $showSuccessfullySavedMessage): C4GBrickDialogParams
+    {
+        $this->showSuccessfullySavedMessage = $showSuccessfullySavedMessage;
+        return $this;
+    }
+
+
 }

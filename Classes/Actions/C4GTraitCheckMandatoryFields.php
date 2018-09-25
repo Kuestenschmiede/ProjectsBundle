@@ -21,9 +21,11 @@ trait C4GTraitCheckMandatoryFields
     /**
      * @param $fieldList
      * @param $dlgValues
+     * @param string $callback
+     * @param string $callbackParams
      * @return array
      */
-    function checkMandatoryFields($fieldList, $dlgValues)
+    function checkMandatoryFields($fieldList, $dlgValues, $callback = 'focusOnElement', $callbackParams = '')
     {
         $mandatoryCheckResult = C4GBrickDialog::checkMandatoryFields($fieldList, $dlgValues);
         if ($mandatoryCheckResult !== true) {
@@ -32,9 +34,12 @@ trait C4GTraitCheckMandatoryFields
                     return array('usermessage' => $mandatoryCheckResult->getSpecialMandatoryMessage(), 'title' => $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_MANDATORY_TITLE'],
                         'callback' => array('function' => 'focusOnElement', 'params' => 'c4g_' . $mandatoryCheckResult->getFieldName()));
                 } elseif ($mandatoryCheckResult->getTitle() != '') {
+                    if (!$callbackParams) {
+                        $callbackParams = 'c4g_'. $mandatoryCheckResult->getFieldName();
+                    }
                     return array('usermessage' => $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_MANDATORY_FIELD'].'"'. $mandatoryCheckResult->getTitle().'".',
                         'title' => $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_MANDATORY_TITLE'],
-                        'callback' => array('function' => 'focusOnElement', 'params' => 'c4g_'. $mandatoryCheckResult->getFieldName()));
+                        'callback' => array('function' => $callback, 'params' => $callbackParams));
                 }
             }
             return array('usermessage' => $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_MANDATORY'], 'title' => $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_MANDATORY_TITLE']);

@@ -246,13 +246,26 @@ class C4GSaveDialogAction extends C4GBrickDialogAction
             $archive_button = $dialogParams->getButton(C4GBrickConst::BUTTON_ARCHIVE);
             if($activation_button && $archive_button && $activation_button->isEnabled() && $archive_button->isEnabled()){
                 if(($dlgValues['published'] == false || $dlgValues['published'] == 'false') && $isWithActivationInfo && (!$dialogParams->isSaveWithoutMessages())){
-                    $return['usermessage'] =  $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_DATA_NOT_ACTIVATED'];
+                    $return['usermessage'] = $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_DATA_NOT_ACTIVATED'];
                     $return['title'] = $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_TITLE_DATA_NOT_ACTIVATED'];
                 }
             }
             if (!$dialogParams->isSaveWithoutClose() && $module && $module->getDialogChangeHandler()) {
                 $module->getDialogChangeHandler()->clearSession($module->getBrickKey());
             }
+
+            if ($dialogParams->isShowSuccessfullySavedMessage() && $changes) {
+                if (!$return['usermessage'] && !$return['title']) {
+                    $return['usermessage'] = $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_SUCCESSFULLY_SAVED'];
+                    $return['title'] = $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_SUCCESSFULLY_SAVED_TITLE'];
+                }
+            } elseif ($dialogParams->isShowSuccessfullySavedMessage()) {
+                if (!$return['usermessage'] && !$return['title']) {
+                    $return['usermessage'] = $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_SUCCESSFULLY_SAVED_NO_NEW_DATA'];
+                    $return['title'] = $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_SUCCESSFULLY_SAVED_NO_NEW_DATA_TITLE'];
+                }
+            }
+
             return $return;
         }
 
