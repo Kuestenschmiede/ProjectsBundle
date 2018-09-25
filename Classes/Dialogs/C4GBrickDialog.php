@@ -1281,7 +1281,7 @@ class C4GBrickDialog
                         $cb = $dialogParams->getSaveCallback();
                         $class = $cb[0];
                         $method = $cb[1];
-                        $class::$method($set, $result['insertId'], 'insert', $fieldList);
+                        $class::$method($brickDatabase->getParams()->getTableName(), $set, $result['insertId'], 'insert', $fieldList);
                     }
                 } elseif ($saveInNew) {
                     if ($dialogParams->getOriginalIdName()) {
@@ -1293,7 +1293,7 @@ class C4GBrickDialog
                         $cb = $dialogParams->getSaveCallback();
                         $class = $cb[0];
                         $method = $cb[1];
-                        $class::$method($set, $result['insertId'], 'insert', $fieldList);
+                        $class::$method($brickDatabase->getParams()->getTableName(), $set, $result['insertId'], 'insert', $fieldList);
                     }
                 } elseif (($id) && ($id_fieldName)) {
                         $result = $brickDatabase->update($id, $set, $id_fieldName);
@@ -1301,7 +1301,7 @@ class C4GBrickDialog
                         $cb = $dialogParams->getSaveCallback();
                         $class = $cb[0];
                         $method = $cb[1];
-                        $class::$method($tableName, $set , $result['insertId'], 'update', $fieldList);
+                        $class::$method($brickDatabase->getParams()->getTableName(), $set , $result['insertId'], 'update', $fieldList);
                     }
                 }
             } else {
