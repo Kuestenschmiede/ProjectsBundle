@@ -645,7 +645,7 @@ class C4GSubDialogField extends C4GBrickField
      * @param String $type
      * @return $this
      */
-    public function addWhere(String $field, $value, String $type)
+    public function addWhere(String $field, $value, String $type='and')
     {
         $this->where[] = array($field, $value, $type);
         return $this;
