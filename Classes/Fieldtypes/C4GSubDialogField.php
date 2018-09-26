@@ -123,11 +123,19 @@ class C4GSubDialogField extends C4GBrickField
                     foreach ($this->where as $key => $clause) {
                         $field = $this->getFieldName() . $this->delimiter . $clause[0] . $this->delimiter . $numLoadedDataSets;
                         $value = $clause[1];
-                        if (!is_array($data->$field) && $data->$field != $value) {
+                        if (!is_array($data->$field) && $data->$field == $value) {
+                            if ($clause[2] === 'or')  {
+                                break;
+                            }
+                        } elseif (!is_array($data->$field) && $data->$field != $value) {
                             if ($clause[2] === 'and' || !$this->where[$key + 1]) {
                                 continue 2;
                             } elseif ($clause[2] === 'or')  {
                                 continue 1;
+                            }
+                        } elseif (is_array($data->$field) && in_array($value, $data->$field)) {
+                            if ($clause[2] === 'or')  {
+                                break;
                             }
                         } elseif (is_array($data->$field) && !in_array($value, $data->$field)) {
                             if ($clause[2] === 'and' || !$this->where[$key + 1]) {
