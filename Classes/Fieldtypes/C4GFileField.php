@@ -71,8 +71,12 @@ class C4GFileField extends C4GBrickField
         }
         $value = $this->generateInitialValue($data);
 
-        $file = $data->$fieldName;
-        if (!is_string($file)) {
+        if (is_resource($data->$fieldName)) {
+            $file = stream_get_contents($data->$fieldName);
+        } elseif (is_string($data->$fieldName)) {
+            $file = $data->$fieldName;
+            $file = trim($file);
+        } else {
             $file = '';
         }
 
@@ -132,23 +136,34 @@ class C4GFileField extends C4GBrickField
     public function compareWithDB($dbValues, $dlgValues)
     {
         $fieldname = $this->getFieldName();
-        $dbValue = $dbValues->$fieldname;
-        $dlgvalue = $dlgValues[$this->getFieldName()];
-        $dbValue = trim($dbValue);
+        if (is_resource($dbValues->$fieldname)) {
+            $dbValue = stream_get_contents($dbValues->$fieldname);
+        } elseif (is_string($dbValues->$fieldname)) {
+            $dbValue = $dbValues->$fieldname;
+            $dbValue = trim($dbValue);
+        } else {
+            return array();
+        }
+
         $fileObject = C4GBrickCommon::loadFile($dbValue);
         if ($fileObject) {
             $file_url = $fileObject->path;
         }
 
+        $result = array();
         $url = $dlgValues['c4g_uploadURL'];
         if (strcmp($url, $file_url) != 0) {
             $result[] = new C4GBrickFieldCompare($this, $file_url, $url);
         }
+
+        return $result;
     }
 
     /**
-     * Method that will be called in the saveC4GDialog() in C4GBrickDialog
-     * @return array
+     * @param $dlgValues
+     * @param null $dbValues
+     * @return array|int|string
+     * @throws \Exception
      */
     public function createFieldData($dlgValues, $dbValues = null)
     {
