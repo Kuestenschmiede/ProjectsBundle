@@ -163,11 +163,11 @@ class AjaxController extends Controller
         $sUniqID   = uniqid();
         $sFileName = $sUniqID . "." . $sFileExt;
 
-        $contaoPath = substr($_SERVER['SCRIPT_NAME'], 0, strpos($_SERVER['SCRIPT_NAME'],'system', false) -1);
-        if($contaoPath == false)
-        {
-            $contaoPath = '';
-        }
+//        $contaoPath = substr($_SERVER['SCRIPT_NAME'], 0, strpos($_SERVER['SCRIPT_NAME'],'system', false) -1);
+//        if($contaoPath == false)
+//        {
+//            $contaoPath = '';
+//        }
 
         $rootDir = System::getContainer()->getParameter('kernel.project_dir');
         $sSystemPath = str_replace('\\','/',$rootDir) . "/" . trim($sDestinationPath,'/');
@@ -178,7 +178,8 @@ class AjaxController extends Controller
         }
 
         if (move_uploaded_file($sTempname, $sDestination)) {
-            $response->setData([$contaoPath . '/' . trim($sDestinationPath,'/') . "/" . $sFileName]);
+            $response->setData([trim($sDestinationPath,'/') . "/" . $sFileName]);
+//            $response->setData([$contaoPath . '/' . trim($sDestinationPath,'/') . "/" . $sFileName]);
 //                echo $contaoPath . '/' . trim($sDestinationPath,'/') . "/" . $sFileName;
         } else {
             $response->setData([]);
