@@ -146,7 +146,9 @@ class C4GBrickCommon
      * @param $fieldName
      * @param $original_filename
      * @param $new_filename
-     * @return string
+     * @param $generated_filename
+     * @return int
+     * @throws \Exception
      */
     public static function saveFile($fieldName, $original_filename, $new_filename, $generated_filename)
     {
