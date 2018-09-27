@@ -261,14 +261,17 @@ function handleBoolSwitch(checkbox, element, reverse) {
 }
 
 /**
- *
  * @param fileList
  * @param path
+ * @param uploadURL
+ * @param deleteURL
+ * @param fieldName
  * @param targetField
+ * @param mimeTypes
  */
-function handleC4GBrickFile(fileList, path, fieldName, targetField, mimeTypes) {
+function handleC4GBrickFile(fileList, path, uploadURL, deleteURL, fieldName, targetField, mimeTypes) {
     if (fileList) {
-        if (document.getElementById("c4g_uploadURL_"+fieldName).value !== fileList[0]) {
+        if (document.getElementById(uploadURL+fieldName).value !== fileList[0]) {
             var img = document.createElement("img");
             img.file = fileList[0];
             img.name = "img_" + 0;
@@ -281,18 +284,20 @@ function handleC4GBrickFile(fileList, path, fieldName, targetField, mimeTypes) {
             })(img);
             reader.readAsDataURL(fileList[0]);
 
-            C4GBrickFileUpload(fileList[0], path, fieldName, targetField, mimeTypes);
+            C4GBrickFileUpload(fileList[0], path, uploadURL, deleteURL, fieldName, targetField, mimeTypes);
         }
     }
 }
 
 /**
- *
+ * @param uploadURL
+ * @param deleteURL
+ * @param fieldName
  * @param targetField
  */
-function deleteC4GBrickFile(fieldName, targetField) {
-    document.getElementById("c4g_deleteURL_"+fieldName).value =  document.getElementById("c4g_uploadURL_"+fieldName).value;
-    document.getElementById("c4g_uploadURL_"+fieldName).value = "";
+function deleteC4GBrickFile(uploadURL, deleteURL, fieldName, targetField) {
+    document.getElementById(deleteURL+"_"+fieldName).value =  document.getElementById(uploadURL+"_"+fieldName).value;
+    document.getElementById(uploadURL+"_"+fieldName).value = "";
     document.getElementById("c4g_uploadLink_"+fieldName).innerHTML = "";
     if (document.getElementById("c4g_deleteButton_"+fieldName)) {
         document.getElementById("c4g_deleteButton_"+fieldName).style = "display:none";
@@ -309,10 +314,13 @@ function deleteC4GBrickFile(fieldName, targetField) {
  *
  * @param file
  * @param path
+ * @param uploadURL
+ * @param deleteURL
+ * @param fieldName
  * @param targetField
- * @constructor
+ * @param mimeTypes
  */
-function C4GBrickFileUpload( file, path, fieldName, targetField, mimeTypes )
+function C4GBrickFileUpload( file, path, uploadURL, deleteURL, fieldName, targetField, mimeTypes )
 {
     var xhr = new XMLHttpRequest();
 
@@ -323,14 +331,17 @@ function C4GBrickFileUpload( file, path, fieldName, targetField, mimeTypes )
     fd.append("REQUEST_TOKEN", c4g_rq);
 
     xhr.onreadystatechange = function(){
-        if (xhr.readyState==4 && xhr.status==200) {
+        if (xhr.readyState===4 && xhr.status===200) {
             var filename = JSON.parse(xhr.responseText)[0];
-            document.getElementById("c4g_uploadURL_"+fieldName).value = filename;
+            var field = document.getElementById(uploadURL+fieldName);
+            field.value = filename;
             document.getElementById("c4g_uploadLink_"+fieldName).innerHTML = "<a href='" + filename + "' target='_blank'>" + file.name.replace("C:\\fakepath\\", "") + "</a>";
             if (document.getElementById("c4g_deleteButton_"+fieldName)) {
                 document.getElementById("c4g_deleteButton_"+fieldName).style = "display:inline";
             }
-            document.getElementById("c4g_deleteURL_"+fieldName).value = "";
+            if (deleteURL !== '') {
+                document.getElementById(deleteURL+fieldName).value = "";
+            }
             if (targetField) {
                 if (document.getElementsByClassName("c4g_"+targetField+"_src")[0]) {
                     document.getElementsByClassName("c4g_"+targetField+"_src")[0].getElementsByTagName("img")[0].src = filename;
@@ -1262,6 +1273,27 @@ function editSubDialog(button, event) {
                 }
             }
         }
+        var element3 = document.getElementById('c4g_deleteButton_' + ids[index]);
+        //console.log(element);
+        if ((typeof(element3) !== 'undefined') && element3 !== null) {
+            if (element2.tagName === 'BUTTON') {
+                if (element3.hasAttribute('disabled')) {
+                    element3.removeAttribute('disabled');
+                } else {
+                    element3.setAttribute('disabled', '')
+                }
+                if (element3.hasAttribute('readonly')) {
+                    element3.removeAttribute('readonly');
+                } else {
+                    element3.setAttribute('readonly', '')
+                }
+                if (element3.style.display === 'none') {
+                    element3.style.display = 'unset';
+                } else {
+                    element3.style.display = 'none';
+                }
+            }
+        }
         // console.log(ids[index]);
         var elements = button.parentNode.getElementsByClassName(ids[index]);
         //console.log(elements);
@@ -1302,10 +1334,11 @@ function editSubDialog(button, event) {
                 k += 1;
             }
             var butts = elements[i].getElementsByTagName('button');
+            console.log(butts);
             var l = 0;
             while (l < butts.length) {
                 if (typeof(butts[l]) !== 'undefined') {
-                    if (butts[k].hasAttribute('disabled')) {
+                    /*if (butts[k].hasAttribute('disabled')) {
                         butts[k].removeAttribute('disabled');
                     } else {
                         butts[k].setAttribute('disabled', '')
@@ -1314,7 +1347,9 @@ function editSubDialog(button, event) {
                         butts[k].removeAttribute('readonly');
                     } else {
                         butts[k].setAttribute('readonly', '')
-                    }
+                    }*/
+                    butts[k].removeAttribute('disabled');
+                    butts[k].removeAttribute('readonly');
                     if (butts[l].style.display === 'none') {
                         butts[l].style.display = 'unset';
                     } else {

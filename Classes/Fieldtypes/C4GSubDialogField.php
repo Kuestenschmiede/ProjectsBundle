@@ -76,6 +76,12 @@ class C4GSubDialogField extends C4GBrickField
 //                $editable = $field->isEditable();
 //                $field->setEditable(false);
 //            }
+            if ($field instanceof C4GFileField) {
+                $uploadURL = $field->getUploadURL();
+                $deleteURL = $field->getDeleteURL();
+                $field->setUploadURL($this->getFieldName() . $this->delimiter . $uploadURL . $this->delimiter . $this->wildcard);
+                $field->setDeleteURL($this->getFieldName() . $this->delimiter . $deleteURL . $this->delimiter . $this->wildcard);
+            }
             $templateData = new \stdClass();
             foreach ($data as $key => $value) {
                 $templateData->$key = '';
@@ -92,6 +98,10 @@ class C4GSubDialogField extends C4GBrickField
             }
             $fieldsHtml .= $field->getC4GDialogField($this->getFieldList(), $templateData, $dialogParams, $additionalParams = array());
             $field->setFieldName($fieldName);
+            if ($field instanceof C4GFileField) {
+                $field->setUploadURL($uploadURL);
+                $field->setDeleteURL($deleteURL);
+            }
 //            if ($editButton) {
 //                $field->setEditable($editable);
 //            }
@@ -176,6 +186,12 @@ class C4GSubDialogField extends C4GBrickField
                                 $editable = $field->isEditable();
                                 $field->setEditable(false);
                             }
+                            if ($field instanceof C4GFileField) {
+                                $uploadURL = $field->getUploadURL();
+                                $deleteURL = $field->getDeleteURL();
+                                $field->setUploadURL($this->getFieldName() . $this->delimiter . $uploadURL . $this->delimiter . $numLoadedDataSets);
+                                $field->setDeleteURL($this->getFieldName() . $this->delimiter . $deleteURL . $this->delimiter . $numLoadedDataSets);
+                            }
                             $field->setFieldName($this->getFieldName() . $this->delimiter . $fieldName . $this->delimiter . $numLoadedDataSets);
                             if (!$field instanceof C4GForeignArrayField) {
                                 if ((!$editButton) || ($editable)) {
@@ -189,6 +205,10 @@ class C4GSubDialogField extends C4GBrickField
                             $field->setFieldName($fieldName);
                             if ($editButton) {
                                 $field->setEditable($editable);
+                            }
+                            if ($field instanceof C4GFileField) {
+                                $field->setUploadURL($uploadURL);
+                                $field->setDeleteURL($deleteURL);
                             }
                         }
                         $dataFieldNames = implode(',', $dataFieldNamesArray);
