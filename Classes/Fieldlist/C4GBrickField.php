@@ -52,6 +52,7 @@ abstract class C4GBrickField
     private $align = 'left';
     private $additionalID = ''; //additional ID for switchable (hidden) Fields with same fieldname
     private $addressField = null; //nominatim reverse search
+    private $attributes = ''; //additional html attributes as string
     private $callOnChange = false; //call function on change (useful with select and other types)
     private $callOnChangeFunction = 'C4GCallOnChange(this)'; //call this function on change
     private $columnWidth = 0; //culumn width on datatable view
@@ -2358,5 +2359,19 @@ abstract class C4GBrickField
         return $this;
     }
 
+    /**
+     * @return string
+     */
+    public function getAttributes(): string
+    {
+        return $this->attributes;
+    }
 
+    /**
+     * @param string $attributes
+     */
+    public function setAttributes(string $attributes): void
+    {
+        $this->attributes = $attributes;
+    }
 }
