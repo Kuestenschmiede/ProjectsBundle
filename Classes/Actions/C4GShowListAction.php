@@ -355,7 +355,7 @@ class C4GShowListAction extends C4GBrickDialogAction
             /** DEPRECATED; use a C4GListFilter object. */
             $filterParams =  $listParams->getFilterParams();
             if ($filterParams instanceof C4GBrickFilterParams) {
-                if ($filterParams->isWithRangeFilter()) {
+                if ($filterParams->isWithRangeFilter() && !$modelListFunction) {
                     $dateFrom = $filterParams->getRangeFrom();
                     $dateTo = $filterParams->getRangeTo();
                     $rangeFrom = strtotime($filterParams->getRangeFrom());
