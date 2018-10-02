@@ -119,6 +119,7 @@ class C4GBrickModuleParent extends \Module
     protected $permalink_name       = null; //for setting an own get param
     protected $permalinkModelClass  = null; //if table filled by modelListFunction
     protected $loadUrlClear         = false; // if true, a js script will be loaded and trim the urls to remove the states
+    protected $withPermissionCheck  = true; // can be set to false to avoid the table permission check
 
     //UUID params
     protected $UUID                 = 'c4g_brick_uuid'; //Name of the uuid cookie in the browser. Can be overridden in child.
@@ -225,7 +226,9 @@ class C4GBrickModuleParent extends \Module
 
             if ($init) {
                 $this->initBrickModule(-1);
-                $this->initPermissions();
+                if ($this->withPermissionCheck) {
+                    $this->initPermissions();
+                }
             }
 
             if ($this->dialogParams && $this->dialogParams->getViewParams()->getLoginRedirect()) {
@@ -835,7 +838,9 @@ class C4GBrickModuleParent extends \Module
             ) {
                 if (!$this->brickDatabase) {
                     $this->initBrickModule(-1);
-                    $this->initPermissions();
+                    if ($this->withPermissionCheck) {
+                        $this->initPermissions();
+                    }
                 }
 
                 if ($_GET[C4GBrickActionType::IDENTIFIER_PERMALINK]) {
@@ -849,7 +854,9 @@ class C4GBrickModuleParent extends \Module
                     if ($dataset) {
                         $id = $dataset->id;
                         $this->initBrickModule($id);
-                        $this->initPermissions();
+                        if ($this->withPermissionCheck) {
+                            $this->initPermissions();
+                        }
                         $action = C4GBrickActionType::IDENTIFIER_LIST.':'.$id;
                         $result = $this->performAction($action);
                     }
@@ -864,7 +871,9 @@ class C4GBrickModuleParent extends \Module
                     if ($dataset) {
                         $id = $dataset->id;
                         $this->initBrickModule($id);
-                        $this->initPermissions();
+                        if ($this->withPermissionCheck) {
+                            $this->initPermissions();
+                        }
                         $action = C4GBrickActionType::IDENTIFIER_LIST.':'.$id;
                         $result = $this->performAction($action);
                     }
@@ -878,7 +887,9 @@ class C4GBrickModuleParent extends \Module
                     if ($dataset) {
                         $id = $dataset->id;
                         $this->initBrickModule($id);
-                        $this->initPermissions();
+                        if ($this->withPermissionCheck) {
+                            $this->initPermissions();
+                        }
                         $action = C4GBrickActionType::IDENTIFIER_LIST.':'.$id;
                         $result = $this->performAction($action);
 
@@ -963,13 +974,13 @@ class C4GBrickModuleParent extends \Module
         $values = explode(':', $action, 5);
         if (is_numeric($values[1])) {
             $this->initBrickModule($values[1]);
-            $this->initPermissions();
         } elseif ($values[0] == C4GBrickActionType::ACTION_BUTTONCLICK && is_numeric($values[2])) {
             // this case is needed for the ACTION_BUTTONCLICK action
             $this->initBrickModule($values[2]);
-            $this->initPermissions();
         } else {
             $this->initBrickModule($values[1]);
+        }
+        if ($this->withPermissionCheck) {
             $this->initPermissions();
         }
 
@@ -1010,6 +1021,7 @@ class C4GBrickModuleParent extends \Module
 
     /**
      * Initialize C4GPermissions for this module.
+     * TODO ist final hier nicht überflüssig, da die Methode sowieso private ist und in der Kindklasse nicht sichtbar ist?
      */
     private final function initPermissions()
     {
@@ -1370,6 +1382,19 @@ class C4GBrickModuleParent extends \Module
         return $this->modelClass;
     }
 
+    /**
+     * @return bool
+     */
+    public function isWithPermissionCheck()
+    {
+        return $this->withPermissionCheck;
+    }
 
-
+    /**
+     * @param bool $withPermissionCheck
+     */
+    public function setWithPermissionCheck($withPermissionCheck)
+    {
+        $this->withPermissionCheck = $withPermissionCheck;
+    }
 }
