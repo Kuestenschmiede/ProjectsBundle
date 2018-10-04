@@ -16,6 +16,7 @@ namespace con4gis\ProjectsBundle\Classes\Framework;
 
 use con4gis\CoreBundle\Resources\contao\classes\C4GJQueryGUI;
 use con4gis\CoreBundle\Resources\contao\classes\C4GUtils;
+use con4gis\CoreBundle\Resources\contao\classes\ResourceLoader;
 use con4gis\GroupsBundle\Resources\contao\models\MemberGroupModel;
 use con4gis\GroupsBundle\Resources\contao\models\MemberModel;
 use con4gis\ProjectsBundle\Classes\Actions\C4GBrickAction;
@@ -587,6 +588,8 @@ class C4GBrickModuleParent extends \Module
         if ($this->brickScript) {
             $GLOBALS['TL_JAVASCRIPT']['c4g_brick_script_'.$this->name] = $this->brickScript;
         }
+        // load the js file for triggering the search from another module
+        ResourceLoader::loadJavaScriptDeferred("datatable-search-trigger", "bundles/con4gisprojects/js/datatable-search-trigger.js");
 
         $data['jquiEmbeddedDialogs'] = true;//$this->dialogs_jqui;
         $GLOBALS['TL_CSS'] [] = 'bundles/con4giscore/vendor/wswgEditor/css/editor.css';
