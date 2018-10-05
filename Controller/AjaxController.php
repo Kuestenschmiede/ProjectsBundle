@@ -143,6 +143,9 @@ class AjaxController extends Controller
         $_FILES = Input::xssClean($_FILES);
         $sTempname        = $_FILES['File']['tmp_name'];
         $sFileName        = $_FILES['File']['name'];
+        if ($sFileName == "blob") {
+            $sFileName = Input::post('name');
+        }
         $sFileType        = $_FILES['File']['type'];
         //$sDestinationFile = \Contao\Input::post('File');
         $sDestinationPath = Input::post('Path');
