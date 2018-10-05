@@ -171,7 +171,7 @@ class C4GFileField extends C4GBrickField
         $fieldData = $dlgValues[$this->getFieldName()];
         $original_filename = $fieldData;
         $fieldName = $this->getFieldName();
-        $upload_url = $dlgValues[$this->uploadURL];
+        $upload_url = $dlgValues['uploadURL_'.$fieldName];
         $old_file = $dbValues->$fieldName;
 
         $fileObject = C4GBrickCommon::loadFile($old_file);
@@ -462,6 +462,4 @@ class C4GFileField extends C4GBrickField
         $this->deleteURL = $deleteURL;
         return $this;
     }
-
-
 }
