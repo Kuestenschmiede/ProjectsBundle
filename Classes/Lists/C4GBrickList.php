@@ -559,7 +559,6 @@ class C4GBrickList
         if (!$listParams->isWithoutListButtons()) {
             $buttons = C4GBrickList::getDialogButtons($listParams, $parentCaption);
         }
-
         $return = array
         (
             'contenttype' => 'datatable',
@@ -574,6 +573,11 @@ class C4GBrickList
             'headline' => $listHeadline,
             'buttons' => $buttons
         );
+        if ($searchValue = \Session::getInstance()->get('c4g_list_searchValue')) {
+            $return['searchValue'] = $searchValue;
+            \Session::getInstance()->remove('c4g_list_searchValue');
+        }
+
 
         if ($listParams->isshowToolTips()) {
             $return['contentoptions']['tooltipcol']  = $col;
