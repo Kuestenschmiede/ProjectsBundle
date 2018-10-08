@@ -913,8 +913,10 @@ a.c4g_tile_button:hover {
     cursor: pointer;
 }
 
-/*
-.c4g_sub_dialog_container input {
+.nomouseevents {
     pointer-events: none;
-    background-color: grey;
-}*/
+}
+
+.nomouseevents .DataTables_sort_icon {
+    display: none;
+}
