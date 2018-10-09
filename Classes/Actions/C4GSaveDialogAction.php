@@ -69,16 +69,16 @@ class C4GSaveDialogAction extends C4GBrickDialogAction
             }
         }
 
-        $dbValues = null;
-        $newId = false;
-
-        if ($dialogId && ($dialogId != "") && ($dialogId != "-1")) {
-            $dbValues = $brickDatabase->findByPk($dialogId);
-        } else {
-            $newId = true;
+        $dialogDataObject = $module->getDialogDataObject();
+        $dialogDataObject->loadData->loadValuesAndAuthenticate();
+        $dialogDataObject->setDialogValues($dlgValues);
+        $diff = $dialogDataObject->getDifferences();
+        if ($diff) {
+            $dialogDataObject->authenticateAndSaveValues();
+            //todo new id -> for what?
+            //todo notifications
+            //todo redirects
         }
-
-        $changes = C4GBrickDialog::compareWithDB($this->makeRegularFieldList($fieldList), $dlgValues, $dbValues, $viewType, false);
 
         if ($newId || count($changes) > 0) {
             $validate_result = C4GBrickDialog::validateUnique($this->makeRegularFieldList($fieldList), $dlgValues, $brickDatabase, $dialogParams);

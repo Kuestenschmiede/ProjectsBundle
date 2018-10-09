@@ -143,18 +143,17 @@ final class C4GStandardDialogDataContao extends C4GDialogData
      */
     protected function generateDifferences()
     {
-        if ($this->dbValues && $this->dialogValues) {
+        if ($this->dialogValues) {
             $dbValues = $this->dbValues;
             $dialogValues = $this->dialogValues;
             $differences = array();
             foreach ($this->indexes as $index) {
-                if ($dbValues !== $dialogValues) {
+                if ($dbValues[$index] !== $dialogValues[$index]) {
                     $differences[$index] = array($dbValues[$index], $dialogValues[$index]);
                 }
             }
             $this->differences = $differences;
         }
-        $this->differences = array();
     }
 
     /**

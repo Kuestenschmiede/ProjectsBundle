@@ -38,7 +38,7 @@ abstract class C4GDialogData
         $this->id = $id;
     }
 
-    public final function LoadValuesAndAuthenticate() {
+    public final function loadValuesAndAuthenticate() {
         $this->loadValues();
         if ($this->authenticate() !== true) {
             $this->dbValues = array();
