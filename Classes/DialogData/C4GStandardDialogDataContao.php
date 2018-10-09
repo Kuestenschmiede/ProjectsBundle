@@ -20,7 +20,7 @@ use con4gis\ProjectsBundle\Classes\Views\C4GBrickViewParams;
 /**
  * DialogData extension for standard modules.
  */
-final class StandardDialogDataContao extends DialogData
+final class C4GStandardDialogDataContao extends C4GDialogData
 {
     protected $db;
     protected $indexes;
@@ -123,7 +123,7 @@ final class StandardDialogDataContao extends DialogData
     /**
      * Load the values from the given dialogValues into the object's dialogValues property.
      * @param $dialogValues
-     * @return DialogData
+     * @return C4GDialogData
      */
     public function setDialogValues($dialogValues)
     {

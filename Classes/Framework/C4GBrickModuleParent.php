@@ -26,6 +26,8 @@ use con4gis\ProjectsBundle\Classes\Common\C4GBrickConst;
 use con4gis\ProjectsBundle\Classes\Database\C4GBrickDatabase;
 use con4gis\ProjectsBundle\Classes\Database\C4GBrickDatabaseParams;
 use con4gis\ProjectsBundle\Classes\Database\C4GBrickDatabaseType;
+use con4gis\ProjectsBundle\Classes\DialogData\C4GDialogData;
+use con4gis\ProjectsBundle\Classes\DialogData\C4GStandardDialogDataContao;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GDialogChangeHandler;
 use con4gis\ProjectsBundle\Classes\Lists\C4GBrickListParams;
@@ -125,6 +127,9 @@ class C4GBrickModuleParent extends \Module
     //UUID params
     protected $UUID                 = 'c4g_brick_uuid'; //Name of the uuid cookie in the browser. Can be overridden in child.
     protected $useUuidCookie        = false; //Can be overridden in child to suppress the uuid cookie.
+
+    protected $dialogDataClass = C4GStandardDialogDataContao::class;
+    protected $dialogDataObject = null;
 
 
     /**
@@ -1400,4 +1405,14 @@ class C4GBrickModuleParent extends \Module
     {
         $this->withPermissionCheck = $withPermissionCheck;
     }
+
+    /**
+     * @return C4GDialogData
+     */
+    public function getDialogDataObject(): C4GDialogData
+    {
+        return $this->dialogDataObject;
+    }
+
+
 }

@@ -16,7 +16,7 @@ namespace con4gis\ProjectsBundle\Classes\DialogData;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Views\C4GBrickViewParams;
 
-abstract class DialogData
+abstract class C4GDialogData
 {
     protected $dbValues = array();
     protected $dialogValues = array();
@@ -83,7 +83,7 @@ abstract class DialogData
     /**
      * Load the values from the given dialogValues into the object's dialogValues property.
      * @param $dialogValues
-     * @return DialogData
+     * @return C4GDialogData
      */
     public abstract function setDialogValues($dialogValues);
 
