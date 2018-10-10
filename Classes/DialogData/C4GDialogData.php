@@ -105,7 +105,7 @@ abstract class C4GDialogData
     public abstract function setDialogValues($dialogValues);
 
     public function getDialogValues() {
-
+        return $this->dialogValues;
     }
 
     /**

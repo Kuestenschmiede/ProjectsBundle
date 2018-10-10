@@ -423,10 +423,14 @@ class C4GBrickDialog
 
 
     /**
-     * @param $dialogClass
-     * @param C4GBrickField [] $fieldList
+     * @param $fieldList
+     * @param $database
      * @param $dataset
+     * @param $content
+     * @param $headtext
+     * @param C4GBrickDialogParams $dialogParams
      * @return array
+     * @deprecated
      */
     public static function showC4GDialog(
         $fieldList,
