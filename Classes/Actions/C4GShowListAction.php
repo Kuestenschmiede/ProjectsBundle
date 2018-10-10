@@ -33,7 +33,6 @@ class C4GShowListAction extends C4GBrickDialogAction
         $memberId = $dialogParams->getMemberId();
         $groupId  = $dialogParams->getGroupId();
         $projectId = $dialogParams->getProjectId();
-        $projectKey = $dialogParams->getProjectKey();
         $parentId = $dialogParams->getParentId();
         $parentIdField = $dialogParams->getParentIdField();
         $parentModel = $dialogParams->getParentModel();
@@ -41,7 +40,6 @@ class C4GShowListAction extends C4GBrickDialogAction
         $parentCaptionFields = $dialogParams->getParentCaptionFields();
         $brickKey = $dialogParams->getBrickKey();
         $brickCaptionPlural = $dialogParams->getBrickCaptionPlural();
-        $captionField = $dialogParams->getCaptionField();
         $withLabels = $dialogParams->isWithLabels();
         $viewType = $dialogParams->getViewType();
         $viewParams = $dialogParams->getViewParams();
@@ -53,11 +51,6 @@ class C4GShowListAction extends C4GBrickDialogAction
         $database = $this->brickDatabase->getParams()->getDatabase();
         $modelClass = $brickDatabase->getParams()->getModelClass();
         $viewFormatFunction = $listParams->getViewFormatFunction();
-
-        $groupCount = -1;
-        if ($GLOBALS['con4gis']['groups']['installed']) {
-            $groupCount = count(C4GBrickCommon::getGroupListForBrick($memberId, $brickKey));
-        }
 
         $group_headline = '';
         $project_headline = '';
@@ -204,152 +197,13 @@ class C4GShowListAction extends C4GBrickDialogAction
             }
         }
 
-        try
-        {
-            $tableName = $brickDatabase->getParams()->getTableName();
-            switch($viewType) {
-                case C4GBrickView::isGroupBased($viewType):
-                    if($viewType == C4GBrickViewType::GROUPPARENTVIEW || $viewType == C4GBrickViewType::GROUPPARENTBASED) {
-                        $pid_field = 'pid';
-                        if ($parentIdField) {
-                            $pid_field = $parentIdField;
-                        }
-
-                        if ($modelListFunction) {
-                            $function = $modelListFunction;
-                            $database = $brickDatabase->getParams()->getDatabase();
-
-                            //ToDo Umbau brickDatabase
-                            $model = $modelClass ? $modelClass : $brickDatabase->getParams()->getModelClass();
-                            $elements = $model::$function($groupId, $pid_field, $parentId, $database, $listParams);
-
-                            if ($elements->headline) {
-                                $list_headline = '<div class="c4g_brick_headtext_highlighted">' . $elements->headline . '</div>';
-                                unset($elements->headline);
-                            }
-                        } else {
-                            if ($dialogParams->isWithCommonParentOption() && $parentId == -1) {
-                                $elements = $brickDatabase->findBy($viewParams->getGroupKeyField(), $groupId);
-                                $this->listParams->deleteButton(C4GBrickConst::BUTTON_ADD);
-                            } else {
-                                $elements = $brickDatabase->findBy($pid_field, $parentId);
-                            }
-                        }
-                    } else {
-                        if ($modelListFunction) {
-                            $function = $modelListFunction;
-                            $database = $brickDatabase->getParams()->getDatabase();
-
-                            //ToDo Umbau brickDatabase
-                            $model = $modelClass ? $modelClass : $brickDatabase->getParams()->getModelClass();
-                            $elements = $model::$function($groupId, $database, $listParams, $brickDatabase);
-                            if ($elements->headline) {
-                                $list_headline = '<div class="c4g_brick_headtext_highlighted">' . $elements->headline . '</div>';
-                                unset($elements->headline);
-                            }
-                        } else {
-                            $groupKeyField = $viewParams->getGroupKeyField();
-                            $elements = $brickDatabase->findBy($groupKeyField, $groupId);
-                        }
-                    }
-                    break;
-                case C4GBrickView::isProjectBased($viewType):
-                    $elements = $brickDatabase->findBy('project_id', $projectId);
-                    break;
-                case C4GBrickView::isProjectParentBased($viewType):
-                    $pid_field = 'pid';
-                    if ($parentIdField) {
-                        $pid_field = $parentIdField;
-                    }
-                    $elements = $brickDatabase->findBy($pid_field, $parentId);
-                    break;
-                case C4GBrickViewType::ADMINBASED;
-                    $elements = $brickDatabase->findAll();
-                    break;
-                case C4GBrickView::isMemberBased($viewType):
-                    if($modelListFunction) {
-                        $function = $modelListFunction;
-                        $database = $brickDatabase->getParams()->getDatabase();
-                        //ToDo Umbau brickDatabase
-                        $model = $modelClass;
-                        $elements = $model::$function($memberId, $tableName, $database, $fieldList, $listParams);
-                        if ($elements->headline) {
-                            $list_headline = '<div class="c4g_brick_headtext_highlighted">' . $elements->headline . '</div>';
-                            unset($elements->headline);
-                        }
-                    }
-                    else {
-                        $memberKeyField = $viewParams->getMemberKeyField();
-                        $elements = $brickDatabase->findBy($memberKeyField, $memberId);
-                    }
-                    break;
-                case C4GBrickView::isPublicBased($viewType):
-                    if ($modelListFunction) {
-                        $function = $modelListFunction;
-                        $class = $modelClass;
-                        if ($parentIdField) {
-                            $elements = $class::$function($parentId);
-                        } else {
-                            $elements = $class::$function();
-                        }
-
-                        if ($elements->headline) {
-                            $list_headline = '<div class="c4g_brick_headtext_highlighted">' . $elements->headline . '</div>';
-                            unset($elements->headline);
-                        }
-                    } else {
-                        if ($brickDatabase->getParams()->getFindBy() && (count($brickDatabase->getParams()->getFindBy()) > 0)) {
-                            $elements = call_user_func_array(array($brickDatabase,'findBy'),$brickDatabase->getParams()->getFindBy());
-                        } else {
-                            $elements = $brickDatabase->findAll();
-                        }
-                    }
-                    break;
-                case C4GBrickView::isPublicUUIDBased($viewType):
-                    if($modelListFunction) {
-                        $function = $modelListFunction;
-                        $database = $brickDatabase->getParams()->getDatabase();
-                        $model = $modelClass;
-                        $elements = $model::$function($this->dialogParams->getUuid(), $tableName, $database, $fieldList, $listParams);
-                        if ($elements->headline) {
-                            $list_headline = '<div class="c4g_brick_headtext_highlighted">' . $elements->headline . '</div>';
-                            unset($elements->headline);
-                        }
-                    }
-                    else {
-                        $uuid = $this->dialogParams->getUuid();
-                        $elements = $brickDatabase->findBy('uuid', $uuid);
-                    }
-                    break;
-                case C4GBrickView::isPublicParentBased($viewType):
-                    if ($modelListFunction) {
-                        $function = $modelListFunction;
-                        $database = $brickDatabase->getParams()->getDatabase();
-                        $model = $modelClass;
-                        $elements = $model::$function($parentId, $tableName, $database, $fieldList, $listParams);
-                        if ($elements->headline) {
-                            $list_headline = '<div class="c4g_brick_headtext_highlighted">' . $elements->headline . '</div>';
-                            unset($elements->headline);
-                        }
-                    } else {
-                        if ($parentId === 0 || $parentId === '0') {
-                            $elements = $brickDatabase->findAll();
-                        } else {
-                            $elements = $brickDatabase->findBy($dialogParams->getParentIdField(), $parentId);
-                        }
-                    }
-                    break;
-                default:
-
-                    break;
-            }
-        } catch (Exception $e) {
-            $elements = null;
-        }
+        $listDataObject = $this->module->getListDataObject();
+        $listDataObject->loadListElements();
+        $listElements = C4GBrickCommon::arrayToObject($listDataObject->getListElements());
 
         $filterObject = $listParams->getFilterObject();
         if ($filterObject) {
-            $elements = $filterObject->filter($elements, $dialogParams);
+            $listElements = $filterObject->filter($listElements, $dialogParams);
             $filterObject->addButton($listParams);
         } else {
             /** DEPRECATED; use a C4GListFilter object. */
@@ -370,31 +224,31 @@ class C4GShowListAction extends C4GBrickDialogAction
                     }
                     $filterField = $filterParams->getFilterField();
                     if ($filterField) {
-                        foreach ($elements as $key => $element) {
+                        foreach ($listElements as $key => $element) {
                             if (is_array($element)) {
                                 if ($element[$filterField] < $rangeFrom || $rangeTo < $element[$filterField]) {
-                                    if ($elements instanceof \stdClass) {
-                                        unset($elements->$key);
+                                    if ($listElements instanceof \stdClass) {
+                                        unset($listElements->$key);
                                     } else {
-                                        unset($elements[$key]);
+                                        unset($listElements[$key]);
                                     }
                                 }
                             } else {
                                 if ($element->$filterField < $rangeFrom || $rangeTo < $element->$filterField) {
-                                    if ($elements instanceof \stdClass) {
-                                        unset($elements->$key);
+                                    if ($listElements instanceof \stdClass) {
+                                        unset($listElements->$key);
                                     } else {
-                                        unset($elements[$key]);
+                                        unset($listElements[$key]);
                                     }
                                 }
                             }
                         }
                     }
-                } elseif ($filterParams->isWithMethodFilter() && $elements) {
+                } elseif ($filterParams->isWithMethodFilter() && $listElements) {
                     if ($filterParams->getUseMethodFilter()) {
                         $class = $filterParams->getFilterMethod()[0];
                         $method = $filterParams->getFilterMethod()[1];
-                        $elements = $class::$method($elements, $dialogParams);
+                        $listElements = $class::$method($listElements, $dialogParams);
                         setcookie($dialogParams->getBrickKey().'_methodFilter', '1', time()+3600, '/');
                     } else {
                         setcookie($dialogParams->getBrickKey().'_methodFilter', '0', time()+3600, '/');
@@ -405,11 +259,11 @@ class C4GShowListAction extends C4GBrickDialogAction
 
         // call formatter if set
         if ($viewFormatFunction && $modelClass) {
-            $elements = $modelClass::$viewFormatFunction($elements);
+            $listElements = $modelClass::$viewFormatFunction($listElements);
         }
 
-        if (!$elements) {
-            $elements = array();
+        if (!$listElements) {
+            $listElements = array();
         }
         $content = '';
         if (!$dialogParams->getC4gMap()) {
@@ -472,7 +326,7 @@ class C4GShowListAction extends C4GBrickDialogAction
                     $content,
                     $headtext,
                     $fieldList,
-                    $elements,
+                    $listElements,
                     $id,
                     $parentCaption,
                     $listParams
@@ -485,7 +339,7 @@ class C4GShowListAction extends C4GBrickDialogAction
                     $content,
                     $headtext,
                     $fieldList,
-                    $elements,
+                    $listElements,
                     $id,
                     $parentCaption,
                     $listParams
@@ -498,7 +352,7 @@ class C4GShowListAction extends C4GBrickDialogAction
                     $database,
                     $brickCaptionPlural,
                     $fieldList,
-                    $elements,
+                    $listElements,
                     $id,
                     $listParams,
                     $parentCaption,

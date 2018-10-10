@@ -30,7 +30,7 @@ abstract class C4GListData
     /**
      * Load the values from the database into the object's $listElements property.
      */
-    protected abstract function loadListElements();
+    public abstract function loadListElements();
 
     public function getListElements() {
         return $this->listElements;

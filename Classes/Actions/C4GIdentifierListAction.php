@@ -40,6 +40,7 @@ class C4GIdentifierListAction extends C4GBrickAction
             return $return;
         } else {
             $action = new C4GShowListAction($dialogParams, $listParams, $fieldList, $putVars, $brickDatabase);
+            $action->setModule($this->module);
             $return = $action->run();
             if ($module->getDialogChangeHandler()) {
                 $module->getDialogChangeHandler()->clearSession($module->getBrickKey());

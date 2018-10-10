@@ -112,7 +112,6 @@ class C4GBrickModuleParent extends \Module
     //expert params
     protected $modelListFunction    = null; //loading dataset by a special function
     protected $modelDialogFunction  = null; //loading dataset by a special function
-    protected $withBackup           = false; //doing automaticly exports (backups)
     protected $withActivationInfo   = false; //activation info
     protected $withLabels           = true; //switching on/off all labels
     protected $isPopup              = false; //needed with magnific popup
@@ -128,6 +127,7 @@ class C4GBrickModuleParent extends \Module
     protected $useUuidCookie        = false; //Can be overridden in child to suppress the uuid cookie.
 
     protected $dialogDataObject = null;
+    protected $listDataObject = null;
 
 
     /**
@@ -156,6 +156,7 @@ class C4GBrickModuleParent extends \Module
 
     /**
      * @param $type
+     * @return bool|int|mixed
      */
     protected function getIdByType($type) {
         switch($type) {
@@ -382,7 +383,6 @@ class C4GBrickModuleParent extends \Module
             $this->dialogParams->setNotificationTypeContactRequest($this->notification_type_contact_request);
             $this->dialogParams->setWithActivationInfo($this->withActivationInfo);
             $this->dialogParams->setPopup($this->isPopup);
-            $this->dialogParams->setWithBackup($this->withBackup);
             $this->dialogParams->setRedirectBackSite($this->redirect_back_site);
             $this->dialogParams->setParentIdField($this->parentIdField);
             $this->dialogParams->setRedirectSite($this->redirect_site);
@@ -1412,5 +1412,11 @@ class C4GBrickModuleParent extends \Module
         return $this->dialogDataObject;
     }
 
-
+    /**
+     * @return null
+     */
+    public function getListDataObject()
+    {
+        return $this->listDataObject;
+    }
 }

@@ -64,14 +64,14 @@ class C4GCloseDialogAction extends C4GBrickDialogAction
         if (count($changes) > 0 && $this->ignoreChanges == false) {
             $action = new C4GShowMessageChangesDialogAction($dialogParams, $this->getListParams(), $this->getFieldList(), $this->getPutVars(), $this->getBrickDatabase());
             $action->setChanges($changes);
+            $action->setModule($this->module);
             return $action->run();
         } else {
             $dialogParams->setId(-1);
             $action = new C4GShowListAction($dialogParams, $this->getListParams(), $this->getFieldList(), $this->getPutVars(), $this->getBrickDatabase());
+            $action->setModule($this->module);
             return $action->run();
         }
-
-        return $return;
     }
 
     /**

@@ -107,7 +107,7 @@ abstract class C4GBrickField
     private $showIfEmpty = true; //do not show clear fields?
     private $size = 0; //size for some types
     private $sort = true; //activate sorting for fieldtypes with options
-    private $sortColumn = false; //is this a sort column in datatable?
+    private $sortColumn = true; //is this a sort column in datatable?
     private $sortSequence = 'asc'; //sort sequence
     private $sortType = ''; //sort type de_date, de_datetime
     private $source = C4GBrickFieldSourceType::DATABASE; //datasource, if not database

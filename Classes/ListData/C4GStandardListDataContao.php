@@ -39,7 +39,7 @@ final class C4GStandardListDataContao extends C4GListData
     /**
      * Load the values from the database into the object's $listElements property.
      */
-    protected function loadListElements()
+    public function loadListElements()
     {
         $columns = implode(',', $this->columns);
         $table = $this->table;
@@ -54,7 +54,7 @@ final class C4GStandardListDataContao extends C4GListData
     }
 
     /**
-     * Specify a where clause for your query. You can use any standard mySQL clause, including the ? operator
+     * Specify a where clause for your query. You can use any standard mySQL clause, including the ? placeholder
      *  for prepared statements.
      * @param string $clause
      */

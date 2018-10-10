@@ -89,6 +89,7 @@ class C4GShowDialogAction extends C4GBrickDialogAction
         //Wenn $element an dieser Stelle null ist wird ein neuer Datensatz angelegt (Hinzufügen),
         //ansonsten wird der bestehende Datensatz zur Bearbeitung angeboten
         //Todo Refactor this so it is object-oriented
+        $this->module->getDialogDataObject()->loadValuesAndAuthenticate();
         $dialogData = $this->module->getDialogDataObject()->getDbValues();
         $result = C4GBrickDialog::showC4GDialog(
             $this->getFieldList(),

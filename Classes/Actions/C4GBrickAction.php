@@ -167,7 +167,8 @@ abstract class C4GBrickAction
     /**
      * @param $action
      * @param $module
-     * @return null
+     * @return array|bool|null|string
+     * @throws \Exception
      */
     public static function performAction(&$action, &$module)
     {
@@ -479,7 +480,7 @@ abstract class C4GBrickAction
      * some fields combined in dialog, but for compare or saving we have to merge the fields in one list.
      * @param $fieldList
      * @return array
-     * @deprecated 
+     * @deprecated
      */
     public function makeRegularFieldList($fieldList) {
         $resultList = array();
