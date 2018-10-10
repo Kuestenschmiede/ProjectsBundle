@@ -72,7 +72,6 @@ class C4GBrickDialogParams
     private $notificationType = null; //notification type
     private $notificationTypeContactRequest = null;
     private $withNotification     = false; //activate notifications
-    private $withBackup           = false; //backup see con4gis-Streamer
     private $popup                = false; //shows dialog as magnific popup
     private $withActivationInfo   = false; //activation info
     private $modelListFunction    = null; //Lädt die Datensätze der Tabelle über eine spezielle Modelfunktion.
@@ -1036,24 +1035,6 @@ class C4GBrickDialogParams
     public function setWithNotification($withNotification = true)
     {
         $this->withNotification = $withNotification;
-        return $this;
-    }
-
-    /**
-     * @return boolean
-     */
-    public function isWithBackup()
-    {
-        return $this->withBackup;
-    }
-
-    /**
-     * @param $withBackup
-     * @return $this
-     */
-    public function setWithBackup($withBackup)
-    {
-        $this->withBackup = $withBackup;
         return $this;
     }
 

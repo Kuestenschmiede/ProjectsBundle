@@ -18,12 +18,29 @@ use con4gis\ProjectsBundle\Classes\Views\C4GBrickViewParams;
 
 abstract class C4GDialogData
 {
+    /**
+     * An associative array. The keys correspond to the database columns.
+     * The values represent the respective database values.
+     * @var array
+     */
     protected $dbValues = array();
+    /**
+     * An associative array. The keys correspond to the dialog field names and match the keys in the
+     *  $dbValues property.
+     * The values represent the input. The type must match that of the corresponding
+     *  values in the $dbValues property.
+     * @var array
+     */
     protected $dialogValues = array();
+    /**
+     * An array containing the differences between the $dbValues and $dialogValues.
+     * @var array
+     */
     protected $differences = array();
     protected $dialogParams;
     protected $viewParams;
     protected $id;
+    protected $authenticated = false;
 
     /**
      * DialogData constructor.
@@ -40,14 +57,14 @@ abstract class C4GDialogData
 
     public final function loadValuesAndAuthenticate() {
         $this->loadValues();
-        if ($this->authenticate() !== true) {
+        if ($this->authenticated !== true && $this->authenticate() !== true) {
             $this->dbValues = array();
             $this->authenticationFailed('load');
         }
     }
 
     public final function authenticateAndSaveValues() {
-        if ($this->authenticate() !== true) {
+        if ($this->authenticated !== true && $this->authenticate() !== true) {
             $this->authenticationFailed('save');
         } else {
             if ($this->saveValues() === true) {
@@ -103,7 +120,7 @@ abstract class C4GDialogData
 
     /**
      * Determine if the current user should have access to the data associated with this object based on
-     * memberId, groupId, etc.
+     * memberId, groupId, etc. Set the $authenticated property to true or false and also return the result.
      * For load operations and save operations with existing data sets (updates),
      *  $this->loadValues has already been executed and $this->dbValues is set unless
      *  the requested data does not exist or an error occurred.

@@ -336,6 +336,7 @@ class C4GBrickCommon
      * @param $view_type
      * @param $group_id
      * @param $member_id
+     * @deprecated
      */
     public static function logEntry($entry_id, $entry_type, $entry_text, $brick_key, $view_type, $group_id, $member_id)
     {

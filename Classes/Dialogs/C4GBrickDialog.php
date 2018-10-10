@@ -697,11 +697,12 @@ class C4GBrickDialog
 
 
     /**
-     * @param C4GBrickField[] $fieldList
+     * @param $fieldList
      * @param $dlgValues
      * @param $brickDatabase
-     * @param $viewType
+     * @param $dialogParams
      * @return null
+     * @deprecated
      */
     public static function validateUnique($fieldList, $dlgValues, $brickDatabase, $dialogParams)
     {

@@ -479,6 +479,7 @@ abstract class C4GBrickAction
      * some fields combined in dialog, but for compare or saving we have to merge the fields in one list.
      * @param $fieldList
      * @return array
+     * @deprecated 
      */
     public function makeRegularFieldList($fieldList) {
         $resultList = array();

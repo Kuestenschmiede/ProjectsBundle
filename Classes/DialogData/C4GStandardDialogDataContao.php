@@ -91,7 +91,6 @@ final class C4GStandardDialogDataContao extends C4GDialogData
                 $result = $stmt->execute($this->id);
                 return $result->affectedRows ? true : false;
             } else {
-                $indexes = implode(',', $this->indexes);
                 $table = $this->table;
                 $columnsString = '';
                 $valuesString = '';
@@ -139,7 +138,7 @@ final class C4GStandardDialogDataContao extends C4GDialogData
     }
 
     /**
-     * Compare the dbValues and dlgValues properties and place the differences in the differences property.
+     * Compare the dbValues and dlgValues properties and place the differences in the $differences property.
      */
     protected function generateDifferences()
     {
@@ -148,7 +147,7 @@ final class C4GStandardDialogDataContao extends C4GDialogData
             $dialogValues = $this->dialogValues;
             $differences = array();
             foreach ($this->indexes as $index) {
-                if ($dbValues[$index] !== $dialogValues[$index]) {
+                if (isset($dbValues[$index]) && $dbValues[$index] !== $dialogValues[$index]) {
                     $differences[$index] = array($dbValues[$index], $dialogValues[$index]);
                 }
             }
@@ -158,7 +157,7 @@ final class C4GStandardDialogDataContao extends C4GDialogData
 
     /**
      * Determine if the current user should have access to the data associated with this object based on
-     * memberId, groupId, etc.
+     * memberId, groupId, etc. Set the $authenticated property to true or false and also return the result.
      * For load operations and save operations with existing data sets (updates),
      *  $this->loadValues has already been executed and $this->dbValues is set unless
      *  the requested data does not exist or an error occurred.
@@ -177,43 +176,44 @@ final class C4GStandardDialogDataContao extends C4GDialogData
             $dbValues = $this->dbValues;
             switch ($this->authenticateBy) {
                 case self::AUTHENTICATE_SKIP;
-                    return true;
+                    $this->authenticated = true;
                     break;
                 case self::AUTHENTICATE_BY_MEMBER_ID;
                     if ($dialogParams->getMemberId() === $dbValues[$viewParams->getMemberKeyField()]) {
-                        return true;
+                        $this->authenticated = true;
                     } else {
-                        return false;
+                        $this->authenticated = false;
                     }
                     break;
                 case self::AUTHENTICATE_BY_GROUP_ID;
                     if ($dialogParams->getGroupId() === $dbValues[$viewParams->getGroupKeyField()]) {
-                        return true;
+                        $this->authenticated = true;
                     } else {
-                        return false;
+                        $this->authenticated = false;
                     }
                     break;
                 case self::AUTHENTICATE_BY_PROJECT_ID;
                     if ($dialogParams->getProjectId() === $dbValues[$viewParams->getProjectKeyField()]) {
-                        return true;
+                        $this->authenticated = true;
                     } else {
-                        return false;
+                        $this->authenticated = false;
                     }
                     break;
                 default:
-                    return false;
+                    $this->authenticated = false;
                     break;
             }
         } else {
             switch ($this->authenticateBy) {
                 case self::AUTHENTICATE_SKIP;
-                    return true;
+                    $this->authenticated = true;
                     break;
                 default:
-                    return C4GUtils::checkFrontendUserLogin();
+                    $this->authenticated = C4GUtils::checkFrontendUserLogin();
                     break;
             }
         }
+        return $this->authenticated;
     }
 
 }
