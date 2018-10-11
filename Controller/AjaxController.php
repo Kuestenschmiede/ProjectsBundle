@@ -5,13 +5,19 @@
 
 namespace con4gis\ProjectsBundle\Controller;
 
+use con4gis\DocumentsBundle\Classes\Stack\PdfManager;
 use con4gis\MapsBundle\Resources\contao\modules\api\ReverseNominatimApi;
+use con4gis\ProjectsBundle\Classes\Common\C4GBrickConst;
+use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialog;
 use con4gis\ProjectsBundle\Classes\Framework\C4GModuleManager;
 use con4gis\ProjectsBundle\Resources\contao\modules\api\C4GEditorTabApi;
+use Contao\Database;
 use Contao\Input;
+use Contao\Module;
 use Contao\System;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Config\Definition\Exception\Exception;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -20,10 +26,14 @@ class AjaxController extends Controller
     public function ajaxAction(Request $request, $module, $action)
     {
         $moduleManager = new C4GModuleManager();
-        if ($request->getMethod() === HTTP_METH_PUT) {
+        if ($request->getMethod() === "PUT") {
             $rawData = $request->getContent();
             $data = json_decode($rawData);
             $arrData = (array) $data;
+            $actionString = explode(":", $action);
+            if ($actionString[0] === "C4GPrintDialogAction") {
+                return $this->printAction($request, $module, $arrData, $action);
+            }
             $returnData = $moduleManager->getC4gFrontendModule($module, $action, $arrData);
         } else {
             $returnData = $moduleManager->getC4gFrontendModule($module, $action);
@@ -37,6 +47,45 @@ class AjaxController extends Controller
             $response->setData(json_decode($returnData));
             return $response;
         }
+    }
+
+    public function printAction(Request $request, $module, $data, $action)
+    {
+        $this->get('contao.framework')->initialize();
+        $objModule = Database::getInstance()->prepare("SELECT * FROM tl_module WHERE id=?")
+            ->limit(1)
+            ->execute($module);
+        $strClass = Module::findClass($objModule->type);
+        $objModule = new $strClass($objModule);
+        $arrAction = explode(":", $action);
+        $id = $arrAction[1];
+        $objModule->initBrickModule($id);
+        $content = C4GBrickDialog::buildDialogView(
+            $objModule->getFieldList(),
+            $objModule->getBrickDatabase(),
+            $data,
+            null,
+            $objModule->getDialogParams()
+        );
+        $pdfManager = new PdfManager();
+        $pdfManager->template   = 'c4g_pdftemplate';
+        $pdfManager->filename   = '{{date::Y.m.d-H.i.s}}_document.pdf';
+        $pdfManager->filepath   = C4GBrickConst::PATH_BRICK_DOCUMENTS;
+        $pdfManager->headline   = $objModule->getDialogParams()->getBrickCaption();
+        $pdfManager->hl         = 'h1';
+        $style                  = TL_ROOT.'bundles/con4gisprojects/css/c4g_brick_print.css';
+        $pdfManager->style      = $style;
+        $pdfManager->content    = $content;
+        $pdfManager->save();
+
+        $path = $pdfManager->getPdfDocument()->getPath() . $pdfManager->getPdfDocument()->getFilename();
+        // cut out the local path before "files"
+        $path = substr($path, strpos($path, "files"));
+        $response = new JsonResponse([
+            "filePath" => $path,
+            "fileName" => $pdfManager->getPdfDocument()->getFilename()
+        ]);
+        return $response;
     }
 
     public function getAddressAction(Request $request, $profileId, $lat, $lon)
