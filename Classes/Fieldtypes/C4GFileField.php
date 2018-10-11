@@ -30,6 +30,7 @@ class C4GFileField extends C4GBrickField
     private $path         = '';
     private $uploadURL = 'c4g_uploadURL';
     private $deleteURL = 'c4g_deleteURL';
+    private $uniqueFile = true; //remove old files
 
     /**
      * @param C4GBrickField[] $fieldList
@@ -171,7 +172,7 @@ class C4GFileField extends C4GBrickField
         $fieldData = $dlgValues[$this->getFieldName()];
         $original_filename = $fieldData;
         $fieldName = $this->getFieldName();
-        $upload_url = $dlgValues[$this->uploadURL];
+        $upload_url = $dlgValues['uploadURL_'.$fieldName];
         $old_file = $dbValues->$fieldName;
 
         $fileObject = C4GBrickCommon::loadFile($old_file);
@@ -224,7 +225,7 @@ class C4GFileField extends C4GBrickField
                 $new_upload_url = $dir . '/' . $fileName;
             }
 
-            $fieldData = C4GBrickCommon::saveFile($fieldName, $original_filename, $new_upload_url, $upload_url);
+            $fieldData = C4GBrickCommon::saveFile($fieldName, $original_filename, $new_upload_url, $upload_url, $this->isUniqueFile());
         }
 
         $delete_file = $dlgValues[$this->deleteURL];
@@ -463,5 +464,19 @@ class C4GFileField extends C4GBrickField
         return $this;
     }
 
+    /**
+     * @return bool
+     */
+    public function isUniqueFile(): bool
+    {
+        return $this->uniqueFile;
+    }
 
+    /**
+     * @param bool $uniqueFile
+     */
+    public function setUniqueFile(bool $uniqueFile): void
+    {
+        $this->uniqueFile = $uniqueFile;
+    }
 }

@@ -39,7 +39,7 @@ class C4GCanvasField extends C4GBrickField
             $condition = $this->createConditionData($fieldList, $data);
             $result =
                 $this->addC4GField($condition,$dialogParams,$fieldList,$data,
-                '<canvas ' . $required . ' ' . $condition['conditionPrepare'] . ' id="' . $id . '" class="formdata ' . $id . ' ui-corner-all" name="' . $this->getFieldName() . '" width="'.$this->getWidth().'" height="'.$this->getHeight().'" >' . $value . ' </canvas>');
+                '<canvas ' . $required . ' ' . $condition['conditionPrepare'] . ' id="' . $id . '" class="' . $id . ' ui-corner-all" name="' . $this->getFieldName() . '" width="'.$this->getWidth().'" height="'.$this->getHeight().'" >' . $value . ' </canvas>');
         }
 
         return $result;

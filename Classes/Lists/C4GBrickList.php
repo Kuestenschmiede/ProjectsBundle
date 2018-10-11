@@ -376,16 +376,14 @@ class C4GBrickList
                             'sType' => $column->getSortType(),
                             'responsivePriority' => array($priority));
 
-                        //ToDo prüfen
                         if($column->getSortSequence() == 'desc') {
                             $data['aaSorting'] = [[$cnt, 'desc']];
                         } else {
                             $data['aaSorting'] = [[$cnt, 'asc']];
                         }
-//                        $data['aaSorting'] = array(array($cnt, $column->getSortSequence()));
                     } else {
                         $data['aoColumnDefs'][] = array(
-                            'sClass' => 'c4g_brick_col c4g_brick_col_'.$cnt.$additionalClasses,
+                            'sClass' => 'c4g_brick_col c4g_brick_col_'.$cnt.' nomouseevents'.$additionalClasses,
                             'sTitle' => $column->getTitle(),
                             'sWidth' => $column->getColumnWidth() . '%',
                             'sType' => $column->getSortType(),

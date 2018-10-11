@@ -84,9 +84,16 @@ class C4GRadioGroupField extends C4GBrickField
             if ($this->addNameToId) {
                 $name = '_'.$id;
                 $option_name = $this->getFieldName() . $option_id;
+                $for = $this->getFieldName() . $option_id;
+                $addToFieldset = ' class="c4g_brick_radio_group"';
+                //$addToWrapper = '';
             } else {
-                $name = $this->getFieldName();
+                $name = $id;
                 $option_name = $option_id;
+                $for = $option_name;
+                $addToFieldset = ' class="c4g_brick_radio_group"';
+                //$addToFieldset = ' id="'.$name.'" class="c4g_brick_radio_group formdata"';
+                //$addToWrapper = '';
             }
             $type_caption = $option['name'];
             $object_id = $option['object'];
@@ -97,14 +104,14 @@ class C4GRadioGroupField extends C4GBrickField
                 } else {
                     //$object_class = 'class="radio_object_disabled" disabled ';
                 }
-                $option_results = $option_results.'<div class="radio_element rb_turned"><input type="radio" '.$object_class.'id="'.$option_name.'" name="'.$name.'" '.$optionAttributes.$required.' '.$changeAction.' value="'.$option_id.'" '. (($value == $option_id) ? "checked" : "") .' /><label class="full lbl_turned" for="'.$option_name. '" >'  . $type_caption . '</label></div>';
+                $option_results = $option_results.'<div class="radio_element rb_turned"><input type="radio" '.$object_class.'id="'.$option_name.'" name="'.$name.'" '.$optionAttributes.$required.' '.$changeAction.' value="'.$option_id.'" '. (($value == $option_id) ? "checked" : "") .' /><label class="full lbl_turned" for="'.$for. '" >'  . $type_caption . '</label></div>';
             } else {
                 if ($object_id && $object_id != -1) {
                     $object_class = 'class="radio_object_'.$object_id.'" ';
                 } else {
                     //$object_class = 'class="radio_object_disabled" disabled ';
                 }
-                $option_results = $option_results.'<div class="radio_element"><label class="full" for="'.$option_name. '" >'  . $type_caption . '</label><input type="radio" '.$object_class.'id="'.$option_name.'" name="'.$name.'" '.$optionAttributes.$required.' '.$changeAction.' value="'.$option_id.'" '. (($value == $option_id) ? "checked" : "") .' /></div>';
+                $option_results = $option_results.'<div class="radio_element"><label class="full" for="'.$for. '" >'  . $type_caption . '</label><input type="radio" '.$object_class.'id="'.$option_name.'" name="'.$name.'" '.$optionAttributes.$required.' '.$changeAction.' value="'.$option_id.'" '. (($value == $option_id) ? "checked" : "") .' /></div>';
             }
         }
 
@@ -112,11 +119,12 @@ class C4GRadioGroupField extends C4GBrickField
             $option_results = '<div class="c4g_brick_radio_group_clear">'.$this->clearGroupText.'</div>';
         }
         $attributes = $this->getAttributes() ? ' '.$this->getAttributes().' ': '';
+
         $result .=     $this->generateC4GFieldHTML($condition ,'<div class="c4g_brick_radio_group_wrapper" '.$condition['conditionPrepare'].'>' .
                        '<input type="hidden" name="'.$this->getFieldName().'" value="' . $value . '" id="'.$id.'"  ' . $required . ' ' .
                        $condition['conditionPrepare'] . ' '.'class="formdata ' . $id .$attributes. '">' .
                        '<label>' . $this->addC4GField(null,$dialogParams,$fieldList,$data,'</label>' .
-                       '<fieldset class="c4g_brick_radio_group">' .
+                       '<fieldset'.$addToFieldset.'>' .
                        $option_results .
                        '</fieldset><span class="reset_c4g_brick_radio_group"></span><script>function resetRadioGroup(){ jQuery("input[name=\'_'.$id.'\']").removeAttr(\'checked\');jQuery("#'.$id.'").val(0); };jQuery(document).ready(function(){jQuery("input[name=\'_'.$id.'\']").on("click",function(){jQuery("#'.$id.'").val(jQuery("input[name=\'_'.$id.'\']:checked").val())})});</script>'.
                        '</div><br>'));

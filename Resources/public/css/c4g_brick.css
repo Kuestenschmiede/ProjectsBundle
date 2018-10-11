@@ -263,6 +263,10 @@ input:invalid {
 .c4g_brick_dialog #cke_ckeditor:disabled .cke_bottom, .c4g_brick_dialog #cke_ckeditor:read-only .cke_bottom{
     display: none;
 }
+.c4g_brick_dialog canvas {
+    margin-left: 2.5%;
+    margin-right: 2.5%;
+}
 .c4g_brick_dialog .c4g_brick_geopicker_label {
     padding-top: 10px;
 }
@@ -909,8 +913,10 @@ a.c4g_tile_button:hover {
     cursor: pointer;
 }
 
-/*
-.c4g_sub_dialog_container input {
+.nomouseevents {
     pointer-events: none;
-    background-color: grey;
-}*/
+}
+
+.nomouseevents .DataTables_sort_icon {
+    display: none;
+}

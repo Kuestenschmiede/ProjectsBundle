@@ -270,7 +270,20 @@ function handleBoolSwitch(checkbox, element, reverse) {
  * @param mimeTypes
  */
 function handleC4GBrickFile(fileList, path, uploadURL, deleteURL, fieldName, targetField, mimeTypes) {
-    if (fileList) {
+    //useful for canvas saving
+    if (document.getElementById("c4g_file") && document.getElementById("c4g_file").getAttribute("dataURL")) {
+        fileList = [];
+        var blobBin = atob(document.getElementById("c4g_file").getAttribute("dataURL").split(',')[1]);
+        var array = [];
+        var i = 0;
+        for(var i = 0; i < blobBin.length; i++) {
+          array.push(blobBin.charCodeAt(i));
+        }
+        var file = new Blob([new Uint8Array(array)], {type: 'image/png'});
+        file.name = fieldName+'.png';
+        fileList[0] = file;
+    }
+    if (fileList && fileList[0]) {
         if (document.getElementById(uploadURL+fieldName).value !== fileList[0]) {
             var img = document.createElement("img");
             img.file = fileList[0];
@@ -329,6 +342,7 @@ function C4GBrickFileUpload( file, path, uploadURL, deleteURL, fieldName, target
     fd.append("Path", path);
     fd.append("MimeTypes", mimeTypes);
     fd.append("REQUEST_TOKEN", c4g_rq);
+    fd.append("name", file.name);
 
     xhr.onreadystatechange = function(){
         if (xhr.readyState===4 && xhr.status===200) {
