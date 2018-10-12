@@ -341,7 +341,7 @@ abstract class C4GBrickAction
             $action = new $className($dialogParams, $listParams, $fieldList, $putVars, $brickDatabase);
             $action->setModule($module);
 
-            if (
+            /*if (
                 (!$action instanceof C4GConfirmGroupSelectAction) &&
                 (!$action instanceof C4GSetProjectIdAction) &&
                 (!$action instanceof C4GSetParentIdAction) &&
@@ -363,8 +363,8 @@ abstract class C4GBrickAction
                     }
                 }
 
-            }
-            return $action->run();  //If the class does not exist, an exception will be thrown.
+            }*/
+            return $action->run();
         } else {
             return null;
         }
