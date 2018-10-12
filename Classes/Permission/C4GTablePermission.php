@@ -16,6 +16,11 @@ namespace con4gis\ProjectsBundle\Classes\Permission;
 
 use con4gis\CoreBundle\Resources\contao\classes\C4GUtils;
 
+/**
+ * Class C4GTablePermission
+ * @package con4gis\ProjectsBundle\Classes\Permission
+ * @deprecated
+ */
 class C4GTablePermission
 {
 
@@ -28,6 +33,7 @@ class C4GTablePermission
      * C4GTablePermission constructor.
      * @param $table
      * @param $ids array/int
+     * @deprecated
      */
 
     public function __construct($table, $ids)
@@ -38,6 +44,7 @@ class C4GTablePermission
 
     /**
      * Write this permission to the session.
+     * @deprecated
      */
 
     public function set()
@@ -60,6 +67,7 @@ class C4GTablePermission
     /**
      * Check if this permission is written to the session
      * @throws \Exception Will be thrown if the permission does not exist in the session.
+     * @deprecated
      */
 
     public function check()
@@ -109,6 +117,7 @@ class C4GTablePermission
 
     /**
      * Clear this permission from the session.
+     * @deprecated
      */
 
     public function clear()
@@ -130,6 +139,7 @@ class C4GTablePermission
     /**
      * Clears all permissions from the session.
      * @throws \Exception
+     * @deprecated
      */
 
     public static function clearAll()
@@ -148,6 +158,7 @@ class C4GTablePermission
 
     /**
      * @param int $level
+     * @deprecated
      */
     public function setLevel($level)
     {
@@ -156,6 +167,7 @@ class C4GTablePermission
 
     /**
      * @param string $action
+     * @deprecated
      */
     public function setAction($action)
     {
