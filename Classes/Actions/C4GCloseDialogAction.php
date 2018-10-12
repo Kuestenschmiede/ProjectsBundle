@@ -27,7 +27,7 @@ class C4GCloseDialogAction extends C4GBrickDialogAction
 
         if ($diffs && $this->ignoreChanges === false) {
             $action = new C4GShowMessageChangesDialogAction($this->dialogParams, $this->getListParams(), $this->getFieldList(), $this->getPutVars(), $this->getBrickDatabase());
-            $action->setChanges($diffs);
+            $action->setDiffs($diffs);
             $action->setModule($this->module);
             return $action->run();
         } else {
