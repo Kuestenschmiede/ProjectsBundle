@@ -10,6 +10,7 @@ namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
 
 
 use con4gis\CoreBundle\Resources\contao\classes\C4GUtils;
+use con4gis\CoreBundle\Resources\contao\classes\container\C4GContainer;
 use con4gis\ProjectsBundle\Classes\Conditions\C4GBrickCondition;
 use con4gis\ProjectsBundle\Classes\Database\C4GBrickDatabase;
 use con4gis\ProjectsBundle\Classes\Database\C4GBrickDatabaseParams;
@@ -53,7 +54,7 @@ class C4GSubDialogField extends C4GBrickField
 //        $this->setComparable(false);
     }
 
-    public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = array())
+    public function getC4GDialogField($fieldList, C4GContainer $data, C4GBrickDialogParams $dialogParams, $additionalParams = array())
     {
         $name = $this->getFieldName();
         $title = $this->getTitle();
@@ -82,9 +83,9 @@ class C4GSubDialogField extends C4GBrickField
                 $field->setUploadURL($this->getFieldName() . $this->delimiter . $uploadURL . $this->delimiter . $this->wildcard);
                 $field->setDeleteURL($this->getFieldName() . $this->delimiter . $deleteURL . $this->delimiter . $this->wildcard);
             }
-            $templateData = new \stdClass();
+            $templateData = new C4GContainer();
             foreach ($data as $key => $value) {
-                $templateData->$key = '';
+                $templateData->addElement('', $key);
             }
             $field->setFieldName($this->getFieldName() . $this->delimiter . $fieldName . $this->delimiter . $this->wildcard);
 //            if (!$field instanceof C4GForeignArrayField)  {

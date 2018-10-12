@@ -13,6 +13,7 @@
 
 namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
 
+use con4gis\CoreBundle\Resources\contao\classes\container\C4GContainer;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickCommon;
 use con4gis\ProjectsBundle\Classes\Database\C4GBrickDatabase;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
@@ -34,7 +35,7 @@ class C4GGeopickerField extends C4GBrickField
      * @param array $additionalParams
      * @return string
      */
-    public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = array())
+    public function getC4GDialogField($fieldList, C4GContainer $data, C4GBrickDialogParams $dialogParams, $additionalParams = array())
     {
         $id = "c4g_" . $this->getFieldName();
         $title = $this->getTitle();
@@ -146,16 +147,16 @@ class C4GGeopickerField extends C4GBrickField
      * @param $content
      * @return mixed
      */
-    public function getC4GListField($rowData, $content, $database = null)
+    public function getC4GListField(C4GContainer $rowData, $content, $database = null)
     {
         // if there is already an address set, use that
         $fieldName = $this->getFieldName();
-        if ($rowData->$fieldName) {
-            return $rowData->$fieldName;
+        if ($rowData->containsKey($fieldName)) {
+            return $rowData->getByKey($fieldName);
         }
-        $lat = $rowData->loc_geoy;
-        $lon = $rowData->loc_geox;
-        $idFromModel = $rowData->id;
+        $lat = $rowData->getByKey('loc_geoy');
+        $lon = $rowData->getByKey('loc_geox');
+        $idFromModel = $rowData->getByKey('id');
         $extModel = $this->getExternalModel();
         $profile_id = null;
         $withoutAddressRow = $this->isWithoutAddressRow();

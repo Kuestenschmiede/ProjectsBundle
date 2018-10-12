@@ -13,6 +13,7 @@
 
 namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
 
+use con4gis\CoreBundle\Resources\contao\classes\container\C4GContainer;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickCommon;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
@@ -32,7 +33,7 @@ class C4GImageField extends C4GBrickField
      * @param array $additionalParams
      * @return string
      */
-    public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = array())
+    public function getC4GDialogField($fieldList, C4GContainer $data, C4GBrickDialogParams $dialogParams, $additionalParams = array())
     {
         $size = $this->getSize();
         if ($size) {
@@ -126,10 +127,9 @@ class C4GImageField extends C4GBrickField
      * @param $content
      * @return mixed
      */
-    public function getC4GListField($rowData, $content)
+    public function getC4GListField(C4GContainer $rowData, $content)
     {
-        $fieldName = $this->getFieldName();
-        $file = $rowData->$fieldName;
+        $file = $rowData->getByKey($this->getFieldName());
         if (!is_string($file)) {
             $file = '';
         }

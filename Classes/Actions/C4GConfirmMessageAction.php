@@ -24,6 +24,7 @@ class C4GConfirmMessageAction extends C4GBrickDialogAction
         }
 
         $action = new C4GShowListAction($this->getDialogParams(), $this->getListParams(), $this->getFieldList(), $this->getPutVars(), $this->getBrickDatabase());
+        $action->setModule($this->module);
         return $action->run();
     }
 

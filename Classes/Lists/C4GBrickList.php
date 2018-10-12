@@ -14,6 +14,8 @@ namespace con4gis\ProjectsBundle\Classes\Lists;
 
 
 use con4gis\CoreBundle\Resources\contao\classes\C4GUtils;
+use con4gis\CoreBundle\Resources\contao\classes\container\C4GBaseContainer;
+use con4gis\CoreBundle\Resources\contao\classes\container\C4GContainerContainer;
 use con4gis\MapsBundle\Resources\contao\models\C4gMapsModel;
 use con4gis\ProjectsBundle\Classes\Actions\C4GBrickActionType;
 use con4gis\ProjectsBundle\Classes\Buttons\C4GBrickButton;
@@ -269,7 +271,7 @@ class C4GBrickList
      * @return array
      */
     public static function showC4GTableList(
-        $listCaption, $database, $content, $listHeadline,  $fieldList, $tableElements, $key,
+        $listCaption, $database, $content, $listHeadline,  $fieldList, C4GContainerContainer $tableElements, $key,
         $parentCaption, $listParams)
     {
         if (!$tableElements) {
@@ -397,9 +399,6 @@ class C4GBrickList
         }
 
         foreach ($tableElements as $element) {
-            if ($listParams->isRemoveUnpublishedElements() && !$element->published) {
-                continue;
-            }
 
             $fields = array();
             $cnt = 0;
@@ -414,9 +413,9 @@ class C4GBrickList
                 }
                 if ($cnt == 0) {
                     if ($listParams->isWithFunctionCallOnClick()) {
-                        $fields[] = C4GBrickActionType::ACTION_BUTTONCLICK . ':' . $listParams->getOnClickFunction() . ':' . $element->id;
+                        $fields[] = C4GBrickActionType::ACTION_BUTTONCLICK . ':' . $listParams->getOnClickFunction() . ':' . $element->getByKey('id');
                     } else {
-                        $fields[] = C4GBrickActionType::ACTION_CLICK . ':' . $element->id; //hier wird in der versteckten Spalte 1 die ClickAction gesetzt
+                        $fields[] = C4GBrickActionType::ACTION_CLICK . ':' . $element->getBykEy('id'); //hier wird in der versteckten Spalte 1 die ClickAction gesetzt
                     }
                     $cnt++;
                 } else {
@@ -424,7 +423,7 @@ class C4GBrickList
                         $extModel = $column->getExternalModel();
                         $extIdFieldName = $column->getExternalIdField();
                         $extFieldName = $column->getExternalFieldName();
-                        $extId = $element->$extIdFieldName;
+                        $extId = $element->getByKey($extIdFieldName);
                         $extCallbackFunction = $column->getExternalCallBackFunction();
                         if ($extModel && $extId && ($extId > 0)) {
                             if ($extFieldName && ($extFieldName != '')) {
@@ -448,23 +447,23 @@ class C4GBrickList
 
                     if ($column->isTableColumn()) {
                         if ($column  instanceof C4GSelectField) {
-                            $fields[] = C4GBrickCommon::translateSelectOption($row_data->$fieldName, C4GBrickList::getOptions($fieldList, $row_data, $column));
+                            $fields[] = C4GBrickCommon::translateSelectOption($row_data->getByKey($fieldName), C4GBrickList::getOptions($fieldList, $row_data, $column));
                         } else if ($column instanceof C4GGeopickerField) {
                             $fields[] = $column->getC4GListField($row_data, $content, $database);
                         } else if ($column instanceof C4GDateTimeLocationField){
-                            $lat = $row_data->loc_geoy;
-                            $lon = $row_data->loc_geox;
-                            $time = $row_data->loc_time;
+                            $lat = $row_data->getByKey('loc_geoy');
+                            $lon = $row_data->getByKey('loc_geox');
+                            $time = $row_data->getByKey('loc_time');
                             $addressField = $column->getAddressField();
-                            $idFromModel = $row_data->id;
+                            $idFromModel = $row_data->getByKey('id');
                             $extModel = $column->getExternalModel();
                             $extDbValues = $extModel::findByPk($idFromModel);
                             $address_db = $extDbValues->$addressField;
                             $profile_id = null;
 
-                            if ($row_data->$fieldName) {
+                            if ($row_data->containsKey($fieldName)) {
                                 // when the value is already set, i.e. in a modellistfunction
-                                $fields[] = $row_data->$fieldName;
+                                $fields[] = $row_data->getByKey($fieldName);
                                 $cnt++;
                                 continue;
                             }
@@ -482,9 +481,9 @@ class C4GBrickList
                             $address = '';
                             if(($convertingCount == 1) && ($profile_id))
                             {
-                                $lat_2 = $row_data->loc_geoy_2;
-                                $lon_2 = $row_data->loc_geox_2;
-                                $time_2 = $row_data->loc_time_2;
+                                $lat_2 = $row_data->getByKey('loc_geoy_2');
+                                $lon_2 = $row_data->getByKey('loc_geox_2');
+                                $time_2 = $row_data->getByKey('loc_time_2');
                                 if($address_db) {
                                     $address = $time_2. ' ('.$address_db. ' )';
                                 }
@@ -543,8 +542,8 @@ class C4GBrickList
         }
         if ($selectRow == -1) {
             foreach ($tableElements as $element) {
-                if (property_exists($element->selectrow) && $element->selectrow) {
-                    $selectRow = $element->selectrow;
+                if ($element->containsKey('selectrow')) {
+                    $selectRow = $element->getByKey('selectrow');
                     break;
                 }
             }

@@ -93,6 +93,7 @@ abstract class C4GBrickAction
 
     /**
      * @return mixed
+     * @deprecated
      */
     public function getPutVars()
     {
@@ -102,6 +103,7 @@ abstract class C4GBrickAction
     /**
      * @param $putVars
      * @return $this
+     * @deprecated
      */
     public function setPutVars($putVars)
     {
@@ -347,7 +349,7 @@ abstract class C4GBrickAction
                 (!(C4GBrickView::isPublicBased($dialogParams->getViewType()))) &&
                 (!(C4GBrickView::isPublicParentBased($dialogParams->getViewType())))
                 ) {
-                if ($module->isWithPermissionCheck()) {
+                if ($module->isWithPermissionCheck() && $module->getDialogDataObject() === null) {
                     $table = $module->getC4GTablePermissionTable();
                     if ($table) {
                         $permission = new C4GTablePermission($table, array($dialogParams->getId()));

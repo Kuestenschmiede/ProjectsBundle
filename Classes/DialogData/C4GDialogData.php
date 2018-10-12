@@ -13,30 +13,32 @@
 namespace con4gis\ProjectsBundle\Classes\DialogData;
 
 
+use con4gis\CoreBundle\Resources\contao\classes\container\C4GContainer;
+use con4gis\CoreBundle\Resources\contao\classes\container\C4GContainerContainer;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Views\C4GBrickViewParams;
 
 abstract class C4GDialogData
 {
     /**
-     * An associative array. The keys correspond to the database columns.
+     * A C4GContainer object. The keys correspond to the database columns.
      * The values represent the respective database values.
-     * @var array
+     * @var C4GContainer
      */
-    protected $dbValues = array();
+    protected $dbValues;
     /**
-     * An associative array. The keys correspond to the dialog field names and match the keys in the
+     * A C4GContainer object. The keys correspond to the dialog field names and match the keys in the
      *  $dbValues property.
      * The values represent the input. The type must match that of the corresponding
      *  values in the $dbValues property.
-     * @var array
+     * @var C4GContainer
      */
-    protected $dialogValues = array();
+    protected $dialogValues;
     /**
-     * An array containing the differences between the $dbValues and $dialogValues.
-     * @var array
+     * A C4GContainer object containing the differences between the $dbValues and $dialogValues.
+     * @var C4GContainer
      */
-    protected $differences = array();
+    protected $differences;
     protected $dialogParams;
     protected $viewParams;
     protected $id;
@@ -53,6 +55,9 @@ abstract class C4GDialogData
         $this->dialogParams = $dialogParams;
         $this->viewParams = $viewParams;
         $this->id = $id;
+        $this->dbValues = new C4GContainer();
+        $this->dialogValues = new C4GContainer();
+        $this->differences = new C4GContainerContainer();
     }
 
     public final function loadValuesAndAuthenticate() {
@@ -67,8 +72,11 @@ abstract class C4GDialogData
         if ($this->authenticated !== true && $this->authenticate() !== true) {
             $this->authenticationFailed('save');
         } else {
-            if ($this->saveValues() === true) {
+            $affectedRow = $this->saveValues();
+            if ($affectedRow > 0) {
                 $this->dbValues = $this->dialogValues;
+                $this->dbValues->addElement($affectedRow, 'id');
+                $this->id = $affectedRow;
             }
         }
     }
@@ -76,8 +84,7 @@ abstract class C4GDialogData
     private function authenticationFailed($action) {
         throw new \Exception(
             "Failed to authenticate when attempting to $action the data associated with instance of class "
-            .static::class
-            .'.');
+            .static::class);
     }
 
     /**
@@ -88,13 +95,17 @@ abstract class C4GDialogData
     /**
      * Save the values from the object's dialogValues property to the database.
      * You might want to get the changes first and only save those.
-     * Return whether the operation was successful or not.
-     * @return bool
+     * Return the id of the updated or inserted row, -1 in case of an error.
+     * @return int
      */
     protected abstract function saveValues();
 
     public function getDbValues() {
         return $this->dbValues;
+    }
+
+    public function getDbValueByIndex(string $index) {
+        return $this->dbValues->getByKey($index);
     }
 
     /**
@@ -106,6 +117,10 @@ abstract class C4GDialogData
 
     public function getDialogValues() {
         return $this->dialogValues;
+    }
+
+    public function getDialogValueByIndex(string $index) {
+        return $this->dialogValues->getByKey($index);
     }
 
     /**

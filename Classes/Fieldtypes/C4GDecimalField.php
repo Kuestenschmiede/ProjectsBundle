@@ -13,6 +13,7 @@
 
 namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
 
+use con4gis\CoreBundle\Resources\contao\classes\container\C4GContainer;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickCommon;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickRegEx;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
@@ -37,7 +38,7 @@ class C4GDecimalField extends C4GBrickFieldNumeric
      * @param $data
      * @return string
      */
-    public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = array())
+    public function getC4GDialogField($fieldList, C4GContainer $data, C4GBrickDialogParams $dialogParams, $additionalParams = array())
     {
         $this->setPattern(C4GBrickRegEx::generateNumericRegEx($this->getDecimals(), $this->allowNegative, $this->getThousandsSep(), $this->getDecimalPoint()));
         $id = "c4g_" . $this->getFieldName();
@@ -63,10 +64,9 @@ class C4GDecimalField extends C4GBrickFieldNumeric
         return $result;
     }
 
-    public function getC4GListField($rowData, $content)
+    public function getC4GListField(C4GContainer $rowData, $content)
     {
-        $fieldName = $this->getFieldName();
-        $value = $rowData->$fieldName;
+        $value = $rowData->getByKey($this->getFieldName());
         /*
         if($this->getThousandsSep() !== '') {
             $value = number_format(str_replace(',','.',$value), $decimals, $this->getDecimalPoint(), $this->getThousandsSep());

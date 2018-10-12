@@ -94,7 +94,7 @@ class C4GShowDialogAction extends C4GBrickDialogAction
         $result = C4GBrickDialog::showC4GDialog(
             $this->getFieldList(),
             $brickDatabase->getParams()->getDatabase(),
-            C4GBrickCommon::arrayToObject($dialogData),
+            $dialogData,
             $map,
             $headtext,
             $dialogParams

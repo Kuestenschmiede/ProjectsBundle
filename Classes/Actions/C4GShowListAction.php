@@ -199,7 +199,7 @@ class C4GShowListAction extends C4GBrickDialogAction
 
         $listDataObject = $this->module->getListDataObject();
         $listDataObject->loadListElements();
-        $listElements = C4GBrickCommon::arrayToObject($listDataObject->getListElements());
+        $listElements = $listDataObject->getListElements();
 
         $filterObject = $listParams->getFilterObject();
         if ($filterObject) {

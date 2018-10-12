@@ -13,6 +13,7 @@
 
 namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
 
+use con4gis\CoreBundle\Resources\contao\classes\container\C4GContainer;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickCommon;
 use con4gis\ProjectsBundle\Classes\Conditions\C4GBrickConditionType;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
@@ -29,7 +30,7 @@ class C4GCheckboxField extends C4GBrickField
      * @param $data
      * @return string
      */
-    public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = array())
+    public function getC4GDialogField($fieldList, C4GContainer $data, C4GBrickDialogParams $dialogParams, $additionalParams = array())
     {
         $id = "c4g_" . $this->getFieldName();
         $required = $this->generateRequiredString($data, $dialogParams);
@@ -112,10 +113,9 @@ class C4GCheckboxField extends C4GBrickField
      * @param $content
      * @return mixed
      */
-    public function getC4GListField($rowData, $content)
+    public function getC4GListField(C4GContainer $rowData, $content)
     {
-        $fieldName = $this->getFieldName();
-        return C4GBrickList::translateBool($rowData->$fieldName);
+        return C4GBrickList::translateBool($rowData->getByKey($this->getFieldName()));
     }
 
     /**

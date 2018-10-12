@@ -14,6 +14,7 @@ namespace con4gis\ProjectsBundle\Classes\DialogData;
 
 
 use con4gis\CoreBundle\Resources\contao\classes\C4GUtils;
+use con4gis\CoreBundle\Resources\contao\classes\container\C4GContainer;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Views\C4GBrickViewParams;
 
@@ -54,15 +55,15 @@ final class C4GStandardDialogDataContao extends C4GDialogData
     {
         if (!$this->dbValues || $this->id > 0) {
             $indexes = implode(',', $this->indexes);
+            $indexes .= ',id';
             $table = $this->table;
             $stmt = $this->db->prepare("SELECT $indexes FROM $table WHERE id = ?");
             $result = $stmt->execute($this->id);
             $result = $result->fetchAssoc();
-            $dbValues = array();
+            $this->dbValues->clear();
             foreach ($result as $key => $value) {
-                $dbValues[$key] = $value;
+                $this->dbValues->addElement($value, $key);
             }
-            $this->dbValues = $dbValues;
         }
     }
 
@@ -79,27 +80,27 @@ final class C4GStandardDialogDataContao extends C4GDialogData
             if ($this->id > 0) {
                 $setString = '';
                 foreach ($this->indexes as $index) {
-                    if ($dialogValues[$index] !== '') {
+                    if ($dialogValues->getByKey($index) !== '') {
                         if (strlen($setString) > 0) {
                             $setString .= ',';
                         }
-                        $setString .= $index . '=' . $dialogValues[$index];
+                        $setString .= $index . "='" . $dialogValues->getByKey($index) . "'";
                     }
                 }
                 $table = $this->table;
                 $stmt = $this->db->prepare("UPDATE $table SET $setString WHERE id = ?");
                 $result = $stmt->execute($this->id);
-                return $result->affectedRows ? true : false;
+                return $result->affectedRows ? $result->affectedRows : -1;
             } else {
                 $table = $this->table;
                 $columnsString = '';
                 $valuesString = '';
                 foreach ($this->indexes as $index) {
-                    if ($dialogValues[$index] !== '') {
+                    if ($dialogValues->getByKey($index) !== '') {
                         if (strlen($valuesString) > 0) {
                             $valuesString .= ',';
                         }
-                        $valuesString .= $dialogValues[$index];
+                        $valuesString .= "'".$dialogValues->getByKey($index)."'";
                         if (strlen($columnsString) > 0) {
                             $columnsString .= ',';
                         }
@@ -109,13 +110,13 @@ final class C4GStandardDialogDataContao extends C4GDialogData
                 if ($columnsString !== '' && $valuesString !== '') {
                     $stmt = $this->db->prepare("INSERT INTO $table ($columnsString) VALUES ($valuesString)");
                     $result = $stmt->execute();
-                    return $result->affectedRows ? true : false;
+                    return $result->affectedRows ? $result->affectedRows : -1;
                 } else {
-                    return false;
+                    return -1;
                 }
             }
         } else {
-            return false;
+            return -1;
         }
     }
 
@@ -123,14 +124,15 @@ final class C4GStandardDialogDataContao extends C4GDialogData
      * Load the values from the given dialogValues into the object's dialogValues property.
      * @param $dialogValues
      * @return C4GDialogData
+     * @throws
      */
     public function setDialogValues($dialogValues)
     {
-        $this->dialogValues = array();
+        $this->dialogValues->clear();
         if (is_array($dialogValues)) {
             foreach ($this->indexes as $index) {
                 if (isset($dialogValues[$index])) {
-                    $this->dialogValues[$index] = $dialogValues[$index] ? $dialogValues[$index] : '';
+                    $this->dialogValues->addElement($dialogValues[$index], $index);
                 }
             }
         }
@@ -145,10 +147,19 @@ final class C4GStandardDialogDataContao extends C4GDialogData
         if ($this->dialogValues) {
             $dbValues = $this->dbValues;
             $dialogValues = $this->dialogValues;
-            $differences = array();
+            $differences = $this->differences;
+            $differences->clear();
             foreach ($this->indexes as $index) {
-                if (isset($dbValues[$index]) && $dbValues[$index] !== $dialogValues[$index]) {
-                    $differences[$index] = array($dbValues[$index], $dialogValues[$index]);
+                if ($dbValues->containsKey($index) && $dbValues->getByKey($index) !== $dialogValues->getByKey($index)) {
+                    $container = new C4GContainer();
+                    $container->addElement($dbValues->getByKey($index), 'dbValue');
+                    $container->addElement($dialogValues->getByKey($index), 'dialogValue');
+                    $differences->addContainer($container);
+                } elseif ($dbValues->isEmpty() && $dialogValues->containsKey($index)) {
+                    $container = new C4GContainer();
+                    $container->addElement(null, 'dbValue');
+                    $container->addElement($dialogValues->getByKey($index), 'dialogValue');
+                    $differences->addContainer($container);
                 }
             }
             $this->differences = $differences;
@@ -179,21 +190,21 @@ final class C4GStandardDialogDataContao extends C4GDialogData
                     $this->authenticated = true;
                     break;
                 case self::AUTHENTICATE_BY_MEMBER_ID;
-                    if ($dialogParams->getMemberId() === $dbValues[$viewParams->getMemberKeyField()]) {
+                    if ($dialogParams->getMemberId() === $dbValues->getByKey($viewParams->getMemberKeyField())) {
                         $this->authenticated = true;
                     } else {
                         $this->authenticated = false;
                     }
                     break;
                 case self::AUTHENTICATE_BY_GROUP_ID;
-                    if ($dialogParams->getGroupId() === $dbValues[$viewParams->getGroupKeyField()]) {
+                    if ($dialogParams->getGroupId() === $dbValues->getByKey($viewParams->getGroupKeyField())) {
                         $this->authenticated = true;
                     } else {
                         $this->authenticated = false;
                     }
                     break;
                 case self::AUTHENTICATE_BY_PROJECT_ID;
-                    if ($dialogParams->getProjectId() === $dbValues[$viewParams->getProjectKeyField()]) {
+                    if ($dialogParams->getProjectId() === $dbValues->getByKey($viewParams->getProjectKeyField())) {
                         $this->authenticated = true;
                     } else {
                         $this->authenticated = false;

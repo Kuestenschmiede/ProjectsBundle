@@ -13,6 +13,7 @@
 
 namespace con4gis\ProjectsBundle\Classes\Fieldlist;
 
+use con4gis\CoreBundle\Resources\contao\classes\container\C4GContainer;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 
 abstract class C4GBaseKeyField extends C4GBrickField
@@ -24,7 +25,7 @@ abstract class C4GBaseKeyField extends C4GBrickField
      * @param array $additionalParams
      * @return string
      */
-    public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = array())
+    public function getC4GDialogField($fieldList, C4GContainer $data, C4GBrickDialogParams $dialogParams, $additionalParams = array())
     {
         $required = $this->generateRequiredString($data, $dialogParams);
         $value = $this->generateInitialValue($data);

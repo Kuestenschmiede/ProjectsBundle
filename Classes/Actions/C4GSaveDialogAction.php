@@ -51,7 +51,7 @@ class C4GSaveDialogAction extends C4GBrickDialogAction
         }
 
         $dialogDataObject = $module->getDialogDataObject();
-        $dialogDataObject->loadData->loadValuesAndAuthenticate();
+        $dialogDataObject->loadValuesAndAuthenticate();
         $dialogDataObject->setDialogValues($dlgValues);
         $diff = $dialogDataObject->getDifferences();
         if ($diff) {
@@ -82,16 +82,20 @@ class C4GSaveDialogAction extends C4GBrickDialogAction
             if ($this->isAndNew()) {
                 $this->getDialogParams()->setId(-1);
                 $action = new C4GShowDialogAction($dialogParams, $this->getListParams(), $fieldList, $dlgValues, $brickDatabase);
+                $action->setModule($this->module);
                 $return = $action->run();
             } else {
                 if (($dialogParams->isSaveWithoutClose())) {
                     $action = new C4GShowDialogAction($dialogParams, $this->getListParams(), $fieldList, $dlgValues, $brickDatabase);
+                    $action->setModule($this->module);
                     $return = $action->run();
                 } else if (C4GBrickView::isWithoutList($viewType)) {
                     $action = new C4GShowDialogAction($dialogParams, $this->getListParams(), $fieldList, $dlgValues, $brickDatabase);
+                    $action->setModule($this->module);
                     $return = $action->run();
                 } else {
                     $action = new C4GShowListAction($dialogParams, $this->getListParams(), $fieldList, $dlgValues, $brickDatabase);
+                    $action->setModule($this->module);
                     $return = $action->run();
                 }
             }

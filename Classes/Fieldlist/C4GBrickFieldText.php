@@ -13,6 +13,8 @@
 namespace con4gis\ProjectsBundle\Classes\Fieldlist;
 
 
+use con4gis\CoreBundle\Resources\contao\classes\container\C4GContainer;
+
 abstract class C4GBrickFieldText extends C4GBrickField
 {
     /**
@@ -46,11 +48,9 @@ abstract class C4GBrickFieldText extends C4GBrickField
      * @param $content
      * @return mixed
      */
-    public function getC4GListField($rowData, $content)
+    public function getC4GListField(C4GContainer $rowData, $content)
     {
-        $fieldName = $this->getFieldName();
-
-        $value = $rowData->$fieldName;
+        $value = $rowData->getByKey($this->getFieldName());
         if ($this->getAddStrBeforeValue()) {
             $value = $this->getAddStrBeforeValue().$value;
         }

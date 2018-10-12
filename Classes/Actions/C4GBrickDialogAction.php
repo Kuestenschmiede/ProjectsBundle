@@ -12,13 +12,15 @@
 
 namespace con4gis\ProjectsBundle\Classes\Actions;
 
-use con4gis\CoreBundle\Resources\contao\classes\C4GHTMLFactory;
+
+use con4gis\ProjectsBundle\Classes\Framework\C4GBrickModuleParent;
 use con4gis\ProjectsBundle\Classes\Notifications\C4GBrickNotification;
-use con4gis\Classes\Common\C4GBrickCommon;
-use con4gis\Classes\Common\C4GBrickConst;
 
 abstract class C4GBrickDialogAction extends C4GBrickAction
 {
+    /**
+     * @var C4GBrickModuleParent
+     */
     protected $module = null;
 
     protected function sendNotifications($notifications, $dlgValues, $fieldList, $memberId, $object = null) {

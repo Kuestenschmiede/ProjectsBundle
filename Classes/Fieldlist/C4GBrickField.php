@@ -14,6 +14,7 @@ namespace con4gis\ProjectsBundle\Classes\Fieldlist;
 
 use con4gis\CoreBundle\Resources\contao\classes\C4GHTMLFactory;
 use con4gis\CoreBundle\Resources\contao\classes\C4GUtils;
+use con4gis\CoreBundle\Resources\contao\classes\container\C4GContainer;
 use con4gis\ProjectsBundle\Classes\Conditions\C4GBrickConditionType;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GButtonField;
@@ -158,7 +159,7 @@ abstract class C4GBrickField
      * @param array $additionalParams
      * @return array
      */
-    public abstract function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = array());
+    public abstract function getC4GDialogField($fieldList, C4GContainer $data, C4GBrickDialogParams $dialogParams, $additionalParams = array());
 
     /**
      * Public method for generating the HTML code for fields based on the parameters given by the child class.
@@ -200,11 +201,9 @@ abstract class C4GBrickField
      * @param $content
      * @return mixed
      */
-    public function getC4GListField($rowData, $content)
+    public function getC4GListField(C4GContainer $rowData, $content)
     {
-        $fieldName = $this->getFieldName();
-
-        $value = $rowData->$fieldName;
+        $value = $rowData->getByKey($this->getFieldName());
         if ($this->getAddStrBeforeValue()) {
             $value = $this->getAddStrBeforeValue().$value;
         }
@@ -330,7 +329,7 @@ abstract class C4GBrickField
         }
     }
 
-    public function checkCondition($fieldList, $data, $conditions)
+    public function checkCondition($fieldList, C4GContainer $data, $conditions)
     {
         if ($conditions) {
             $emptyConditionFieldData = false;
@@ -346,18 +345,16 @@ abstract class C4GBrickField
 
                 switch ($condition->getType()) {
                     case C4GBrickConditionType::BOOLSWITCH:
-                        //bisher deaktivert der Boolswitch lediglich Felder, deshalb muss hier true zurückgegeben werden,
-                        //ansonsten würden die Felder ausgeblendet werden.
-                        return true;//($data->$conditionField == $conditionValue);
+                        return true;
                     case C4GBrickConditionType::VALUESWITCH:
 
                         foreach ($fieldList as $listField) {
                             //Ist das das schaltende Feld?
                             if ($listField->getAdditionalID()) {
                                 if ($conditionField == $listField->getFieldName() . '_' . $listField->getAdditionalID()) {
-                                    if (($data) && ($data->$conditionField)) {
+                                    if (($data) && ($data->getByKey($conditionField))) {
                                         //der aktuelle Wert aus der Datenbank
-                                        $conditionFieldData = $data->$conditionField;
+                                        $conditionFieldData = $data->getByKey($conditionField);
                                     } else {
                                         //der initial Wert, falls (noch) kein Datenbankwert vorhanden ist
                                         $conditionFieldData = $listField->getInitialValue();
@@ -375,9 +372,9 @@ abstract class C4GBrickField
                             } else {
                                 //Ist das das schaltende Feld?
                                 if ($conditionField == $listField->getFieldName()) {
-                                    if (($data) && ($data->$conditionField)) {
+                                    if (($data) && ($data->getByKey($conditionField))) {
                                         //der aktuelle Wert aus der Datenbank
-                                        $conditionFieldData = $data->$conditionField;
+                                        $conditionFieldData = $data->getByKey($conditionField);
                                     } else {
                                         //der initial Wert, falls (noch) kein Datenbankwert vorhanden ist
                                         $conditionFieldData = $listField->getInitialValue();
@@ -404,8 +401,8 @@ abstract class C4GBrickField
                         foreach ($fieldList as $listField) {
                             if ($listField->getAdditionalID()) {
                                 if ($conditionField == $listField->getFieldName() . '_' . $listField->getAdditionalID()) {
-                                    if (($data) && ($data->$conditionField)) {
-                                        $conditionFieldData = $data->$conditionField;
+                                    if (($data) && ($data->getByKey($conditionField))) {
+                                        $conditionFieldData = $data->getByKey($conditionField);
                                     } else {
                                         $conditionFieldData = $listField->getInitialValue();
                                     }
@@ -417,8 +414,8 @@ abstract class C4GBrickField
                                     }
                                 }
                             } else if ($conditionField == $listField->getFieldName()) {
-                                if (($data) && ($data->$conditionField)) {
-                                    $conditionFieldData = $data->$conditionField;
+                                if (($data) && ($data->getByKey($conditionField))) {
+                                    $conditionFieldData = $data->getByKey($conditionField);
                                 } else {
                                     $conditionFieldData = $listField->getInitialValue();
                                 }
@@ -463,7 +460,7 @@ abstract class C4GBrickField
 
 
 
-    protected function createConditionData($fieldList, $data)
+    protected function createConditionData($fieldList, C4GContainer $data)
     {
         $conditions = $this->getCondition();
         $conditionname = '';
@@ -522,7 +519,7 @@ abstract class C4GBrickField
         );
     }
 
-    public function addC4GField($condition, $dialogParams, $fieldList, $data, $fieldData) {
+    public function addC4GField($condition, $dialogParams, $fieldList, C4GContainer $data, $fieldData) {
         //ToDo change table to display:grid if feature released for all standard browsers
         $id = "c4g_" . $this->getFieldName();
         $value = $this->generateInitialValue($data);
@@ -602,7 +599,7 @@ abstract class C4GBrickField
      * @param $data
      * @return mixed
      */
-    protected function generateInitialValue($data)
+    protected function generateInitialValue(C4GContainer $data)
     {
         if (((!$data)) ||
                 (!$this->isDatabaseField()) && ($this->getSource() != C4GBrickFieldSourceType::OTHER_FIELD) &&
@@ -619,7 +616,7 @@ abstract class C4GBrickField
                 }
             }
 
-            $value = $data->$fieldName;
+            $value = $data->getByKey($fieldName);
         }
 
         if ($this->getAddStrBeforeValue()) {
@@ -637,14 +634,14 @@ abstract class C4GBrickField
      * @param C4GBrickDialogParams $dialogParams
      * @return string
      */
-    protected function generateRequiredString($data, $dialogParams)
+    protected function generateRequiredString(C4GContainer $data, $dialogParams)
     {
         $required = "";
         if ($this->getConditionType() == C4GBrickConditionType::BOOLSWITCH) {
             $condition = $this->getCondition();
             if ($condition) {
                 $thisName = $condition[0]->getFieldName();
-                if ($data && ($data->$thisName != $condition[0]->getValue())) {
+                if ($data && ($data->getByKey($thisName) != $condition[0]->getValue())) {
                     $required = "disabled readonly";
                     $this->setWithoutMandatoryStar(true);
                     $this->setEditable(false);

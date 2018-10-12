@@ -13,6 +13,7 @@
 namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
 
 
+use con4gis\CoreBundle\Resources\contao\classes\container\C4GContainer;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
 
@@ -42,7 +43,7 @@ class C4GLinkButtonField extends C4GBrickField
      * @param array $additionalParams
      * @return array
      */
-    public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = array())
+    public function getC4GDialogField($fieldList, C4GContainer $data, C4GBrickDialogParams $dialogParams, $additionalParams = array())
     {
         return array();
     }
@@ -57,7 +58,7 @@ class C4GLinkButtonField extends C4GBrickField
         return array();
     }
 
-    public final function getC4GListField($rowData, $content)
+    public final function getC4GListField(C4GContainer $rowData, $content)
     {
         $class = 'ui-button ui-corner-all';
         if ($this->getStyleClass()) {
@@ -83,7 +84,7 @@ class C4GLinkButtonField extends C4GBrickField
         return $html;
     }
 
-    protected function createHref($rowData, $content) {
+    protected function createHref(C4GContainer $rowData, $content) {
         if ($this->targetMode === self::TARGET_MODE_PAGE) {
             $href = \Contao\Controller::replaceInsertTags("{{link_url::".$this->targetPageId."}}");
         } elseif ($this->targetMode === self::TARGET_MODE_URL) {

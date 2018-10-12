@@ -42,6 +42,7 @@ final class C4GStandardListDataContao extends C4GListData
     public function loadListElements()
     {
         $columns = implode(',', $this->columns);
+        $columns .= ',id';
         $table = $this->table;
         $where = $this->where;
         $queryString = "SELECT $columns FROM $table";
@@ -50,7 +51,8 @@ final class C4GStandardListDataContao extends C4GListData
         }
         $stmt = $this->db->prepare($queryString);
         $result = call_user_func_array(array($stmt, 'execute'),$this->parameters);
-        $this->listElements = $result->fetchAllAssoc();
+        $result = $result->fetchAllAssoc();
+        $this->listElements->addContainersFromArray($result);
     }
 
     /**
@@ -76,5 +78,13 @@ final class C4GStandardListDataContao extends C4GListData
      */
     public function addParameter(string $parameter) {
         $this->parameters[] = $parameter;
+    }
+
+    /**
+     * Helper function to add a where clause, including the parameter, corresponding to the currently logged in member.
+     */
+    public function whereMemberIsCurrentUser() {
+        $this->where($this->viewParams->getMemberKeyField() . ' = ?');
+        $this->setParameters(array(\Contao\FrontendUser::getInstance()->id));
     }
 }

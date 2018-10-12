@@ -12,6 +12,7 @@
 
 namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
 
+use con4gis\CoreBundle\Resources\contao\classes\container\C4GContainer;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldCompare;
@@ -96,11 +97,11 @@ class C4GTimestampField extends C4GBrickField
      * @param $content
      * @return mixed
      */
-    public function getC4GListField($rowData, $content)
+    public function getC4GListField(C4GContainer $rowData, $content)
     {
         $fieldName = $this->getFieldName();
-        $date = $rowData->$fieldName;
-        return $rowData->$fieldName . ' (' . date('d.m.Y H:i:s', $date) . ')';
+        $date = $rowData->getByKey($fieldName);
+        return $rowData->getByKey($fieldName) . ' (' . date('d.m.Y H:i:s', $date) . ')';
     }
 
     /**

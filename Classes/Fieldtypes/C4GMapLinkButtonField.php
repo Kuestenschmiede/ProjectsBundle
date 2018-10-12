@@ -13,6 +13,7 @@
 namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
 
 
+use con4gis\CoreBundle\Resources\contao\classes\container\C4GContainer;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
 
@@ -41,14 +42,14 @@ class C4GMapLinkButtonField extends C4GLinkButtonField
         return array();
     }
 
-    protected function createHref($rowData, $content) {
+    protected function createHref(C4GContainer $rowData, $content) {
+        $html = parent::createHref($rowData, $content);
         $latField = $this->latitudeColumn;
         $longField = $this->longitudeColumn;
-        $lat = $rowData->$latField;
-        $lon = $rowData->$longField;
+        $lat = $rowData->getByKey($latField);
+        $lon = $rowData->getByKey($longField);
         $zoom = $this->zoom;
         $baseLayer = $this->baseLayer;
-        $html = parent::createHref($rowData, $content);
         return $html . "#$lon/$lat/$zoom/0/$baseLayer/0";
     }
 

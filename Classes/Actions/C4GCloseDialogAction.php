@@ -22,53 +22,17 @@ class C4GCloseDialogAction extends C4GBrickDialogAction
 
     public function run()
     {
-        $dialogParams = $this->getDialogParams();
-        $viewType     = $dialogParams->getViewType();
-        $id = $dialogParams->getId();
+        $dialogDataObject = $this->module->getDialogDataObject();
+        $diffs = $dialogDataObject->getDifferences();
 
-        $dlgValues = $this->getPutVars();
-        $dlgValues['id'] = $id;
-
-        $brickDatabase = $this->getBrickDatabase();
-        if ($brickDatabase && ($id > 0)) {
-            $dbValues = $brickDatabase->findByPk($id);
-        }
-
-        $project_id = $dialogParams->getProjectId();
-        $is_frozen = $dialogParams->isFrozen();
-        if ($viewType == C4GBrickViewType::GROUPPROJECT) {
-            if ($dbValues) {
-                $is_frozen = $dbValues->is_frozen;
-            }
-        } else if ($project_id) {
-            // TODO projects model fixen
-//            $project = C4gProjectsModel::findByPk($project_id);
-//            if ($project) {
-//                $is_frozen = $project->is_frozen;
-//            }
-        }
-
-        if ($viewType == C4GBrickViewType::GROUPPROJECT) {
-            if ($dbValues) {
-                $is_frozen = $dbValues->is_frozen;
-            }
-        }
-
-        $fieldList = $this->makeRegularFieldList($this->getFieldList());
-
-        //$changes = array();
-        //if ($dbValues) {
-        $changes = C4GBrickDialog::compareWithDB($fieldList, $dlgValues, $dbValues, $viewType, $is_frozen);
-        //}
-
-        if (count($changes) > 0 && $this->ignoreChanges == false) {
-            $action = new C4GShowMessageChangesDialogAction($dialogParams, $this->getListParams(), $this->getFieldList(), $this->getPutVars(), $this->getBrickDatabase());
-            $action->setChanges($changes);
+        if ($diffs && $this->ignoreChanges === false) {
+            $action = new C4GShowMessageChangesDialogAction($this->dialogParams, $this->getListParams(), $this->getFieldList(), $this->getPutVars(), $this->getBrickDatabase());
+            $action->setChanges($diffs);
             $action->setModule($this->module);
             return $action->run();
         } else {
-            $dialogParams->setId(-1);
-            $action = new C4GShowListAction($dialogParams, $this->getListParams(), $this->getFieldList(), $this->getPutVars(), $this->getBrickDatabase());
+            $this->dialogParams->setId(-1);
+            $action = new C4GShowListAction($this->dialogParams, $this->getListParams(), $this->getFieldList(), $this->getPutVars(), $this->getBrickDatabase());
             $action->setModule($this->module);
             return $action->run();
         }

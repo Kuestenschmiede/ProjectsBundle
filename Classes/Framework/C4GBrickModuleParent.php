@@ -29,6 +29,8 @@ use con4gis\ProjectsBundle\Classes\Database\C4GBrickDatabaseType;
 use con4gis\ProjectsBundle\Classes\DialogData\C4GDialogData;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GDialogChangeHandler;
+use con4gis\ProjectsBundle\Classes\Fieldlist\C4GFieldList;
+use con4gis\ProjectsBundle\Classes\ListData\C4GListData;
 use con4gis\ProjectsBundle\Classes\Lists\C4GBrickListParams;
 use con4gis\ProjectsBundle\Classes\Models\C4gProjectsModel;
 use con4gis\ProjectsBundle\Classes\Permission\C4GTablePermission;
@@ -128,6 +130,7 @@ class C4GBrickModuleParent extends \Module
 
     protected $dialogDataObject = null;
     protected $listDataObject = null;
+    protected $fieldListObject = null;
 
 
     /**
@@ -1413,10 +1416,18 @@ class C4GBrickModuleParent extends \Module
     }
 
     /**
-     * @return null
+     * @return C4GListData
      */
-    public function getListDataObject()
+    public function getListDataObject(): C4GListData
     {
         return $this->listDataObject;
+    }
+
+    /**
+     * @return C4GFieldList
+     */
+    public function getFieldListObject(): C4GFieldList
+    {
+        return $this->fieldListObject;
     }
 }

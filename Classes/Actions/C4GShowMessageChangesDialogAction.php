@@ -12,113 +12,96 @@
 
 namespace con4gis\ProjectsBundle\Classes\Actions;
 
+use con4gis\CoreBundle\Resources\contao\classes\container\C4GContainerContainer;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialog;
 
 class C4GShowMessageChangesDialogAction extends C4GBrickDialogAction
 {
-    private $changes = null;
+    /**
+     * @var C4GContainerContainer
+     */
+    private $diffs = null;
 
     public function run()
     {
+
+        $fieldListObject = $this->module->getFieldListObject();
+        $changesHtml = '';
+        foreach ($this->diffs as $index => $diff) {
+            if ($index === 'uuid') {
+                continue;
+            }
+            $field = $fieldListObject->getByKey($index);
+            if ($field === null) {
+                continue;
+            }
+            $title = $field->getTitle();
+            $oldValue = $field->translateFieldValue($diff->getByKey('dbValue'));
+            $newValue = $field->translateFieldValue($diff->getByKey('dialogValue'));
+            $changesHtml .= "<li>$title ($oldValue => $newValue)</li>";
+        }
+
+
         $dlgValues = $this->getPutVars();
         $dialogParams = $this->getDialogParams();
         $id = $dialogParams->getId();
 
-        $brickDatabase = $this->getBrickDatabase();
-        if ($brickDatabase && ($id > 0)) {
-            $dbValues = $this->getBrickDatabase()->findByPk($id);
-        }
-
-        if ($this->changes) {
-            $changes = $this->changes;
+        if ($changesHtml === '') {
+            $dialogParams->setId(-1);
+            $action = new C4GShowListAction($dialogParams, $this->getListParams(), $this->getFieldList(), $this->getPutVars(), $this->getBrickDatabase());
+            $action->setModule($this->module);
+            return $action->run();
         } else {
-            $changes = C4GBrickDialog::compareWithDB($this->makeRegularFieldList($this->getFieldList(), $dlgValues, $dbValues, $this->viewType, $dialogParams->isFrozen()));
-        }
-
-        if ($changes) {
-            //$fields = array();
-            $fields = '<ul>';
-            $message_cnt = 0;
-            foreach ($changes as $changedField) {
-                $field = $changedField->getField();
-                if ($field->getFieldName() == 'uuid') {
-                    continue;
-                }
-                $fieldTitle = $field->getTitle();
-                $value1 = false;
-                $value2 = false;
-
-                if ($field && $changedField->getDbValue()) {
-                    $value1 = $field->translateFieldValue($changedField->getDbValue());
-                }
-
-                if ($field && $changedField->getDlgValue()) {
-                    $value2 = $field->translateFieldValue($changedField->getDlgValue());
-                }
-
-                if (!$value1) {
-                    $value1 = $GLOBALS['TL_LANG']['tl_c4g_projects']['noentry'];
-                }
-
-                if (!$value2) {
-                    $value2 = $GLOBALS['TL_LANG']['tl_c4g_projects']['noentry'];
-                }
-
-                if (($value1 || $value2) && ($value1 != $value2)) {
-                    $fields .= '<li>'.$fieldTitle.' ('.  $value1 .' => '.$value2.')</li>';
-                    $message_cnt++;
-                }
-            }
-            $fields .= '</ul>';
-
-            if ($message_cnt == 0) {
-                $dialogParams->setId(-1);
-                $action = new C4GShowListAction($dialogParams, $this->getListParams(), $this->getFieldList(), $this->getPutVars(), $this->getBrickDatabase());
-                return $action->run();
-            } else {
-                $result = C4GBrickDialog::showC4GMessageDialog(
-                    $id,
-                    $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['MESSAGE_DIALOG_CLOSE_DIALOG_QUESTION'],
-                    $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['MESSAGE_DIALOG_CLOSE_DIALOG_FIELDLIST'].'</br>'.$fields,
-                    C4GBrickActionType::ACTION_CONFIRMMESSAGE,
-                    $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['MESSAGE_DIALOG_CLOSE_DIALOG_YES'],
-                    C4GBrickActionType::ACTION_CANCELMESSAGE,
-                    $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['MESSAGE_DIALOG_CLOSE_DIALOG_NO'],
-                    $dlgValues);
-            }
-        } else {
-            $result = C4GBrickDialog::showC4GMessageDialog(
+            return C4GBrickDialog::showC4GMessageDialog(
                 $id,
                 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['MESSAGE_DIALOG_CLOSE_DIALOG_QUESTION'],
-                $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['MESSAGE_DIALOG_CLOSE_DIALOG_TEXT'],
+                $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['MESSAGE_DIALOG_CLOSE_DIALOG_FIELDLIST'].'</br>'."<ul>$changesHtml</ul>",
                 C4GBrickActionType::ACTION_CONFIRMMESSAGE,
                 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['MESSAGE_DIALOG_CLOSE_DIALOG_YES'],
                 C4GBrickActionType::ACTION_CANCELMESSAGE,
                 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['MESSAGE_DIALOG_CLOSE_DIALOG_NO'],
                 $dlgValues);
         }
-
-        return $result;
-
     }
 
     /**
      * @return null
+     * @deprecated
      */
     public function getChanges()
     {
-        return $this->changes;
+        return '';
     }
 
     /**
      * @param $changes
      * @return $this
+     * @deprecated
      */
     public function setChanges($changes)
     {
-        $this->changes = $changes;
         return $this;
     }
+
+    /**
+     * @return null
+     */
+    public function getDiffs()
+    {
+        return $this->diffs;
+    }
+
+    /**
+     * @param $diffs
+     * @return $this
+     */
+    public function setDiffs($diffs)
+    {
+        $this->diffs = $diffs;
+        return $this;
+    }
+
+
 
     public function isReadOnly()
     {
