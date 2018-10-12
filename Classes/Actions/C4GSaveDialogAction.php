@@ -54,7 +54,7 @@ class C4GSaveDialogAction extends C4GBrickDialogAction
         $dialogDataObject->loadValuesAndAuthenticate();
         $dialogDataObject->setDialogValues($dlgValues);
         $diff = $dialogDataObject->getDifferences();
-        if ($diff) {
+        if (!$diff->isEmpty()) {
             $dialogDataObject->authenticateAndSaveValues();
         }
 
@@ -112,7 +112,7 @@ class C4GSaveDialogAction extends C4GBrickDialogAction
                 $module->getDialogChangeHandler()->clearSession($module->getBrickKey());
             }
 
-            if ($dialogParams->isShowSuccessfullySavedMessage() && $diff) {
+            if ($dialogParams->isShowSuccessfullySavedMessage() && !$diff->isEmpty()) {
                 if (!$return['usermessage'] && !$return['title']) {
                     $return['usermessage'] = $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_SUCCESSFULLY_SAVED'];
                     $return['title'] = $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_SUCCESSFULLY_SAVED_TITLE'];
