@@ -27,6 +27,7 @@ class C4GShowMessageChangesDialogAction extends C4GBrickDialogAction
 
         $fieldListObject = $this->module->getFieldListObject();
         $changesHtml = '';
+
         foreach ($this->diffs as $index => $diff) {
             if ($index === 'uuid') {
                 continue;
