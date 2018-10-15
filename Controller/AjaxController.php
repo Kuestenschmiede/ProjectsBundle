@@ -9,6 +9,8 @@ use con4gis\DocumentsBundle\Classes\Stack\PdfManager;
 use con4gis\MapsBundle\Resources\contao\modules\api\ReverseNominatimApi;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickConst;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialog;
+use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GForeignArrayField;
+use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GSubDialogField;
 use con4gis\ProjectsBundle\Classes\Framework\C4GModuleManager;
 use con4gis\ProjectsBundle\Resources\contao\modules\api\C4GEditorTabApi;
 use Contao\Database;
@@ -27,9 +29,7 @@ class AjaxController extends Controller
     {
         $moduleManager = new C4GModuleManager();
         if ($request->getMethod() === "PUT") {
-            $rawData = $request->getContent();
-            $data = json_decode($rawData);
-            $arrData = (array) $data;
+            $arrData = $request->request->all();
             $actionString = explode(":", $action);
             if ($actionString[0] === "C4GPrintDialogAction") {
                 return $this->printAction($request, $module, $arrData, $action);
@@ -49,6 +49,38 @@ class AjaxController extends Controller
         }
     }
 
+    private function checkSubFields(&$field, $data)
+    {
+        if ($field instanceof C4GSubDialogField) {
+            $subFieldList = array();
+            if ($field->getFieldList()) {
+                foreach ($field->getFieldList() as $subField) {
+                    $subField->setDescription("");
+                    if (trim($data[$subField->getFieldName()]) || (($field instanceof C4GSubDialogField) || ($field instanceof C4GForeignArrayField))) {
+                        $this->checkSubFields($subField, $data);
+                        $subFieldList[] = $subField;
+                    }
+                }
+                $field->setFieldList($subFieldList);
+            }
+        }
+
+        if ($field instanceof C4GForeignArrayField) {
+            $subFieldList = array();
+            if ($field->getForeignFieldList()) {
+                foreach ($field->getForeignFieldList() as $subField) {
+                    $subField->setDescription("");
+                    if (trim($data[$subField->getFieldName()]) || (($field instanceof C4GSubDialogField) || ($field instanceof C4GForeignArrayField))) {
+                        $this->checkSubFields($subField, $data);
+                        $subFieldList[] = $subField;
+                    }
+                }
+                $field->setForeignFieldList($subFieldList);
+            }
+        }
+
+    }
+
     public function printAction(Request $request, $module, $data, $action)
     {
         $this->get('contao.framework')->initialize();
@@ -60,22 +92,43 @@ class AjaxController extends Controller
         $arrAction = explode(":", $action);
         $id = $arrAction[1];
         $objModule->initBrickModule($id);
+
+        $objModule->getDialogParams()->setTabContent(false);
+        $objModule->getDialogParams()->setAccordion(false);
+
+        $fieldList = $objModule->getFieldList();
+        $printFieldList = array();
+        foreach ($fieldList as $field) {
+            $field->setDescription("");
+            if (trim($data[$field->getFieldName()]) || (($field instanceof C4GSubDialogField) || ($field instanceof C4GForeignArrayField))) {
+                $this->checkSubFields($field, $data);
+                $printFieldList[] = $field;
+            }
+        }
+
         $content = C4GBrickDialog::buildDialogView(
-            $objModule->getFieldList(),
+            $printFieldList,
             $objModule->getBrickDatabase(),
             $data,
             null,
             $objModule->getDialogParams()
         );
+
         $pdfManager = new PdfManager();
-        $pdfManager->template   = 'c4g_pdftemplate';
-        $pdfManager->filename   = '{{date::Y.m.d-H.i.s}}_document.pdf';
-        $pdfManager->filepath   = C4GBrickConst::PATH_BRICK_DOCUMENTS;
-        $pdfManager->headline   = $objModule->getDialogParams()->getBrickCaption();
-        $pdfManager->hl         = 'h1';
-        $style                  = TL_ROOT.'bundles/con4gisprojects/css/c4g_brick_print.css';
-        $pdfManager->style      = $style;
-        $pdfManager->content    = $content;
+        $style = TL_ROOT.'bundles/con4gisprojects/css/c4g_brick_print.css';
+        $pdfManager->style = $style;
+
+        $pdfData = array();
+        $pdfData['template'] = 'c4g_pdftemplate';
+        $pdfData['filename'] = '{{date::Y_m_d-H_i_s}}_document.pdf';
+        $pdfData['filepath'] = C4GBrickConst::PATH_BRICK_DOCUMENTS;
+        $pdfManager->setData($pdfData);
+
+        $captionField = $objModule->getDialogParams()->getCaptionField();
+        $pdfManager->headline = $objModule->getDialogParams()->getBrickCaption().': '.$data[$captionField];
+        $pdfManager->hl = 'h1';
+
+        $pdfManager->content = $content;
         $pdfManager->save();
 
         $path = $pdfManager->getPdfDocument()->getPath() . $pdfManager->getPdfDocument()->getFilename();

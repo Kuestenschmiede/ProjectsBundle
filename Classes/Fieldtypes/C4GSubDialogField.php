@@ -512,6 +512,15 @@ class C4GSubDialogField extends C4GBrickField
     }
 
     /**
+     * @param $fieldList
+     */
+    public function setFieldList(array $fieldList)
+    {
+        $this->fieldList = $fieldList;
+    }
+
+
+    /**
      * @param C4GBrickField $field
      * @return C4GSubDialogField
      */
