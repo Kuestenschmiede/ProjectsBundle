@@ -136,6 +136,20 @@ class C4GForeignArrayField extends C4GBrickField
         }
     }
 
+    public function checkMandatory(C4GContainer $dlgValues)
+    {
+        $subDialogValues = $dlgValues->getByKey($this->getFieldName());
+        foreach ($subDialogValues as $values) {
+            foreach ($this->foreignFieldList as $field) {
+                $check = $field->checkMandatory($values);
+                if ($check instanceof C4GBrickField) {
+                    return $check;
+                }
+            }
+        }
+        return false;
+    }
+
     /**
      * @return mixed
      */

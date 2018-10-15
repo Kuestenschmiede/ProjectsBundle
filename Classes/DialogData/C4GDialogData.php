@@ -57,7 +57,7 @@ abstract class C4GDialogData
         $this->id = $id;
         $this->dbValues = new C4GContainer();
         $this->dialogValues = new C4GContainer();
-        $this->differences = new C4GContainerContainer();
+        $this->differences = new C4GContainer();
     }
 
     public final function loadValuesAndAuthenticate() {

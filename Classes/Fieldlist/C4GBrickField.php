@@ -108,7 +108,7 @@ abstract class C4GBrickField
     private $showIfEmpty = true; //do not show clear fields?
     private $size = 0; //size for some types
     private $sort = true; //activate sorting for fieldtypes with options
-    private $sortColumn = true; //is this a sort column in datatable?
+    private $sortColumn = false; //is this a sort column in datatable?
     private $sortSequence = 'asc'; //sort sequence
     private $sortType = ''; //sort type de_date, de_datetime
     private $source = C4GBrickFieldSourceType::DATABASE; //datasource, if not database
@@ -692,11 +692,11 @@ abstract class C4GBrickField
     /**
      * Returns false if the field is not mandatory or if it is mandatory but its conditions are not met.
      * Otherwise it checks whether the field has a valid value and returns the result.
-     * @param array $dlgValues
+     * @param C4GContainer $dlgValues
      * @return bool|C4GBrickField
      */
 
-    public function checkMandatory($dlgValues)
+    public function checkMandatory(C4GContainer $dlgValues)
     {
         //$this->specialMandatoryMessage = $this->fieldName;    //Useful for debugging
         if (!$this->mandatory) {
@@ -709,14 +709,14 @@ abstract class C4GBrickField
                     continue;
                 }
                 $fieldName = $con->getFieldName();
-                if (!$con->checkAgainstCondition($dlgValues[$fieldName])) {
+                if (!$con->checkAgainstCondition($dlgValues->getByKey($fieldName))) {
                     return false;
                 }
             }
         }
         $fieldName = $this->fieldName;
-        $fieldData = $dlgValues[$fieldName];
-        if (is_string($dlgValues[$fieldName])) {
+        $fieldData = $dlgValues->getByKey($fieldName);
+        if (is_string($dlgValues->getByKey($fieldName))) {
             $fieldData = trim($fieldData);
         }
         if (($fieldData == null) || ($fieldData) == '') {

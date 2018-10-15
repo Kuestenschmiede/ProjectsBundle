@@ -15,6 +15,8 @@ namespace con4gis\ProjectsBundle\Classes\Actions;
 
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialog;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
+use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GForeignArrayField;
+use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GSubDialogField;
 
 trait C4GTraitCheckMandatoryFields
 {
@@ -27,14 +29,22 @@ trait C4GTraitCheckMandatoryFields
      */
     function checkMandatoryFields($fieldList, $dlgValues, $callback = 'focusOnElement', $callbackParams = '')
     {
-        $mandatoryCheckResult = C4GBrickDialog::checkMandatoryFields($fieldList, $dlgValues);
+
+        $check = false;
+        foreach ($fieldList as $field) {
+            $check = $field->checkMandatory($dlgValues);
+            if ($check instanceof C4GBrickField) {
+                break;
+            }
+        }
+        $mandatoryCheckResult = $check instanceof C4GBrickField ? $check : true;
         if ($mandatoryCheckResult !== true) {
             if ($mandatoryCheckResult instanceof C4GBrickField) {
                 if ($mandatoryCheckResult->getSpecialMandatoryMessage() != '') {
                     return array('usermessage' => $mandatoryCheckResult->getSpecialMandatoryMessage(), 'title' => $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_MANDATORY_TITLE'],
                         'callback' => array('function' => 'focusOnElement', 'params' => 'c4g_' . $mandatoryCheckResult->getFieldName()));
                 } elseif ($mandatoryCheckResult->getTitle() != '') {
-                    if (!$callbackParams) {
+                    if ($callbackParams === '') {
                         $callbackParams = 'c4g_'. $mandatoryCheckResult->getFieldName();
                     }
                     return array('usermessage' => $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_MANDATORY_FIELD'].'"'. $mandatoryCheckResult->getTitle().'".',

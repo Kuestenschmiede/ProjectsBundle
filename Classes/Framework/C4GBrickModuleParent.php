@@ -949,20 +949,12 @@ class C4GBrickModuleParent extends \Module
                             }
                         }
 
-                        /*if ( ($actions[0] == '-1') ) {
-                          $actions[0] = C4GBrickActionType::IDENTIFIER_LIST; //tritt evtl. auf, wenn das Browserfenster neu geladen wird, so greiftn default in performAction
-                        }*/
-
                         $result = array();
                         foreach ($actions AS $action) {
                             $r = $this->performAction($action);
                             if (is_array($r)) {
                                 $result = array_merge($result, $r);
-                            }/* else {
-                                if (strpos($action, 'savedialog:') !== false) {
-                                    $this->initBrickModule(\Session::getInstance()->get("c4g_brick_dialog_id"));
-                                }
-                            }*/
+                            }
                         }
                 }
             }
@@ -974,10 +966,10 @@ class C4GBrickModuleParent extends \Module
     }
 
     /**
-     * module event controller
-     *
      * @param $action
-     * @return array|mixed
+     * @param bool $withMemberCheck
+     * @return array|bool|false|null|string
+     * @throws \Exception
      */
     private function performAction ($action, $withMemberCheck=true) {
         $values = explode(':', $action, 5);

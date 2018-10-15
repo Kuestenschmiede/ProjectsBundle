@@ -14,8 +14,7 @@ namespace con4gis\ProjectsBundle\Classes\Lists;
 
 
 use con4gis\CoreBundle\Resources\contao\classes\C4GUtils;
-use con4gis\CoreBundle\Resources\contao\classes\container\C4GBaseContainer;
-use con4gis\CoreBundle\Resources\contao\classes\container\C4GContainerContainer;
+use con4gis\CoreBundle\Resources\contao\classes\container\C4GContainer;
 use con4gis\MapsBundle\Resources\contao\models\C4gMapsModel;
 use con4gis\ProjectsBundle\Classes\Actions\C4GBrickActionType;
 use con4gis\ProjectsBundle\Classes\Buttons\C4GBrickButton;
@@ -24,10 +23,8 @@ use con4gis\ProjectsBundle\Classes\Common\C4GBrickConst;
 use con4gis\ProjectsBundle\Classes\Conditions\C4GBrickConditionType;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GDateTimeLocationField;
-use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GDecimalField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GGeopickerField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GSelectField;
-use con4gis\CoreBundle\Resources\contao\classes\C4GHTMLFactory;
 use Contao\ContentModel;
 
 class C4GBrickList
@@ -40,13 +37,7 @@ class C4GBrickList
                 'text' => sprintf($button->getCaption(), $parentCaption),
                 'tableSelection' => false
             );
-        } /*else if ($button->getType() == C4GBrickConst::BUTTON_PRINTLIST) {
-                return array(
-                    'extend' => 'pdf',
-                    'text'  => sprintf($button->getCaption(), $parentCaption),
-                    'tableSelection'    => false,
-            );
-        }*/ else {
+        } else {
             return array(
                 'id' => $button->getAction() . ':-1',
                 'text' => $button->getCaption(),
@@ -56,8 +47,8 @@ class C4GBrickList
     }
 
     /**
-     * @param $showGroupButton
-     * @param $showAddButton
+     * @param C4GBrickListParams $listParams
+     * @param $parentCaption
      * @return array
      */
     public static function getDialogButtons(C4GBrickListParams $listParams, $parentCaption) {
@@ -125,9 +116,9 @@ class C4GBrickList
     }
 
     /**
-     * deletes all elements with delete flag
      * @param $fieldList
      * @param $tableElements
+     * @return array
      */
     public static function deleteElementsPerFlag($fieldList, $tableElements) {
         $newTableElements = array();
@@ -160,7 +151,7 @@ class C4GBrickList
     /**
      * Kann mit besserer DataTables-Einbindung umgebaut werden. Über die jetzige Komponente greift bVisible nicht
      * zweimal :( Das Ganze hier sorgt dafür, dass eine Spalte entfernt wird, wenn zwei Felder über eine Condition
-     * geschaltet werden. Siehe auch getOptions für abhängige Selektfelder.
+     * geschaltet werden. Siehe auch getOptions für abhängige Selectfelder.
      *
      * @param $data
      * @return mixed
@@ -271,7 +262,7 @@ class C4GBrickList
      * @return array
      */
     public static function showC4GTableList(
-        $listCaption, $database, $content, $listHeadline,  $fieldList, C4GContainerContainer $tableElements, $key,
+        $listCaption, $database, $content, $listHeadline,  $fieldList, C4GContainer $tableElements, $key,
         $parentCaption, $listParams)
     {
         if (!$tableElements) {
@@ -385,7 +376,7 @@ class C4GBrickList
                         }
                     } else {
                         $data['aoColumnDefs'][] = array(
-                            'sClass' => 'c4g_brick_col c4g_brick_col_'.$cnt.' nomouseevents'.$additionalClasses,
+                            'sClass' => 'c4g_brick_col c4g_brick_col_'.$cnt.$additionalClasses,
                             'sTitle' => $column->getTitle(),
                             'sWidth' => $column->getColumnWidth() . '%',
                             'sType' => $column->getSortType(),

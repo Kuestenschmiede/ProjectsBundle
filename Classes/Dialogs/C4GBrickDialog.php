@@ -119,50 +119,6 @@ class C4GBrickDialog
         return '<label class="c4g_label">' . $label . '</label>';
     }
 
-//    public static function showC4GRedirectDialog(
-//        $dialogParams,
-//        $messageTitle,
-//        $confirmAction,
-//        $confirmButtonText,
-//        $cancelAction,
-//        $cancelButtonText
-//    ) {
-//        $dialogId = $dialogParams->getMemberId();
-//
-//        $view = '<div class="' . C4GBrickConst::CLASS_REDIRECT_DIALOG . ' ui-widget ui-widget-content ui-corner-bottom">';
-//
-//        return array
-//        (
-//            'dialogtype' => 'html',
-//            'dialogdata' => $view,
-//            'dialogoptions' => C4GUtils::addDefaultDialogOptions(array
-//            (
-//                'title' => $messageTitle,
-//                'modal' => true
-//            )),
-//            'dialogid' => C4GBrickActionType::IDENTIFIER_REDIRECT.$dialogId,
-//            'dialogstate' => C4GBrickActionType::IDENTIFIER_REDIRECT.':'.$dialogId,
-//            'dialogbuttons' => array
-//            (
-//                array
-//                (
-//                    'action' => $confirmAction.':'.$dialogId,
-//                    'class'  => 'c4gGuiDefaultAction',
-//                    'type'   => 'send',
-//                    'text'   => $confirmButtonText,
-//                )/*,
-//                array
-//                (
-//                    'action' => $cancelAction.':'.$dialogId,
-//                    'class'  => 'c4gGuiDefaultAction',
-//                    'type'   => 'send',
-//                    'text'   => $cancelButtonText,
-//                ),*/
-//            )
-//        );
-//
-//    }
-
     /**
      * @param $dialogParams
      * @param $field
@@ -684,6 +640,7 @@ class C4GBrickDialog
      * @param C4GBrickField[] $fieldList
      * @param $dlgValues
      * @return bool|C4GBrickField
+     * @deprecated
      */
     public static function checkMandatoryFields($fieldList, $dlgValues)
     {

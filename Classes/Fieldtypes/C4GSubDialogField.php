@@ -396,6 +396,20 @@ class C4GSubDialogField extends C4GBrickField
         return $changes;
     }
 
+    public function checkMandatory(C4GContainer $dlgValues)
+    {
+        $subDialogValues = $dlgValues->getByKey($this->getFieldName());
+        foreach ($subDialogValues as $values) {
+            foreach ($this->fieldList as $field) {
+                $check = $field->checkMandatory($values);
+                if ($check instanceof C4GBrickField) {
+                    return $check;
+                }
+            }
+        }
+        return false;
+    }
+
     /**
      * @return string
      */

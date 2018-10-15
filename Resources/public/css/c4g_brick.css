@@ -913,10 +913,10 @@ a.c4g_tile_button:hover {
     cursor: pointer;
 }
 
-.nomouseevents {
+th.nomouseevents {
     pointer-events: none;
 }
 
-.nomouseevents .DataTables_sort_icon {
+th.nomouseevents .DataTables_sort_icon {
     display: none;
 }

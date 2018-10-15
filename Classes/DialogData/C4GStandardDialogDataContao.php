@@ -154,15 +154,14 @@ final class C4GStandardDialogDataContao extends C4GDialogData
                     $container = new C4GContainer();
                     $container->addElement($dbValues->getByKey($index), 'dbValue');
                     $container->addElement($dialogValues->getByKey($index), 'dialogValue');
-                    $differences->addContainer($container);
+                    $differences->addElement($container);
                 } elseif ($dbValues->isEmpty() && $dialogValues->containsKey($index)) {
                     $container = new C4GContainer();
                     $container->addElement(null, 'dbValue');
                     $container->addElement($dialogValues->getByKey($index), 'dialogValue');
-                    $differences->addContainer($container);
+                    $differences->addElement($container);
                 }
             }
-            $this->differences = $differences;
         }
     }
 

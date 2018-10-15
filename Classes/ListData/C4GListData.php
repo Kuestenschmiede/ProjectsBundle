@@ -13,7 +13,7 @@
 namespace con4gis\ProjectsBundle\Classes\ListData;
 
 
-use con4gis\CoreBundle\Resources\contao\classes\container\C4GContainerContainer;
+use con4gis\CoreBundle\Resources\contao\classes\container\C4GContainer;
 use con4gis\ProjectsBundle\Classes\Lists\C4GBrickListParams;
 use con4gis\ProjectsBundle\Classes\Views\C4GBrickViewParams;
 
@@ -26,7 +26,7 @@ abstract class C4GListData
     public function __construct(C4GBrickListParams $listParams, C4GBrickViewParams $viewParams) {
         $this->listParams = $listParams;
         $this->viewParams = $viewParams;
-        $this->listElements = new C4GContainerContainer();
+        $this->listElements = new C4GContainer();
     }
 
     /**

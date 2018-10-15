@@ -35,9 +35,10 @@ class C4GSaveDialogAction extends C4GBrickDialogAction
         $isPopup = $dialogParams->isPopup();
         $isWithActivationInfo = $dialogParams->isWithActivationInfo();
         $module = $this->getModule();
+        $dialogDataObject = $module->getDialogDataObject();
 
         if ((!$dialogParams->isSaveOnMandatory() || ($dialogParams->isMandatoryCheckOnActivate() && ($dlgValues['published'] === 'true' || $dlgValues['published'] === true))) && !$dialogParams->isSaveWithoutMessages()) {
-            $check = $this->checkMandatoryFields($fieldList, $dlgValues);
+            $check = $this->checkMandatoryFields($fieldList, $dialogDataObject->getDialog);
             if (!empty($check)) {
                 return $check;
             }
