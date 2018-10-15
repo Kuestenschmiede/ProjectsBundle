@@ -173,11 +173,19 @@ class C4GFileField extends C4GBrickField
         $original_filename = $fieldData;
         $fieldName = $this->getFieldName();
         $upload_url = $dlgValues['uploadURL_'.$fieldName];
-        $old_file = $dbValues->$fieldName;
+
+        if (is_array($dbValues)) {
+            $old_file = $dbValues[$fieldName];
+        } else {
+           $old_file = $dbValues->$fieldName;
+        }
 
         $fileObject = C4GBrickCommon::loadFile($old_file);
         if ($fileObject) {
           $old_url = $fileObject->path;
+          if ($old_url) {
+              $original_filename = $old_url;
+          }
         }
 
         if (!empty($upload_url) && (!\Validator::isUuid($upload_url)) && (strcmp($upload_url, $old_url) != 0)) {

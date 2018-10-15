@@ -154,29 +154,24 @@ class C4GBrickCommon
     {
         $path = pathinfo($new_filename, PATHINFO_DIRNAME);
         $filename = pathinfo($new_filename, PATHINFO_FILENAME);
-        $originalFilename = pathinfo($original_filename, PATHINFO_FILENAME);
+        //$originalFilename = pathinfo($original_filename, PATHINFO_FILENAME);
         $extension = pathinfo($new_filename, PATHINFO_EXTENSION);
         $pos = strpos($path,'files');
         $contaoPath = substr($path,$pos);
 
-        if ($unique && file_exists($_SERVER["DOCUMENT_ROOT"].$new_filename) && file_exists($_SERVER["DOCUMENT_ROOT"].$original_filename)) {
-            self::deleteFile($_SERVER["DOCUMENT_ROOT"].$original_filename);
-            if (!rename($_SERVER["DOCUMENT_ROOT"].$new_filename, $_SERVER["DOCUMENT_ROOT"].$original_filename)) {
-                //ToDo Fehlerbehandlung
-            }
+        if ($unique && file_exists($original_filename)) {
+            self::deleteFile($original_filename);
+        }
 
-            $objNew = \Dbafs::addResource($contaoPath . '/'. $originalFilename.'.'.$extension);
-        } else {
-            if ($generated_filename != $new_filename) {
-                if (file_exists($_SERVER["DOCUMENT_ROOT"].$generated_filename)) {
-                    if (!rename($_SERVER["DOCUMENT_ROOT"].$generated_filename, $_SERVER["DOCUMENT_ROOT"].$new_filename)) {
-                        //ToDo Fehlerbehandlung
-                    }
+        if ($generated_filename != $new_filename) {
+            if (file_exists($_SERVER["DOCUMENT_ROOT"].$generated_filename)) {
+                if (!rename($_SERVER["DOCUMENT_ROOT"].$generated_filename, $_SERVER["DOCUMENT_ROOT"].$new_filename)) {
+                    //ToDo Fehlerbehandlung
                 }
             }
-
-            $objNew = \Dbafs::addResource($contaoPath . '/'. $filename.'.'.$extension);
         }
+
+        $objNew = \Dbafs::addResource($contaoPath . '/'. $filename.'.'.$extension);
 
         return $objNew->uuid;
     }
