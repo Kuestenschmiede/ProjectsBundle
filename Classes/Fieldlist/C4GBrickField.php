@@ -2386,9 +2386,11 @@ abstract class C4GBrickField
 
     /**
      * @param bool $showSortIcons
+     * @return $this
      */
     public function setShowSortIcons(bool $showSortIcons)
     {
         $this->showSortIcons = $showSortIcons;
+        return $this;
     }
 }
