@@ -82,6 +82,7 @@ h1 {
     margin-right: 2.5%;
     width: 95%;
     min-height: 27px;
+    border: none;
 }
 .c4g_brick_dialog input[type='checkbox'] {
     width: 1.0em;
@@ -243,7 +244,7 @@ h1 {
     background-color: whitesmoke;
     /*border: 0px;*/
     /*cursor: not-allowed;*/
-    border-style: none;
+    border: none;
 }
 .c4g_brick_dialog .c4g_textarea_length {
     font-weight: normal;
@@ -873,8 +874,8 @@ a.c4g_tile_button:hover {
 
 .c4g_sub_dialog {
     display: block;
-    margin-left: 2.5%;
-    margin-right: 2.5%;
+    margin-left: 50px;
+    margin-right: 50px;
 }
 
 /*.c4g_sub_dialog_add_button {*/
@@ -913,6 +914,12 @@ a.c4g_tile_button:hover {
 
 .c4g_sub_dialog_container {
     margin-bottom: 20px;
+}
+
+.c4g_sub_dialog_container label {
+    font-size: 16px;
+    margin-bottom: 20px;
+    font-weight: bold;
 }
 
 .ui-button {

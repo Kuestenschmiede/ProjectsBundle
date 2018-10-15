@@ -10,7 +10,12 @@ use con4gis\MapsBundle\Resources\contao\modules\api\ReverseNominatimApi;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickConst;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialog;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GForeignArrayField;
+use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GInfoTextField;
+use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GLabelField;
+use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GSelectField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GSubDialogField;
+use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GTextareaField;
+use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GTextField;
 use con4gis\ProjectsBundle\Classes\Framework\C4GModuleManager;
 use con4gis\ProjectsBundle\Resources\contao\modules\api\C4GEditorTabApi;
 use Contao\Database;
@@ -56,7 +61,24 @@ class AjaxController extends Controller
             if ($field->getFieldList()) {
                 foreach ($field->getFieldList() as $subField) {
                     $subField->setDescription("");
-                    if (trim($data[$subField->getFieldName()]) || (($field instanceof C4GSubDialogField) || ($field instanceof C4GForeignArrayField))) {
+                    $subField->setEditable(false);
+                    $subField->setShowIfEmpty(false);
+                    if (($subField instanceof C4GTextField) || ($subField instanceof C4GTextareaField)) {
+                        $newField = new C4GTextField();
+                        $newField->setFieldName($subField->getFieldName());
+                        $newField->setTitle($subField->getTitle());
+                        $newField->setSimpleTextWithoutEditing(true);
+                        $newField->setShowIfEmpty(false);
+                        $newField->setPrintable($subField->isPrintable());
+                        $newField->setTableRow(true);
+                        $subField = $newField;
+                    }
+                    if ($subField instanceof C4GSelectField) {
+                        $subField->setSimpleTextWithoutEditing(true);
+                        $subField->setInitialValue($data[$field->getFieldName()]);
+                        $subField->setTableRow(true);
+                    }
+                    if ($subField->isPrintable() && (trim($data[$subField->getFieldName()]) || (($field instanceof C4GSubDialogField) || ($field instanceof C4GForeignArrayField)))) {
                         $this->checkSubFields($subField, $data);
                         $subFieldList[] = $subField;
                     }
@@ -70,7 +92,25 @@ class AjaxController extends Controller
             if ($field->getForeignFieldList()) {
                 foreach ($field->getForeignFieldList() as $subField) {
                     $subField->setDescription("");
-                    if (trim($data[$subField->getFieldName()]) || (($field instanceof C4GSubDialogField) || ($field instanceof C4GForeignArrayField))) {
+                    $subField->setEditable(false);
+                    $subField->setShowIfEmpty(false);
+
+                    if (($subField instanceof C4GTextField) || ($subField instanceof C4GTextareaField)) {
+                        $newField = new C4GTextField();
+                        $newField->setFieldName($subField->getFieldName());
+                        $newField->setTitle($subField->getTitle());
+                        $newField->setSimpleTextWithoutEditing(true);
+                        $newField->setShowIfEmpty(false);
+                        $newField->setPrintable($subField->isPrintable());
+                        $newField->setTableRow(true);
+                        $subField = $newField;
+                    }
+                    if ($subField instanceof C4GSelectField) {
+                        $subField->setSimpleTextWithoutEditing(true);
+                        $subField->setInitialValue($data[$field->getFieldName()]);
+                        $subField->setTableRow(true);
+                    }
+                    if ($subField->isPrintable() && (trim($data[$subField->getFieldName()]) || (($field instanceof C4GSubDialogField) || ($field instanceof C4GForeignArrayField)))) {
                         $this->checkSubFields($subField, $data);
                         $subFieldList[] = $subField;
                     }
@@ -100,7 +140,24 @@ class AjaxController extends Controller
         $printFieldList = array();
         foreach ($fieldList as $field) {
             $field->setDescription("");
-            if (trim($data[$field->getFieldName()]) || (($field instanceof C4GSubDialogField) || ($field instanceof C4GForeignArrayField))) {
+            $field->setEditable(false);
+            $field->setShowIfEmpty(false);
+            if (($field instanceof C4GTextField) || ($field instanceof C4GTextareaField)) {
+                $newField = new C4GTextField();
+                $newField->setFieldName($field->getFieldName());
+                $newField->setTitle($field->getTitle());
+                $newField->setSimpleTextWithoutEditing(true);
+                $newField->setShowIfEmpty(false);
+                $newField->setPrintable($field->isPrintable());
+                $newField->setTableRow(true);
+                $field = $newField;
+            }
+            if ($field instanceof C4GSelectField) {
+                $field->setSimpleTextWithoutEditing(true);
+                $field->setInitialValue($data[$field->getFieldName()]);
+                $field->setTableRow(true);
+            }
+            if ($field->isPrintable() && (trim($data[$field->getFieldName()]) || (($field instanceof C4GSubDialogField) || ($field instanceof C4GForeignArrayField)))) {
                 $this->checkSubFields($field, $data);
                 $printFieldList[] = $field;
             }

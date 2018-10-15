@@ -66,6 +66,7 @@ abstract class C4GBrickField
     private $description = ''; //field description (under input field)
     private $display = true; // if false, the field is hidden & will not be checked during the mandatory check
     private $editable = true; //is the field editable?
+    private $printable = true; //is this field printable?
 
     //new
     private $addStrBeforeValue = '';
@@ -2392,5 +2393,21 @@ abstract class C4GBrickField
     {
         $this->showSortIcons = $showSortIcons;
         return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isPrintable(): bool
+    {
+        return $this->printable;
+    }
+
+    /**
+     * @param bool $printable
+     */
+    public function setPrintable(bool $printable): void
+    {
+        $this->printable = $printable;
     }
 }

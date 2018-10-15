@@ -40,7 +40,7 @@ class C4GTextareaField extends C4GBrickField
         //onkeydown="if (event.keyCode == 13) { String.fromCharCode(13); return false; }"
 
 
-        if ($this->isShowIfEmpty() || !empty($value)) {
+        if ($this->isShowIfEmpty() || !empty(trim($value))) {
 
             $condition = $this->createConditionData($fieldList, $data);
             $result =

@@ -20,6 +20,7 @@ class C4GTextField extends C4GBrickFieldText
 {
     protected $size = 255;
     protected $maxLength = 255;
+    protected $simpleTextWithoutEditing = false;
 
     public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = array())
     {
@@ -28,12 +29,18 @@ class C4GTextField extends C4GBrickFieldText
         $value = $this->generateInitialValue($data);
         $result = '';
 
-        if ($this->isShowIfEmpty() || !empty($value)) {
+        if ($this->isShowIfEmpty() || !empty(trim($value))) {
 
             $condition = $this->createConditionData($fieldList, $data);
 
-            $result = $this->addC4GField($condition, $dialogParams, $fieldList, $data,
-                '<input ' . $required . ' ' . $condition['conditionPrepare'] . ' type="text" id="' . $id . '" class="formdata ' . $id . '" size="'.$this->size.'"  maxLength="'.$this->maxLength.'" name="' . $this->getFieldName() . '" value="' . $value . '">');
+            if ($this->isSimpleTextWithoutEditing()) {
+                $result = $this->addC4GField($condition, $dialogParams, $fieldList, $data,
+                    '<div ' . $required . ' ' . $condition['conditionPrepare'] . ' id="' . $id . '">'. $value . '</div>');
+
+            } else {
+                $result = $this->addC4GField($condition, $dialogParams, $fieldList, $data,
+                    '<input ' . $required . ' ' . $condition['conditionPrepare'] . ' type="text" id="' . $id . '" class="formdata ' . $id . '" size="'.$this->size.'"  maxLength="'.$this->maxLength.'" name="' . $this->getFieldName() . '" value="' . $value . '">');
+            }
         }
 
         return $result;
@@ -94,5 +101,20 @@ class C4GTextField extends C4GBrickFieldText
         return $this;
     }
 
+    /**
+     * @return bool
+     */
+    public function isSimpleTextWithoutEditing(): bool
+    {
+        return $this->simpleTextWithoutEditing;
+    }
+
+    /**
+     * @param bool $simpleTextWithoutEditing
+     */
+    public function setSimpleTextWithoutEditing(bool $simpleTextWithoutEditing): void
+    {
+        $this->simpleTextWithoutEditing = $simpleTextWithoutEditing;
+    }
 
 }

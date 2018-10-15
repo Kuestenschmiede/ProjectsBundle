@@ -24,6 +24,7 @@ class C4GSelectField extends C4GBrickField
     private $minChosenCount = 7;
     private $placeholder = ''; // GUI placeholder text
     private $emptyOptionLabel = '-';
+    private $simpleTextWithoutEditing = false;
 
 
     public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = array())
@@ -63,15 +64,26 @@ class C4GSelectField extends C4GBrickField
             }
 
             $placeholder = $this->placeholder ? $this->placeholder :$GLOBALS['TL_LANG']['FE_C4G_DIALOG']['PLACEHOLDER_SELECT'];
-            $fieldData = '<select id="' . $id . '" ' . $required . ' ' . $condition['conditionPrepare']
-                . ' class="'.$class.'" name="' . $this->getFieldName() . '" ' . $changeAction . ' size="' . $this->getSize() . '"'
-                . ' data-placeholder="'. $placeholder .'" ';
-            if ($this->getInitialValue()) {
-                $fieldData .= 'value=' . $this->getInitialValue();
+            if ($this->isSimpleTextWithoutEditing()) {
+                $initialValue = "";
+                foreach ($this->getOptions() as $option) {
+                    if ($option['id'] == $value) {
+                        $initialValue = $option['name'];
+                        break;
+                    }
+                }
+                $fieldData = '<div ' . $required . ' ' . $condition['conditionPrepare'] . ' id="' . $id . '">'. $initialValue . '</div>';
+            } else {
+                $fieldData = '<select id="' . $id . '" ' . $required . ' ' . $condition['conditionPrepare']
+                    . ' class="' . $class . '" name="' . $this->getFieldName() . '" ' . $changeAction . ' size="' . $this->getSize() . '"'
+                    . ' data-placeholder="' . $placeholder . '" ';
+                if ($this->getInitialValue()) {
+                    $fieldData .= 'value=' . $this->getInitialValue();
+                }
+                $fieldData .= '>'
+                    . $options
+                    . '</select>';
             }
-            $fieldData .= '>'
-                . $options
-                . '</select>';
             $result = $this->addC4GField(
                 $condition,
                 $dialogParams, $fieldList, $data, $fieldData
@@ -409,5 +421,21 @@ class C4GSelectField extends C4GBrickField
     {
         $this->emptyOptionLabel = $emptyOptionLabel;
         return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isSimpleTextWithoutEditing(): bool
+    {
+        return $this->simpleTextWithoutEditing;
+    }
+
+    /**
+     * @param bool $simpleTextWithoutEditing
+     */
+    public function setSimpleTextWithoutEditing(bool $simpleTextWithoutEditing): void
+    {
+        $this->simpleTextWithoutEditing = $simpleTextWithoutEditing;
     }
 }
