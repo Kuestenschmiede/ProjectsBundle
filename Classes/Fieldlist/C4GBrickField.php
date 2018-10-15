@@ -105,7 +105,7 @@ abstract class C4GBrickField
     private $searchMinimumField = false; // C4GMatching
     private $searchWeightings = 1; //für C4GMatching
     private $showIfEmpty = true; //do not show clear fields?
-    private $showSortIcons = true;
+    private $showSortIcons = true; //press false to hide sort icons in the datatable in the frontend
     private $size = 0; //size for some types
     private $sort = true; //activate sorting for fieldtypes with options
     private $sortColumn = false; //is this a sort column in datatable?
