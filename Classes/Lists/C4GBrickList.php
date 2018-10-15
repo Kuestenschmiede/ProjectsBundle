@@ -366,9 +366,10 @@ class C4GBrickList
                 $cnt++;
             } else {
                 if ($column->isTableColumn()) {
+                    $noMouseEvents = $column->isShowSortIcons() === false ? ' nomouseevents' : '';
                     if ($column->isSortColumn()) {
                         $data['aoColumnDefs'][] = array(
-                            'sClass' => 'c4g_brick_col c4g_brick_col_'.$cnt.$additionalClasses,
+                            'sClass' => 'c4g_brick_col c4g_brick_col_'.$cnt.$noMouseEvents.$additionalClasses,
                             'sTitle' => $column->getTitle(),
                             'aDataSort' => array($cnt),
                             'sWidth' => $column->getColumnWidth() . '%',
@@ -383,7 +384,7 @@ class C4GBrickList
                         }
                     } else {
                         $data['aoColumnDefs'][] = array(
-                            'sClass' => 'c4g_brick_col c4g_brick_col_'.$cnt.' nomouseevents'.$additionalClasses,
+                            'sClass' => 'c4g_brick_col c4g_brick_col_'.$cnt.$noMouseEvents.$additionalClasses,
                             'sTitle' => $column->getTitle(),
                             'sWidth' => $column->getColumnWidth() . '%',
                             'sType' => $column->getSortType(),
