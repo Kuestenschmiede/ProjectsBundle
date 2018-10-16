@@ -30,7 +30,7 @@ $GLOBALS['TL_HOOKS']['postLogin'][] = array('con4gis\ProjectsBundle\Classes\Fram
  */
 array_insert( $GLOBALS['FE_MOD']['con4gis'], $GLOBALS['con4gis']['maps']['installed']?1:0, array
     (
-        'C4GSearchModule'                   => 'con4gis\ProjectsBundle\Classes\Framework\C4GSearchModule',
+        'C4GSearchModule' => 'con4gis\ProjectsBundle\Classes\Modules\C4GSearchModule',
     )
 );
 

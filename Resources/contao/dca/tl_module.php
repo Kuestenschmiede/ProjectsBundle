@@ -1,10 +1,15 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: cro
- * Date: 04.10.18
- * Time: 13:04
+ * con4gis - the gis-kit
+ *
+ * @version   php 7
+ * @package   con4gis
+ * @author    con4gis contributors (see "authors.txt")
+ * @license   GNU/LGPL http://opensource.org/licenses/lgpl-3.0.html
+ * @copyright Küstenschmiede GmbH Software & Design 2011 - 2018
+ * @link      https://www.kuestenschmiede.de
  */
+
 $GLOBALS['TL_DCA']['tl_module']['palettes']['C4GSearchModule'] = '{title_legend},name,type,headline,listModule';
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['listModule'] = array

@@ -447,7 +447,7 @@ abstract class C4GBrickField
     protected function getC4GDescriptionLabel($description, $condition)
     {
         $withLinkDescription = $this->isWithLinkDescription();
-        $withoutLineBreak = $this->isWithoutDescriptionLineBreak();
+        $withoutLineBreak = $this->isWithoutDescriptionLineBreak() || !$description;
 
         $result = '';
         if ($description && ($description != '') && $withLinkDescription) {
