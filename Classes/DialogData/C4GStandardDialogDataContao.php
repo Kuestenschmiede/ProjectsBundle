@@ -110,7 +110,7 @@ final class C4GStandardDialogDataContao extends C4GDialogData
                 if ($columnsString !== '' && $valuesString !== '') {
                     $stmt = $this->db->prepare("INSERT INTO $table ($columnsString) VALUES ($valuesString)");
                     $result = $stmt->execute();
-                    return $result->affectedRows ? $result->affectedRows : -1;
+                    return $result->insertId ? $result->insertId : -1;
                 } else {
                     return -1;
                 }
