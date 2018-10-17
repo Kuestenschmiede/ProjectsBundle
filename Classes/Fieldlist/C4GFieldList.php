@@ -20,11 +20,11 @@ class C4GFieldList extends C4GBaseContainer
 {
     protected $keyField = null;
 
-    public function addField(C4GBrickField $field) {
+    public function addField(C4GBrickField $field, string $key) {
         if ($this->keyField === null && $field instanceof C4GKeyField) {
             $this->keyField = $field;
         }
-        return $this->add($field, $field->getFieldName());
+        return $this->add($field, $key);
     }
 
     public function deleteField($fieldName) {
