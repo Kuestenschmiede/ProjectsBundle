@@ -638,25 +638,30 @@ class C4GBrickList
                 if ($field->getFieldName() == $listParams->getCaptionField()) {
                     $captionField = $listParams->getCaptionField();
                 }
-                $beforeDiv = '<li class="c4g_brick_list_column c4g_brick_list_header_column '.$field->getFieldName().'">';
+                $beforeDiv = '<li class="c4g_brick_list_column c4g_brick_list_header_column ' . $field->getFieldName() . '">';
                 $afterDiv = '</li>';
                 if ($field->isHidden()) {
                     $beforeDiv .= '<div class="c4g_brick_hidden_field" style="display:none">';
                     $afterDiv .= '</div>';
                 }
                 $view .= $beforeDiv . $field->getTitle() . $afterDiv;
-
-                if ($field->isSortColumn()) {
-                    $sortColumn = $field->getFieldName();
-                    $sortSequence = $field->getSortSequence();
-                }
+            }
+            if ($field->isSortColumn()) {
+                $sortColumn = $field->getFieldName();
+                $sortSequence = $field->getSortSequence();
             }
         }
         $view .= '</ul>';
 
         $i = 0;
         if ($sortColumn) {
-            $tableElements = C4GBrickCommon::array_collection_sort($tableElements, $sortColumn, $sortSequence, false, $rowCount);
+            $sortSequenceIdentifier = 4;
+            if ($sortSequence) {
+                if ($sortSequence == SORT_DESC) {
+                    $sortSequenceIdentifier = 3;
+                }
+            }
+            $tableElements = C4GBrickCommon::array_collection_sort($tableElements, $sortColumn, $sortSequenceIdentifier, false, $rowCount);
         }
 
         foreach ($tableElements as $row) {
