@@ -367,6 +367,7 @@ class C4GBrickList
             } else {
                 if ($column->isTableColumn()) {
                     $noMouseEvents = $column->isShowSortIcons() === false ? ' nomouseevents' : '';
+
                     if ($column->isSortColumn()) {
                         $data['aoColumnDefs'][] = array(
                             'sClass' => 'c4g_brick_col c4g_brick_col_'.$cnt.$noMouseEvents.$additionalClasses,
@@ -544,7 +545,7 @@ class C4GBrickList
         }
         if ($selectRow == -1) {
             foreach ($tableElements as $element) {
-                if (property_exists($element->selectrow) && $element->selectrow) {
+                if ($element && is_object($element) && property_exists((object) $element, "selectrow")) {
                     $selectRow = $element->selectrow;
                     break;
                 }
@@ -645,10 +646,11 @@ class C4GBrickList
                     $afterDiv .= '</div>';
                 }
                 $view .= $beforeDiv . $field->getTitle() . $afterDiv;
-            }
-            if ($field->isSortColumn()) {
-                $sortColumn = $field->getFieldName();
-                $sortSequence = $field->getSortSequence();
+
+                if ($field->isSortColumn()) {
+                    $sortColumn = $field->getFieldName();
+                    $sortSequence = $field->getSortSequence();
+                }
             }
         }
         $view .= '</ul>';
