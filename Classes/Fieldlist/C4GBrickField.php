@@ -1629,7 +1629,7 @@ abstract class C4GBrickField
      * @param bool $sortColumn
      * @return $this
      */
-    public function setSortColumn($sortColumn = true)
+    public function setSortColumn($sortColumn = false)
     {
         $this->sortColumn = $sortColumn;
         return $this;
