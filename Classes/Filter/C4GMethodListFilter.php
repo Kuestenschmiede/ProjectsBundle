@@ -73,8 +73,10 @@ class C4GMethodListFilter extends C4GListFilter
     {
         if ($this->on === 1) {
             $listParams->addButton(C4GBrickConst::BUTTON_TOGGLE_METHOD_FILTER, $this->switchOffButtonCaption);
+            //$listParams->addButton(C4GBrickConst::BUTTON_RESET_FILTER);
         } else {
             $listParams->addButton(C4GBrickConst::BUTTON_TOGGLE_METHOD_FILTER, $this->switchOnButtonCaption);
+            //$listParams->deleteButton(C4GBrickConst::BUTTON_RESET_FILTER);
         }
     }
 

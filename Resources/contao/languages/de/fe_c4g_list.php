@@ -30,6 +30,7 @@ $GLOBALS['TL_LANG']['FE_C4G_LIST']['SELECTPROJECT'] = 'Projektauswahl';
 $GLOBALS['TL_LANG']['FE_C4G_LIST']['SELECTPARENT']  = '%sauswahl';
 $GLOBALS['TL_LANG']['FE_C4G_LIST']['SELECTFILTER']  = 'Filter';
 $GLOBALS['TL_LANG']['FE_C4G_LIST']['SELECTIMPORT']  = 'Import';
+$GLOBALS['TL_LANG']['FE_C4G_LIST']['RESETPARENT']   = 'Auswahl zurücksetzen';
 $GLOBALS['TL_LANG']['FE_C4G_LIST']['PRINTLIST']     = 'Drucken';
 
 /** FE OPERATIONS **/
