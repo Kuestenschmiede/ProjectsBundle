@@ -35,9 +35,9 @@ class C4GSearchModule extends C4GBrickModuleParent
         parent::initBrickModule($id);
         $this->dialogParams->deleteButton(C4GBrickConst::BUTTON_SAVE);
         $this->dialogParams->setWithoutGuiHeader(true);
+
         $this->dialogParams->addButton(
-            C4GBrickConst::BUTTON_CLICK,
-            $GLOBALS['TL_LANG']['FE_C4G_SEARCH_MODULE']['SEARCH'],
+            C4GBrickConst::BUTTON_CLICK, $this->searchButtonCaption,
             true,
             true,
             C4GBrickActionType::ACTION_BUTTONCLICK.':redirectToList'
@@ -56,7 +56,7 @@ class C4GSearchModule extends C4GBrickModuleParent
         $searchField = new C4GTextField();
         $searchField->setFieldName("searchValue");
         $searchField->setFormField(true);
-        $searchField->setTitle($GLOBALS['TL_LANG']['FE_C4G_SEARCH_MODULE']['SEARCH_VALUE']);
+        $searchField->setTitle($this->searchFieldCaption);
         $fieldlist[] = $searchField;
 
         return $fieldlist;

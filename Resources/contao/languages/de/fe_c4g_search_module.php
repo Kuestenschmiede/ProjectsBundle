@@ -11,5 +11,3 @@
  * @link      https://www.kuestenschmiede.de
  */
 
-$GLOBALS['TL_LANG']['FE_C4G_SEARCH_MODULE']['SEARCH_VALUE'] = 'Suchbegriff';
-$GLOBALS['TL_LANG']['FE_C4G_SEARCH_MODULE']['SEARCH'] = 'Suchen';

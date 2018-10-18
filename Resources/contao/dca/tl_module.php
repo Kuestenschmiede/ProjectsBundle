@@ -10,8 +10,26 @@
  * @link      https://www.kuestenschmiede.de
  */
 
-$GLOBALS['TL_DCA']['tl_module']['palettes']['C4GSearchModule'] = '{title_legend},name,type,headline,listModule';
+$GLOBALS['TL_DCA']['tl_module']['palettes']['C4GSearchModule'] = '{title_legend},name,type,headline,listModule,searchFieldCaption,searchButtonCaption';
 
+$GLOBALS['TL_DCA']['tl_module']['fields']['searchFieldCaption'] = array
+(
+    'label'                   => &$GLOBALS['TL_LANG']['tl_module']['c4g_projects']['fields']['searchFieldCaption'],
+    'exclude'                 => true,
+    'default'                 => $GLOBALS['TL_LANG']['tl_module']['c4g_projects']['fields']['DEFAULT_FIELD_CAPTION'],
+    'inputType'               => 'text',
+    'eval'                    => array('tl_class'=>'w50','mandatory'=>false),
+    'sql'                     => "varchar(255) default '".$GLOBALS['TL_LANG']['tl_module']['c4g_projects']['fields']['DEFAULT_FIELD_CAPTION']."'"
+);
+$GLOBALS['TL_DCA']['tl_module']['fields']['searchButtonCaption'] = array
+(
+    'label'                   => &$GLOBALS['TL_LANG']['tl_module']['c4g_projects']['fields']['searchButtonCaption'],
+    'exclude'                 => true,
+    'default'                 => $GLOBALS['TL_LANG']['tl_module']['c4g_projects']['fields']['DEFAULT_BUTTON_CAPTION'],
+    'inputType'               => 'text',
+    'eval'                    => array('tl_class'=>'w50','mandatory'=>false),
+    'sql'                     => "varchar(255) default '".$GLOBALS['TL_LANG']['tl_module']['c4g_projects']['fields']['DEFAULT_BUTTON_CAPTION']."'"
+);
 $GLOBALS['TL_DCA']['tl_module']['fields']['listModule'] = array
 (
     'label'                   => &$GLOBALS['TL_LANG']['tl_module']['c4g_projects']['fields']['listModule'],
