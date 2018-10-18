@@ -122,7 +122,7 @@ input:invalid {
     margin-left: 0px;
 }
 .c4g_brick_dialog label, .c4g_brick_select_dialog label, .c4g_brick_dialog h2 {
-    font-weight: bold;
+    /*font-weight: bold;*/
     margin-left: 2.5%;
 }
 .c4g_brick_dialog label strong {
