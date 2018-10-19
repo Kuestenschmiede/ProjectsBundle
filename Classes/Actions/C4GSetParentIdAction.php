@@ -30,6 +30,7 @@ class C4GSetParentIdAction extends C4GBrickDialogAction
         $action->setFieldList($this->fieldList);
         $action->setModule($this->module);
         $module->initBrickModule(-1);
+        //Todo Should not need to call initBrickModule. Necessary to update the changed session in the module.
         return $action->run();
     }
 
