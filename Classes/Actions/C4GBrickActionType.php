@@ -90,6 +90,7 @@ class C4GBrickActionType
     const ACTION_SELECTPARENT   = 'C4GSelectParentDialogAction';
     const ACTION_SELECTPUBLICPARENT   = 'C4GSelectPublicParentDialogAction';
     const ACTION_FILTER         = 'C4GShowFilterDialogAction';
+    const ACTION_RESETPARENT    = 'C4GResetParentAction';
     const ACTION_PRINTLIST      = 'printlist'; //Todo Unused. Delete?
     const ACTION_IMPORT         = 'import'; //Todo Unused. Delete?
 

@@ -12,3 +12,8 @@
  */
 
 $GLOBALS['TL_LANG']['tl_module']['c4g_projects']['fields']['listModule'] = array('rediraction', 'select list module page.');
+$GLOBALS['TL_LANG']['tl_module']['c4g_projects']['fields']['searchFieldCaption'] = array('Caption searchfield', 'Search field caption (default: search value).');
+$GLOBALS['TL_LANG']['tl_module']['c4g_projects']['fields']['searchButtonCaption'] = array('Caption searchbutton', 'Search button caption (default: search).');
+
+$GLOBALS['TL_LANG']['tl_module']['c4g_projects']['fields']['DEFAULT_FIELD_CAPTION'] = 'search value';
+$GLOBALS['TL_LANG']['tl_module']['c4g_projects']['fields']['DEFAULT_BUTTON_CAPTION'] = 'search';

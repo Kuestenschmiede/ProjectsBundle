@@ -199,7 +199,10 @@ class C4GShowListAction extends C4GBrickDialogAction
                                 $caption = 'NULL';
                             }
                             $parent_headline = '<div class="c4g_brick_headtext"> '.$parentCaption.': <b>'.$caption.'</b></div>';
-                    }
+                            $listParams->addButton(C4GBrickConst::BUTTON_RESET_PARENT);
+                        } else {
+                            $listParams->deleteButton(C4GBrickConst::BUTTON_RESET_PARENT);
+                        }
                 }
             }
         }
@@ -396,8 +399,10 @@ class C4GShowListAction extends C4GBrickDialogAction
                         $method = $filterParams->getFilterMethod()[1];
                         $elements = $class::$method($elements, $dialogParams);
                         setcookie($dialogParams->getBrickKey().'_methodFilter', '1', time()+3600, '/');
+                        //$listParams->addButton(C4GBrickConst::BUTTON_RESET_FILTER);
                     } else {
                         setcookie($dialogParams->getBrickKey().'_methodFilter', '0', time()+3600, '/');
+                        //$listParams->deleteButton(C4GBrickConst::BUTTON_RESET_FILTER);
                     }
                 }
             }

@@ -81,6 +81,9 @@ class C4GBrickButton
             case C4GBrickConst::BUTTON_FILTER:
                 $caption = $GLOBALS['TL_LANG']['FE_C4G_LIST']['SELECTFILTER'];
                 break;
+            case C4GBrickConst::BUTTON_RESET_PARENT:
+                $caption = $GLOBALS['TL_LANG']['FE_C4G_LIST']['RESETPARENT'];
+                break;
             case C4GBrickConst::BUTTON_PRINTLIST:
                 $caption = $GLOBALS['TL_LANG']['FE_C4G_LIST']['PRINTLIST'];
                 break;
@@ -186,6 +189,9 @@ class C4GBrickButton
                 break;
             case C4GBrickConst::BUTTON_TOGGLE_METHOD_FILTER:
                 $action = C4GBrickActionType::ACTION_CONFIRMPARENTFILTER;
+                break;
+            case C4GBrickConst::BUTTON_RESET_PARENT:
+                $action = C4GBrickActionType::ACTION_RESETPARENT;
                 break;
             case C4GBrickConst::BUTTON_PRINTLIST:
                 $action = C4GBrickActionType::ACTION_PRINTLIST;

@@ -12,7 +12,7 @@
  */
 
 $GLOBALS['TL_LANG']['tl_module']['c4g_projects']['fields']['listModule'] = array('Weiterleitung', 'Wählen Sie die Seite des Listenmoduls aus.');
-$GLOBALS['TL_LANG']['tl_module']['c4g_projects']['fields']['searchFieldCaption'] = array('Bezeichnung Suchfeld ', 'Wie soll das Suchfeld beschriftet sein (Standard: Suchbegriff).');
+$GLOBALS['TL_LANG']['tl_module']['c4g_projects']['fields']['searchFieldCaption'] = array('Bezeichnung Suchfeld', 'Wie soll das Suchfeld beschriftet sein (Standard: Suchbegriff).');
 $GLOBALS['TL_LANG']['tl_module']['c4g_projects']['fields']['searchButtonCaption'] = array('Bezeichnung Suchbutton', 'Wie soll der Suchbutton beschriftet sein (Standard: Suchen).');
 
 $GLOBALS['TL_LANG']['tl_module']['c4g_projects']['fields']['DEFAULT_FIELD_CAPTION'] = 'Suchbegriff';
