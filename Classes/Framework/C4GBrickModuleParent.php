@@ -126,6 +126,8 @@ class C4GBrickModuleParent extends \Module
     protected $UUID                 = 'c4g_brick_uuid'; //Name of the uuid cookie in the browser. Can be overridden in child.
     protected $useUuidCookie        = false; //Can be overridden in child to suppress the uuid cookie.
 
+    protected $asnycList            = false; // set true when the list should be loaded after the initial page load
+
 
     /**
      * module class function to get fields
@@ -669,14 +671,20 @@ class C4GBrickModuleParent extends \Module
         if ($request == 'undefined') {
             $request = C4GBrickActionType::IDENTIFIER_LIST.':-1';
         }
-
-        $initData = $this->generateAjax($request);
-        if ($initData && count(json_decode($initData)) > 0) {
-            $data['initData'] = $initData;
+        if ($this->asnycList) {
+            $arrAction = [];
+            $arrAction['initAction'] = "C4GShowListAction:-1";
+            $data['initData'] = json_encode($arrAction);
         } else {
-            $initData = $this->generateAjax(C4GBrickActionType::IDENTIFIER_LIST.':-1');
-            $data['initData'] = $initData;
+            $initData = $this->generateAjax($request);
+            if ($initData && count(json_decode($initData)) > 0) {
+                $data['initData'] = $initData;
+            } else {
+                $initData = $this->generateAjax(C4GBrickActionType::IDENTIFIER_LIST.':-1');
+                $data['initData'] = $initData;
+            }
         }
+
 
 
         $data['div'] = 'c4g_brick';
