@@ -24,9 +24,10 @@ use con4gis\ProjectsBundle\Classes\Views\C4GBrickViewParams;
 final class C4GStandardDialogDataContao extends C4GDialogData
 {
     protected $db;
-    protected $indexes;
+    protected $columns;
     protected $table;
     protected $authenticateBy;
+    protected $as = array();
 
     const AUTHENTICATE_SKIP = 0;
     const AUTHENTICATE_BY_MEMBER_ID = 10;
@@ -37,13 +38,13 @@ final class C4GStandardDialogDataContao extends C4GDialogData
                                 C4GBrickViewParams $viewParams,
                                 int $id,
                                 \Contao\Database $db,
-                                array $indexes,
+                                array $columns,
                                 string $table,
                                 int $authenticateBy)
     {
         parent::__construct($dialogParams, $viewParams, $id);
         $this->db = $db;
-        $this->indexes = $indexes;
+        $this->columns = $columns;
         $this->table = $table;
         $this->authenticateBy = $authenticateBy;
     }
@@ -54,10 +55,25 @@ final class C4GStandardDialogDataContao extends C4GDialogData
     protected function loadValues()
     {
         if (!$this->dbValues || $this->id > 0) {
-            $indexes = implode(',', $this->indexes);
-            $indexes .= ',id';
+
             $table = $this->table;
-            $stmt = $this->db->prepare("SELECT $indexes FROM $table WHERE id = ?");
+            if (empty($this->as)) {
+                $columns = implode(',', $this->columns);
+            } else {
+                $columns = '';
+                foreach($this->columns as $column) {
+                    if ($columns !== '') {
+                        $columns .= ',';
+                    }
+                    if (isset($this->as[$column])) {
+                        $columns .= "$column as ".$this->as[$column];
+                    } else {
+                        $columns .= $column;
+                    }
+                }
+            }
+            $columns .= ',id';
+            $stmt = $this->db->prepare("SELECT $columns FROM $table WHERE id = ?");
             $result = $stmt->execute($this->id);
             $result = $result->fetchAssoc();
             $this->dbValues->clear();
@@ -79,12 +95,12 @@ final class C4GStandardDialogDataContao extends C4GDialogData
             $dialogValues = $this->dialogValues;
             if ($this->id > 0) {
                 $setString = '';
-                foreach ($this->indexes as $index) {
-                    if ($dialogValues->getByKey($index) !== '') {
+                foreach ($this->columns as $column) {
+                    if ($dialogValues->getByKey($column) !== '') {
                         if (strlen($setString) > 0) {
                             $setString .= ',';
                         }
-                        $setString .= $index . "='" . $dialogValues->getByKey($index) . "'";
+                        $setString .= $column . "='" . $dialogValues->getByKey($column) . "'";
                     }
                 }
                 $table = $this->table;
@@ -95,16 +111,16 @@ final class C4GStandardDialogDataContao extends C4GDialogData
                 $table = $this->table;
                 $columnsString = '';
                 $valuesString = '';
-                foreach ($this->indexes as $index) {
-                    if ($dialogValues->getByKey($index) !== '') {
+                foreach ($this->columns as $column) {
+                    if ($dialogValues->getByKey($column) !== '') {
                         if (strlen($valuesString) > 0) {
                             $valuesString .= ',';
                         }
-                        $valuesString .= "'".$dialogValues->getByKey($index)."'";
+                        $valuesString .= "'".$dialogValues->getByKey($column)."'";
                         if (strlen($columnsString) > 0) {
                             $columnsString .= ',';
                         }
-                        $columnsString .= $index;
+                        $columnsString .= $column;
                     }
                 }
                 if ($columnsString !== '' && $valuesString !== '') {
@@ -130,9 +146,9 @@ final class C4GStandardDialogDataContao extends C4GDialogData
     {
         $this->dialogValues->clear();
         if (is_array($dialogValues)) {
-            foreach ($this->indexes as $index) {
-                if (isset($dialogValues[$index])) {
-                    $this->dialogValues->addElement($dialogValues[$index], $index);
+            foreach ($this->columns as $column) {
+                if (isset($dialogValues[$column])) {
+                    $this->dialogValues->addElement($dialogValues[$column], $column);
                 }
             }
         }
@@ -149,16 +165,16 @@ final class C4GStandardDialogDataContao extends C4GDialogData
             $dialogValues = $this->dialogValues;
             $differences = $this->differences;
             $differences->clear();
-            foreach ($this->indexes as $index) {
-                if ($dbValues->containsKey($index) && $dbValues->getByKey($index) !== $dialogValues->getByKey($index)) {
+            foreach ($this->columns as $column) {
+                if ($dbValues->containsKey($column) && $dbValues->getByKey($column) !== $dialogValues->getByKey($column)) {
                     $container = new C4GContainer();
-                    $container->addElement($dbValues->getByKey($index), 'dbValue');
-                    $container->addElement($dialogValues->getByKey($index), 'dialogValue');
+                    $container->addElement($dbValues->getByKey($column), 'dbValue');
+                    $container->addElement($dialogValues->getByKey($column), 'dialogValue');
                     $differences->addElement($container);
-                } elseif ($dbValues->isEmpty() && $dialogValues->containsKey($index)) {
+                } elseif ($dbValues->isEmpty() && $dialogValues->containsKey($column)) {
                     $container = new C4GContainer();
                     $container->addElement(null, 'dbValue');
-                    $container->addElement($dialogValues->getByKey($index), 'dialogValue');
+                    $container->addElement($dialogValues->getByKey($column), 'dialogValue');
                     $differences->addElement($container);
                 }
             }
@@ -226,4 +242,12 @@ final class C4GStandardDialogDataContao extends C4GDialogData
         return $this->authenticated;
     }
 
+    /**
+     * Define an alias under which the column data will be available.
+     * @param string $column
+     * @param string $as
+     */
+    public function as(string $column, string $as) {
+        $this->as[$column] = $as;
+    }
 }

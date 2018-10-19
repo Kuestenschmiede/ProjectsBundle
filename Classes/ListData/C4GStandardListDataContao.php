@@ -23,6 +23,7 @@ final class C4GStandardListDataContao extends C4GListData
     protected $table;
     protected $where = '';
     protected $parameters = array();
+    protected $as = array();
 
     public function __construct(C4GBrickListParams $listParams,
                                 C4GBrickViewParams $viewParams,
@@ -41,11 +42,26 @@ final class C4GStandardListDataContao extends C4GListData
      */
     public function loadListElements()
     {
-        $columns = implode(',', $this->columns);
-        $columns .= ',id';
         $table = $this->table;
-        $where = $this->where;
+        if (empty($this->as)) {
+            $columns = implode(',', $this->columns);
+        } else {
+            $columns = '';
+            foreach($this->columns as $column) {
+                if ($columns !== '') {
+                    $columns .= ',';
+                }
+                if (isset($this->as[$column])) {
+                    $columns .= "$column as ".$this->as[$column];
+                } else {
+                    $columns .= $column;
+                }
+            }
+        }
+        $columns .= ',id';
         $queryString = "SELECT $columns FROM $table";
+
+        $where = $this->where;
         if ($where !== '') {
             $queryString .= ' WHERE '.$where;
         }
@@ -86,5 +102,14 @@ final class C4GStandardListDataContao extends C4GListData
     public function whereMemberIsCurrentUser() {
         $this->where($this->viewParams->getMemberKeyField() . ' = ?');
         $this->setParameters(array(\Contao\FrontendUser::getInstance()->id));
+    }
+
+    /**
+     * Define an alias under which the column data will be available.
+     * @param string $column
+     * @param string $as
+     */
+    public function as(string $column, string $as) {
+        $this->as[$column] = $as;
     }
 }

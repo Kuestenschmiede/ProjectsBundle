@@ -38,14 +38,14 @@ class C4GSaveDialogAction extends C4GBrickDialogAction
         $dialogDataObject = $module->getDialogDataObject();
 
         if ((!$dialogParams->isSaveOnMandatory() || ($dialogParams->isMandatoryCheckOnActivate() && ($dlgValues['published'] === 'true' || $dlgValues['published'] === true))) && !$dialogParams->isSaveWithoutMessages()) {
-            $check = $this->checkMandatoryFields($fieldList, $dialogDataObject->getDialog);
+            $check = $this->checkMandatoryFields($fieldList, $dialogDataObject->getDialogValues());
             if (!empty($check)) {
                 return $check;
             }
         }
 
         if ((!$dialogParams->isSaveOnMandatory() || ($dialogParams->isMandatoryCheckOnActivate() && ($dlgValues['published'] === 'true' || $dlgValues['published'] === true))) && !$dialogParams->isSaveWithoutMessages()) {
-            $validate_result = C4GBrickDialog::validateFields($this->makeRegularFieldList($fieldList), $dlgValues);
+            $validate_result = C4GBrickDialog::validateFields($this->makeRegularFieldList($fieldList), $dialogDataObject->getDialogValues());
             if ($validate_result && !$dialogParams->isSaveWithoutMessages()) {
                 return array('usermessage' => $validate_result, 'title' => $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['INVALID_INPUT']);
             }
