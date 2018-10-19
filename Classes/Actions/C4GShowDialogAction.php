@@ -149,7 +149,7 @@ class C4GShowDialogAction extends C4GBrickDialogAction
         $parent = $parentModel::findByPk($parentId);
         if ($parent) {
             //implemented for permalinks
-            $groupKeyField = $this->dialogParams->viewParams->getGroupKeyField();
+            $groupKeyField = $this->dialogParams->getViewParams()->getGroupKeyField();
             if ($parent->$groupKeyField) {
                 $groupId = $parent->$groupKeyField;
                 $this->dialogParams->setGroupId($groupId);
