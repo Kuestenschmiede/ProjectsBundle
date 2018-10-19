@@ -819,6 +819,10 @@ class C4GBrickModuleParent extends \Module
                 C4GBrickCommon::mkdir($path);
 
                 //Hier wird nur die UserId benötigt und die steht überall zur Verfügung.
+            } else if (C4GBrickView::isPublicParentBased($this->viewType)) {
+                if (($this->parent_id == -1) || ($this->parent_id == null)) {
+                    $this->parent_id = \Session::getInstance()->get("c4g_brick_parent_id");
+                }
             }
 
             $this->frontendUrl = $this->Environment->url . TL_PATH . '/' . $session['referer']['current'];

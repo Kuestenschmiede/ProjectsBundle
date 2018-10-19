@@ -24,6 +24,7 @@ class C4GSetFilterAction extends C4GBrickDialogAction
         if ($filter) {
             $filter->setFilter($dlgValues, $this->module->getBrickKey());
             $action = new C4GShowListAction($dialogParams, $listParams, $this->getFieldList(), $dlgValues, $this->getBrickDatabase());
+            $action->setModule($this->module);
             return $action->run();
         }
 
@@ -51,6 +52,7 @@ class C4GSetFilterAction extends C4GBrickDialogAction
             }
 
             $action = new C4GShowListAction($dialogParams, $this->getListParams(), $this->getFieldList(), $this->getPutVars(), $this->getBrickDatabase());
+            $action->setModule($this->module);
             return $action->run();
         }
 

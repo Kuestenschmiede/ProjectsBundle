@@ -142,7 +142,7 @@ class C4GBrickDialog
 
         $field->setIgnoreViewType(true); //no editable checking
         $view .= C4GHTMLFactory::lineBreak() .
-            $field->getC4GDialogField(null, null, $dialogParams) . C4GHTMLFactory::lineBreak();
+            $field->getC4GDialogField(null, new C4GContainer(), $dialogParams) . C4GHTMLFactory::lineBreak();
         $GLOBALS['c4g']['brickdialog']['include']['js'][] = 'jQuery(".chzn-select").chosen();';
         foreach ($GLOBALS['c4g']['brickdialog']['include']['js'] as $string) {
             $view .= "<script>jQuery(document).ready(function () { $string })</script>";
