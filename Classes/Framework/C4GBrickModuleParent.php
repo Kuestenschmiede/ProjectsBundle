@@ -671,7 +671,7 @@ class C4GBrickModuleParent extends \Module
         if ($request == 'undefined') {
             $request = C4GBrickActionType::IDENTIFIER_LIST.':-1';
         }
-        if ($this->asnycList) {
+        if ($this->asnycList && $request == "initnav") {
             $arrAction = [];
             $arrAction['initAction'] = "C4GShowListAction:-1";
             $data['initData'] = json_encode($arrAction);
