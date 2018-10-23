@@ -100,6 +100,7 @@ class C4GConfirmDeleteAction extends C4GBrickDialogAction
         }
 
         $action = new C4GShowListAction($dialogParams, $this->getListParams(), $this->getFieldList(), $this->getPutVars(), $this->getBrickDatabase());
+        $action->setModule($this->module);
         $return = $action->run();
 
         $url = $dlgValues['c4g_uploadURL'];
