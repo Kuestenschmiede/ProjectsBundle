@@ -38,6 +38,8 @@ class C4GConfirmDeleteAction extends C4GBrickDialogAction
         $database  = $brickDatabase->getParams()->getDatabase();
         $tableName = $brickDatabase->getParams()->getTableName();
 
+        $dialogDataObject = $this->module->getDialogDataObject();
+
         $dbValues   = null;
         if ($dialogId != "") {
             $dbValues  = $brickDatabase->findByPk($dialogId);
@@ -87,7 +89,7 @@ class C4GConfirmDeleteAction extends C4GBrickDialogAction
 
         $notifications = C4GBrickDialog::getButtonNotifications(
             C4GBrickActionType::ACTION_DELETEDIALOG,
-            $dialogParams, $dbValues);
+            $dialogParams, $dialogDataObject->getDbValues());
         if ($dialogParams->isWithNotification()) {
             $this->sendNotifications($notifications, $dlgValues, $fieldList, $memberId, $dbValues);
         }

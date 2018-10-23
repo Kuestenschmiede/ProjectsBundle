@@ -485,7 +485,7 @@ class C4GBrickDialog
      * @param $dbValues
      * @return mixed|null
      */
-    public static function getButtonNotifications($action, C4GBrickDialogParams $dialogParams, $dbValues)
+    public static function getButtonNotifications($action, C4GBrickDialogParams $dialogParams, C4GContainer $dbValues)
     {
 
         if ($action && $dialogParams && $dbValues) {
