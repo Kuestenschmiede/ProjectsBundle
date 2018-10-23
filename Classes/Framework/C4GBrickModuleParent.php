@@ -30,11 +30,13 @@ use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GDialogChangeHandler;
 use con4gis\ProjectsBundle\Classes\Lists\C4GBrickListParams;
 use con4gis\ProjectsBundle\Classes\Models\C4gProjectsModel;
+use con4gis\ProjectsBundle\Classes\Notifications\C4GBrickNotification;
 use con4gis\ProjectsBundle\Classes\Permission\C4GTablePermission;
 use con4gis\ProjectsBundle\Classes\Views\C4GBrickView;
 use con4gis\ProjectsBundle\Classes\Views\C4GBrickViewParams;
 use con4gis\ProjectsBundle\Classes\Views\C4GBrickViewType;
 use Contao\Database;
+use NotificationCenter\Model\Notification;
 use Symfony\Component\Config\Definition\Exception\Exception;
 
 /**
@@ -1154,8 +1156,8 @@ class C4GBrickModuleParent extends \Module
     }
 
     /**
-     * perform a history action
-     * @param string $historyAction
+     * @param $historyAction
+     * @return array|mixed
      */
     public function performHistoryAction($historyAction)
     {
@@ -1168,6 +1170,34 @@ class C4GBrickModuleParent extends \Module
         $result['dialogcloseall'] = true;
 
         return $result;
+    }
+
+    /**
+     * @param $newId
+     * @param $notifyOnChanges
+     * @param $notification_type
+     * @param $dlgValues
+     * @param $fieldList
+     */
+    public function sendNotifications($newId, $notifyOnChanges, $notification_type, $dlgValues, $fieldList) {
+        if ($newId || $notifyOnChanges) {
+            $notification_array = unserialize($notification_type);
+            if(sizeof($notification_array) == 1 ) {
+                $objNotification = Notification::findByPk($notification_array);
+                if ($objNotification !== null) {
+                    $arrTokens = C4GBrickNotification::getArrayTokens($dlgValues,$fieldList);
+                    $objNotification->send($arrTokens);
+                }
+            } else {
+                foreach ($notification_array as $notification) {
+                    $objNotification = Notification::findByPk($notification);
+                    if ($objNotification !== null) {
+                        $arrTokens = C4GBrickNotification::getArrayTokens($dlgValues, $fieldList);
+                        $objNotification->send($arrTokens);
+                    }
+                }
+            }
+        }
     }
 
     /**

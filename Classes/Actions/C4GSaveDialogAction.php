@@ -115,39 +115,14 @@ class C4GSaveDialogAction extends C4GBrickDialogAction
                 \con4gis\BookingBundle\Resources\contao\models\C4gBookingGroupsModel::log($dbValues);
             }
         }
-
-        if ($withNotification && ($newId || $notifyOnChanges)) {
-            $notification_array = unserialize($notification_type);
-            if(sizeof($notification_array) == 1 ) {
-                $objNotification = Notification::findByPk($notification_array);
-                if ($objNotification !== null) {
-                    $arrTokens = C4GBrickNotification::getArrayTokens($dlgValues,$fieldList);
-                    $objNotification->send($arrTokens);
-                }
-            } else {
-                foreach ($notification_array as $notification) {
-                    $objNotification = Notification::findByPk($notification);
-                    if ($objNotification !== null) {
-                        $arrTokens = C4GBrickNotification::getArrayTokens($dlgValues, $fieldList);
-                        $objNotification->send($arrTokens);
-                    }
-                }
-            }
+        if ($withNotification) {
+            $this->module->sendNotifications($newId, $notifyOnChanges, $notification_type, $dlgValues, $fieldList);
         }
 
         if ($this->module && $result) {
             $addition = $this->module->afterSaveAction($changes, $result['insertId']);
             if ($addition && $addition instanceof C4GBrickDialogParams) {
                 $dialogParams = $addition;
-            }
-
-            /** Send Notifications if desired */
-
-            if ($dialogParams->isWithNotification()) {
-                $notificationResult = $this->module->sendNotifications($dlgValues);
-                if ($notificationResult) {
-                    $this->sendNotifications($notificationResult, $dlgValues, $fieldList, $memberId, null);
-                }
             }
         }
 
