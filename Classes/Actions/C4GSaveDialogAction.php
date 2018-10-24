@@ -116,7 +116,7 @@ class C4GSaveDialogAction extends C4GBrickDialogAction
             }
         }
         if ($withNotification) {
-            $this->module->sendNotifications($newId, $notifyOnChanges, $notification_type, $dlgValues, $fieldList);
+            $this->module->sendNotifications($newId, $notifyOnChanges, $notification_type, $dlgValues, $fieldList, $changes);
         }
 
         if ($this->module && $result) {

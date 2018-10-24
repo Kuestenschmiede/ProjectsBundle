@@ -1179,7 +1179,7 @@ class C4GBrickModuleParent extends \Module
      * @param $dlgValues
      * @param $fieldList
      */
-    public function sendNotifications($newId, $notifyOnChanges, $notification_type, $dlgValues, $fieldList) {
+    public function sendNotifications($newId, $notifyOnChanges, $notification_type, $dlgValues, $fieldList, $changes) {
         if ($newId || $notifyOnChanges) {
             $notification_array = unserialize($notification_type);
             if(sizeof($notification_array) == 1 ) {
