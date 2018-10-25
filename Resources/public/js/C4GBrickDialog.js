@@ -1352,16 +1352,6 @@ function editSubDialog(button, event) {
             var l = 0;
             while (l < butts.length) {
                 if (typeof(butts[l]) !== 'undefined') {
-                    /*if (butts[k].hasAttribute('disabled')) {
-                        butts[k].removeAttribute('disabled');
-                    } else {
-                        butts[k].setAttribute('disabled', '')
-                    }
-                    if (butts[k].hasAttribute('readonly')) {
-                        butts[k].removeAttribute('readonly');
-                    } else {
-                        butts[k].setAttribute('readonly', '')
-                    }*/
                     butts[k].removeAttribute('disabled');
                     butts[k].removeAttribute('readonly');
                     if (butts[l].style.display === 'none') {
