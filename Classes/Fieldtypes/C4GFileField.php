@@ -30,7 +30,6 @@ class C4GFileField extends C4GBrickField
     private $path         = '';
     private $uploadURL = 'c4g_uploadURL';
     private $deleteURL = 'c4g_deleteURL';
-    private $uniqueFile = true; //remove old files
 
     /**
      * @param C4GBrickField[] $fieldList
@@ -117,13 +116,13 @@ class C4GFileField extends C4GBrickField
             $condition = $this->createConditionData($fieldList, $data);
             $result =
                 $this->addC4GField($condition,$dialogParams,$fieldList,$data,
-                '<button id="c4g_uploadButton_'.$fieldName.'" class="c4g_uploadButton"' . $buttonRequired . ' ' . $condition['conditionPrepare'] . ' onClick="document.getElementById(\'' . $id . '\').click()">'.$GLOBALS['TL_LANG']['FE_C4G_DIALOG']['FILE_UPLOAD'].'</button>' .
-                $file_link . C4GHTMLFactory::lineBreak() .
-                '<input type="hidden" id="'.$this->uploadURL.'_'.$fieldName.'" name="'.$this->uploadURL.'" class="formdata" ' . $condition['conditionPrepare'] . ' value="' . $file_url . '">' .
-                '<input type="hidden" id="'.$this->deleteURL.'_'.$fieldName.'" name="'.$this->deleteURL.'" class="formdata" ' . $condition['conditionPrepare'] . ' value="">' .
-                '<input type="file" id="' . $id . '"  class="formdata ' . $id . '" ' . $condition['conditionPrepare'] . ' name="' . $fieldName . '"' .
-                ' multiple="false" accept="' . $fileTypes . '" maxlength="'.$this->maxFileSize.'"' .
-                'onchange="handleC4GBrickFile(this.files,\'' . $homeDir . '\',\'' . $this->uploadURL . '_' . '\',\'' . $this->deleteURL . '_' . '\',\'' . $fieldName.'\',\''.$targetField . '\',\'' . $fileTypes . '\');" value="' . $file_url . '" ' . $required . ' style="display:none">');
+                    '<button id="c4g_uploadButton_'.$fieldName.'" class="c4g_uploadButton"' . $buttonRequired . ' ' . $condition['conditionPrepare'] . ' onClick="document.getElementById(\'' . $id . '\').click()">'.$GLOBALS['TL_LANG']['FE_C4G_DIALOG']['FILE_UPLOAD'].'</button>' .
+                    $file_link . C4GHTMLFactory::lineBreak() .
+                    '<input type="hidden" id="'.$this->uploadURL.'_'.$fieldName.'" name="'.$this->uploadURL.'" class="formdata" ' . $condition['conditionPrepare'] . ' value="' . $file_url . '">' .
+                    '<input type="hidden" id="'.$this->deleteURL.'_'.$fieldName.'" name="'.$this->deleteURL.'" class="formdata" ' . $condition['conditionPrepare'] . ' value="">' .
+                    '<input type="file" id="' . $id . '"  class="formdata ' . $id . '" ' . $condition['conditionPrepare'] . ' name="' . $fieldName . '"' .
+                    ' multiple="false" accept="' . $fileTypes . '" maxlength="'.$this->maxFileSize.'"' .
+                    'onchange="handleC4GBrickFile(this.files,\'' . $homeDir . '\',\'' . $this->uploadURL . '_' . '\',\'' . $this->deleteURL . '_' . '\',\'' . $fieldName.'\',\''.$targetField . '\',\'' . $fileTypes . '\');" value="' . $file_url . '" ' . $required . ' style="display:none">');
         }
 
         return $result;
@@ -172,20 +171,12 @@ class C4GFileField extends C4GBrickField
         $fieldData = $dlgValues[$this->getFieldName()];
         $original_filename = $fieldData;
         $fieldName = $this->getFieldName();
-        $upload_url = $dlgValues['uploadURL_'.$fieldName];
-
-        if (is_array($dbValues)) {
-            $old_file = $dbValues[$fieldName];
-        } else {
-           $old_file = $dbValues->$fieldName;
-        }
+        $upload_url = $dlgValues[$this->uploadURL];
+        $old_file = $dbValues->$fieldName;
 
         $fileObject = C4GBrickCommon::loadFile($old_file);
         if ($fileObject) {
-          $old_url = $fileObject->path;
-          if ($old_url) {
-              $original_filename = $old_url;
-          }
+            $old_url = $fileObject->path;
         }
 
         if (!empty($upload_url) && (!\Validator::isUuid($upload_url)) && (strcmp($upload_url, $old_url) != 0)) {
@@ -233,7 +224,7 @@ class C4GFileField extends C4GBrickField
                 $new_upload_url = $dir . '/' . $fileName;
             }
 
-            $fieldData = C4GBrickCommon::saveFile($fieldName, $original_filename, $new_upload_url, $upload_url, $this->isUniqueFile());
+            $fieldData = C4GBrickCommon::saveFile($fieldName, $original_filename, $new_upload_url, $upload_url);
         }
 
         $delete_file = $dlgValues[$this->deleteURL];
@@ -320,10 +311,10 @@ class C4GFileField extends C4GBrickField
                 case C4GBrickFileType::IMAGES_PNG:
                 case C4GBrickFileType::IMAGES_PNG_JPG:
                 case C4GBrickFileType::IMAGES_PNG_JPG_TIFF:
-                   return $fieldTitle . '<div class="c4g_tile value">' . '<img src="system/modules/con4gis_projects/assets/missing.png">' . '</div>';
+                    return $fieldTitle . '<div class="c4g_tile value">' . '<img src="system/modules/con4gis_projects/assets/missing.png">' . '</div>';
                     break;
                 default:
-                   return $fieldTitle . '<div class="c4g_tile value">' . '<div class="error"></div>' . '</div>';
+                    return $fieldTitle . '<div class="c4g_tile value">' . '<div class="error"></div>' . '</div>';
             }
         }
     }
@@ -472,19 +463,5 @@ class C4GFileField extends C4GBrickField
         return $this;
     }
 
-    /**
-     * @return bool
-     */
-    public function isUniqueFile(): bool
-    {
-        return $this->uniqueFile;
-    }
 
-    /**
-     * @param bool $uniqueFile
-     */
-    public function setUniqueFile(bool $uniqueFile): void
-    {
-        $this->uniqueFile = $uniqueFile;
-    }
 }
