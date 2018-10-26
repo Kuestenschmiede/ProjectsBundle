@@ -315,6 +315,14 @@ class AjaxController extends Controller
         foreach ($mimeTypes as $mimeType) {
             if ($sFileType == $mimeType) {
                 $found = true;
+            } elseif ($mimeType === 'image/*') {
+                switch ($sFileType) {
+                    case 'image/png':
+                    case 'image/jpg':
+                    case 'image/jpeg':
+                        $found = true;
+                        break;
+                }
             }
         }
         if (!$mimeTypes || !$found) {
