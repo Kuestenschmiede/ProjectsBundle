@@ -30,6 +30,9 @@ class C4GFileField extends C4GBrickField
     private $path         = '';
     private $uploadURL = 'c4g_uploadURL';
     private $deleteURL = 'c4g_deleteURL';
+    private $linkType = self::LINK_TYPE_ANCHOR;
+    const LINK_TYPE_ANCHOR = 'a';
+    const LINK_TYPE_IMAGE = 'img';
 
     /**
      * @param C4GBrickField[] $fieldList
@@ -103,8 +106,19 @@ class C4GFileField extends C4GBrickField
             if ($file_label) {
                 $file_label = str_replace("C:\\fakepath\\", "", $file_label);
             }
+            switch ($this->linkType) {
+                case self::LINK_TYPE_ANCHOR:
+                    $linkTag = '<a href="' . $file_url . '" target="_blank">' . $file_label . '</a>';
+                    break;
+                case self::LINK_TYPE_IMAGE:
+                    $linkTag = '<a href="' . $file_url . '" target="_blank"><img class="c4g_preview_image" src="' . $file_url . '" alt="' . $file_label . '"></a>';
+                    break;
+                default:
+                    $linkTag = '';
+                    break;
+            }
             $file_link =
-                '<label id="c4g_uploadLink_'.$fieldName.'" class="c4g_uploadLink"><a href="' . $file_url . '" target="_blank">' . $file_label . '</a>' .
+                '<label id="c4g_uploadLink_'.$fieldName.'" class="c4g_uploadLink">' . $linkTag.
                 '<button id="c4g_deleteButton_'.$fieldName.'" class="c4g_deleteButton"' . $buttonRequired . ' onClick="deleteC4GBrickFile(\'' . $this->uploadURL .'\',\''.$this->deleteURL . '\',\'' . $fieldName.'\',\''.$targetField . '\')"></button></label>';
         }
 
@@ -466,5 +480,11 @@ class C4GFileField extends C4GBrickField
         return $this;
     }
 
-
+    /**
+     * @param string $linkType
+     */
+    public function setLinkType(string $linkType)
+    {
+        $this->linkType = $linkType;
+    }
 }
