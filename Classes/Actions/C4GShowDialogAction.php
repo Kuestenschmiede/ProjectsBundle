@@ -626,7 +626,8 @@ class C4GShowDialogAction extends C4GBrickDialogAction
 
                 $values = $field->getBrickDatabase()->findBy($field->getForeignKeyField()->getFieldName(), $foreignKey);
                 $count = 0;
-                foreach ($values as $value) {
+                $valuesArray = array_reverse((array)$values);
+                foreach ($valuesArray as $value) {
                     $count += 1;
                     if ($value instanceof \stdClass) {
                         foreach ($value as $key => $val) {
