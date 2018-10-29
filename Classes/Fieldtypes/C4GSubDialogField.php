@@ -10,6 +10,7 @@ namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
 
 
 use con4gis\CoreBundle\Resources\contao\classes\C4GUtils;
+use con4gis\ProjectsBundle\Classes\Common\C4GBrickCommon;
 use con4gis\ProjectsBundle\Classes\Conditions\C4GBrickCondition;
 use con4gis\ProjectsBundle\Classes\Database\C4GBrickDatabase;
 use con4gis\ProjectsBundle\Classes\Database\C4GBrickDatabaseParams;
@@ -273,7 +274,10 @@ class C4GSubDialogField extends C4GBrickField
                 foreach ($this->fieldList as $field) {
                     if ($field instanceof C4GSubDialogField) {
                         if (strpos($key, $field->getDelimiter()) !== false) {
-                            $subDlgValues[$indexList[$indexListIndex]][$key] = $value;
+                            $subDlgValues[$indexList[$indexListIndex]][$key] = $value;                  //Sub Dialog Values aus den Dialog Values holen
+                            $indexListIndex += 1;
+                        } else {
+                            $subDlgValues[$indexList[$indexListIndex]][$key] = $value;                  //Sub Dialog Values aus den Dialog Values holen
                             $indexListIndex += 1;
                         }
                     }
@@ -366,7 +370,6 @@ class C4GSubDialogField extends C4GBrickField
                 }
             }
         } else {
-            /** check for missing dialog values (i.e. they were deleted on the client)  */
 
             $foreignKey = $dbValues->id;
             $result = $this->brickDatabase->findBy($this->foreignKeyField->getFieldName(), $foreignKey);
@@ -395,6 +398,46 @@ class C4GSubDialogField extends C4GBrickField
         }
         return $changes;
     }
+
+    public function checkMandatory($dlgValues)
+    {
+        $subDlgValues = array();
+        $indexList = array();
+        $indexListIndex = 0;
+        foreach ($dlgValues as $key => $value) {
+            $keyArray = explode($this->delimiter,$key);
+            if ($keyArray && $keyArray[0] == $this->getFieldName()) {
+                $subDlgValues[$keyArray[0].$this->delimiter.$keyArray[2]][$keyArray[1]] = $value;
+                $indexList[] = $keyArray[0].$this->delimiter.$keyArray[2];
+                array_unique($indexList);
+            } else {
+                foreach ($this->fieldList as $field) {
+                    if ($field instanceof C4GSubDialogField) {
+                        if (strpos($key, $field->getDelimiter()) !== false) {
+                            $subDlgValues[$indexList[$indexListIndex]][$key] = $value;
+                            $indexListIndex += 1;
+                        } else {
+                            $subDlgValues[$indexList[$indexListIndex]][$key] = $value;
+                            $indexListIndex += 1;
+                        }
+                    }
+                }
+            }
+        }
+        foreach ($subDlgValues as $key => $subDlgVals) {
+            if ($key === '') {
+                continue;
+            }
+            foreach ($this->fieldList as $field) {
+                $result = $field->checkMandatory($subDlgVals);
+                if ($result instanceof C4GBrickField) {
+                    return $result;
+                }
+            }
+        }
+        return false;
+    }
+
 
     /**
      * @return string
