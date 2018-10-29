@@ -71,7 +71,7 @@ class C4GShowMessageChangesDialogAction extends C4GBrickDialogAction
             }
             $fields .= '</ul>';
 
-            if ($message_cnt == 0) {
+            if ($message_cnt == 0 || $dialogParams->isHideChangesMessage()) {
                 $dialogParams->setId(-1);
                 $action = new C4GShowListAction($dialogParams, $this->getListParams(), $this->getFieldList(), $this->getPutVars(), $this->getBrickDatabase());
                 return $action->run();

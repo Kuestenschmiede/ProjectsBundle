@@ -108,6 +108,7 @@ class C4GBrickDialogParams
     private $saveCallback = array();
     private $deleteCallback = array();
     private $showSuccessfullySavedMessage = true;
+    private $hideChangesMessage = false;
 
 
     /**
@@ -1825,5 +1826,19 @@ class C4GBrickDialogParams
         return $this;
     }
 
+    /**
+     * @return bool
+     */
+    public function isHideChangesMessage(): bool
+    {
+        return $this->hideChangesMessage;
+    }
 
+    /**
+     * @param bool $hideChangesMessage
+     */
+    public function setHideChangesMessage(bool $hideChangesMessage = true)
+    {
+        $this->hideChangesMessage = $hideChangesMessage;
+    }
 }
