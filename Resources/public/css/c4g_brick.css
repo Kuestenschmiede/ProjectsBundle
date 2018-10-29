@@ -267,6 +267,10 @@ input:invalid {
     margin-left: 2.5%;
     margin-right: 2.5%;
 }
+.ol-viewport canvas {
+    margin-left: 0px;
+    margin-right: 0px;
+}
 .c4g_brick_dialog .c4g_brick_geopicker_label {
     padding-top: 10px;
 }

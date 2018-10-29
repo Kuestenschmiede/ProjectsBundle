@@ -225,6 +225,9 @@ class C4GFileField extends C4GBrickField
             }
 
             $fieldData = C4GBrickCommon::saveFile($fieldName, $original_filename, $new_upload_url, $upload_url);
+            if ($fieldData) {
+                $fieldData = \StringUtil::binToUuid($fieldData);
+            }
         }
 
         $delete_file = $dlgValues[$this->deleteURL];
