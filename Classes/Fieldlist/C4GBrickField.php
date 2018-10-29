@@ -724,7 +724,7 @@ abstract class C4GBrickField
         if (is_string($dlgValues[$fieldName])) {
             $fieldData = trim($fieldData);
         }
-        if (($fieldData == null) || ($fieldData) == '') {
+        if (($fieldData !== null) && ($fieldData) == '') {
             return $this;
         } else {
             return false;

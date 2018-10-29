@@ -60,8 +60,6 @@ class C4GSubDialogField extends C4GBrickField
         $addButton = $this->addButton;
         $removeButton = $this->removeButton;
         $editButton = $this->editButton;
-
-        //needful to set editable params
         $this->generateRequiredString($data, $dialogParams);
 
         $fieldsHtml = "";
@@ -76,6 +74,9 @@ class C4GSubDialogField extends C4GBrickField
 //                $editable = $field->isEditable();
 //                $field->setEditable(false);
 //            }
+            if ($field instanceof C4GForeignArrayField) {
+                continue;
+            }
             if ($field instanceof C4GFileField) {
                 $uploadURL = $field->getUploadURL();
                 $deleteURL = $field->getDeleteURL();
