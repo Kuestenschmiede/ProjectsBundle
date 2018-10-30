@@ -30,6 +30,8 @@ class C4GFileField extends C4GBrickField
     private $path         = '';
     private $uploadURL = 'c4g_uploadURL';
     private $deleteURL = 'c4g_deleteURL';
+    private $filenameColumn = '';
+    private $filename = '';
     private $linkType = self::LINK_TYPE_ANCHOR;
     const LINK_TYPE_ANCHOR = 'a';
     const LINK_TYPE_IMAGE = 'img';
@@ -102,9 +104,13 @@ class C4GFileField extends C4GBrickField
         if ($fileObject) {
             $file_uuid  = $fileObject->uuid;
             $file_url   = $fileObject->path;
-            $file_label = basename($fileObject->name);
-            if ($file_label) {
-                $file_label = str_replace("C:\\fakepath\\", "", $file_label);
+            $filenameColumn = $this->filenameColumn;
+            $file_label = $data->$filenameColumn;
+            if (!$file_label) {
+                $file_label = basename($fileObject->name);
+                if ($file_label) {
+                    $file_label = str_replace("C:\\fakepath\\", "", $file_label);
+                }
             }
             switch ($this->linkType) {
                 case self::LINK_TYPE_ANCHOR:
@@ -184,6 +190,7 @@ class C4GFileField extends C4GBrickField
     {
         $fieldData = $dlgValues[$this->getFieldName()];
         $original_filename = $fieldData;
+        $this->filename = $original_filename !== '' ? explode('.', str_replace("C:\\fakepath\\", '', $original_filename))[0] : '';
         $fieldName = $this->getFieldName();
         $upload_url = $dlgValues[$this->uploadURL];
         $old_file = $dbValues->$fieldName;
@@ -482,9 +489,47 @@ class C4GFileField extends C4GBrickField
 
     /**
      * @param string $linkType
+     * @return $this
      */
     public function setLinkType(string $linkType)
     {
         $this->linkType = $linkType;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFilenameColumn(): string
+    {
+        return $this->filenameColumn;
+    }
+
+    /**
+     * @param string $filenameColumn
+     * @return $this
+     */
+    public function setFilenameColumn(string $filenameColumn)
+    {
+        $this->filenameColumn = $filenameColumn;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFilename(): string
+    {
+        return $this->filename;
+    }
+
+    /**
+     * @param string $filename
+     * @return $this
+     */
+    public function setFilename(string $filename)
+    {
+        $this->filename = $filename;
+        return $this;
     }
 }

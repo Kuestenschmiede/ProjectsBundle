@@ -1126,6 +1126,9 @@ class C4GBrickDialog
                         }
                     }
                     $set[$fieldName] = $fieldData;
+                    if ($field instanceof C4GFileField && $field->getFilenameColumn() !== '' && $field->getFilename() !== '') {
+                        $set[$field->getFilenameColumn()] = $field->getFilename();
+                    }
                     if (!($field instanceof C4GFileField) && !($field instanceof C4GMultiCheckboxField) && (!$field instanceof C4GForeignArrayField)) {
                         $set[$fieldName] = html_entity_decode(C4GUtils::secure_ugc($fieldData));
                     }
