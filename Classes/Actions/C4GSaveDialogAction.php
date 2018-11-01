@@ -93,7 +93,7 @@ class C4GSaveDialogAction extends C4GBrickDialogAction
                 return array('usermessage' => $validate_result, 'title' => $validate_title);
             }
 
-            $result = C4GBrickDialog::saveC4GDialog($dialogId, $this->tableName, $this->makeRegularFieldList($fieldList),
+            $result = C4GBrickDialog::saveC4GDialog($dialogId, '', $this->makeRegularFieldList($fieldList),
                 $dlgValues, $brickDatabase, $dbValues, $dialogParams, $memberId);
 
             if ($result['insertId']) {

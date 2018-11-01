@@ -109,6 +109,7 @@ class C4GBrickDialogParams
     private $deleteCallback = array();
     private $showSuccessfullySavedMessage = true;
     private $hideChangesMessage = false;
+    private $insertNewCondition = array();
 
 
     /**
@@ -1841,4 +1842,32 @@ class C4GBrickDialogParams
     {
         $this->hideChangesMessage = $hideChangesMessage;
     }
+
+    /**
+     * @return array
+     */
+    public function getInsertNewCondition(): array
+    {
+        return $this->insertNewCondition;
+    }
+
+    /**
+     * @param $object
+     * @param string $method
+     * @return C4GBrickDialogParams
+     */
+    public function setInsertNewCondition($object, string $method): C4GBrickDialogParams
+    {
+        if (is_object($object) && method_exists($object, $method)) {
+            $this->insertNewCondition = array($object, $method);
+        }
+        return $this;
+    }
+
+    public function clearInsertNewCondition() {
+        $this->insertNewCondition = array();
+    }
+
+
+
 }

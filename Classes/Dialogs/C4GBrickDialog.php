@@ -1288,19 +1288,24 @@ class C4GBrickDialog
                         $class::$method($brickDatabase->getParams()->getTableName(), $set, $result['insertId'], 'insert', $fieldList);
                     }
                 } elseif ($saveInNew) {
-                    if ($dialogParams->getOriginalIdName()) {
-                        $set[$dialogParams->getOriginalIdName()] = $set[$id_fieldName];
-                    }
-                    unset($set[$id_fieldName]);
-                    $result = $brickDatabase->insert($set);
-                    if ($dialogParams->getSaveCallback()) {
-                        $cb = $dialogParams->getSaveCallback();
-                        $class = $cb[0];
-                        $method = $cb[1];
-                        $class::$method($brickDatabase->getParams()->getTableName(), $set, $result['insertId'], 'insert', $fieldList);
+                    $updateCondition = $dialogParams->getInsertNewCondition();
+                    $class = $updateCondition[0];
+                    $method = $updateCondition[1];
+                    if (!$updateCondition || $class::$method($set[$id_fieldName]) === true) {
+                        if ($dialogParams->getOriginalIdName()) {
+                            $set[$dialogParams->getOriginalIdName()] = $set[$id_fieldName];
+                        }
+                        unset($set[$id_fieldName]);
+                        $result = $brickDatabase->insert($set);
+                        if ($dialogParams->getSaveCallback()) {
+                            $cb = $dialogParams->getSaveCallback();
+                            $class = $cb[0];
+                            $method = $cb[1];
+                            $class::$method($brickDatabase->getParams()->getTableName(), $set, $result['insertId'], 'insert', $fieldList);
+                        }
                     }
                 } elseif (($id) && ($id_fieldName)) {
-                        $result = $brickDatabase->update($id, $set, $id_fieldName);
+                    $result = $brickDatabase->update($id, $set, $id_fieldName);
                     if ($dialogParams->getSaveCallback()) {
                         $cb = $dialogParams->getSaveCallback();
                         $class = $cb[0];
@@ -1425,6 +1430,12 @@ class C4GBrickDialog
                                 $dialogParams->setSaveInNewDataset($field->isSaveInNewDataset());
                                 $dialogParams->setOriginalIdName($field->getOriginalIdName());
                                 $dialogParams->setSaveInNewDatasetIfCondition($field->getSaveInNewDatasetIfCondition());
+                                $insertCondition = $field->getInsertNewCondition();
+                                if ($insertCondition) {
+                                    $dialogParams->setInsertNewCondition($insertCondition[0], $insertCondition[1]);
+                                } else {
+                                    $dialogParams->clearInsertNewCondition();
+                                }
                                 if (!$value[$id_fieldName]) {
                                     $value[$field->getForeignKeyField()->getFieldName()] = $elementId;
                                     $subDbValues = $field->getBrickDatabase()->findByPk(0);
