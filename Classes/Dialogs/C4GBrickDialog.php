@@ -1289,9 +1289,9 @@ class C4GBrickDialog
                     }
                 } elseif ($saveInNew) {
                     $updateCondition = $dialogParams->getInsertNewCondition();
-                    $class = $updateCondition[0];
+                    $object = $updateCondition[0];
                     $method = $updateCondition[1];
-                    if (!$updateCondition || $class::$method($set[$id_fieldName]) === true) {
+                    if (!$updateCondition || $object->$method($set[$id_fieldName]) === true) {
                         if ($dialogParams->getOriginalIdName()) {
                             $set[$dialogParams->getOriginalIdName()] = $set[$id_fieldName];
                         }
