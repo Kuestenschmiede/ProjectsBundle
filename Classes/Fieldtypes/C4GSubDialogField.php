@@ -47,6 +47,7 @@ class C4GSubDialogField extends C4GBrickField
 //    private $overrideValuesIfSavingInNewDataset = array();
     private $saveInNewDataSetIfCondition = null;
     private $insertNewCondition = array();
+    private $deleteCondition = array();
 
     public function __construct() {
         $this->database = \Database::getInstance();
@@ -904,6 +905,27 @@ class C4GSubDialogField extends C4GBrickField
     {
         if (is_object($object) && method_exists($object, $method)) {
             $this->insertNewCondition = array($object, $method);
+        }
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getDeleteCondition(): array
+    {
+        return $this->deleteCondition;
+    }
+
+    /**
+     * @param $object
+     * @param string $method
+     * @return C4GSubDialogField
+     */
+    public function setDeleteCondition($object, string $method): C4GSubDialogField
+    {
+        if (is_object($object) && method_exists($object, $method)) {
+            $this->deleteCondition = array($object, $method);
         }
         return $this;
     }
