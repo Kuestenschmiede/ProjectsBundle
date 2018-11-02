@@ -1401,6 +1401,14 @@ class C4GBrickDialog
                                 $deleteIds = array();
                                 foreach ($deleteResult as $r) {
                                     foreach ($subDlgValues as $key => $value) {
+                                        $deleteCondition = $field->getDeleteCondition();
+                                        if ($deleteCondition) {
+                                            $object = $deleteCondition[0];
+                                            $method = $deleteCondition[1];
+                                            if ($object->$method($r) !== true) {
+                                                continue 2;
+                                            }
+                                        }
                                         if (strval($r->$id_fieldName) == strval($value[$id_fieldName])) {
                                             continue 2;
                                         }
