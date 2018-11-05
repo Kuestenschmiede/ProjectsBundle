@@ -1283,15 +1283,11 @@ class C4GBrickDialog
                     $result = $brickDatabase->insert($set);
                     if ($dialogParams->getSaveCallback()) {
                         $cb = $dialogParams->getSaveCallback();
-                        $class = $cb[0];
-                        $method = $cb[1];
-                        $class::$method($brickDatabase->getParams()->getTableName(), $set, $result['insertId'], 'insert', $fieldList);
+                        $cb->call($brickDatabase->getParams()->getTableName(), $set, $result['insertId'], 'insert', $fieldList);
                     }
                 } elseif ($saveInNew) {
                     $updateCondition = $dialogParams->getInsertNewCondition();
-                    $object = $updateCondition[0];
-                    $method = $updateCondition[1];
-                    if (!$updateCondition || $object->$method($set[$id_fieldName]) === true) {
+                    if (!$updateCondition || $updateCondition->call($set[$id_fieldName]) === true) {
                         if ($dialogParams->getOriginalIdName()) {
                             $set[$dialogParams->getOriginalIdName()] = $set[$id_fieldName];
                         }
@@ -1299,18 +1295,14 @@ class C4GBrickDialog
                         $result = $brickDatabase->insert($set);
                         if ($dialogParams->getSaveCallback()) {
                             $cb = $dialogParams->getSaveCallback();
-                            $class = $cb[0];
-                            $method = $cb[1];
-                            $class::$method($brickDatabase->getParams()->getTableName(), $set, $result['insertId'], 'insert', $fieldList);
+                            $cb->call($brickDatabase->getParams()->getTableName(), $set, $result['insertId'], 'insert', $fieldList);
                         }
                     }
                 } elseif (($id) && ($id_fieldName)) {
                     $result = $brickDatabase->update($id, $set, $id_fieldName);
                     if ($dialogParams->getSaveCallback()) {
                         $cb = $dialogParams->getSaveCallback();
-                        $class = $cb[0];
-                        $method = $cb[1];
-                        $class::$method($brickDatabase->getParams()->getTableName(), $set , $result['insertId'], 'update', $fieldList);
+                        $cb->call($brickDatabase->getParams()->getTableName(), $set , $result['insertId'], 'update', $fieldList);
                     }
                 }
             } else {
@@ -1403,9 +1395,7 @@ class C4GBrickDialog
                                     foreach ($subDlgValues as $key => $value) {
                                         $deleteCondition = $field->getDeleteCondition();
                                         if ($deleteCondition) {
-                                            $object = $deleteCondition[0];
-                                            $method = $deleteCondition[1];
-                                            if ($object->$method($r) !== true) {
+                                            if ($deleteCondition->call($r) !== true) {
                                                 continue 2;
                                             }
                                         }
@@ -1422,9 +1412,7 @@ class C4GBrickDialog
                                     $stmt->execute($deleteId);
                                     if ($dialogParams->getDeleteCallback()) {
                                         $array = $dialogParams->getDeleteCallback();
-                                        $class = $array[0];
-                                        $method = $array[1];
-                                        $class::$method($table, $deleteId, $fieldList);
+                                        $array->call($table, $deleteId, $fieldList);
                                     }
                                 }
                             }
@@ -1440,7 +1428,7 @@ class C4GBrickDialog
                                 $dialogParams->setSaveInNewDatasetIfCondition($field->getSaveInNewDatasetIfCondition());
                                 $insertCondition = $field->getInsertNewCondition();
                                 if ($insertCondition) {
-                                    $dialogParams->setInsertNewCondition($insertCondition[0], $insertCondition[1]);
+                                    $dialogParams->setInsertNewCondition($insertCondition);
                                 } else {
                                     $dialogParams->clearInsertNewCondition();
                                 }
@@ -1470,9 +1458,7 @@ class C4GBrickDialog
                                     $stmt->execute($deleteId);
                                     if ($dialogParams->getDeleteCallback()) {
                                         $array = $dialogParams->getDeleteCallback();
-                                        $class = $array[0];
-                                        $method = $array[1];
-                                        $class::$method($table, $deleteId, $fieldList);
+                                        $array->call($table, $deleteId, $fieldList);
                                     }
                                 }
                             }

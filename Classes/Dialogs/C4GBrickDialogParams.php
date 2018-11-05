@@ -11,6 +11,7 @@
  */
 
 namespace con4gis\ProjectsBundle\Classes\Dialogs;
+use con4gis\CoreBundle\Resources\contao\classes\callback\C4GCallback;
 use con4gis\ProjectsBundle\Classes\Buttons\C4GBrickButton;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickConst;
 use con4gis\ProjectsBundle\Classes\Conditions\C4GBrickCondition;
@@ -105,11 +106,11 @@ class C4GBrickDialogParams
 //    private $overrideValuesIfSavingInNewDataset = array();
     private $saveInNewDataSetIfCondition = null;
     private $doNotSaveIfValuesDidNotChange = false;     //Will not save to the database if the values did not change, but will not interrupt saving of sub dialogs.
-    private $saveCallback = array();
-    private $deleteCallback = array();
+    private $saveCallback = null;
+    private $deleteCallback = null;
     private $showSuccessfullySavedMessage = true;
     private $hideChangesMessage = false;
-    private $insertNewCondition = array();
+    private $insertNewCondition = null;
 
 
     /**
@@ -1774,36 +1775,36 @@ class C4GBrickDialogParams
     }
 
     /**
-     * @return array
+     * @return C4GCallback
      */
-    public function getSaveCallback(): array
+    public function getSaveCallback(): C4GCallback
     {
         return $this->saveCallback;
     }
 
     /**
-     * @param array $saveCallback
+     * @param C4GCallback $saveCallback
      * @return C4GBrickDialogParams
      */
-    public function setSaveCallback(array $saveCallback): C4GBrickDialogParams
+    public function setSaveCallback(C4GCallback $saveCallback): C4GBrickDialogParams
     {
         $this->saveCallback = $saveCallback;
         return $this;
     }
 
     /**
-     * @return array
+     * @return C4GCallback
      */
-    public function getDeleteCallback(): array
+    public function getDeleteCallback(): C4GCallback
     {
         return $this->deleteCallback;
     }
 
     /**
-     * @param array $deleteCallback
+     * @param C4GCallback $deleteCallback
      * @return C4GBrickDialogParams
      */
-    public function setDeleteCallback(array $deleteCallback): C4GBrickDialogParams
+    public function setDeleteCallback(C4GCallback $deleteCallback): C4GBrickDialogParams
     {
         $this->deleteCallback = $deleteCallback;
         return $this;
@@ -1844,28 +1845,25 @@ class C4GBrickDialogParams
     }
 
     /**
-     * @return array
+     * @return C4GCallback
      */
-    public function getInsertNewCondition(): array
+    public function getInsertNewCondition(): C4GCallback
     {
         return $this->insertNewCondition;
     }
 
     /**
-     * @param $object
-     * @param string $method
+     * @param C4GCallback $callback
      * @return C4GBrickDialogParams
      */
-    public function setInsertNewCondition($object, string $method): C4GBrickDialogParams
+    public function setInsertNewCondition(C4GCallback $callback): C4GBrickDialogParams
     {
-        if (is_object($object) && method_exists($object, $method)) {
-            $this->insertNewCondition = array($object, $method);
-        }
+        $this->insertNewCondition = $callback;
         return $this;
     }
 
     public function clearInsertNewCondition() {
-        $this->insertNewCondition = array();
+        $this->insertNewCondition = null;
     }
 
 

@@ -10,6 +10,7 @@ namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
 
 
 use con4gis\CoreBundle\Resources\contao\classes\C4GUtils;
+use con4gis\CoreBundle\Resources\contao\classes\callback\C4GCallback;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickCommon;
 use con4gis\ProjectsBundle\Classes\Conditions\C4GBrickCondition;
 use con4gis\ProjectsBundle\Classes\Database\C4GBrickDatabase;
@@ -46,8 +47,8 @@ class C4GSubDialogField extends C4GBrickField
     private $originalIdName = '';
 //    private $overrideValuesIfSavingInNewDataset = array();
     private $saveInNewDataSetIfCondition = null;
-    private $insertNewCondition = array();
-    private $deleteCondition = array();
+    private $insertNewCondition = null;
+    private $deleteCondition = null;
 
     public function __construct() {
         $this->database = \Database::getInstance();
@@ -889,44 +890,38 @@ class C4GSubDialogField extends C4GBrickField
     }
 
     /**
-     * @return array
+     * @return C4GCallback
      */
-    public function getInsertNewCondition(): array
+    public function getInsertNewCondition(): C4GCallback
     {
         return $this->insertNewCondition;
     }
 
     /**
-     * @param $object
-     * @param string $method
+     * @param C4GCallback $callback
      * @return C4GSubDialogField
      */
-    public function setInsertNewCondition($object, string $method): C4GSubDialogField
+    public function setInsertNewCondition(C4GCallback $callback): C4GSubDialogField
     {
-        if (is_object($object) && method_exists($object, $method)) {
-            $this->insertNewCondition = array($object, $method);
-        }
+        $this->insertNewCondition = $callback;
         return $this;
     }
 
     /**
-     * @return array
+     * @return C4GCallback
      */
-    public function getDeleteCondition(): array
+    public function getDeleteCondition(): C4GCallback
     {
         return $this->deleteCondition;
     }
 
     /**
-     * @param $object
-     * @param string $method
+     * @param C4GCallback $callback
      * @return C4GSubDialogField
      */
-    public function setDeleteCondition($object, string $method): C4GSubDialogField
+    public function setDeleteCondition(C4GCallback $callback): C4GSubDialogField
     {
-        if (is_object($object) && method_exists($object, $method)) {
-            $this->deleteCondition = array($object, $method);
-        }
+        $this->deleteCondition = $callback;
         return $this;
     }
 }
