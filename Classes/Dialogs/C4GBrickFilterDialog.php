@@ -16,8 +16,10 @@ namespace con4gis\ProjectsBundle\Classes\Dialogs;
 use con4gis\CoreBundle\Resources\contao\classes\C4GHTMLFactory;
 use con4gis\CoreBundle\Resources\contao\classes\C4GUtils;
 use con4gis\ProjectsBundle\Classes\Actions\C4GBrickActionType;
+use con4gis\ProjectsBundle\Classes\Common\C4GBrickCommon;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickConst;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GDateField;
+use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GDateTimePickerField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GGeopickerField;
 
 class C4GBrickFilterDialog extends C4GBrickDialog
@@ -64,21 +66,26 @@ class C4GBrickFilterDialog extends C4GBrickDialog
             $filterParams->getBrickFilterCookies($brickKey);
 
             if ($filterParams->getRangeFrom()) {
-                $rangeFrom = strtotime($filterParams->getRangeFrom());
+                $rangeFrom = C4GBrickCommon::getTimestampFromDate($filterParams->getRangeFrom());
             }
 
             if ($filterParams->getRangeTo()) {
-                $rangeTo = strtotime($filterParams->getRangeTo());
+                $rangeTo = C4GBrickCommon::getTimestampFromDate($filterParams->getRangeTo());
             }
 
-            $fromFilterField = new C4GDateField();
+            if ($filterParams->isDateTimeFilter()) {
+                $fromFilterField = new C4GDateTimePickerField();
+                $fromFilterField->setCustomFormat($GLOBALS['TL_CONFIG']['datimFormat']);
+            } else {
+                $fromFilterField = new C4GDateField();
+                $fromFilterField->setCustomFormat($GLOBALS['TL_CONFIG']['dateFormat']);
+            }
             $fromFilterField->setFieldName('fromFilter');
             $fromFilterField->setTitle($GLOBALS['TL_LANG']['FE_C4G_DIALOG']['fromFilter']);
             $fromFilterField->setDescription($GLOBALS['TL_LANG']['FE_C4G_DIALOG']['desc_fromFilter']);
             $fromFilterField->setTableColumn(false);
             $fromFilterField->setMandatory(true);
             $fromFilterField->setEditable(true);
-            $fromFilterField->setCustomFormat($GLOBALS['TL_CONFIG']['dateFormat']);
 
             if($rangeFrom) {
                 $fromFilterField->setInitialValue($rangeFrom);
@@ -88,14 +95,19 @@ class C4GBrickFilterDialog extends C4GBrickDialog
 
             $fieldList[] = $fromFilterField;
 
-            $toFilterField = new C4GDateField();
+            if ($filterParams->isDateTimeFilter()) {
+                $toFilterField = new C4GDateTimePickerField();
+                $toFilterField->setCustomFormat($GLOBALS['TL_CONFIG']['datimFormat']);
+            } else {
+                $toFilterField = new C4GDateField();
+                $toFilterField->setCustomFormat($GLOBALS['TL_CONFIG']['dateFormat']);
+            }
             $toFilterField->setFieldName('toFilter');
             $toFilterField->setTitle($GLOBALS['TL_LANG']['FE_C4G_DIALOG']['toFilter']);
             $toFilterField->setDescription($GLOBALS['TL_LANG']['FE_C4G_DIALOG']['desc_toFilter']);
             $toFilterField->setTableColumn(false);
             $toFilterField->setMandatory(true);
             $toFilterField->setEditable(true);
-            $toFilterField->setCustomFormat($GLOBALS['TL_CONFIG']['dateFormat']);
 
             if($rangeTo) {
                 $toFilterField->setInitialValue($rangeTo);

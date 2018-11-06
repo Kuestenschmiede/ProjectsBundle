@@ -19,6 +19,9 @@ use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldCompare;
 
 class C4GDateTimePickerField extends C4GBrickField
 {
+    // customize single date fields
+    private $customFormat = null;
+
     /**
      * @param C4GBrickField[] $fieldList
      * @param $data
@@ -33,8 +36,13 @@ class C4GDateTimePickerField extends C4GBrickField
         $title = $this->getTitle();
         $required = $this->generateRequiredString($data, $dialogParams);
         $value = $this->generateInitialValue($data);
+        if ($this->customFormat) {
+            $dateFormat = $this->customFormat;
+        } else {
+            $dateFormat = $GLOBALS['TL_CONFIG']['datimFormat'];
+        }
         if ($value > 0) {
-            $value = date($GLOBALS['TL_CONFIG']['datimFormat'], $value);
+            $value = date($dateFormat, $value);
         } else {
             $value = "";
         }
@@ -144,5 +152,19 @@ class C4GDateTimePickerField extends C4GBrickField
         }
     }
 
+    /**
+     * @return null
+     */
+    public function getCustomFormat()
+    {
+        return $this->customFormat;
+    }
 
+    /**
+     * @param null $customFormat
+     */
+    public function setCustomFormat($customFormat)
+    {
+        $this->customFormat = $customFormat;
+    }
 }
