@@ -49,6 +49,7 @@ class C4GSubDialogField extends C4GBrickField
     private $saveInNewDataSetIfCondition = null;
     private $insertNewCondition = null;
     private $deleteCondition = null;
+    private $orderBy = '';
 
     public function __construct() {
         $this->database = \Database::getInstance();
@@ -922,6 +923,24 @@ class C4GSubDialogField extends C4GBrickField
     public function setDeleteCondition(C4GCallback $callback): C4GSubDialogField
     {
         $this->deleteCondition = $callback;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getOrderBy(): string
+    {
+        return $this->orderBy;
+    }
+
+    /**
+     * @param string $orderBy
+     * @return C4GSubDialogField
+     */
+    public function setOrderBy(string $orderBy): C4GSubDialogField
+    {
+        $this->orderBy = $orderBy;
         return $this;
     }
 }

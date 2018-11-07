@@ -624,7 +624,26 @@ class C4GShowDialogAction extends C4GBrickDialogAction
 
                 $values = $field->getBrickDatabase()->findBy($field->getForeignKeyField()->getFieldName(), $foreignKey);
                 $count = 0;
-                $valuesArray = array_reverse((array)$values);
+                if ($field->getOrderBy() !== '') {
+                    $orderBy = $field->getOrderBy();
+                    $valuesArray = array();
+                    $valuesArrayOld = (array)$values;
+                    while (!empty($valuesArrayOld)) {
+                        $first = null;
+                        $firstKey = 0;
+                        foreach ($valuesArrayOld as $key => $dataset) {
+                            if ($first === null || intval($dataset->$orderBy) > intval($first->$orderBy)) {
+                                $first = $dataset;
+                                $firstKey = $key;
+                            }
+                        }
+                        $valuesArray[] = $first;
+                        unset($valuesArrayOld[$firstKey]);
+                        array_values($valuesArrayOld);
+                    }
+                } else {
+                    $valuesArray = array_reverse((array)$values);
+                }
                 foreach ($valuesArray as $value) {
                     $count += 1;
                     if ($value instanceof \stdClass) {
