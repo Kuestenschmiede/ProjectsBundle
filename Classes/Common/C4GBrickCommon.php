@@ -776,6 +776,28 @@ class C4GBrickCommon
         return $tmp;
     }
 
+    /**
+     * Converts a given string to a timestamp. Returns the result of strtotime, if it's not false. Converts the string
+     * into a parseable format otherwise. CAUTION: Only works for dates >= 01.01.2000.
+     * @param $string
+     */
+    public static function getTimestampFromDate($string)
+    {
+        $time = strtotime($string);
+        if (!$time) {
+            $arrDate = explode("-", $string);
+            if (count($arrDate) == 2) {
+                $date = explode(".", $arrDate[0]);
+                // this disables the view of years before 2000
+                $date[2] = "20" . $date[2];
+                $arrDate[0] = implode(".", $date);
+                $timeString = $arrDate[0] . trim($arrDate[1]) . ":00";
+                $time = strtotime($timeString);
+            }
+        }
+        return $time;
+    }
+
 }
 
 

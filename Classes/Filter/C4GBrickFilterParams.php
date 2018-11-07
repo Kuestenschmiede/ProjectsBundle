@@ -25,6 +25,7 @@ class C4GBrickFilterParams
     private $withSelectFilter = false;
     private $withCheckboxFilter = false;
     private $withMethodFilter = false;
+    private $dateTimeFilter = false;
     private $useMethodFilter = 0;
     private $filterMethod = array();
 
@@ -362,5 +363,20 @@ class C4GBrickFilterParams
         }
     }
 
+    /**
+     * @return bool
+     */
+    public function isDateTimeFilter(): bool
+    {
+        return $this->dateTimeFilter;
+    }
+
+    /**
+     * @param bool $dateTimeFilter
+     */
+    public function setDateTimeFilter(bool $dateTimeFilter): void
+    {
+        $this->dateTimeFilter = $dateTimeFilter;
+    }
 
 }
