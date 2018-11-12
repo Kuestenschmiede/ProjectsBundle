@@ -936,8 +936,3 @@ th.nomouseevents .DataTables_sort_icon {
     max-width: 100px;
     max-height: 100px;
 }
-
-#c4g_condition input, #c4g_condition textarea, #c4g_condition select, #c4g_brick_geopicker_geox, #c4g_brick_geopicker_geoy {
-    color: currentColor;
-    background-color: #E8E8E8 !important;
-}
