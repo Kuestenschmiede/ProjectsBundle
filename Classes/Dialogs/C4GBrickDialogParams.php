@@ -1777,7 +1777,7 @@ class C4GBrickDialogParams
     /**
      * @return C4GCallback
      */
-    public function getSaveCallback(): C4GCallback
+    public function getSaveCallback(): ?C4GCallback
     {
         return $this->saveCallback;
     }
