@@ -63,8 +63,6 @@ class C4GBrickModuleParent extends \Module
 
     //embedding additional sources
     protected $strTemplate          = 'mod_c4g_brick_list'; //default module template
-    protected $brickStyle           = ''; //loading one additional css file for your module class
-    protected $brickScript          = ''; //loading one additional js file for your module class
     protected $uiTheme              = ''; //loading your own ui theme for your module class (https://jqueryui.com/themeroller/)
 
     //group params
@@ -130,6 +128,21 @@ class C4GBrickModuleParent extends \Module
 
     protected $asnycList            = false; // set true when the list should be loaded after the initial page load
 
+    //Resource Params
+    protected $loadDefaultResources = true;
+    protected $loadCkEditorResources = false;
+    protected $loadDateTimePickerResources = false;
+    protected $loadChosenResources = false;
+    protected $loadClearBrowserUrlResources = true;
+    protected $loadConditionalFieldDisplayResources = true;
+    protected $loadMoreButtonResources = false;
+    protected $loadFontAwesomeResources = false;
+    protected $loadTriggerSearchFromOtherModuleResources = false;
+    protected $loadFileUploadResources = false;
+
+    //Deprecated Params
+    protected $brickStyle           = ''; // *DEPRECATED*
+    protected $brickScript          = ''; // *DEPRECATED*
 
     /**
      * module class function to get fields
@@ -508,148 +521,10 @@ class C4GBrickModuleParent extends \Module
      */
     protected function compile()
     {
-        //ToDo Map über Schalter setzen
+        $this->compileJquery();
 
-        if ($this->strTemplate == 'mod_c4g_brick_simple') {
-            // initialize used Javascript Libraries and CSS files
-            C4GJQueryGUI::initializeLibraries(
-                true,                     // add c4gJQuery GUI Core LIB
-                true,                     // add JQuery
-                false,                     // add JQuery UI
-                false,                    // add Tree Control
-                true,                     // add Table Control
-                false,                     // add history.js  //Ausgebaut der Mechanismus viele Nebeneffekte hat (Performance, JavaScript-Fehler, ...)
-                true,                      // add simple tooltip
-                true, 						  // $useMaps=false,
-                false, 						  // $useGoogleMaps=false,
-                true, 						  // $useMapsEditor=false,
-                true, 						  // $useWswgEditor=false,
-                true, 						  // $useScrollpane=false
-                true                        //$usePopups
-            );
-        } else {
-            // initialize used Javascript Libraries and CSS files
-            C4GJQueryGUI::initializeLibraries(
-                true,                     // add c4gJQuery GUI Core LIB
-                true,                     // add JQuery
-                true,                     // add JQuery UI
-                false,                    // add Tree Control
-                true,                     // add Table Control
-                false,                     // add history.js  //Ausgebaut der Mechanismus viele Nebeneffekte hat (Performance, JavaScript-Fehler, ...)
-                true,                      // add simple tooltip
-                true, 						  // $useMaps=false,
-                false, 						  // $useGoogleMaps=false,
-                true, 						  // $useMapsEditor=false,
-                true, 						  // $useWswgEditor=false,
-                true, 						  // $useScrollpane=false
-                true                        //$usePopups
-            );
-
-
-            $settings = Database::getInstance()->execute("SELECT * FROM tl_c4g_settings LIMIT 1")->fetchAllAssoc();
-
-            if ($settings) {
-                $this->settings = $settings[0];
-            }
-
-            // load custom themeroller-css if set
-            if ($this->uiTheme) {
-                $GLOBALS['TL_CSS']['c4g_jquery_ui'] = $this->uiTheme;
-            } else
-            if ($this->c4g_appearance_themeroller_css) {
-                $objFile = \FilesModel::findByUuid($this->c4g_appearance_themeroller_css);
-                $GLOBALS['TL_CSS']['c4g_jquery_ui'] = $objFile->path;
-            } else if($this->c4g_uitheme_css_select) {
-                $theme = $this->c4g_uitheme_css_select;
-                $GLOBALS['TL_CSS']['c4g_jquery_ui'] = 'bundles/con4giscore/vendor/jQuery/ui-themes/themes/' . $theme . '/jquery-ui.css';
-            } else if ($this->settings && $this->settings['c4g_appearance_themeroller_css']) {
-                $objFile = \FilesModel::findByUuid($this->settings['c4g_appearance_themeroller_css']);
-                $GLOBALS['TL_CSS']['c4g_jquery_ui'] = $objFile->path;
-            } else if ($this->settings && $this->settings['c4g_uitheme_css_select']) {
-                $theme = $this->settings['c4g_uitheme_css_select'];
-                $GLOBALS['TL_CSS']['c4g_jquery_ui'] = 'bundles/con4giscore/vendor/jQuery/ui-themes/themes/' . $theme . '/jquery-ui.css';
-            } else {
-                $GLOBALS['TL_CSS']['c4g_jquery_ui'] = 'bundles/con4giscore/vendor/jQuery/ui-themes/themes/base/jquery-ui.css';
-            }
-        }
-
-        $GLOBALS['TL_CSS']['c4g_brick_style'] = 'bundles/con4gisprojects/css/c4g_brick.css';
-
-        if ($this->brickStyle) {
-            $GLOBALS['TL_CSS']['c4g_brick_style_'.$this->name] = $this->brickStyle;
-        }
-        if ($this->loadUrlClear) {
-            $GLOBALS['TL_JAVASCRIPT'][] = 'bundles/con4gisprojects/js/ClearBrowserUrl.js';
-        }
-
-        $GLOBALS['TL_JAVASCRIPT'][] = 'bundles/con4gisprojects/js/C4GBrickDialog.js';
-
-        $GLOBALS['TL_JAVASCRIPT'][] = 'bundles/con4gisprojects/js/ConditionalFieldDisplay.js';
-        // load more button
-        $GLOBALS['TL_JAVASCRIPT'][] = 'bundles/con4gisprojects/js/more-button.js';
-        $GLOBALS['TL_JAVASCRIPT'][] = "bundles/con4giscore/vendor/fontawesome/js/all.js";
-
-        if ($this->brickScript) {
-            $GLOBALS['TL_JAVASCRIPT']['c4g_brick_script_'.$this->name] = $this->brickScript;
-        }
-        // load the js file for triggering the search from another module
-        ResourceLoader::loadJavaScriptDeferred("datatable-search-trigger", "bundles/con4gisprojects/js/datatable-search-trigger.js");
-
-        $data['jquiEmbeddedDialogs'] = true;//$this->dialogs_jqui;
-        $GLOBALS['TL_CSS'] [] = 'bundles/con4giscore/vendor/wswgEditor/css/editor.css';
-        $GLOBALS['TL_CSS'] [] = 'bundles/con4giscore/vendor/wswgEditor/css/bbcodes.css';
-        $GLOBALS['TL_CSS']['simple-dtpicker'] = 'bundles/con4giscore/vendor/jQuery/plugins/jquery-simple-datetimepicker/1.13.0/jquery.simple-dtpicker.css';
-
-        //toolbar buttons for ckEditor
-        $aToolbarButtons = [
-            'Cut',
-            'Copy',
-            'Paste',
-            'PasteText',
-            'PasteFromWord',
-            '-',
-            'Undo',
-            'Redo',
-            'Bold',
-            'Italic',
-            'Underline',
-            'Strike',
-            'Subscript',
-            'Superscript',
-            'Blockquote',
-            '-',
-            'RemoveFormat',
-            'NumberedList',
-            'BulletedList',
-            'Link',
-            'Unlink',
-            'Anchor',
-            'Image',
-            'FileUpload',
-            'Smiley',
-            'TextColor',
-            'BGColor'
-        ];
-
-        $GLOBALS['TL_CSS'][]        = 'bundles/con4giscore/vendor/jQuery/plugins/chosen/chosen.css';
-        $GLOBALS['TL_JAVASCRIPT'][] = 'bundles/con4giscore/vendor/jQuery/plugins/chosen/chosen.jquery.min.js';
-
-        $GLOBALS['TL_HEAD'][] = "<script>var ckRemovePlugins = 'bbcode';</script>";
-        $GLOBALS['TL_HEAD'][] = "<script>var uploadApiUrl = 'con4gis/api/fileUpload/';</script>";
-
-        $foundHeadlement = false;
-        foreach ($GLOBALS['TL_HEAD'] as $key=>$headlement) {
-            if (strpos($headlement, "var ckEditorItems") > 0) {
-               $foundHeadlement = true;
-               $GLOBALS['TL_HEAD'][$key] = "<script>var ckEditorItems = ['" . implode("','", $aToolbarButtons) . "'];</script>";
-               break;
-            }
-        }
-
-        if (!$foundHeadlement) {
-            $GLOBALS['TL_HEAD'][] = "<script>var ckEditorItems = ['" . implode("','", $aToolbarButtons) . "'];</script>";
-            $GLOBALS['TL_JAVASCRIPT'][] = 'bundles/con4giscore/vendor/ckeditor/ckeditor.js';
-        }
+        $this->compileJavaScript();
+        $this->compileCss();
 
         $data['id']         = $this->id;
         $data['ajaxUrl']    = "con4gis/brick_ajax_api";
@@ -657,6 +532,8 @@ class C4GBrickModuleParent extends \Module
         $data['height']     = 'auto';
         $data['width']      = '100%';
         $data['embedDialogs'] = true;
+        $data['jquiEmbeddedDialogs'] = true;
+
 
         if (($_SERVER['REQUEST_METHOD']) == 'PUT') {
             parse_str(file_get_contents("php://input"),$this->putVars);
@@ -687,11 +564,179 @@ class C4GBrickModuleParent extends \Module
             }
         }
 
-
-
         $data['div'] = 'c4g_brick';
 
         $this->Template->c4gData = $data;
+    }
+
+    protected function compileJquery() {
+        if ($this->strTemplate == 'mod_c4g_brick_simple') {
+            // initialize used Javascript Libraries and CSS files
+            C4GJQueryGUI::initializeLibraries(
+                true,                     // add c4gJQuery GUI Core LIB
+                true,                     // add JQuery
+                false,                     // add JQuery UI
+                false,                    // add Tree Control
+                true,                     // add Table Control
+                false,                     // add history.js
+                true,                      // add simple tooltip
+                true, 						  // $useMaps=false,
+                false, 						  // $useGoogleMaps=false,
+                true, 						  // $useMapsEditor=false,
+                true, 						  // $useWswgEditor=false,
+                true, 						  // $useScrollpane=false
+                true                        //$usePopups
+            );
+        } else {
+            // initialize used Javascript Libraries and CSS files
+            C4GJQueryGUI::initializeLibraries(
+                true,                     // add c4gJQuery GUI Core LIB
+                true,                     // add JQuery
+                true,                     // add JQuery UI
+                false,                    // add Tree Control
+                true,                     // add Table Control
+                false,                     // add history.js
+                true,                      // add simple tooltip
+                true, 						  // $useMaps=false,
+                false, 						  // $useGoogleMaps=false,
+                true, 						  // $useMapsEditor=false,
+                true, 						  // $useWswgEditor=false,
+                true, 						  // $useScrollpane=false
+                true                        //$usePopups
+            );
+
+
+            $settings = Database::getInstance()->execute("SELECT * FROM tl_c4g_settings LIMIT 1")->fetchAllAssoc();
+
+            if ($settings) {
+                $this->settings = $settings[0];
+            }
+
+            // load custom themeroller-css if set
+            if ($this->uiTheme) {
+                $GLOBALS['TL_CSS']['c4g_jquery_ui'] = $this->uiTheme;
+            } elseif ($this->c4g_appearance_themeroller_css) {
+                $objFile = \FilesModel::findByUuid($this->c4g_appearance_themeroller_css);
+                $GLOBALS['TL_CSS']['c4g_jquery_ui'] = $objFile->path;
+            } else if($this->c4g_uitheme_css_select) {
+                $theme = $this->c4g_uitheme_css_select;
+                $GLOBALS['TL_CSS']['c4g_jquery_ui'] = 'bundles/con4giscore/vendor/jQuery/ui-themes/themes/' . $theme . '/jquery-ui.css';
+            } else if ($this->settings && $this->settings['c4g_appearance_themeroller_css']) {
+                $objFile = \FilesModel::findByUuid($this->settings['c4g_appearance_themeroller_css']);
+                $GLOBALS['TL_CSS']['c4g_jquery_ui'] = $objFile->path;
+            } else if ($this->settings && $this->settings['c4g_uitheme_css_select']) {
+                $theme = $this->settings['c4g_uitheme_css_select'];
+                $GLOBALS['TL_CSS']['c4g_jquery_ui'] = 'bundles/con4giscore/vendor/jQuery/ui-themes/themes/' . $theme . '/jquery-ui.css';
+            } else {
+                $GLOBALS['TL_CSS']['c4g_jquery_ui'] = 'bundles/con4giscore/vendor/jQuery/ui-themes/themes/base/jquery-ui.css';
+            }
+        }
+    }
+
+    protected function compileJavaScript()
+    {
+        if ($this->loadClearBrowserUrlResources) {
+            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/js/ClearBrowserUrl.js');
+        }
+        if ($this->loadDefaultResources) {
+            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/js/C4GBrickDialog.js');
+        }
+        if ($this->loadConditionalFieldDisplayResources) {
+            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/js/ConditionalFieldDisplay.js');
+        }
+        if ($this->loadMoreButtonResources) {
+            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/js/more-button.js');
+        }
+        if ($this->loadFontAwesomeResources) {
+            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/fontawesome/js/all.js');
+        }
+        if ($this->brickScript) {
+            ResourceLoader::loadJavaScriptResource($this->brickScript, ResourceLoader::JAVASCRIPT, 'c4g_brick_script_'.$this->name);
+        }
+        if ($this->loadTriggerSearchFromOtherModuleResources) {
+            ResourceLoader::loadJavaScriptResource("bundles/con4gisprojects/js/datatable-search-trigger.js", "datatable-search-trigger");
+        }
+        if ($this->loadChosenResources) {
+            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/jQuery/plugins/chosen/chosen.jquery.min.js');
+        }
+        if ($this->loadFileUploadResources) {
+            ResourceLoader::loadJavaScriptResourceTag('var uploadApiUrl = \'con4gis/api/fileUpload/\';');
+        }
+        if ($this->loadCkEditorResources) {
+            $aToolbarButtons = [
+                'Cut',
+                'Copy',
+                'Paste',
+                'PasteText',
+                'PasteFromWord',
+                '-',
+                'Undo',
+                'Redo',
+                'Bold',
+                'Italic',
+                'Underline',
+                'Strike',
+                'Subscript',
+                'Superscript',
+                'Blockquote',
+                '-',
+                'RemoveFormat',
+                'NumberedList',
+                'BulletedList',
+                'Link',
+                'Unlink',
+                'Anchor',
+                'Image',
+                'FileUpload',
+                'Smiley',
+                'TextColor',
+                'BGColor'
+            ];
+
+            ResourceLoader::loadJavaScriptResourceTag('var ckRemovePlugins = \'bbcode\';');
+
+            $foundHeadlement = false;
+            foreach ($GLOBALS['TL_HEAD'] as $key=>$headlement) {
+                if (strpos($headlement, "var ckEditorItems") > 0) {
+                    $foundHeadlement = true;
+                    ResourceLoader::loadJavaScriptResourceTag("var ckEditorItems = ['" .
+                        implode("','", $aToolbarButtons) . "'];",
+                        ResourceLoader::HEAD,
+                        $key);
+                    break;
+                }
+            }
+
+            if (!$foundHeadlement) {
+                ResourceLoader::loadJavaScriptResourceTag("var ckEditorItems = ['" .
+                    implode("','", $aToolbarButtons) . "'];");
+                ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/ckeditor/ckeditor.js');
+            }
+        }
+    }
+
+    protected function compileCss()
+    {
+        if ($this->loadDefaultResources) {
+            ResourceLoader::loadCssResource('bundles/con4gisprojects/css/c4g_brick.css',
+                'c4g_brick_style');
+        }
+        if ($this->brickStyle) {
+            ResourceLoader::loadCssResource($this->brickStyle, 'c4g_brick_style_' . $this->name);
+        }
+        if ($this->loadCkEditorResources) {
+            ResourceLoader::loadCssResource('bundles/con4giscore/vendor/wswgEditor/css/editor.css');
+            ResourceLoader::loadCssResource('bundles/con4giscore/vendor/wswgEditor/css/bbcodes.css');
+        }
+        if ($this->loadDateTimePickerResources) {
+            ResourceLoader::loadCssResource(
+                'bundles/con4giscore/vendor/jQuery/plugins/'.
+                'jquery-simple-datetimepicker/1.13.0/jquery.simple-dtpicker.css',
+                'simple-dtpicker');
+        }
+        if ($this->loadChosenResources) {
+            ResourceLoader::loadCssResource('bundles/con4giscore/vendor/jQuery/plugins/chosen/chosen.css');
+        }
     }
 
     /**
