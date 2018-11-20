@@ -586,7 +586,7 @@ class C4GBrickModuleParent extends \Module
 
     protected function compileJquery() {
         if ($this->strTemplate == 'mod_c4g_brick_simple') {
-            //Kep for backwards compatibility
+            //Keep for backwards compatibility
             //Todo Remove
             C4GJQueryGUI::initializeLibraries(
                 true,
@@ -673,6 +673,7 @@ class C4GBrickModuleParent extends \Module
         }
         if ($this->loadChosenResources) {
             ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/jQuery/plugins/chosen/chosen.jquery.min.js');
+            ResourceLoader::loadJavaScriptResourceTag('jQuery(document).ready(function () {jQuery(".chzn-select").chosen();})');
         }
         if ($this->loadFileUploadResources) {
             ResourceLoader::loadJavaScriptResourceTag('var uploadApiUrl = \'con4gis/api/fileUpload/\';');

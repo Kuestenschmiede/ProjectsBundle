@@ -12,6 +12,7 @@
 
 namespace con4gis\ProjectsBundle\Classes\Dialogs;
 
+use con4gis\CoreBundle\Resources\contao\classes\ResourceLoader;
 use con4gis\GroupsBundle\Resources\contao\models\MemberGroupModel;
 use con4gis\GroupsBundle\Resources\contao\models\MemberModel;
 use con4gis\ProjectsBundle\Classes\Actions\C4GBrickActionType;
@@ -186,11 +187,10 @@ class C4GBrickDialog
         $field->setIgnoreViewType(true); //no editable checking
         $view .= C4GHTMLFactory::lineBreak() .
             $field->getC4GDialogField(null, null, $dialogParams) . C4GHTMLFactory::lineBreak();
-        $GLOBALS['c4g']['brickdialog']['include']['js'][] = 'jQuery(".chzn-select").chosen();';
-        foreach ($GLOBALS['c4g']['brickdialog']['include']['js'] as $string) {
-            $view .= "<script>jQuery(document).ready(function () { $string })</script>";
+        if ($field instanceof C4GSelectField && $field->isChosen()) {
+            ResourceLoader::loadJavaScriptResourceTag("jQuery(document).ready(function () { resizeChosen(\"c4g_".
+                $field->getFieldName() ."_chosen\") })");
         }
-        $view .= "<script>jQuery(document).ready(function () { resizeChosen(\"c4g_". $field->getFieldName() ."_chosen\") })</script>";
         return array
         (
             'dialogtype' => 'html',
@@ -298,7 +298,6 @@ class C4GBrickDialog
         $view = '<div class="' . C4GBrickConst::CLASS_DIALOG .
             ' ui-widget ui-widget-content ui-corner-bottom">'.C4GHTMLFactory::lineBreak();
 
-        $GLOBALS['c4g']['brickdialog']['include']['js'][] = 'jQuery(".chzn-select").chosen();';
         $GLOBALS['c4g']['brickdialog']['include']['js'][] = 'replaceC4GDialog(' . $dialogParams->getId() . ');';
         if ($dialogParams->isWithTabContentCheck()) {
             $GLOBALS['c4g']['brickdialog']['include']['js'][] = 'checkC4GTab();';
