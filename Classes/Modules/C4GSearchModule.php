@@ -29,6 +29,7 @@ class C4GSearchModule extends C4GBrickModuleParent
     protected $databaseType = C4GBrickDatabaseType::NO_DB;
     protected $viewType = C4GBrickViewType::PUBLICFORM;
     protected $languageFile = 'fe_c4g_search_module';
+    protected $loadTriggerSearchFromOtherModuleResources = true;
 
     public function initBrickModule($id)
     {
