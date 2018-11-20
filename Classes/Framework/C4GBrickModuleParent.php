@@ -140,6 +140,21 @@ class C4GBrickModuleParent extends \Module
     protected $loadTriggerSearchFromOtherModuleResources = false;
     protected $loadFileUploadResources = false;
 
+    //JQuery GUI Resource Params
+    protected $jQueryAddCore = true;
+    protected $jQueryAddJquery = true;
+    protected $jQueryAddJqueryUI = true;
+    protected $jQueryUseTree = false;
+    protected $jQueryUseTable = true;
+    protected $jQueryUseHistory = false;
+    protected $jQueryUseTooltip = true;
+    protected $jQueryUseMaps = false;
+    protected $jQueryUseGoogleMaps = false;
+    protected $jQueryUseMapsEditor = false;
+    protected $jQueryUseWswgEditor = false;
+    protected $jQueryUseScrollPane = true;
+    protected $jQueryUsePopups = true;
+
     //Deprecated Params
     protected $brickStyle           = ''; // *DEPRECATED*
     protected $brickScript          = ''; // *DEPRECATED*
@@ -571,38 +586,38 @@ class C4GBrickModuleParent extends \Module
 
     protected function compileJquery() {
         if ($this->strTemplate == 'mod_c4g_brick_simple') {
-            // initialize used Javascript Libraries and CSS files
+            //Kep for backwards compatibility
+            //Todo Remove
             C4GJQueryGUI::initializeLibraries(
-                true,                     // add c4gJQuery GUI Core LIB
-                true,                     // add JQuery
-                false,                     // add JQuery UI
-                false,                    // add Tree Control
-                true,                     // add Table Control
-                false,                     // add history.js
-                true,                      // add simple tooltip
-                true, 						  // $useMaps=false,
-                false, 						  // $useGoogleMaps=false,
-                true, 						  // $useMapsEditor=false,
-                true, 						  // $useWswgEditor=false,
-                true, 						  // $useScrollpane=false
-                true                        //$usePopups
+                true,
+                true,
+                false,
+                false,
+                true,
+                false,
+                true,
+                true,
+                false,
+                true,
+                true,
+                true,
+                true
             );
         } else {
-            // initialize used Javascript Libraries and CSS files
             C4GJQueryGUI::initializeLibraries(
-                true,                     // add c4gJQuery GUI Core LIB
-                true,                     // add JQuery
-                true,                     // add JQuery UI
-                false,                    // add Tree Control
-                true,                     // add Table Control
-                false,                     // add history.js
-                true,                      // add simple tooltip
-                true, 						  // $useMaps=false,
-                false, 						  // $useGoogleMaps=false,
-                true, 						  // $useMapsEditor=false,
-                true, 						  // $useWswgEditor=false,
-                true, 						  // $useScrollpane=false
-                true                        //$usePopups
+                $this->jQueryAddCore,
+                $this->jQueryAddJquery,
+                $this->jQueryAddJqueryUI,
+                $this->jQueryUseTree,
+                $this->jQueryUseTable,
+                $this->jQueryUseHistory,
+                $this->jQueryUseTooltip,
+                $this->jQueryUseMaps,
+                $this->jQueryUseGoogleMaps,
+                $this->jQueryUseMapsEditor,
+                $this->jQueryUseWswgEditor,
+                $this->jQueryUseScrollPane,
+                $this->jQueryUsePopups
             );
 
 
