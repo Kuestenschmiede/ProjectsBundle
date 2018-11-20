@@ -669,7 +669,7 @@ class C4GBrickModuleParent extends \Module
             ResourceLoader::loadJavaScriptResource($this->brickScript, ResourceLoader::JAVASCRIPT, 'c4g_brick_script_'.$this->name);
         }
         if ($this->loadTriggerSearchFromOtherModuleResources) {
-            ResourceLoader::loadJavaScriptResource("bundles/con4gisprojects/js/datatable-search-trigger.js", "datatable-search-trigger");
+            ResourceLoader::loadJavaScriptResource("bundles/con4gisprojects/js/datatable-search-trigger.js", ResourceLoader::JAVASCRIPT,"datatable-search-trigger");
         }
         if ($this->loadChosenResources) {
             ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/jQuery/plugins/chosen/chosen.jquery.min.js');
