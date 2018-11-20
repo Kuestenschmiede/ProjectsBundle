@@ -541,16 +541,12 @@ function C4GCheckCondition(field)
                             if (jQuery(field.children[o]).hasClass('chzn-select')) {
                                 jQuery(field.children[o]).removeClass("chzn-select");
                                 jQuery(field.children[o]).addClass("chzn-select-disabled");
-                                // jQuery(field.children[o]).style = "display:none";
-                                // jQuery(field.children[o]).trigger('chosen:updated');
                             }
                             jQuery(field.children[o]).hide();
                         } else {
                             if (jQuery(field.children[o]).hasClass('chzn-select-disabled')) {
                                 jQuery(field.children[o]).removeClass("chzn-select-disabled");
                                 jQuery(field.children[o]).addClass("chzn-select");
-                                // jQuery(field.children[o]).style = "display:none";
-                                // jQuery(field.children[o]).trigger('chosen:updated');
                                 jQuery(field.children[o]).hide();
                             }
                         }
@@ -563,27 +559,6 @@ function C4GCheckCondition(field)
         }
 
     }
-
-    //$chosenContainer = document.getElementsByClassName("chosen-container");
-    // if ($chosenContainer) {
-    //
-    //     if (chosen) {
-    //         jQuery(".chzn-select").chosen();
-    //     }
-    //
-    //     for(i = 0; i < $chosenContainer.length; i++)
-    //     {
-    //         if ($chosenContainer[i].style.width != "0px") {
-    //             jQuery($chosenContainer[i]).show();
-    //
-    //         } else {
-    //             jQuery($chosenContainer[i]).hide();
-    //         }
-    //     }
-    //
-    //
-    // }
-    //jQuery(".chzn-select").chosen("destroy").chosen();
 }
 
 /**
@@ -594,7 +569,6 @@ function C4GCheckCondition(field)
 function C4GCheckMethodswitchCondition(field)
 {
     var fieldNames = field.dataset.conditionName.split("~");
-    //var fieldValues = field.dataset.conditionValue.split("~");
     var fieldFunction = field.dataset.conditionFunction.split("~");
 
     var currentName;
@@ -615,8 +589,6 @@ function C4GCheckMethodswitchCondition(field)
                         if (jQuery(field.children[o]).hasClass('chzn-select')) {
                             jQuery(field.children[o]).removeClass("chzn-select");
                             jQuery(field.children[o]).addClass("chzn-select-disabled");
-                            // jQuery(field.children[o]).style = "display:none";
-                            // jQuery(field.children[o]).trigger('chosen:updated');
                         }
                         jQuery(field.children[o]).removeAttr("selected");
                         jQuery(field.children[o]).removeAttr("required");
@@ -633,8 +605,6 @@ function C4GCheckMethodswitchCondition(field)
                                 if (jQuery(field.children[o].children[p]).hasClass('chzn-select')) {
                                     jQuery(field.children[o].children[p]).removeClass("chzn-select");
                                     jQuery(field.children[o].children[p]).addClass("chzn-select-disabled");
-                                    // jQuery(field.children[o].children[p]).style = "display:none";
-                                    // jQuery(field.children[o].children[p]).trigger('chosen:updated');
                                 }
                                 jQuery(field.children[o].children[p]).removeAttr("selected");
                                 jQuery(field.children[o].children[p]).removeAttr("required");
@@ -667,8 +637,6 @@ function C4GCheckMethodswitchCondition(field)
                             if (jQuery(field.children[o]).hasClass('chzn-select')) {
                                 jQuery(field.children[o]).removeClass("chzn-select");
                                 jQuery(field.children[o]).addClass("chzn-select-disabled");
-                                // jQuery(field.children[o]).style = "display:none";
-                                // jQuery(field.children[o]).trigger('chosen:updated');
                             }
                             jQuery(field.children[o]).removeAttr("selected");
                             jQuery(field.children[o]).removeAttr("required");
@@ -677,8 +645,6 @@ function C4GCheckMethodswitchCondition(field)
                             if (jQuery(field.children[o]).hasClass('chzn-select-disabled')) {
                                 jQuery(field.children[o]).removeClass("chzn-select-disabled");
                                 jQuery(field.children[o]).addClass("chzn-select");
-                                // jQuery(field.children[o]).style = "display:none";
-                                // jQuery(field.children[o]).trigger('chosen:updated');
                                 jQuery(field.children[o]).hide();
                             }
                         }
@@ -697,8 +663,6 @@ function C4GCheckMethodswitchCondition(field)
                                     if (jQuery(field.children[o].children[p]).hasClass('chzn-select')) {
                                         jQuery(field.children[o].children[p]).removeClass("chzn-select");
                                         jQuery(field.children[o].children[p]).addClass("chzn-select-disabled");
-                                        // jQuery(field.children[o].children[p]).style = "display:none";
-                                        // jQuery(field.children[o].children[p]).trigger('chosen:updated');
                                     }
                                     jQuery(field.children[o].children[p]).removeAttr("selected");
                                     jQuery(field.children[o].children[p]).removeAttr("required");
@@ -707,8 +671,6 @@ function C4GCheckMethodswitchCondition(field)
                                     if (jQuery(field.children[o].children[p]).hasClass('chzn-select-disabled')) {
                                         jQuery(field.children[o].children[p]).removeClass("chzn-select-disabled");
                                         jQuery(field.children[o].children[p]).addClass("chzn-select");
-                                        // jQuery(field.children[o].children[p]).style = "display:none";
-                                        // jQuery(field.children[o].children[p]).trigger('chosen:updated');
                                         jQuery(field.children[o].children[p]).hide();
                                     }
                                 }
@@ -722,25 +684,6 @@ function C4GCheckMethodswitchCondition(field)
         }
 
     }
-
-    // $chosenContainer = document.getElementsByClassName("chosen-container");
-    // if ($chosenContainer) {
-    //
-    //     if (chosen) {
-    //         jQuery(".chzn-select").chosen();
-    //     }
-    //
-    //     for(i = 0; i < $chosenContainer.length; i++)
-    //     {
-    //         if ($chosenContainer[i].style.width != "0px") {
-    //             jQuery($chosenContainer[i]).show();
-    //         } else {
-    //             jQuery($chosenContainer[i]).hide();
-    //         }
-    //     }
-    //
-    // }
-    //(".chzn-select").chosen("destroy").chosen();
 }
 
 /**
