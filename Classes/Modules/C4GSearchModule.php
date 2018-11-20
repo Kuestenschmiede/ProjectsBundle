@@ -30,6 +30,8 @@ class C4GSearchModule extends C4GBrickModuleParent
     protected $viewType = C4GBrickViewType::PUBLICFORM;
     protected $languageFile = 'fe_c4g_search_module';
     protected $loadTriggerSearchFromOtherModuleResources = true;
+    protected $jQueryUseScrollPane = false;
+    protected $jQueryUseTable = false;
 
     public function initBrickModule($id)
     {
