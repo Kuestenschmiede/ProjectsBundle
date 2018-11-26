@@ -911,7 +911,7 @@ class C4GSubDialogField extends C4GBrickField
     /**
      * @return C4GCallback
      */
-    public function getDeleteCondition(): C4GCallback
+    public function getDeleteCondition(): ?C4GCallback
     {
         return $this->deleteCondition;
     }
