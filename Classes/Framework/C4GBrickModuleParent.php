@@ -184,6 +184,14 @@ class C4GBrickModuleParent extends \Module
     }
 
     /**
+     * module class function after closing
+     */
+    public function onShowListAction()
+    {
+        //to run code in your module class after closing
+    }
+
+    /**
      * @param $type
      */
     protected function getIdByType($type) {

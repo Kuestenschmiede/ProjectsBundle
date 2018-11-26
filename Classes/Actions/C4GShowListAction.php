@@ -59,6 +59,10 @@ class C4GShowListAction extends C4GBrickDialogAction
             $groupCount = count(C4GBrickCommon::getGroupListForBrick($memberId, $brickKey));
         }
 
+        if ($this->module) {
+            $this->module->onShowListAction();
+        }
+
         $group_headline = '';
         $project_headline = '';
         $parent_headline = '';
