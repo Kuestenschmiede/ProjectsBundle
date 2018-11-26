@@ -40,10 +40,13 @@ class C4GSearchModule extends C4GBrickModuleParent
         $this->dialogParams->setWithoutGuiHeader(true);
 
         $this->dialogParams->addButton(
-            C4GBrickConst::BUTTON_CLICK, $this->searchButtonCaption,
+            C4GBrickConst::BUTTON_CLICK,
+            $this->searchButtonCaption,
             true,
             true,
-            C4GBrickActionType::ACTION_BUTTONCLICK.':redirectToList'
+            C4GBrickActionType::ACTION_BUTTONCLICK.':redirectToList',
+            '',
+            true
         );
     }
 
