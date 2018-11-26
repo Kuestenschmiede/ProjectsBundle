@@ -133,7 +133,7 @@ class C4GBrickModuleParent extends \Module
     protected $loadCkEditorResources = false;
     protected $loadDateTimePickerResources = false;
     protected $loadChosenResources = false;
-    protected $loadClearBrowserUrlResources = true;
+    protected $loadClearBrowserUrlResources = false;
     protected $loadConditionalFieldDisplayResources = true;
     protected $loadMoreButtonResources = false;
     protected $loadFontAwesomeResources = false;
