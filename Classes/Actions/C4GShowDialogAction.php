@@ -137,7 +137,10 @@ class C4GShowDialogAction extends C4GBrickDialogAction
                     );
                     $caption = $arrCaptions[$parentId];
                 }
-                $parent_headline = '<div class="c4g_brick_headtext"> '.$dialogParams->getParentCaption().': <b>'.$caption.'</b></div>';
+
+                if ($caption && $dialogParams->getParentCaption()) {
+                    $parent_headline = '<div class="c4g_brick_headtext"> '.$dialogParams->getParentCaption().': <b>'.$caption.'</b></div>';
+                }
             }
         }
 
@@ -387,10 +390,12 @@ class C4GShowDialogAction extends C4GBrickDialogAction
             $headtext = $headtext . $group_headline . $parent_headline;
         } else if ($group_headline){
             $headtext = $headtext.$group_headline;
-        } else if (($group_headline) && ($parent_headline)) {
-            $headtext = $headtext.$group_headline . $parent_headline;
+        } else if (($group_headline) &! ($parent_headline)) {
+            $headtext = $headtext.$parent_headline;
         } else if ($group_headline) {
             $headtext = $headtext.$group_headline;
+        } else if ($parent_headline) {
+            $headtext = $headtext.$parent_headline;
         }
         if ($additionalHeadtext) {
             $additionalHeadtext = '<div class="c4g_brick_headtext">' . $additionalHeadtext . '</div>';
