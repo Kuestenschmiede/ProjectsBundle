@@ -893,7 +893,7 @@ class C4GSubDialogField extends C4GBrickField
     /**
      * @return C4GCallback
      */
-    public function getInsertNewCondition(): C4GCallback
+    public function getInsertNewCondition(): ?C4GCallback
     {
         return $this->insertNewCondition;
     }

@@ -1847,7 +1847,7 @@ class C4GBrickDialogParams
     /**
      * @return C4GCallback
      */
-    public function getInsertNewCondition(): C4GCallback
+    public function getInsertNewCondition(): ?C4GCallback
     {
         return $this->insertNewCondition;
     }
