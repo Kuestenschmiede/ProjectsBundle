@@ -385,13 +385,10 @@ class C4GShowDialogAction extends C4GBrickDialogAction
         }
         $headlineTag = $dialogParams->getHeadlineTag();
 
+        //ToDo rebuild headline meachnism (list && dialog)
         $headtext = '<'.$headlineTag.'>'.$dialogParams->getHeadline().'</'.$headlineTag.'>';
         if ( ($group_headline) && ($parent_headline)) {
             $headtext = $headtext . $group_headline . $parent_headline;
-        } else if ($group_headline){
-            $headtext = $headtext.$group_headline;
-        } else if (($group_headline) &! ($parent_headline)) {
-            $headtext = $headtext.$parent_headline;
         } else if ($group_headline) {
             $headtext = $headtext.$group_headline;
         } else if ($parent_headline) {

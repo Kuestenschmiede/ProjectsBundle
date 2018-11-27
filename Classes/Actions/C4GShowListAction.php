@@ -431,6 +431,9 @@ class C4GShowListAction extends C4GBrickDialogAction
             $content = $dialogParams->getC4gMap();
         }
         $headlineTag = $dialogParams->getHeadlineTag();
+
+        //ToDo rebuild headline meachnism (list && dialog)
+
         // ignore default headlines if set
         if ($listParams->isCustomHeadline() && $list_headline) {
             $headtext = "";
