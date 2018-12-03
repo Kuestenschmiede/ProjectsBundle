@@ -20,14 +20,11 @@ use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldCompare;
 class C4GCKEditorField extends C4GBrickField
 {
     /**
-     * @param $field
+     * @param C4GBrickField[] $fieldList
      * @param $data
-     * @return string
-     */
-    /**
-     * @param $field
-     * @param $data
-     * @return string
+     * @param C4GBrickDialogParams $dialogParams
+     * @param array $additionalParams
+     * @return array|string
      */
     public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = array())
     {
