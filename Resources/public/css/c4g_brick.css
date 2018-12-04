@@ -916,8 +916,13 @@ a.c4g_tile_button:hover {
     margin-bottom: 20px;
 }
 
+.c4g_sub_dialog_remove_button {
+    float: right;
+}
+
 .c4g_sub_dialog_container {
     margin-bottom: 20px;
+    clear: both;
 }
 
 .ui-button {
