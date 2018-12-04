@@ -1139,7 +1139,12 @@ function addSubDialog(button, event) {
     var newElement = document.createElement('div');
     newElement.classList.add('c4g_sub_dialog_set');
     newElement.innerHTML = string;
-    var child = target.appendChild(newElement);
+    var child;
+    if (target.firstChild !== null) {
+        child = target.insertBefore(newElement, target.firstChild);
+    } else {
+        child = target.appendChild(newElement);
+    }
     var inputs = child.getElementsByTagName('input');
     // console.log(inputs);
     var j = 0;
