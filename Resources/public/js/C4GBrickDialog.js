@@ -1117,7 +1117,7 @@ function removeSubDialog(button, event) {
     if (typeof(event) !== 'undefined') {
         event.stopPropagation();
     }
-    showConfirmationDialog(button.innerHTML, 'Bestätigung', 'Ja', 'Nein',  function() {
+    showConfirmationDialog(button.dataset.message, 'Bestätigung', 'Ja', 'Nein',  function() {
         while ((button) && (button.parentNode) && (button.parentNode.firstChild)) {
             button.parentNode.removeChild(button.parentNode.firstChild);
         }

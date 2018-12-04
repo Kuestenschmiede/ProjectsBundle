@@ -916,6 +916,18 @@ a.c4g_tile_button:hover {
     margin-bottom: 20px;
 }
 
+.c4g_sub_dialog_remove_button {
+    right: -85%;
+}
+
+.c4g_right_neg_85 {
+    right: -85%;
+}
+
+.c4g_right_neg_99 {
+    right: -99%;
+}
+
 .c4g_sub_dialog_container {
     margin-bottom: 20px;
 }

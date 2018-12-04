@@ -30,6 +30,8 @@ class C4GSubDialogField extends C4GBrickField
     private $addButton = '';
     private $addButtonLabel = '';
     private $removeButton = '';
+    private $removeButtonClass = 'c4g_right_neg_99';
+    private $removeButtonMessage = '';
     private $editButton = '';
     private $databaseType = C4GBrickDatabaseType::DCA_MODEL;
     private $entityClass = '';
@@ -124,7 +126,9 @@ class C4GSubDialogField extends C4GBrickField
 //                $editButtonHtml = '';
 //            }
 //            $fieldsHtml .= "$editButtonHtml<span class='ui-button ui-corner-all c4g_sub_dialog_remove_button' onclick='removeSubDialog(this,event);'>$removeButton</span>";
-            $fieldsHtml .= "<span class='ui-button ui-corner-all c4g_sub_dialog_remove_button' onclick='removeSubDialog(this,event);'>$removeButton</span>";
+            $removeButtonClass = $this->removeButtonClass;
+            $message = $this->removeButtonMessage;
+            $fieldsHtml .= "<span class='ui-button ui-corner-all c4g_sub_dialog_remove_button $removeButtonClass' onclick='removeSubDialog(this,event);' data-message='$message'>$removeButton</span>";
         }
 //        $fieldsHtml = str_replace('"', "'", $fieldsHtml);
 
@@ -232,7 +236,9 @@ class C4GSubDialogField extends C4GBrickField
                                 $editButtonHtml = '';
                             }
                             if ($this->allowDelete) {
-                                $deleteButtonHtml = "<span class='ui-button ui-corner-all c4g_sub_dialog_remove_button' onclick='removeSubDialog(this,event);'>$removeButton</span>";
+                                $deleteButtonClass = $this->removeButtonClass;
+                                $message = $this->removeButtonMessage;
+                                $deleteButtonHtml = "<span class='ui-button ui-corner-all c4g_sub_dialog_remove_button $deleteButtonClass' onclick='removeSubDialog(this,event)'; data-message='$message'>$removeButton</span>";
                             } else {
                                 $deleteButtonHtml = '';
                             }
@@ -942,5 +948,40 @@ class C4GSubDialogField extends C4GBrickField
     {
         $this->orderBy = $orderBy;
         return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRemoveButtonClass(): string
+    {
+        return $this->removeButtonClass;
+    }
+
+    /**
+     * @param string $removeButtonClass
+     * @return $this
+     * @return $this
+     */
+    public function setRemoveButtonClass(string $removeButtonClass)
+    {
+        $this->removeButtonClass = $removeButtonClass;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRemoveButtonMessage(): string
+    {
+        return $this->removeButtonMessage;
+    }
+
+    /**
+     * @param string $removeButtonMessage
+     */
+    public function setRemoveButtonMessage(string $removeButtonMessage)
+    {
+        $this->removeButtonMessage = $removeButtonMessage;
     }
 }
