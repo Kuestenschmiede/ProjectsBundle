@@ -879,15 +879,10 @@ a.c4g_tile_button:hover {
 .c4g_sub_dialog {
     display: block;
     margin-left: 2.5%;
-    margin-right: 2.5%;
 }
 
-/*.c4g_sub_dialog_add_button {*/
-    /*margin-left: 10px;*/
-/*}*/
-
-.c4g_sub_dialog_set div {
-    /*width: 90%;*/
+.c4g_sub_dialog_set {
+    clear: both;
 }
 
 .c4g_sub_dialog_set_uneditable .c4g_sub_dialog_add_button {
@@ -916,23 +911,6 @@ a.c4g_tile_button:hover {
     margin-bottom: 20px;
 }
 
-.c4g_sub_dialog_remove_button {
-    right: -85%;
-}
-
-.c4g_right_neg_85 {
-    right: -85%;
-}
-
-.c4g_right_neg_99 {
-    right: -99%;
-}
-
-.c4g_sub_dialog_container {
-    margin-bottom: 20px;
-    clear: both;
-}
-
 .ui-button {
     cursor: pointer;
 }
@@ -948,4 +926,14 @@ th.nomouseevents .DataTables_sort_icon {
 .c4g_preview_image {
     max-width: 100px;
     max-height: 100px;
+}
+
+.c4g_sub_dialog_remove_button {
+    margin-right: 2.5% !important;
+    float: right;
+}
+
+.c4g_sub_dialog_container {
+    margin-bottom: 20px;
+    clear: both;
 }
