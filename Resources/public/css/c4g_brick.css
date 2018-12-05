@@ -364,7 +364,15 @@ div.cg_block {
     font-size: inherit;
 }
 .c4g_deleteButton:before {
-    content: "\f00d";
+    background: #f90;
+    color: #fff;
+    font-family: 'Helvetica', 'Arial', sans-serif;
+    font-size: 2em;
+    font-weight: bold;
+    text-align: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 5px;
 }
 #c4g_brick .c4gGuiContentWrapper,
 #c4g_brick .c4gGuiNavigation,

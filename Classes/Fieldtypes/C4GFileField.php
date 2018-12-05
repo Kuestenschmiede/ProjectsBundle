@@ -99,7 +99,7 @@ class C4GFileField extends C4GBrickField
         }
 
         $file_link = '<label id="c4g_uploadLink_'.$fieldName.'" class="c4g_uploadLink"></label>' .
-            '<button id="c4g_deleteButton_'.$fieldName.'" class="c4g_deleteButton"' . $buttonRequired . ' onClick="deleteC4GBrickFile(\'' . fieldName.'\',\''.$targetField . '\')" style="display:none"></button>';
+            '<button id="c4g_deleteButton_'.$fieldName.'" class="c4g_deleteButton"' . $buttonRequired . ' onClick="deleteC4GBrickFile(\'' . fieldName.'\',\''.$targetField . '\')" style="display:none">X</button>';
 
         if ($fileObject) {
             $file_uuid  = $fileObject->uuid;
