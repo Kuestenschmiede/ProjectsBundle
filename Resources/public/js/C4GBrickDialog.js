@@ -1174,7 +1174,7 @@ function addSubDialog(button, event) {
         k += 1;
     }
 
-    var butts = child.getElementsByTagName('button');
+    var butts = child.getElementsByClassName('js-sub-dialog-button');
     // console.log(inputs);
     var l = 0;
     while (l < butts.length) {

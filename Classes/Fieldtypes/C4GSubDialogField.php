@@ -128,7 +128,7 @@ class C4GSubDialogField extends C4GBrickField
 //            $fieldsHtml .= "$editButtonHtml<span class='ui-button ui-corner-all c4g_sub_dialog_remove_button' onclick='removeSubDialog(this,event);'>$removeButton</span>";
             $removeButtonClass = $this->removeButtonClass;
             $message = $this->removeButtonMessage;
-            $fieldsHtml .= "<span class='ui-button ui-corner-all c4g_sub_dialog_remove_button $removeButtonClass' onclick='removeSubDialog(this,event);' data-message='$message' title='$message'>$removeButton</span>";
+            $fieldsHtml .= "<span class='ui-button ui-corner-all c4g_sub_dialog_remove_button js-sub-dialog-button $removeButtonClass' onclick='removeSubDialog(this,event);' data-message='$message' title='$message'>$removeButton</span>";
         }
 //        $fieldsHtml = str_replace('"', "'", $fieldsHtml);
 
@@ -231,14 +231,14 @@ class C4GSubDialogField extends C4GBrickField
                         if ($this->showButtons && !C4GBrickView::isWithoutEditing($dialogParams->getViewType())) {
                             if ($editButton) {
                                 $captionFinish = $this->finishEditingCaption;
-                                $editButtonHtml = "<span class='ui-button ui-corner-all c4g_sub_dialog_edit_button' onclick='editSubDialog(this,event);' data-fields='$dataFieldNames'  data-captionFinishEditing='$captionFinish' data-captionBeginEditing='$editButton'>$editButton</span>";
+                                $editButtonHtml = "<span class='ui-button ui-corner-all c4g_sub_dialog_edit_button js-sub-dialog-button' onclick='editSubDialog(this,event);' data-fields='$dataFieldNames'  data-captionFinishEditing='$captionFinish' data-captionBeginEditing='$editButton'>$editButton</span>";
                             } else {
                                 $editButtonHtml = '';
                             }
                             if ($this->allowDelete) {
                                 $deleteButtonClass = $this->removeButtonClass;
                                 $message = $this->removeButtonMessage;
-                                $deleteButtonHtml = "<span class='ui-button ui-corner-all c4g_sub_dialog_remove_button $deleteButtonClass' onclick='removeSubDialog(this,event)'; data-message='$message' title='$message'>$removeButton</span>";
+                                $deleteButtonHtml = "<span class='ui-button ui-corner-all c4g_sub_dialog_remove_button js-sub-dialog-button $deleteButtonClass' onclick='removeSubDialog(this,event)'; data-message='$message' title='$message'>$removeButton</span>";
                             } else {
                                 $deleteButtonHtml = '';
                             }
@@ -259,7 +259,7 @@ class C4GSubDialogField extends C4GBrickField
             $html .= "<template id='c4g_$name" . "_template" . "'>$fieldsHtml</template>";
             if ($this->showButtons && !C4GBrickView::isWithoutEditing($dialogParams->getViewType())) {
 //                $title = '';
-                $this->setAdditionalLabel("<span class='ui-button ui-corner-all c4g_sub_dialog_add_button' onclick='addSubDialog(this,event);' data-template='c4g_$name" . "_template" . "' data-target='c4g_dialog_$name' data-field='$name' data-index='$numLoadedDataSets' data-wildcard='" . $this->wildcard . "'>$addButton</span><span class='c4g_sub_dialog_add_button_label'>$this->addButtonLabel</span>");
+                $this->setAdditionalLabel("<span class='ui-button ui-corner-all c4g_sub_dialog_add_button js-sub-dialog-button' onclick='addSubDialog(this,event);' data-template='c4g_$name" . "_template" . "' data-target='c4g_dialog_$name' data-field='$name' data-index='$numLoadedDataSets' data-wildcard='" . $this->wildcard . "'>$addButton</span><span class='c4g_sub_dialog_add_button_label'>$this->addButtonLabel</span>");
             }
             $html .= $this->addC4GFieldLabel("c4g_$name", $title, $this->isMandatory(), $this->createConditionData($fieldList, $data), $fieldList, $data, $dialogParams);
             $html .= "<div class='c4g_sub_dialog' id='c4g_dialog_$name'>";
