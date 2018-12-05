@@ -589,7 +589,7 @@ class C4GShowDialogAction extends C4GBrickDialogAction
         return $element;
     }
 
-    public function loadC4GSubFieldData($fieldList, $element, $foreignKey, $superField = null, $superFieldCount = -1) {
+    public function loadC4GSubFieldData($fieldList, $element, $foreignKey, $superField = null, $superFieldCount = -1, $superSuperField = null, $superSuperFieldCount = -1) {
         $count = 0;
         foreach ($fieldList as $field) {
             if ($field instanceof C4GSubDialogField) {
@@ -652,13 +652,17 @@ class C4GShowDialogAction extends C4GBrickDialogAction
                         foreach ($value as $key => $val) {
                             if ($superField) {
                                 $name = $superField->getFieldName().$superField->getDelimiter().$field->getFieldName().$superField->getDelimiter().$superFieldCount;
+                                if ($superSuperField) {
+                                    $name = $superField->getFieldName().$superSuperField->getDelimiter().$superSuperFieldCount.$superField->getDelimiter().$field->getFieldName().$superField->getDelimiter().$superFieldCount;
+                                    $name = $superSuperField->getFieldName().$superSuperField->getDelimiter().$name;
+                                }
                             } else {
                                 $name = $field->getFieldName();
                             }
                             $index = $name.$field->getDelimiter().$key.$field->getDelimiter().$count;
                             $element->$index = $val;
                             if ($key === 'id') {
-                                $element = $this->loadC4GSubFieldData($subFields, $element, $val, $field, $count);
+                                $element = $this->loadC4GSubFieldData($subFields, $element, $val, $field, $count, $superField, $superFieldCount);
                             }
                         }
                     }
