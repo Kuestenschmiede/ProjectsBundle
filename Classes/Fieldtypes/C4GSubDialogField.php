@@ -128,7 +128,7 @@ class C4GSubDialogField extends C4GBrickField
 //            $fieldsHtml .= "$editButtonHtml<span class='ui-button ui-corner-all c4g_sub_dialog_remove_button' onclick='removeSubDialog(this,event);'>$removeButton</span>";
             $removeButtonClass = $this->removeButtonClass;
             $message = $this->removeButtonMessage;
-            $fieldsHtml .= "<span class='ui-button ui-corner-all c4g_sub_dialog_remove_button $removeButtonClass' onclick='removeSubDialog(this,event);' data-message='$message'>$removeButton</span>";
+            $fieldsHtml .= "<span class='ui-button ui-corner-all c4g_sub_dialog_remove_button $removeButtonClass' onclick='removeSubDialog(this,event);' data-message='$message' title='$message'>$removeButton</span>";
         }
 //        $fieldsHtml = str_replace('"', "'", $fieldsHtml);
 
@@ -238,7 +238,7 @@ class C4GSubDialogField extends C4GBrickField
                             if ($this->allowDelete) {
                                 $deleteButtonClass = $this->removeButtonClass;
                                 $message = $this->removeButtonMessage;
-                                $deleteButtonHtml = "<span class='ui-button ui-corner-all c4g_sub_dialog_remove_button $deleteButtonClass' onclick='removeSubDialog(this,event)'; data-message='$message'>$removeButton</span>";
+                                $deleteButtonHtml = "<span class='ui-button ui-corner-all c4g_sub_dialog_remove_button $deleteButtonClass' onclick='removeSubDialog(this,event)'; data-message='$message' title='$message'>$removeButton</span>";
                             } else {
                                 $deleteButtonHtml = '';
                             }
