@@ -303,24 +303,24 @@ function handleC4GBrickFile(fileList, path, uploadURL, deleteURL, fieldName, tar
 }
 
 /**
- * @param uploadURL
- * @param deleteURL
- * @param fieldName
- * @param targetField
+ * @param button
  */
-function deleteC4GBrickFile(uploadURL, deleteURL, fieldName, targetField) {
-    document.getElementById(deleteURL+"_"+fieldName).value =  document.getElementById(uploadURL+"_"+fieldName).value;
-    document.getElementById(uploadURL+"_"+fieldName).value = "";
-    document.getElementById("c4g_uploadLink_"+fieldName).innerHTML = "";
-    if (document.getElementById("c4g_deleteButton_"+fieldName)) {
-        document.getElementById("c4g_deleteButton_"+fieldName).style = "display:none";
-    }
+function deleteC4GBrickFile(button) {
+    var inputFields = button.parentNode.getElementsByTagName('input');
+    var upload = inputFields.item(0);
+    var del = inputFields.item(1);
+    /*var file = inputFields.item(2);*/
+    var link = button.parentNode.getElementsByClassName('c4g_uploadLink').item(0);
+    del.value = upload.value;
+    upload.value = "";
+    link.innerHTML = "";
+    button.style.display = "none";
 
-    if (targetField) {
+    /*if (targetField) {
         if (document.getElementsByClassName("c4g_"+targetField+"_src")[0]) {
             document.getElementsByClassName("c4g_"+targetField+"_src")[0].getElementsByTagName("img")[0].src = xhr.responseText;
         }
-    }
+    }*/
 }
 
 /**
