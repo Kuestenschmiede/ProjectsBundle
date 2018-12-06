@@ -30,7 +30,6 @@ class C4GTextareaField extends C4GBrickField
         $required = $this->generateRequiredString($data, $dialogParams);
         $value = $this->generateInitialValue($data);
         $result = '';
-        $maxlength = $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['MAX_LENGTH']. $this->getMaxLength(). ']';
 
         if (!($this->getSize())) {
             $size = 15;
@@ -39,13 +38,17 @@ class C4GTextareaField extends C4GBrickField
         }
         //onkeydown="if (event.keyCode == 13) { String.fromCharCode(13); return false; }"
 
-
         if ($this->isShowIfEmpty() || !empty(trim($value))) {
 
             $condition = $this->createConditionData($fieldList, $data);
+            if ($this->getMaxLength() > 0)  {
+                $maxlength = 'maxlength="'.$this->getMaxLength().'"';
+            } else {
+                $maxlength = '';
+            }
             $result =
                 $this->addC4GField($condition,$dialogParams,$fieldList,$data,
-                '<textarea ' . $required . ' ' . $condition['conditionPrepare'] . ' id="' . $id . '" class="formdata ' . $id . ' ui-corner-all" name="' . $this->getFieldName() . '" cols="80" rows="' . $size . '" maxlength="' . $this->getMaxLength(). '" >' . $value . ' </textarea>');
+                '<textarea ' . $required . ' ' . $condition['conditionPrepare'] . ' id="' . $id . '" class="formdata ' . $id . ' ui-corner-all" name="' . $this->getFieldName() . '" cols="80" rows="' . $size . '"' .$maxlength. '" >' . $value . ' </textarea>');
         }
 
         return $result;
@@ -82,5 +85,4 @@ class C4GTextareaField extends C4GBrickField
         $fieldName = $this->getFieldName();
         return $fieldTitle . '<div class="c4g_tile value">' . $element->$fieldName . '</div>';
     }
-
 }

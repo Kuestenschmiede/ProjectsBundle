@@ -94,7 +94,7 @@ abstract class C4GBrickField
     private $longitudeField = 'loc_geox'; //Coordinate for geopicker field
     private $mandatory = false; //mandatory field?
     private $max = 99999; //max value
-    private $maxLength = 1024; //max length
+    private $maxLength = 0; //max length
     private $min = 0; //min value
     private $notificationField = false; // for Notification Center
     private $options = array(); //Options for select boxes, radio groups, ...
