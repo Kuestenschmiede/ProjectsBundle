@@ -119,7 +119,6 @@ class C4GBrickModuleParent extends \Module
     protected $permalink_field      = null; //using another field for permalink (default: id field)
     protected $permalink_name       = null; //for setting an own get param
     protected $permalinkModelClass  = null; //if table filled by modelListFunction
-    protected $loadUrlClear         = false; // if true, a js script will be loaded and trim the urls to remove the states
     protected $withPermissionCheck  = true; // can be set to false to avoid the table permission check
 
     //UUID params
