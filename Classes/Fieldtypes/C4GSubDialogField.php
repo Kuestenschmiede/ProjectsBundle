@@ -52,6 +52,7 @@ class C4GSubDialogField extends C4GBrickField
     private $insertNewCondition = null;
     private $deleteCondition = null;
     private $orderBy = '';
+    private $insertBefore = false;
 
     public function __construct() {
         $this->database = \Database::getInstance();
@@ -257,9 +258,10 @@ class C4GSubDialogField extends C4GBrickField
         if (($this->showButtons && !C4GBrickView::isWithoutEditing($dialogParams->getViewType())) || $loadedDataHtml) {
             $html = "<div class='c4g_sub_dialog_container' id='c4g_$name'>";
             $html .= "<template id='c4g_$name" . "_template" . "'>$fieldsHtml</template>";
+            $insert = $this->insertBefore === true ? 'before' : 'after';
             if ($this->showButtons && !C4GBrickView::isWithoutEditing($dialogParams->getViewType())) {
 //                $title = '';
-                $this->setAdditionalLabel("<span class='ui-button ui-corner-all c4g_sub_dialog_add_button js-sub-dialog-button' onclick='addSubDialog(this,event);' data-template='c4g_$name" . "_template" . "' data-target='c4g_dialog_$name' data-field='$name' data-index='$numLoadedDataSets' data-wildcard='" . $this->wildcard . "'>$addButton</span><span class='c4g_sub_dialog_add_button_label'>$this->addButtonLabel</span>");
+                $this->setAdditionalLabel("<span class='ui-button ui-corner-all c4g_sub_dialog_add_button js-sub-dialog-button' onclick='addSubDialog(this,event);' data-template='c4g_$name" . "_template" . "' data-target='c4g_dialog_$name' data-field='$name' data-index='$numLoadedDataSets' data-wildcard='" . $this->wildcard . "' data-insert='$insert'>$addButton</span><span class='c4g_sub_dialog_add_button_label'>$this->addButtonLabel</span>");
             }
             $html .= $this->addC4GFieldLabel("c4g_$name", $title, $this->isMandatory(), $this->createConditionData($fieldList, $data), $fieldList, $data, $dialogParams);
             $html .= "<div class='c4g_sub_dialog' id='c4g_dialog_$name'>";
@@ -983,5 +985,23 @@ class C4GSubDialogField extends C4GBrickField
     public function setRemoveButtonMessage(string $removeButtonMessage)
     {
         $this->removeButtonMessage = $removeButtonMessage;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isInsertBefore(): bool
+    {
+        return $this->insertBefore;
+    }
+
+    /**
+     * @param bool $insertBefore
+     * @return $this
+     */
+    public function setInsertBefore(bool $insertBefore = true)
+    {
+        $this->insertBefore = $insertBefore;
+        return $this;
     }
 }
