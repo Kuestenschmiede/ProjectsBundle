@@ -324,6 +324,13 @@ function deleteC4GBrickFile(button) {
 }
 
 /**
+ * @param button
+ */
+function deleteC4GBrickImage(button) {
+    button.parentNode.removeChild(button.parentNode.firstChild);
+}
+
+/**
  *
  * @param file
  * @param path

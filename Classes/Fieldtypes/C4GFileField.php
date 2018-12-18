@@ -125,7 +125,7 @@ class C4GFileField extends C4GBrickField
             }
             $file_link =
                 '<label id="c4g_uploadLink_'.$fieldName.'" class="c4g_uploadLink">' . $linkTag.
-                '<button id="c4g_deleteButton_'.$fieldName.'" class="c4g_deleteButton"' . $buttonRequired . ' onClick="deleteC4GBrickFile(\'' . $this->uploadURL .'\',\''.$this->deleteURL . '\',\'' . $fieldName.'\',\''.$targetField . '\')"></button></label>';
+                '<button id="c4g_deleteButton_'.$fieldName.'" class="c4g_deleteButton"' . $buttonRequired . ' onClick="deleteC4GBrickImage(this)">X</button></label>';
         }
 
 
