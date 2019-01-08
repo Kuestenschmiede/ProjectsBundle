@@ -634,7 +634,7 @@ class C4GShowDialogAction extends C4GBrickDialogAction
                         $first = null;
                         $firstKey = 0;
                         foreach ($valuesArrayOld as $key => $dataset) {
-                            if ($first === null || intval($dataset->$orderBy) > intval($first->$orderBy)) {
+                            if ($first === null || intval($dataset->$orderBy) < intval($first->$orderBy)) {
                                 $first = $dataset;
                                 $firstKey = $key;
                             }
