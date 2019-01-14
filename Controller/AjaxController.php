@@ -127,6 +127,9 @@ class AjaxController extends Controller
         $objModule = new $strClass($objModule);
         $arrAction = explode(":", $action);
         $id = $arrAction[1];
+        if (method_exists($objModule, 'printPdf')) {
+            return $objModule->printPdf($id);
+        }
         $objModule->initBrickModule($id);
 
         $objModule->getDialogParams()->setTabContent(false);
