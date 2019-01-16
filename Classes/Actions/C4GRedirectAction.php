@@ -6,10 +6,9 @@
  * @package   con4gis
  * @author    con4gis contributors (see "authors.txt")
  * @license   GNU/LGPL http://opensource.org/licenses/lgpl-3.0.html
- * @copyright Küstenschmiede GmbH Software & Design 2011 - 2018
+ * @copyright Küstenschmiede GmbH Software & Design 2011 - 2019
  * @link      https://www.kuestenschmiede.de
  */
-
 namespace con4gis\ProjectsBundle\Classes\Actions;
 
 class C4GRedirectAction extends C4GBrickDialogAction
