@@ -12,7 +12,7 @@
 
 namespace con4gis\ProjectsBundle\Classes\Actions;
 
-class C4GRedirectDetailAction extends C4GBrickDialogAction
+class C4GRedirectDetailAction extends C4GRedirectAction
 {
     private $redirectToDetail = true;
     private $redirectWithSaving = false;
@@ -58,10 +58,4 @@ class C4GRedirectDetailAction extends C4GBrickDialogAction
         $this->redirectToDetail = $redirectToDetail;
         return $this;
     }
-
-    public function isReadOnly()
-    {
-        return true;
-    }
-
 }
