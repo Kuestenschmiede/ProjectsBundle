@@ -19,7 +19,7 @@ class C4GTextField extends C4GBrickFieldText
 {
     protected $size = 255;
     protected $maxLength = 255;
-    protected $simpleTextWithoutEditing = false;
+    protected $simpleTextWithoutEditing = false; //Renders HTML tags, never use this to display user-generated data
 
     public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = array())
     {
@@ -34,7 +34,7 @@ class C4GTextField extends C4GBrickFieldText
 
             if ($this->isSimpleTextWithoutEditing()) {
                 $result = $this->addC4GField($condition, $dialogParams, $fieldList, $data,
-                    '<div ' . $required . ' ' . $condition['conditionPrepare'] . ' id="' . $id . '">'. $value . '</div>');
+                    "<div $required ".$condition['conditionPrepare']." id=\"$id\" class=\"c4g_non_input\">$value</div>");
 
             } else {
                 $result = $this->addC4GField($condition, $dialogParams, $fieldList, $data,
