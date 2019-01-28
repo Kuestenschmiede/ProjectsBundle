@@ -263,13 +263,13 @@ input:invalid {
 .c4g_brick_dialog #cke_ckeditor:disabled .cke_bottom, .c4g_brick_dialog #cke_ckeditor:read-only .cke_bottom{
     display: none;
 }
-.ol-viewport canvas {
-    margin-left: 0px;
-    margin-right: 0px;
-}
 .c4g_brick_dialog canvas {
     margin-left: 2.5%;
     margin-right: 2.5%;
+}
+.ol-viewport canvas {
+    margin-left: 0px;
+    margin-right: 0px;
 }
 .c4g_brick_dialog .c4g_brick_geopicker_label {
     padding-top: 10px;
