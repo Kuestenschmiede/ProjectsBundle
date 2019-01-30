@@ -120,6 +120,9 @@ class C4GForeignArrayField extends C4GBrickField
                 case 'member':
                     if (!in_array($dialogParams->getMemberId(), $dataArray)) {
                         $dataArray[] = intval($dialogParams->getMemberId());
+                    } else {
+                        unset($dataArray[array_search($dialogParams->getMemberId(), $dataArray)]);
+                        $dataArray[] = intval($dialogParams->getMemberId());
                     }
                     break;
                 default:
