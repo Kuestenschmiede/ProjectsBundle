@@ -30,6 +30,9 @@ class C4GMemberField extends C4GBrickFieldText
         $member = MemberModel::findByPk($value);
         $groupId = $dialogParams->getGroupId();
         $value = MemberModel::getDisplaynameForGroup($groupId, $member->id);
+        if ($value === '') {
+            $value = $member->firstname . " " . $member->lastname;
+        }
         $result = '';
 
         if ($this->isShowIfEmpty() || !empty($value)) {
