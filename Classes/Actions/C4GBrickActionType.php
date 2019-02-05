@@ -81,6 +81,7 @@ class C4GBrickActionType
     const ACTION_CANCELDEFROST = 'C4GCancelDialogAction';
     const ACTION_CLOSEPOPUPDIALOG = 'C4GClosePopupDialogAction'; //Todo Empty Class
     const ACTION_CHANGEFIELD    = 'C4GChangeFieldAction';
+    const ACTION_CONFIRM_CUSTOM_DIALOG    = 'C4GConfirmCustomDialogAction';
 
     //TABLE LIST ACTIONS
     const ACTION_CLICK = 'C4GShowDialogAction';

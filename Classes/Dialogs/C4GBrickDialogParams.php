@@ -110,6 +110,7 @@ class C4GBrickDialogParams
     private $showSuccessfullySavedMessage = true;
     private $hideChangesMessage = false;
     private $insertNewCondition = null;
+    private $customDialogCallback = null;
 
 
     /**
@@ -1865,6 +1866,21 @@ class C4GBrickDialogParams
         $this->insertNewCondition = null;
     }
 
+    /**
+     * @return C4GCallback|null
+     */
+    public function getCustomDialogCallback(): ?C4GCallback
+    {
+        return $this->customDialogCallback;
+    }
 
-
+    /**
+     * @param C4GCallback $customDialogCallback
+     * @return $this
+     */
+    public function setCustomDialogCallback(C4GCallback $customDialogCallback)
+    {
+        $this->customDialogCallback = $customDialogCallback;
+        return $this;
+    }
 }
