@@ -23,6 +23,9 @@ class C4GShowFilterDialogAction extends C4GBrickDialogAction
         $dialogParams->setFilterParams($filterParams);
 
         $dialog = new C4GBrickFilterDialog($dialogParams);
+        if ($this->listParams->getFilterObject() !== null) {
+            $dialog->setFilter($this->listParams->getFilterObject());
+        }
         return $dialog->show();
     }
 

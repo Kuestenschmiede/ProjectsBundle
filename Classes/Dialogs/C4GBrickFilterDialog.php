@@ -20,9 +20,11 @@ use con4gis\ProjectsBundle\Classes\Common\C4GBrickConst;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GDateField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GDateTimePickerField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GGeopickerField;
+use con4gis\ProjectsBundle\Classes\Filter\C4GDateTimeListFilter;
 
 class C4GBrickFilterDialog extends C4GBrickDialog
 {
+    protected $filter = null;
 
     /**
      * @param $memberId
@@ -43,6 +45,42 @@ class C4GBrickFilterDialog extends C4GBrickDialog
         $dialogId = -1;
         $brickKey = $dialogParams->getBrickKey();
         $filterParams = $dialogParams->getFilterParams();
+
+        if ($this->filter instanceof C4GDateTimeListFilter) {
+            $fromFilterField = new C4GDateField();
+            $fromFilterField->setCustomFormat($GLOBALS['TL_CONFIG']['dateFormat']);
+            $fromFilterField->setFieldName('fromFilter');
+            $fromFilterField->setTitle($GLOBALS['TL_LANG']['FE_C4G_DIALOG']['fromFilter']);
+            $fromFilterField->setDescription($GLOBALS['TL_LANG']['FE_C4G_DIALOG']['desc_fromFilter']);
+            $fromFilterField->setTableColumn(false);
+            $fromFilterField->setMandatory(true);
+            $fromFilterField->setEditable(true);
+
+            $toFilterField = new C4GDateField();
+            $toFilterField->setCustomFormat($GLOBALS['TL_CONFIG']['dateFormat']);
+            $toFilterField->setFieldName('toFilter');
+            $toFilterField->setTitle($GLOBALS['TL_LANG']['FE_C4G_DIALOG']['toFilter']);
+            $toFilterField->setDescription($GLOBALS['TL_LANG']['FE_C4G_DIALOG']['desc_toFilter']);
+            $toFilterField->setTableColumn(false);
+            $toFilterField->setMandatory(true);
+            $toFilterField->setEditable(true);
+
+            $this->filter->getFilterCookies($brickKey);
+            $from = $this->filter->getFrom();
+            $to = $this->filter->getTo();
+
+            if ($from) {
+                $fromFilterField->setInitialValue($from);
+            } else {
+                $fromFilterField->setInitialValue(time() - 4 * 604800);
+            }
+
+            if ($to) {
+                $toFilterField->setInitialValue($to);
+            } else {
+                $toFilterField->setInitialValue(time() - 4 * 604800);
+            }
+        }
 
         if($filterParams && $filterParams->isWithGeoFilter()) {
 
@@ -194,4 +232,13 @@ class C4GBrickFilterDialog extends C4GBrickDialog
         }
     }
 
+    /**
+     * @param null $filter
+     * @return C4GBrickFilterDialog
+     */
+    public function setFilter($filter)
+    {
+        $this->filter = $filter;
+        return $this;
+    }
 }
