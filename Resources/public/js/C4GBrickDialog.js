@@ -100,7 +100,7 @@ function C4GDatePicker(id,
                 // fallback
               regional = $.datepicker.regional[lang.substr(0, 2)];
             }
-            regional.dateFormat = format;
+            // regional.dateFormat = format;
             $.datepicker.setDefaults(regional);
         });
     }
