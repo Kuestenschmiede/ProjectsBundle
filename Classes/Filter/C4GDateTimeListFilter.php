@@ -41,7 +41,6 @@ class C4GDateTimeListFilter extends C4GListFilter
      */
     public function filter($elements, $dialogParams)
     {
-        C4gLogModel::addLogEntry('cloud', 'From: '.$this->from.'; To: '.$this->to);
         if ($this->to && (intval($this->to) > intval($this->from))) {
             foreach ($elements as $key => $value) {
                 if (is_array($value)) {
