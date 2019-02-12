@@ -100,6 +100,11 @@ class C4GMethodListFilter extends C4GListFilter
         }
     }
 
+    public function getFilterHeadline(): string
+    {
+        return '';
+    }
+
     /**
      * @return string
      */

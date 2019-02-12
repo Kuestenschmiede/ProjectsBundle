@@ -57,6 +57,14 @@ abstract class C4GListFilter
     public abstract function getFilterCookies($brickKey);
 
     /**
+     * Return the text to be displayed above the table.
+     *  Make sure to return different values for an active and an inactive filter, if appropriate.
+     *  The return value may be an empty string.
+     * @return mixed
+     */
+    public abstract function getFilterHeadline(): string;
+
+    /**
      * @return string
      */
     public function getHeadText(): string

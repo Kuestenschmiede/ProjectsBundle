@@ -88,6 +88,21 @@ class C4GDateTimeListFilter extends C4GListFilter
     }
 
     /**
+     * Return the text to be displayed above the table.
+     *  Make sure to return different values for an active and an inactive filter, if appropriate.
+     *  The return value may be an empty string.
+     * @return mixed
+     */
+    public function getFilterHeadline(): string
+    {
+        if ($this->to && (intval($this->to) > intval($this->from))) {
+            return sprintf($GLOBALS['TL_LANG']['FE_C4G_DIALOG']['filterPeriod'], '<b>'.date('d.m.Y', $this->from).'</b>', '<b>'.date('d.m.Y', $this->to.'</b>'));
+        } else {
+            return '';
+        }
+    }
+
+    /**
      * @return string
      */
     public function getFieldName(): string

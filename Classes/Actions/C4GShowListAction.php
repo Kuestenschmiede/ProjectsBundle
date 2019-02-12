@@ -357,6 +357,7 @@ class C4GShowListAction extends C4GBrickDialogAction
         if ($filterObject) {
             $elements = $filterObject->filter($elements, $dialogParams);
             $filterObject->addButton($listParams);
+            $filterText = $filterObject->getFilterHeadline();
         } else {
             /** DEPRECATED; use a C4GListFilter object. */
             $filterParams =  $listParams->getFilterParams();
