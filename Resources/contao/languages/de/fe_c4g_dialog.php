@@ -163,6 +163,7 @@ $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['headText']   = 'Filter';
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['buttonText'] = 'Filter';
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['desc_fromFilter'] = 'Die Tabelle stellt alle Daten ab diesem Datum dar.';
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['desc_toFilter']   = 'Die Tabelle stellt alle Daten bis zu diesem Datum dar.';
+$GLOBALS['TL_LANG']['FE_C4G_DIALOG']['filterPeriod']   = 'Zeitraum: %s bis %s';
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['desc_additional_email_text'] = 'Falls Sie Bemerkungen eintragen, werden diese mit der E-Mail verschickt.';
 
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['validate_phone']  = 'Die Telefonnummer ist ungültig';
