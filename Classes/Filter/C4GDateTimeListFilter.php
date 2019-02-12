@@ -21,6 +21,7 @@ class C4GDateTimeListFilter extends C4GListFilter
     protected $from = 0;
     protected $to = 0;
     protected $fieldName = 'tstamp';
+    protected $buttonText = '';
 
     /**
      * @param $dlgValues
@@ -64,7 +65,7 @@ class C4GDateTimeListFilter extends C4GListFilter
      */
     public function addButton($listParams)
     {
-        $listParams->addButton(C4GBrickConst::BUTTON_FILTER);
+        $listParams->addButton(C4GBrickConst::BUTTON_FILTER, $this->buttonText);
     }
 
     /**
@@ -134,5 +135,15 @@ class C4GDateTimeListFilter extends C4GListFilter
     public function getTo(): int
     {
         return $this->to;
+    }
+
+    /**
+     * @param string $buttonText
+     * @return C4GDateTimeListFilter
+     */
+    public function setButtonText(string $buttonText): C4GDateTimeListFilter
+    {
+        $this->buttonText = $buttonText;
+        return $this;
     }
 }
