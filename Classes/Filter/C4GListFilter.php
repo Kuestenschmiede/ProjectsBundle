@@ -14,7 +14,7 @@ namespace con4gis\ProjectsBundle\Classes\Filter;
 
 abstract class C4GListFilter
 {
-    private $headText = '';
+    protected $headText = '';
 
     /**
      * C4GListFilter constructor.
