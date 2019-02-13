@@ -151,6 +151,34 @@ abstract class C4GBrickField
 
     }
 
+    public static function create(string $fieldName,
+                                  string $title = '',
+                                  string $description = '',
+                                  bool $formField = false,
+                                  bool $tableColumn = true,
+                                  bool $databaseField = true,
+                                  bool $editable = true,
+                                  array $properties = []) {
+        $field = new static();
+        $field->setFieldName($fieldName)
+            ->setTitle($title)
+            ->setDescription($description)
+            ->setFormField($formField)
+            ->setTableColumn($tableColumn)
+            ->setDatabaseField($databaseField)
+            ->setEditable($editable);
+        $field->setProperties($properties);
+        return $field;
+    }
+
+    public function setProperties(array $properties) {
+        foreach ($properties as $key => $value) {
+            if (property_exists(static::class, $key) === true) {
+                $this->$key = $value;
+            }
+        }
+    }
+
     /**
      * Public method for creating the field specific dialog HTML
      * @param C4GBrickField[] $fieldList
