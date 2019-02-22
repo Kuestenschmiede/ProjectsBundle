@@ -24,3 +24,6 @@ $GLOBALS['TL_DCA']['tl_c4g_settings']['fields']['position_map'] = array
     'eval'                    => array('tl_class'=>'w50 wizard', 'includeBlankOption' => true),
     'sql'                     => "varchar(128) NULL"
 );
+
+$GLOBALS['TL_DCA']['tl_c4g_settings']['fields']['uploadPathImages']['eval']['mandatory'] = true;
+$GLOBALS['TL_DCA']['tl_c4g_settings']['fields']['uploadPathDocuments']['eval']['mandatory'] = true;
