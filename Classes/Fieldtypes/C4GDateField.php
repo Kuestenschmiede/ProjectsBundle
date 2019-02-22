@@ -20,16 +20,16 @@ use con4gis\ProjectsBundle\Classes\Views\C4GBrickView;
 
 class C4GDateField extends C4GBrickField
 {
-    private $minDate = null;
-    private $maxDate = null;
+    protected $minDate = null;
+    protected $maxDate = null;
 
-    private $excludeWeekdays = null;
-    private $excludeDates = null;
+    protected $excludeWeekdays = null;
+    protected $excludeDates = null;
 
     // customize single date fields
-    private $customFormat = null;
+    protected $customFormat = null;
     protected $sortType = 'de_date';
-    private $pattern = C4GBrickRegEx::DATE_D_M_Y;
+    protected $pattern = C4GBrickRegEx::DATE_D_M_Y;
 
     /**
      * @param C4GBrickField[] $fieldList
