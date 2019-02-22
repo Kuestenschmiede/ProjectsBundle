@@ -173,7 +173,7 @@ abstract class C4GBrickField
 
     public function setProperties(array $properties) {
         foreach ($properties as $key => $value) {
-            if (property_exists(static::class, $key) === true) {
+            if ((property_exists(static::class, $key) === true) || (property_exists(self::class, $key))) {
                 $this->$key = $value;
             }
         }
