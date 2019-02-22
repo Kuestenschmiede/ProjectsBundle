@@ -42,7 +42,7 @@ class C4GDateTimeListFilter extends C4GListFilter
      */
     public function filter($elements, $dialogParams)
     {
-        if ($this->to && (intval($this->to) > intval($this->from))) {
+        if ($this->to && (intval($this->to) >= intval($this->from))) {
             foreach ($elements as $key => $value) {
                 if (is_array($value)) {
                     if ((intval($value[$this->fieldName]) < intval($this->from)) || (intval($value[$this->fieldName]) > intval($this->to))) {
@@ -96,7 +96,7 @@ class C4GDateTimeListFilter extends C4GListFilter
      */
     public function getFilterHeadline(): string
     {
-        if ($this->to && (intval($this->to) > intval($this->from))) {
+        if ($this->to && (intval($this->to) >= intval($this->from))) {
             return sprintf($GLOBALS['TL_LANG']['FE_C4G_DIALOG']['filterPeriod'], '<b>'.date('d.m.Y', $this->from).'</b>', '<b>'.date('d.m.Y', $this->to.'</b>'));
         } else {
             return '';
