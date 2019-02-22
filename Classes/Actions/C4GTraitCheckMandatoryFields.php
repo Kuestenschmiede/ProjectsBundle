@@ -24,7 +24,7 @@ trait C4GTraitCheckMandatoryFields
      * @param string $callbackParams
      * @return array
      */
-    function checkMandatoryFields($fieldList, $dlgValues, $callback = 'focusOnElement', $callbackParams = '')
+    public function checkMandatoryFields($fieldList, $dlgValues, $callback = 'focusOnElement', $callbackParams = '')
     {
         $mandatoryCheckResult = C4GBrickDialog::checkMandatoryFields($fieldList, $dlgValues);
         if ($mandatoryCheckResult !== true) {
