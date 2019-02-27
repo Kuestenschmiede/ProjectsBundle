@@ -38,8 +38,14 @@ class C4GTimeSelectTableField extends C4GBrickField
         $value = $this->generateInitialValue($data);
         $condition = $this->createConditionData($fieldList, $data);
 
+        if ($this->initInvisible === true) {
+            $style = "style=\"display: none;\"";
+        } else {
+            $style = '';
+        }
+
         $fieldData = '<input ' . $required . ' ' . $condition['conditionPrepare'] . ' type="hidden" id="' . $id . '" class="formdata ' . $id . '" name="' . $this->getFieldName() . '" value="' . $value . '">';
-        $fieldData .= '<div class="c4g_time_select_table '. $this->getStyleClass() .'">';
+        $fieldData .= '<div class="c4g_time_select_table '. $this->getStyleClass() .'" ' . $style .'>';
 
         $index = 0;
         while (($this->begin + ($index * $this->interval)) <= $this->end) {
