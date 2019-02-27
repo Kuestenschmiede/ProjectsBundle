@@ -138,7 +138,7 @@ abstract class C4GBrickField
     private $tileClass = false; //soll die value als tile class gesetzt werden.
     private $tileClassTable = ''; // soll der value für die class aus einer Tabelle geholt werden?
     private $tileClassField = ''; // aus welchem Feld soll der value für die class geholt werden?
-    protected $initInvisible = false;  //ToDo das gehört in die Felder rein, die es auch benutzen können
+    protected $initInvisible = false;
     private $withLinkDescription = false;
     private $conditionType = null; //see C4GBrickConditionType
     private $additionalLabel = ''; //Additional String to be added to the label, e.g.
