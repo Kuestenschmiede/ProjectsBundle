@@ -946,3 +946,13 @@ th.nomouseevents .DataTables_sort_icon {
     margin-bottom: 20px;
     clear: both;
 }
+
+.c4g_brick_dialog .ck-editor {
+    display: block  !important;
+    margin-bottom: .25em !important;
+    margin-top: .25em !important;
+    margin-left: 2.5% !important;
+    margin-right: 2.5% !important;
+    width: 95%  !important;
+    min-height: 27px  !important;
+}
