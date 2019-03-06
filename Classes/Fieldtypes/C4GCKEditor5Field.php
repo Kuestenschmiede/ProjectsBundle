@@ -42,7 +42,7 @@ class C4GCKEditor5Field extends C4GBrickField
 
         $condition = $this->createConditionData($fieldList, $data);
         $fieldData = '<textarea ' . $required . ' ' . $condition['conditionPrepare'] . 'id="'.$id.'"' . ' class="formdata js-ckeditor' . ' ui-corner-all" name="' . $this->getFieldName() . '" cols="80" rows="'.$size.'" >' . $value . ' </textarea>';
-        $fieldData .= '<script>ClassicEditor.create(document.querySelector( \'#'.$id.'\' )).catch( error => {console.error(error);});</script>';
+        $fieldData .= '<script>ClassicEditor.create(document.querySelector( \'#'.$id.'\' )).then( editor => { ckeditor5instances[\'#'.$id.'\'] = editor; } ).catch( error => {console.error(error);});</script>';
 
         $result = $this->addC4GField($condition,$dialogParams,$fieldList,$data,$fieldData);
         return $result;

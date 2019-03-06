@@ -739,6 +739,7 @@ class C4GBrickModuleParent extends \Module
 
         if ($this->loadCkEditor5Resources) {
             ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/ckeditor5/ckeditor.js', ResourceLoader::HEAD);
+            ResourceLoader::loadJavaScriptResourceTag('var ckeditor5instances = {};');
         }
     }
 
