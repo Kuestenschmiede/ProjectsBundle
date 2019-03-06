@@ -129,6 +129,7 @@ class C4GBrickModuleParent extends \Module
     //Resource Params
     protected $loadDefaultResources = true;
     protected $loadCkEditorResources = false;
+    protected $loadCkEditor5Resources = false;
     protected $loadDateTimePickerResources = false;
     protected $loadChosenResources = false;
     protected $loadClearBrowserUrlResources = false;
@@ -734,6 +735,11 @@ class C4GBrickModuleParent extends \Module
                     implode("','", $aToolbarButtons) . "'];");
                 ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/ckeditor/ckeditor.js');
             }
+        }
+
+        if ($this->loadCkEditor5Resources) {
+            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/ckeditor5/ckeditor.js', ResourceLoader::HEAD);
+            ResourceLoader::loadJavaScriptResourceTag('var ckeditor5instances = {};');
         }
     }
 
