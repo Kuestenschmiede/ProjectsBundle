@@ -40,6 +40,9 @@ class C4GDateField extends C4GBrickField
      */
     public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = array())
     {
+        if ($this->getAdditionalID()) {
+            $this->setFieldName($this->getFieldName() .'_'.$this->getAdditionalID());
+        }
         if ($this->customFormat) {
             $dateFormat = $this->customFormat;
         } else {
@@ -146,7 +149,12 @@ class C4GDateField extends C4GBrickField
     {
         $fieldname = $this->getFieldName();
         $dbValue = $dbValues->$fieldname;
-        $dlgvalue = $dlgValues[$this->getFieldName()];
+        $additionalId = $this->getAdditionalID();
+        if (!empty($additionalId)) {
+            $dlgvalue = $dlgValues[$this->getFieldName().'_'.$additionalId];
+        } else {
+            $dlgvalue = $dlgValues[$this->getFieldName()];
+        }
         $result = null;
         if(!$this->isSearchField()) {
             $date = \DateTime::createFromFormat($GLOBALS['TL_CONFIG']['dateFormat'], $dlgvalue);
@@ -179,7 +187,13 @@ class C4GDateField extends C4GBrickField
      */
     public function createFieldData($dlgValues)
     {
-        $fieldData = $dlgValues[$this->getFieldName()];
+        $additionalId = $this->getAdditionalID();
+        if (!empty($additionalId)) {
+            $fieldData = $dlgValues[$this->getFieldName() . '_' . $additionalId];
+        } else {
+            $fieldData = $dlgValues[$this->getFieldName()];
+        }
+
         $format = $GLOBALS['TL_CONFIG']['dateFormat'];
         $arrParts = explode('.', $fieldData);
         // if the year is only two characters long, check the current year
