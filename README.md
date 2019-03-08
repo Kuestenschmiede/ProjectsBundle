@@ -1,6 +1,11 @@
-#con4gis-Projects
+# con4gis-ProjectsBundle
 ## Overview
 The framework brick of the Contao GIS-kit **con4gis**. Useful for developing frontend modules.
+Features include:
+* Development of frontend modules, tables and forms
+* Wide variety of different field types: from simple text or number fields to complex tools such as geopickers or text editors.
+* Easy configuration via a single module
+* Easy to extend
 
 ## Installation
 Via composer:
