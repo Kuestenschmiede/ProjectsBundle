@@ -94,14 +94,14 @@ function C4GDatePicker(id,
             minDate: dMin,
             maxDate: dMax
         });
-        jQuery(function($){
-            var regional = $.datepicker.regional[lang];
+        jQuery(function(jQuery){
+            var regional = jQuery.datepicker.regional[lang];
             if (!regional) {
                 // fallback
-              regional = $.datepicker.regional[lang.substr(0, 2)];
+              regional = jQuery.datepicker.regional[lang.substr(0, 2)];
             }
             // regional.dateFormat = format;
-            $.datepicker.setDefaults(regional);
+            jQuery.datepicker.setDefaults(regional);
         });
     }
 }
@@ -225,8 +225,8 @@ function tileSort(button) // '<button type="button" onclick="tileSort(this)">ASC
  */
 function createNewPopupWindow(object)
 {
-    //$.magnificPopup.open({ items: { src: object.dataset.linkHref }, type: 'iframe' });
-    $.magnificPopup.open({ items: { src: object.dataset.linkHref }, type:  "iframe" }, 0);
+    //jQuery.magnificPopup.open({ items: { src: object.dataset.linkHref }, type: 'iframe' });
+    jQuery.magnificPopup.open({ items: { src: object.dataset.linkHref }, type:  "iframe" }, 0);
 
     return false;
 }
@@ -236,7 +236,7 @@ function createNewPopupWindow(object)
  */
 function closePopupWindow()
 {
-    $.magnificPopup.close();
+    jQuery.magnificPopup.close();
 }
 
 /**
@@ -1053,7 +1053,7 @@ function focusOnElement(elementId) {
 function callActionViaAjax(action) {
     var gui = c4g.projects.C4GGui;
     var url = gui.options.ajaxUrl + '/' + gui.options.moduleId + '/' + action;
-    $.ajax({
+    jQuery.ajax({
         url: url
     }).done(function (data) {
         gui.fnHandleAjaxResponse(data, gui.options.moduleId);
@@ -1332,7 +1332,7 @@ function editSubDialog(button, event) {
 }
 
 function showConfirmationDialog(message,title,yesLabel, noLabel, yesCallback){
-    $('<div></div>').appendTo('body')
+    jQuery('<div></div>').appendTo('body')
         .html('<div>'+message+'?</div>')
         .dialog({
             modal: true, title: title, zIndex: 10000, autoOpen: true,
@@ -1341,19 +1341,19 @@ function showConfirmationDialog(message,title,yesLabel, noLabel, yesCallback){
                 {
                     text: yesLabel,
                     click: function () {
-                    $(this).dialog("close");
+                    jQuery(this).dialog("close");
                     yesCallback();
                     }
                 },
                 {
                     text: noLabel,
                     click: function () {
-                        $(this).dialog("close");
+                        jQuery(this).dialog("close");
                     }
                 }
             ],
             close: function (event, ui) {
-                $(this).remove();
+                jQuery(this).remove();
             }
         });
 }

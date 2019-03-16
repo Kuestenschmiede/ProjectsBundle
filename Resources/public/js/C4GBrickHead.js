@@ -10,7 +10,7 @@
  */
 
 if (!Modernizr.touch || !Modernizr.inputtypes.date) {
-    $('input[type=date]')
+    jQuery('input[type=date]')
         .attr('type', 'text')
         .datepicker({
             // Consistent format with the HTML5 picker
