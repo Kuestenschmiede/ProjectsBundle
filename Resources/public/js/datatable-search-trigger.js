@@ -1,3 +1,4 @@
+this.c4g = this.c4g || {};
 this.c4g.projects = this.c4g.projects || [];
 this.c4g.projects.hook = this.c4g.projects.hook || [];
 
