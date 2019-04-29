@@ -1,21 +1,30 @@
 <div class="<?= $this->class ?> block"<?= $this->cssID ?><?php if ($this->style): ?> style="<? $this->style ?>"<?php endif; ?>>
-<?php
-$strC4gGui = "";
-$strC4gGui .= "jQuery('div#". $this->c4gData['div']."' ).c4gGui({".
-            "id: ".$this->c4gData['id'].", ".
-            "height: '" . $this->c4gData['height'] ."', ".
-            "width: '" . $this->c4gData['width'] ."', ".
-            "ajaxUrl: '" . $this->c4gData['ajaxUrl'] . "', ".
-            "ajaxData: '" . $this->c4gData['ajaxData'] ."', ".
-            "initData: " . $this->c4gData['initData'] .", ".
-            "jquiBreadcrumb: false, ".
-            "jquiButtons: false, ".
-            "embedDialogs: '". $this->c4gData['embedDialogs'] ."', ".
-            "jquiEmbeddedDialogs: '". $this->c4gData['jquiEmbeddedDialogs'] ."', ";
 
-$strC4gGui .= "navPanel: false";
-$strC4gGui .= "});";
-?>
+<script>
+jQuery(document).ready(function() {
+<?php
+$strC4gGui = "c4g.projects = c4g.projects || {};\n";
+$strC4gGui .= "var gui = new c4g.projects.c4gGui({".
+  "id: ".$this->c4gData['id'].", \n".
+  "height: '".$this->c4gData['height'].  "', \n".
+  "width: '".$this->c4gData['width'].  "', \n".
+  "ajaxUrl: '".$this->c4gData['ajaxUrl']. "', \n".
+  "ajaxData: '".$this->c4gData['ajaxData']. "', \n".
+  "initData: ".$this->c4gData['initData'].", \n".
+  "jquiBreadcrumb: false, \n".
+  "jquiButtons: false, \n".
+  "embedDialogs: '".$this->c4gData['embedDialogs']. "', \n".
+  "mainDiv: jQuery('div#". $this->c4gData['div']."' ),".
+  "jquiEmbeddedDialogs: '".$this->c4gData['jquiEmbeddedDialogs']."', \n";
+
+  $strC4gGui .= "navPanel: false\n";
+  $strC4gGui .= "});\n";
+  $strC4gGui .= "gui.setup();\n";
+  $strC4gGui .= "c4g.projects.C4GGui = gui;\n";
+  echo $strC4gGui;
+    ?>
+});
+</script>
 
 <div id="<?= $this->c4gData['div'] ?>"></div>
 <br />
