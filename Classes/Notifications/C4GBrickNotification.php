@@ -110,7 +110,13 @@ class C4GBrickNotification
                     $member = MemberModel::findByPk($tokenValue);
                     $tokensValues['firstname'] = $member->firstname;
                     $tokensValues['lastname']  = $member->lastname;
-                    $tokensValues['user_email'] = $member->email;
+
+                    //Sonderlocke
+                    if ($tokensValues['email']) {
+                        $tokensValues['user_email'] = $tokensValues['email'];
+                    } else {
+                        $tokensValues['user_email'] = $member->email;
+                    }
                 }
 
                 if($name == 'permalink' && $permalink_name !== '') {
