@@ -104,9 +104,19 @@ class C4GCKEditor5Field extends C4GBrickField
             $size = $this->getSize();
         }
 
+        $isReadOnly = false;
+        $tools = $this->tools;
+        if ($required) {
+            $isReadOnly = true;
+            $tools = [];
+        }
+
         $condition = $this->createConditionData($fieldList, $data);
         $fieldData = '<textarea ' . $required . ' ' . $condition['conditionPrepare'] . 'id="'.$id.'"' . ' class="formdata js-ckeditor' . ' ui-corner-all" name="' . $this->getFieldName() . '" cols="80" rows="'.$size.'" >' . $value . ' </textarea>';
-        $fieldData .= '<script>ClassicEditor.create(document.querySelector( \'#'.$id.'\' ), { removePlugins: [ '. $this->createJSONStringFromArray($this->removedPlugins) .' ], toolbar: [ '. $this->createJSONStringFromArray($this->tools) .' ] }).then( editor => { ckeditor5instances[\'#'.$id.'\'] = editor; } ).catch( error => {console.error(error);});</script>';
+        $fieldData .= '<script>ClassicEditor.create(document.querySelector( \'#'.$id.'\' ), { 
+                removePlugins: [ '. $this->createJSONStringFromArray($this->removedPlugins) .' ], 
+                toolbar: [ '. $this->createJSONStringFromArray($tools) .' ]
+            }).then( editor => { ckeditor5instances[\'#'.$id.'\'] = editor; editor.isReadOnly = \''.$isReadOnly.'\';} ).catch( error => {console.error(error);});</script>';
 
         $result = $this->addC4GField($condition,$dialogParams,$fieldList,$data,$fieldData);
         return $result;
