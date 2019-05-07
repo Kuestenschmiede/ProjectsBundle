@@ -106,7 +106,7 @@ class C4GCKEditor5Field extends C4GBrickField
 
         $isReadOnly = false;
         $tools = $this->tools;
-        if ($required) {
+        if (!$this->isEditable()) {
             $isReadOnly = true;
             $tools = [];
         }
