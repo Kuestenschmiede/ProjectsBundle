@@ -57,6 +57,7 @@ abstract class C4GBrickField
     private $callOnChangeFunction = 'C4GCallOnChange(this)'; //call this function on change
     private $columnWidth = 0; //culumn width on datatable view
     private $comparable = true; //for field Compare on saving
+    private $withoutValidation = false; //disable field validation
     private $condition = array(); //see C4GBrickCondition
     private $contentId = ''; //for transfer contao content elements like Map
     private $databaseField = true; //is this field with database mapping (saving, compare, ...)
@@ -2437,5 +2438,21 @@ abstract class C4GBrickField
     public function setPrintable(bool $printable): void
     {
         $this->printable = $printable;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isWithoutValidation(): bool
+    {
+        return $this->withoutValidation;
+    }
+
+    /**
+     * @param bool $withoutValidation
+     */
+    public function setWithoutValidation(bool $withoutValidation): void
+    {
+        $this->withoutValidation = $withoutValidation;
     }
 }

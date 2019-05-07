@@ -863,6 +863,10 @@ class C4GBrickDialog
             $percentGroups = array();
             foreach ($fieldList as $field) {
 
+                if ($field->isWithoutValidation()) {
+                    continue;
+                }
+
                 if ($field->getCondition()) {
                     if (!$field->checkCondition($fieldList, $dlgValues, $field->getCondition())) {
                         continue;
