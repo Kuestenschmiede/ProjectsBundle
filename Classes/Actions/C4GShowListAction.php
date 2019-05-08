@@ -15,6 +15,7 @@ namespace con4gis\ProjectsBundle\Classes\Actions;
 use con4gis\CoreBundle\Resources\contao\classes\C4GHTMLFactory;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickCommon;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickConst;
+use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GKeyField;
 use con4gis\ProjectsBundle\Classes\Filter\C4GBrickFilterParams;
 use con4gis\ProjectsBundle\Classes\Lists\C4GBrickList;
 use con4gis\ProjectsBundle\Classes\Lists\C4GBrickRenderMode;
@@ -53,7 +54,16 @@ class C4GShowListAction extends C4GBrickDialogAction
         $database = $this->brickDatabase->getParams()->getDatabase();
         $modelClass = $brickDatabase->getParams()->getModelClass();
         $viewFormatFunction = $listParams->getViewFormatFunction();
-
+    
+        // strip fieldlist to avoid iterating irrelevant fields
+        $listFieldlist = [];
+        foreach ($fieldList as $field) {
+            if ($field->isTableColumn() || $field instanceof C4GKeyField) {
+                $listFieldlist[] = $field;
+            }
+        }
+        $fieldList = $listFieldlist;
+        
         $groupCount = -1;
         if ($GLOBALS['con4gis']['groups']['installed']) {
             $groupCount = count(C4GBrickCommon::getGroupListForBrick($memberId, $brickKey));
