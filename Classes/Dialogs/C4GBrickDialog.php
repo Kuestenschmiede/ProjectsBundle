@@ -1271,7 +1271,8 @@ class C4GBrickDialog
             if ($dialogParams->isDoNotSaveIfValuesDidNotChange() && $set[$id_fieldName]) {
                 if ($dbValues) {
                     foreach ($set as $key => $value) {
-                        if ($key !== 'state' && $key !== 'authorIds' && $dbValues->$key != $value) {
+                        //this row is critical for a single project. Please handle with care.
+                        if ($key !== 'tstamp' && $key !== 'state' && $key !== 'authorIds' && $dbValues->$key != $value) {
                             $abortSave = false;
                             break;
                         }
