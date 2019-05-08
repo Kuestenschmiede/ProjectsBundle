@@ -116,7 +116,7 @@ class C4GFileField extends C4GBrickField
                     $linkTag = '<a href="' . $file_url . '" target="_blank">' . $file_label . '</a>';
                     break;
                 case self::LINK_TYPE_IMAGE:
-                    $linkTag = '<a href="' . $file_url . '" target="_blank"><img class="c4g_preview_image" src="' . $file_url . '" alt="' . $file_label . '"></a>';
+                    $linkTag = '<a data-lightbox="'.$id.'" href="' . $file_url . '" target="_blank"><img class="c4g_preview_image" src="' . $file_url . '" alt="' . $file_label . '"></a>';
                     break;
                 default:
                     $linkTag = '';

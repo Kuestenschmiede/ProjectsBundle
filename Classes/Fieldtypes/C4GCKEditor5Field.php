@@ -39,7 +39,7 @@ class C4GCKEditor5Field extends C4GBrickField
         self::TOOL_BOLD,
         self::TOOL_ITALIC,
         self::TOOL_UNORDERED_LIST,
-        self::TOOL_ORDERED_LIST,
+        //self::TOOL_ORDERED_LIST,
         self::TOOL_REDO,
         self::TOOL_UNDO,
     ];
