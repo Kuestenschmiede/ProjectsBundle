@@ -553,6 +553,41 @@ class C4GBrickCommon
     }
 
     /**
+     * @param $arr
+     * @param $fields
+     * @return mixed
+     */
+    public static function sortArrayByFields($arr, $fields)
+    {
+        $sortFields = array();
+        $args       = array();
+
+        foreach ($arr as $key => $row) {
+            foreach ($fields as $field => $order) {
+                $sortFields[$field][$key] = strtolower($row[$field]);
+            }
+        }
+
+        foreach ($fields as $field => $order) {
+            $args[] = $sortFields[$field];
+
+            if (is_array($order)) {
+                foreach ($order as $pt) {
+                    $args[] = $pt;
+                }
+            } else {
+                $args[] = $order;
+            }
+        }
+
+        $args[] = &$arr;
+
+        call_user_func_array('array_multisort', $args);
+
+        return $arr;
+    }
+
+    /**
      * @param $array
      * @param $index
      * @param $value
