@@ -15,6 +15,7 @@ namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldCompare;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldText;
+use Contao\Controller;
 
 class C4GTextField extends C4GBrickFieldText
 {
@@ -27,6 +28,9 @@ class C4GTextField extends C4GBrickFieldText
         $id = "c4g_" . $this->getFieldName();
         $required = $this->generateRequiredString($data, $dialogParams);
         $value = $this->generateInitialValue($data);
+        if ($this->replaceInsertTag) {
+            $value = Controller::replaceInsertTags($value);
+        }
         $result = '';
 
         if ($this->isShowIfEmpty() || !empty(trim($value))) {

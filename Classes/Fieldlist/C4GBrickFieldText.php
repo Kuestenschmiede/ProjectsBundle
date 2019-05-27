@@ -13,12 +13,15 @@
 namespace con4gis\ProjectsBundle\Classes\Fieldlist;
 
 
+use Contao\Controller;
+
 abstract class C4GBrickFieldText extends C4GBrickField
 {
     /**
      * Properties
      * @property string $pattern Regular expression this field's value must meet.
      * @property int $maxChars Maximum number of characters to be displayed in the list
+     * @property boolean $replaceInsertTag Should the replaceInsertTags function be called on the field value?
      */
     //Todo Alle nötigen Properties aus BrickField und den Kindern hier einfügen
     //Todo Prüfen, ob alles funktioniert und erst danach die Properties aus BrickField und den Kindern löschen.
@@ -26,6 +29,7 @@ abstract class C4GBrickFieldText extends C4GBrickField
 
     protected $pattern = '';
     protected $maxChars = 0;
+    protected $replaceInsertTag = false;
 
     /**
      * Will be called by if the field value is longer than $maxChars. Return a value that will replace it.
@@ -67,7 +71,9 @@ abstract class C4GBrickFieldText extends C4GBrickField
                 $value = $this->cutFieldValue($value, $this->maxChars);
             }
         }
-
+        if ($this->replaceInsertTag) {
+            $value = Controller::replaceInsertTags($value);
+        }
         return $value;
     }
 
@@ -106,8 +112,20 @@ abstract class C4GBrickFieldText extends C4GBrickField
         $this->maxChars = $maxChars;
         return $this;
     }
-
-
-
-
+    
+    /**
+     * @return bool
+     */
+    public function isReplaceInsertTag()
+    {
+        return $this->replaceInsertTag;
+    }
+    
+    /**
+     * @param bool $replaceInsertTag
+     */
+    public function setReplaceInsertTag($replaceInsertTag)
+    {
+        $this->replaceInsertTag = $replaceInsertTag;
+    }
 }
