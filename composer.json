@@ -3,6 +3,7 @@
   "type": "contao-bundle",
   "description": "The framework brick of the Contao GIS-kit con4gis. Useful for developing frontend modules.",
   "keywords": ["con4gis", "projects", "contao", "c4g", "ProjectsBundle", "frontend", "module", "framework"],
+  "homepage": "https://con4gis.org",
   "license": "LGPL-3.0-or-later",
   "authors": [
     {
