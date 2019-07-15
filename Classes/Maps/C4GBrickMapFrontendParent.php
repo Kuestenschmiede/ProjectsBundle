@@ -215,7 +215,8 @@ class C4GBrickMapFrontendParent
             $arrData['type'] = $type;
         }
         $arrData['name']        = C4GBrickCommon::cutText($name, 44);
-        $arrData['layername']   = C4GBrickCommon::cutText($layername, 44);
+        $arrData['layername']   = C4GBrickCommon::cutText($layername ?: $name, 44);
+        $arrData['activeForBaselayers'] = "all";
         $arrData['display']     = ($display && ($content != null));
         $arrData['hide']        = $hide;
 
