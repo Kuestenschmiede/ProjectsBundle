@@ -301,6 +301,118 @@ class C4GBrickMapFrontendParent
 
         return $arrData;
     }
+    
+    /**
+     * @param $locationStyle
+     * @param $geoJson
+     * @param $popupInfo
+     * @param string $label
+     * @param string $graphicTitle
+     * @param null $cluster
+     * @param null $url
+     * @param int $interval
+     * @return array
+     */
+    public function addMapStructureContentFromGeoJson($locationStyle, $geoJson, $popupInfo, $label = '', $graphicTitle = '',$cluster = null, $url = null, $interval = 60000)
+    {
+        $stringClass = $GLOBALS['con4gis']['stringClass'];
+        $popupInfo   = $stringClass::toHtml5($popupInfo);
+        $popupInfo   = Controller::replaceInsertTags($popupInfo, false);
+        $popupInfo   = str_replace(array('{{request_token}}', '[{]', '[}]'), array(REQUEST_TOKEN, '{{', '}}'), $popupInfo);
+        $popupInfo   = Controller::replaceDynamicScriptTags($popupInfo);
+        $objComments = new \Comments();
+        $popupInfo   = $objComments->parseBbCode($popupInfo);
+        
+        $fillcolor = '';
+        $fontcolor = '';
+        $popup = '';
+        $zoom = '';
+        
+        if ($cluster) {
+            $fillcolor = $cluster['cluster_fillcolor'];
+            $fontcolor = $cluster['cluster_fontcolor'];
+            $popup = $cluster['cluster_popup'];
+            $zoom = $cluster['cluster_zoom'];
+        }
+        
+        if (($url) && ($interval != null) && ($interval > 0)) {
+            if($cluster && $cluster['cluster_locations']){
+                $settings = array
+                (
+                    'loadAsync'    => true,
+                    'refresh'      => true,
+                    'interval'     => $interval,
+                    'crossOrigin'  => false,
+                    'boundingBox'  => false,
+                    'cluster'      => $cluster['cluster_distance']
+                );
+            }
+            else{
+                $settings = array
+                (
+                    'loadAsync'    => true,
+                    'refresh'      => true,
+                    'interval'     => $interval,
+                    'crossOrigin'  => false,
+                    'boundingBox'  => false
+                );
+            }
+            
+            $content = array(
+                'id' => 0,
+                'type' => 'urlData',
+                'format' => 'GeoJSON',
+                //'origType' => 'single',
+                'locationStyle' => $locationStyle,
+                'cluster_fillcolor'  => $fillcolor,
+                'cluster_fontcolor'  => $fontcolor,
+                'cluster_popup'      => $popup,
+                'cluster_zoom'       => $zoom,
+                'data' => json_decode($geoJson, true),
+                'settings' => $settings,
+            );
+            
+            
+        } else {
+            if($cluster['cluster_locations']){
+                $settings = array
+                (
+                    'loadAsync'    => false,
+                    'refresh'      => false,
+                    'crossOrigine' => false,
+                    'boundingBox'  => false,
+                    'cluster'      => $cluster['cluster_distance']
+                );
+            }
+            else{
+                $settings = array
+                (
+                    'loadAsync'    => false,
+                    'refresh'      => false,
+                    'crossOrigine' => false,
+                    'boundingBox'  => false
+                );
+            }
+            
+            
+            $content = array(
+                'id' => 0,
+                'type' => 'GeoJSON',
+                'format' => 'GeoJSON',
+                //'origType' => 'single',
+                'locationStyle' => $locationStyle,
+                'cluster_fillcolor'  => $fillcolor,
+                'cluster_fontcolor'  => $fontcolor,
+                'cluster_popup'      => $popup,
+                'cluster_zoom'       => $zoom,
+                'data' => json_decode($geoJson, true),
+                'settings' => $settings,
+            );
+            
+        }
+        
+        return array($content);
+    }
 
     /**
      * @param $id
@@ -312,7 +424,7 @@ class C4GBrickMapFrontendParent
      * @param string $graphicTitle
      * @return array
      */
-    protected function addMapStructureContent($locationStyle, $loc_geox, $loc_geoy, $popupInfo, $label = '', $graphicTitle = '',$cluster = null, $url = null, $interval = 60000)
+    public function addMapStructureContent($locationStyle, $loc_geox, $loc_geoy, $popupInfo, $label = '', $graphicTitle = '',$cluster = null, $url = null, $interval = 60000)
     {
         $stringClass = $GLOBALS['con4gis']['stringClass'];
         $popupInfo   = $stringClass::toHtml5($popupInfo);
