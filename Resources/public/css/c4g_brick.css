@@ -361,7 +361,7 @@ div.cg_block {
     padding: 1px;
     color: red;
     cursor: pointer;
-    font-family: 'FontAwesome'!important;
+    font-family: "Font Awesome 5 Free"!important;
     font-size: inherit;
 }
 .c4g_deleteButton:before {
@@ -386,7 +386,7 @@ div.cg_block {
 }
 
 .ol-control button {
-    font-family: 'FontAwesome';
+    font-family: 'Font Awesome 5 Free';
 }
 #c4g_brick .c4g_brick_tiles {
     text-align: center;
@@ -577,9 +577,9 @@ label.c4g_multicheckbox{
 }
 .c4g_brick_dialog input[type='checkbox'] + label {
     display: inline-block;
-    font: FontAwesome;
+    font-family: "Font Awesome 5 Free";
     font-size: inherit;
-    font-weight: 100;
+    font-weight: 700;
     text-rendering: auto;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
