@@ -156,7 +156,7 @@ $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['CANCEL_BUTTON_TEXT']  = 'Abbrechen';
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['HEADLINE_TEXT']  = 'Filteroptionen';
 
 
-$GLOBALS['TL_LANG']['FE_C4G_DIALOG']['fromFilter'] = 'Begindatum';
+$GLOBALS['TL_LANG']['FE_C4G_DIALOG']['fromFilter'] = 'Beginndatum';
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['toFilter']   = 'Enddatum';
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['additional_email_text'] = 'Zusätzliche Bemerkungen in der E-Mail:';
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['headText']   = 'Filter';
