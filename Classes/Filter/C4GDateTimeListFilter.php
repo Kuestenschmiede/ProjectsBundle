@@ -35,6 +35,13 @@ class C4GDateTimeListFilter extends C4GListFilter
         $this->setFilterCookies($brickKey);
     }
 
+    public function setDefaultFilter($from, $to) {
+        if ($this->from === 0 && $this->to === 0) {
+            $this->from = $from;
+            $this->to = $to;
+        }
+    }
+
     /**
      * Filter out undesired elements and return the desired ones.
      * @param $elements
