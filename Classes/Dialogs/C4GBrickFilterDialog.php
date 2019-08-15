@@ -79,7 +79,7 @@ class C4GBrickFilterDialog extends C4GBrickDialog
             if ($to) {
                 $toFilterField->setInitialValue($to);
             } else {
-                $toFilterField->setInitialValue(mktime(23, 59, 59, date("n"), date("t"));
+                $toFilterField->setInitialValue(mktime(23, 59, 59, date("n"), date("t")));
             }
         }
 
