@@ -35,6 +35,9 @@ class AjaxController extends Controller
 {
     public function ajaxAction(Request $request, $module, $action)
     {
+        System::loadLanguageFile('fe_c4g_dialog');
+        System::loadLanguageFile('fe_c4g_list');
+        System::loadLanguageFile('fe_c4g_projects');
         $moduleManager = new C4GModuleManager();
         if ($request->getMethod() === "PUT") {
             $arrData = $request->request->all();
