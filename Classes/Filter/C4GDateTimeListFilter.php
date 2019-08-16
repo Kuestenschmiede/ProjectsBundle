@@ -36,7 +36,7 @@ class C4GDateTimeListFilter extends C4GListFilter
     }
 
     public function setDefaultFilter($from, $to) {
-        if ($this->from === 0 && $this->to === 0) {
+        if (intval($this->from) === 0 && intval($this->to) === 0) {
             $this->from = $from;
             $this->to = $to;
         }
