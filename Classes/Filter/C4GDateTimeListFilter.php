@@ -40,6 +40,7 @@ class C4GDateTimeListFilter extends C4GListFilter
             $this->from = $from;
             $this->to = $to;
         }
+        return $this;
     }
 
     /**
