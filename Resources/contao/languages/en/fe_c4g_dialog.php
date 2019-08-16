@@ -153,6 +153,7 @@ $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['headText']   = 'Filter';
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['buttonText'] = 'Filter';
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['desc_fromFilter'] = 'The table shows all data since this date.';
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['desc_toFilter']   = 'The table shows all data until this date.';
+$GLOBALS['TL_LANG']['FE_C4G_DIALOG']['filterPeriod']   = 'Period: %s to %s';
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['desc_additional_email_text'] = 'If you enter additional Information, it will be sent alongside the email.';
 
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['validate_phone']  = 'The phone number is invalid';
