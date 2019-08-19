@@ -416,6 +416,9 @@ class C4GBrickList
                 $fieldName = $column->getFieldName();
                 $row_data = $element;
 
+                //special char decode (&#40; &#41;)
+                $row_data->$fieldName = html_entity_decode($row_data->$fieldName);
+
                 if ($fieldName == $listParams->getCaptionField()) {
                     $col = $cnt;
                 }
