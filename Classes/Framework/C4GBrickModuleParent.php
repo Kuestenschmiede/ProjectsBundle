@@ -52,7 +52,7 @@ class C4GBrickModuleParent extends \Module
     protected $viewType             = C4GBrickViewType::GROUPBASED; //see C4GBrickViewType
     protected $publicViewType       = ''; //automatic switch from based to view type
     protected $tableName            = ''; //needed by default DatabaseType
-    protected $findBy               = array(); //qualify default dataset
+    protected $findBy               = []; //qualify default dataset
     protected $modelClass           = ''; //needed by default DatabaseType
     protected $fieldList            = null; //fieldlist filled by module class with objects inherited by C4GBrickField
     protected $initialFieldList     = null; //initial fieldlist used for history lookups when the fieldlist is changed
