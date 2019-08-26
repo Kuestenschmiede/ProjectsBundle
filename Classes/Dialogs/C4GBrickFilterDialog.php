@@ -56,6 +56,7 @@ class C4GBrickFilterDialog extends C4GBrickDialog
             $fromFilterField->setTableColumn(false);
             $fromFilterField->setMandatory(true);
             $fromFilterField->setEditable(true);
+            $fromFilterField->setIgnoreViewType(true);
 
             $toFilterField = new C4GDateField();
             $toFilterField->setCustomFormat($GLOBALS['TL_CONFIG']['dateFormat']);
@@ -65,6 +66,7 @@ class C4GBrickFilterDialog extends C4GBrickDialog
             $toFilterField->setTableColumn(false);
             $toFilterField->setMandatory(true);
             $toFilterField->setEditable(true);
+            $toFilterField->setIgnoreViewType(true);
 
             $this->filter->getFilterCookies($brickKey);
             $from = $this->filter->getFrom();
