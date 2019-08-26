@@ -52,10 +52,18 @@ class C4GDateTimeListFilter extends C4GListFilter
     public function filter($elements, $dialogParams)
     {
         if ($this->to && (intval($this->to) >= intval($this->from))) {
+
+            $rowElements = array();
             foreach ($elements as $key => $value) {
                 if (is_array($value)) {
                     if ((intval($value[$this->fieldName]) < intval($this->from)) || (intval($value[$this->fieldName]) > intval($this->to))) {
                         unset($elements[$key]);
+                    }
+                } elseif ($value instanceof \Model) {
+                    $fieldName = $this->fieldName;
+                    if ((intval($value->$fieldName) < intval($this->from)) || (intval($value->$fieldName) > intval($this->to))) {
+                    } else {
+                        $rowElements[] = $value->row();
                     }
                 } else {
                     $fieldName = $this->fieldName;
@@ -65,7 +73,12 @@ class C4GDateTimeListFilter extends C4GListFilter
                 }
             }
         }
-        return $elements;
+
+        if (empty($rowElements)) {
+            return $elements;
+        } else {
+            return C4GBrickCommon::arrayToObject($rowElements);
+        }
     }
 
     /**
