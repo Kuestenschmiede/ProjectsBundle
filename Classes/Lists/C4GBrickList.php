@@ -687,12 +687,15 @@ class C4GBrickList
             }
             $convertingCount = 0; //DateTimeLocation
             $tooltip = '';
+
             if ($captionField) {
                 $tooltip = $row->$captionField;
             }
             $view .= '<a class="c4gGuiAction" href="" data-action="'.$href.'"><ul class="c4g_brick_list_row c4g_brick_list_row_'.$i.'" data-tooltip="'.$tooltip.'" title="'.$tooltip.'">';
             foreach ($fieldList as $field) {
                 $fieldName = $field->getFieldName();
+                //special char decode (&#40; &#41;)
+                $row->$fieldName = html_entity_decode($row->$fieldName);
                 $additionalParameters = array();
                 $additionalParameters['database'] = $database;
 
