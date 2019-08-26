@@ -33,7 +33,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 class AjaxController extends Controller
 {
-    public function ajaxAction(Request $request, $module, $action)
+    public function ajaxAction(Request $request, $language, $module, $action)
     {
         $moduleManager = new C4GModuleManager();
         if ($request->getMethod() === "PUT") {
@@ -42,9 +42,9 @@ class AjaxController extends Controller
             if ($actionString[0] === "C4GPrintDialogAction") {
                 return $this->printAction($request, $module, $arrData, $action);
             }
-            $returnData = $moduleManager->getC4gFrontendModule($module, $action, $arrData);
+            $returnData = $moduleManager->getC4gFrontendModule($module, $language, $action, $arrData);
         } else {
-            $returnData = $moduleManager->getC4gFrontendModule($module, $action);
+            $returnData = $moduleManager->getC4gFrontendModule($module, $language, $action);
         }
         $response = new JsonResponse();
         if ($returnData === null) {

@@ -52,7 +52,7 @@ class C4GBrickModuleParent extends \Module
     protected $viewType             = C4GBrickViewType::GROUPBASED; //see C4GBrickViewType
     protected $publicViewType       = ''; //automatic switch from based to view type
     protected $tableName            = ''; //needed by default DatabaseType
-    protected $findBy               = array(); //qualify default dataset
+    protected $findBy               = []; //qualify default dataset
     protected $modelClass           = ''; //needed by default DatabaseType
     protected $fieldList            = null; //fieldlist filled by module class with objects inherited by C4GBrickField
     protected $initialFieldList     = null; //initial fieldlist used for history lookups when the fieldlist is changed
@@ -125,6 +125,7 @@ class C4GBrickModuleParent extends \Module
     protected $useUuidCookie        = false; //Can be overridden in child to suppress the uuid cookie.
 
     protected $asnycList            = false; // set true when the list should be loaded after the initial page load
+    protected $language             = '';
 
     //Resource Params
     protected $loadDefaultResources = true;
@@ -300,7 +301,13 @@ class C4GBrickModuleParent extends \Module
      */
     private function loadLanguageFiles()
     {
-        $language = $GLOBALS['TL_LANGUAGE'];
+        if ($this->language === '') {
+            $language = $GLOBALS['TL_LANGUAGE'];
+        } else {
+            $language = $this->language;
+            $GLOBALS['TL_LANGUAGE'] = $language;
+        }
+
         \System::loadLanguageFile('fe_c4g_list',$language);
         \System::loadLanguageFile('fe_c4g_dialog',$language);
 
@@ -549,7 +556,7 @@ class C4GBrickModuleParent extends \Module
         $this->compileCss();
 
         $data['id']         = $this->id;
-        $data['ajaxUrl']    = "con4gis/brick_ajax_api";
+        $data['ajaxUrl']    = "con4gis/brick_ajax_api/" . $GLOBALS['TL_LANGUAGE'];
         $data['ajaxData']   = $this->id;
         $data['height']     = 'auto';
         $data['width']      = '100%';
@@ -1510,5 +1517,23 @@ class C4GBrickModuleParent extends \Module
     public function setWithPermissionCheck($withPermissionCheck)
     {
         $this->withPermissionCheck = $withPermissionCheck;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLanguage(): string
+    {
+        return $this->language;
+    }
+
+    /**
+     * @param string $language
+     * @return C4GBrickModuleParent
+     */
+    public function setLanguage(string $language): C4GBrickModuleParent
+    {
+        $this->language = $language;
+        return $this;
     }
 }

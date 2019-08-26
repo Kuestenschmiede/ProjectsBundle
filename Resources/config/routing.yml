@@ -1,5 +1,5 @@
 con4gisProjectsBundle:
-    path: /con4gis/brick_ajax_api/{module}/{action}
+    path: /con4gis/brick_ajax_api/{language}/{module}/{action}
     defaults:
         _scope: frontend
         _controller: "con4gisProjectsBundle:Ajax:ajax"

@@ -27,7 +27,7 @@ class C4GModuleManager
      */
     private $moduleMap = array();
 
-    public function getC4gFrontendModule($id, $request, $putVars = [])
+    public function getC4gFrontendModule($id, $language, $request, $putVars = [])
     {
         if (!strlen($id) || $id < 1) {
             header('HTTP/1.1 412 Precondition Failed');
@@ -91,6 +91,7 @@ class C4GModuleManager
         if (strpos($request, 'morebutton') === 0) {
             $arrRequest = explode(':', $request);
             // 0 is the morebutton string, 1 is the element id and 2 is the index of the more button option
+            $objModule->setLanguage($language);
             $objModule->initBrickModule($arrRequest[1]);
             $arrMorebutton = explode('_', $arrRequest[0]);
             if ($arrMorebutton && count($arrMorebutton) == 2) {
@@ -118,6 +119,7 @@ class C4GModuleManager
             }
         }
 
+        $objModule->setLanguage($language);
         return $objModule->generateAjax($request);
     }
 }
