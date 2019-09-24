@@ -658,25 +658,12 @@ class C4GBrickMapFrontendParent
 
 
     /**
+     * If $value is true-y, return $entry, else return ''.
      * @param $value
      * @param $entry
      * @return string
      */
     public function checkDefinedForEntry($value, $entry) {
-        $result = '';
-        if ($value) {
-            $result = $entry;
-        }
-
-        return $result;
-    }
-
-    /**
-     * @param $uuid
-     */
-    public static function uuidToMapId($uuid){
-        if ($uuid) {
-
-        }
+        return $value ? $entry : '';
     }
 }
