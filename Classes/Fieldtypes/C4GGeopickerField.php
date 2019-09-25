@@ -93,7 +93,7 @@ class C4GGeopickerField extends C4GBrickField
             } else {
                 $address_line =
                     '<div class="c4g_reverse_address"><input name="c4g_geopicker_address" id="c4g_brick_geopicker_address" value="' . $address . '" type="text" disabled="disabled" class="formdata" >' .
-                    '<button id="c4g_addressUpdateButton" onClick="C4GGeopickerAddress(\'' . $profile_id . '\')">Adresse neu laden</button></div>';
+                    '<button id="c4g_addressUpdateButton" onClick="C4GGeopickerAddress(\'' . $profile_id . '\')">'.$GLOBALS['TL_LANG']['FE_C4G_DIALOG']['LOAD_ADDRESS_BUTTON'].'</button></div>';
             }
         }
 

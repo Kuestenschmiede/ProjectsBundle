@@ -36,6 +36,9 @@ $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['FILE_UPLOAD']     = 'Durchsuchen';
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['NEXT']            = 'Weiter';
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['BACK']            = 'Zurück';
 
+$GLOBALS['TL_LANG']['FE_C4G_DIALOG']['LOAD_ADDRESS_BUTTON'] = 'Adresse neu laden';
+
+
 /** FE Layout **/
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['HEADLINES_ADD'] = 'hinzufügen';
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['HEADLINES_EDIT'] = 'bearbeiten';

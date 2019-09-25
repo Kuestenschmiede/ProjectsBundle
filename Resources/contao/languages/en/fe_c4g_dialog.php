@@ -32,7 +32,9 @@ $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['PRINT']           = 'Print';
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['CLICK']           = 'Unknown :)';
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['FILE_UPLOAD']     = 'Search';
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['NEXT']            = 'Proceed';
-$GLOBALS['TL_LANG']['FE_C4G_DIALOG']['BACK']            = 'Back'; 
+$GLOBALS['TL_LANG']['FE_C4G_DIALOG']['BACK']            = 'Back';
+
+$GLOBALS['TL_LANG']['FE_C4G_DIALOG']['LOAD_ADDRESS_BUTTON'] = 'Reload address';
 
 /** FE Layout **/
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['HEADLINES_ADD'] = 'add';
