@@ -187,6 +187,7 @@ class C4GBrickMapFrontendParent
     /**
      * @param $title
      * @param $value
+     * @param bool $space_before
      * @return string
      * @deprecated
      */
@@ -197,6 +198,7 @@ class C4GBrickMapFrontendParent
     /**
      * @param $title
      * @param $value
+     * @param bool $space_before
      * @return string
      */
     public function createPopupListElement($title, $value, $space_before = false) {
