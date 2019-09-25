@@ -32,8 +32,22 @@ class C4GBrickMapFrontendParent
      * @param $member_id
      * @param $brick
      * @return string
+     * @deprecated
      */
     public function addPopupButton($siteId, $state, $buttonText, $isEditButton, $member_id, $project_id, $brick, $group_id = null, $parent_id = null) {
+        return $this->createPopupButton($siteId, $state, $buttonText, $isEditButton, $member_id, $project_id, $brick, $group_id, $parent_id);
+    }
+
+    /**
+     * @param $siteId
+     * @param $state
+     * @param $buttonText
+     * @param $isEditButton
+     * @param $member_id
+     * @param $brick
+     * @return string
+     */
+    public function createPopupButton($siteId, $state, $buttonText, $isEditButton, $member_id, $project_id, $brick, $group_id = null, $parent_id = null) {
         $result = '';
 
         //testweise weitere Werte mit übergeben.
@@ -58,7 +72,24 @@ class C4GBrickMapFrontendParent
         return $result;
     }
 
+    /**
+     * @param $siteId
+     * @param $state
+     * @param $buttonText
+     * @param $isEditButton
+     * @param $member_id
+     * @param $project_id
+     * @param $brick
+     * @param null $group_id
+     * @param null $parent_id
+     * @param null $newTab
+     * @return string
+     * @deprecated
+     */
     public function addRedirectButton($siteId, $state, $buttonText, $isEditButton, $member_id, $project_id, $brick, $group_id = null, $parent_id = null, $newTab = null) {
+        return $this->createRedirectButton($siteId, $state, $buttonText, $isEditButton, $member_id, $project_id, $brick, $group_id, $parent_id, $newTab);
+    }
+    public function createRedirectButton($siteId, $state, $buttonText, $isEditButton, $member_id, $project_id, $brick, $group_id = null, $parent_id = null, $newTab = null) {
         $result = '';
 
         if ($siteId) {
@@ -96,8 +127,18 @@ class C4GBrickMapFrontendParent
      * @param $name
      * @param $type
      * @return string
+     * @deprecated
      */
     public function addPopupHeader($name, $type) {
+        return $this->createPopupHeader($name, $type);
+    }
+
+    /**
+     * @param $name
+     * @param $type
+     * @return string
+     */
+    public function createPopupHeader($name, $type) {
         $result =
             "<div class=c4g_popup_header_featurename>" . $name . "</div>" .
             "<div class=c4g_popup_header_featuretype>" . $type . "</div>" .
@@ -123,8 +164,17 @@ class C4GBrickMapFrontendParent
     /**
      * @param $key
      * @return string
+     * @deprecated
      */
     public function addPopupKeyElement($key) {
+        return $this->createPopupKeyElement($key);
+    }
+
+    /**
+     * @param $key
+     * @return string
+     */
+    public function createPopupKeyElement($key) {
         $result = '';
         if ($key) {
             $result = '<input type="hidden" id="c4g_brick_popup_id" value="'.$key.'">';
@@ -137,9 +187,21 @@ class C4GBrickMapFrontendParent
     /**
      * @param $title
      * @param $value
+     * @param bool $space_before
      * @return string
+     * @deprecated
      */
     public function addPopupListElement($title, $value, $space_before = false) {
+        return $this->createPopupListElement($title, $value, $space_before);
+    }
+
+    /**
+     * @param $title
+     * @param $value
+     * @param bool $space_before
+     * @return string
+     */
+    public function createPopupListElement($title, $value, $space_before = false) {
         $result = '';
         $before = '';
         if (($value) && ($title) && (strtolower($value) != 'unknown')) {
@@ -157,8 +219,18 @@ class C4GBrickMapFrontendParent
      * @param $title
      * @param $description
      * @return string
+     * @deprecated
      */
     public function addPopupDescriptionElement($title, $description, $last_member_id = 0, $maxLength = 254) {
+        return $this->createPopupDescriptionElement($title, $description, $last_member_id, $maxLength);
+    }
+
+    /**
+     * @param $title
+     * @param $description
+     * @return string
+     */
+    public function createPopupDescriptionElement($title, $description, $last_member_id = 0, $maxLength = 254) {
         $result = '';
         if (($title) && ($description)) {
             $description = C4GBrickCommon::cutText($description, $maxLength);
@@ -186,8 +258,26 @@ class C4GBrickMapFrontendParent
      * @param null $content
      * @param bool $withUrl
      * @return array
+     * @deprecated
      */
     protected function addMapStructureElement($pid, $id, $key, $type, $name, $layername, $display, $hide, $content_async = null, $content = null, $withUrl = false)
+    {
+        return $this->createMapStructureElement($pid, $id, $key, $type, $name, $layername, $display, $hide, $content_async, $content, $withUrl);
+    }
+    /**
+     * @param $pid
+     * @param $id
+     * @param $key
+     * @param $type
+     * @param $name
+     * @param $layername
+     * @param $display
+     * @param $hide
+     * @param null $content
+     * @param bool $withUrl
+     * @return array
+     */
+    protected function createMapStructureElement($pid, $id, $key, $type, $name, $layername, $display, $hide, $content_async = null, $content = null, $withUrl = false)
     {
         //ToDo only refresh we do not use the url
         $arrData = array();
@@ -240,8 +330,50 @@ class C4GBrickMapFrontendParent
      * @param null $content
      * @param bool $withUrl
      * @return array
+     * @deprecated
      */
     public function addMapStructureElementWithIdCalc(
+            $elementId,
+            $parentId,
+            $parentPid,
+            $parentIdent,
+            $type,
+            $name,
+            $layername,
+            $display,
+            $hide,
+            $content = null,
+            $withUrl = false)
+    {
+        return $this->createMapStructureElementWithIdCalc(
+            $elementId,
+            $parentId,
+            $parentPid,
+            $parentIdent,
+            $type,
+            $name,
+            $layername,
+            $display,
+            $hide,
+            $content,
+            $withUrl);
+    }
+
+    /**
+     * @param $elementId
+     * @param $parentId
+     * @param $parentPid
+     * @param $parentIdent
+     * @param $type
+     * @param $name
+     * @param $layername
+     * @param $display
+     * @param $hide
+     * @param null $content
+     * @param bool $withUrl
+     * @return array
+     */
+    public function createMapStructureElementWithIdCalc(
             $elementId,
             $parentId,
             $parentPid,
@@ -312,8 +444,27 @@ class C4GBrickMapFrontendParent
      * @param null $url
      * @param int $interval
      * @return array
+     * @deprecated
      */
     public function addMapStructureContentFromGeoJson($locationStyle, $geoJson, $popupInfo, $label = '', $graphicTitle = '',$cluster = null, $url = null, $interval = 60000)
+    {
+        return $this->createMapStructureContentFromGeoJson(
+            $locationStyle, $geoJson, $popupInfo, $label, $graphicTitle,$cluster, $url, $interval
+        );
+    }
+
+    /**
+     * @param $locationStyle
+     * @param $geoJson
+     * @param $popupInfo
+     * @param string $label
+     * @param string $graphicTitle
+     * @param null $cluster
+     * @param null $url
+     * @param int $interval
+     * @return array
+     */
+    public function createMapStructureContentFromGeoJson($locationStyle, $geoJson, $popupInfo, $label = '', $graphicTitle = '',$cluster = null, $url = null, $interval = 60000)
     {
         $stringClass = $GLOBALS['con4gis']['stringClass'];
         $popupInfo   = $stringClass::toHtml5($popupInfo);
@@ -423,8 +574,34 @@ class C4GBrickMapFrontendParent
      * @param string $label
      * @param string $graphicTitle
      * @return array
+     * @deprecated
      */
     public function addMapStructureContent($locationStyle, $loc_geox, $loc_geoy, $popupInfo, $label = '', $graphicTitle = '',$cluster = null, $url = null, $interval = 60000)
+    {
+        return $this->createMapStructureContent(
+            $locationStyle,
+            $loc_geox,
+            $loc_geoy,
+            $popupInfo,
+            $label,
+            $graphicTitle,
+            $cluster,
+            $url,
+            $interval
+        );
+    }
+
+    /**
+     * @param $id
+     * @param $locationStyle
+     * @param $loc_geox
+     * @param $loc_geoy
+     * @param $popupInfo
+     * @param string $label
+     * @param string $graphicTitle
+     * @return array
+     */
+    public function createMapStructureContent($locationStyle, $loc_geox, $loc_geoy, $popupInfo, $label = '', $graphicTitle = '',$cluster = null, $url = null, $interval = 60000)
     {
         $stringClass = $GLOBALS['con4gis']['stringClass'];
         $popupInfo   = $stringClass::toHtml5($popupInfo);
@@ -571,8 +748,22 @@ class C4GBrickMapFrontendParent
     /**
      * @param $arrData
      * @param $arrChildData
+     * @param bool $sort
+     * @return mixed
+     * @deprecated
      */
     public function addMapStructureChilds($arrData, $arrChildData, $sort = true)
+    {
+        return $this->createMapStructureChilds($arrData, $arrChildData, $sort);
+    }
+
+    /**
+     * @param $arrData
+     * @param $arrChildData
+     * @param bool $sort
+     * @return mixed
+     */
+    public function createMapStructureChilds($arrData, $arrChildData, $sort = true)
     {
         if ($arrChildData) {
             if (!$sort) {
@@ -609,8 +800,20 @@ class C4GBrickMapFrontendParent
      * @param $childData
      * @param bool $sort
      * @return mixed
+     * @deprecated
      */
     public function addMapStructureChild($arrData, $childData, $sort = true)
+    {
+        return $this->createMapStructureChild($arrData, $childData, $sort);
+    }
+
+    /**
+     * @param $arrData
+     * @param $childData
+     * @param bool $sort
+     * @return mixed
+     */
+    public function createMapStructureChild($arrData, $childData, $sort = true)
     {
         if ($arrData && $childData) {
             $arrData['childs'][] = $childData;
@@ -648,8 +851,19 @@ class C4GBrickMapFrontendParent
      * @param $level
      * @param $child
      * @return array|void
+     * @deprecated
      */
     public function addLocations($level, $child)
+    {
+        return $this->createLocations($level, $child);
+    }
+
+    /**
+     * @param $level
+     * @param $child
+     * @return array|void
+     */
+    public function createLocations($level, $child)
     {
         //Wird in der erbenen Klasse überschrieben.
 
@@ -658,25 +872,12 @@ class C4GBrickMapFrontendParent
 
 
     /**
+     * If $value is true-y, return $entry, else return ''.
      * @param $value
      * @param $entry
      * @return string
      */
     public function checkDefinedForEntry($value, $entry) {
-        $result = '';
-        if ($value) {
-            $result = $entry;
-        }
-
-        return $result;
-    }
-
-    /**
-     * @param $uuid
-     */
-    public static function uuidToMapId($uuid){
-        if ($uuid) {
-
-        }
+        return $value ? $entry : '';
     }
 }
