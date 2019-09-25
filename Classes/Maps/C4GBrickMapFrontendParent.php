@@ -446,10 +446,10 @@ class C4GBrickMapFrontendParent
      * @return array
      * @deprecated
      */
-    public function addMapStructureContentFromGeoJson($locationStyle, $geoJson, $popupInfo, $label = '', $graphicTitle = '',$cluster = null, $url = null, $interval = 60000)
+    public function addMapStructureContentFromGeoJson($locationStyle, $geoJson, $popupInfo, $label = '', $graphicTitle = '',$cluster = null, $url = null, $interval = 60000, $properties = [])
     {
         return $this->createMapStructureContentFromGeoJson(
-            $locationStyle, $geoJson, $popupInfo, $label, $graphicTitle,$cluster, $url, $interval
+            $locationStyle, $geoJson, $popupInfo, $label, $graphicTitle,$cluster, $url, $interval, $properties
         );
     }
 
@@ -464,7 +464,7 @@ class C4GBrickMapFrontendParent
      * @param int $interval
      * @return array
      */
-    public function createMapStructureContentFromGeoJson($locationStyle, $geoJson, $popupInfo, $label = '', $graphicTitle = '',$cluster = null, $url = null, $interval = 60000)
+    public function createMapStructureContentFromGeoJson($locationStyle, $geoJson, $popupInfo, $label = '', $graphicTitle = '',$cluster = null, $url = null, $interval = 60000, $properties = [])
     {
         $stringClass = $GLOBALS['con4gis']['stringClass'];
         $popupInfo   = $stringClass::toHtml5($popupInfo);
@@ -508,7 +508,8 @@ class C4GBrickMapFrontendParent
                     'boundingBox'  => false
                 );
             }
-            
+            $objGeoJson = json_decode($geoJson, true);
+            $objGeoJson['properties'] = array_merge($objGeoJson['properties'], $properties);
             $content = array(
                 'id' => 0,
                 'type' => 'urlData',
@@ -519,6 +520,7 @@ class C4GBrickMapFrontendParent
                 'cluster_fontcolor'  => $fontcolor,
                 'cluster_popup'      => $popup,
                 'cluster_zoom'       => $zoom,
+                'properties'         => $properties,
                 'data' => json_decode($geoJson, true),
                 'settings' => $settings,
             );
@@ -576,7 +578,7 @@ class C4GBrickMapFrontendParent
      * @return array
      * @deprecated
      */
-    public function addMapStructureContent($locationStyle, $loc_geox, $loc_geoy, $popupInfo, $label = '', $graphicTitle = '',$cluster = null, $url = null, $interval = 60000)
+    public function addMapStructureContent($locationStyle, $loc_geox, $loc_geoy, $popupInfo, $label = '', $graphicTitle = '',$cluster = null, $url = null, $interval = 60000, $properties = [])
     {
         return $this->createMapStructureContent(
             $locationStyle,
@@ -587,7 +589,8 @@ class C4GBrickMapFrontendParent
             $graphicTitle,
             $cluster,
             $url,
-            $interval
+            $interval,
+            $properties
         );
     }
 
@@ -601,7 +604,7 @@ class C4GBrickMapFrontendParent
      * @param string $graphicTitle
      * @return array
      */
-    public function createMapStructureContent($locationStyle, $loc_geox, $loc_geoy, $popupInfo, $label = '', $graphicTitle = '',$cluster = null, $url = null, $interval = 60000)
+    public function createMapStructureContent($locationStyle, $loc_geox, $loc_geoy, $popupInfo, $label = '', $graphicTitle = '',$cluster = null, $url = null, $interval = 60000, $properties)
     {
         $stringClass = $GLOBALS['con4gis']['stringClass'];
         $popupInfo   = $stringClass::toHtml5($popupInfo);
@@ -645,6 +648,18 @@ class C4GBrickMapFrontendParent
                     'boundingBox'  => false
                 );
             }
+            $objProperties = array_merge(array
+            (
+                'projection' => 'EPSG:4326',
+                'positionId' => 0,
+                'popup' => array(
+                    'content' => $popupInfo,
+                    'routing_link' => "1",
+                    'async' => false,
+                ),
+                'label' => $label,
+                'graphicTitle' => $graphicTitle
+            ), $properties);
 
             $content = array(
                 'id' => 0,
@@ -656,6 +671,7 @@ class C4GBrickMapFrontendParent
                 'cluster_fontcolor'  => $fontcolor,
                 'cluster_popup'      => $popup,
                 'cluster_zoom'       => $zoom,
+                'properties'         => $properties,
                 'data' => array(
                     'url' => $url,
                     'type' => 'Feature',
@@ -666,18 +682,7 @@ class C4GBrickMapFrontendParent
                             (float) $loc_geoy
                         )
                     ),
-                    'properties' => array
-                    (
-                        'projection' => 'EPSG:4326',
-                        'positionId' => 0,
-                        'popup' => array(
-                            'content' => $popupInfo,
-                            'routing_link' => "1",
-                            'async' => false,
-                        ),
-                        'label' => $label,
-                        'graphicTitle' => $graphicTitle
-                    )
+                    'properties' => $objProperties
                 ),
                 'settings' => $settings,
             );
@@ -704,7 +709,18 @@ class C4GBrickMapFrontendParent
                 );
             }
 
+            $objProperties = array_merge(array
+            (
+                'projection' => 'EPSG:4326',
+                'popup' => array(
+                    'content' => $popupInfo,
+                    'routing_link' => "1",
+                    'async' => false,
+                ),
+                'label' => $label,
+                'graphicTitle' => $graphicTitle
 
+            ), $properties);
             $content = array(
                 'id' => 0,
                 'type' => 'GeoJSON',
@@ -715,6 +731,7 @@ class C4GBrickMapFrontendParent
                 'cluster_fontcolor'  => $fontcolor,
                 'cluster_popup'      => $popup,
                 'cluster_zoom'       => $zoom,
+                'properties'         => $properties,
                 'data' => array(
                     'type' => 'Feature',
                     'geometry' => array(
@@ -724,18 +741,7 @@ class C4GBrickMapFrontendParent
                             (float) $loc_geoy
                         )
                     ),
-                    'properties' => array
-                    (
-                        'projection' => 'EPSG:4326',
-                        'popup' => array(
-                            'content' => $popupInfo,
-                            'routing_link' => "1",
-                            'async' => false,
-                        ),
-                        'label' => $label,
-                        'graphicTitle' => $graphicTitle
-
-                    )
+                    'properties' => $objProperties
                 ),
                 'settings' => $settings,
             );
