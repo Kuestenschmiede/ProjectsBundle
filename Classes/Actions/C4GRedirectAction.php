@@ -53,11 +53,11 @@ class C4GRedirectAction extends C4GBrickDialogAction
             }
             if (!$return['usermessage']) {
                 $return['jump_to_url'] = $jumpTo->getFrontendUrl();
-                if ($this->redirectWithAction) {
+                if ($this->getRedirectWithAction) {
                     $return['jump_to_url'] .= '?' . $this->redirectWithAction;
                 }
-                if ($this->redirectToDetail) {
-                    $return['jump_to_url'] .= '?state=click:' . $id;
+                if ($this->isRedirectToDetail()) {
+                    $return['jump_to_url'] .= '?state=item:' . $id;
 
                 }
             }

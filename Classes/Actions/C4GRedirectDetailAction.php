@@ -19,7 +19,7 @@ class C4GRedirectDetailAction extends C4GRedirectAction
 
     public function run()
     {
-        $this->setRedirectSite($this->listParams->getRedirectTo());
+        $this->setRedirectSite($this->getListParams()->getRedirectTo());
         return parent::run();
     }
 
