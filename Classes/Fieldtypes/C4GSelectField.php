@@ -147,10 +147,6 @@ class C4GSelectField extends C4GBrickField
                     $selectoptions = $this->getOptions();
                 }
 
-                if (!in_array($value, $selectoptions)) {
-
-                };
-
 
                 foreach ($selectoptions as $option) {
                     if ((!$option['id']) && (!$option['name'])) {

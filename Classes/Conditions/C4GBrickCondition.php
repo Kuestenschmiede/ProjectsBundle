@@ -30,7 +30,7 @@ class C4GBrickCondition
 
     /**
      * Checks the given value against the condition and returns the result.
-     * @param string $givenValue
+     * @param string $Value
      * @return bool
      */
     public function checkAgainstCondition($Value)
@@ -45,7 +45,6 @@ class C4GBrickCondition
         } else {
             return false;
         }
-
     }
 
     /**
