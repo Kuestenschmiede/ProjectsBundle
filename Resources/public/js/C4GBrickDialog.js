@@ -526,6 +526,19 @@ function C4GCheckCondition(field)
                         //ToDo
                     }
                 }
+                try {
+                    jQuery(field).removeClass("formdata");
+                    if (jQuery(field).hasClass('chzn-select')) {
+                        jQuery(field).removeClass("chzn-select");
+                        jQuery(field).addClass("chzn-select-disabled");
+                        jQuery(field).style = "display:none";
+                        jQuery(field).trigger('chosen:updated');
+                    }
+                    jQuery(field.hide());
+                    jQuery(field.removeAttr("selected"));
+                } catch (err) {
+                    //ToDo
+                }
             }
         }
     }
@@ -562,9 +575,29 @@ function C4GCheckCondition(field)
                         //ToDo
                     }
                 }
+                try {
+                    jQuery(field).show();
+                    jQuery(field).addClass("formdata");
+
+                    if (jQuery(field).hasClass("c4g_display_none")) {
+                        if (jQuery(field).hasClass('chzn-select')) {
+                            jQuery(field).removeClass("chzn-select");
+                            jQuery(field).addClass("chzn-select-disabled");
+                        }
+                        jQuery(field).hide();
+                    } else {
+                        if (jQuery(field).hasClass('chzn-select-disabled')) {
+                            jQuery(field).removeClass("chzn-select-disabled");
+                            jQuery(field).addClass("chzn-select");
+                            jQuery(field).hide();
+                        }
+                    }
+
+                } catch (err) {
+                    //ToDo
+                }
             }
         }
-
     }
 }
 
