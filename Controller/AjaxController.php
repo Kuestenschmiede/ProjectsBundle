@@ -316,19 +316,11 @@ class AjaxController extends Controller
         $sDestinationPath = Input::post('Path');
         $file = explode('.', $sFileName);
         $sFileExt = strtolower($file[count($file)-1]);
-        $mimeTypes = explode(',', Input::post('MimeTypes'));
+        $mimeTypes = explode(',', $GLOBALS['TL_CONFIG']['uploadTypes']);
         $found = false;
         foreach ($mimeTypes as $mimeType) {
-            if ($sFileType == $mimeType) {
+            if ($sFileType === 'image/'.$mimeType) {
                 $found = true;
-            } elseif ($mimeType === 'image/*') {
-                switch ($sFileType) {
-                    case 'image/png':
-                    case 'image/jpg':
-                    case 'image/jpeg':
-                        $found = true;
-                        break;
-                }
             }
         }
         if (!$mimeTypes || !$found) {
