@@ -349,4 +349,23 @@ class C4GMultiCheckboxField extends C4GBrickField
         return $this;
     }
 
+    /**
+     * Helper function to create an option array compatible with setOptions()
+     * @param array $array
+     * @return array
+     */
+    public function createOptionArray(array $array) {
+        $options = [];
+        $count = 1           ;
+        foreach ($array as $entry) {
+            $options[] = ['id' => strval($count), 'name' => strval($entry)];
+            $count += 1;
+        }
+        return $options;
+    }
+
+    public function setOptionsFromArray(array $array) {
+        return $this->setOptions($this->createOptionArray($array));
+    }
+
 }
