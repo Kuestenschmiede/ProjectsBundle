@@ -301,7 +301,7 @@ class AjaxController extends Controller
         }
         // User not logged in...
         if (!FE_USER_LOGGED_IN) {
-            $response->setStatusCode(403);
+            $response->setStatusCode(401);
             return $response;
         }
         // xss cleanup
