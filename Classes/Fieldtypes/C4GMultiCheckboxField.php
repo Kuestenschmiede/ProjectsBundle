@@ -18,6 +18,7 @@ use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldCompare;
 use con4gis\ProjectsBundle\Classes\Views\C4GBrickViewType;
+use Contao\StringUtil;
 
 class C4GMultiCheckboxField extends C4GBrickField
 {
@@ -49,7 +50,7 @@ class C4GMultiCheckboxField extends C4GBrickField
         $values = array();
         if ($value) {
             if ($this->serializeResult) {
-                $tmpArray = unserialize(html_entity_decode($value));
+                $tmpArray = StringUtil::deserialize(html_entity_decode($value));
             } else {
                 $tmpArray = $value;
             }
@@ -155,7 +156,7 @@ class C4GMultiCheckboxField extends C4GBrickField
         $result = array();
         if ($field_content) {
             $cbArray = null;
-            $tmpArray = unserialize(html_entity_decode($field_content));
+            $tmpArray = StringUtil::deserialize($field_content);
             if ($tmpArray) {
                 foreach ($tmpArray as $tmpKey => $tmpValue)
                 {
@@ -211,7 +212,7 @@ class C4GMultiCheckboxField extends C4GBrickField
         //query for C4GBrickMatching
         if(sizeof($result) == 0 && $this->isSearchField()) {
             if(is_array($dlgValues)) {
-                $dlgValue = unserialize($dlgValues[$fieldName]);
+                $dlgValue = StringUtil::deserialize($dlgValues[$fieldName]);
             } else {
                 $dlgValue = $dlgValues;
             }
