@@ -24,11 +24,6 @@ class C4GMultiCheckboxField extends C4GBrickField
     private $modernStyle = false;
     private $serializeResult = true;
 
-    public function __construct()
-    {
-        $this->setModernStyle(true);
-    }
-
     /**
      * @param $fieldList
      * @param $data
