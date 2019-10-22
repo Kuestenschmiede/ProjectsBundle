@@ -21,6 +21,8 @@ use Contao\Controller;
 class C4GMultiColumnField extends C4GBrickField
 {
     protected $fields = [];
+    protected $addButtonLabel = "Hinzufügen";
+    protected $removeButtonLabel = "Entfernen";
 
     public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = array())
     {
@@ -36,12 +38,21 @@ class C4GMultiColumnField extends C4GBrickField
             $fieldData = "<div ".$condition['conditionPrepare'].">";
             $fieldData .= '<input ' . $required . ' ' . $condition['conditionPrepare'] . ' type="hidden" id="' . $id .
                 '" class="formdata ' . $id . '" name="' . $this->getFieldName() . '" value="' . $value . '">';
-            $fieldData .= "<div>";
+            $fieldData .= "<table class=\"c4g_multicolumn\">";
+            $head = "<tr>";
+            $row = "<tr>";
             foreach ($this->fields as $field) {
-                $fieldData .= "<input id=\"".$field['name']."\" name=\"".$field['name']."\" ".
-                    "type=\"".$field['type']."\"><label for=\"".$field['name']."\">".$field['label']."</label>";
+                $head .= "<th>".$field['label']."</th>";
+                $row .= "<td><input id=\"".$field['name']."\" name=\"".$field['name']."\" ".
+                    "type=\"".$field['type']."\"></td>";
             }
-            $fieldData .= "</div>";
+            $head .= "</tr>";
+            $row .= "<td><button class=\"ui-button ui-corner-all ui-widget\">".$this->addButtonLabel."</button></td>";
+            $row .= "<td><button class=\"ui-button ui-corner-all ui-widget\">".$this->removeButtonLabel."</button></td>";
+            $row .= "</tr>";
+            $fieldData .= $head;
+            $fieldData .= $row;
+            $fieldData .= "</table>";
             $fieldData .= "</div>";
 
 
