@@ -629,7 +629,6 @@ abstract class C4GBrickField
     }
 
     /**
-     * @param $this
      * @param $data
      * @return mixed
      */
