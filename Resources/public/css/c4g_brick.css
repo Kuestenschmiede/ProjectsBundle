@@ -956,3 +956,8 @@ th.nomouseevents .DataTables_sort_icon {
     width: 95%  !important;
     min-height: 27px  !important;
 }
+
+.c4g_multicolumn {
+    margin-top: 10px;
+    margin-left: 2.5%;
+}
