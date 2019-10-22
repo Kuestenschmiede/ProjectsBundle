@@ -139,6 +139,7 @@ class C4GBrickModuleParent extends \Module
     protected $loadFontAwesomeResources = false;
     protected $loadTriggerSearchFromOtherModuleResources = false;
     protected $loadFileUploadResources = false;
+    protected $loadMultiColumnResources = false;
 
     //JQuery GUI Resource Params
     protected $jQueryAddCore = true;
@@ -747,6 +748,10 @@ class C4GBrickModuleParent extends \Module
         if ($this->loadCkEditor5Resources) {
             ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/ckeditor5/ckeditor.js', ResourceLoader::HEAD);
             ResourceLoader::loadJavaScriptResourceTag('var ckeditor5instances = {};');
+        }
+
+        if ($this->loadMultiColumnResources === true) {
+            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/ckeditor5/multicolumn.js');
         }
     }
 
