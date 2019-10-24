@@ -326,7 +326,7 @@ class C4GMultiCheckboxField extends C4GBrickField
      * @param $modernStyle
      * @return $this
      */
-    public function setModernStyle($modernStyle)
+    public function setModernStyle($modernStyle = true)
     {
         $this->modernStyle = $modernStyle;
         return $this;

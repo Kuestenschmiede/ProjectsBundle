@@ -115,10 +115,12 @@ class C4GTextField extends C4GBrickFieldText
 
     /**
      * @param bool $simpleTextWithoutEditing
+     * @return C4GTextField
      */
-    public function setSimpleTextWithoutEditing(bool $simpleTextWithoutEditing): void
+    public function setSimpleTextWithoutEditing(bool $simpleTextWithoutEditing = true): C4GTextField
     {
         $this->simpleTextWithoutEditing = $simpleTextWithoutEditing;
+        return $this;
     }
 
 }
