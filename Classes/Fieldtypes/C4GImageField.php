@@ -94,6 +94,15 @@ class C4GImageField extends C4GBrickField
 //                if ($pathobj->path[0] != '/') {
 //                    $pathobj->path = substr($pathobj->path, 1);
 //                }
+                if ($dialogParams->isWithLabels() === false) {
+                    $label = '';
+                } else {
+                    $label = $this->getTitle();
+                }
+
+                if ($dialogParams->isWithDescriptions() === false) {
+                    $description = '';
+                }
 
                 $result = '
                         <div '
@@ -101,7 +110,7 @@ class C4GImageField extends C4GBrickField
                     . $condition['conditionType']
                     . $condition['conditionValue']
                     . $condition['conditionDisable'] . '>
-                        <div class="c4g_image c4g_' . $this->getFieldName() . '"><div class="c4g_image_label"><label>' . $this->getTitle() . '</label></div><div class="c4g_image_src  c4g_' . $this->getFieldName() . '_src"><img src="' . $path . '" title="' . $this->getTitle() .
+                        <div class="c4g_image c4g_' . $this->getFieldName() . '"><div class="c4g_image_label"><label>' . $label . '</label></div><div class="c4g_image_src  c4g_' . $this->getFieldName() . '_src"><img src="' . $path . '" title="' . $this->getTitle() .
                     '" '.$size.'/></div><div class="c4g_image_description">' .
                     $description . '</div></div></div>';
             }

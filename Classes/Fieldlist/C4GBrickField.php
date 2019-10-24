@@ -18,6 +18,7 @@ use con4gis\ProjectsBundle\Classes\Conditions\C4GBrickConditionType;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GButtonField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GDecimalField;
+use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GMultiCheckboxField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GSubDialogField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GEmailField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GLinkField;
@@ -333,7 +334,7 @@ abstract class C4GBrickField
             if ($mandatory && (!$this->isWithoutMandatoryStar())) {
                 $star = '<strong class="c4g_mandatory_class">*</strong>';
             }
-            if(!$withoutLineBreak){
+            if(!$withoutLineBreak && $dialogParams->isWithLabels() === true){
                 $linebreak = C4GHTMLFactory::lineBreak();
             }
             $tdo = '';
@@ -351,7 +352,7 @@ abstract class C4GBrickField
             if ($this->getAdditionalLabel()) {
                 $additionalLabel = $this->getAdditionalLabel();
             }
-            if($this->isWithoutLabel()){
+            if($this->isWithoutLabel() || ($dialogParams->isWithLabels() === false && !($this instanceof C4GMultiCheckboxField))) {
                 return $tdo.'<label for="' . $id . '" ' . $condition['conditionPrepare'] . '>' . $star . $additionalLabel . $linebreak . '</label>'.$tdc.$extTitleField;
             } else {
                 return $tdo.'<label for="' . $id . '" ' . $condition['conditionPrepare'] . '>' . $star . $title . $additionalLabel . $linebreak . '</label>'.$tdc.$extTitleField;
