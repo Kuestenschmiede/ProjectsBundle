@@ -961,3 +961,12 @@ th.nomouseevents .DataTables_sort_icon {
     margin-top: 10px;
     margin-left: 2.5%;
 }
+
+label:empty {
+    display: none;
+}
+
+.c4g_multicheckbox span:not(.c4g_checkbox) {
+    margin-left: 2.5%;
+    margin-right: 2.5%;
+}
