@@ -24,6 +24,7 @@ class C4GMultiCheckboxField extends C4GBrickField
 {
     private $modernStyle = false;
     private $serializeResult = true;
+    private $showAsCsv = false;
 
     /**
      * @param $fieldList
@@ -122,21 +123,33 @@ class C4GMultiCheckboxField extends C4GBrickField
 
             //$required .= ' style="display:none;"';
 
-            foreach ($options as $option) {
-                $option_id = $option['id'];
-                if ($values && !isset($values[$option_id]) && !$this->isShowIfEmpty()) {
-                    continue;
+            if ($this->showAsCsv === false) {
+                foreach ($options as $option) {
+                    $option_id = $option['id'];
+                    if ($values && !isset($values[$option_id]) && !$this->isShowIfEmpty()) {
+                        continue;
+                    }
+                    $type_caption = $option['name'];
+                    $optionId = $this->getFieldName() . '|' . $option_id;
+                    $condition['conditionPrepare'] = '';
+                    $result .= $spanStart.
+                        '<input type="checkbox" id="c4g_' . $optionId . '" ' . $required . ' class="formdata c4g_display_none" size="' . $size . '" name="' . $optionId . '" value="' . $optionId . '"' .
+                        ($values && isset($values[$option_id]) ? ' checked="checked"' : '') . '">' . $this->addC4GFieldLabel('c4g_' . $optionId, $type_caption, false, $condition, $fieldList, $data, $dialogParams, false, true)
+                        .$spanEnd;
                 }
-                $type_caption = $option['name'];
-                $optionId = $this->getFieldName() . '|' . $option_id;
-                $condition['conditionPrepare'] = '';
-                $result .= $spanStart.
-                   '<input type="checkbox" id="c4g_' . $optionId . '" ' . $required . ' class="formdata c4g_display_none" size="' . $size . '" name="' . $optionId . '" value="' . $optionId . '"' .
-                    ($values && isset($values[$option_id]) ? ' checked="checked"' : '') . '">' . $this->addC4GFieldLabel('c4g_' . $optionId, $type_caption, false, $condition, $fieldList, $data, $dialogParams, false, true)
-                    .$spanEnd;
+                $result .= $description;
+                $result .= '</div><br></div>';
+            } else {
+                $csv = [];
+                foreach ($options as $option) {
+                    if (!isset($values[$option['id']])) {
+                        continue;
+                    }
+                    $csv[] = $option['name'];
+                }
+                $result .= "<span>".implode(', ', $csv)."</span>";
+                $result .= '</div><br></div>';
             }
-            $result .= $description;
-            $result .= '</div><br></div>';
         }
 
         return $result;
@@ -369,4 +382,21 @@ class C4GMultiCheckboxField extends C4GBrickField
         return $this->setOptions($this->createOptionArray($array));
     }
 
+    /**
+     * @return bool
+     */
+    public function isShowAsCsv(): bool
+    {
+        return $this->showAsCsv;
+    }
+
+    /**
+     * @param bool $showAsCsv
+     * @return C4GMultiCheckboxField
+     */
+    public function setShowAsCsv(bool $showAsCsv = true): C4GMultiCheckboxField
+    {
+        $this->showAsCsv = $showAsCsv;
+        return $this;
+    }
 }
