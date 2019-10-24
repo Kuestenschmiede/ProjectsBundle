@@ -751,7 +751,7 @@ class C4GBrickModuleParent extends \Module
         }
 
         if ($this->loadMultiColumnResources === true) {
-            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/ckeditor5/multicolumn.js');
+            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/js/multicolumn.js');
         }
     }
 
