@@ -590,6 +590,7 @@ class C4GBrickDialogParams
         if ($accordion_all_opened == true) {
             return $this->addOnLoadScript('openAccordion("all");');
         }
+        return $this;
     }
 
     /**
@@ -1413,15 +1414,17 @@ class C4GBrickDialogParams
 
     /**
      * Calls the adder to remain backwards compatible.
-     * @param string $onloadScript
+     * @param $onloadScript
+     * @return $this
      */
     public function setOnloadScript($onloadScript)
     {
-        $this->addOnLoadScript($onloadScript);
+        return $this->addOnLoadScript($onloadScript);
     }
 
     /**
-     * @param string $onloadScript
+     * @param $onloadScript
+     * @return $this
      */
 
     public function addOnLoadScript($onloadScript)
@@ -1431,6 +1434,7 @@ class C4GBrickDialogParams
         } else {
             $this->onloadScript = $onloadScript;
         }
+        return $this;
     }
 
     /**
