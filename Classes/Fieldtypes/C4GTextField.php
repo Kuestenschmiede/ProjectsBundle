@@ -39,7 +39,7 @@ class C4GTextField extends C4GBrickFieldText
 
             if ($this->isSimpleTextWithoutEditing()) {
                 $result = $this->addC4GField($condition, $dialogParams, $fieldList, $data,
-                    "<div $required ".$condition['conditionPrepare']." id=\"$id\" class=\"c4g_non_input\">$value</div>");
+                    "<div ".$condition['conditionPrepare']." id=\"$id\" class=\"c4g_non_input\">$value</div>");
 
             } else {
                 $result = $this->addC4GField($condition, $dialogParams, $fieldList, $data,
