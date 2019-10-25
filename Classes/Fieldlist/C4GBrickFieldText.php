@@ -55,6 +55,11 @@ abstract class C4GBrickFieldText extends C4GBrickField
         $fieldName = $this->getFieldName();
 
         $value = $rowData->$fieldName;
+
+        if ($value === '' && !$this->isShowIfEmpty()) {
+            return '';
+        }
+
         if ($this->getAddStrBeforeValue()) {
             $value = $this->getAddStrBeforeValue().$value;
         }

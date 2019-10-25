@@ -653,6 +653,10 @@ abstract class C4GBrickField
             $value = $data->$fieldName;
         }
 
+        if ($value === '') {
+            return '';
+        }
+
         if ($this->getAddStrBeforeValue()) {
             $value = $this->getAddStrBeforeValue().$value;
         }

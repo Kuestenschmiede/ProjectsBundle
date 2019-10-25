@@ -712,7 +712,7 @@ class C4GBrickList
                         $view .= $beforeDiv . C4GBrickCommon::translateSelectOption($row->$fieldName, C4GBrickList::getOptions($fieldList, $row, $field)) . $afterDiv;
                     } else if ($field instanceof C4GGeopickerField) {
                         $view .= $beforeDiv . $field->getC4GListField($row, $content, $database) . $afterDiv;
-                    } else if ($field instanceof C4GDateTimeLocationField){
+                    } else if ($field instanceof C4GDateTimeLocationField) {
                         $lat = $row->loc_geoy;
                         $lon = $row->loc_geox;
                         $time = $row->loc_time;
@@ -762,7 +762,10 @@ class C4GBrickList
                         }
                         $view .= $beforeDiv . $address . $afterDiv;
                     } else {
-                        $view .= $beforeDiv . $field->getC4GListField($row, $content) . $afterDiv;
+                        $fieldContent = $field->getC4GListField($row, $content);
+                        if ($fieldContent !== '' || !$field->isShowIfEmpty()) {
+                            $view .= $beforeDiv . $fieldContent . $afterDiv;
+                        }
                     }
                 }
 
