@@ -45,7 +45,7 @@ class C4GLinkButtonField extends C4GBrickField
      */
     public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = array())
     {
-        return array();
+        return [];
     }
 
     /**
@@ -55,7 +55,7 @@ class C4GLinkButtonField extends C4GBrickField
      */
     public function compareWithDB($dbValue, $dlgvalue)
     {
-        return array();
+        return [];
     }
 
     public final function getC4GListField($rowData, $content)

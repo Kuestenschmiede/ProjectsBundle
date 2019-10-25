@@ -38,7 +38,7 @@ class C4GMapLinkButtonField extends C4GLinkButtonField
      */
     public function compareWithDB($dbValue, $dlgvalue)
     {
-        return array();
+        return [];
     }
 
     protected function createHref($rowData, $content) {
