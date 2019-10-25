@@ -24,6 +24,7 @@ use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GDateTimeLocationField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GDecimalField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GGeopickerField;
+use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GKeyField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GSelectField;
 use con4gis\CoreBundle\Resources\contao\classes\C4GHTMLFactory;
 use Contao\ContentModel;
@@ -700,7 +701,7 @@ class C4GBrickList
                 $additionalParameters['database'] = $database;
 
                 $additionalParameters['content'] = $content;
-                if ($field->isTableColumn()) {
+                if ($field->isTableColumn() && !($field instanceof C4GKeyField)) {
                     $beforeDiv = '<li class="c4g_brick_list_column c4g_brick_list_row_column '.$field->getFieldName().'">';
                     $afterDiv = '</li>';
                     if ($field->isHidden()) {
