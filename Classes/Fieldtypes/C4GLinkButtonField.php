@@ -132,9 +132,9 @@ class C4GLinkButtonField extends C4GBrickField
     }
 
     /**
-     * @return int
+     * @return string
      */
-    public function getTargetPageUrl(): int
+    public function getTargetPageUrl(): string
     {
         return $this->targetPageUrl;
     }
