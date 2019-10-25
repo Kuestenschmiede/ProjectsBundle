@@ -23,14 +23,6 @@ class C4GMapLinkButtonField extends C4GLinkButtonField
     private $zoom = 16;                 //Map zoom level
     private $baseLayer = 1;             //Map base layer
 
-    public function __construct()
-    {
-        $this->setDatabaseField(false)
-            ->setFormField(false)
-            ->setTableColumn()
-            ->setDatabaseField(false);
-    }
-
     /**
      * @param $dbValue
      * @param $dlgvalue
