@@ -21,7 +21,7 @@ class C4GMapLinkButtonField extends C4GLinkButtonField
     private $latitudeColumn = '';       //Database column that has the latitude value.
     private $longitudeColumn = '';      //Database column that has the longitude value
     private $zoom = 16;                 //Map zoom level
-    private $baseLayer = 1;             //Map base layer
+    private $baseLayer = 0;             //Map base layer
 
     /**
      * @param $dbValue
@@ -41,7 +41,11 @@ class C4GMapLinkButtonField extends C4GLinkButtonField
         $zoom = $this->zoom;
         $baseLayer = $this->baseLayer;
         $html = parent::createHref($rowData, $content);
-        return $html . "#$lon/$lat/$zoom/0/$baseLayer/0";
+        if ($baseLayer !== 0) {
+            return $html . "#$lon/$lat/$zoom/0/$baseLayer/0";
+        } else {
+            return $html . "#$lon/$lat/$zoom";
+        }
     }
 
     /**
