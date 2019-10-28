@@ -21,6 +21,7 @@ class C4GLinkField extends C4GBrickField
 {
     protected $linkLabel = '';
     protected $linkType = self::LINK_TYPE_DEFAULT;
+    protected $newTab = false;
 
     const LINK_TYPE_DEFAULT = 10;
     const LINK_TYPE_PHONE = 20;
@@ -46,7 +47,6 @@ class C4GLinkField extends C4GBrickField
     public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = array())
     {
         $id = "c4g_" . $this->getFieldName();
-        $required = $this->generateRequiredString($data, $dialogParams);
 
         $beforeValue = $this->getAddStrBeforeValue();
         $this->setAddStrBeforeValue('');
@@ -79,9 +79,15 @@ class C4GLinkField extends C4GBrickField
 
             $this->linkLabel ? $label = $this->linkLabel : $label = $value;
 
+            if ($this->newTab) {
+                $rel = "target='_blank' rel='noopener noreferrer' ";
+            } else {
+                $rel = '';
+            }
+
             $result =
                 $this->addC4GField($condition,$dialogParams,$fieldList,$data,
-                '<a ' . $required . ' ' . $condition['conditionPrepare'] .
+                '<a ' . $rel . ' ' . $condition['conditionPrepare'] .
                 ' id="' . $id . '" class="formdata ' . $id . ' c4g_brick_link" href="' .
                 $href . '">' . $beforeValue . $label . $afterValue . '</a>');
         }
@@ -144,5 +150,21 @@ class C4GLinkField extends C4GBrickField
         return parent::compareWithDB($dbValue, $dlgvalue);
     }
 
+    /**
+     * @return bool
+     */
+    public function isNewTab(): bool
+    {
+        return $this->newTab;
+    }
 
+    /**
+     * @param bool $newTab
+     * @return C4GLinkField
+     */
+    public function setNewTab(bool $newTab = true): C4GLinkField
+    {
+        $this->newTab = $newTab;
+        return $this;
+    }
 }
