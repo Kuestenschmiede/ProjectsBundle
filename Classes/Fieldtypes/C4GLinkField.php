@@ -110,14 +110,38 @@ class C4GLinkField extends C4GBrickField
             return '';
         }
 
-        if ($this->getAddStrBeforeValue()) {
-            $value = $this->getAddStrBeforeValue().$value;
-        }
-        if ($this->getAddStrBehindValue()) {
-            $value = $value.$this->getAddStrBehindValue();
+        switch ($this->linkType) {
+            case self::LINK_TYPE_PHONE:
+                $href = 'tel:'.$value;
+                break;
+            case self::LINK_TYPE_EMAIL:
+                $href = 'mailto:'.$value;
+                break;
+            default:
+                if (!C4GUtils::startsWith($value, 'http')) {
+                    $href = 'http://'.$value;
+                } else {
+                    $href = $value;
+                }
+                break;
         }
 
-        return $value;
+        $label = $this->linkLabel ? $this->linkLabel : $value;
+
+        if ($this->getAddStrBeforeValue()) {
+            $label = $this->getAddStrBeforeValue().$label;
+        }
+        if ($this->getAddStrBehindValue()) {
+            $label = $label.$this->getAddStrBehindValue();
+        }
+
+        if ($this->newTab) {
+            $rel = "target='_blank' rel='noopener noreferrer' ";
+        } else {
+            $rel = '';
+        }
+
+        return "<a $rel href=\"$href\">$label</a>";
     }
 
     /**
