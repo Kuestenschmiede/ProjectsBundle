@@ -23,13 +23,12 @@ abstract class C4GBrickFieldText extends C4GBrickField
      * @property int $maxChars Maximum number of characters to be displayed in the list
      * @property boolean $replaceInsertTag Should the replaceInsertTags function be called on the field value?
      */
-    //Todo Alle nötigen Properties aus BrickField und den Kindern hier einfügen
-    //Todo Prüfen, ob alles funktioniert und erst danach die Properties aus BrickField und den Kindern löschen.
 
 
     protected $pattern = '';
     protected $maxChars = 0;
     protected $replaceInsertTag = false;
+    protected $encodeHtmlEntities = true;
 
     /**
      * Will be called by if the field value is longer than $maxChars. Return a value that will replace it.
@@ -68,7 +67,9 @@ abstract class C4GBrickFieldText extends C4GBrickField
         }
 
         //remove critical characters
-        $value = htmlentities($value);
+        if ($this->encodeHtmlEntities === true) {
+            $value = htmlentities($value);
+        }
 
         //Cut field value if enabled and if it is too long
         if ($this->maxChars > 2) {
@@ -132,5 +133,23 @@ abstract class C4GBrickFieldText extends C4GBrickField
     public function setReplaceInsertTag($replaceInsertTag)
     {
         $this->replaceInsertTag = $replaceInsertTag;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isEncodeHtmlEntities(): bool
+    {
+        return $this->encodeHtmlEntities;
+    }
+
+    /**
+     * @param bool $encodeHtmlEntities
+     * @return C4GBrickFieldText
+     */
+    public function setEncodeHtmlEntities(bool $encodeHtmlEntities = true): C4GBrickFieldText
+    {
+        $this->encodeHtmlEntities = $encodeHtmlEntities;
+        return $this;
     }
 }
