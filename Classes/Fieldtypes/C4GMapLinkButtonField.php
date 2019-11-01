@@ -58,9 +58,9 @@ class C4GMapLinkButtonField extends C4GLinkButtonField
 
     /**
      * @param string $latitudeColumn
-     * @return C4GLinkButtonField
+     * @return C4GMapLinkButtonField
      */
-    public function setLatitudeColumn(string $latitudeColumn): C4GLinkButtonField
+    public function setLatitudeColumn(string $latitudeColumn): C4GMapLinkButtonField
     {
         $this->latitudeColumn = $latitudeColumn;
         return $this;
