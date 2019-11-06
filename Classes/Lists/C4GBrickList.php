@@ -611,10 +611,7 @@ class C4GBrickList
         }
 
         if ($listParams->isShowFullTextSearchInHeadline() === true) {
-            $fullTextSearchField = "<label for=\"c4g_list_search\">"
-                .$GLOBALS['TL_LANG']['FE_C4G_LIST']['SEARCH']
-                ."</label>"
-                ."<input id=\"c4g_list_search\" name=\"c4g_list_search\" oninput=\"search(this, event);\">";
+            $fullTextSearchField = '<input id="c4g_list_search" name="c4g_list_search" type="search" placeholder="'.$GLOBALS['TL_LANG']['FE_C4G_LIST']['SEARCH'].'" area-label="address filter" oninput="search(this, event);">';
         } else {
             $fullTextSearchField = "";
         }
