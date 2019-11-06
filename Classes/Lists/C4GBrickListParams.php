@@ -31,7 +31,7 @@ class C4GBrickListParams
     private $filterParams = null; //filterParams to filter big datasets *DEPRECATED*
     private $filterObject = null; //Filter object to filter the data.
     private $renderMode = C4GBrickRenderMode::TABLEBASED; //see C4GBrickRenderMode
-    private $buttons = array(); //table buttons
+    private $buttons = []; //table buttons
     private $withExportButtons = true; //show exportButtons under datatable
     private $exportButtons = null;//C4GExportButtons
     private $printOnlyVisibleColumns = true; //export button prints just visible columns
@@ -44,7 +44,7 @@ class C4GBrickListParams
     private $withoutListButtons = false; //remove all list button for views
     private $withFunctionCallOnClick = false; // true for a custom function call instead of dialog opening
     private $onClickFunction = '';  // the name of the function in the module which should be called on click
-    private $additionalOnClickParams = array(); // parameters for the function
+    private $additionalOnClickParams = []; // parameters for the function
     private $withHoverText = false; // if true, a hover text will be set for each element, the text will be searched in $element['hovertext'] (modellistfunction needed)
     private $onloadScript = ''; // javascript code that should be executed when the list is loaded
     private $removeUnpublishedElements = false; //if true we ignore unpublished elements (!published)
@@ -56,9 +56,10 @@ class C4GBrickListParams
     private $redirectTo = '';
     private $Uuid = '';
     private $showToolTips = true; //press false to not show tooltips for the table rows
-    private $customListViewFunction = array();  //array(Object instance, String function); To build a custom list view. The function takes the following parameters: $fieldList, $database, $tableElements, $content, $listParams
+    private $customListViewFunction = [];  //array(Object instance, String function); To build a custom list view. The function takes the following parameters: $fieldList, $database, $tableElements, $content, $listParams
     private $forceShowListAction = false; //Press true to force a ShowListAction to be used to display the module instead of a ShowDialogAction if id > 0
     private $customHeadline = false; // if true, only the headline from the list data will be displayed
+    private $showFullTextSearchInHeadline = false; // redundant in table view
 
 
     /**
@@ -79,7 +80,7 @@ class C4GBrickListParams
      */
     private function getDefaultListButtons($viewType)
     {
-        $buttons = array();
+        $buttons = [];
 
         if ($viewType) {
             if (!C4GBrickView::isWithoutEditing($viewType)) {
@@ -786,5 +787,23 @@ class C4GBrickListParams
     public function removeFilterObject()
     {
         $this->filterObject = null;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isShowFullTextSearchInHeadline(): bool
+    {
+        return $this->showFullTextSearchInHeadline;
+    }
+
+    /**
+     * @param bool $showFullTextSearchInHeadline
+     * @return C4GBrickListParams
+     */
+    public function setShowFullTextSearchInHeadline(bool $showFullTextSearchInHeadline = true): C4GBrickListParams
+    {
+        $this->showFullTextSearchInHeadline = $showFullTextSearchInHeadline;
+        return $this;
     }
 }

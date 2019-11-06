@@ -54,4 +54,5 @@ $GLOBALS['TL_LANG']['FE_C4G_LIST']['DATATABLE_CAPTION_SHOW']                    
 /** FE Captions */
 $GLOBALS['TL_LANG']['FE_C4G_LIST']['TRUE']  = 'Ja';
 $GLOBALS['TL_LANG']['FE_C4G_LIST']['FALSE'] = 'Nein';
+$GLOBALS['TL_LANG']['FE_C4G_LIST']['SEARCH'] = 'Suchen';
 

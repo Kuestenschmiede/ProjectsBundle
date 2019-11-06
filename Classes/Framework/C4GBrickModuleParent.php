@@ -140,6 +140,7 @@ class C4GBrickModuleParent extends \Module
     protected $loadTriggerSearchFromOtherModuleResources = false;
     protected $loadFileUploadResources = false;
     protected $loadMultiColumnResources = false;
+    protected $loadMiniSearchResources = false;
 
     //JQuery GUI Resource Params
     protected $jQueryAddCore = true;
@@ -746,12 +747,20 @@ class C4GBrickModuleParent extends \Module
         }
 
         if ($this->loadCkEditor5Resources) {
-            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/ckeditor5/ckeditor.js', ResourceLoader::HEAD);
+            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/ckeditor5/ckeditor.js',
+                ResourceLoader::HEAD);
             ResourceLoader::loadJavaScriptResourceTag('var ckeditor5instances = {};');
         }
 
         if ($this->loadMultiColumnResources === true) {
             ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/js/multicolumn.js');
+        }
+
+        if ($this->loadMiniSearchResources === true) {
+            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/minisearch/minisearch.js',
+                ResourceLoader::HEAD);
+            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/js/minisearch.js',
+                ResourceLoader::HEAD);
         }
     }
 

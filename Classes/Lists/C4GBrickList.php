@@ -595,7 +595,7 @@ class C4GBrickList
         return $return;
     }
 
-    public static function showC4GList($listCaption, $database, $content, $listHeadline,  $fieldList, $tableElements, $key, $parentCaption, $listParams)
+    public static function showC4GList($listCaption, $database, $content, $listHeadline,  $fieldList, $tableElements, $key, $parentCaption, C4GBrickListParams $listParams)
     {
         $customListViewFunction = $listParams->getCustomListViewFunction();
         if (empty($customListViewFunction)) {
@@ -610,21 +610,30 @@ class C4GBrickList
             $buttons = C4GBrickList::getDialogButtons($listParams, $parentCaption);
         }
 
-        $result = array
-        (
+        if ($listParams->isShowFullTextSearchInHeadline() === true) {
+            $fullTextSearchField = "<label for=\"c4g_list_search\">"
+                .$GLOBALS['TL_LANG']['FE_C4G_LIST']['SEARCH']
+                ."</label>"
+                ."<input id=\"c4g_list_search\" name=\"c4g_list_search\" oninput=\"search(this, event);\">";
+        } else {
+            $fullTextSearchField = "";
+        }
+
+        $result =
+        [
             'headline' => $listHeadline,
             'dialogtype' => 'html',
             'dialogdata' => $view,
-            'dialogoptions' => C4GUtils::addDefaultDialogOptions(array
-            (
-                'title' => $listCaption,
+            'dialogoptions' => C4GUtils::addDefaultDialogOptions(
+            [
+                'title' => $listCaption . $fullTextSearchField,
                 'modal' => true,
                 'embedDialogs' => true,
-            )),
-            'dialogid' =>C4GBrickActionType::IDENTIFIER_LIST . ':' . $key, //Listenstatus
-            'dialogstate' =>C4GBrickActionType::IDENTIFIER_LIST . ':' . $key, //Listenstatus
+            ]),
+            'dialogid' => C4GBrickActionType::IDENTIFIER_LIST . ':' . $key, //Listenstatus
+            'dialogstate' => C4GBrickActionType::IDENTIFIER_LIST . ':' . $key, //Listenstatus
             'dialogbuttons' => $buttons
-        );
+        ];
         return $result;
     }
 
@@ -692,12 +701,13 @@ class C4GBrickList
             if ($captionField) {
                 $tooltip = $row->$captionField;
             }
-            $view .= '<a class="c4gGuiAction" href="" data-action="'.$href.'"><ul class="c4g_brick_list_row c4g_brick_list_row_'.$i.'" data-tooltip="'.$tooltip.'" title="'.$tooltip.'">';
+            $fieldView = '';
+            $fieldIndexes = [];
             foreach ($fieldList as $field) {
                 $fieldName = $field->getFieldName();
                 //special char decode (&#40; &#41;)
                 $row->$fieldName = html_entity_decode($row->$fieldName);
-                $additionalParameters = array();
+                $additionalParameters = [];
                 $additionalParameters['database'] = $database;
 
                 $additionalParameters['content'] = $content;
@@ -709,9 +719,9 @@ class C4GBrickList
                         $afterDiv .= '</div>';
                     }
                     if ($field  instanceof C4GSelectField) {
-                        $view .= $beforeDiv . C4GBrickCommon::translateSelectOption($row->$fieldName, C4GBrickList::getOptions($fieldList, $row, $field)) . $afterDiv;
+                        $fieldView .= $beforeDiv . C4GBrickCommon::translateSelectOption($row->$fieldName, C4GBrickList::getOptions($fieldList, $row, $field)) . $afterDiv;
                     } else if ($field instanceof C4GGeopickerField) {
-                        $view .= $beforeDiv . $field->getC4GListField($row, $content, $database) . $afterDiv;
+                        $fieldView .= $beforeDiv . $field->getC4GListField($row, $content, $database) . $afterDiv;
                     } else if ($field instanceof C4GDateTimeLocationField) {
                         $lat = $row->loc_geoy;
                         $lon = $row->loc_geox;
@@ -760,16 +770,21 @@ class C4GBrickList
                                 $convertingCount = 1;
                             }
                         }
-                        $view .= $beforeDiv . $address . $afterDiv;
+                        $fieldView .= $beforeDiv . $address . $afterDiv;
                     } else {
                         $fieldContent = $field->getC4GListField($row, $content);
                         if ($fieldContent !== '' || !$field->isShowIfEmpty()) {
-                            $view .= $beforeDiv . $fieldContent . $afterDiv;
+                            $fieldView .= $beforeDiv . $fieldContent . $afterDiv;
+                            $fieldIndexes[] = $fieldContent;
                         }
                     }
                 }
 
             }
+            $view .= '<a class="c4gGuiAction" href="" data-action="'.$href.
+                '"><ul class="c4g_brick_list_row c4g_brick_list_row_'.$i.
+                '" data-tooltip="'.$tooltip.'" title="'.$tooltip.'">';
+            $view .= $fieldView;
             $view .= '</ul></a>';
         }
         return $view;
