@@ -34,19 +34,19 @@ function search(input, event) {
 
     if (typeof result !== 'undefined') {
         while (r < rows.length) {
-            rows.item(r).classList.add('c4g_list_search_hide');
+            rows.item(r).parentNode.classList.add('c4g_list_search_hide');
             r += 1;
         }
         r = 0;
         while (r < rows.length) {
             if (typeof result[r] !== 'undefined' && typeof result[r].id !== 'undefined') {
-                rows.item(result[r].id - 1).classList.remove('c4g_list_search_hide');
+                rows.item(result[r].id - 1).parentNode.classList.remove('c4g_list_search_hide');
             }
             r += 1;
         }
     } else {
         while (r < rows.length) {
-            rows.item(r).classList.remove('c4g_list_search_hide');
+            rows.item(r).parentNode.classList.remove('c4g_list_search_hide');
             r += 1;
         }
     }
