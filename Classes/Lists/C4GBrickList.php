@@ -611,7 +611,7 @@ class C4GBrickList
         }
 
         if ($listParams->isShowFullTextSearchInHeadline() === true) {
-            $fullTextSearchField = '<input id="c4g_list_search" name="c4g_list_search" type="search" placeholder="'.$GLOBALS['TL_LANG']['FE_C4G_LIST']['SEARCH'].'" area-label="address filter" oninput="search(this, event);">';
+            $fullTextSearchField = '<input type="search" id="c4g_list_search" name="c4g_list_search" placeholder="'.$GLOBALS['TL_LANG']['FE_C4G_LIST']['SEARCH'].'" aria-label="Filter list content" oninput="search(this, event);">';
         } else {
             $fullTextSearchField = "";
         }
@@ -778,11 +778,10 @@ class C4GBrickList
                 }
 
             }
-            $view .= '<a class="c4gGuiAction" href="" data-action="'.$href.
-                '"><ul class="c4g_brick_list_row c4g_brick_list_row_'.$i.
-                '" data-tooltip="'.$tooltip.'" title="'.$tooltip.'">';
-            $view .= $fieldView;
-            $view .= '</ul></a>';
+
+            $view .= '<div class="c4gGuiAction" aria-label="jump to dataset '.$row->id.'" data-action="'.$href.'">';
+            $view .= '<ul class="c4g_brick_list_row c4g_brick_list_row_'.$i.'" data-tooltip="'.$tooltip.'" title="'.$tooltip.'">'. $fieldView . '</ul>';
+            $view .= '</div>';
         }
         return $view;
     }

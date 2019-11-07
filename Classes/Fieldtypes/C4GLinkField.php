@@ -136,12 +136,12 @@ class C4GLinkField extends C4GBrickField
         }
 
         if ($this->newTab) {
-            $rel = "target='_blank' rel='noopener noreferrer' ";
+            $rel = 'target="_blank" rel="noopener noreferrer"';
         } else {
             $rel = '';
         }
 
-        return "<a $rel href=\"$href\">$label</a>";
+        return '<a '.$rel.' href="'.$href.'">'.$label.'</a>';
     }
 
     /**
