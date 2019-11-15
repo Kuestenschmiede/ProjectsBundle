@@ -1,8 +1,12 @@
 const minisearch = {};
-minisearch.documents = [];
-minisearch.minisearch = new MiniSearch({fields: ['text']});
 
 function initSearch() {
+    let lists = document.getElementsByClassName('c4g_brick_list');
+    minisearch.documents = [];
+    minisearch.minisearch = new MiniSearch({fields: ['text']});
+    while (lists.length > 1) {
+        lists.item(0).remove();
+    }
     let rows = document.getElementsByClassName('c4g_brick_list_row');
     let r = 0;
     while (r < rows.length) {
@@ -22,9 +26,7 @@ function initSearch() {
 }
 
 function search(input, event) {
-    if (minisearch.documents.length === 0) {
-        initSearch();
-    }
+    initSearch();
     let result;
     if (input.value.length > 2) {
         result = minisearch.minisearch.search(input.value, {'prefix': true});
