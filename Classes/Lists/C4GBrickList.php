@@ -633,6 +633,12 @@ class C4GBrickList
             'dialogstate' => C4GBrickActionType::IDENTIFIER_LIST . ':' . $key, //Listenstatus
             'dialogbuttons' => $buttons
         ];
+
+        if ($searchValue = \Session::getInstance()->get('c4g_list_searchValue')) {
+            $result['searchValue'] = $searchValue;
+            \Session::getInstance()->remove('c4g_list_searchValue');
+        }
+
         return $result;
     }
 
