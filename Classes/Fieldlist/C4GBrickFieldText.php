@@ -29,6 +29,7 @@ abstract class C4GBrickFieldText extends C4GBrickField
     protected $maxChars = 0;
     protected $replaceInsertTag = false;
     protected $encodeHtmlEntities = true;
+    protected $placeholder = '';
 
     /**
      * Will be called by if the field value is longer than $maxChars. Return a value that will replace it.
@@ -150,6 +151,24 @@ abstract class C4GBrickFieldText extends C4GBrickField
     public function setEncodeHtmlEntities(bool $encodeHtmlEntities = true): C4GBrickFieldText
     {
         $this->encodeHtmlEntities = $encodeHtmlEntities;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPlaceholder(): string
+    {
+        return $this->placeholder;
+    }
+
+    /**
+     * @param string $placeholder
+     * @return C4GBrickFieldText
+     */
+    public function setPlaceholder(string $placeholder): C4GBrickFieldText
+    {
+        $this->placeholder = $placeholder;
         return $this;
     }
 }

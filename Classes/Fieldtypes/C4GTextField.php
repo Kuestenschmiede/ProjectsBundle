@@ -42,8 +42,13 @@ class C4GTextField extends C4GBrickFieldText
                     "<div ".$condition['conditionPrepare']." id=\"$id\" class=\"c4g_non_input\">$value</div>");
 
             } else {
+                if ($this->placeholder !== '') {
+                    $placeholder = " placeholder=\"".$this->placeholder."\"";
+                } else {
+                    $placeholder = '';
+                }
                 $result = $this->addC4GField($condition, $dialogParams, $fieldList, $data,
-                    '<input ' . $required . ' ' . $condition['conditionPrepare'] . ' type="text" id="' . $id . '" class="formdata ' . $id . '" size="'.$this->size.'"  maxLength="'.$this->maxLength.'" name="' . $this->getFieldName() . '" value="' . $value . '">');
+                    '<input ' . $required . ' ' . $condition['conditionPrepare'] . ' type="text" id="' . $id . '" class="formdata ' . $id . '" size="'.$this->size.'"  maxLength="'.$this->maxLength.'" name="' . $this->getFieldName() . '" value="' . $value . '"'.$placeholder.'>');
             }
         }
 
