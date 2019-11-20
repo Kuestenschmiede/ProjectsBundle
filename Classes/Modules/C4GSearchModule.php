@@ -40,15 +40,30 @@ class C4GSearchModule extends C4GBrickModuleParent
         $this->dialogParams->deleteButton(C4GBrickConst::BUTTON_SAVE);
         $this->dialogParams->setWithoutGuiHeader(true);
 
-        $this->dialogParams->addButton(
-            C4GBrickConst::BUTTON_CLICK,
-            $this->searchButtonCaption,
-            true,
-            true,
-            C4GBrickActionType::ACTION_BUTTONCLICK.':redirectToList',
-            '',
-            true
-        );
+        if (strval($this->searchButtonCaption) === '') {
+            $this->dialogParams->addButton(
+                C4GBrickConst::BUTTON_CLICK,
+                $this->searchButtonCaption,
+                true,
+                true,
+                C4GBrickActionType::ACTION_BUTTONCLICK.':redirectToList',
+                '',
+                true,
+                null,
+                null,
+                'c4g_nodisplay'
+            );
+        } else {
+            $this->dialogParams->addButton(
+                C4GBrickConst::BUTTON_CLICK,
+                $this->searchButtonCaption,
+                true,
+                true,
+                C4GBrickActionType::ACTION_BUTTONCLICK.':redirectToList',
+                '',
+                true
+            );
+        }
     }
 
 
