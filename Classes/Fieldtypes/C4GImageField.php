@@ -104,15 +104,21 @@ class C4GImageField extends C4GBrickField
                     $description = '';
                 }
 
+                $img = "<img src=\"$path\" title=\"".$this->getTitle()."\" $size/>";
+                $i = $this->getFieldName()."Link";
+                $link = $data->$i;
+                if ($link !== '') {
+                    $img = "<a href=\"".$link."\" target=\"_blank\" rel=\"noopener noreferrer\">$img</a>";
+                }
+
                 $result = '
                         <div '
                     . $condition['conditionName']
                     . $condition['conditionType']
                     . $condition['conditionValue']
                     . $condition['conditionDisable'] . '>
-                        <div class="c4g_image c4g_' . $this->getFieldName() . '"><div class="c4g_image_label"><label>' . $label . '</label></div><div class="c4g_image_src  c4g_' . $this->getFieldName() . '_src"><img src="' . $path . '" title="' . $this->getTitle() .
-                    '" '.$size.'/></div><div class="c4g_image_description">' .
-                    $description . '</div></div></div>';
+                        <div class="c4g_image c4g_' . $this->getFieldName() . '"><div class="c4g_image_label"><label>' . $label . '</label></div><div class="c4g_image_src  c4g_' . $this->getFieldName() . '_src"></div><div class="c4g_image_description">' .
+                    $img . $description . '</div></div></div>';
             }
         }
         return $result;
@@ -136,19 +142,48 @@ class C4GImageField extends C4GBrickField
      */
     public function getC4GListField($rowData, $content)
     {
-        $fieldName = $this->getFieldName();
-        $file = $rowData->$fieldName;
-        if (!is_string($file)) {
-            $file = '';
+        $i = $this->getFieldName();
+        if (strval($rowData->$i) === '') {
+            return '';
         }
 
-        $fileObject = C4GBrickCommon::loadFile($file);
-        if ($fileObject) {
-            $field = $fileObject->name;
+        $size = $this->getSize();
+        if ($size) {
+            $width = $size;
+            $height = $size;
+            $size = 'width="' . $width . '" height="' . $height . '"';
+
         } else {
-            $field = 'UNKNOWN';
+            $width = $this->getWidth();
+            $height = $this->getHeight();
+
+            if ($width && $height) {
+                $size = 'width="' . $width . '" height="' . $height . '"';
+            } else if ($width) {
+                $size = 'width="' . $width . '"';
+            } else if ($height) {
+                $size = 'height="' . $height . '"';
+            }
         }
-        return $field;
+
+        $i = $this->getFieldName();
+        try {
+            $path = C4GBrickCommon::loadFile($rowData->$i)->path;
+        } catch (\Throwable $throwable) {
+            return '';
+        }
+
+        $result = '';
+
+        if ($path) {
+            $img = "<img src=\"$path\" title=\"".$this->getTitle()."\" $size/>";
+            $i = $this->getFieldName()."Link";
+            $link = $rowData->$i;
+            if ($link !== '') {
+                $result = "<a href=\"".$link."\" target=\"_blank\" rel=\"noopener noreferrer\" onclick=\"event.stopPropagation()\">$img</a>";
+            }
+        }
+        return $result;
     }
 
     /**
@@ -272,5 +307,4 @@ class C4GImageField extends C4GBrickField
         $this->deserialize = $deserialize;
         return $this;
     }
-
 }
