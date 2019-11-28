@@ -141,7 +141,7 @@ class C4GLinkField extends C4GBrickField
             $rel = '';
         }
 
-        return '<a '.$rel.' href="'.$href.'">'.$label.'</a>';
+        return '<a '.$rel.' href="'.$href.'" onclick="event.stopPropagation()">'.$label.'</a>';
     }
 
     /**
