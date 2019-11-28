@@ -22,6 +22,7 @@ class C4GTextField extends C4GBrickFieldText
     protected $size = 255;
     protected $maxLength = 255;
     protected $simpleTextWithoutEditing = false; //Renders HTML tags, never use this to display user-generated data
+    protected $ariaLabel = '';
 
     public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = array())
     {
@@ -47,8 +48,13 @@ class C4GTextField extends C4GBrickFieldText
                 } else {
                     $placeholder = '';
                 }
+
+                if ($this->ariaLabel !== '') {
+                    $aria = "aria-label=\"".$this->ariaLabel."\"";
+                }
+
                 $result = $this->addC4GField($condition, $dialogParams, $fieldList, $data,
-                    '<input ' . $required . ' ' . $condition['conditionPrepare'] . ' type="text" id="' . $id . '" class="formdata ' . $id . '" size="'.$this->size.'"  maxLength="'.$this->maxLength.'" name="' . $this->getFieldName() . '" value="' . $value . '"'.$placeholder.'>');
+                    '<input ' . $required . ' ' . $condition['conditionPrepare'] . ' type="text" id="' . $id . '" class="formdata ' . $id . '" size="'.$this->size.'"  maxLength="'.$this->maxLength.'" name="' . $this->getFieldName() . '" value="' . $value . '"'.$placeholder.$aria.'>');
             }
         }
 
@@ -128,4 +134,21 @@ class C4GTextField extends C4GBrickFieldText
         return $this;
     }
 
+    /**
+     * @return string
+     */
+    public function getAriaLabel(): string
+    {
+        return $this->ariaLabel;
+    }
+
+    /**
+     * @param string $ariaLabel
+     * @return C4GTextField
+     */
+    public function setAriaLabel(string $ariaLabel): C4GTextField
+    {
+        $this->ariaLabel = $ariaLabel;
+        return $this;
+    }
 }

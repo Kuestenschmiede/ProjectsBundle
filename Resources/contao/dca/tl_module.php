@@ -10,7 +10,7 @@
  * @copyright  Küstenschmiede GmbH Software & Design
  * @link       https://www.con4gis.org
  */
-$GLOBALS['TL_DCA']['tl_module']['palettes']['C4GSearchModule'] = '{title_legend},name,type,headline,listModule,searchFieldCaption,searchFieldPlaceholder,searchButtonCaption';
+$GLOBALS['TL_DCA']['tl_module']['palettes']['C4GSearchModule'] = '{title_legend},name,type,headline,listModule,searchFieldCaption,hideSearchFieldCaption,searchFieldPlaceholder,searchButtonCaption';
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['searchFieldCaption'] = array
 (
@@ -18,8 +18,17 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['searchFieldCaption'] = array
     'exclude'                 => true,
     'default'                 => $GLOBALS['TL_LANG']['tl_module']['c4g_projects']['fields']['DEFAULT_FIELD_CAPTION'],
     'inputType'               => 'text',
-    'eval'                    => array('tl_class'=>'w50','mandatory'=>false),
+    'eval'                    => array('tl_class'=>'w50','mandatory'=>true),
     'sql'                     => "varchar(255) default '".$GLOBALS['TL_LANG']['tl_module']['c4g_projects']['fields']['DEFAULT_FIELD_CAPTION']."'"
+);
+$GLOBALS['TL_DCA']['tl_module']['fields']['hideSearchFieldCaption'] = array
+(
+    'label'                   => &$GLOBALS['TL_LANG']['tl_module']['c4g_projects']['fields']['hideSearchFieldCaption'],
+    'exclude'                 => true,
+    'default'                 => false,
+    'inputType'               => 'checkbox',
+    'eval'                    => array('tl_class'=>'w50 m12','mandatory'=>false),
+    'sql'                     => "char(1) default ''"
 );
 $GLOBALS['TL_DCA']['tl_module']['fields']['searchFieldPlaceholder'] = array
 (
@@ -27,7 +36,7 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['searchFieldPlaceholder'] = array
     'exclude'                 => true,
     'default'                 => $GLOBALS['TL_LANG']['tl_module']['c4g_projects']['fields']['DEFAULT_FIELD_CAPTION'],
     'inputType'               => 'text',
-    'eval'                    => array('tl_class'=>'w50','mandatory'=>false),
+    'eval'                    => array('tl_class'=>'clr w50','mandatory'=>false),
     'sql'                     => "varchar(255) default '".$GLOBALS['TL_LANG']['tl_module']['c4g_projects']['fields']['DEFAULT_FIELD_CAPTION']."'"
 );
 $GLOBALS['TL_DCA']['tl_module']['fields']['searchButtonCaption'] = array

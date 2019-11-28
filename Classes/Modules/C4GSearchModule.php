@@ -78,7 +78,11 @@ class C4GSearchModule extends C4GBrickModuleParent
         $searchField = new C4GTextField();
         $searchField->setFieldName("searchValue");
         $searchField->setFormField(true);
-        $searchField->setTitle($this->searchFieldCaption);
+        if ($this->hideSearchFieldCaption !== '1') {
+            $searchField->setTitle($this->searchFieldCaption);
+        } else {
+            $searchField->setAriaLabel($this->searchFieldCaption);
+        }
         $searchField->setPlaceholder(strval($this->searchFieldPlaceholder));
         $fieldlist[] = $searchField;
 
