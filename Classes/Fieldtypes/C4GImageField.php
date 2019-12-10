@@ -250,7 +250,7 @@ class C4GImageField extends C4GBrickField
         if ($fileObject) {
             return $fileObject->name;
         } else {
-            return 'UNKNOWN';
+            return '';
         }
     }
 
