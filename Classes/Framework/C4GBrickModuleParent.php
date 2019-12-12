@@ -382,9 +382,6 @@ class C4GBrickModuleParent extends \Module
             $this->listParams->setGroupCount($groupCount);
             $this->listParams->setWithJQueryUI($this->strTemplate != 'mod_c4g_brick_simple');
             $this->listParams->setCaptionField($this->captionField);
-
-            //$this->listParams->setProjectCount();
-            //$this->listParams->setParentCount();
         }
 
         if (!$this->settings) {
