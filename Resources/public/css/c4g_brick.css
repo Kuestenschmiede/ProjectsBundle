@@ -70,7 +70,8 @@ input:invalid {
 .c4g_brick_dialog input.formdata,
 .c4g_brick_dialog input.formnodata,
 .c4g_brick_dialog textarea.formdata,
-.c4g_brick_dialog .c4g_non_input {
+.c4g_brick_dialog .c4g_non_input,
+.c4g_brick_dialog a {
     display: block;
     margin-bottom: .25em;
     margin-top: .25em;
