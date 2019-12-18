@@ -23,6 +23,7 @@ class C4GLinkButtonField extends C4GBrickField
     protected $targetPageUrl = '';      //target URL
     protected $buttonLabel = '';
     protected $newTab = false;          //true = the Link is opened in a new tab. false = the Link is opened in the same tab.
+    protected $conditional = false;     //true = the Link is only shown if the field value is '1'
 
     const TARGET_MODE_PAGE = 'page';    //Links to an internal page with a given page ID
     const TARGET_MODE_URL = 'url';      //Links to a page or route with a given url string
@@ -60,28 +61,33 @@ class C4GLinkButtonField extends C4GBrickField
 
     public final function getC4GListField($rowData, $content)
     {
-        $class = 'ui-button ui-corner-all';
-        if ($this->getStyleClass()) {
-            $class .= $this->getStyleClass();
-        }
+        $fieldName = $this->getFieldName();
+        if (!$this->conditional || ($rowData->$fieldName === '1')) {
+            $class = 'ui-button ui-corner-all';
+            if ($this->getStyleClass()) {
+                $class .= $this->getStyleClass();
+            }
 
-        if ($this->newTab) {
-            $rel = "target='_blank' rel='noopener noreferrer'";
+            if ($this->newTab) {
+                $rel = "target='_blank' rel='noopener noreferrer'";
+            } else {
+                $rel = '';
+            }
+
+            $href = $this->createHref($rowData, $content);
+            $title = $this->getTitle();
+
+            $html = "<a $rel href='$href' title='$title' onclick='event.stopPropagation()'>";
+            $html .= "<span class='$class'>";
+            $html .= $this->buttonLabel;
+            $html .= "</span>";
+            $html .= "</a>";
+
+
+            return $html;
         } else {
-            $rel = '';
+            return '';
         }
-
-        $href = $this->createHref($rowData, $content);
-        $title = $this->getTitle();
-
-        $html = "<a $rel href='$href' title='$title' onclick='event.stopPropagation()'>";
-        $html .= "<span class='$class'>";
-        $html .= $this->buttonLabel;
-        $html .= "</span>";
-        $html .= "</a>";
-
-
-        return $html;
     }
 
     protected function createHref($rowData, $content) {
@@ -185,6 +191,21 @@ class C4GLinkButtonField extends C4GBrickField
         return $this;
     }
 
+    /**
+     * @return bool
+     */
+    public function isConditional(): bool
+    {
+        return $this->conditional;
+    }
 
-
+    /**
+     * @param bool $conditional
+     * @return C4GLinkButtonField
+     */
+    public function setConditional(bool $conditional = true): C4GLinkButtonField
+    {
+        $this->conditional = $conditional;
+        return $this;
+    }
 }
