@@ -171,7 +171,7 @@ class C4GLinkField extends C4GBrickField
      */
     public function compareWithDB($dbValue, $dlgvalue)
     {
-        return parent::compareWithDB($dbValue, $dlgvalue);
+        return [];
     }
 
     /**
