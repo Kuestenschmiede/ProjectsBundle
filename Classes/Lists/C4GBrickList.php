@@ -666,7 +666,7 @@ class C4GBrickList
                 $afterDiv = '</li>';
                 if ($field->isHidden()) {
                     $beforeDiv .= '<div class="c4g_brick_hidden_field" style="display:none">';
-                    $afterDiv .= '</div>';
+                    $afterDiv = "</div>$afterDiv";
                 }
                 $view .= $beforeDiv . $field->getTitle() . $afterDiv;
 
@@ -721,7 +721,7 @@ class C4GBrickList
                     $afterDiv = '</li>';
                     if ($field->isHidden()) {
                         $beforeDiv .= '<div class="c4g_brick_hidden_field" style="display:none">';
-                        $afterDiv .= '</div>';
+                        $afterDiv = "</div>$afterDiv";
                     }
                     if ($field  instanceof C4GSelectField) {
                         $fieldView .= $beforeDiv . C4GBrickCommon::translateSelectOption($row->$fieldName, C4GBrickList::getOptions($fieldList, $row, $field)) . $afterDiv;
