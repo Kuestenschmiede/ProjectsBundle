@@ -12,6 +12,7 @@
  */
 namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
 
+use con4gis\CoreBundle\Resources\contao\models\C4gLogModel;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickCommon;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
@@ -170,6 +171,7 @@ class C4GImageField extends C4GBrickField
         try {
             $path = C4GBrickCommon::loadFile($rowData->$i)->path;
         } catch (\Throwable $throwable) {
+            C4gLogModel::addLogEntry('projects', $throwable->getMessage());
             return '';
         }
 
