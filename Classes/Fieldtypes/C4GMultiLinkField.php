@@ -31,6 +31,10 @@ class C4GMultiLinkField extends C4GBrickField
             $tags = [];
             foreach (StringUtil::deserialize($value) as $link) {
 
+                if ($link['linkHref'] === '' || $link['linkTitle'] === '') {
+                    break;
+                }
+
                 if ($link['linkNewTab'] === '1') {
                     $rel = "target=\"_blank\" rel=\"noopener noreferrer\"";
                 } else {
