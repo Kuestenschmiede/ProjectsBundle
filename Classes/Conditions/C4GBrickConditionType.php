@@ -12,8 +12,9 @@
  */
 namespace con4gis\ProjectsBundle\Classes\Conditions;
 
-class C4GBrickConditionType {
-    const BOOLSWITCH     = 'bool'; //die condition erwartet einen anderen Feldnamen (boolfeld, checkbox) und deaktiviert das Feld
-    const VALUESWITCH    = 'value'; //die Condition blendet anhand der condition Felder ein.
-    const METHODSWITCH   = 'method'; //die Condition prüft den Wert anhand einer Methode
+class C4GBrickConditionType
+{
+    const BOOLSWITCH = 'bool'; //die condition erwartet einen anderen Feldnamen (boolfeld, checkbox) und deaktiviert das Feld
+    const VALUESWITCH = 'value'; //die Condition blendet anhand der condition Felder ein.
+    const METHODSWITCH = 'method'; //die Condition prüft den Wert anhand einer Methode
 }

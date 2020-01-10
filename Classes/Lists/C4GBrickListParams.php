@@ -11,9 +11,9 @@
  * @link       https://www.con4gis.org
  */
 namespace con4gis\ProjectsBundle\Classes\Lists;
+
 use con4gis\ProjectsBundle\Classes\Buttons\C4GBrickButton;
 use con4gis\ProjectsBundle\Classes\Buttons\C4GExportButtons;
-use con4gis\ProjectsBundle\Classes\Buttons\C4GMoreButton;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickConst;
 use con4gis\ProjectsBundle\Classes\Filter\C4GBrickFilterParams;
 use con4gis\ProjectsBundle\Classes\Filter\C4GListFilter;
@@ -61,7 +61,6 @@ class C4GBrickListParams
     private $customHeadline = false; // if true, only the headline from the list data will be displayed
     private $showFullTextSearchInHeadline = false; // redundant in table view
 
-
     /**
      * C4GBrickListParams constructor.
      */
@@ -103,15 +102,16 @@ class C4GBrickListParams
         return $buttons;
     }
 
-    public function addButton($type, $caption='', $visible=true, $enabled=true, $action = '') {
+    public function addButton($type, $caption = '', $visible = true, $enabled = true, $action = '')
+    {
         $exists = false;
 
         if ($caption == '') {
-            $caption =  C4GBrickButton::getTypeCaption($type);
+            $caption = C4GBrickButton::getTypeCaption($type);
         }
 
         if ($action == '') {
-            $action =  C4GBrickButton::getTypeAction($type);
+            $action = C4GBrickButton::getTypeAction($type);
         }
 
         if ($type && ($type != C4GBrickConst::BUTTON_CLICK)) {
@@ -123,6 +123,7 @@ class C4GBrickListParams
                     $btn->setAction($action);
 
                     $exists = true;
+
                     break;
                 }
             }
@@ -133,10 +134,10 @@ class C4GBrickListParams
         }
     }
 
-    public function deleteButton($type) {
-
+    public function deleteButton($type)
+    {
         $exists = false;
-        foreach($this->buttons as $btn) {
+        foreach ($this->buttons as $btn) {
             if ($btn->getType() == $type) {
                 $btn->setCaption('');
                 $btn->setVisible(false);
@@ -144,6 +145,7 @@ class C4GBrickListParams
                 $btn->setAction(false);
 
                 $exists = true;
+
                 break;
             }
         }
@@ -153,10 +155,12 @@ class C4GBrickListParams
         }
     }
 
-    public function changeButtonText($type, $caption) {
-        foreach($this->buttons as $btn) {
+    public function changeButtonText($type, $caption)
+    {
+        foreach ($this->buttons as $btn) {
             if ($btn->getType() == $type) {
                 $btn->setCaption($caption);
+
                 return true;
             }
         }
@@ -164,8 +168,9 @@ class C4GBrickListParams
         return false;
     }
 
-    public function getButton($type) {
-        foreach($this->buttons as $button) {
+    public function getButton($type)
+    {
+        foreach ($this->buttons as $button) {
             if ($button->getType() == $type) {
                 return $button;
             }
@@ -174,15 +179,15 @@ class C4GBrickListParams
         return null;
     }
 
-    public function checkButtonVisibility($type) {
-
-        foreach($this->buttons as $button) {
+    public function checkButtonVisibility($type)
+    {
+        foreach ($this->buttons as $button) {
             if ($button->getType() == $type) {
                 if ($button->isVisible()) {
                     return true;
-                } else {
-                    return false;
                 }
+
+                return false;
             }
         }
 
@@ -204,6 +209,7 @@ class C4GBrickListParams
     public function setDisplayLength($displayLength)
     {
         $this->displayLength = $displayLength;
+
         return $this;
     }
 
@@ -222,6 +228,7 @@ class C4GBrickListParams
     public function setWithModelListFunction($withModelListFunction = true)
     {
         $this->withModelListFunction = $withModelListFunction;
+
         return $this;
     }
 
@@ -240,6 +247,7 @@ class C4GBrickListParams
     public function setWithDetails($withDetails = true)
     {
         $this->withDetails = $withDetails;
+
         return $this;
     }
 
@@ -258,6 +266,7 @@ class C4GBrickListParams
     public function setFilterParams(&$filterParams)
     {
         $this->filterParams = $filterParams;
+
         return $this;
     }
 
@@ -276,6 +285,7 @@ class C4GBrickListParams
     public function setRenderMode($renderMode)
     {
         $this->renderMode = $renderMode;
+
         return $this;
     }
 
@@ -294,6 +304,7 @@ class C4GBrickListParams
     public function setButtons($buttons)
     {
         $this->buttons = $buttons;
+
         return $this;
     }
 
@@ -312,6 +323,7 @@ class C4GBrickListParams
     public function setWithExportButtons($withExportButtons = true)
     {
         $this->withExportButtons = $withExportButtons;
+
         return $this;
     }
 
@@ -330,6 +342,7 @@ class C4GBrickListParams
     public function setHeadline($headline)
     {
         $this->headline = $headline;
+
         return $this;
     }
 
@@ -348,6 +361,7 @@ class C4GBrickListParams
     public function setSelectRow($selectRow)
     {
         $this->selectRow = $selectRow;
+
         return $this;
     }
 
@@ -366,6 +380,7 @@ class C4GBrickListParams
     public function setPaginate($paginate = true)
     {
         $this->paginate = $paginate;
+
         return $this;
     }
 
@@ -384,6 +399,7 @@ class C4GBrickListParams
     public function setLengthChange($lengthChange = true)
     {
         $this->lengthChange = $lengthChange;
+
         return $this;
     }
 
@@ -402,6 +418,7 @@ class C4GBrickListParams
     public function setFilter($filter = true)
     {
         $this->filter = $filter;
+
         return $this;
     }
 
@@ -420,6 +437,7 @@ class C4GBrickListParams
     public function setInfo($info = true)
     {
         $this->info = $info;
+
         return $this;
     }
 
@@ -438,6 +456,7 @@ class C4GBrickListParams
     public function setWithoutListButtons($withoutListButtons = true)
     {
         $this->withoutListButtons = $withoutListButtons;
+
         return $this;
     }
 
@@ -456,6 +475,7 @@ class C4GBrickListParams
     public function setWithFunctionCallOnClick($withFunctionCallOnClick = true)
     {
         $this->withFunctionCallOnClick = $withFunctionCallOnClick;
+
         return $this;
     }
 
@@ -474,6 +494,7 @@ class C4GBrickListParams
     public function setOnClickFunction($onClickFunction)
     {
         $this->onClickFunction = $onClickFunction;
+
         return $this;
     }
 
@@ -492,6 +513,7 @@ class C4GBrickListParams
     public function setAdditionalOnClickParams($additionalOnClickParams)
     {
         $this->additionalOnClickParams = $additionalOnClickParams;
+
         return $this;
     }
 
@@ -510,6 +532,7 @@ class C4GBrickListParams
     public function setWithHoverText($withHoverText = true)
     {
         $this->withHoverText = $withHoverText;
+
         return $this;
     }
 
@@ -528,6 +551,7 @@ class C4GBrickListParams
     public function setRemoveUnpublishedElements($removeUnpublishedElements = true)
     {
         $this->removeUnpublishedElements = $removeUnpublishedElements;
+
         return $this;
     }
 
@@ -546,6 +570,7 @@ class C4GBrickListParams
     public function setGroupCount($groupCount)
     {
         $this->groupCount = $groupCount;
+
         return $this;
     }
 
@@ -564,6 +589,7 @@ class C4GBrickListParams
     public function setViewFormatFunction($viewFormatFunction)
     {
         $this->viewFormatFunction = $viewFormatFunction;
+
         return $this;
     }
 
@@ -582,6 +608,7 @@ class C4GBrickListParams
     public function setWithJQueryUI($withJQueryUI = true)
     {
         $this->withJQueryUI = $withJQueryUI;
+
         return $this;
     }
 
@@ -600,6 +627,7 @@ class C4GBrickListParams
     public function setPrintOnlyVisibleColumns($printOnlyVisibleColumns = true)
     {
         $this->printOnlyVisibleColumns = $printOnlyVisibleColumns;
+
         return $this;
     }
 
@@ -618,6 +646,7 @@ class C4GBrickListParams
     public function setExportButtons($exportButtons)
     {
         $this->exportButtons = $exportButtons;
+
         return $this;
     }
 
@@ -636,6 +665,7 @@ class C4GBrickListParams
     public function setCaptionField($captionField)
     {
         $this->captionField = $captionField;
+
         return $this;
     }
 
@@ -654,6 +684,7 @@ class C4GBrickListParams
     public function setRowCount($rowCount)
     {
         $this->rowCount = $rowCount;
+
         return $this;
     }
 
@@ -672,6 +703,7 @@ class C4GBrickListParams
     public function setRedirectTo($redirectTo)
     {
         $this->redirectTo = $redirectTo;
+
         return $this;
     }
 
@@ -690,6 +722,7 @@ class C4GBrickListParams
     public function setUuid($Uuid)
     {
         $this->Uuid = $Uuid;
+
         return $this;
     }
 
@@ -708,6 +741,7 @@ class C4GBrickListParams
     public function setShowToolTips($showToolTips = true)
     {
         $this->showToolTips = $showToolTips;
+
         return $this;
     }
 
@@ -726,6 +760,7 @@ class C4GBrickListParams
     public function setCustomListViewFunction($customListViewFunction)
     {
         $this->customListViewFunction = $customListViewFunction;
+
         return $this;
     }
 
@@ -744,6 +779,7 @@ class C4GBrickListParams
     public function setForceShowListAction($forceShowListAction = true)
     {
         $this->forceShowListAction = $forceShowListAction;
+
         return $this;
     }
 
@@ -778,6 +814,7 @@ class C4GBrickListParams
     public function setFilterObject(C4GListFilter $filterObject)
     {
         $this->filterObject = $filterObject;
+
         return $this;
     }
 
@@ -804,6 +841,7 @@ class C4GBrickListParams
     public function setShowFullTextSearchInHeadline(bool $showFullTextSearchInHeadline = true): C4GBrickListParams
     {
         $this->showFullTextSearchInHeadline = $showFullTextSearchInHeadline;
+
         return $this;
     }
 }

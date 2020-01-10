@@ -26,10 +26,9 @@ class C4GCanvasField extends C4GBrickField
      * @param $data
      * @return string
      */
-    public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = array())
+    public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = [])
     {
-
-        $id = "c4g_" . $this->getFieldName();
+        $id = 'c4g_' . $this->getFieldName();
         $required = $this->generateRequiredString($data, $dialogParams);
         $value = $this->generateInitialValue($data);
         $result = '';
@@ -40,11 +39,10 @@ class C4GCanvasField extends C4GBrickField
         }
 
         if ($this->isShowIfEmpty() || !empty($value)) {
-
             $condition = $this->createConditionData($fieldList, $data);
             $result =
                 $this->addC4GField($condition,$dialogParams,$fieldList,$data,
-                '<canvas ' . $required . ' ' . $condition['conditionPrepare'] . ' id="' . $id . '" class="' . $id . $additionalClasses . ' ui-corner-all" name="' . $this->getFieldName() . '" width="'.$this->getWidth().'" height="'.$this->getHeight().'" >' . $value . ' </canvas>');
+                '<canvas ' . $required . ' ' . $condition['conditionPrepare'] . ' id="' . $id . '" class="' . $id . $additionalClasses . ' ui-corner-all" name="' . $this->getFieldName() . '" width="' . $this->getWidth() . '" height="' . $this->getHeight() . '" >' . $value . ' </canvas>');
         }
 
         return $result;
@@ -81,6 +79,7 @@ class C4GCanvasField extends C4GBrickField
     public function getC4GTileField($fieldTitle, $element)
     {
         $fieldName = $this->getFieldName();
+
         return $fieldTitle . '<div class="c4g_tile value">' . $element->$fieldName . '</div>';
     }
 

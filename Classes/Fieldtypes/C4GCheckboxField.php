@@ -22,15 +22,14 @@ use con4gis\ProjectsBundle\Classes\Lists\C4GBrickTiles;
 
 class C4GCheckboxField extends C4GBrickField
 {
-
     /**
      * @param $field
      * @param $data
      * @return string
      */
-    public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = array())
+    public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = [])
     {
-        $id = "c4g_" . $this->getFieldName();
+        $id = 'c4g_' . $this->getFieldName();
         $required = $this->generateRequiredString($data, $dialogParams);
         $value = $this->generateInitialValue($data);
         $checked = '';
@@ -43,7 +42,6 @@ class C4GCheckboxField extends C4GBrickField
         $result = '';
         $boolswitch = '';
         if ($this->isShowIfEmpty() || !empty($value)) {
-
             $condition = $this->createConditionData($fieldList, $data);
 
             foreach ($fieldList as $afield) {
@@ -56,7 +54,8 @@ class C4GCheckboxField extends C4GBrickField
                         if (!$fieldCondition->getValue()) {
                             $reverse = 1;
                         }
-                        $boolswitch = ' onchange="handleBoolSwitch(' . $id . ',' . $elementId . ','.$reverse.')" ';
+                        $boolswitch = ' onchange="handleBoolSwitch(' . $id . ',' . $elementId . ',' . $reverse . ')" ';
+
                         break;
                     }
                 }
@@ -86,6 +85,7 @@ class C4GCheckboxField extends C4GBrickField
         if (strcmp($dbValue, $dlgValue) != 0) {
             $result = new C4GBrickFieldCompare($this, $dbValue, $dlgValue);
         }
+
         return $result;
     }
 
@@ -96,12 +96,12 @@ class C4GCheckboxField extends C4GBrickField
     public function createFieldData($dlgValues)
     {
         $fieldData = $dlgValues[$this->getFieldName()];
-        if ($fieldData ==  'true') {
+        if ($fieldData == 'true') {
             $fieldData = 1;
-        }
-        else {
+        } else {
             $fieldData = 0;
         }
+
         return $fieldData;
     }
 
@@ -114,6 +114,7 @@ class C4GCheckboxField extends C4GBrickField
     public function getC4GListField($rowData, $content)
     {
         $fieldName = $this->getFieldName();
+
         return C4GBrickList::translateBool($rowData->$fieldName);
     }
 
@@ -126,6 +127,7 @@ class C4GCheckboxField extends C4GBrickField
     public function getC4GTileField($fieldTitle, $element)
     {
         $fieldName = $this->getFieldName();
+
         return $fieldTitle . '<div class="c4g_tile value">' . C4GBrickTiles::translateBool($element->$fieldName) . '</div>';
     }
 
@@ -145,13 +147,12 @@ class C4GCheckboxField extends C4GBrickField
      * @param array $dlgValues
      * @return bool|C4GBrickField
      */
-
     public function checkMandatory($dlgValues)
     {
         //$this->setSpecialMandatoryMessage($this->getFieldName());
         if (!$this->isMandatory()) {
             return false;
-        } elseif(!$this->isDisplay()) {
+        } elseif (!$this->isDisplay()) {
             return false;
         } elseif ($this->getCondition()) {
             foreach ($this->getCondition() as $con) {
@@ -165,9 +166,9 @@ class C4GCheckboxField extends C4GBrickField
         $check = C4GBrickCommon::strToBool($dlgValues[$fieldName]);
         if (!$check) {
             return $this;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**
@@ -180,9 +181,10 @@ class C4GCheckboxField extends C4GBrickField
         if ($data[$this->getFieldName()]) {
             $styleClass = $this->getStyleClass();
             $checked = 'checked';
-            return "<p class=".$styleClass."><b>". $this->getTitle() . "</b>: ".'<input type="checkbox" name="' . $this->getFieldName() . '" value="' . $this->getFieldName() . '" ' . $checked . '>'. "</p>";
-        } else {
-            return '';
+
+            return '<p class=' . $styleClass . '><b>' . $this->getTitle() . '</b>: ' . '<input type="checkbox" name="' . $this->getFieldName() . '" value="' . $this->getFieldName() . '" ' . $checked . '>' . '</p>';
         }
+
+        return '';
     }
 }

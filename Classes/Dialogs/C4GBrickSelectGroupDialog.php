@@ -18,7 +18,6 @@ use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GSelectField;
 
 class C4GBrickSelectGroupDialog extends C4GBrickDialog
 {
-
     /**
      * @param $memberId
      * @param $group_id
@@ -37,23 +36,23 @@ class C4GBrickSelectGroupDialog extends C4GBrickDialog
         $cancelAction = C4GBrickActionType::ACTION_CANCELGROUPSELECT;
         $cancelButtonText = $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['SELECT_GROUP_DIALOG_CANCEL_BUTTON'];
 
-        $grouplist = array();
+        $grouplist = [];
         $groups = null;
         if ($GLOBALS['con4gis']['groups']['installed']) {
             $groups = C4GBrickCommon::getGroupListForBrick($memberId, $brickKey);
         }
 
         if (!$groups) {
-            return array(
+            return [
                 'usermessage' => $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['SELECT_GROUP_DIALOG_PERMISSION_DENIED'],
-                'title' => $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['SELECT_GROUP_DIALOG_PERMISSION_DENIED_TITLE']
-            );
+                'title' => $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['SELECT_GROUP_DIALOG_PERMISSION_DENIED_TITLE'],
+            ];
         }
 
-        foreach($groups as $group) {
-            $grouplist[] = array(
-                'id'     => $group->id,
-                'name'   => $group->name);
+        foreach ($groups as $group) {
+            $grouplist[] = [
+                'id' => $group->id,
+                'name' => $group->name, ];
         }
 
         $groupField = new C4GSelectField();
@@ -64,14 +63,14 @@ class C4GBrickSelectGroupDialog extends C4GBrickDialog
         }
         $groupField->setFieldName($groupFieldName);
         $groupField->setTitle($GLOBALS['TL_LANG']['FE_C4G_DIALOG']['SELECT_GROUP']);
-        $groupField->setTitle($GLOBALS['TL_LANG']['FE_C4G_DIALOG']['SELECT_GROUP_TEXT'].$pluralCaption.$GLOBALS['TL_LANG']['FE_C4G_DIALOG']['SELECT_GROUP_TEXT_2']);
+        $groupField->setTitle($GLOBALS['TL_LANG']['FE_C4G_DIALOG']['SELECT_GROUP_TEXT'] . $pluralCaption . $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['SELECT_GROUP_TEXT_2']);
         $groupField->setSortColumn(false);
         $groupField->setTableColumn(false);
         $groupField->setSize(1);
         $groupField->setOptions($grouplist);
         $groupField->setChosen(true);
 
-        if ( $group_id && ($group_id > -1)) {
+        if ($group_id && ($group_id > -1)) {
             $groupField->setInitialValue($group_id);
         }
 
@@ -79,5 +78,4 @@ class C4GBrickSelectGroupDialog extends C4GBrickDialog
             $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['SELECT_GROUP_DIALOG_CONFIRM_QUESTION'],
             $confirmAction, $confirmButtonText, $cancelAction, $cancelButtonText);
     }
-
 }

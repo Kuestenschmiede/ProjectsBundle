@@ -12,14 +12,11 @@
  */
 namespace con4gis\ProjectsBundle\Classes\Models;
 
-
 class C4gProjectMapDataModel extends \Model
 {
-
     /**
      * Table name
      * @var string
      */
     protected static $strTable = 'tl_c4g_project_mapdata';
-
 }

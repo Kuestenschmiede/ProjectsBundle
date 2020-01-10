@@ -12,10 +12,8 @@
  */
 namespace con4gis\ProjectsBundle\Classes\Actions;
 
-
 class C4GConfirmCustomDialogAction extends C4GBrickDialogAction
 {
-
     public function run()
     {
         return $this->dialogParams->getCustomDialogCallback()->call();
@@ -25,5 +23,4 @@ class C4GConfirmCustomDialogAction extends C4GBrickDialogAction
     {
         return false;
     }
-
 }

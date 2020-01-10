@@ -16,9 +16,10 @@ class C4GResetParentAction extends C4GBrickDialogAction
 {
     public function run()
     {
-        \Session::getInstance()->set("c4g_brick_parent_id", '');
+        \Session::getInstance()->set('c4g_brick_parent_id', '');
         $this->getDialogParams()->setParentId('');
         $action = new C4GShowListAction($this->getDialogParams(), $this->getListParams(), $this->getFieldList(), $this->getPutVars(), $this->getBrickDatabase());
+
         return $action->run();
     }
 

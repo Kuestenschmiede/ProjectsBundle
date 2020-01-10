@@ -14,10 +14,10 @@ namespace con4gis\ProjectsBundle\Classes\Notifications;
 
 class C4GBrickSendEMail
 {
-    private $recipient  = '';   //E-Mail Empfänger
+    private $recipient = '';   //E-Mail Empfänger
     private $senderName = '';   //Wird automatisch gefüllt
-    private $text       = '';   //Wird automatisch gefüllt
-    private $fields     = array();
+    private $text = '';   //Wird automatisch gefüllt
+    private $fields = [];
 
     public function __construct($recipient)
     {
@@ -87,6 +87,4 @@ class C4GBrickSendEMail
     {
         $this->senderName = $senderName;
     }
-
-
 }

@@ -12,105 +12,103 @@
  */
 namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
 
-
-use con4gis\CoreBundle\Resources\contao\classes\C4GUtils;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickCommon;
 use con4gis\ProjectsBundle\Classes\Database\C4GBrickDatabase;
 use con4gis\ProjectsBundle\Classes\Database\C4GBrickDatabaseType;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
-use Symfony\Component\Config\Definition\Exception\Exception;
 
 class C4GForeignArrayField extends C4GBrickField
 {
-
     private $foreignTable = '';             //Source table for the data (frontend display). May be empty if $foreignFieldList is empty.
     private $foreignKey = '';               //Key by which the data will be matched (foreign key comparison). May be empty if $foreignFieldList is empty.
-    private $foreignFieldList = array();    //The fields which display the data. If no fields are give, no frontend output is created.
+    private $foreignFieldList = [];    //The fields which display the data. If no fields are give, no frontend output is created.
     private $databaseType = C4GBrickDatabaseType::DCA_MODEL;
     private $entityClass = '';
     private $modelClass = '';
-    private $findBy = array();
+    private $findBy = [];
     private $database = null;
     private $brickDatabase = null;
-    private $where = array();
+    private $where = [];
     private $delimiter = '#';
     private $identifier = '';
 
     private $autoAdd = false;   //Automatically add a value to the array in the database if it does not exist yet.
     private $autoAddData = '';  //The data to add automatically. "member" = The current member id.
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->setComparable(false);
     }
 
-    public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = array())
+    public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = [])
     {
         if (!$this->foreignFieldList) {
             return '';
-        } else {
-            $loadedDataHtml = '';
-            $subData = array();
-            foreach ($data as $key => $value) {
-                /*$keyArray = explode($this->delimiter,$key);
-                if ($keyArray && $keyArray[0] == $this->getFieldName() && $keyArray[1] && $keyArray[2]) {
-                    $subData[$keyArray[0].$this->delimiter.$keyArray[2]][$keyArray[1]] = $value;
-                } elseif ($keyArray && $keyArray[0] == $this->getFieldName()) {
-                    $subData[$keyArray[0]] = $value;
-                }*/
-                $keyArray = explode($this->delimiter,$key);
-                if ($keyArray && $keyArray[0] == $this->identifier && $keyArray[1] && $keyArray[2]) {
-                    $subData[$keyArray[0].$this->delimiter.$keyArray[2]][$keyArray[1]] = $value;
-
-                }
-            }
-
-            foreach ($subData as $dbVals) {
-                $dbVals = C4GBrickCommon::arrayToObject($dbVals);
-
-               /* $fieldNames = array();
-                $fieldNamesIndex = 0;
-                foreach ($this->foreignFieldList as $field) {
-                    $fieldNames[] = $field->getFieldName();
-                }
-
-                $dbValsTemp = new \stdClass();
-                foreach ($dbVals as $k => $v) {
-                    $name = $fieldNames[$fieldNamesIndex];
-                    $dbValsTemp->$name = $v;
-                    $fieldNamesIndex += 1;
-                }
-                $dbVals = $dbValsTemp;*/
-
-                foreach ($this->foreignFieldList as $field) {
-                    $loadedDataHtml .= $field->getC4GDialogField($this->foreignFieldList, $dbVals, $dialogParams, $additionalParams);
-                }
-            }
-
-            $html = '';
-            if ($this->isEditable() || $loadedDataHtml) {
-                $name = $this->getFieldName();
-                $title = $this->getTitle();
-                $html = "<div class='c4g_array_field_container' id='c4g_$name'>";
-                $html .= $this->addC4GFieldLabel("c4g_$name", $title, $this->isMandatory(), $this->createConditionData($fieldList, $data), $fieldList, $data, $dialogParams);
-                $html .= "<div class='c4g_array_field' id='c4g_dialog_$name'>";
-
-                $loadedDataHtml = str_replace('"', "'", $loadedDataHtml);
-                $html .= $loadedDataHtml;
-
-                $html .= "</div>";
-                $html .= "</div><br>";
-            }
-
-            return $html;
         }
+        $loadedDataHtml = '';
+        $subData = [];
+        foreach ($data as $key => $value) {
+            /*$keyArray = explode($this->delimiter,$key);
+            if ($keyArray && $keyArray[0] == $this->getFieldName() && $keyArray[1] && $keyArray[2]) {
+                $subData[$keyArray[0].$this->delimiter.$keyArray[2]][$keyArray[1]] = $value;
+            } elseif ($keyArray && $keyArray[0] == $this->getFieldName()) {
+                $subData[$keyArray[0]] = $value;
+            }*/
+            $keyArray = explode($this->delimiter, $key);
+            if ($keyArray && $keyArray[0] == $this->identifier && $keyArray[1] && $keyArray[2]) {
+                $subData[$keyArray[0] . $this->delimiter . $keyArray[2]][$keyArray[1]] = $value;
+            }
+        }
+
+        foreach ($subData as $dbVals) {
+            $dbVals = C4GBrickCommon::arrayToObject($dbVals);
+
+            /* $fieldNames = array();
+             $fieldNamesIndex = 0;
+             foreach ($this->foreignFieldList as $field) {
+                 $fieldNames[] = $field->getFieldName();
+             }
+
+             $dbValsTemp = new \stdClass();
+             foreach ($dbVals as $k => $v) {
+                 $name = $fieldNames[$fieldNamesIndex];
+                 $dbValsTemp->$name = $v;
+                 $fieldNamesIndex += 1;
+             }
+             $dbVals = $dbValsTemp;*/
+
+            foreach ($this->foreignFieldList as $field) {
+                $loadedDataHtml .= $field->getC4GDialogField($this->foreignFieldList, $dbVals, $dialogParams, $additionalParams);
+            }
+        }
+
+        $html = '';
+        if ($this->isEditable() || $loadedDataHtml) {
+            $name = $this->getFieldName();
+            $title = $this->getTitle();
+            $html = "<div class='c4g_array_field_container' id='c4g_$name'>";
+            $html .= $this->addC4GFieldLabel("c4g_$name", $title, $this->isMandatory(), $this->createConditionData($fieldList, $data), $fieldList, $data, $dialogParams);
+            $html .= "<div class='c4g_array_field' id='c4g_dialog_$name'>";
+
+            $loadedDataHtml = str_replace('"', "'", $loadedDataHtml);
+            $html .= $loadedDataHtml;
+
+            $html .= '</div>';
+            $html .= '</div><br>';
+        }
+
+        return $html;
     }
 
-    public function compareWithDB($dbValue, $dlgvalue) {}
+    public function compareWithDB($dbValue, $dlgvalue)
+    {
+    }
 
-    public function createValue($dbValues, $dialogParams, $dialogValues, $useDoctrine) {
+    public function createValue($dbValues, $dialogParams, $dialogValues, $useDoctrine)
+    {
         $index = $this->getFieldName();
-        $dataArray = array();
+        $dataArray = [];
         if ($useDoctrine) {
             $dataArray = $dbValues->$index;
         } elseif ($dbValues->$index) {
@@ -125,6 +123,7 @@ class C4GForeignArrayField extends C4GBrickField
                         unset($dataArray[array_search($dialogParams->getMemberId(), $dataArray)]);
                         $dataArray[] = intval($dialogParams->getMemberId());
                     }
+
                     break;
                 default:
                     break;
@@ -132,10 +131,10 @@ class C4GForeignArrayField extends C4GBrickField
         }
         if ($useDoctrine) {
             return $dataArray;
-        } else {
-            $test = serialize($dataArray);
-            return $test;
         }
+        $test = serialize($dataArray);
+
+        return $test;
     }
 
     /**
@@ -153,6 +152,7 @@ class C4GForeignArrayField extends C4GBrickField
     public function setForeignTable($foreignTable)
     {
         $this->foreignTable = $foreignTable;
+
         return $this;
     }
 
@@ -171,6 +171,7 @@ class C4GForeignArrayField extends C4GBrickField
     public function setForeignKey(string $foreignKey): C4GForeignArrayField
     {
         $this->foreignKey = $foreignKey;
+
         return $this;
     }
 
@@ -189,6 +190,7 @@ class C4GForeignArrayField extends C4GBrickField
     public function setForeignFieldList(array $foreignFieldList): C4GForeignArrayField
     {
         $this->foreignFieldList = $foreignFieldList;
+
         return $this;
     }
 
@@ -207,6 +209,7 @@ class C4GForeignArrayField extends C4GBrickField
     public function setDatabaseType($databaseType)
     {
         $this->databaseType = $databaseType;
+
         return $this;
     }
 
@@ -225,6 +228,7 @@ class C4GForeignArrayField extends C4GBrickField
     public function setEntityClass(string $entityClass): C4GForeignArrayField
     {
         $this->entityClass = $entityClass;
+
         return $this;
     }
 
@@ -243,6 +247,7 @@ class C4GForeignArrayField extends C4GBrickField
     public function setModelClass(string $modelClass): C4GForeignArrayField
     {
         $this->modelClass = $modelClass;
+
         return $this;
     }
 
@@ -261,6 +266,7 @@ class C4GForeignArrayField extends C4GBrickField
     public function setFindBy(array $findBy): C4GForeignArrayField
     {
         $this->findBy = $findBy;
+
         return $this;
     }
 
@@ -279,6 +285,7 @@ class C4GForeignArrayField extends C4GBrickField
     public function setDatabase(\Contao\Database $database)
     {
         $this->database = $database;
+
         return $this;
     }
 
@@ -297,6 +304,7 @@ class C4GForeignArrayField extends C4GBrickField
     public function setBrickDatabase(C4GBrickDatabase $brickDatabase)
     {
         $this->brickDatabase = $brickDatabase;
+
         return $this;
     }
 
@@ -315,6 +323,7 @@ class C4GForeignArrayField extends C4GBrickField
     public function setWhere(array $where): C4GForeignArrayField
     {
         $this->where = $where;
+
         return $this;
     }
 
@@ -333,6 +342,7 @@ class C4GForeignArrayField extends C4GBrickField
     public function setAutoAdd(bool $autoAdd): C4GForeignArrayField
     {
         $this->autoAdd = $autoAdd;
+
         return $this;
     }
 
@@ -351,6 +361,7 @@ class C4GForeignArrayField extends C4GBrickField
     public function setAutoAddData(string $autoAddData): C4GForeignArrayField
     {
         $this->autoAddData = $autoAddData;
+
         return $this;
     }
 
@@ -373,6 +384,7 @@ class C4GForeignArrayField extends C4GBrickField
             throw new \Exception('C4GForeignArrayField::delimiter must not be _ or ?.');
         }
         $this->delimiter = $delimiter;
+
         return $this;
     }
 
@@ -391,9 +403,7 @@ class C4GForeignArrayField extends C4GBrickField
     public function setIdentifier(string $identifier): C4GForeignArrayField
     {
         $this->identifier = $identifier;
+
         return $this;
     }
-
-
-
 }

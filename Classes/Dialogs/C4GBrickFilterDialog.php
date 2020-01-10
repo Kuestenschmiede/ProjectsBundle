@@ -12,7 +12,6 @@
  */
 namespace con4gis\ProjectsBundle\Classes\Dialogs;
 
-
 use con4gis\CoreBundle\Resources\contao\classes\C4GHTMLFactory;
 use con4gis\CoreBundle\Resources\contao\classes\C4GUtils;
 use con4gis\ProjectsBundle\Classes\Actions\C4GBrickActionType;
@@ -75,18 +74,17 @@ class C4GBrickFilterDialog extends C4GBrickDialog
             if ($from) {
                 $fromFilterField->setInitialValue($from);
             } else {
-                $fromFilterField->setInitialValue(mktime(0, 0, 0, date("n"), 1));
+                $fromFilterField->setInitialValue(mktime(0, 0, 0, date('n'), 1));
             }
 
             if ($to) {
                 $toFilterField->setInitialValue($to);
             } else {
-                $toFilterField->setInitialValue(mktime(23, 59, 59, date("n"), date("t")));
+                $toFilterField->setInitialValue(mktime(23, 59, 59, date('n'), date('t')));
             }
         }
 
-        if($filterParams && $filterParams->isWithGeoFilter()) {
-
+        if ($filterParams && $filterParams->isWithGeoFilter()) {
             $filterParams->getBrickFilterCookies($brickKey);
             $firstPosition = new C4GGeopickerField();
             $firstPosition->setFieldName('firstPosition');
@@ -98,11 +96,9 @@ class C4GBrickFilterDialog extends C4GBrickDialog
             $firstPosition->setEditable(true);
 
             $fieldList[] = $firstPosition;
-
         }
 
-        if($filterParams && $filterParams->isWithRangeFilter()) {
-
+        if ($filterParams && $filterParams->isWithRangeFilter()) {
             $filterParams->getBrickFilterCookies($brickKey);
 
             if ($filterParams->getRangeFrom()) {
@@ -127,7 +123,7 @@ class C4GBrickFilterDialog extends C4GBrickDialog
             $fromFilterField->setMandatory(true);
             $fromFilterField->setEditable(true);
 
-            if($rangeFrom) {
+            if ($rangeFrom) {
                 $fromFilterField->setInitialValue($rangeFrom);
             } else {
                 $fromFilterField->setInitialValue(time() - 4 * 604800);
@@ -149,7 +145,7 @@ class C4GBrickFilterDialog extends C4GBrickDialog
             $toFilterField->setMandatory(true);
             $toFilterField->setEditable(true);
 
-            if($rangeTo) {
+            if ($rangeTo) {
                 $toFilterField->setInitialValue($rangeTo);
             } else {
                 $toFilterField->setInitialValue(time());
@@ -167,71 +163,61 @@ class C4GBrickFilterDialog extends C4GBrickDialog
 
             $messageTitle = $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['HEADLINE_TEXT'];
 
-            return array
-            (
+            return [
                 'dialogtype' => 'html',
                 'dialogdata' => $view,
-                'dialogoptions' => C4GUtils::addDefaultDialogOptions(array
-                (
+                'dialogoptions' => C4GUtils::addDefaultDialogOptions([
                     'title' => $messageTitle,
-                    'modal' => true
-                )),
-                'dialogid' => C4GBrickActionType::IDENTIFIER_FILTER.$dialogId,
-                'dialogstate' => C4GBrickActionType::IDENTIFIER_FILTER.':'.$dialogId,
-                'dialogbuttons' => array
-                (
-                    array
-                    (
-                        'action' => $confirmAction.':'.$dialogId,
-                        'class'  => 'c4gGuiDefaultAction',
-                        'type'   => 'send',
-                        'text'   => $confirmButtonText,
-                    ),
-                    array
-                    (
-                        'action' => $cancelAction.':'.$dialogId,
-                        'class'  => 'c4gGuiDefaultAction',
-                        'type'   => 'send',
-                        'text'   => $cancelButtonText,
-                    ),
-                )
-            );
-        } else if($filterParams->isWithGeoFilter()) {
+                    'modal' => true,
+                ]),
+                'dialogid' => C4GBrickActionType::IDENTIFIER_FILTER . $dialogId,
+                'dialogstate' => C4GBrickActionType::IDENTIFIER_FILTER . ':' . $dialogId,
+                'dialogbuttons' => [
+                    [
+                        'action' => $confirmAction . ':' . $dialogId,
+                        'class' => 'c4gGuiDefaultAction',
+                        'type' => 'send',
+                        'text' => $confirmButtonText,
+                    ],
+                    [
+                        'action' => $cancelAction . ':' . $dialogId,
+                        'class' => 'c4gGuiDefaultAction',
+                        'type' => 'send',
+                        'text' => $cancelButtonText,
+                    ],
+                ],
+            ];
+        } elseif ($filterParams->isWithGeoFilter()) {
             $content = $firstPosition->getContentId();
-            $view =  '<div class="' . C4GBrickConst::CLASS_DIALOG . ' ' . C4GBrickConst::CLASS_FILTER_DIALOG . ' ui-widget ui-widget-content ui-corner-bottom">';
-            $view .= C4GHTMLFactory::lineBreak() . $firstPosition->getC4GDialogField(null, null, $dialogParams, array('content' => $content));
+            $view = '<div class="' . C4GBrickConst::CLASS_DIALOG . ' ' . C4GBrickConst::CLASS_FILTER_DIALOG . ' ui-widget ui-widget-content ui-corner-bottom">';
+            $view .= C4GHTMLFactory::lineBreak() . $firstPosition->getC4GDialogField(null, null, $dialogParams, ['content' => $content]);
 
             $messageTitle = $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['HEADLINE_TEXT'];
 
-            return array
-            (
+            return [
                 'dialogtype' => 'html',
                 'dialogdata' => $view,
-                'dialogoptions' => C4GUtils::addDefaultDialogOptions(array
-                (
+                'dialogoptions' => C4GUtils::addDefaultDialogOptions([
                     'title' => $messageTitle,
-                    'modal' => true
-                )),
-                'dialogid' => C4GBrickActionType::IDENTIFIER_FILTER.$dialogId,
-                'dialogstate' => C4GBrickActionType::IDENTIFIER_FILTER.':'.$dialogId,
-                'dialogbuttons' => array
-                (
-                    array
-                    (
-                        'action' => $confirmAction.':'.$dialogId,
-                        'class'  => 'c4gGuiDefaultAction',
-                        'type'   => 'send',
-                        'text'   => $confirmButtonText,
-                    ),
-                    array
-                    (
-                        'action' => $cancelAction.':'.$dialogId,
-                        'class'  => 'c4gGuiDefaultAction',
-                        'type'   => 'send',
-                        'text'   => $cancelButtonText,
-                    ),
-                )
-            );
+                    'modal' => true,
+                ]),
+                'dialogid' => C4GBrickActionType::IDENTIFIER_FILTER . $dialogId,
+                'dialogstate' => C4GBrickActionType::IDENTIFIER_FILTER . ':' . $dialogId,
+                'dialogbuttons' => [
+                    [
+                        'action' => $confirmAction . ':' . $dialogId,
+                        'class' => 'c4gGuiDefaultAction',
+                        'type' => 'send',
+                        'text' => $confirmButtonText,
+                    ],
+                    [
+                        'action' => $cancelAction . ':' . $dialogId,
+                        'class' => 'c4gGuiDefaultAction',
+                        'type' => 'send',
+                        'text' => $cancelButtonText,
+                    ],
+                ],
+            ];
         }
     }
 
@@ -242,6 +228,7 @@ class C4GBrickFilterDialog extends C4GBrickDialog
     public function setFilter($filter)
     {
         $this->filter = $filter;
+
         return $this;
     }
 }

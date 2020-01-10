@@ -21,9 +21,9 @@ class C4GEmailField extends C4GBrickFieldText
 {
     protected $pattern = C4GBrickRegEx::EMAIL;
 
-    public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = array())
+    public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = [])
     {
-        $id = "c4g_" . $this->getFieldName();
+        $id = 'c4g_' . $this->getFieldName();
         $required = $this->generateRequiredString($data, $dialogParams);
         $value = $this->generateInitialValue($data);
         $result = '';
@@ -33,8 +33,9 @@ class C4GEmailField extends C4GBrickFieldText
 
             $result =
                 $this->addC4GField($condition,$dialogParams,$fieldList,$data,
-                    '<input type="email"' . $required . ' pattern="'.$this->pattern.'" ' . $condition['conditionPrepare'] . ' id="' . $id . '" class="formdata ' . $id . '" name="' . $this->getFieldName() . '" title="' . $this->getTitle() . '" value="' . $value . '">');
+                    '<input type="email"' . $required . ' pattern="' . $this->pattern . '" ' . $condition['conditionPrepare'] . ' id="' . $id . '" class="formdata ' . $id . '" name="' . $this->getFieldName() . '" title="' . $this->getTitle() . '" value="' . $value . '">');
         }
+
         return $result;
     }
 
@@ -49,6 +50,7 @@ class C4GEmailField extends C4GBrickFieldText
         if (strcmp($dbValue, $dlgValue) != 0) {
             $result = new C4GBrickFieldCompare($this, $dbValue, $dlgValue);
         }
+
         return $result;
     }
 }

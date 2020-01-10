@@ -42,15 +42,13 @@ class C4GBrickEntitySerializer
         $className = get_class($entityObject);
         $metaData = $this->entityManager->getClassMetadata($className);
 
-        foreach ($metaData->fieldMappings as $field => $mapping)
-        {
+        foreach ($metaData->fieldMappings as $field => $mapping) {
             //ToDo bei boolean "is"?
-            $method = "get" . ucfirst($field);
-            $data->$field = call_user_func(array($entityObject, $method));
+            $method = 'get' . ucfirst($field);
+            $data->$field = call_user_func([$entityObject, $method]);
         }
 
-        foreach ($metaData->associationMappings as $field => $mapping)
-        {
+        foreach ($metaData->associationMappings as $field => $mapping) {
             $object = $metaData->reflFields[$field]->getValue($entityObject);
             $data->$field = $this->serialize($object);
         }
@@ -58,13 +56,12 @@ class C4GBrickEntitySerializer
         return $data;
     }
 
-
     public function unserialize($contaoSet, $entityObject = null)
     {
         if ($contaoSet && $entityObject) {
             foreach ($contaoSet as $field => $value) {
-                $method = "set" . ucfirst($field);
-                call_user_func(array($entityObject, $method), $value);
+                $method = 'set' . ucfirst($field);
+                call_user_func([$entityObject, $method], $value);
             }
         }
 

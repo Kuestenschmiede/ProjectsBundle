@@ -12,7 +12,6 @@
  */
 namespace con4gis\ProjectsBundle\Classes\Fieldlist;
 
-
 use Contao\Controller;
 
 abstract class C4GBrickFieldText extends C4GBrickField
@@ -23,8 +22,6 @@ abstract class C4GBrickFieldText extends C4GBrickField
      * @property int $maxChars Maximum number of characters to be displayed in the list
      * @property boolean $replaceInsertTag Should the replaceInsertTags function be called on the field value?
      */
-
-
     protected $pattern = '';
     protected $maxChars = 0;
     protected $replaceInsertTag = false;
@@ -38,7 +35,6 @@ abstract class C4GBrickFieldText extends C4GBrickField
      * @param $maxChars
      * @return string
      */
-
     public function cutFieldValue($value, $maxChars)
     {
         return substr($value, 0, $maxChars - 3) . '...';
@@ -61,10 +57,10 @@ abstract class C4GBrickFieldText extends C4GBrickField
         }
 
         if ($this->getAddStrBeforeValue()) {
-            $value = $this->getAddStrBeforeValue().$value;
+            $value = $this->getAddStrBeforeValue() . $value;
         }
         if ($this->getAddStrBehindValue()) {
-            $value = $value.$this->getAddStrBehindValue();
+            $value = $value . $this->getAddStrBehindValue();
         }
 
         //remove critical characters
@@ -81,6 +77,7 @@ abstract class C4GBrickFieldText extends C4GBrickField
         if ($this->replaceInsertTag) {
             $value = Controller::replaceInsertTags($value);
         }
+
         return $value;
     }
 
@@ -99,6 +96,7 @@ abstract class C4GBrickFieldText extends C4GBrickField
     public function setPattern($pattern)
     {
         $this->pattern = $pattern;
+
         return $this;
     }
 
@@ -117,9 +115,10 @@ abstract class C4GBrickFieldText extends C4GBrickField
     public function setMaxChars($maxChars)
     {
         $this->maxChars = $maxChars;
+
         return $this;
     }
-    
+
     /**
      * @return bool
      */
@@ -127,7 +126,7 @@ abstract class C4GBrickFieldText extends C4GBrickField
     {
         return $this->replaceInsertTag;
     }
-    
+
     /**
      * @param bool $replaceInsertTag
      */
@@ -151,6 +150,7 @@ abstract class C4GBrickFieldText extends C4GBrickField
     public function setEncodeHtmlEntities(bool $encodeHtmlEntities = true): C4GBrickFieldText
     {
         $this->encodeHtmlEntities = $encodeHtmlEntities;
+
         return $this;
     }
 
@@ -169,6 +169,7 @@ abstract class C4GBrickFieldText extends C4GBrickField
     public function setPlaceholder(string $placeholder): C4GBrickFieldText
     {
         $this->placeholder = $placeholder;
+
         return $this;
     }
 }

@@ -16,8 +16,6 @@ use con4gis\ProjectsBundle\Classes\Actions\C4GBrickActionType;
 use con4gis\ProjectsBundle\Classes\Actions\C4GShowRedirectDialogAction;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickConst;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GSelectField;
-use Contao\System;
-use Eden\CustomerBundle\classes\contao\modules\EdenCustomerAddresses;
 
 class C4GBrickSelectParentDialog extends C4GBrickDialog
 {
@@ -36,7 +34,6 @@ class C4GBrickSelectParentDialog extends C4GBrickDialog
         $this->brickDatabase = $brickDatabase;
         $this->module = $module;
     }
-
 
     /**
      * @param $memberId
@@ -60,7 +57,7 @@ class C4GBrickSelectParentDialog extends C4GBrickDialog
         $cancelAction = C4GBrickActionType::ACTION_CANCELPARENTSELECT;
         $cancelButtonText = $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['SELECT_PARENT_DIALOG_CANCEL_BUTTON'];
 
-        $parentlist = array();
+        $parentlist = [];
 
         $groupKeyField = $dialogParams->getViewParams()->getGroupKeyField();
         if ($project_id && $project_id > 0) {
@@ -72,7 +69,7 @@ class C4GBrickSelectParentDialog extends C4GBrickDialog
         if (!$items) {
             $redirects = $dialogParams->getRedirects();
             if ($redirects) {
-                foreach($redirects as $redirect) {
+                foreach ($redirects as $redirect) {
                     $redirect->setActive($redirect->getType() == C4GBrickConst::REDIRECT_PARENT);
                 }
 
@@ -83,10 +80,11 @@ class C4GBrickSelectParentDialog extends C4GBrickDialog
                     $this->putVars,
                     $this->brickDatabase
                 );
+
                 return $action->run();
-            } else {
-                return array('usermessage' => $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['SELECT_PARENT_DIALOG_ERROR'].$parentCaption.'.');
             }
+
+            return ['usermessage' => $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['SELECT_PARENT_DIALOG_ERROR'] . $parentCaption . '.'];
         }
         if ($parentCaptionCallback && is_array($parentCaptionCallback)) {
             // call module function for all items
@@ -99,7 +97,7 @@ class C4GBrickSelectParentDialog extends C4GBrickDialog
             );
         }
 
-        foreach($items as $item) {
+        foreach ($items as $item) {
             // default case
             $caption = $item->caption;
             if (!$caption) {
@@ -108,14 +106,14 @@ class C4GBrickSelectParentDialog extends C4GBrickDialog
             // simple dynamic caption
             if ($parentCaptionFields && is_array($parentCaptionFields)) {
                 $caption = '';
-                foreach($parentCaptionFields as $key=>$value) {
+                foreach ($parentCaptionFields as $key => $value) {
                     if (strlen($value) == 1) {
                         if ($value == ')') {
                             //if there is no bracketed value remove brackets
                             if (substr(trim($caption), -1, 1) == '(') {
                                 $caption = substr(trim($caption), 0, -1);
                             } else {
-                                $caption = trim($caption).$value;
+                                $caption = trim($caption) . $value;
                             }
                         } else {
                             $caption .= $value;
@@ -130,9 +128,9 @@ class C4GBrickSelectParentDialog extends C4GBrickDialog
                 $caption = $arrCaptions[$item->id];
             }
             $id = $item->id;
-            $parentlist[] = array(
-                'id'     => $id,
-                'name'   => $caption);
+            $parentlist[] = [
+                'id' => $id,
+                'name' => $caption, ];
         }
 
         $parentField = new C4GSelectField();
@@ -155,7 +153,7 @@ class C4GBrickSelectParentDialog extends C4GBrickDialog
         $parentField->setChosen(true);
 //        $parentField->setMinChosenCount(0); //Test
 
-        if ( $parent_id && ($parent_id > -1)) {
+        if ($parent_id && ($parent_id > -1)) {
             $parentField->setInitialValue($parent_id);
         }
 
@@ -164,5 +162,4 @@ class C4GBrickSelectParentDialog extends C4GBrickDialog
                 $parentCaptionPlural ? $parentCaptionPlural : $parentCaption),
             $confirmAction, $confirmButtonText, $cancelAction, $cancelButtonText);
     }
-
 }

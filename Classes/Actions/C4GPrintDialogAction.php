@@ -12,15 +12,10 @@
  */
 namespace con4gis\ProjectsBundle\Classes\Actions;
 
-use con4gis\DocumentsBundle\Classes\Stack\PdfManager;
-use con4gis\ProjectsBundle\Classes\Common\C4GBrickConst;
-use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialog;
-
 class C4GPrintDialogAction extends C4GBrickDialogAction
 {
     public function run()
     {
-
     }
 
     public function isReadOnly()

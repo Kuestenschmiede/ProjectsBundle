@@ -25,7 +25,7 @@ class C4GConfirmDeleteAction extends C4GBrickDialogAction
         $dialogParams = $this->getDialogParams();
         $dialogId = $dialogParams->getId();
         $memberId = $dialogParams->getMemberId();
-        $groupId  = $dialogParams->getGroupId();
+        $groupId = $dialogParams->getGroupId();
         $projectId = $dialogParams->getProjectId();
         $viewType = $dialogParams->getViewType();
         $brickKey = $dialogParams->getBrickKey();
@@ -35,20 +35,20 @@ class C4GConfirmDeleteAction extends C4GBrickDialogAction
         $fieldList = $this->getFieldList();
         $brickDatabase = $this->getBrickDatabase();
 
-        $database  = $brickDatabase->getParams()->getDatabase();
+        $database = $brickDatabase->getParams()->getDatabase();
         $tableName = $brickDatabase->getParams()->getTableName();
 
-        $dbValues   = null;
-        if ($dialogId != "") {
-            $dbValues  = $brickDatabase->findByPk($dialogId);
+        $dbValues = null;
+        if ($dialogId != '') {
+            $dbValues = $brickDatabase->findByPk($dialogId);
         }
 
         C4GBrickDialog::deleteC4GTableDataById($dialogId, $tableName, $database, $fieldList, $dbValues, $dlgValues, $memberId);
 
         if ($viewType == C4GBrickViewType::PROJECTBASED) {
             if ($projectId == $dialogId) {
-                \Session::getInstance()->set("c4g_brick_project_id", '');
-                \Session::getInstance()->set("c4g_brick_project_uuid", '');
+                \Session::getInstance()->set('c4g_brick_project_id', '');
+                \Session::getInstance()->set('c4g_brick_project_uuid', '');
             }
         }
 
@@ -56,7 +56,7 @@ class C4GConfirmDeleteAction extends C4GBrickDialogAction
         C4GBrickCommon::logEntry(
             $dialogId,
             C4GLogEntryType::DELETE_DATASET,
-            $dlgValues[$elementName].$GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_DELETED'],
+            $dlgValues[$elementName] . $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_DELETED'],
             $brickKey,
             $viewType,
             $groupId,
@@ -66,22 +66,22 @@ class C4GConfirmDeleteAction extends C4GBrickDialogAction
             $recipient = $sendEmails->getRecipient();
             $senderName = C4GBrickCommon::getNameForMember($memberId);
             if (($viewType == C4GBrickViewType::MEMBERBOOKING) && ($GLOBALS['con4gis']['booking']['installed'])) {
-                $senderName = C4GBrickCommon::getNameForMember($memberId).' ('.$dbValues->caption.')';
+                $senderName = C4GBrickCommon::getNameForMember($memberId) . ' (' . $dbValues->caption . ')';
             }
 
             $fields = $this->sendEMails->getFields();
 
             $text = '';
 
-            foreach($fields as $field)
-            {
-                $text .= ' '.$dlgValues[$field].' ';
+            foreach ($fields as $field) {
+                $text .= ' ' . $dlgValues[$field] . ' ';
             }
 
             $action = new C4GSendEmailAction($dialogParams, $this->getListParams(), $this->getFieldList(), $this->getPutVars(), $this->getBrickDatabase());
             $action->setRecipient($recipient);
             $action->setSenderName($senderName);
-            $action->setText($this->brickCaption.': '.$text.$GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_DELETED']);
+            $action->setText($this->brickCaption . ': ' . $text . $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_DELETED']);
+
             return $action->run();
         }
 
@@ -106,7 +106,6 @@ class C4GConfirmDeleteAction extends C4GBrickDialogAction
         }
 
         return $return;
-
     }
 
     public function isReadOnly()

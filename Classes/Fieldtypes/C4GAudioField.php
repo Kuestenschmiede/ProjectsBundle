@@ -34,19 +34,18 @@ class C4GAudioField extends C4GBrickField
      * @param array $additionalParams
      * @return string
      */
-    public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = array())
+    public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = [])
     {
-        $id = "c4g_" . $this->getFieldName();
+        $id = 'c4g_' . $this->getFieldName();
         $result = '';
 
         $sound = $this->sound;
-        if  ($sound) {
-
+        if ($sound) {
             $condition = $this->createConditionData($fieldList, $data);
 
             $html =
-                '<div id="'.$id.'" class="c4g_brick_audio c4gGuiDialogButtonsJqui">'.
-                '<audio autoplay><source src="'.$sound.'" type="audio/mpeg">Your browser does not support the audio element.</audio>'.
+                '<div id="' . $id . '" class="c4g_brick_audio c4gGuiDialogButtonsJqui">' .
+                '<audio autoplay><source src="' . $sound . '" type="audio/mpeg">Your browser does not support the audio element.</audio>' .
                 '</div>';
 
             $result = $this->addC4GField($condition, $dialogParams, $fieldList, $data, $html);
@@ -80,6 +79,7 @@ class C4GAudioField extends C4GBrickField
     public function setSound($sound)
     {
         $this->sound = $sound;
+
         return $this;
     }
 }

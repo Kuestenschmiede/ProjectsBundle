@@ -12,7 +12,6 @@
  */
 namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
 
-
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
 
@@ -44,7 +43,7 @@ class C4GLinkButtonField extends C4GBrickField
      * @param array $additionalParams
      * @return array
      */
-    public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = array())
+    public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = [])
     {
         return [];
     }
@@ -59,7 +58,7 @@ class C4GLinkButtonField extends C4GBrickField
         return [];
     }
 
-    public final function getC4GListField($rowData, $content)
+    final public function getC4GListField($rowData, $content)
     {
         $fieldName = $this->getFieldName();
         if (!$this->conditional || ($rowData->$fieldName === '1')) {
@@ -80,24 +79,25 @@ class C4GLinkButtonField extends C4GBrickField
             $html = "<a $rel href='$href' title='$title' onclick='event.stopPropagation()'>";
             $html .= "<span class='$class'>";
             $html .= $this->buttonLabel;
-            $html .= "</span>";
-            $html .= "</a>";
-
+            $html .= '</span>';
+            $html .= '</a>';
 
             return $html;
-        } else {
-            return '';
         }
+
+        return '';
     }
 
-    protected function createHref($rowData, $content) {
+    protected function createHref($rowData, $content)
+    {
         if ($this->targetMode === self::TARGET_MODE_PAGE) {
-            $href = \Contao\Controller::replaceInsertTags("{{link_url::".$this->targetPageId."}}");
+            $href = \Contao\Controller::replaceInsertTags('{{link_url::' . $this->targetPageId . '}}');
         } elseif ($this->targetMode === self::TARGET_MODE_URL) {
             $href = $this->targetPageUrl;
         } else {
             return '';
         }
+
         return $href;
     }
 
@@ -116,6 +116,7 @@ class C4GLinkButtonField extends C4GBrickField
     public function setTargetMode(string $targetMode)
     {
         $this->targetMode = $targetMode;
+
         return $this;
     }
 
@@ -134,6 +135,7 @@ class C4GLinkButtonField extends C4GBrickField
     public function setTargetPageId(int $targetPageId): C4GLinkButtonField
     {
         $this->targetPageId = $targetPageId;
+
         return $this;
     }
 
@@ -152,6 +154,7 @@ class C4GLinkButtonField extends C4GBrickField
     public function setTargetPageUrl(string $targetPageUrl)
     {
         $this->targetPageUrl = $targetPageUrl;
+
         return $this;
     }
 
@@ -170,6 +173,7 @@ class C4GLinkButtonField extends C4GBrickField
     public function setButtonLabel(string $buttonLabel): C4GLinkButtonField
     {
         $this->buttonLabel = $buttonLabel;
+
         return $this;
     }
 
@@ -188,6 +192,7 @@ class C4GLinkButtonField extends C4GBrickField
     public function setNewTab(bool $newTab = true): C4GLinkButtonField
     {
         $this->newTab = $newTab;
+
         return $this;
     }
 
@@ -206,6 +211,7 @@ class C4GLinkButtonField extends C4GBrickField
     public function setConditional(bool $conditional = true): C4GLinkButtonField
     {
         $this->conditional = $conditional;
+
         return $this;
     }
 }

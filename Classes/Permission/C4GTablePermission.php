@@ -12,13 +12,10 @@
  */
 namespace con4gis\ProjectsBundle\Classes\Permission;
 
-
-
 use con4gis\CoreBundle\Resources\contao\classes\C4GUtils;
 
 class C4GTablePermission
 {
-
     private $table;
     private $ids;
     private $level = 1;
@@ -29,7 +26,6 @@ class C4GTablePermission
      * @param $table
      * @param $ids array/int
      */
-
     public function __construct($table, $ids)
     {
         $this->table = $table;
@@ -39,7 +35,6 @@ class C4GTablePermission
     /**
      * Write this permission to the session.
      */
-
     public function set()
     {
         $table = $this->table;
@@ -54,20 +49,18 @@ class C4GTablePermission
             $permission = 'C4GTablePermission:' . $table . ':' . $ids;
             \Session::getInstance()->set($permission, $this->level);
         }
-
     }
 
     /**
      * Check if this permission is written to the session
      * @throws \Exception Will be thrown if the permission does not exist in the session.
      */
-
     public function check()
     {
         $table = $this->table;
         $ids = $this->ids;
         if (is_array($ids)) {
-            $session =  \Session::getInstance();
+            $session = \Session::getInstance();
             foreach ($ids as $id) {
                 if ($id == -1) {
                     continue;
@@ -83,10 +76,10 @@ class C4GTablePermission
                     if ($this->action != '') {
                         $this->action = " Action $this->action was attempted.";
                     }
+
                     throw new \Exception("C4GTablePermission denied - User does not have permission to $access data set with ID $id in table $table.$this->action Did the session expire?");
                 }
             }
-
         } else {
             if ($ids == -1) {
                 return;
@@ -102,6 +95,7 @@ class C4GTablePermission
                 if ($this->action != '') {
                     $this->action = " Action $this->action was attempted.";
                 }
+
                 throw new \Exception("C4GTablePermission denied - User does not have permission to $access data set with ID $ids in table $table.$this->action Did the session expire?");
             }
         }
@@ -110,7 +104,6 @@ class C4GTablePermission
     /**
      * Clear this permission from the session.
      */
-
     public function clear()
     {
         $table = $this->table;
@@ -131,13 +124,11 @@ class C4GTablePermission
      * Clears all permissions from the session.
      * @throws \Exception
      */
-
     public static function clearAll()
     {
         $sessionData = \Session::getInstance()->getData();
 
-        foreach ($sessionData as $key => $value)
-        {
+        foreach ($sessionData as $key => $value) {
             if (C4GUtils::startswith($key, 'C4GTablePermission')) {
                 unset($sessionData[$key]);
             }
@@ -161,5 +152,4 @@ class C4GTablePermission
     {
         $this->action = $action;
     }
-
 }

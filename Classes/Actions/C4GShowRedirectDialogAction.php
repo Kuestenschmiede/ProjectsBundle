@@ -11,6 +11,7 @@
  * @link       https://www.con4gis.org
  */
 namespace con4gis\ProjectsBundle\Classes\Actions;
+
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialog;
 
 class C4GShowRedirectDialogAction extends C4GBrickDialogAction
@@ -28,9 +29,9 @@ class C4GShowRedirectDialogAction extends C4GBrickDialogAction
         if ($redirects) {
             foreach ($redirects as $redirect) {
                 if ($redirect->isActive()) {
-                    $redirectDialogTitle   = $redirect->getTitle();
+                    $redirectDialogTitle = $redirect->getTitle();
                     $redirectDialogMessage = $redirect->getMessage();
-                    $redirectDialogSite    = $redirect->getSite();
+                    $redirectDialogSite = $redirect->getSite();
                     //$redirectWithDialog    = $redirect->isShowDialog();
                     break;
                 }
@@ -42,7 +43,6 @@ class C4GShowRedirectDialogAction extends C4GBrickDialogAction
         }
 
         if ($redirectWithDialog) {
-
             return C4GBrickDialog::showC4GMessageDialog(
                 $dialogParams->getId(),
                 $redirectDialogTitle,
@@ -52,19 +52,17 @@ class C4GShowRedirectDialogAction extends C4GBrickDialogAction
                 C4GBrickActionType::ACTION_CANCELMESSAGE,
                 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['MESSAGE_DIALOG_REDIRECT_CANCEL'],
                 $dlgValues);
-
-        } else {
-            if ( $redirectDialogSite && (($jumpTo = \PageModel::findByPk($redirectDialogSite)) !== null)) {
-                $return['title'] = $redirectDialogTitle;
-                $return['usermessage'] = $redirectDialogMessage;
-                $return['jump_after_message'] = $jumpTo->getFrontendUrl();
-            } else {
-                $return['title'] = $redirectDialogTitle;
-                $return['usermessage'] = $redirectDialogMessage;
-            }
-
-            return $return;
         }
+        if ($redirectDialogSite && (($jumpTo = \PageModel::findByPk($redirectDialogSite)) !== null)) {
+            $return['title'] = $redirectDialogTitle;
+            $return['usermessage'] = $redirectDialogMessage;
+            $return['jump_after_message'] = $jumpTo->getFrontendUrl();
+        } else {
+            $return['title'] = $redirectDialogTitle;
+            $return['usermessage'] = $redirectDialogMessage;
+        }
+
+        return $return;
     }
 
     public function isReadOnly()

@@ -38,14 +38,13 @@ class C4GGridField extends C4GBrickField
      * @param array $additionalParams
      * @return string
      */
-    public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = array())
+    public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = [])
     {
-        $id = "c4g_" . $this->getFieldName();
+        $id = 'c4g_' . $this->getFieldName();
         $result = '';
 
         $grid = $this->grid;
-        if  ($grid) {
-
+        if ($grid) {
             $condition = $this->createConditionData($fieldList, $data);
 
             $elements = '';
@@ -54,42 +53,41 @@ class C4GGridField extends C4GBrickField
             $rowCounter = 0;
             $tro = '';
             foreach ($grid->getElements() as $element) {
-
-                $field  = $element->getField();
+                $field = $element->getField();
 
                 if ($field) {
-                    $col  = $element->getCol();
-                    $row     = $element->getRow();
+                    $col = $element->getCol();
+                    $row = $element->getRow();
                     $colspan = $element->getColspan();
                     $rowspan = $element->getRowspan();
                     $horizontal = $element->getHorizontal();
                     $vertical = $element->getVertical();
-                    $width   = $element->getWidth();
+                    $width = $element->getWidth();
 
                     if ($row > $rowCounter) {
-                      if ($row == 1) {
-                          $tro = '<tr>';
-                      }  else {
-                          $tro = '</tr><tr>';
-                      }
-                      $rowCounter = $row;
+                        if ($row == 1) {
+                            $tro = '<tr>';
+                        } else {
+                            $tro = '</tr><tr>';
+                        }
+                        $rowCounter = $row;
                     } else {
                         $tro = '';
                     }
 
                     $tdRowspan = '';
                     if ($rowspan) {
-                      $tdRowspan = ' rowspan="'.$rowspan.'" ';
+                        $tdRowspan = ' rowspan="' . $rowspan . '" ';
                     }
 
                     $tdColspan = '';
                     if ($colspan) {
-                        $tdColspan = ' colspan="'.$colspan.'" ';
+                        $tdColspan = ' colspan="' . $colspan . '" ';
                     }
 
                     $fieldHTML = $field->getC4GDialogField($fieldList, $data, $dialogParams);
 
-                    $elementHTML .= $tro.'<td style="width:'.$width.';text-align:'.$horizontal.';vertical-align:'.$vertical.';padding-right: 2.0%;"'.$tdColspan.$tdRowspan.'><div class="c4g_brick_grid_box c4g_brick_grid_box_'.$col.'_'.$row.'">'.$fieldHTML.'</div></td>';
+                    $elementHTML .= $tro . '<td style="width:' . $width . ';text-align:' . $horizontal . ';vertical-align:' . $vertical . ';padding-right: 2.0%;"' . $tdColspan . $tdRowspan . '><div class="c4g_brick_grid_box c4g_brick_grid_box_' . $col . '_' . $row . '">' . $fieldHTML . '</div></td>';
                 }
             }
 
@@ -97,7 +95,7 @@ class C4GGridField extends C4GBrickField
 
             //ToDo change table to display:grid if feature released for all standard browsers
             $html =
-                '<table id="c4g_brick_grid '.$id.'" class="c4g_brick_grid_wrapper"><tbody>' .
+                '<table id="c4g_brick_grid ' . $id . '" class="c4g_brick_grid_wrapper"><tbody>' .
                 $elementHTML .
                 '</tbody></table>';
 
@@ -132,6 +130,7 @@ class C4GGridField extends C4GBrickField
     public function setGrid($grid)
     {
         $this->grid = $grid;
+
         return $this;
     }
 }

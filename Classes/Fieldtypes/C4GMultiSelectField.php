@@ -24,7 +24,7 @@ class C4GMultiSelectField extends C4GBrickField
      * @param $data
      * @return string
      */
-    public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = array())
+    public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = [])
     {
         $fieldName = $this->getFieldName();
         $id = $this->createFieldID();
@@ -35,19 +35,16 @@ class C4GMultiSelectField extends C4GBrickField
 //            $changeAction = 'onchange="C4GCallOnChange(this)"';
 //        }
 
-
         $result = '';
 
         if ($this->isShowIfEmpty() || !empty($value)) {
-
             $condition = $this->createConditionData($fieldList, $data);
             $options = $this->getSelectOptions($data, $value, $condition);
 
             $result = $this->addC4GField($condition,$dialogParams,$fieldList,$data,
-                '<select multiple id="' . $id . '" ' . $required . ' class="'.$condition['class'].'" name="' . $fieldName . '"  size="'
+                '<select multiple id="' . $id . '" ' . $required . ' class="' . $condition['class'] . '" name="' . $fieldName . '"  size="'
                 . $this->getSize() . '" >' . $options . '</select>');
         }
-
 
         return $result;
     }
@@ -59,7 +56,7 @@ class C4GMultiSelectField extends C4GBrickField
         if ($this->isWithEmptyOption()) {
             $fieldOptions = $this->getOptions();
             if ($fieldOptions) {
-                $fieldOptions[-1] = array('id' => '', 'name' => '');
+                $fieldOptions[-1] = ['id' => '', 'name' => ''];
                 $this->setOptions($fieldOptions);
             }
         }
@@ -77,7 +74,7 @@ class C4GMultiSelectField extends C4GBrickField
 
             foreach ($elements as $element) {
                 if ((!$element->$idField) && (!$element->$nameField)) {
-                    $option[] = array('id' => $value, 'name' => $value);
+                    $option[] = ['id' => $value, 'name' => $value];
                 }
 
                 if ($this->isShowIfEmpty() || !empty($element->$idField) && !empty($element->$nameField)) {
@@ -92,22 +89,19 @@ class C4GMultiSelectField extends C4GBrickField
                     if ($value == $option_id) {
                         $selected = 'selected';
                     }
-                    $options = $options . "<option " . $selected . " value=" . $option_id . ">" . $option_name . "</option>";
+                    $options = $options . '<option ' . $selected . ' value=' . $option_id . '>' . $option_name . '</option>';
                 }
             }
         } else {
             if (($this->getOptions())) {
-
                 $selectoptions = C4GBrickCommon::array_sort($this->getOptions(), 'name');
 
                 if (!in_array($value, $selectoptions)) {
-
                 };
-
 
                 foreach ($selectoptions as $option) {
                     if ((!$option['id']) && (!$option['name'])) {
-                        $option[] = array('id' => $value, 'name' => $value);
+                        $option[] = ['id' => $value, 'name' => $value];
                     }
 
                     if ($this->isShowIfEmpty() || (!empty($option['id']) && !empty($option['name']))) {
@@ -122,7 +116,7 @@ class C4GMultiSelectField extends C4GBrickField
                         if (($value == $option_id) && ($condition['conditionPrepare'] == '')) {
                             $selected = ' selected';
                         }
-                        $options = $options . "<option" . $selected . " value=" . $option_id . ">" . $option_name . "</option>";
+                        $options = $options . '<option' . $selected . ' value=' . $option_id . '>' . $option_name . '</option>';
                     }
                 }
             }
@@ -148,6 +142,7 @@ class C4GMultiSelectField extends C4GBrickField
         if (strcmp($dbValue, $dlgValue) != 0) {
             $result = new C4GBrickFieldCompare($this, $dbValue, $dlgValue);
         }
+
         return $result;
     }
 }

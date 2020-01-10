@@ -12,7 +12,6 @@
  */
 namespace con4gis\ProjectsBundle\Classes\Fieldlist;
 
-
 class C4GBrickFieldCompare
 {
     private $field;
@@ -56,6 +55,7 @@ class C4GBrickFieldCompare
     public function setField($field)
     {
         $this->field = $field;
+
         return $this;
     }
 
@@ -74,6 +74,7 @@ class C4GBrickFieldCompare
     public function setDbValue($dbValue)
     {
         $this->dbValue = $dbValue;
+
         return $this;
     }
 
@@ -92,8 +93,7 @@ class C4GBrickFieldCompare
     public function setDlgValue($dlgValue)
     {
         $this->dlgValue = $dlgValue;
+
         return $this;
     }
-
-
 }

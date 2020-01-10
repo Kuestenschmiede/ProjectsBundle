@@ -12,12 +12,10 @@
  */
 namespace con4gis\ProjectsBundle\Classes\Actions;
 
-
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
 
 class C4GChangeFieldAction extends C4GBrickAction
 {
-
     public function __construct($dialogParams, $listParams, $fieldList, $putVars, $brickDatabase, $module = null)
     {
         parent::__construct($dialogParams, $listParams, $fieldList, $putVars, $brickDatabase);
@@ -26,7 +24,6 @@ class C4GChangeFieldAction extends C4GBrickAction
         }
     }
 
-
     public function run()
     {
         $fieldList = $this->getFieldList();
@@ -34,6 +31,7 @@ class C4GChangeFieldAction extends C4GBrickAction
         $changes = $this->getChangesFromPost($fieldList);
         $fieldList = $changeHandler->applyChanges($changes, $fieldList, $this->module->getBrickKey(), true);
         $this->getModule()->setFieldList($fieldList);
+
         return $fieldList;
     }
 
@@ -45,13 +43,14 @@ class C4GChangeFieldAction extends C4GBrickAction
      */
     private function getChangesFromPost($fieldList)
     {
-        $changes = array();
+        $changes = [];
         /* @var C4GBrickField $field */
         foreach ($fieldList as $field) {
             if ($_POST['c4g_' . $field->getFieldName()]) {
                 $changes[$field->getFieldName()] = $_POST['c4g_' . $field->getFieldName()];
             }
         }
+
         return $changes;
     }
 

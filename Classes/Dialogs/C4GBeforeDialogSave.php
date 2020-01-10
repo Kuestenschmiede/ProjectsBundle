@@ -12,7 +12,6 @@
  */
 namespace con4gis\ProjectsBundle\Classes\Dialogs;
 
-
 class C4GBeforeDialogSave
 {
     private $function = null;
@@ -27,7 +26,8 @@ class C4GBeforeDialogSave
      * @param $function
      * @param $isStatic
      */
-    public function __construct($class, $function, $isStatic = false) {
+    public function __construct($class, $function, $isStatic = false)
+    {
         $this->class = $class;
         $this->function = $function;
         $this->isStaticCall = $isStatic;
@@ -38,16 +38,18 @@ class C4GBeforeDialogSave
      * what is called inside and how.
      * @param $params
      */
-    public function call($params) {
+    public function call($params)
+    {
         if ($this->class && $this->function) {
             $class = $this->class;
             $func = $this->function;
             if ($this->isStaticCall) {
                 return $class::$func($params);
-            } else {
-                return $class->$func($params);
             }
+
+            return $class->$func($params);
         }
+
         return $params;
     }
 
@@ -66,6 +68,7 @@ class C4GBeforeDialogSave
     public function setFunction($function)
     {
         $this->function = $function;
+
         return $this;
     }
 
@@ -84,7 +87,7 @@ class C4GBeforeDialogSave
     public function setClass($class)
     {
         $this->class = $class;
+
         return $this;
     }
-
 }

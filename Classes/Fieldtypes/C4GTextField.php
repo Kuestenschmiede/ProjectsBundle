@@ -24,9 +24,9 @@ class C4GTextField extends C4GBrickFieldText
     protected $simpleTextWithoutEditing = false; //Renders HTML tags, never use this to display user-generated data
     protected $ariaLabel = '';
 
-    public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = array())
+    public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = [])
     {
-        $id = "c4g_" . $this->getFieldName();
+        $id = 'c4g_' . $this->getFieldName();
         $required = $this->generateRequiredString($data, $dialogParams);
         $value = $this->generateInitialValue($data);
         if ($this->replaceInsertTag) {
@@ -35,26 +35,24 @@ class C4GTextField extends C4GBrickFieldText
         $result = '';
 
         if ($this->isShowIfEmpty() || !empty(trim($value))) {
-
             $condition = $this->createConditionData($fieldList, $data);
 
             if ($this->isSimpleTextWithoutEditing()) {
                 $result = $this->addC4GField($condition, $dialogParams, $fieldList, $data,
-                    "<div ".$condition['conditionPrepare']." id=\"$id\" class=\"c4g_non_input\">$value</div>");
-
+                    '<div ' . $condition['conditionPrepare'] . " id=\"$id\" class=\"c4g_non_input\">$value</div>");
             } else {
                 if ($this->placeholder !== '') {
-                    $placeholder = " placeholder=\"".$this->placeholder."\"";
+                    $placeholder = ' placeholder="' . $this->placeholder . '"';
                 } else {
                     $placeholder = '';
                 }
 
                 if ($this->ariaLabel !== '') {
-                    $aria = "aria-label=\"".$this->ariaLabel."\"";
+                    $aria = 'aria-label="' . $this->ariaLabel . '"';
                 }
 
                 $result = $this->addC4GField($condition, $dialogParams, $fieldList, $data,
-                    '<input ' . $required . ' ' . $condition['conditionPrepare'] . ' type="text" id="' . $id . '" class="formdata ' . $id . '" size="'.$this->size.'"  maxLength="'.$this->maxLength.'" name="' . $this->getFieldName() . '" value="' . $value . '"'.$placeholder.$aria.'>');
+                    '<input ' . $required . ' ' . $condition['conditionPrepare'] . ' type="text" id="' . $id . '" class="formdata ' . $id . '" size="' . $this->size . '"  maxLength="' . $this->maxLength . '" name="' . $this->getFieldName() . '" value="' . $value . '"' . $placeholder . $aria . '>');
             }
         }
 
@@ -77,6 +75,7 @@ class C4GTextField extends C4GBrickFieldText
         if (strcmp($dbValue, $dlgValue) != 0) {
             $result = new C4GBrickFieldCompare($this, $dbValue, $dlgValue);
         }
+
         return $result;
     }
 
@@ -95,6 +94,7 @@ class C4GTextField extends C4GBrickFieldText
     public function setSize($size)
     {
         $this->size = $size;
+
         return $this;
     }
 
@@ -113,6 +113,7 @@ class C4GTextField extends C4GBrickFieldText
     public function setMaxLength($maxLength)
     {
         $this->maxLength = $maxLength;
+
         return $this;
     }
 
@@ -131,6 +132,7 @@ class C4GTextField extends C4GBrickFieldText
     public function setSimpleTextWithoutEditing(bool $simpleTextWithoutEditing = true): C4GTextField
     {
         $this->simpleTextWithoutEditing = $simpleTextWithoutEditing;
+
         return $this;
     }
 
@@ -149,6 +151,7 @@ class C4GTextField extends C4GBrickFieldText
     public function setAriaLabel(string $ariaLabel): C4GTextField
     {
         $this->ariaLabel = $ariaLabel;
+
         return $this;
     }
 }

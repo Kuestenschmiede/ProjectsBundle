@@ -20,7 +20,7 @@ class C4GMultiLinkField extends C4GBrickField
 {
     public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = [])
     {
-        $id = "c4g_" . $this->getFieldName();
+        $id = 'c4g_' . $this->getFieldName();
 
         $value = $this->generateInitialValue($data);
         $result = '';
@@ -30,23 +30,23 @@ class C4GMultiLinkField extends C4GBrickField
 
             $tags = [];
             foreach (StringUtil::deserialize($value) as $link) {
-
                 if ($link['linkHref'] === '' || $link['linkTitle'] === '') {
                     break;
                 }
 
                 if ($link['linkNewTab'] === '1') {
-                    $rel = "target=\"_blank\" rel=\"noopener noreferrer\"";
+                    $rel = 'target="_blank" rel="noopener noreferrer"';
                 } else {
                     $rel = '';
                 }
-                $tags[] = "<a href=\"".$link['linkHref']."\" $rel>".$link['linkTitle']."</a>";
+                $tags[] = '<a href="' . $link['linkHref'] . "\" $rel>" . $link['linkTitle'] . '</a>';
             }
 
             $result =
                 $this->addC4GField($condition,$dialogParams,$fieldList,$data,
                 implode('', $tags));
         }
+
         return $result;
     }
 
@@ -74,11 +74,11 @@ class C4GMultiLinkField extends C4GBrickField
         $tags = [];
         foreach (StringUtil::deserialize($value) as $link) {
             if ($link['linkNewTab'] === '1') {
-                $rel = "target=\"_blank\" rel=\"noopener noreferrer\" ";
+                $rel = 'target="_blank" rel="noopener noreferrer" ';
             } else {
                 $rel = '';
             }
-            $tags[] = "<a href=\"".$link['linkHref']."\" $rel onclick=\"event.stopPropagation();\">".$link['linkTitle']."</a>";
+            $tags[] = '<a href="' . $link['linkHref'] . "\" $rel onclick=\"event.stopPropagation();\">" . $link['linkTitle'] . '</a>';
         }
 
         return implode('', $tags);
@@ -93,5 +93,4 @@ class C4GMultiLinkField extends C4GBrickField
     {
         return [];
     }
-
 }

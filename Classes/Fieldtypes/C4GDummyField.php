@@ -17,10 +17,10 @@ use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
 
 class C4GDummyField extends C4GBrickField
 {
-
-    public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = array())
+    public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = [])
     {
         $result = '<div class="c4g_dummy_field"></div>';
+
         return $result;
     }
 
@@ -34,5 +34,4 @@ class C4GDummyField extends C4GBrickField
     {
         return true;
     }
-
 }

@@ -12,7 +12,6 @@
  */
 namespace con4gis\ProjectsBundle\Classes\Dialogs;
 
-
 use con4gis\ProjectsBundle\Classes\Actions\C4GBrickActionType;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickConst;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GSelectField;
@@ -21,7 +20,6 @@ use con4gis\ProjectsBundle\Classes\Actions\C4GShowRedirectDialogAction;
 
 class C4GBrickSelectProjectDialog extends C4GBrickDialog
 {
-
     /**
      * @param $memberId
      * @param $group_id
@@ -31,9 +29,9 @@ class C4GBrickSelectProjectDialog extends C4GBrickDialog
     {
         $dialogParams = $this->getDialogParams();
 
-        $memberId   = $dialogParams->getMemberId();
-        $groupId    = $dialogParams->getGroupId();
-        $projectId  = $dialogParams->getProjectId();
+        $memberId = $dialogParams->getMemberId();
+        $groupId = $dialogParams->getGroupId();
+        $projectId = $dialogParams->getProjectId();
         $projectKey = $dialogParams->getProjectKey();
 
         $confirmAction = C4GBrickActionType::ACTION_CONFIRMPROJECTSELECT;
@@ -42,14 +40,14 @@ class C4GBrickSelectProjectDialog extends C4GBrickDialog
         $cancelAction = C4GBrickActionType::ACTION_CANCELPROJECTSELECT;
         $cancelButtonText = $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['SELECT_PROJECT_DIALOG_CANCEL_BUTTON'];
 
-        $projectlist = array();
+        $projectlist = [];
         $projects = C4gProjectsModel::getProjectListForBrick($memberId, $groupId, $projectKey);
 
         if (!$projects) {
             //$dialogParams->setRedirectDialogMessage($GLOBALS['TL_LANG']['FE_C4G_DIALOG']['SELECT_PROJECT_NO_PROJECT']);
             $redirects = $dialogParams->getRedirects();
             if ($redirects) {
-                foreach($redirects as $redirect) {
+                foreach ($redirects as $redirect) {
                     $redirect->setActive($redirect->getType() == C4GBrickConst::REDIRECT_PROJECT);
                 }
 
@@ -60,17 +58,18 @@ class C4GBrickSelectProjectDialog extends C4GBrickDialog
                     $this->putVars,
                     $this->brickDatabase
                 );
+
                 return $action->run();
-            } else {
-                return array('usermessage' => $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['SELECT_PROJECT_NO_PROJECT']);
             }
+
+            return ['usermessage' => $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['SELECT_PROJECT_NO_PROJECT']];
         }
 
-        foreach($projects as $project) {
+        foreach ($projects as $project) {
             if (!$project->is_frozen) {
-                $projectlist[] = array(
-                    'id'     => $project->id,
-                    'name'   => $project->caption);
+                $projectlist[] = [
+                    'id' => $project->id,
+                    'name' => $project->caption, ];
             }
         }
 
@@ -83,7 +82,7 @@ class C4GBrickSelectProjectDialog extends C4GBrickDialog
         $projectField->setOptions($projectlist);
         $projectField->setChosen(true);
 
-        if ( $projectId && ($projectId > -1)) {
+        if ($projectId && ($projectId > -1)) {
             $projectField->setInitialValue($projectId);
         }
 
@@ -91,5 +90,4 @@ class C4GBrickSelectProjectDialog extends C4GBrickDialog
             $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['SELECT_PROJECT_DIALOG_CONFIRM_QUESTION'],
             $confirmAction, $confirmButtonText, $cancelAction, $cancelButtonText);
     }
-
 }

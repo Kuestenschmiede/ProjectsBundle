@@ -12,14 +12,11 @@
  */
 namespace con4gis\ProjectsBundle\Classes\Models;
 
-
 class C4gProjectsLogbookModel extends \Model
 {
-
     /**
      * Table name
      * @var string
      */
     protected static $strTable = 'tl_c4g_projects_logbook';
-
 }

@@ -26,7 +26,7 @@ class C4GSaveDialogAction extends C4GBrickDialogAction
     private $withRedirect = false;
     private $andNew = false;
     private $setParentIdAfterSave = false;
-    private $setSessionIdAfterInsert = "";
+    private $setSessionIdAfterInsert = '';
 
     public function run()
     {
@@ -35,7 +35,7 @@ class C4GSaveDialogAction extends C4GBrickDialogAction
         $dialogParams = $this->getDialogParams();
         $dialogId = $dialogParams->getId();
         $memberId = $dialogParams->getMemberId();
-        $groupId  = $dialogParams->getGroupId();
+        $groupId = $dialogParams->getGroupId();
         $projectKey = $dialogParams->getProjectKey();
         $projectUuid = $dialogParams->getProjectUuid();
         $viewType = $dialogParams->getViewType();
@@ -62,14 +62,14 @@ class C4GSaveDialogAction extends C4GBrickDialogAction
         if ((!$dialogParams->isSaveOnMandatory() || ($dialogParams->isMandatoryCheckOnActivate() && ($dlgValues['published'] === 'true' || $dlgValues['published'] === true))) && !$dialogParams->isSaveWithoutMessages()) {
             $validate_result = C4GBrickDialog::validateFields($this->makeRegularFieldList($fieldList), $dlgValues);
             if ($validate_result && !$dialogParams->isSaveWithoutMessages()) {
-                return array('usermessage' => $validate_result, 'title' => $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['INVALID_INPUT']);
+                return ['usermessage' => $validate_result, 'title' => $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['INVALID_INPUT']];
             }
         }
 
         $dbValues = null;
         $newId = false;
 
-        if ($dialogId && ($dialogId != "") && ($dialogId != "-1")) {
+        if ($dialogId && ($dialogId != '') && ($dialogId != '-1')) {
             $dbValues = $brickDatabase->findByPk($dialogId);
         } else {
             $newId = true;
@@ -79,7 +79,7 @@ class C4GSaveDialogAction extends C4GBrickDialogAction
 
         if ($newId || count($changes) > 0) {
             $validate_result = C4GBrickDialog::validateUnique($this->makeRegularFieldList($fieldList), $dlgValues, $brickDatabase, $dialogParams);
-            $validate_title  = $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['validate_title'];
+            $validate_title = $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['validate_title'];
             if ($validate_result && (!$dialogParams->isSaveWithoutMessages())) {
                 if ($dialogParams->getUniqueMessage()) {
                     $validate_result = $dialogParams->getUniqueMessage();
@@ -87,7 +87,8 @@ class C4GSaveDialogAction extends C4GBrickDialogAction
                 if ($dialogParams->getUniqueTitle()) {
                     $validate_title = $dialogParams->getUniqueTitle();
                 }
-                return array('usermessage' => $validate_result, 'title' => $validate_title);
+
+                return ['usermessage' => $validate_result, 'title' => $validate_title];
             }
 
             $result = C4GBrickDialog::saveC4GDialog($dialogId, '', $this->makeRegularFieldList($fieldList),
@@ -103,12 +104,12 @@ class C4GSaveDialogAction extends C4GBrickDialogAction
                 }
                 if ($this->setParentIdAfterSave) {
                     $dialogParams->setParentId($result['insertId']);
-                    \Session::getInstance()->set("c4g_brick_parent_id", $result['insertId']);
+                    \Session::getInstance()->set('c4g_brick_parent_id', $result['insertId']);
                 }
                 $dialogId = $result['insertId'];
                 $dbValues = $brickDatabase->findByPk($dialogId);
-                \Session::getInstance()->set("c4g_brick_dialog_id", $dialogId);
-            } else if (($dialogId) && ($GLOBALS['con4gis']['booking']['installed'])) {
+                \Session::getInstance()->set('c4g_brick_dialog_id', $dialogId);
+            } elseif (($dialogId) && ($GLOBALS['con4gis']['booking']['installed'])) {
                 \con4gis\BookingBundle\Resources\contao\models\C4gBookingGroupsModel::log($dbValues);
             }
         }
@@ -125,33 +126,31 @@ class C4GSaveDialogAction extends C4GBrickDialogAction
 
         C4GBrickCommon::logEntry($dialogId,
             C4GLogEntryType::SAVE_DATASET,
-            $dlgValues[$captionField].$GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_SAVED'],
+            $dlgValues[$captionField] . $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_SAVED'],
             $brickKey,
             $viewType,
             $groupId,
             $memberId);
 
-
         if ($sendEMails) {
             $recipient = $sendEMails->getRecipient();
             $senderName = C4GBrickCommon::getNameForMember($memberId);
             if (($viewType == C4GBrickViewType::MEMBERBOOKING) && ($GLOBALS['con4gis']['booking']['installed'])) {
-                $senderName = C4GBrickCommon::getNameForMember($memberId).' ('.$dbValues->caption.')';
+                $senderName = C4GBrickCommon::getNameForMember($memberId) . ' (' . $dbValues->caption . ')';
             }
 
             $text = '';
 
-            foreach($changes as $change)
-            {
+            foreach ($changes as $change) {
                 $field = $change->getField();
                 $dbValue = $field->translateFieldValue($change->getDbValue());
                 $dlgValue = $field->translateFieldValue($change->getDlgValue());
 
                 if ($field) {
                     if ($newId) {
-                        $text .= $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_CHANGES_FIELD'].'['.$field->getTitle().']'.$GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_CHANGES_VALUE'].'<'.$dlgValue.'>. '."\r\n";
+                        $text .= $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_CHANGES_FIELD'] . '[' . $field->getTitle() . ']' . $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_CHANGES_VALUE'] . '<' . $dlgValue . '>. ' . "\r\n";
                     } else {
-                        $text .= $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_CHANGES_FIELD'].'['.$field->getTitle().']'.$GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_CHANGES_FROM'].'<'.$dbValue.'>'.$GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_CHANGES_TO'].'<'.$dlgValue.'>'.$GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_CHANGES_CHANGED']."\r\n";
+                        $text .= $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_CHANGES_FIELD'] . '[' . $field->getTitle() . ']' . $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_CHANGES_FROM'] . '<' . $dbValue . '>' . $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_CHANGES_TO'] . '<' . $dlgValue . '>' . $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_CHANGES_CHANGED'] . "\r\n";
                     }
                 }
             }
@@ -160,7 +159,7 @@ class C4GSaveDialogAction extends C4GBrickDialogAction
                 $action = new C4GSendEmailAction($dialogParams, $this->getListParams(), $this->getFieldList(), $this->getPutVars(), $this->getBrickDatabase());
                 $action->setRecipient($recipient);
                 $action->setSenderName($senderName);
-                $action->setText($brickCaption.': '."\r\n".$text);
+                $action->setText($brickCaption . ': ' . "\r\n" . $text);
                 $action->run();
             }
         }
@@ -169,7 +168,7 @@ class C4GSaveDialogAction extends C4GBrickDialogAction
             //      begin C4GStreamerBackup
             if ($viewType == C4GBrickViewType::GROUPPROJECT) {
 //                    $archiv = new \c4g\projects\C4GBrickBackup($dialogId, $dlgValues["c4g_project_uuid"], $dlgValues["c4g_group_id"], $this->brickDatabase, $this->brickKey);
-                $archiv = new C4GStreamerBackup($dialogId, $dlgValues["c4g_project_uuid"], $dlgValues["c4g_group_id"], $brickDatabase, $brickKey, C4GBrickConst::PATH_GROUP_DATA);
+                $archiv = new C4GStreamerBackup($dialogId, $dlgValues['c4g_project_uuid'], $dlgValues['c4g_group_id'], $brickDatabase, $brickKey, C4GBrickConst::PATH_GROUP_DATA);
                 $archiv->projectsBackup();
             } elseif ($viewType == C4GBrickViewType::PROJECTBASED) { // ($this->project_uuid != null)
 //                    $archiv = new \c4g\projects\C4GBrickBackup($dialogId, $this->project_uuid, $this->group_id, $this->brickDatabase, $this->brickKey);
@@ -177,16 +176,17 @@ class C4GSaveDialogAction extends C4GBrickDialogAction
                 $archiv->projectsBackup();
             } else {
 //                    $archiv = new \c4g\projects\C4GBrickBackup($dialogId, $this->project_uuid, $this->group_id, $this->brickDatabase, $this->brickKey, "basedata");
-                $archiv = new C4GStreamerBackup($dialogId, $projectUuid, $groupId, $brickDatabase, $brickKey, C4GBrickConst::PATH_GROUP_DATA, "basedata");
+                $archiv = new C4GStreamerBackup($dialogId, $projectUuid, $groupId, $brickDatabase, $brickKey, C4GBrickConst::PATH_GROUP_DATA, 'basedata');
                 $archiv->projectsBackup();
             }
 //        end C4GStreamerBackup
         }
 
-        if ((C4GBrickView::isWithoutList($viewType))){
+        if ((C4GBrickView::isWithoutList($viewType))) {
             if ($this->isWithRedirect()) {
                 if ($dialogParams->getRedirectSite() && (($jumpTo = \PageModel::findByPk($dialogParams->getRedirectSite())) !== null)) {
                     $return['jump_to_url'] = $jumpTo->getFrontendUrl();
+
                     return $return;
                 }
             }
@@ -194,10 +194,10 @@ class C4GSaveDialogAction extends C4GBrickDialogAction
             if (!$dialogParams->isSaveWithoutMessages() && !$dialogParams->isSaveWithoutSavingMessage()) {
                 if ($isPopup) {
                     //return $this->performAction(C4GBrickActionType::ACTION_CLOSEPOPUPDIALOG);
-                    return array('usermessage' => $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_SAVED']);
-                } else {
-                    return array('usermessage' => $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_SAVED']);
+                    return ['usermessage' => $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_SAVED']];
                 }
+
+                return ['usermessage' => $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_SAVED']];
             }
         } else {
             if ($this->isAndNew()) {
@@ -208,7 +208,7 @@ class C4GSaveDialogAction extends C4GBrickDialogAction
                 if (($dialogParams->isSaveWithoutClose())) {
                     $action = new C4GShowDialogAction($dialogParams, $this->getListParams(), $fieldList, $dlgValues, $brickDatabase);
                     $return = $action->run();
-                } else if (C4GBrickView::isWithoutList($viewType)) {
+                } elseif (C4GBrickView::isWithoutList($viewType)) {
                     $action = new C4GShowDialogAction($dialogParams, $this->getListParams(), $fieldList, $dlgValues, $brickDatabase);
                     $return = $action->run();
                 } else {
@@ -219,8 +219,8 @@ class C4GSaveDialogAction extends C4GBrickDialogAction
 
             $activation_button = $dialogParams->getButton(C4GBrickConst::BUTTON_ACTIVATION);
             $archive_button = $dialogParams->getButton(C4GBrickConst::BUTTON_ARCHIVE);
-            if($activation_button && $archive_button && $activation_button->isEnabled() && $archive_button->isEnabled()){
-                if(($dlgValues['published'] == false || $dlgValues['published'] == 'false') && $isWithActivationInfo && (!$dialogParams->isSaveWithoutMessages())){
+            if ($activation_button && $archive_button && $activation_button->isEnabled() && $archive_button->isEnabled()) {
+                if (($dlgValues['published'] == false || $dlgValues['published'] == 'false') && $isWithActivationInfo && (!$dialogParams->isSaveWithoutMessages())) {
                     $return['usermessage'] = $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_DATA_NOT_ACTIVATED'];
                     $return['title'] = $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_TITLE_DATA_NOT_ACTIVATED'];
                 }
@@ -243,7 +243,6 @@ class C4GSaveDialogAction extends C4GBrickDialogAction
 
             return $return;
         }
-
     }
 
     /**
@@ -261,6 +260,7 @@ class C4GSaveDialogAction extends C4GBrickDialogAction
     public function setWithRedirect($withRedirect = true)
     {
         $this->withRedirect = $withRedirect;
+
         return $this;
     }
 
@@ -279,6 +279,7 @@ class C4GSaveDialogAction extends C4GBrickDialogAction
     public function setAndNew($andNew = true)
     {
         $this->andNew = $andNew;
+
         return $this;
     }
 
@@ -297,6 +298,7 @@ class C4GSaveDialogAction extends C4GBrickDialogAction
     public function setSetParentIdAfterSave($setParentIdAfterSave = true)
     {
         $this->setParentIdAfterSave = $setParentIdAfterSave;
+
         return $this;
     }
 
@@ -315,6 +317,7 @@ class C4GSaveDialogAction extends C4GBrickDialogAction
     public function setSetSessionIdAfterInsert($setSessionIdAfterInsert = true)
     {
         $this->setSessionIdAfterInsert = $setSessionIdAfterInsert;
+
         return $this;
     }
 
@@ -322,5 +325,4 @@ class C4GSaveDialogAction extends C4GBrickDialogAction
     {
         return true;
     }
-
 }

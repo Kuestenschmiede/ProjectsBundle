@@ -28,8 +28,7 @@ class C4GRedirectAction extends C4GBrickDialogAction
         if (!$this->redirectSite) {
             $this->redirectSite = $dialogParams->getRedirectSite();
         }
-        if ( $this->redirectSite && (($jumpTo = \PageModel::findByPk( $this->redirectSite)) !== null)) {
-
+        if ($this->redirectSite && (($jumpTo = \PageModel::findByPk($this->redirectSite)) !== null)) {
             if ($this->redirectWithSaving && $dialogParams->isRedirectWithSaving() && !$dialogParams->isRedirectWithActivation()) {
                 $action = new C4GSaveDialogAction($dialogParams, $this->getListParams(), $this->getFieldList(), $this->putVars, $this->getBrickDatabase());
                 if ($this->setParentIdAfterSave) {
@@ -58,7 +57,6 @@ class C4GRedirectAction extends C4GBrickDialogAction
                 }
                 if ($this->isRedirectToDetail()) {
                     $return['jump_to_url'] .= '?state=item:' . $id;
-
                 }
             }
         }
@@ -81,6 +79,7 @@ class C4GRedirectAction extends C4GBrickDialogAction
     public function setRedirectWithAction($redirectWithAction)
     {
         $this->redirectWithAction = $redirectWithAction;
+
         return $this;
     }
 
@@ -99,6 +98,7 @@ class C4GRedirectAction extends C4GBrickDialogAction
     public function setSetParentIdAfterSave($setParentIdAfterSave = true)
     {
         $this->setParentIdAfterSave = $setParentIdAfterSave;
+
         return $this;
     }
 
@@ -117,6 +117,7 @@ class C4GRedirectAction extends C4GBrickDialogAction
     public function setRedirectSite($redirectSite)
     {
         $this->redirectSite = $redirectSite;
+
         return $this;
     }
 
@@ -135,6 +136,7 @@ class C4GRedirectAction extends C4GBrickDialogAction
     public function setSetSessionIdAfterInsert($setSessionIdAfterInsert)
     {
         $this->setSessionIdAfterInsert = $setSessionIdAfterInsert;
+
         return $this;
     }
 
@@ -153,6 +155,7 @@ class C4GRedirectAction extends C4GBrickDialogAction
     public function setRedirectWithSaving($redirectWithSaving = true)
     {
         $this->redirectWithSaving = $redirectWithSaving;
+
         return $this;
     }
 
@@ -171,6 +174,7 @@ class C4GRedirectAction extends C4GBrickDialogAction
     public function setRedirectToDetail($redirectToDetail = true)
     {
         $this->redirectToDetail = $redirectToDetail;
+
         return $this;
     }
 
@@ -178,5 +182,4 @@ class C4GRedirectAction extends C4GBrickDialogAction
     {
         return true;
     }
-
 }

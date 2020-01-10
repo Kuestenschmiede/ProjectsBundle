@@ -16,5 +16,4 @@ use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBaseKeyField;
 
 class C4GKeyField extends C4GBaseKeyField
 {
-
 }

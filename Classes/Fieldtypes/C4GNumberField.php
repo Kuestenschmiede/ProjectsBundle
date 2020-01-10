@@ -16,6 +16,7 @@ use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldNumeric;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldCompare;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickRegEx;
+
 class C4GNumberField extends C4GBrickFieldNumeric
 {
     protected $pattern = C4GBrickRegEx::DIGITS_NEG;
@@ -23,7 +24,7 @@ class C4GNumberField extends C4GBrickFieldNumeric
 
     public function __construct()
     {
-        $this->setAlign("right");
+        $this->setAlign('right');
     }
 
     protected $thousands_sep = '';
@@ -33,19 +34,19 @@ class C4GNumberField extends C4GBrickFieldNumeric
      * @param $data
      * @return string
      */
-    public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = array())
+    public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = [])
     {
         $required = $this->generateRequiredString($data, $dialogParams);
 
         $result = '';
-        $id = "c4g_" . $this->getFieldName();
+        $id = 'c4g_' . $this->getFieldName();
         if ($this->getAdditionalID()) {
             $id .= '_' . $this->getAdditionalId();
         }
         $onChange = '';
 
-        if($this->getThousandsSep() !== '') {
-            $number = str_replace(',','.',$this->generateInitialValue($data));
+        if ($this->getThousandsSep() !== '') {
+            $number = str_replace(',', '.', $this->generateInitialValue($data));
             if ($number) {
                 $value = number_format($number, 0, ',', $this->getThousandsSep());
             } else {
@@ -58,13 +59,12 @@ class C4GNumberField extends C4GBrickFieldNumeric
             $type = 'number';
         }
         if ($this->isShowIfEmpty() || !empty($value)) {
-
             $condition = $this->createConditionData($fieldList, $data);
 
             $result =
                 $this->addC4GField($condition,$dialogParams,$fieldList,$data,
-                    '<input ' . $required . ' ' . $condition['conditionPrepare'] .  ' type="'.$type. '" ' .$onChange . ' id="' . $id . '" class="formdata ' . $id . '" size="' .
-                    $this->getSize() . '" min="' . $this->getMin() . '" max="' . $this->getMax() . '" step="'.$this->getStep().'" pattern="'.$this->pattern.'" name="' .
+                    '<input ' . $required . ' ' . $condition['conditionPrepare'] . ' type="' . $type . '" ' . $onChange . ' id="' . $id . '" class="formdata ' . $id . '" size="' .
+                    $this->getSize() . '" min="' . $this->getMin() . '" max="' . $this->getMax() . '" step="' . $this->getStep() . '" pattern="' . $this->pattern . '" name="' .
                     $this->getFieldName() . '" value="' . $value . '">');
         }
 
@@ -84,12 +84,12 @@ class C4GNumberField extends C4GBrickFieldNumeric
         $dlgvalue = $dlgValues[$this->getFieldName()];
         $dbValue = trim($dbValue);
         $dlgValue = trim($dlgvalue);
-        if($this->getThousandsSep() !== ''){
-            $dlgValue = str_replace('.','',$dlgValue);
+        if ($this->getThousandsSep() !== '') {
+            $dlgValue = str_replace('.', '', $dlgValue);
         }
         $result = null;
 
-        if($this->isSearchField()) {
+        if ($this->isSearchField()) {
             if (!$dbValues->$fieldname) {
                 $pos = strripos($fieldname, '_');
                 if ($pos !== false) {
@@ -97,20 +97,20 @@ class C4GNumberField extends C4GBrickFieldNumeric
                 }
                 if ($this->isSearchMinimumField()) {
                     $dbValue = $dbValues->$fieldName;
-                    $maximum_fieldname =$fieldName.'_maximum';
+                    $maximum_fieldname = $fieldName . '_maximum';
                     if ($dbValue !== 0 && !($dbValue > $dlgValue && $dbValue < $dlgValues[$maximum_fieldname])) {
                         $result = new C4GBrickFieldCompare($this, $dbValue, $dlgValue);
                     }
-                } else if ($this->isSearchMaximumField() && $dbValue !== 0) {
+                } elseif ($this->isSearchMaximumField() && $dbValue !== 0) {
                     if ($dbValue > $dlgValue) {
                         $result = new C4GBrickFieldCompare($this, $dbValue, $dlgValue);
                     }
                 }
             }
-        }
-        elseif (strcmp($dbValue, $dlgValue) != 0) {
+        } elseif (strcmp($dbValue, $dlgValue) != 0) {
             $result = new C4GBrickFieldCompare($this, $dbValue, $dlgValue);
         }
+
         return $result;
     }
 
@@ -129,7 +129,7 @@ class C4GNumberField extends C4GBrickFieldNumeric
     public function setThousandsSep($thousands_sep)
     {
         $this->thousands_sep = $thousands_sep;
+
         return $this;
     }
-
 }

@@ -31,40 +31,38 @@ class C4GTimeSelectTableField extends C4GBrickField
      * @param array $additionalParams
      * @return string
      */
-    public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = array())
+    public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = [])
     {
-        $id = "c4g_" . $this->getFieldName();
+        $id = 'c4g_' . $this->getFieldName();
         $required = $this->generateRequiredString($data, $dialogParams);
         $value = $this->generateInitialValue($data);
         $condition = $this->createConditionData($fieldList, $data);
 
         if ($this->initInvisible === true) {
-            $style = "style=\"display: none;\"";
+            $style = 'style="display: none;"';
         } else {
             $style = '';
         }
 
         $fieldData = '<input ' . $required . ' ' . $condition['conditionPrepare'] . ' type="hidden" id="' . $id . '" class="formdata ' . $id . '" name="' . $this->getFieldName() . '" value="' . $value . '">';
-        $fieldData .= '<div class="c4g_time_select_table '. $this->getStyleClass() .'" ' . $style .'>';
+        $fieldData .= '<div class="c4g_time_select_table ' . $this->getStyleClass() . '" ' . $style . '>';
 
         $index = 0;
         while (($this->begin + ($index * $this->interval)) <= $this->end) {
             $begin = $this->begin + ($index * $this->interval);
-            $javascript = "document.getElementById('$id').value = ".$begin.";";
+            $javascript = "document.getElementById('$id').value = " . $begin . ';';
 
             if ($this->jsCallback !== '') {
                 $javascript .= $this->jsCallback;
             }
 
-            $fieldData .= "<button id=\"$id\" class=\"ui-button ui-corner-all ui-widget\" onclick=\"$javascript\">". date($this->dateFormat, $begin) ."</button>";
+            $fieldData .= "<button id=\"$id\" class=\"ui-button ui-corner-all ui-widget\" onclick=\"$javascript\">" . date($this->dateFormat, $begin) . '</button>';
             $index += 1;
         }
 
         $fieldData .= '</div>';
 
         $html = $this->addC4GField($condition, $dialogParams, $fieldList, $data, $fieldData);
-
-
 
         return $html;
     }
@@ -82,9 +80,9 @@ class C4GTimeSelectTableField extends C4GBrickField
 
         if ($dbValue != $dlgValue) {
             return new C4GBrickFieldCompare($this, $dbValue, $dlgValue);
-        } else {
-            return null;
         }
+
+        return null;
     }
 
     /**
@@ -102,6 +100,7 @@ class C4GTimeSelectTableField extends C4GBrickField
     public function setBegin(int $begin): C4GTimeSelectTableField
     {
         $this->begin = $begin;
+
         return $this;
     }
 
@@ -120,6 +119,7 @@ class C4GTimeSelectTableField extends C4GBrickField
     public function setEnd(int $end): C4GTimeSelectTableField
     {
         $this->end = $end;
+
         return $this;
     }
 
@@ -138,6 +138,7 @@ class C4GTimeSelectTableField extends C4GBrickField
     public function setInterval(int $interval): C4GTimeSelectTableField
     {
         $this->interval = $interval;
+
         return $this;
     }
 
@@ -156,6 +157,7 @@ class C4GTimeSelectTableField extends C4GBrickField
     public function setDateFormat(string $dateFormat): C4GTimeSelectTableField
     {
         $this->dateFormat = $dateFormat;
+
         return $this;
     }
 
@@ -174,6 +176,7 @@ class C4GTimeSelectTableField extends C4GBrickField
     public function setJsCallback(string $jsCallback): C4GTimeSelectTableField
     {
         $this->jsCallback = $jsCallback;
+
         return $this;
     }
 }

@@ -20,17 +20,16 @@ use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldCompare;
 class C4GIncludeField extends C4GBrickField
 {
     protected $includeType = C4GBrickConst::INCLUDE_CONTENT; //see class for all options
-    protected $ids = array();
+    protected $ids = [];
 
-    public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = array())
+    public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = [])
     {
-        $id = "c4g_" . $this->getFieldName();
+        $id = 'c4g_' . $this->getFieldName();
         $required = $this->generateRequiredString($data, $dialogParams);
         $value = $this->generateInitialValue($data);
         $result = '';
 
         if ($this->isShowIfEmpty() || !empty($value)) {
-
             $condition = $this->createConditionData($fieldList, $data);
 
             $content = '';
@@ -40,24 +39,30 @@ class C4GIncludeField extends C4GBrickField
                     $content .= '<div class="c4g_include_field">';
                     switch ($this->includeType) {
                         case C4GBrickConst::INCLUDE_ARTICLE:
-                            $content .= '{{insert_article::'.$id.'}}';
+                            $content .= '{{insert_article::' . $id . '}}';
+
                             break;
                         case C4GBrickConst::INCLUDE_CONTENT:
-                            $content .= '{{insert_content::'.$id.'}}';
+                            $content .= '{{insert_content::' . $id . '}}';
+
                             break;
                         case C4GBrickConst::INCLUDE_MODULE:
-                            $content .= '{{insert_module::'.$id.'}}';
+                            $content .= '{{insert_module::' . $id . '}}';
+
                             break;
                         case C4GBrickConst::INCLUDE_FORM:
-                            $content .= '{{insert_form::'.$id.'}}';
+                            $content .= '{{insert_form::' . $id . '}}';
+
                             break;
                         case C4GBrickConst::INCLUDE_NEWS:
-                            $content .= '<a href="{{news_url::'.$id.'}}"><h3>{{news_title::'.$id.'}}</h3></a>';
-                            $content .= '<div class="teaser">{{news_teaser::'.$id.'}}</div>';
+                            $content .= '<a href="{{news_url::' . $id . '}}"><h3>{{news_title::' . $id . '}}</h3></a>';
+                            $content .= '<div class="teaser">{{news_teaser::' . $id . '}}</div>';
+
                             break;
                         case C4GBrickConst::INCLUDE_EVENT:
-                            $content .= '<a href="{{event_url::'.$id.'}}"><h3>{{event_title::'.$id.'}}</h3></a>';
-                            $content .= '<div class="teaser">{{event_teaser::'.$id.'}}</div>';
+                            $content .= '<a href="{{event_url::' . $id . '}}"><h3>{{event_title::' . $id . '}}</h3></a>';
+                            $content .= '<div class="teaser">{{event_teaser::' . $id . '}}</div>';
+
                             break;
                     }
                     $content .= '</div>';
@@ -65,7 +70,7 @@ class C4GIncludeField extends C4GBrickField
             }
 
             if ($content) {
-                $content = '<div id="'.$id.'" class="c4g_include_fields" '.$required.'>'.$content.'</div>';
+                $content = '<div id="' . $id . '" class="c4g_include_fields" ' . $required . '>' . $content . '</div>';
             }
 
             $result = $this->addC4GField($condition, $dialogParams, $fieldList, $data, \Controller::replaceInsertTags($content));
@@ -82,6 +87,7 @@ class C4GIncludeField extends C4GBrickField
     public function compareWithDB($dbValues, $dlgValues)
     {
         $result = null;
+
         return $result;
     }
 
@@ -100,6 +106,7 @@ class C4GIncludeField extends C4GBrickField
     public function setIncludeType($includeType)
     {
         $this->includeType = $includeType;
+
         return $this;
     }
 
@@ -118,7 +125,7 @@ class C4GIncludeField extends C4GBrickField
     public function setIds($ids)
     {
         $this->ids = $ids;
+
         return $this;
     }
-
 }

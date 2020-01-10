@@ -20,6 +20,7 @@ class C4GRedirectDetailAction extends C4GRedirectAction
     public function run()
     {
         $this->setRedirectSite($this->getListParams()->getRedirectTo());
+
         return parent::run();
     }
 
@@ -38,6 +39,7 @@ class C4GRedirectDetailAction extends C4GRedirectAction
     public function setRedirectWithSaving($redirectWithSaving = true)
     {
         $this->redirectWithSaving = $redirectWithSaving;
+
         return $this;
     }
 
@@ -56,6 +58,7 @@ class C4GRedirectDetailAction extends C4GRedirectAction
     public function setRedirectToDetail($redirectToDetail = true)
     {
         $this->redirectToDetail = $redirectToDetail;
+
         return $this;
     }
 }

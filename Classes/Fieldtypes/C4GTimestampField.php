@@ -25,7 +25,7 @@ class C4GTimestampField extends C4GBrickField
      * @param array $additionalParams
      * @return string
      */
-    public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = array())
+    public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = [])
     {
         $fieldName = $this->getFieldName();
         $id = $this->createFieldID();
@@ -39,14 +39,12 @@ class C4GTimestampField extends C4GBrickField
         $result = '';
 
         if ($this->isShowIfEmpty() || !empty($value)) {
-
             $condition = $this->createConditionData($fieldList, $data);
 
             $result =
                 $this->addC4GField($condition,$dialogParams,$fieldList,$data,
                 '<input ' . $required . ' type="text" id="' . $id . '" class="formdata ' . $id . '" name="' . $fieldName . '" value="' . $value . '" ' . $condition['conditionPrepare'] . '>');
         }
-
 
         return $result;
     }
@@ -70,6 +68,7 @@ class C4GTimestampField extends C4GBrickField
                 $result = new C4GBrickFieldCompare($this, $dbValue, $dlgValue);
             }
         }
+
         return $result;
     }
 
@@ -87,6 +86,7 @@ class C4GTimestampField extends C4GBrickField
         } else {
             $fieldData = '';
         }
+
         return $fieldData;
     }
 
@@ -100,6 +100,7 @@ class C4GTimestampField extends C4GBrickField
     {
         $fieldName = $this->getFieldName();
         $date = $rowData->$fieldName;
+
         return $rowData->$fieldName . ' (' . date('d.m.Y H:i:s', $date) . ')';
     }
 
@@ -112,7 +113,8 @@ class C4GTimestampField extends C4GBrickField
     public function getC4GTileField($fieldTitle, $element)
     {
         $fieldName = $this->getFieldName();
-        return $fieldTitle . '<div class="c4g_tile value">' . $element->$fieldName . ' ('.date('d.m.Y H:i:s',$element->$fieldName).')' . '</div>';
+
+        return $fieldTitle . '<div class="c4g_tile value">' . $element->$fieldName . ' (' . date('d.m.Y H:i:s', $element->$fieldName) . ')' . '</div>';
     }
 
     /**
@@ -123,6 +125,7 @@ class C4GTimestampField extends C4GBrickField
     public function translateFieldValue($value)
     {
         $date = $value;
-        return $value . ' ('.date('d.m.Y H:i:s',$date).')';
+
+        return $value . ' (' . date('d.m.Y H:i:s', $date) . ')';
     }
 }

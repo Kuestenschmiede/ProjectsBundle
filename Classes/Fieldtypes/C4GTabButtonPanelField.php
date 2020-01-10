@@ -22,8 +22,6 @@ class C4GTabButtonPanelField extends C4GBrickField
     //ToDo's
     //
 
-
-
     private $button = null; //siehe C4GBrickButton
     private $circleButton = false;
     private $onClick = '';
@@ -48,46 +46,46 @@ class C4GTabButtonPanelField extends C4GBrickField
      * @param $data
      * @return string
      */
-    public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = array())
+    public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = [])
     {
-        $id = "c4g_" . $this->getFieldName();
+        $id = 'c4g_' . $this->getFieldName();
         $required = $this->generateRequiredString($data, $dialogParams);
 
         $button = $this->button;
 
         $divBefore = '';
-        $divAfter  = '';
+        $divAfter = '';
 
         if ($button->getAction() && ($button->getType() == C4GBrickConst::BUTTON_CLICK) && $this->getOnClick()) {
             $function = $this->getOnClick();
             $divBefore = '<div class="c4gGuiDialogButtonsJqui ">';
-            $divAfter  = '</div>';
+            $divAfter = '</div>';
             $class = 'c4gGuiAction c4gGuiButton c4g_brick_button c4gGuiSend';
 
             if ($this->getOnClickType() == C4GBrickConst::ONCLICK_TYPE_SERVER) {
-                $dataAction = 'href="#" data-action="' . $button->getAction(). ':' . $function . '" role="button"';
+                $dataAction = 'href="#" data-action="' . $button->getAction() . ':' . $function . '" role="button"';
             } else {
-                $dataAction = 'href="#" onClick="'.$function.'"';
+                $dataAction = 'href="#" onClick="' . $function . '"';
             }
-        } else if ($button->getAction()) {
-          $divBefore = '<div class="c4gGuiDialogButtonsJqui ">';
-          $divAfter  = '</div>';
-          $class = 'c4gGuiAction c4gGuiButton c4g_brick_button c4gGuiSend';
+        } elseif ($button->getAction()) {
+            $divBefore = '<div class="c4gGuiDialogButtonsJqui ">';
+            $divAfter = '</div>';
+            $class = 'c4gGuiAction c4gGuiButton c4g_brick_button c4gGuiSend';
 
-          $dataAction = 'href="#" data-action="' . $button->getAction(). ':' . $dialogParams->getId() . '" role="button"';
+            $dataAction = 'href="#" data-action="' . $button->getAction() . ':' . $dialogParams->getId() . '" role="button"';
         } else {
-          $value = $this->generateInitialValue($data);
-          $class = 'formdata c4g_brick_button';
-          $dataAction = 'href="' . $value . '"';
+            $value = $this->generateInitialValue($data);
+            $class = 'formdata c4g_brick_button';
+            $dataAction = 'href="' . $value . '"';
         }
 
-        if($this->isCircleButton()){
-            $class = $class.' c4gCircleButton';
+        if ($this->isCircleButton()) {
+            $class = $class . ' c4gCircleButton';
         }
 
         $accesskey = '';
         if ($button->getAccesskey()) {
-            $accesskey = ' accesskey="'.$button->getAccesskey().'"';
+            $accesskey = ' accesskey="' . $button->getAccesskey() . '"';
         }
         $div = '';
         $enddiv = '';
@@ -95,12 +93,12 @@ class C4GTabButtonPanelField extends C4GBrickField
 
         $style = '';
         if ($this->color) {
-            $style = ' style="background-color: '.$this->color.'"';
+            $style = ' style="background-color: ' . $this->color . '"';
         }
 
-        $result = $div.
+        $result = $div .
             $this->addC4GField($condition,$dialogParams,$fieldList,$data,
-            $divBefore .'<a ' .$dataAction .' '. $required . ' ' . $condition['conditionPrepare'] . ' id="' . $id . '" '.$accesskey.' class="'.$class.'"'.$style.' >' .$this->getTitle() . '</a>' . $divAfter . $enddiv);
+            $divBefore . '<a ' . $dataAction . ' ' . $required . ' ' . $condition['conditionPrepare'] . ' id="' . $id . '" ' . $accesskey . ' class="' . $class . '"' . $style . ' >' . $this->getTitle() . '</a>' . $divAfter . $enddiv);
 
         return $result;
     }
@@ -130,6 +128,7 @@ class C4GTabButtonPanelField extends C4GBrickField
     public function setButton($button)
     {
         $this->button = $button;
+
         return $this;
     }
 
@@ -148,6 +147,7 @@ class C4GTabButtonPanelField extends C4GBrickField
     public function setCircleButton($circleButton)
     {
         $this->circleButton = $circleButton;
+
         return $this;
     }
 
@@ -166,6 +166,7 @@ class C4GTabButtonPanelField extends C4GBrickField
     public function setOnClick($onClick)
     {
         $this->onClick = $onClick;
+
         return $this;
     }
 
@@ -184,6 +185,7 @@ class C4GTabButtonPanelField extends C4GBrickField
     public function setOverlay($overlay)
     {
         $this->overlay = $overlay;
+
         return $this;
     }
 
@@ -202,6 +204,7 @@ class C4GTabButtonPanelField extends C4GBrickField
     public function setColor($color)
     {
         $this->color = $color;
+
         return $this;
     }
 
@@ -220,6 +223,7 @@ class C4GTabButtonPanelField extends C4GBrickField
     public function setOnClickType($onClickType)
     {
         $this->onClickType = $onClickType;
+
         return $this;
     }
 }

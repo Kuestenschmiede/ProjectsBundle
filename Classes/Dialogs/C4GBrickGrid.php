@@ -14,7 +14,7 @@ namespace con4gis\ProjectsBundle\Classes\Dialogs;
 
 class C4GBrickGrid
 {
-    private $elements = array();
+    private $elements = [];
 
     /**
      * C4GBrickGrid
@@ -39,7 +39,7 @@ class C4GBrickGrid
     public function setElements($elements)
     {
         $this->elements = $elements;
+
         return $this;
     }
-
 }

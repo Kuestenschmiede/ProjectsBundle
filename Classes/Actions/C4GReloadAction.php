@@ -18,6 +18,7 @@ class C4GReloadAction extends C4GBrickDialogAction
     {
         $jumpTo = \Controller::replaceInsertTags('{{link_url::back}}');
         $return['jump_to_url'] = $jumpTo;
+
         return $return;
     }
 

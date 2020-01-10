@@ -33,12 +33,12 @@ class C4GMoreButtonEntry extends C4GAbstractListEntry
 
     private $callable = '';
 
-    private $condition = array(); //C4GBrickCondition. Type must be Method Switch.
+    private $condition = []; //C4GBrickCondition. Type must be Method Switch.
 
     private $toolTip = '';
 
     // for creating a title via callback, [Model, function]
-    private $dynamicTitleCallback = array();
+    private $dynamicTitleCallback = [];
 
     /**
      * @return string
@@ -55,6 +55,7 @@ class C4GMoreButtonEntry extends C4GAbstractListEntry
     public function setTitle($title)
     {
         $this->title = $title;
+
         return $this;
     }
 
@@ -73,6 +74,7 @@ class C4GMoreButtonEntry extends C4GAbstractListEntry
     public function setCondition($condition)
     {
         $this->condition = $condition;
+
         return $this;
     }
 
@@ -91,6 +93,7 @@ class C4GMoreButtonEntry extends C4GAbstractListEntry
     public function setToolTip($toolTip)
     {
         $this->toolTip = $toolTip;
+
         return $this;
     }
 
@@ -104,38 +107,44 @@ class C4GMoreButtonEntry extends C4GAbstractListEntry
 
     public function setCallable($callmode, $callable)
     {
-        switch($callmode) {
+        switch ($callmode) {
             case self::CALLMODE_STATIC:
                 if (is_array($callable) && count($callable) == 2) {
                     $this->callMode = $callmode;
                     $this->callable = $callable;
                 }
+
                 break;
             case self::CALLMODE_FUNCTION:
                 if (is_string($callable)) {
                     $this->callMode = $callmode;
                     $this->callable = $callable;
                 }
+
                 break;
             case self::CALLMODE_OBJECT:
                 if (is_array($callable) && count($callable) == 2 && is_object($callable[0])) {
                     $this->callMode = $callmode;
                     $this->callable = $callable;
                 }
+
                 break;
             case self::CALLMODE_JS:
                 if (is_string($callable)) {
                     $this->callMode = $callmode;
                     $this->callable = $callable;
                 }
+
                 break;
             default:
                 break;
         }
+
         return $this;
     }
 
-    public function getCallable() {
+    public function getCallable()
+    {
         return $this->callable;
     }
 
@@ -143,13 +152,13 @@ class C4GMoreButtonEntry extends C4GAbstractListEntry
      * @param $params   array An array of params passed to the callback.
      * @return mixed
      */
-    public function call($params = array())
+    public function call($params = [])
     {
         if (count($params) > 0) {
             return call_user_func($this->callable, $params);
-        } else {
-            return call_user_func($this->callable);
         }
+
+        return call_user_func($this->callable);
     }
 
     /**
@@ -161,15 +170,15 @@ class C4GMoreButtonEntry extends C4GAbstractListEntry
     {
         if (!$entry instanceof C4GMoreButtonEntry) {
             return false;
-        } else {
-            if ($entry->getTitle() === $this->getTitle() &&
-                $entry->getCallMode() == $this->getCallMode()) {
-                return true;
-            }
-            if ($entry === $this) {
-                return true;
-            }
         }
+        if ($entry->getTitle() === $this->getTitle() &&
+                $entry->getCallMode() == $this->getCallMode()) {
+            return true;
+        }
+        if ($entry === $this) {
+            return true;
+        }
+
         return false;
     }
 
@@ -188,6 +197,7 @@ class C4GMoreButtonEntry extends C4GAbstractListEntry
     public function setDynamicTitleCallback($dynamicTitleCallback)
     {
         $this->dynamicTitleCallback = $dynamicTitleCallback;
+
         return $this;
     }
 }

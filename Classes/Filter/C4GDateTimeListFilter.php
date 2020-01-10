@@ -12,8 +12,6 @@
  */
 namespace con4gis\ProjectsBundle\Classes\Filter;
 
-
-use con4gis\CoreBundle\Resources\contao\models\C4gLogModel;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickCommon;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickConst;
 
@@ -35,11 +33,13 @@ class C4GDateTimeListFilter extends C4GListFilter
         $this->setFilterCookies($brickKey);
     }
 
-    public function setDefaultFilter($from, $to) {
+    public function setDefaultFilter($from, $to)
+    {
         if (intval($this->from) === 0 && intval($this->to) === 0) {
             $this->from = $from;
             $this->to = $to;
         }
+
         return $this;
     }
 
@@ -52,8 +52,7 @@ class C4GDateTimeListFilter extends C4GListFilter
     public function filter($elements, $dialogParams)
     {
         if ($this->to && (intval($this->to) >= intval($this->from))) {
-
-            $rowElements = array();
+            $rowElements = [];
             foreach ($elements as $key => $value) {
                 if (is_array($value)) {
                     if ((intval($value[$this->fieldName]) < intval($this->from)) || (intval($value[$this->fieldName]) > intval($this->to))) {
@@ -76,9 +75,9 @@ class C4GDateTimeListFilter extends C4GListFilter
 
         if (empty($rowElements)) {
             return $elements;
-        } else {
-            return C4GBrickCommon::arrayToObject($rowElements);
         }
+
+        return C4GBrickCommon::arrayToObject($rowElements);
     }
 
     /**
@@ -95,8 +94,8 @@ class C4GDateTimeListFilter extends C4GListFilter
      */
     protected function setFilterCookies($brickKey)
     {
-        setcookie($brickKey.'_rangeFrom', date('d.m.Y', $this->from), time()+3600, '/');
-        setcookie($brickKey.'_rangeTo', date('d.m.Y', $this->to), time()+3600, '/');
+        setcookie($brickKey . '_rangeFrom', date('d.m.Y', $this->from), time() + 3600, '/');
+        setcookie($brickKey . '_rangeTo', date('d.m.Y', $this->to), time() + 3600, '/');
     }
 
     /**
@@ -104,8 +103,8 @@ class C4GDateTimeListFilter extends C4GListFilter
      */
     public function getFilterCookies($brickKey)
     {
-        $fromCookie = $_COOKIE[$brickKey.'_rangeFrom'];
-        $toCookie = $_COOKIE[$brickKey.'_rangeTo'];
+        $fromCookie = $_COOKIE[$brickKey . '_rangeFrom'];
+        $toCookie = $_COOKIE[$brickKey . '_rangeTo'];
         $this->from = C4GBrickCommon::getTimeStampFromDate($fromCookie);
         $this->to = C4GBrickCommon::getTimeStampFromDate($toCookie);
     }
@@ -119,10 +118,10 @@ class C4GDateTimeListFilter extends C4GListFilter
     public function getFilterHeadline(): string
     {
         if ($this->to && (intval($this->to) >= intval($this->from))) {
-            return sprintf($GLOBALS['TL_LANG']['FE_C4G_DIALOG']['filterPeriod'], '<b>'.date('d.m.Y', $this->from).'</b>', '<b>'.date('d.m.Y', $this->to.'</b>'));
-        } else {
-            return '';
+            return sprintf($GLOBALS['TL_LANG']['FE_C4G_DIALOG']['filterPeriod'], '<b>' . date('d.m.Y', $this->from) . '</b>', '<b>' . date('d.m.Y', $this->to . '</b>'));
         }
+
+        return '';
     }
 
     /**
@@ -140,6 +139,7 @@ class C4GDateTimeListFilter extends C4GListFilter
     public function setFieldName(string $fieldName): C4GDateTimeListFilter
     {
         $this->fieldName = $fieldName;
+
         return $this;
     }
 
@@ -166,6 +166,7 @@ class C4GDateTimeListFilter extends C4GListFilter
     public function setButtonText(string $buttonText): C4GDateTimeListFilter
     {
         $this->buttonText = $buttonText;
+
         return $this;
     }
 }

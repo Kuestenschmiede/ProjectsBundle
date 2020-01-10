@@ -53,20 +53,21 @@ class C4GConfirmArchiveAction extends C4GBrickDialogAction
                 $recipient = $sendEMails->getRecipient();
                 $senderName = C4GBrickCommon::getNameForMember($memberId);
                 if (($viewType == C4GBrickViewType::MEMBERBOOKING) && ($GLOBALS['con4gis']['booking']['installed'])) {
-                    $senderName = C4GBrickCommon::getNameForMember($memberId).' ('.$object->caption.')';
+                    $senderName = C4GBrickCommon::getNameForMember($memberId) . ' (' . $object->caption . ')';
                 }
 
                 $action = new C4GSendEmailAction($dialogParams, $this->getListParams(), $this->getFieldList(), $this->getPutVars(), $this->getBrickDatabase());
                 $action->setRecipient($recipient);
                 $action->setSenderName($senderName);
-                $action->setText($brickCaption.$GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_ARCHIVED']);
+                $action->setText($brickCaption . $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_ARCHIVED']);
                 $action->run();
-            } else if ($dialogParams->isWithNotification()) {
+            } elseif ($dialogParams->isWithNotification()) {
                 $this->sendNotifications($notifications, $dlgValues, $fieldList, $memberId, $object);
             }
         }
 
         $action = new C4GShowListAction($dialogParams, $this->getListParams(), $this->getFieldList(), $this->getPutVars(), $this->getBrickDatabase());
+
         return $action->run();
     }
 

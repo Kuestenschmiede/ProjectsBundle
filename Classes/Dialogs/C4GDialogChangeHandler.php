@@ -43,6 +43,7 @@ class C4GDialogChangeHandler
         if ($save && $changes) {
             $this->saveChangesToSession($changes, $moduleKey);
         }
+
         return $fieldList;
     }
 
@@ -79,9 +80,9 @@ class C4GDialogChangeHandler
     {
         if ($changes = \Session::getInstance()->get($moduleKey . '_fieldChanges')) {
             return $changes;
-        } else {
-            return array();
         }
+
+        return [];
     }
 
     /**
@@ -94,6 +95,7 @@ class C4GDialogChangeHandler
     public function reapplyChanges($moduleKey, $fieldList)
     {
         $changes = $this->loadChangesFromSession($moduleKey);
+
         return $this->applyChanges($changes, $fieldList, $moduleKey, false);
     }
 
@@ -104,11 +106,11 @@ class C4GDialogChangeHandler
      */
     private function checkVal($value)
     {
-        if ($value === "true" || $value === "false") {
+        if ($value === 'true' || $value === 'false') {
             return filter_var($value, FILTER_VALIDATE_BOOLEAN);
-        } else {
-            return $value;
         }
+
+        return $value;
     }
 
     public function clearSession($moduleKey)

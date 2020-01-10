@@ -19,6 +19,7 @@ class C4GSelectPublicParentDialogAction extends C4GBrickDialogAction
     public function run()
     {
         $dialog = new C4GBrickSelectPublicParentDialog($this->getDialogParams(), $this->brickDatabase, $this->module);
+
         return $dialog->show();
     }
 

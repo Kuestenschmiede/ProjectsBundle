@@ -23,38 +23,37 @@ use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GSubDialogField;
 use con4gis\ProjectsBundle\Classes\Views\C4GBrickView;
 use con4gis\ProjectsBundle\Classes\Views\C4GBrickViewType;
 
-
 class C4GShowDialogAction extends C4GBrickDialogAction
 {
     public function run()
     {
         $element = null;
-        $brickDatabase     = $this->getBrickDatabase();
-        $dialogParams      = $this->getDialogParams();
-        $viewParams        = $dialogParams->getViewParams();
-        $viewType          = $viewParams->getViewType();
+        $brickDatabase = $this->getBrickDatabase();
+        $dialogParams = $this->getDialogParams();
+        $viewParams = $dialogParams->getViewParams();
+        $viewType = $viewParams->getViewType();
         $modelListFunction = $viewParams->getModelListFunction();
         $modelDialogFunction = $viewParams->getModelDialogFunction();
-        $id                = $dialogParams->getId();
-        $memberId          = $dialogParams->getMemberId();
-        $groupId           = $dialogParams->getGroupId();
-        $projectId         = $dialogParams->getProjectId();
-        $parentId          = $dialogParams->getParentId();
-        $parentModel       = $dialogParams->getParentModel();
-        $parentIdField     = $dialogParams->getParentIdField();
+        $id = $dialogParams->getId();
+        $memberId = $dialogParams->getMemberId();
+        $groupId = $dialogParams->getGroupId();
+        $projectId = $dialogParams->getProjectId();
+        $parentId = $dialogParams->getParentId();
+        $parentModel = $dialogParams->getParentModel();
+        $parentIdField = $dialogParams->getParentIdField();
         $additionalHeadtext = $dialogParams->getAdditionalHeadText();
         $parentCaptionFields = $dialogParams->getParentCaptionFields();
 
-        if ((!$id || $id == -1 || $id == "-1" || !is_int($id)) && ($dialogParams->isWithInitialSaving())) {
+        if ((!$id || $id == -1 || $id == '-1' || !is_int($id)) && ($dialogParams->isWithInitialSaving())) {
             $id = $this->saveAndGetId($id);
-            \Session::getInstance()->set("c4g_brick_dialog_id", $id);
+            \Session::getInstance()->set('c4g_brick_dialog_id', $id);
             $dialogParams->setId($id);
         }
 
         //WURDE EINE ID ÜBERGEBEN?
         if ((!$modelListFunction) &&
             ($viewType != C4GBrickViewType::PROJECTPARENTFORMCOPY) &&
-            ($viewType != C4GBrickViewType::PROJECTFORMCOPY)){
+            ($viewType != C4GBrickViewType::PROJECTFORMCOPY)) {
             if (($id) && ($id != -1)) {
                 $element = $brickDatabase->findByPk($id);
                 if (empty($element)) {
@@ -82,12 +81,12 @@ class C4GShowDialogAction extends C4GBrickDialogAction
                         $parentId = $element->$pid;
                     }
                 }
-            } else if (!$parentId) {
+            } elseif (!$parentId) {
                 $parentId = \Session::getInstance()->get('c4g_brick_parent_id');
             }
         }
 
-        \Session::getInstance()->set("c4g_brick_dialog_id", $id);
+        \Session::getInstance()->set('c4g_brick_dialog_id', $id);
         //$parent_id = $parentId;
 
         //ToDo überarbeiten brickDatabase
@@ -112,14 +111,14 @@ class C4GShowDialogAction extends C4GBrickDialogAction
                 }
                 if ($parentCaptionFields && is_array($parentCaptionFields)) {
                     $caption = '';
-                    foreach($parentCaptionFields as $key=>$value) {
+                    foreach ($parentCaptionFields as $key => $value) {
                         if (strlen($value) == 1) {
                             if ($value == ')') {
                                 //if there is no bracketed value remove brackets
                                 if (substr(trim($caption), -1, 1) == '(') {
                                     $caption = substr(trim($caption), 0, -1);
                                 } else {
-                                    $caption = trim($caption).$value;
+                                    $caption = trim($caption) . $value;
                                 }
                             } else {
                                 $caption .= $value;
@@ -139,7 +138,7 @@ class C4GShowDialogAction extends C4GBrickDialogAction
                 }
 
                 if ($caption && $dialogParams->getParentCaption()) {
-                    $parent_headline = '<div class="c4g_brick_headtext"> '.$dialogParams->getParentCaption().': <b>'.$caption.'</b></div>';
+                    $parent_headline = '<div class="c4g_brick_headtext"> ' . $dialogParams->getParentCaption() . ': <b>' . $caption . '</b></div>';
                 }
             }
         }
@@ -156,15 +155,17 @@ class C4GShowDialogAction extends C4GBrickDialogAction
             ($viewType == C4GBrickViewType::PUBLICVIEW) ||
             ($viewType == C4GBrickViewType::PUBLICPARENTVIEW)*/) {
             $groupKeyField = $viewParams->getGroupKeyField();
-            switch($viewType) {
+            switch ($viewType) {
                 case C4GBrickViewType::GROUPFORM:
                     $elements = $brickDatabase->findby($groupKeyField, $groupId);
+
                     break;
                 case C4GBrickViewType::GROUPFORMCOPY:
                     $elements = $brickDatabase->findby($groupKeyField, $groupId);
                     if ($elements) {
                         $doCopy = true;
                     }
+
                     break;
                 case C4GBrickViewType::PROJECTFORMCOPY:
                     /* $t = $this->tableName;
@@ -182,6 +183,7 @@ class C4GShowDialogAction extends C4GBrickDialogAction
                     if ($elements) {
                         $doCopy = true;
                     }
+
                     break;
                 case C4GBrickViewType::PROJECTPARENTFORMCOPY:
                     $pidField = 'pid';
@@ -192,13 +194,15 @@ class C4GShowDialogAction extends C4GBrickDialogAction
                     if ($elements) {
                         $doCopy = true;
                     }
+
                     break;
                 case C4GBrickViewType::MEMBERFORM:
                     $memberKeyField = $viewParams->getMemberKeyField();
                     $elements = $brickDatabase->findby($memberKeyField, $memberId);
+
                     break;
                 case C4GBrickViewType::MEMBERVIEW:
-                    if($modelListFunction){
+                    if ($modelListFunction) {
                         $function = $modelListFunction;
 
                         //Todo überarbeiten brickDatabase
@@ -212,14 +216,16 @@ class C4GShowDialogAction extends C4GBrickDialogAction
                                 if ($value->id == $id) {
                                     $element = $value;
                                     $elements = null;
+
                                     break;
                                 }
                             }
                         }
                     }
+
                     break;
                 case C4GBrickViewType::PUBLICUUIDVIEW:
-                    if($modelListFunction){
+                    if ($modelListFunction) {
                         $function = $modelListFunction;
 
                         //Todo überarbeiten brickDatabase
@@ -233,15 +239,17 @@ class C4GShowDialogAction extends C4GBrickDialogAction
                                 if ($value->id == $id) {
                                     $element = $value;
                                     $elements = null;
+
                                     break;
                                 }
                             }
                         }
                     }
+
                     break;
                 case C4GBrickViewType::PUBLICFORM:
                 case C4GBrickViewType::PUBLICVIEW:
-                    if($modelListFunction){
+                    if ($modelListFunction) {
                         $function = $modelListFunction;
 
                         //Todo überarbeiten brickDatabase
@@ -253,11 +261,13 @@ class C4GShowDialogAction extends C4GBrickDialogAction
                                 if ($value->id == $id) {
                                     $element = $value;
                                     $elements = null;
+
                                     break;
                                 }
                             }
                         }
                     }
+
                     break;
 //                case C4GBrickViewType::PUBLICPARENTBASED:
 //                case C4GBrickViewType::PUBLICPARENTVIEW:
@@ -281,12 +291,13 @@ class C4GShowDialogAction extends C4GBrickDialogAction
                         //Todo überarbeiten brickDatabase
                         $modelClass = $brickDatabase->getParams()->getModelClass();
                         $model = $modelClass;
-                        $elements = $model::$function($groupId, $pid_field, $parentId, $database, $this->getListParams(),$id);
+                        $elements = $model::$function($groupId, $pid_field, $parentId, $database, $this->getListParams(), $id);
                         if ($id > 0) {
                             foreach ($elements as $value) {
                                 if ($value['id'] == $id) {
                                     $element = $value;
                                     $elements = null;
+
                                     break;
                                 }
                             }
@@ -295,11 +306,12 @@ class C4GShowDialogAction extends C4GBrickDialogAction
                         $elements = $brickDatabase->findby($pid_field, $parentId);
                     }
                     $dialogParams->setFrozen(true);
+
                     break;
             }
 
-            if ( ($elements != null) && ($elements[0] != null) ) {
-                $element = $elements[count($elements)-1];
+            if (($elements != null) && ($elements[0] != null)) {
+                $element = $elements[count($elements) - 1];
 
                 if (($element) && ($doCopy)) {
                     $element->id = -1; //Neuer Datensatz wird erzeugt.
@@ -325,7 +337,6 @@ class C4GShowDialogAction extends C4GBrickDialogAction
 //                            }
 //                        }
 //                    }
-
                 }
             }
         }
@@ -366,12 +377,11 @@ class C4GShowDialogAction extends C4GBrickDialogAction
         if (!$dialogParams->getC4gMap()) {
             $result = $this->withMap($this->getFieldList(), $dialogParams->getContentId());
             if ($result) {
-                $content = \Controller::replaceInsertTags('{{insert_content::'.$result.'}}');
+                $content = \Controller::replaceInsertTags('{{insert_content::' . $result . '}}');
             }
         } else {
             $content = $dialogParams->getC4gMap();
         }
-
 
         if (C4GBrickView::isWithGroup($viewType)) {
 
@@ -379,20 +389,20 @@ class C4GShowDialogAction extends C4GBrickDialogAction
             if ($groupId) {
                 $group = \MemberGroupModel::findByPk($groupId);
                 if ($group) {
-                    $group_headline = '<div class="c4g_brick_headtext"> Aktive Gruppe: <b>'.$group->name.'</b></div>';
+                    $group_headline = '<div class="c4g_brick_headtext"> Aktive Gruppe: <b>' . $group->name . '</b></div>';
                 }
             }
         }
         $headlineTag = $dialogParams->getHeadlineTag();
 
         //ToDo rebuild headline meachnism (list && dialog)
-        $headtext = '<'.$headlineTag.'>'.$dialogParams->getHeadline().'</'.$headlineTag.'>';
-        if ( ($group_headline) && ($parent_headline)) {
+        $headtext = '<' . $headlineTag . '>' . $dialogParams->getHeadline() . '</' . $headlineTag . '>';
+        if (($group_headline) && ($parent_headline)) {
             $headtext = $headtext . $group_headline . $parent_headline;
-        } else if ($group_headline) {
-            $headtext = $headtext.$group_headline;
-        } else if ($parent_headline) {
-            $headtext = $headtext.$parent_headline;
+        } elseif ($group_headline) {
+            $headtext = $headtext . $group_headline;
+        } elseif ($parent_headline) {
+            $headtext = $headtext . $parent_headline;
         }
         if ($additionalHeadtext) {
             $additionalHeadtext = '<div class="c4g_brick_headtext">' . $additionalHeadtext . '</div>';
@@ -428,18 +438,18 @@ class C4GShowDialogAction extends C4GBrickDialogAction
      * @param $id
      * @return bool
      */
-    private function saveAndGetId() {
+    private function saveAndGetId()
+    {
         $database = $this->getBrickDatabase()->getParams()->getDatabase();
         $tableName = $this->getBrickDatabase()->getParams()->getTableName();
 
-        $set = array();
+        $set = [];
         $set['tstamp'] = time();
         $objInsertStmt = $database->prepare("INSERT INTO $tableName %s")
             ->set($set)
             ->execute();
 
-        if (!$objInsertStmt->affectedRows)
-        {
+        if (!$objInsertStmt->affectedRows) {
             return false;
         }
 
@@ -447,30 +457,32 @@ class C4GShowDialogAction extends C4GBrickDialogAction
 
         if ($insertId) {
             return $insertId;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**
      * @param $uuid
      * @return string
      */
-    private function getElementUuid($uuid) {
-        $result =  $uuid;
+    private function getElementUuid($uuid)
+    {
+        $result = $uuid;
         if (!$result) {
             $result = C4GBrickCommon::getGUID();
         }
+
         return $result;
     }
 
     private function getHomeDir()
     {
         $dialogParams = $this->getDialogParams();
-        $memberId     = $dialogParams->getMemberId();
-        $groupId      = $dialogParams->getGroupId();
-        $projectUuid  = $dialogParams->getProjectUuid();
-        $viewType     = $dialogParams->getViewType();
+        $memberId = $dialogParams->getMemberId();
+        $groupId = $dialogParams->getGroupId();
+        $projectUuid = $dialogParams->getProjectUuid();
+        $viewType = $dialogParams->getViewType();
 
         if (C4GBrickView::isPublicBased($viewType)) {
             $homeDir = '/' . C4GBrickConst::PATH_BRICK_DATA;
@@ -500,13 +512,14 @@ class C4GShowDialogAction extends C4GBrickDialogAction
         return true;
     }
 
-    public function loadC4GForeignArrayFieldData($fieldList, $element, $subDialogField = null, $subDialogFieldCount = -1) {
+    public function loadC4GForeignArrayFieldData($fieldList, $element, $subDialogField = null, $subDialogFieldCount = -1)
+    {
         foreach ($fieldList as $field) {
             if ($field instanceof C4GForeignArrayField) {
                 /*if ($subDialogField instanceof C4GSubDialogField) {
                     $index = $subDialogField->getFieldName().$subDialogField->getDelimiter().$field->getFieldName().$subDialogField->getDelimiter().strval(1);
                 } else {*/
-                    $index = $field->getFieldName();
+                $index = $field->getFieldName();
 //                }
                 if ($subDialogField instanceof C4GSubDialogField) {
                     $delimiter = $subDialogField->getDelimiter();
@@ -518,14 +531,14 @@ class C4GShowDialogAction extends C4GBrickDialogAction
                 $databaseParams->setTableName($field->getForeignTable());
 
                 if (class_exists($field->getEntityClass())) {
-                    $class      = new \ReflectionClass($field->getEntityClass());
-                    $namespace  = $class->getNamespaceName();
-                    $dbClass    = str_replace($namespace . '\\', '', $field->getEntityClass());
-                    $dbClass    = str_replace('\\', '', $dbClass);
+                    $class = new \ReflectionClass($field->getEntityClass());
+                    $namespace = $class->getNamespaceName();
+                    $dbClass = str_replace($namespace . '\\', '', $field->getEntityClass());
+                    $dbClass = str_replace('\\', '', $dbClass);
                 } else {
-                    $class      = new \ReflectionClass(get_called_class());
-                    $namespace  = str_replace("contao\\modules", "database", $class->getNamespaceName());
-                    $dbClass    = $field->getModelClass();
+                    $class = new \ReflectionClass(get_called_class());
+                    $namespace = str_replace('contao\\modules', 'database', $class->getNamespaceName());
+                    $dbClass = $field->getModelClass();
                 }
 
                 $databaseParams->setFindBy($field->getFindBy());
@@ -544,6 +557,7 @@ class C4GShowDialogAction extends C4GBrickDialogAction
                         $keyArray = explode($delimiter, $key);
                         if ($index == $keyArray[1]) {
                             $ids = $element->$key;
+
                             break;
                         }
                     }
@@ -556,15 +570,14 @@ class C4GShowDialogAction extends C4GBrickDialogAction
                         $dbValues = $field->getBrickDatabase()->findBy($field->getForeignKey(), $value);
                         if ($dbValues instanceof \Contao\Model) {
                             foreach ($dbValues->row() as $key => $val) {
-                                $ind = $field->getFieldName().$field->getDelimiter().$key.$field->getDelimiter().$value;
+                                $ind = $field->getFieldName() . $field->getDelimiter() . $key . $field->getDelimiter() . $value;
                                 $element->$ind = $val;
                             }
-
                         } else {
                             foreach ($dbValues as $dbVal) {
                                 if ($dbVal instanceof \stdClass) {
                                     foreach ($dbVal as $key => $val) {
-                                        $ind = $field->getFieldName().$field->getDelimiter().$key.$field->getDelimiter().$value;
+                                        $ind = $field->getFieldName() . $field->getDelimiter() . $key . $field->getDelimiter() . $value;
                                         $element->$ind = $val;
                                     }
                                 }
@@ -577,7 +590,7 @@ class C4GShowDialogAction extends C4GBrickDialogAction
                         foreach ($dbValues as $dbVal) {
                             if ($dbVal instanceof \stdClass) {
                                 foreach ($dbVal as $key => $val) {
-                                    $ind = $field->getFieldName().$field->getDelimiter().$key.$field->getDelimiter().$value;
+                                    $ind = $field->getFieldName() . $field->getDelimiter() . $key . $field->getDelimiter() . $value;
                                     $element->$ind = $val;
                                 }
                             }
@@ -586,31 +599,32 @@ class C4GShowDialogAction extends C4GBrickDialogAction
                 }
             }
         }
+
         return $element;
     }
 
-    public function loadC4GSubFieldData($fieldList, $element, $foreignKey, $superField = null, $superFieldCount = -1, $superSuperField = null, $superSuperFieldCount = -1) {
+    public function loadC4GSubFieldData($fieldList, $element, $foreignKey, $superField = null, $superFieldCount = -1, $superSuperField = null, $superSuperFieldCount = -1)
+    {
         $count = 0;
         foreach ($fieldList as $field) {
             if ($field instanceof C4GSubDialogField) {
                 $subFields = $field->getFieldList();
                 $table = $field->getTable();
-                $subDlgValues = array();
-
+                $subDlgValues = [];
 
                 $databaseParams = new C4GBrickDatabaseParams($field->getDatabaseType());
                 $databaseParams->setPkField('id');
                 $databaseParams->setTableName($table);
 
                 if (class_exists($field->getEntityClass())) {
-                    $class      = new \ReflectionClass($field->getEntityClass());
-                    $namespace  = $class->getNamespaceName();
-                    $dbClass    = str_replace($namespace . '\\', '', $field->getEntityClass());
-                    $dbClass    = str_replace('\\', '', $dbClass);
+                    $class = new \ReflectionClass($field->getEntityClass());
+                    $namespace = $class->getNamespaceName();
+                    $dbClass = str_replace($namespace . '\\', '', $field->getEntityClass());
+                    $dbClass = str_replace('\\', '', $dbClass);
                 } else {
-                    $class      = new \ReflectionClass(get_called_class());
-                    $namespace  = str_replace("contao\\modules", "database", $class->getNamespaceName());
-                    $dbClass    = $field->getModelClass();
+                    $class = new \ReflectionClass(get_called_class());
+                    $namespace = str_replace('contao\\modules', 'database', $class->getNamespaceName());
+                    $dbClass = $field->getModelClass();
                 }
 
                 $databaseParams->setFindBy($field->getFindBy());
@@ -628,8 +642,8 @@ class C4GShowDialogAction extends C4GBrickDialogAction
                 $count = 0;
                 if ($field->getOrderBy() !== '') {
                     $orderBy = $field->getOrderBy();
-                    $valuesArray = array();
-                    $valuesArrayOld = (array)$values;
+                    $valuesArray = [];
+                    $valuesArrayOld = (array) $values;
                     while (!empty($valuesArrayOld)) {
                         $first = null;
                         $firstKey = 0;
@@ -644,22 +658,22 @@ class C4GShowDialogAction extends C4GBrickDialogAction
                         array_values($valuesArrayOld);
                     }
                 } else {
-                    $valuesArray = array_reverse((array)$values);
+                    $valuesArray = array_reverse((array) $values);
                 }
                 foreach ($valuesArray as $value) {
                     $count += 1;
                     if ($value instanceof \stdClass) {
                         foreach ($value as $key => $val) {
                             if ($superField) {
-                                $name = $superField->getFieldName().$superField->getDelimiter().$field->getFieldName().$superField->getDelimiter().$superFieldCount;
+                                $name = $superField->getFieldName() . $superField->getDelimiter() . $field->getFieldName() . $superField->getDelimiter() . $superFieldCount;
                                 if ($superSuperField) {
-                                    $name = $superField->getFieldName().$superSuperField->getDelimiter().$superSuperFieldCount.$superField->getDelimiter().$field->getFieldName().$superField->getDelimiter().$superFieldCount;
-                                    $name = $superSuperField->getFieldName().$superSuperField->getDelimiter().$name;
+                                    $name = $superField->getFieldName() . $superSuperField->getDelimiter() . $superSuperFieldCount . $superField->getDelimiter() . $field->getFieldName() . $superField->getDelimiter() . $superFieldCount;
+                                    $name = $superSuperField->getFieldName() . $superSuperField->getDelimiter() . $name;
                                 }
                             } else {
                                 $name = $field->getFieldName();
                             }
-                            $index = $name.$field->getDelimiter().$key.$field->getDelimiter().$count;
+                            $index = $name . $field->getDelimiter() . $key . $field->getDelimiter() . $count;
                             $element->$index = $val;
                             if ($key === 'id') {
                                 $element = $this->loadC4GSubFieldData($subFields, $element, $val, $field, $count, $superField, $superFieldCount);
@@ -670,6 +684,7 @@ class C4GShowDialogAction extends C4GBrickDialogAction
                 $element = $this->loadC4GForeignArrayFieldData($subFields, $element, $field, $superFieldCount);
             }
         }
+
         return $element;
     }
 }

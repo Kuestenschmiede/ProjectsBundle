@@ -38,10 +38,10 @@ class C4GDateField extends C4GBrickField
      * @param array $additionalParams
      * @return string
      */
-    public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = array())
+    public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = [])
     {
         if ($this->getAdditionalID()) {
-            $this->setFieldName($this->getFieldName() .'_'.$this->getAdditionalID());
+            $this->setFieldName($this->getFieldName() . '_' . $this->getAdditionalID());
         }
         if ($this->customFormat) {
             $dateFormat = $this->customFormat;
@@ -49,13 +49,13 @@ class C4GDateField extends C4GBrickField
             $dateFormat = $GLOBALS['TL_CONFIG']['dateFormat'];
         }
         $fieldName = $this->getFieldName();
-        $id = "c4g_" . $fieldName;
+        $id = 'c4g_' . $fieldName;
         $title = $this->getTitle();
         $required = $this->generateRequiredString($data, $dialogParams);
         $value = $this->generateInitialValue($data);
 
         if ($this->isCallOnChange()) {
-            $changeAction = 'onchange="'.$this->getCallOnChangeFunction().'"';
+            $changeAction = 'onchange="' . $this->getCallOnChangeFunction() . '"';
         }
 
         if (!$this->minDate || ($this->minDate == '') || ($this->minDate == 0)) {
@@ -72,18 +72,17 @@ class C4GDateField extends C4GBrickField
             $date->setTimestamp($value);
             $value = $date->format($dateFormat);
         } else {
-            $value = "";
+            $value = '';
         }
 
         $result = '';
 
-        $PHPFormatOptions = array('Y', 'm', 'd');
-        $JSFormatOptions = array('yy', 'mm', 'dd');
+        $PHPFormatOptions = ['Y', 'm', 'd'];
+        $JSFormatOptions = ['yy', 'mm', 'dd'];
         $format = str_replace($PHPFormatOptions, $JSFormatOptions, $dateFormat);
 
         if ($this->isShowIfEmpty() || !empty($value)) {
-
-            $buttonId = "'". $id . "'";
+            $buttonId = "'" . $id . "'";
             $condition = $this->createConditionData($fieldList, $data);
             //We need to check the condition here and display the field, since the JS does not do that it seems.
             $display = true;
@@ -115,25 +114,22 @@ class C4GDateField extends C4GBrickField
                         $display = false;
                     }
                 }
-
             }
             if (!$display) {
-                $html = '<div class="c4g_date_field_container" style="display: none"  onmousedown="C4GDatePicker(\'' . $id . '\', \'date\', \'' .$this->minDate. '\', \'' . $this->maxDate . '\', \''.$format.'\',\'' . $GLOBALS["TL_LANGUAGE"] .'\',\'' . $this->excludeWeekdays . '\',\'' . $this->excludeDates . '\')" >';
+                $html = '<div class="c4g_date_field_container" style="display: none"  onmousedown="C4GDatePicker(\'' . $id . '\', \'date\', \'' . $this->minDate . '\', \'' . $this->maxDate . '\', \'' . $format . '\',\'' . $GLOBALS['TL_LANGUAGE'] . '\',\'' . $this->excludeWeekdays . '\',\'' . $this->excludeDates . '\')" >';
             } else {
-                $html = '<div class="c4g_date_field_container" onmousedown="C4GDatePicker(\'' . $id . '\', \'date\', \'' .$this->minDate. '\', \'' . $this->maxDate . '\', \''.$format.'\',\'' . $GLOBALS["TL_LANGUAGE"] .'\',\'' . $this->excludeWeekdays . '\',\'' . $this->excludeDates . '\')" >';
+                $html = '<div class="c4g_date_field_container" onmousedown="C4GDatePicker(\'' . $id . '\', \'date\', \'' . $this->minDate . '\', \'' . $this->maxDate . '\', \'' . $format . '\',\'' . $GLOBALS['TL_LANGUAGE'] . '\',\'' . $this->excludeWeekdays . '\',\'' . $this->excludeDates . '\')" >';
             }
-            $html .= '<input readonly="true" autocomplete="off" ' . $required . ' type="text" id="' . $id . '" class="formdata c4g_date_field_input ' . $id . '" '.$changeAction.' name="' . $fieldName . '" value="' . $value . '" ' . $condition['conditionPrepare'] . 'pattern="' . $this->pattern. '"' .'>';
+            $html .= '<input readonly="true" autocomplete="off" ' . $required . ' type="text" id="' . $id . '" class="formdata c4g_date_field_input ' . $id . '" ' . $changeAction . ' name="' . $fieldName . '" value="' . $value . '" ' . $condition['conditionPrepare'] . 'pattern="' . $this->pattern . '"' . '>';
             if (!$this->isIgnoreViewType() && (C4GBrickView::isWithoutEditing($dialogParams->getViewType()) || !$this->isEditable())) {
                 $html .= '<span class="ui-button ui-corner-all c4g_date_field_button"><i class="far fa-calendar-alt"></i></span>';
-            }
-            else {
+            } else {
                 $html .= '<span onclick="getElementById(' . $buttonId . ').focus()" class="ui-button ui-corner-all c4g_date_field_button_interactive"><i class="far fa-calendar-alt"></i></span>';
             }
             $html .= '</div>';
             $result =
                 $this->addC4GField($condition,$dialogParams,$fieldList,$data,
                     $html);
-
         }
 
         return $result;
@@ -151,16 +147,16 @@ class C4GDateField extends C4GBrickField
         $dbValue = $dbValues->$fieldname;
         $additionalId = $this->getAdditionalID();
         if (!empty($additionalId)) {
-            $dlgvalue = $dlgValues[$this->getFieldName().'_'.$additionalId];
+            $dlgvalue = $dlgValues[$this->getFieldName() . '_' . $additionalId];
         } else {
             $dlgvalue = $dlgValues[$this->getFieldName()];
         }
         $result = null;
-        if(!$this->isSearchField()) {
+        if (!$this->isSearchField()) {
             $date = \DateTime::createFromFormat($GLOBALS['TL_CONFIG']['dateFormat'], $dlgvalue);
             if ($date) {
                 $date->Format($GLOBALS['TL_CONFIG']['dateFormat']);
-                $date->setTime(0,0,0);
+                $date->setTime(0, 0, 0);
                 $dlgValue = $date->getTimestamp();
                 if (strcmp($dbValue, $dlgValue) != 0) {
                     $result = new C4GBrickFieldCompare($this, $dbValue, $dlgValue);
@@ -170,13 +166,14 @@ class C4GDateField extends C4GBrickField
             $dbValue = date($GLOBALS['TL_CONFIG']['dateFormat'], $dbValue);
             $dlgValue = $dlgvalue;
             //exception for C4GMatching
-            if($dlgValue && strcmp($dbValue, $dlgValue) != 0) {
+            if ($dlgValue && strcmp($dbValue, $dlgValue) != 0) {
                 $dlgValue = date($GLOBALS['TL_CONFIG']['dateFormat'], $dlgValue);
             }
-            if($dlgValue && strcmp($dbValue, $dlgValue) != 0){
+            if ($dlgValue && strcmp($dbValue, $dlgValue) != 0) {
                 $result = new C4GBrickFieldCompare($this, $dbValue, $dlgValue);
             }
         }
+
         return $result;
     }
 
@@ -210,11 +207,12 @@ class C4GDateField extends C4GBrickField
         $date = new \DateTime($fieldData);
         if ($date) {
             $date->Format($format);
-            $date->setTime(0,0,0);
+            $date->setTime(0, 0, 0);
             $fieldData = $date->getTimestamp();
         } else {
             $fieldData = 0;
         }
+
         return $fieldData;
     }
 
@@ -235,9 +233,9 @@ class C4GDateField extends C4GBrickField
         $date = $rowData->$fieldName;
         if ($date) {
             return date($dateFormat, $date);
-        } else {
-            return '';
         }
+
+        return '';
     }
 
     /**
@@ -250,7 +248,8 @@ class C4GDateField extends C4GBrickField
     {
         $fieldName = $this->getFieldName();
         $date = $element->$fieldName;
-        return $fieldTitle . '<div class="c4g_tile value">' . date($GLOBALS['TL_CONFIG']['dateFormat'],$date) . '</div>';
+
+        return $fieldTitle . '<div class="c4g_tile value">' . date($GLOBALS['TL_CONFIG']['dateFormat'], $date) . '</div>';
     }
 
     /**
@@ -265,9 +264,9 @@ class C4GDateField extends C4GBrickField
         }
         $date = $value;
         $timestamp = strtotime($value);
-        if(is_numeric($timestamp)){
+        if (is_numeric($timestamp)) {
             return $value;
-        } else if($value == $GLOBALS['TL_LANG']['FE_C4G_DIALOG_COMPARE']['newEntry']){
+        } elseif ($value == $GLOBALS['TL_LANG']['FE_C4G_DIALOG_COMPARE']['newEntry']) {
             return $value;
         } else {
             return date($GLOBALS['TL_CONFIG']['dateFormat'], $date);
@@ -289,6 +288,7 @@ class C4GDateField extends C4GBrickField
     public function setMinDate($minDate)
     {
         $this->minDate = $minDate;
+
         return $this;
     }
 
@@ -307,6 +307,7 @@ class C4GDateField extends C4GBrickField
     public function setMaxDate($maxDate)
     {
         $this->maxDate = $maxDate;
+
         return $this;
     }
 
@@ -325,6 +326,7 @@ class C4GDateField extends C4GBrickField
     public function setExcludeWeekdays($excludeWeekdays)
     {
         $this->excludeWeekdays = $excludeWeekdays;
+
         return $this;
     }
 
@@ -343,6 +345,7 @@ class C4GDateField extends C4GBrickField
     public function setExcludeDates($excludeDates)
     {
         $this->excludeDates = $excludeDates;
+
         return $this;
     }
 
@@ -361,6 +364,7 @@ class C4GDateField extends C4GBrickField
     public function setCustomFormat($customFormat)
     {
         $this->customFormat = $customFormat;
+
         return $this;
     }
 
@@ -379,6 +383,4 @@ class C4GDateField extends C4GBrickField
     {
         $this->pattern = $pattern;
     }
-
-
 }

@@ -31,7 +31,7 @@ class C4GRedirectDialogAction extends C4GBrickDialogAction
             }
         }
 
-        if ( $pageId && (($jumpTo = \PageModel::findByPk( $pageId)) !== null)) {
+        if ($pageId && (($jumpTo = \PageModel::findByPk($pageId)) !== null)) {
             $return['jump_to_url'] = $jumpTo->getFrontendUrl();
         }
 

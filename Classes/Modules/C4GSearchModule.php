@@ -12,11 +12,8 @@
  */
 namespace con4gis\ProjectsBundle\Classes\Modules;
 
-
-use con4gis\CoreBundle\Resources\contao\classes\ResourceLoader;
 use con4gis\ProjectsBundle\Classes\Actions\C4GBrickActionType;
 use con4gis\ProjectsBundle\Classes\Actions\C4GRedirectAction;
-use con4gis\ProjectsBundle\Classes\Buttons\C4GBrickButton;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickConst;
 use con4gis\ProjectsBundle\Classes\Database\C4GBrickDatabaseType;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GTextField;
@@ -46,7 +43,7 @@ class C4GSearchModule extends C4GBrickModuleParent
                 $this->searchButtonCaption,
                 true,
                 true,
-                C4GBrickActionType::ACTION_BUTTONCLICK.':redirectToList',
+                C4GBrickActionType::ACTION_BUTTONCLICK . ':redirectToList',
                 '',
                 true,
                 null,
@@ -59,13 +56,12 @@ class C4GSearchModule extends C4GBrickModuleParent
                 $this->searchButtonCaption,
                 true,
                 true,
-                C4GBrickActionType::ACTION_BUTTONCLICK.':redirectToList',
+                C4GBrickActionType::ACTION_BUTTONCLICK . ':redirectToList',
                 '',
                 true
             );
         }
     }
-
 
     public function addFields()
     {
@@ -76,7 +72,7 @@ class C4GSearchModule extends C4GBrickModuleParent
     {
         $fieldlist = [];
         $searchField = new C4GTextField();
-        $searchField->setFieldName("searchValue");
+        $searchField->setFieldName('searchValue');
         $searchField->setFormField(true);
         if ($this->hideSearchFieldCaption !== '1') {
             $searchField->setTitle($this->searchFieldCaption);
@@ -92,7 +88,7 @@ class C4GSearchModule extends C4GBrickModuleParent
     public function redirectToList($values, $putVars)
     {
         $page = $this->listModule;
-        \Session::getInstance()->set("c4g_list_searchValue", $putVars['searchValue']);
+        \Session::getInstance()->set('c4g_list_searchValue', $putVars['searchValue']);
         $this->dialogParams->setRedirectSite($page);
         $action = new C4GRedirectAction(
             $this->dialogParams,
@@ -102,6 +98,7 @@ class C4GSearchModule extends C4GBrickModuleParent
             $this->brickDatabase
         );
         $action->setRedirectWithSaving(false);
+
         return $action->run();
     }
 }

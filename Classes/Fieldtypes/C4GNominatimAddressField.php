@@ -25,27 +25,27 @@ class C4GNominatimAddressField extends C4GBrickField
      * @param array $additionalParams
      * @return string
      */
-    public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = array())
+    public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = [])
     {
         $database = $additionalParams['database'];
         $fieldName = $this->getFieldName();
-        $id = "c4g_" . $fieldName;
+        $id = 'c4g_' . $fieldName;
         $title = $this->getTitle();
         $required = $this->generateRequiredString($data, $dialogParams);
-        $latitude=$data->latitude;
-        $longitutde=$data->longitude;
+        $latitude = $data->latitude;
+        $longitutde = $data->longitude;
         $this->setLatitudeField($latitude);
         $this->setLongitudeField($longitutde);
         $contentId = $this->getContentId();
         $value = C4GBrickCommon::convert_coordinates_to_address($this->getLongitudeField(), $this->getLatitudeField(), $contentId, $database);
         $result = '';
-        if ($this->isShowIfEmpty() || !empty($value)){
-
+        if ($this->isShowIfEmpty() || !empty($value)) {
             $condition = $this->createConditionData($fieldList, $data);
             $result =
                 $this->addC4GField($condition,$dialogParams,$fieldList,$data,
-                '<input ' . $required . ' '.$condition['conditionPrepare'] . ' type="text" id="' . $id . '" class="formdata ' . $id . '" name="' . $fieldName . '" value="' . $value . '">');
+                '<input ' . $required . ' ' . $condition['conditionPrepare'] . ' type="text" id="' . $id . '" class="formdata ' . $id . '" name="' . $fieldName . '" value="' . $value . '">');
         }
+
         return $result;
     }
 

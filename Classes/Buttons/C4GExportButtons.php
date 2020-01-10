@@ -19,30 +19,31 @@ namespace con4gis\ProjectsBundle\Classes\Buttons;
 class C4GExportButtons
 {
     private $withPrintButton = true;
-    private $withPdfButton   = true;
-    private $withCsvButton   = true;
+    private $withPdfButton = true;
+    private $withCsvButton = true;
     private $withExcelButton = false;
-    private $withCopyButton  = false;
-    private $orientation     = 'portrait'; //or landscape
-    private $pageSize        = 'A4'; // or Legal
-    private $exportOptions   = array('columns' => ':visible'); /*or array(0,1,2,5) / array(array('name'=>'columnName')) -> https://datatables.net/reference/type/column-selector*/
+    private $withCopyButton = false;
+    private $orientation = 'portrait'; //or landscape
+    private $pageSize = 'A4'; // or Legal
+    private $exportOptions = ['columns' => ':visible']; /*or array(0,1,2,5) / array(array('name'=>'columnName')) -> https://datatables.net/reference/type/column-selector*/
 
-    public function getButtonArr() {
-        $result = array();
+    public function getButtonArr()
+    {
+        $result = [];
         if ($this->withPrintButton) {
-            $result[] = array('extend' => 'print', 'orientation' => $this->orientation, 'pageSite' => $this->pageSize, 'exportOptions' => $this->exportOptions);
+            $result[] = ['extend' => 'print', 'orientation' => $this->orientation, 'pageSite' => $this->pageSize, 'exportOptions' => $this->exportOptions];
         }
         if ($this->withPdfButton) {
-            $result[] = array('extend' => 'pdf', 'orientation' => $this->orientation, 'pageSite' => $this->pageSize, 'exportOptions' => $this->exportOptions);
+            $result[] = ['extend' => 'pdf', 'orientation' => $this->orientation, 'pageSite' => $this->pageSize, 'exportOptions' => $this->exportOptions];
         }
         if ($this->withCsvButton) {
-            $result[] = array('extend' => 'csv', 'orientation' => $this->orientation, 'pageSite' => $this->pageSize, 'exportOptions' => $this->exportOptions);
+            $result[] = ['extend' => 'csv', 'orientation' => $this->orientation, 'pageSite' => $this->pageSize, 'exportOptions' => $this->exportOptions];
         }
         if ($this->withExcelButton) {
-            $result[] = array('extend' => 'excel', 'orientation' => $this->orientation, 'pageSite' => $this->pageSize, 'exportOptions' => $this->exportOptions);
+            $result[] = ['extend' => 'excel', 'orientation' => $this->orientation, 'pageSite' => $this->pageSize, 'exportOptions' => $this->exportOptions];
         }
         if ($this->withCopyButton) {
-            $result[] = array('extend' => 'copy', 'orientation' => $this->orientation, 'pageSite' => $this->pageSize, 'exportOptions' => $this->exportOptions);
+            $result[] = ['extend' => 'copy', 'orientation' => $this->orientation, 'pageSite' => $this->pageSize, 'exportOptions' => $this->exportOptions];
         }
 
         return $result;
@@ -63,6 +64,7 @@ class C4GExportButtons
     public function setWithPrintButton($withPrintButton = true)
     {
         $this->withPrintButton = $withPrintButton;
+
         return $this;
     }
 
@@ -81,6 +83,7 @@ class C4GExportButtons
     public function setWithPdfButton($withPdfButton = true)
     {
         $this->withPdfButton = $withPdfButton;
+
         return $this;
     }
 
@@ -99,6 +102,7 @@ class C4GExportButtons
     public function setWithCsvButton($withCsvButton = true)
     {
         $this->withCsvButton = $withCsvButton;
+
         return $this;
     }
 
@@ -117,6 +121,7 @@ class C4GExportButtons
     public function setWithExcelButton($withExcelButton = true)
     {
         $this->withExcelButton = $withExcelButton;
+
         return $this;
     }
 
@@ -135,6 +140,7 @@ class C4GExportButtons
     public function setWithCopyButton($withCopyButton = true)
     {
         $this->withCopyButton = $withCopyButton;
+
         return $this;
     }
 
@@ -153,6 +159,7 @@ class C4GExportButtons
     public function setOrientation($orientation)
     {
         $this->orientation = $orientation;
+
         return $this;
     }
 
@@ -171,6 +178,7 @@ class C4GExportButtons
     public function setPageSize($pageSize)
     {
         $this->pageSize = $pageSize;
+
         return $this;
     }
 
@@ -189,7 +197,7 @@ class C4GExportButtons
     public function setExportOptions($exportOptions)
     {
         $this->exportOptions = $exportOptions;
+
         return $this;
     }
-
 }

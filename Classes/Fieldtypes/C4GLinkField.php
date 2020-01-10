@@ -15,7 +15,6 @@ namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
 use con4gis\CoreBundle\Resources\contao\classes\C4GUtils;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
-use Contao\Controller;
 
 class C4GLinkField extends C4GBrickField
 {
@@ -36,7 +35,6 @@ class C4GLinkField extends C4GBrickField
         $this->setDatabaseField(true);
 //        $this->setComparable(false);
         $this->setEditable(false);
-
     }
 
     /**
@@ -44,9 +42,9 @@ class C4GLinkField extends C4GBrickField
      * @param $data
      * @return string
      */
-    public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = array())
+    public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = [])
     {
-        $id = "c4g_" . $this->getFieldName();
+        $id = 'c4g_' . $this->getFieldName();
 
         $beforeValue = $this->getAddStrBeforeValue();
         $this->setAddStrBeforeValue('');
@@ -61,19 +59,22 @@ class C4GLinkField extends C4GBrickField
 
             switch ($this->linkType) {
                 case self::LINK_TYPE_PHONE:
-                    $href = 'tel:'.$value;
+                    $href = 'tel:' . $value;
+
                     break;
                 case self::LINK_TYPE_EMAIL:
-                    $href = 'mailto:'.$value;
+                    $href = 'mailto:' . $value;
+
                     break;
                 default:
                     if ($value !== '') {
                         if (!C4GUtils::startsWith($value, 'http')) {
-                            $href = 'http://'.$value;
+                            $href = 'http://' . $value;
                         } else {
                             $href = $value;
                         }
                     }
+
                     break;
             }
 
@@ -91,6 +92,7 @@ class C4GLinkField extends C4GBrickField
                 ' id="' . $id . '" class="formdata ' . $id . ' c4g_brick_link" href="' .
                 $href . '">' . $beforeValue . $label . $afterValue . '</a>');
         }
+
         return $result;
     }
 
@@ -112,27 +114,30 @@ class C4GLinkField extends C4GBrickField
 
         switch ($this->linkType) {
             case self::LINK_TYPE_PHONE:
-                $href = 'tel:'.$value;
+                $href = 'tel:' . $value;
+
                 break;
             case self::LINK_TYPE_EMAIL:
-                $href = 'mailto:'.$value;
+                $href = 'mailto:' . $value;
+
                 break;
             default:
                 if (!C4GUtils::startsWith($value, 'http')) {
-                    $href = 'http://'.$value;
+                    $href = 'http://' . $value;
                 } else {
                     $href = $value;
                 }
+
                 break;
         }
 
         $label = $this->linkLabel ? $this->linkLabel : $value;
 
         if ($this->getAddStrBeforeValue()) {
-            $label = $this->getAddStrBeforeValue().$label;
+            $label = $this->getAddStrBeforeValue() . $label;
         }
         if ($this->getAddStrBehindValue()) {
-            $label = $label.$this->getAddStrBehindValue();
+            $label = $label . $this->getAddStrBehindValue();
         }
 
         if ($this->newTab) {
@@ -141,7 +146,7 @@ class C4GLinkField extends C4GBrickField
             $rel = '';
         }
 
-        return '<a '.$rel.' href="'.$href.'" onclick="event.stopPropagation()">'.$label.'</a>';
+        return '<a ' . $rel . ' href="' . $href . '" onclick="event.stopPropagation()">' . $label . '</a>';
     }
 
     /**
@@ -151,6 +156,7 @@ class C4GLinkField extends C4GBrickField
     public function setLinkLabel($linkLabel): C4GLinkField
     {
         $this->linkLabel = $linkLabel;
+
         return $this;
     }
 
@@ -161,6 +167,7 @@ class C4GLinkField extends C4GBrickField
     public function setLinkType(int $linkType): C4GLinkField
     {
         $this->linkType = $linkType;
+
         return $this;
     }
 
@@ -189,6 +196,7 @@ class C4GLinkField extends C4GBrickField
     public function setNewTab(bool $newTab = true): C4GLinkField
     {
         $this->newTab = $newTab;
+
         return $this;
     }
 }

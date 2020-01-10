@@ -12,7 +12,6 @@
  */
 namespace con4gis\ProjectsBundle\Classes\Database;
 
-use Doctrine\ORM\Tools\Setup;
 use Doctrine\ORM\EntityManager;
 
 /**
@@ -24,9 +23,9 @@ class C4GBrickDatabaseParams
     private $type = C4GBrickDatabaseType::DCA_MODEL;
 
     //params for all types
-    private $pkField   = 'id';
+    private $pkField = 'id';
     private $tableName = '';
-    private $database  = null;
+    private $database = null;
 
     //dca_model type
     private $modelClass = '';
@@ -34,13 +33,13 @@ class C4GBrickDatabaseParams
 
     //doctrine type
     private $entityClass = '';
-    private $entityNamespace = array();
+    private $entityNamespace = [];
     private $deviceMode = true;
     private $config = null;
     private $entityManager = null;
 
     //database qualifying
-    private $findBy = array();
+    private $findBy = [];
 
     /**
      * C4GBrickDatabaseParams constructor.
@@ -66,6 +65,7 @@ class C4GBrickDatabaseParams
     public function setPkField($pkField)
     {
         $this->pkField = $pkField;
+
         return $this;
     }
 
@@ -84,6 +84,7 @@ class C4GBrickDatabaseParams
     public function setType($type)
     {
         $this->type = $type;
+
         return $this;
     }
 
@@ -102,6 +103,7 @@ class C4GBrickDatabaseParams
     public function setTableName($tableName)
     {
         $this->tableName = $tableName;
+
         return $this;
     }
 
@@ -120,6 +122,7 @@ class C4GBrickDatabaseParams
     public function setModelClass($modelClass)
     {
         $this->modelClass = $modelClass;
+
         return $this;
     }
 
@@ -138,6 +141,7 @@ class C4GBrickDatabaseParams
     public function setEntityClass($entityClass)
     {
         $this->entityClass = $entityClass;
+
         return $this;
     }
 
@@ -156,6 +160,7 @@ class C4GBrickDatabaseParams
     public function setEntityNamespace($entityNamespace)
     {
         $this->entityNamespace = $entityNamespace;
+
         return $this;
     }
 
@@ -174,6 +179,7 @@ class C4GBrickDatabaseParams
     public function setDeviceMode($deviceMode = true)
     {
         $this->deviceMode = $deviceMode;
+
         return $this;
     }
 
@@ -192,6 +198,7 @@ class C4GBrickDatabaseParams
     public function setConfig($config)
     {
         $this->config = $config;
+
         return $this;
     }
 
@@ -210,6 +217,7 @@ class C4GBrickDatabaseParams
     public function setEntityManager($entityManager)
     {
         $this->entityManager = $entityManager;
+
         return $this;
     }
 
@@ -228,6 +236,7 @@ class C4GBrickDatabaseParams
     public function setDatabase($database)
     {
         $this->database = $database;
+
         return $this;
     }
 
@@ -246,6 +255,7 @@ class C4GBrickDatabaseParams
     public function setModelListFunction($modelListFunction)
     {
         $this->modelListFunction = $modelListFunction;
+
         return $this;
     }
 
@@ -264,7 +274,7 @@ class C4GBrickDatabaseParams
     public function setFindBy($findBy)
     {
         $this->findBy = $findBy;
+
         return $this;
     }
-
 }

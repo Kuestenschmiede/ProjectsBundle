@@ -12,9 +12,10 @@
  */
 namespace con4gis\ProjectsBundle\Classes\Fieldlist;
 
-class C4GBrickFieldSourceType {
-    const DATABASE                  = 'database';
-    const TRANSLATE_ID_FROM_TABLE   = 'translate_id';
-    const LOAD_OPTIONS_FROM_TABLE   = 'load_options';
-    const OTHER_FIELD               = 'other_field';
+class C4GBrickFieldSourceType
+{
+    const DATABASE = 'database';
+    const TRANSLATE_ID_FROM_TABLE = 'translate_id';
+    const LOAD_OPTIONS_FROM_TABLE = 'load_options';
+    const OTHER_FIELD = 'other_field';
 }

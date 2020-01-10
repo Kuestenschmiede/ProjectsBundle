@@ -14,7 +14,6 @@ namespace con4gis\ProjectsBundle\Classes\Database;
 
 use Doctrine\ORM\EntityManager;
 
-
 /**
  * Class C4GBrickDatabase
  * @package c4g\projects
@@ -23,7 +22,6 @@ class C4GBrickDatabase
 {
     private $params = null;
     private $entityManager = null;
-
 
     /**
      * C4GBrickDatabase constructor.
@@ -39,11 +37,12 @@ class C4GBrickDatabase
     }
 
     /**
- * @param $dataset
- * @return array
- */
-    public function entitiesToContao($dataset) {
-        $arrModels = array();
+     * @param $dataset
+     * @return array
+     */
+    public function entitiesToContao($dataset)
+    {
+        $arrModels = [];
 
         $serializer = new C4GBrickEntitySerializer($this->entityManager);
 
@@ -53,37 +52,39 @@ class C4GBrickDatabase
                 $arrModels[] = $arrRow;
             }
             $result = $arrModels;
+
             return $result;
-        } else {
-            return $serializer->serialize($dataset);
         }
+
+        return $serializer->serialize($dataset);
     }
 
     /**
      * @param $dataset
      * @return array
      */
-    private function contaoToEntity($dataset){
+    private function contaoToEntity($dataset)
+    {
         $serializer = new C4GBrickEntitySerializer($this->entityManager);
 
         $pkField = $this->params->getPkField();
 
-        $entityClass    = $this->params->getEntityNamespace().'\\'.$this->params->getEntityClass();
-        $repo           = $this->entityManager->getRepository($entityClass);
+        $entityClass = $this->params->getEntityNamespace() . '\\' . $this->params->getEntityClass();
+        $repo = $this->entityManager->getRepository($entityClass);
 
         if ($dataset['id']) {
             $id = $dataset['id'];
             $entityObject = $repo->findOneBy([$pkField => $id]);
+
             return $serializer->unserialize($dataset, $entityObject);
-        } else {
-            $entiy = new $entityClass();
-            $entiy->setData($dataset);
-            return $entiy;
         }
+        $entiy = new $entityClass();
+        $entiy->setData($dataset);
+
+        return $entiy;
 
         #return $serializer->unserialize($dataset, $entityObject);
     }
-
 
     /**
      * @param $fieldname
@@ -91,137 +92,142 @@ class C4GBrickDatabase
      * @param array $arrOptions
      * @return array
      */
-    public function findBy($fieldname, $value, $arrOptions = array()) {
+    public function findBy($fieldname, $value, $arrOptions = [])
+    {
         if ($this->params->getType() == C4GBrickDatabaseType::DOCTRINE) {
             //ToDo arrOptions abbilden
-            $entityClass = $this->params->getEntityNamespace().'\\'.$this->params->getEntityClass();
+            $entityClass = $this->params->getEntityNamespace() . '\\' . $this->params->getEntityClass();
+
             return $this->entitiesToContao($this->entityManager->getRepository($entityClass)->findBy([$fieldname => $value]));
-        } else {
-            $modelClass = $this->params->getModelClass();
-            if ($modelClass  && method_exists($modelClass, 'findBy')) {
-                return $modelClass::findBy($fieldname, $value, $arrOptions);
-            } else {
-                return array();
-            }
         }
+        $modelClass = $this->params->getModelClass();
+        if ($modelClass && method_exists($modelClass, 'findBy')) {
+            return $modelClass::findBy($fieldname, $value, $arrOptions);
+        }
+
+        return [];
     }
 
     /**
      *
      */
-    public function findAll() {
+    public function findAll()
+    {
         if ($this->params->getType() == C4GBrickDatabaseType::DOCTRINE) {
-            $entityClass = $this->params->getEntityNamespace().'\\'.$this->params->getEntityClass();
+            $entityClass = $this->params->getEntityNamespace() . '\\' . $this->params->getEntityClass();
+
             return $this->entitiesToContao($this->entityManager->getRepository($entityClass)->findAll());
-        } else {
-            $modelClass = $this->params->getModelClass();
-            if ($modelClass) {
-                return $modelClass::findAll();
-            } else {
-                return array();
-            }
         }
+        $modelClass = $this->params->getModelClass();
+        if ($modelClass) {
+            return $modelClass::findAll();
+        }
+
+        return [];
     }
 
     /**
      * @param $pk
      * @return array
      */
-    public function findByPk($pk) {
+    public function findByPk($pk)
+    {
         if (!$pk || $pk <= 0) {
-            return array();
+            return [];
         }
 
         if ($this->params->getType() == C4GBrickDatabaseType::DOCTRINE) {
-            $entityClass = $this->params->getEntityNamespace().'\\'.$this->params->getEntityClass();
+            $entityClass = $this->params->getEntityNamespace() . '\\' . $this->params->getEntityClass();
             $pkField = $this->params->getPkField();
 
             return $this->entitiesToContao($this->entityManager->getRepository($entityClass)->findOneBy([$pkField => $pk]));
-        } else {
-            $modelClass = $this->params->getModelClass();
-            if ($modelClass) {
-                return $modelClass::findByPk($pk);
-            } else {
-                return array();
-            }
         }
+        $modelClass = $this->params->getModelClass();
+        if ($modelClass) {
+            return $modelClass::findByPk($pk);
+        }
+
+        return [];
     }
 
     /**
      * @param string $fieldname
      * @param string $value
      */
-    public function findOneBy($fieldname, $value, $arrOptions = array()) {
+    public function findOneBy($fieldname, $value, $arrOptions = [])
+    {
         if ($this->params->getType() == C4GBrickDatabaseType::DOCTRINE) {
             //ToDo arrOptions abbilden
 
-            $entityClass = $this->params->getEntityNamespace().'\\'.$this->params->getEntityClass();
+            $entityClass = $this->params->getEntityNamespace() . '\\' . $this->params->getEntityClass();
+
             return $this->entitiesToContao($this->entityManager->getRepository($entityClass)->findOneBy([$fieldname => $value]));
-        } else {
-            $modelClass = $this->params->getModelClass();
-            if ($modelClass) {
-                return $modelClass::findOneBy($fieldname, $value, $arrOptions);
-            } else {
-                return array();
-            }
         }
+        $modelClass = $this->params->getModelClass();
+        if ($modelClass) {
+            return $modelClass::findOneBy($fieldname, $value, $arrOptions);
+        }
+
+        return [];
     }
 
-    public function insert($set) {
-        $result = array();
+    public function insert($set)
+    {
+        $result = [];
         if ($this->params->getType() == C4GBrickDatabaseType::DOCTRINE) {
             $entity = $this->contaoToEntity($set);
             $this->entityManager->persist($entity);
             $this->entityManager->flush();
             $result['insertId'] = $entity->getId();
+
             return $result;
-        } else {
-            $tableName = $this->params->getTableName();
-            $database = $this->params->getDatabase();
-            foreach ($set as $key => $value) {
-                if (!$database->fieldExists($key, $tableName)) {
-                    unset($set[$key]);
-                }
+        }
+        $tableName = $this->params->getTableName();
+        $database = $this->params->getDatabase();
+        foreach ($set as $key => $value) {
+            if (!$database->fieldExists($key, $tableName)) {
+                unset($set[$key]);
             }
-            $objInsertStmt = $database->prepare("INSERT INTO $tableName %s")
+        }
+        $objInsertStmt = $database->prepare("INSERT INTO $tableName %s")
                 ->set($set)
                 ->execute();
 
-            if (!$objInsertStmt->affectedRows)
-            {
-                return false;
-            }
-
-            $result['insertId'] = $objInsertStmt->insertId;
-            return $result;
+        if (!$objInsertStmt->affectedRows) {
+            return false;
         }
+
+        $result['insertId'] = $objInsertStmt->insertId;
+
+        return $result;
     }
 
-    public function update($id, $set, $id_fieldName = 'id') {
+    public function update($id, $set, $id_fieldName = 'id')
+    {
         if ($this->params->getType() == C4GBrickDatabaseType::DOCTRINE) {
             $entity = $this->contaoToEntity($set);
             $this->entityManager->persist($entity);
             $this->entityManager->flush();
             $result['insertId'] = $entity->getId();
-            return $result;
-        } else {
-            $tableName = $this->params->getTableName();
-            $database = $this->params->getDatabase();
 
-            if (($id) && ($id_fieldName)) {
-                $objInsertStmt = $database->prepare("UPDATE $tableName %s WHERE $id_fieldName=?")
-                    ->set($set)
-                    ->execute($id);
-            }
-
-            if (!$objInsertStmt->affectedRows)
-            {
-                return false;
-            }
-
-            $result['insertId'] = $objInsertStmt->insertId;
             return $result;
         }
+        $tableName = $this->params->getTableName();
+        $database = $this->params->getDatabase();
+
+        if (($id) && ($id_fieldName)) {
+            $objInsertStmt = $database->prepare("UPDATE $tableName %s WHERE $id_fieldName=?")
+                    ->set($set)
+                    ->execute($id);
+        }
+
+        if (!$objInsertStmt->affectedRows) {
+            return false;
+        }
+
+        $result['insertId'] = $objInsertStmt->insertId;
+
+        return $result;
     }
 
     /**

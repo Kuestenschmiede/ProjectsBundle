@@ -25,7 +25,7 @@ class C4GTimeField extends C4GBrickField
      * @param array $additionalParams
      * @return string
      */
-    public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = array())
+    public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = [])
     {
         $fieldName = $this->getFieldName();
         $id = $this->createFieldID();
@@ -35,13 +35,12 @@ class C4GTimeField extends C4GBrickField
         if ($value > 0) {
             $value = date($GLOBALS['TL_CONFIG']['timeFormat'], $value);
         } else {
-            $value = "";
+            $value = '';
         }
 
         $result = '';
 
         if ($this->isShowIfEmpty() || !empty($value)) {
-
             $condition = $this->createConditionData($fieldList, $data);
 
             $result =
@@ -51,7 +50,6 @@ class C4GTimeField extends C4GBrickField
                 '<a class="gettime" onclick="C4GTimePicker(\'' . $id . '\', \'gettime\', this)"></a>' .
                 '</div>');
         }
-
 
         return $result;
     }
@@ -76,6 +74,7 @@ class C4GTimeField extends C4GBrickField
                 $result = new C4GBrickFieldCompare($this, $dbValue, $dlgValue);
             }
         }
+
         return $result;
     }
 
@@ -93,6 +92,7 @@ class C4GTimeField extends C4GBrickField
         } else {
             $fieldData = '';
         }
+
         return $fieldData;
     }
 
@@ -108,9 +108,9 @@ class C4GTimeField extends C4GBrickField
         $date = $rowData->$fieldName;
         if ($date) {
             return date($GLOBALS['TL_CONFIG']['timeFormat'], $date);
-        } else {
-            return '';
         }
+
+        return '';
     }
 
     /**
@@ -123,7 +123,8 @@ class C4GTimeField extends C4GBrickField
     {
         $fieldName = $this->getFieldName();
         $date = $element->$fieldName;
-        return $fieldTitle . '<div class="c4g_tile value">' . date($GLOBALS['TL_CONFIG']['timeFormat'],$date) . '</div>';
+
+        return $fieldTitle . '<div class="c4g_tile value">' . date($GLOBALS['TL_CONFIG']['timeFormat'], $date) . '</div>';
     }
 
     /**

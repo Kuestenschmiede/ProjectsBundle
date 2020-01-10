@@ -13,11 +13,7 @@
 namespace con4gis\ProjectsBundle\Classes\Dialogs;
 
 use con4gis\ProjectsBundle\Classes\Actions\C4GBrickActionType;
-use con4gis\ProjectsBundle\Classes\Actions\C4GShowRedirectDialogAction;
-use con4gis\ProjectsBundle\Classes\Common\C4GBrickConst;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GSelectField;
-use Contao\System;
-use Eden\CustomerBundle\classes\contao\modules\EdenCustomerAddresses;
 
 class C4GBrickSelectPublicParentDialog extends C4GBrickDialog
 {
@@ -37,7 +33,6 @@ class C4GBrickSelectPublicParentDialog extends C4GBrickDialog
         $this->module = $module;
     }
 
-
     /**
      * @return array|mixed
      */
@@ -52,12 +47,11 @@ class C4GBrickSelectPublicParentDialog extends C4GBrickDialog
         $cancelAction = C4GBrickActionType::ACTION_CANCELPARENTSELECT;
         $cancelButtonText = $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['SELECT_PARENT_DIALOG_CANCEL_BUTTON'];
 
-        $parentList = array();
+        $parentList = [];
         $parentList[0]['id'] = 0;
         $parentList[0]['name'] = ' - ';
 
         $parentData = $parentModel::findParents();
-
 
         if (is_array($parentData)) {
             foreach ($parentData as $key => $parent) {
@@ -80,7 +74,7 @@ class C4GBrickSelectPublicParentDialog extends C4GBrickDialog
         $parentField->setOptions($parentList);
         $parentField->setChosen(true);
 
-        if ( $parent_id && ($parent_id > 0)) {
+        if ($parent_id && ($parent_id > 0)) {
             $parentField->setInitialValue($parent_id);
         }
 
@@ -94,5 +88,4 @@ class C4GBrickSelectPublicParentDialog extends C4GBrickDialog
             $cancelButtonText
         );
     }
-
 }

@@ -32,21 +32,20 @@ class C4GBrickTiles
     public static function addButtonArray(C4GBrickButton $button, $parentCaption = null)
     {
         if ($button->getType() == C4GBrickConst::BUTTON_PARENT && $parentCaption) {
-            return array(
-                'action'  => $button->getAction() . ':-1',
+            return [
+                'action' => $button->getAction() . ':-1',
                 'class' => 'c4gGuiAction',
-                'type'  => 'send',
-                'text'  => sprintf($button->getCaption(), $parentCaption)
-            );
+                'type' => 'send',
+                'text' => sprintf($button->getCaption(), $parentCaption),
+            ];
         }
-        else {
-            return array(
-                'action'  => $button->getAction() . ':-1',
+
+        return [
+                'action' => $button->getAction() . ':-1',
                 'class' => 'c4gGuiAction',
-                'type'  => 'send',
-                'text' => $button->getCaption()
-            );
-        }
+                'type' => 'send',
+                'text' => $button->getCaption(),
+            ];
     }
     /**
      * @param $showGroupButton
@@ -55,7 +54,7 @@ class C4GBrickTiles
      */
     private static function getDialogButtons(C4GBrickListParams $listParams, $parentCaption)
     {
-        $result = array();
+        $result = [];
 
         if ($listParams->checkButtonVisibility(C4GBrickConst::BUTTON_GROUP)) {
             $group_button = $listParams->getButton(C4GBrickConst::BUTTON_GROUP);
@@ -94,12 +93,12 @@ class C4GBrickTiles
     {
         if ($bool == '1') {
             return $GLOBALS['TL_LANG']['FE_C4G_LIST']['TRUE'];
-        } else {
-            return $GLOBALS['TL_LANG']['FE_C4G_LIST']['FALSE'];
         }
+
+        return $GLOBALS['TL_LANG']['FE_C4G_LIST']['FALSE'];
     }
 
-        /**
+    /**
      * @param $fieldList
      * @param $data
      * @param $condition
@@ -112,8 +111,8 @@ class C4GBrickTiles
         if ($conditions) {
             foreach ($conditions as $condition) {
                 $conditionFieldName = $condition->getFieldName();
-                $conditionValue     = $condition->getValue();
-                $conditionType      = $condition->getType();
+                $conditionValue = $condition->getValue();
+                $conditionType = $condition->getType();
 
                 if ($conditionType == C4GBrickConditionType::VALUESWITCH) {
                     if ($conditionValue != $element->$conditionFieldName) {
@@ -122,8 +121,8 @@ class C4GBrickTiles
                             if ($fieldConditions) {
                                 foreach ($fieldConditions as $fieldCondition) {
                                     $fieldConditionFieldName = $fieldCondition->getFieldName();
-                                    $fieldConditionValue     = $fieldCondition->getValue();
-                                    $fieldConditionType      = $fieldCondition->getType();
+                                    $fieldConditionValue = $fieldCondition->getValue();
+                                    $fieldConditionType = $fieldCondition->getType();
 
                                     if (($fieldConditionType == C4GBrickConditionType::VALUESWITCH)
                                         && ($fieldConditionFieldName == $conditionFieldName)) {
@@ -142,14 +141,13 @@ class C4GBrickTiles
         return $column->getOptions();
     }
 
-
     /**
      * @param $fieldList
      */
     public function getTileClasses($fieldList, $values)
     {
         $result = '';
-        foreach($fieldList as $field) {
+        foreach ($fieldList as $field) {
             if ($field->isTileClass()) {
                 if ($field->getTileClassTable() && $field->getTileClassField()) {
                     // get dataset from other table
@@ -164,7 +162,7 @@ class C4GBrickTiles
                     $result .= $dataset[$otherFieldName] . ' ';
                 } else {
                     $fieldName = $field->getFieldName();
-                    $result .= $values->$fieldName.' ';
+                    $result .= $values->$fieldName . ' ';
                 }
             }
         }
@@ -179,7 +177,7 @@ class C4GBrickTiles
      */
     public function deleteElementsPerFlag($fieldList, $tableElements)
     {
-        $newTableElements = array();
+        $newTableElements = [];
 
         $deleteFlag = null;
         $publishedFlag = null;
@@ -187,10 +185,12 @@ class C4GBrickTiles
             $fieldName = $field->getFieldName();
             if ($field->getType() == C4GBrickFieldType::FLAG_DELETE) {
                 $deleteFlag = $fieldName;
+
                 break;
             }
             if ($field->getType() == C4GBrickFieldType::FLAG_PUBLISHED) {
                 $publishedFlag = $fieldName;
+
                 break;
             }
         }
@@ -223,13 +223,13 @@ class C4GBrickTiles
             //ToDo: $filterParams muss um checkboxfilter erweitert werden
             $tableFields = $filterParams;
 
-            $result .= '<div class="c4g_filter '.$filterType.'"><label>'.$filterName.'</label>';
+            $result .= '<div class="c4g_filter ' . $filterType . '"><label>' . $filterName . '</label>';
 
             foreach ($tableFields as $tableName => $translate) {
                 foreach ($fieldList as $field) {
                     if (($field->getFieldName() == $tableName) && ($field->isSortColumn() == true)) {
-                        $result .= '<label for="c4g_'. $filterType .'">'.$translate.'</label>'
-                            .'<input type="checkbox" name="c4g_'. $filterType .'">';
+                        $result .= '<label for="c4g_' . $filterType . '">' . $translate . '</label>'
+                            . '<input type="checkbox" name="c4g_' . $filterType . '">';
                     }
                 }
             }
@@ -237,6 +237,7 @@ class C4GBrickTiles
         } else {
             return '';
         }
+
         return $result;
     }
 
@@ -270,12 +271,12 @@ class C4GBrickTiles
     ) {
         if ($withLabels) {
             if (!$tableElements) {
-                $tableElements = array();
+                $tableElements = [];
             } else {
                 $tableElements = C4GBrickTiles::deleteElementsPerFlag($fieldList, $tableElements);
             }
 
-            $view = '<div class="' . C4GBrickConst::CLASS_TILES . ' ui-widget ui-widget-content ui-corner-bottom" style="display: inline-flex; justify-content: center; flex-wrap: wrap; flex-flow: row wrap;">'.C4GHTMLFactory::lineBreak();
+            $view = '<div class="' . C4GBrickConst::CLASS_TILES . ' ui-widget ui-widget-content ui-corner-bottom" style="display: inline-flex; justify-content: center; flex-wrap: wrap; flex-flow: row wrap;">' . C4GHTMLFactory::lineBreak();
 
             $elementTimer = 1;
 
@@ -283,9 +284,8 @@ class C4GBrickTiles
             $search = '';
             $filterResult = '';
 
-            foreach ($tableElements as $element)
-            {
-                $fields = array();
+            foreach ($tableElements as $element) {
+                $fields = [];
                 $cnt = 0;
                 if ($listParams->isWithFunctionCallOnClick()) {
                     $action = C4GBrickActionType::ACTION_BUTTONCLICK . ':'
@@ -307,15 +307,15 @@ class C4GBrickTiles
 
                 $tileClasses = C4GBrickTiles::getTileClasses($fieldList, $element);
 
-                $view .= '<a class="'.$tileClasses.'c4gGuiAction c4gGuiButton c4g_tile_button" title="'. $hovertext .
-                    '"   data-action="'. $action .'" role="button" style="order: '.$elementTimer.';">';
+                $view .= '<a class="' . $tileClasses . 'c4gGuiAction c4gGuiButton c4g_tile_button" title="' . $hovertext .
+                    '"   data-action="' . $action . '" role="button" style="order: ' . $elementTimer . ';">';
 
                 $elementTimer++;
                 foreach ($fieldList as $column) {
                     $fieldName = $column->getFieldName();
                     $fieldType = $column->getType();
 
-                    $fieldTitle = '<label class="c4g_label '.$fieldType.'" >'.$column->getTitle().'</label>';
+                    $fieldTitle = '<label class="c4g_label ' . $fieldType . '" >' . $column->getTitle() . '</label>';
                     if ($element && $column->getExternalModel() &&
                         $column->getExternalIdField() && (!$listParams->isWithModelListFunction())) {
                         $extModel = $column->getExternalModel();
@@ -330,8 +330,8 @@ class C4GBrickTiles
                                     $tableName = $extModel::getTableName();
                                     $fieldName = $column->getFieldName();
                                     $sortField = $column->getExternalSortField();
-                                    $element = $database->prepare("SELECT * FROM `$tableName` WHERE ".
-                                        "`$extFieldName`='$extSearchValue' AND `$fieldName`='$extId' ORDER BY ".
+                                    $element = $database->prepare("SELECT * FROM `$tableName` WHERE " .
+                                        "`$extFieldName`='$extSearchValue' AND `$fieldName`='$extId' ORDER BY " .
                                         " `$tableName`.`$sortField` DESC LIMIT 1 ")->execute();
                                 } else {
                                     $element = $extModel::findBy($extFieldName, $extId);
@@ -345,14 +345,14 @@ class C4GBrickTiles
                         }
                     }
                     if (!$listParams->isWithModelListFunction() && $element->$fieldName) {
-                        $view .= '<div class="c4g_tile '.$fieldType.' field '.$fieldName.'">';
+                        $view .= '<div class="c4g_tile ' . $fieldType . ' field ' . $fieldName . '">';
 
                         if ($cnt == 0) {
                             $cnt++;
                         } else {
                             if ($column->isTableColumn()) {
                                 if ($column instanceof C4GSelectField) {
-                                    $view .= $fieldTitle .  '<div class="c4g_tile value">' .
+                                    $view .= $fieldTitle . '<div class="c4g_tile value">' .
                                         C4GBrickCommon::translateSelectOption(
                                             $element->$fieldName,
                                             C4GBrickTiles::getOptions($fieldList, $element, $column)) . '</div>';
@@ -361,7 +361,6 @@ class C4GBrickTiles
                                 }
                                 $cnt++;
                             }
-
                         }
                         $view .= '</div>';
                     } elseif ($listParams->isWithModelListFunction()) {
@@ -385,12 +384,12 @@ class C4GBrickTiles
             $view .= '</div>';
         } else /*WITHOUT LABELS*/ {
             if (!$tableElements) {
-                $tableElements = array();
+                $tableElements = [];
             } else {
                 $tableElements = C4GBrickTiles::deleteElementsPerFlag($fieldList, $tableElements);
             }
 
-            $view = '<div class="' . C4GBrickConst::CLASS_TILES . ' ui-widget ui-widget-content ui-corner-bottom" style="display: flex; justify-content: center; flex-wrap: wrap; flex-flow: row wrap;">'.C4GHTMLFactory::lineBreak();
+            $view = '<div class="' . C4GBrickConst::CLASS_TILES . ' ui-widget ui-widget-content ui-corner-bottom" style="display: flex; justify-content: center; flex-wrap: wrap; flex-flow: row wrap;">' . C4GHTMLFactory::lineBreak();
 
             $elementTimer = 1;
 
@@ -399,12 +398,12 @@ class C4GBrickTiles
             $filterResult = '';
 
             foreach ($tableElements as $element) {
-                $fields = array();
+                $fields = [];
                 $cnt = 0;
                 $tileClasses = C4GBrickTiles::getTileClasses($fieldList, $element);
-                $view .= '<a class="'.$tileClasses.'c4gGuiAction c4gGuiButton c4g_tile_button" data-action="'.
-                    C4GBrickActionType::ACTION_CLICK . ':' . $element->id.'" role="button" style="order: '
-                    .$elementTimer.';">';
+                $view .= '<a class="' . $tileClasses . 'c4gGuiAction c4gGuiButton c4g_tile_button" data-action="' .
+                    C4GBrickActionType::ACTION_CLICK . ':' . $element->id . '" role="button" style="order: '
+                    . $elementTimer . ';">';
 
                 $elementTimer++;
                 foreach ($fieldList as $column) {
@@ -412,7 +411,7 @@ class C4GBrickTiles
                     $fieldType = $column->getType();
 
                     if ($element->$fieldName) {
-                        $view .= '<div class="c4g_tile '.$fieldType.' field '.$fieldName.'">';
+                        $view .= '<div class="c4g_tile ' . $fieldType . ' field ' . $fieldName . '">';
 
                         if ($cnt == 0) {
                             $cnt++;
@@ -438,26 +437,23 @@ class C4GBrickTiles
         }
 
         //count($tableElements) ist immer 1, da $tableElements ein Objekt ist! (bei Auswertung über modellistfunction)
-        if(count($tableElements) >= $listParams->getDisplayLength())
-        {
-            $search = '<div class="c4g_tile search" ><input class="c4g_filter search" type="search" name="tilesearch" onblur="C4GSearchTiles(this)" onkeyup="C4GSearchTiles(this)"><label>'.$GLOBALS['TL_LANG']['FE_C4G_DIALOG']['LOG_ENTRY_TYPE']['search'].'</label></div>';
-            $button .= '<div class="c4g_tile sorter"><button data-lang-asc="'.$GLOBALS['TL_LANG']['FE_C4G_DIALOG']['LOG_ENTRY_TYPE']['asc'].'" data-lang-desc="'.$GLOBALS['TL_LANG']['FE_C4G_DIALOG']['LOG_ENTRY_TYPE']['desc'].'" type="button" onclick="tileSort(this)">'.$GLOBALS['TL_LANG']['FE_C4G_DIALOG']['LOG_ENTRY_TYPE']['asc'].'</button></div>';
+        if (count($tableElements) >= $listParams->getDisplayLength()) {
+            $search = '<div class="c4g_tile search" ><input class="c4g_filter search" type="search" name="tilesearch" onblur="C4GSearchTiles(this)" onkeyup="C4GSearchTiles(this)"><label>' . $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['LOG_ENTRY_TYPE']['search'] . '</label></div>';
+            $button .= '<div class="c4g_tile sorter"><button data-lang-asc="' . $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['LOG_ENTRY_TYPE']['asc'] . '" data-lang-desc="' . $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['LOG_ENTRY_TYPE']['desc'] . '" type="button" onclick="tileSort(this)">' . $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['LOG_ENTRY_TYPE']['asc'] . '</button></div>';
         }
 
-        return array
-        (
-            'dialogtype'    => 'html',
-            'dialogdata'    => $view,
-            'dialogoptions' => C4GUtils::addDefaultDialogOptions(array
-            (
-                'title' => '<div class="c4g_tile_headline" >'.
-                    $listCaption.
+        return [
+            'dialogtype' => 'html',
+            'dialogdata' => $view,
+            'dialogoptions' => C4GUtils::addDefaultDialogOptions([
+                'title' => '<div class="c4g_tile_headline" >' .
+                    $listCaption .
                     '</div>' . $button . $search . '<div class="c4g_tile filter items">' . $filterResult . '</div>',
-                'modal' => true
-            )),
-            'dialogid'      => C4GBrickActionType::IDENTIFIER_LIST.$key,
-            'dialogstate'   => C4GBrickActionType::IDENTIFIER_LIST .$key,
+                'modal' => true,
+            ]),
+            'dialogid' => C4GBrickActionType::IDENTIFIER_LIST . $key,
+            'dialogstate' => C4GBrickActionType::IDENTIFIER_LIST . $key,
             'dialogbuttons' => C4GBrickTiles::getDialogButtons($listParams, $parentCaption),
-        );
+        ];
     }
 }

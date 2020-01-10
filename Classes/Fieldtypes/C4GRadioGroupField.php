@@ -25,7 +25,7 @@ class C4GRadioGroupField extends C4GBrickField
     private $clearGroupText = '';
     private $addNameToId = true;
 
-    public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = array())
+    public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = [])
     {
         $required = $this->generateRequiredString($data, $dialogParams);
         $value = $this->generateInitialValue($data);
@@ -33,14 +33,14 @@ class C4GRadioGroupField extends C4GBrickField
         $result = '';
 
         if ($this->getAdditionalID() || $this->getAdditionalID() == '0') {
-            $this->setFieldName($this->getFieldName() .'_'.$this->getAdditionalID());
+            $this->setFieldName($this->getFieldName() . '_' . $this->getAdditionalID());
         }
 
         $id = $this->createFieldID();
 
         $changeAction = '';
         if ($this->isCallOnChange()) {
-            $changeAction = ' onchange="'.$this->getCallOnChangeFunction().'" ';
+            $changeAction = ' onchange="' . $this->getCallOnChangeFunction() . '" ';
         }
 
         $condition = $this->createConditionData($fieldList, $data);
@@ -56,18 +56,18 @@ class C4GRadioGroupField extends C4GBrickField
                 ($viewType == C4GBrickViewType::PUBLICUUIDVIEW) ||
                 (($viewType == C4GBrickViewType::GROUPPROJECT) && $is_frozen))
         ) {
-            $required = "disabled readonly";
+            $required = 'disabled readonly';
         }
 
         if ($this->isMandatory()) {
-            $required = "required";
+            $required = 'required';
         }
 
         if (!$this->isEditable()) {
-            if ($required != "") {
+            if ($required != '') {
 //                $required .= " disabled readonly";
             } else {
-                $required = "disabled readonly";
+                $required = 'disabled readonly';
             }
         }
 
@@ -81,11 +81,11 @@ class C4GRadioGroupField extends C4GBrickField
         foreach ($options as $option) {
             $option_id = $option['id'];
             if ($this->addNameToId) {
-                $name = '_'.$id;
+                $name = '_' . $id;
                 $option_name = $this->getFieldName() . $option_id;
                 $for = $this->getFieldName() . $option_id;
                 $addToFieldset = ' class="c4g_brick_radio_group"';
-                //$addToWrapper = '';
+            //$addToWrapper = '';
             } else {
                 $name = $id;
                 $option_name = $option_id;
@@ -96,36 +96,36 @@ class C4GRadioGroupField extends C4GBrickField
             }
             $type_caption = $option['name'];
             $object_id = $option['object'];
-            $optionAttributes = $option['attributes'] ? ' '.$option['attributes'].' ': '';
+            $optionAttributes = $option['attributes'] ? ' ' . $option['attributes'] . ' ': '';
             if ($this->turnButton) {
                 if ($object_id && $object_id != -1) {
-                    $object_class = 'class="radio_object_'.$object_id.'" ';
-                } else {
-                    //$object_class = 'class="radio_object_disabled" disabled ';
+                    $object_class = 'class="radio_object_' . $object_id . '" ';
                 }
-                $option_results = $option_results.'<div class="radio_element rb_turned"><input type="radio" '.$object_class.'id="'.$option_name.'" name="'.$name.'" '.$optionAttributes.$required.' '.$changeAction.' value="'.$option_id.'" '. (($value == $option_id) ? "checked" : "") .' /><label class="full lbl_turned" for="'.$for. '" >'  . $type_caption . '</label></div>';
+                //$object_class = 'class="radio_object_disabled" disabled ';
+
+                $option_results = $option_results . '<div class="radio_element rb_turned"><input type="radio" ' . $object_class . 'id="' . $option_name . '" name="' . $name . '" ' . $optionAttributes . $required . ' ' . $changeAction . ' value="' . $option_id . '" ' . (($value == $option_id) ? 'checked' : '') . ' /><label class="full lbl_turned" for="' . $for . '" >' . $type_caption . '</label></div>';
             } else {
                 if ($object_id && $object_id != -1) {
-                    $object_class = 'class="radio_object_'.$object_id.'" ';
-                } else {
-                    //$object_class = 'class="radio_object_disabled" disabled ';
+                    $object_class = 'class="radio_object_' . $object_id . '" ';
                 }
-                $option_results = $option_results.'<div class="radio_element"><label class="full" for="'.$for. '" >'  . $type_caption . '</label><input type="radio" '.$object_class.'id="'.$option_name.'" name="'.$name.'" '.$optionAttributes.$required.' '.$changeAction.' value="'.$option_id.'" '. (($value == $option_id) ? "checked" : "") .' /></div>';
+                //$object_class = 'class="radio_object_disabled" disabled ';
+
+                $option_results = $option_results . '<div class="radio_element"><label class="full" for="' . $for . '" >' . $type_caption . '</label><input type="radio" ' . $object_class . 'id="' . $option_name . '" name="' . $name . '" ' . $optionAttributes . $required . ' ' . $changeAction . ' value="' . $option_id . '" ' . (($value == $option_id) ? 'checked' : '') . ' /></div>';
             }
         }
 
         if (!$option_results) {
-            $option_results = '<div class="c4g_brick_radio_group_clear">'.$this->clearGroupText.'</div>';
+            $option_results = '<div class="c4g_brick_radio_group_clear">' . $this->clearGroupText . '</div>';
         }
-        $attributes = $this->getAttributes() ? ' '.$this->getAttributes().' ': '';
+        $attributes = $this->getAttributes() ? ' ' . $this->getAttributes() . ' ': '';
 
-        $result .=     $this->generateC4GFieldHTML($condition ,'<div class="c4g_brick_radio_group_wrapper" '.$condition['conditionPrepare'].'>' .
-                       '<input type="hidden" name="'.$this->getFieldName().'" value="' . $value . '" id="'.$id.'"  ' . $required . ' ' .
-                       $condition['conditionPrepare'] . ' '.'class="formdata ' . $id .$attributes. '">' .
-                       '<label>' . $this->addC4GField(null,$dialogParams,$fieldList,$data,'</label>' .
-                       '<fieldset'.$addToFieldset.'>' .
+        $result .= $this->generateC4GFieldHTML($condition, '<div class="c4g_brick_radio_group_wrapper" ' . $condition['conditionPrepare'] . '>' .
+                       '<input type="hidden" name="' . $this->getFieldName() . '" value="' . $value . '" id="' . $id . '"  ' . $required . ' ' .
+                       $condition['conditionPrepare'] . ' ' . 'class="formdata ' . $id . $attributes . '">' .
+                       '<label>' . $this->addC4GField(null, $dialogParams, $fieldList, $data, '</label>' .
+                       '<fieldset' . $addToFieldset . '>' .
                        $option_results .
-                       '</fieldset><span class="reset_c4g_brick_radio_group"></span><script>function resetRadioGroup(){ jQuery("input[name=\'_'.$id.'\']").removeAttr(\'checked\');jQuery("#'.$id.'").val(0); };jQuery(document).ready(function(){jQuery("input[name=\'_'.$id.'\']").on("click",function(){jQuery("#'.$id.'").val(jQuery("input[name=\'_'.$id.'\']:checked").val())})});</script>'.
+                       '</fieldset><span class="reset_c4g_brick_radio_group"></span><script>function resetRadioGroup(){ jQuery("input[name=\'_' . $id . '\']").removeAttr(\'checked\');jQuery("#' . $id . '").val(0); };jQuery(document).ready(function(){jQuery("input[name=\'_' . $id . '\']").on("click",function(){jQuery("#' . $id . '").val(jQuery("input[name=\'_' . $id . '\']:checked").val())})});</script>' .
                        '</div><br>'));
 
         return $result;
@@ -146,7 +146,6 @@ class C4GRadioGroupField extends C4GBrickField
                     '</fieldset><span class="reset_c4g_brick_radio_group"></span><script>function resetRadioGroup(){ jQuery("input[name=\'_'.$id.'\']").removeAttr(\'checked\');jQuery("#'.$id.'").val(0); };jQuery(document).ready(function(){jQuery("input[name=\'_'.$id.'\']").on("click",function(){jQuery("#'.$id.'").val(jQuery("input[name=\'_'.$id.'\']:checked").val())})});</script>'.
                     '</div></div>');
         return $result;*/
-
     }
 
     /**
@@ -164,7 +163,7 @@ class C4GRadioGroupField extends C4GBrickField
         $conditions = $this->getCondition();
         if (($conditions) && ($this->getConditionType() != C4GBrickConditionType::BOOLSWITCH)) {
             $found = false;
-            foreach($conditions as $condition) {
+            foreach ($conditions as $condition) {
                 if ($condition->getType() == C4GBrickConditionType::VALUESWITCH) {
                     $conditionField = $condition->getFieldName();
                     $conditionValue = $condition->getValue();
@@ -172,6 +171,7 @@ class C4GRadioGroupField extends C4GBrickField
                     $conFieldValue = $dlgValues[$conditionField];
                     if ($conditionValue == $conFieldValue) {
                         $found = true;
+
                         break;
                     }
                 } else {
@@ -183,8 +183,9 @@ class C4GRadioGroupField extends C4GBrickField
                         if ($conditionField && $conditionModel && $conditionFunction) {
                             $conFieldValue = strtotime($dlgValues[$conditionField]);
                             $found = $conditionModel::$conditionFunction($conFieldValue);
-                            if ($found)
+                            if ($found) {
                                 break;
+                            }
                         }
                     }
                 }
@@ -196,19 +197,19 @@ class C4GRadioGroupField extends C4GBrickField
 
         $additionalId = $this->getAdditionalID();
         if (!empty($additionalId)) {
-            $dlgValue = $dlgValues[$this->getFieldName().'_'.$additionalId];
+            $dlgValue = $dlgValues[$this->getFieldName() . '_' . $additionalId];
         } else {
             $dlgValue = $dlgValues[$this->getFieldName()];
         }
 
         //compare for C4GMatching
-        if($this->isSearchField()) {
-            if($dbValue != $dlgValue) {
+        if ($this->isSearchField()) {
+            if ($dbValue != $dlgValue) {
                 $tmpValue = unserialize($dlgValue);
-                if(strlen($tmpValue[0]) > 0) {
+                if (strlen($tmpValue[0]) > 0) {
                     $dlgValue = $tmpValue[0];
                 } else {
-                    $dbValue = C4GBrickCommon::translateSelectOption($dbValue,$this->getOptions());
+                    $dbValue = C4GBrickCommon::translateSelectOption($dbValue, $this->getOptions());
                 }
             }
         }
@@ -220,10 +221,11 @@ class C4GRadioGroupField extends C4GBrickField
             if ($dlgValue == -1 || $dlgValue == 0) {
                 $dlgValue = '';
             }
-            if($dbValue != $dlgValue) {
+            if ($dbValue != $dlgValue) {
                 $result = new C4GBrickFieldCompare($this, $dbValue, $dlgValue);
             }
         }
+
         return $result;
     }
 
@@ -247,7 +249,7 @@ class C4GRadioGroupField extends C4GBrickField
         $conditions = $this->getCondition();
         if (($conditions) && ($this->getConditionType() != C4GBrickConditionType::BOOLSWITCH)) {
             $found = false;
-            foreach($conditions as $condition) {
+            foreach ($conditions as $condition) {
                 if ($condition->getType() == C4GBrickConditionType::METHODSWITCH) {
                     $conditionField = $condition->getFieldName();
                     $conditionFunction = $condition->getFunction();
@@ -261,16 +263,17 @@ class C4GRadioGroupField extends C4GBrickField
                             if (!empty($additionalId)) {
                                 $fieldData = $dlgValues[$this->getFieldName() . '_' . $additionalId];
                             }
+
                             break;
                         }
                     }
-
                 }
             }
             if (!$found) {
                 return null;
             }
         }
+
         return $fieldData;
     }
 
@@ -280,13 +283,12 @@ class C4GRadioGroupField extends C4GBrickField
      * @param array $dlgValues
      * @return bool|C4GBrickField
      */
-
     public function checkMandatory($dlgValues)
     {
         //$this->setSpecialMandatoryMessage($this->getFieldName()); //Useful for debugging
         if (!$this->isMandatory()) {
             return false;
-        } elseif(!$this->isDisplay()) {
+        } elseif (!$this->isDisplay()) {
             return false;
         } elseif ($this->getCondition()) {
             foreach ($this->getCondition() as $con) {
@@ -300,16 +302,16 @@ class C4GRadioGroupField extends C4GBrickField
         $fieldData = $dlgValues[$fieldName];
         $additionalId = $this->getAdditionalID();
         if (!empty($additionalId)) {
-            $fieldData = $dlgValues[$fieldName.'_'.$additionalId];
+            $fieldData = $dlgValues[$fieldName . '_' . $additionalId];
         }
         if (is_string($fieldData)) {
             $fieldData = trim($fieldData);
         }
         if (($fieldData == null) || ($fieldData) == '') {
             return $this;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**
@@ -327,6 +329,7 @@ class C4GRadioGroupField extends C4GBrickField
     public function setTurnButton($turnButton)
     {
         $this->turnButton = $turnButton;
+
         return $this;
     }
 
@@ -345,6 +348,7 @@ class C4GRadioGroupField extends C4GBrickField
     public function setClearGroupText($clearGroupText)
     {
         $this->clearGroupText = $clearGroupText;
+
         return $this;
     }
 

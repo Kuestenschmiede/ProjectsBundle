@@ -12,23 +12,24 @@
  */
 namespace con4gis\ProjectsBundle\Classes\Logs;
 
-class C4GLogEntryType {
-    const SAVE_DATASET      = 'save';
-    const DELETE_DATASET    = 'delete';
+class C4GLogEntryType
+{
+    const SAVE_DATASET = 'save';
+    const DELETE_DATASET = 'delete';
 
     public static function getOptions()
     {
-        $optionlist = array(
-            array(
-                'id'     => C4GLogEntryType::SAVE_DATASET,
-                'name'   => $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['LOG_ENTRY_TYPE']['save']
-            ),
+        $optionlist = [
+            [
+                'id' => C4GLogEntryType::SAVE_DATASET,
+                'name' => $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['LOG_ENTRY_TYPE']['save'],
+            ],
 
-            array(
-                'id'     => C4GLogEntryType::DELETE_DATASET,
-                'name'   => $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['LOG_ENTRY_TYPE']['delete']
-            ),
-        );
+            [
+                'id' => C4GLogEntryType::DELETE_DATASET,
+                'name' => $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['LOG_ENTRY_TYPE']['delete'],
+            ],
+        ];
 
         return $optionlist;
     }

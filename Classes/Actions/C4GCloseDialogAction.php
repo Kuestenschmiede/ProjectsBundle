@@ -23,7 +23,7 @@ class C4GCloseDialogAction extends C4GBrickDialogAction
     public function run()
     {
         $dialogParams = $this->getDialogParams();
-        $viewType     = $dialogParams->getViewType();
+        $viewType = $dialogParams->getViewType();
         $id = $dialogParams->getId();
 
         $dlgValues = $this->getPutVars();
@@ -40,7 +40,7 @@ class C4GCloseDialogAction extends C4GBrickDialogAction
             if ($dbValues) {
                 $is_frozen = $dbValues->is_frozen;
             }
-        } else if ($project_id) {
+        } elseif ($project_id) {
             // TODO projects model fixen
 //            $project = C4gProjectsModel::findByPk($project_id);
 //            if ($project) {
@@ -64,12 +64,13 @@ class C4GCloseDialogAction extends C4GBrickDialogAction
         if (count($changes) > 0 && $this->ignoreChanges == false) {
             $action = new C4GShowMessageChangesDialogAction($dialogParams, $this->getListParams(), $this->getFieldList(), $this->getPutVars(), $this->getBrickDatabase());
             $action->setChanges($changes);
-            return $action->run();
-        } else {
-            $dialogParams->setId(-1);
-            $action = new C4GShowListAction($dialogParams, $this->getListParams(), $this->getFieldList(), $this->getPutVars(), $this->getBrickDatabase());
+
             return $action->run();
         }
+        $dialogParams->setId(-1);
+        $action = new C4GShowListAction($dialogParams, $this->getListParams(), $this->getFieldList(), $this->getPutVars(), $this->getBrickDatabase());
+
+        return $action->run();
 
         return $return;
     }
@@ -81,6 +82,7 @@ class C4GCloseDialogAction extends C4GBrickDialogAction
     public function setIgnoreChanges($ignoreChanges = true)
     {
         $this->ignoreChanges = $ignoreChanges;
+
         return $this;
     }
 

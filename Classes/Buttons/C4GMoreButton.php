@@ -15,14 +15,12 @@ namespace con4gis\ProjectsBundle\Classes\Buttons;
 use con4gis\ProjectsBundle\Classes\Conditions\C4GBrickConditionType;
 use con4gis\ProjectsBundle\Classes\Lists\C4GBrickRenderMode;
 use con4gis\ProjectsBundle\Classes\Structures\C4GAbstractList;
-use con4gis\ProjectsBundle\Classes\Views\C4GBrickViewType;
 
 class C4GMoreButton extends C4GAbstractList
 {
     private $renderModeOverride = '';
     const RENDER_MODE_ENTRY = 'entry'; //render each entry individually  in table view
     const RENDER_MODE_ENTRY_TILES = 'entry_tiles'; //render each entry individually in tile view
-
 
     private $toolTip = '';
 
@@ -32,6 +30,7 @@ class C4GMoreButton extends C4GAbstractList
             if ($currentEntry instanceof C4GMoreButtonEntry && $currentEntry->getTitle() === $title) {
                 $return = $this->entries[$key];
                 unset($this->entries[$key]);
+
                 return $return;
             }
         }
@@ -51,7 +50,7 @@ class C4GMoreButton extends C4GAbstractList
         if ($this->getRenderModeOverride() !== '') {
             $renderMode = $this->getRenderModeOverride();
         }
-        $class .= " ui-button ui-corner-all";
+        $class .= ' ui-button ui-corner-all';
         $view = '';
         foreach ($this->entries as $key => $entry) {
             if ($entry instanceof C4GMoreButtonEntry) {
@@ -75,11 +74,11 @@ class C4GMoreButton extends C4GAbstractList
                     $callback = $entry->getDynamicTitleCallback();
                     $callClass = $callback[0];
                     $method = $callback[1];
-                    $element = '<li style="display: none;" data-index="'. $key .'">' . $callClass::$method($dataId) . '</li>';
+                    $element = '<li style="display: none;" data-index="' . $key . '">' . $callClass::$method($dataId) . '</li>';
                     $title = $callClass::$method($dataId);
                     $entry->setTitle($title);
                 } else {
-                    $element = '<li style="display: none;" data-index="'. $key .'">' . $entry->getTitle() . '</li>';
+                    $element = '<li style="display: none;" data-index="' . $key . '">' . $entry->getTitle() . '</li>';
                 }
                 $view .= $element;
             }
@@ -90,7 +89,6 @@ class C4GMoreButton extends C4GAbstractList
         } else {
             // TODO renderContainer aufrufen und den container in die view hängen
             $onclick = 'toggleContainer(this)';
-
         }
         if ($renderMode == self::RENDER_MODE_ENTRY || $renderMode == self::RENDER_MODE_ENTRY_TILES) {
             $cssId = 'c4g_more_button_' . $fieldName . '_' . $dataId;
@@ -102,28 +100,33 @@ class C4GMoreButton extends C4GAbstractList
         $view .= $button;
         $view .= $title . '</button>';
         $view .= $this->renderContainer($renderMode, $fieldName, $dataId);
+
         return $view;
     }
 
     public function renderContainer($renderMode, $fieldName, $dataId)
     {
-        switch($renderMode) {
+        switch ($renderMode) {
             case self::RENDER_MODE_ENTRY:
-                $view = "<div><div class='c4g_more_button_container_hidden c4g_more_button_mode_$renderMode' id='c4g_more_button_" . $fieldName . "_" .
+                $view = "<div><div class='c4g_more_button_container_hidden c4g_more_button_mode_$renderMode' id='c4g_more_button_" . $fieldName . '_' .
                     $dataId . "_container' style='display: flex;'>";
+
                 break;
             case C4GBrickRenderMode::TILEBASED:
                 // we do not need the outer div in this rendermode
-                $view = "<div class='c4g_more_button_container c4g_more_button_mode_$renderMode ui-widget-content ui-corner-all' id='c4g_more_button_" . $fieldName . "_" .
+                $view = "<div class='c4g_more_button_container c4g_more_button_mode_$renderMode ui-widget-content ui-corner-all' id='c4g_more_button_" . $fieldName . '_' .
                     $dataId . "_container' style='display: none;'>";
+
                 break;
             case self::RENDER_MODE_ENTRY_TILES:
-                $view = "<div class='c4g_more_button_container_hidden c4g_more_button_mode_$renderMode' id='c4g_more_button_" . $fieldName . "_" .
+                $view = "<div class='c4g_more_button_container_hidden c4g_more_button_mode_$renderMode' id='c4g_more_button_" . $fieldName . '_' .
                     $dataId . "_container' style='display: inline-block;'>";
+
                 break;
             default:
-                $view = "<div><div class='c4g_more_button_container c4g_more_button_mode_$renderMode ui-widget-content ui-corner-all' id='c4g_more_button_" . $fieldName . "_" .
+                $view = "<div><div class='c4g_more_button_container c4g_more_button_mode_$renderMode ui-widget-content ui-corner-all' id='c4g_more_button_" . $fieldName . '_' .
                     $dataId . "_container' style='display: none;'>";
+
                 break;
         }
 
@@ -147,28 +150,27 @@ class C4GMoreButton extends C4GAbstractList
                 $onclick = $callable . '(' . $dataId;
                 $onclick .= ');';
             } else {
-                $onclick = "executeSelection(this, event)";
+                $onclick = 'executeSelection(this, event)';
             }
-
-
 
             if ($renderMode == self::RENDER_MODE_ENTRY || $renderMode == self::RENDER_MODE_ENTRY_TILES) {
                 $tooltip = 'title="' . $entry->getToolTip() . '"';
-                $element = "<span class='c4g_more_button_". $renderMode ." ui-button ui-corner-all'  href='morebutton_" . $fieldName . ":" . $dataId . ":" .
+                $element = "<span class='c4g_more_button_" . $renderMode . " ui-button ui-corner-all'  href='morebutton_" . $fieldName . ':' . $dataId . ':' .
                     $key . "' onclick='" . $onclick . "' $tooltip>";
             } else {
-                $element = "<span class='c4g_more_button_entry ui-button'  href='morebutton_" . $fieldName . ":" . $dataId . ":" .
+                $element = "<span class='c4g_more_button_entry ui-button'  href='morebutton_" . $fieldName . ':' . $dataId . ':' .
                     $key . "' onclick='" . $onclick . "'>";
             }
             $element .= $entry->getTitle();
-            $element .= "</span>";
+            $element .= '</span>';
             $view .= $element;
         }
         if ($renderMode == C4GBrickRenderMode::TILEBASED || $renderMode == self::RENDER_MODE_ENTRY_TILES) {
-            $view .= "</div>";
+            $view .= '</div>';
         } else {
-            $view .= "</div></div>";
+            $view .= '</div></div>';
         }
+
         return $view;
     }
 
@@ -187,6 +189,7 @@ class C4GMoreButton extends C4GAbstractList
     public function setRenderModeOverride($renderModeOverride)
     {
         $this->renderModeOverride = $renderModeOverride;
+
         return $this;
     }
 
@@ -205,7 +208,7 @@ class C4GMoreButton extends C4GAbstractList
     public function setToolTip($toolTip)
     {
         $this->toolTip = $toolTip;
+
         return $this;
     }
-
 }

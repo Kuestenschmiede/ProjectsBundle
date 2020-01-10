@@ -22,7 +22,7 @@ class C4GSendEmailAction extends C4GBrickDialogAction
 
     public function run()
     {
-        $mailData = array();
+        $mailData = [];
 
         // reciever
         $mailData['to'] = trim($this->recipient);
@@ -30,14 +30,13 @@ class C4GSendEmailAction extends C4GBrickDialogAction
         $mailData['charset'] = 'utf-8';
 
         // subject
-        $mailData['subject'] = sprintf( $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['EMAIL_A_MESSAGE_FROM'] , $this->senderName );
+        $mailData['subject'] = sprintf($GLOBALS['TL_LANG']['FE_C4G_DIALOG']['EMAIL_A_MESSAGE_FROM'], $this->senderName);
 
         // message-text
-        $mailData['text'] = str_replace(array('[MEMBER]', '[MESSAGE]'), array($this->senderName, $this->text), $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['EMAIL_MESSAGE']);
+        $mailData['text'] = str_replace(['[MEMBER]', '[MESSAGE]'], [$this->senderName, $this->text], $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['EMAIL_MESSAGE']);
 
         // send mail
-        return C4GUtils::sendMail( $mailData );
-
+        return C4GUtils::sendMail($mailData);
     }
 
     /**
@@ -55,6 +54,7 @@ class C4GSendEmailAction extends C4GBrickDialogAction
     public function setRecipient($recipient)
     {
         $this->recipient = $recipient;
+
         return $this;
     }
 
@@ -73,6 +73,7 @@ class C4GSendEmailAction extends C4GBrickDialogAction
     public function setSenderName($senderName)
     {
         $this->senderName = $senderName;
+
         return $this;
     }
 
@@ -91,6 +92,7 @@ class C4GSendEmailAction extends C4GBrickDialogAction
     public function setText($text)
     {
         $this->text = $text;
+
         return $this;
     }
 
@@ -98,6 +100,4 @@ class C4GSendEmailAction extends C4GBrickDialogAction
     {
         return false;
     }
-
-
 }

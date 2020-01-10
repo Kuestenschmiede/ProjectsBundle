@@ -25,6 +25,7 @@ class C4GDefrostDialogAction extends C4GBrickDialogAction
         if ($dialogId == '') {
             $dialogParams->setId(-1);
             $action = new C4GCloseDialogAction($dialogParams, $this->getListParams(), $this->getFieldList(), $this->getPutVars(), $this->getBrickDatabase());
+
             return $action->run();
         }
 

@@ -25,27 +25,30 @@ class C4GModuleManager
      * every ajax call, optimizing performance and avoiding errors.
      * @var array
      */
-    private $moduleMap = array();
+    private $moduleMap = [];
 
     public function getC4gFrontendModule($id, $language, $request, $putVars = [])
     {
         if (!strlen($id) || $id < 1) {
             header('HTTP/1.1 412 Precondition Failed');
+
             return 'Missing frontend module ID';
         }
 
-        $objModule = Database::getInstance()->prepare("SELECT * FROM tl_module WHERE id=?")
+        $objModule = Database::getInstance()->prepare('SELECT * FROM tl_module WHERE id=?')
             ->limit(1)
             ->execute($id);
 
         if ($objModule->numRows < 1) {
             header('HTTP/1.1 404 Not Found');
+
             return 'Frontend module not found';
         }
 
         // Show to guests only
         if ($objModule->guests && FE_USER_LOGGED_IN && !BE_USER_LOGGED_IN && !$objModule->protected) {
             header('HTTP/1.1 403 Forbidden');
+
             return 'Forbidden';
         }
 
@@ -53,6 +56,7 @@ class C4GModuleManager
         if (!BE_USER_LOGGED_IN && $objModule->protected) {
             if (!FE_USER_LOGGED_IN) {
                 header('HTTP/1.1 403 Forbidden');
+
                 return 'Forbidden';
             }
 
@@ -61,6 +65,7 @@ class C4GModuleManager
 
             if (!is_array($groups) || count($groups) < 1 || count(array_intersect($groups, $this->User->groups)) < 1) {
                 header('HTTP/1.1 403 Forbidden');
+
                 return 'Forbidden';
             }
         }
@@ -70,16 +75,16 @@ class C4GModuleManager
         // Return if the class does not exist
         if (!class_exists($strClass)) {
             $this->log(
-                'Module class "'.$GLOBALS['FE_MOD'][$objModule->type].
-                '" (module "'.$objModule->type.'") does not exist',
+                'Module class "' . $GLOBALS['FE_MOD'][$objModule->type] .
+                '" (module "' . $objModule->type . '") does not exist',
                 'Ajax getFrontendModule()',
                 TL_ERROR
             );
 
             header('HTTP/1.1 404 Not Found');
+
             return 'Frontend module class does not exist';
         }
-
 
         if (!$this->moduleMap[$id]) {
             $objModule->typePrefix = 'mod_';
@@ -100,6 +105,7 @@ class C4GModuleManager
                 foreach ($fieldList as $field) {
                     if ($field instanceof C4GMoreButtonField && $field->getFieldName() === $arrMorebutton[1]) {
                         $moreButton = $field->getMoreButton();
+
                         break;
                     }
                 }
@@ -113,6 +119,7 @@ class C4GModuleManager
                             }
                         }
                         $arrData = $callable->call($params);
+
                         return json_encode($arrData);
                     }
                 }
@@ -120,6 +127,7 @@ class C4GModuleManager
         }
 
         $objModule->setLanguage($language);
+
         return $objModule->generateAjax($request);
     }
 }

@@ -12,11 +12,9 @@
  */
 namespace con4gis\ProjectsBundle\Classes\Common;
 
-
 use con4gis\CoreBundle\Resources\contao\models\C4gLogModel;
 use con4gis\MapsBundle\Resources\contao\models\C4gMapProfilesModel;
 use con4gis\MapsBundle\Resources\contao\models\C4gMapsModel;
-use con4gis\MapsBundle\Resources\contao\modules\api\ReverseNominatimApi;
 use con4gis\MapsBundle\Resources\contao\modules\api\ReverseSearchApi;
 use con4gis\ProjectsBundle\Classes\models\C4gProjectsLogbookModel;
 use con4gis\ProjectsBundle\Classes\Models\C4gProjectsModel;
@@ -26,7 +24,6 @@ use con4gis\GroupsBundle\Resources\contao\models\MemberGroupModel;
 
 class C4GBrickCommon
 {
-
     /**
      * @param $file
      * @return string
@@ -43,6 +40,7 @@ class C4GBrickCommon
     public static function getFileExtension($file)
     {
         $pos = strrpos($file, '.');
+
         return substr($file, $pos + 1);
     }
 
@@ -56,6 +54,7 @@ class C4GBrickCommon
         if (\Validator::isUuid($uuid)) {
             $objFile = \FilesModel::findByUuid($uuid);
         }
+
         return $objFile;
     }
 
@@ -78,7 +77,6 @@ class C4GBrickCommon
                         unlink($test2 = $_SERVER['DOCUMENT_ROOT'] . '' . $file);
                     }
                 }
-
             } catch (Exception $e) {
                 C4gLogModel::addLogEntry('projects', $e->getMessage());
             }
@@ -111,6 +109,7 @@ class C4GBrickCommon
     {
         if ($file) {
             $file = TL_ROOT . '/' . $file;
+
             try {
                 if (file_exists($file)) {
                     unlink($file);
@@ -128,12 +127,12 @@ class C4GBrickCommon
     public static function convertBackslash($string)
     {
         if ($string) {
-            $newString = "";
+            $newString = '';
             $rounds = strlen($string);
 
             for ($i = 0; $i < $rounds; $i++) {
-                if ($string[$i] == "\\") {
-                    $newString .= "/";
+                if ($string[$i] == '\\') {
+                    $newString .= '/';
                 } else {
                     $newString .= $string[$i];
                 }
@@ -159,22 +158,22 @@ class C4GBrickCommon
         $filename = pathinfo($new_filename, PATHINFO_FILENAME);
         //$originalFilename = pathinfo($original_filename, PATHINFO_FILENAME);
         $extension = pathinfo($new_filename, PATHINFO_EXTENSION);
-        $pos = strpos($path,'files');
-        $contaoPath = substr($path,$pos);
+        $pos = strpos($path, 'files');
+        $contaoPath = substr($path, $pos);
 
         if ($unique && file_exists($original_filename)) {
             self::deleteFile($original_filename);
         }
 
         if ($generated_filename != $new_filename) {
-            if (file_exists($_SERVER["DOCUMENT_ROOT"].$generated_filename)) {
-                if (!rename($_SERVER["DOCUMENT_ROOT"].$generated_filename, $_SERVER["DOCUMENT_ROOT"].$new_filename)) {
+            if (file_exists($_SERVER['DOCUMENT_ROOT'] . $generated_filename)) {
+                if (!rename($_SERVER['DOCUMENT_ROOT'] . $generated_filename, $_SERVER['DOCUMENT_ROOT'] . $new_filename)) {
                     //ToDo Fehlerbehandlung
                 }
             }
         }
 
-        $objNew = \Dbafs::addResource($contaoPath . '/'. $filename.'.'.$extension);
+        $objNew = \Dbafs::addResource($contaoPath . '/' . $filename . '.' . $extension);
 
         return $objNew->uuid;
     }
@@ -190,9 +189,10 @@ class C4GBrickCommon
         if (!preg_match('/^(\+|\-)?[0-9]+((e|E)[0-9]+)?$/', $str)) {
             if ($str == '') {
                 return 0;
-            } else {
-                return $str;
-            };
+            }
+
+            return $str;
+            ;
         }
 
         // String bei e/E teilen (falls Exponentenschreibweise)
@@ -207,15 +207,15 @@ class C4GBrickCommon
         if ($post === null) {
             // keine Exponentenschreibweise, nur Teil vor e/E wird benoetigt
             return $pre;
-        } else {
-            // Exponentenschreibweise, entsprechend (Teil vor e/E) * (10 hoch (Teil nach e/E)) rechnen
-            return $pre * pow(10, $post);
         }
+        // Exponentenschreibweise, entsprechend (Teil vor e/E) * (10 hoch (Teil nach e/E)) rechnen
+        return $pre * pow(10, $post);
     }
 
     public static function strToFloat($str)
     {
         $pos = strrpos($str = strtr(trim(strval($str)), ',', '.'), '.');
+
         return ($pos === false ? floatval($str) : floatval(str_replace('.', '', substr($str, 0, $pos)) . substr($str, $pos)));
     }
 
@@ -228,7 +228,6 @@ class C4GBrickCommon
         return filter_var($string, FILTER_VALIDATE_BOOLEAN);
     }
 
-
     /**
      * @param $memberId
      * @param $brickKey
@@ -236,7 +235,7 @@ class C4GBrickCommon
      */
     public static function getGroupListForBrick($memberId, $brickKey)
     {
-        $resultList = array();
+        $resultList = [];
 
         if ($GLOBALS['con4gis']['groups']['installed']) {
             $groups = MemberGroupModel::getGroupListForMember($memberId);
@@ -246,6 +245,7 @@ class C4GBrickCommon
                     foreach ($rights as $right) {
                         if ($right == $brickKey) {
                             $resultList[] = $group;
+
                             break;
                         }
                     }
@@ -262,13 +262,14 @@ class C4GBrickCommon
     public function getContentId()
     {
         $maps = \ContentModel::findBy('type', 'c4g_maps');
-        $resultList = array();
+        $resultList = [];
         foreach ($maps as $map) {
             $map->name = C4gMapsModel::findByPk($map->c4g_map_id)->name;
             if ($map->name) {
                 $resultList[$map->id] = $map->name;
             }
         }
+
         return $resultList;
     }
 
@@ -290,6 +291,7 @@ class C4GBrickCommon
                     foreach ($rights as $right) {
                         if ($right == $brickKey) {
                             $result = true;
+
                             break;
                         }
                     }
@@ -357,7 +359,7 @@ class C4GBrickCommon
      */
     public static function getGUID()
     {
-        mt_srand((double)microtime() * 10000);
+        mt_srand((double) microtime() * 10000);
         $charid = strtoupper(md5(uniqid(rand(), true)));
         $hyphen = chr(45);// "-"
         $uuid = chr(123)// "{"
@@ -391,19 +393,19 @@ class C4GBrickCommon
     {
         if (($id != 0) && ($key != 0) && ($identifier != 0)) {
             return str_pad($key, 5, 0, STR_PAD_RIGHT) . str_pad($id, 5, 0, STR_PAD_LEFT) . str_pad($identifier, 4, 0, STR_PAD_LEFT);
-        } else {
-            return C4GBrickCommon::getRandomID();
         }
+
+        return C4GBrickCommon::getRandomID();
     }
 
     public static function getLayerIDParam($layerID, $param = 'id')
     {
         if ($param == 'id') {
-            $result = (int)substr($layerID, 5, 5);
-        } else if ($param == 'key') {
-            $result = (int)substr($layerID, 0, 5);
-        } else if ($param == 'identifier') {
-            $result = (int)substr($layerID, 10, 4);
+            $result = (int) substr($layerID, 5, 5);
+        } elseif ($param == 'key') {
+            $result = (int) substr($layerID, 0, 5);
+        } elseif ($param == 'identifier') {
+            $result = (int) substr($layerID, 10, 4);
         }
 
         return $result;
@@ -422,13 +424,12 @@ class C4GBrickCommon
         return $id;
     }
 
-
     public static function cutText($string, $lenght)
     {
         if (strlen($string) > $lenght) {
-            $string = substr($string, 0, $lenght) . "...";
-            $last = strrchr($string, " ");
-            $string = str_replace($last, " ...", $string);
+            $string = substr($string, 0, $lenght) . '...';
+            $last = strrchr($string, ' ');
+            $string = str_replace($last, ' ...', $string);
         }
 
         return html_entity_decode($string);
@@ -437,7 +438,9 @@ class C4GBrickCommon
     //ToDo zur Auswertung des Displaynames in das Gruppenmodul bringen
     public static function getNameForMember($memberId)
     {
-        if (!is_numeric($memberId)) return;
+        if (!is_numeric($memberId)) {
+            return;
+        }
         $member = MemberModel::findByPk($memberId);
 
         return $member->firstname . ' ' . $member->lastname;
@@ -446,17 +449,16 @@ class C4GBrickCommon
     public function setSessionValues($group_id, $project_id, $parent_id)
     {
         if ($group_id) {
-            \Session::getInstance()->set("c4g_brick_group_id", $group_id);
+            \Session::getInstance()->set('c4g_brick_group_id', $group_id);
         }
 
         if ($project_id) {
-            \Session::getInstance()->set("c4g_brick_project_id", $project_id);
+            \Session::getInstance()->set('c4g_brick_project_id', $project_id);
         }
 
         if ($parent_id) {
-            \Session::getInstance()->set("c4g_brick_parent_id", $parent_id);
+            \Session::getInstance()->set('c4g_brick_parent_id', $parent_id);
         }
-
     }
 
     /**
@@ -468,8 +470,8 @@ class C4GBrickCommon
      */
     public static function array_sort($array, $on, $order = SORT_ASC, $newKeys = false)
     {
-        $new_array = array();
-        $sortable_array = array();
+        $new_array = [];
+        $sortable_array = [];
 
         if (count($array) > 0) {
             foreach ($array as $k => $v) {
@@ -487,9 +489,11 @@ class C4GBrickCommon
             switch ($order) {
                 case SORT_ASC:
                     asort($sortable_array);
+
                     break;
                 case SORT_DESC:
                     arsort($sortable_array);
+
                     break;
             }
 
@@ -505,7 +509,6 @@ class C4GBrickCommon
         return $new_array;
     }
 
-
     /**
      * For Object collections
      * @param $array
@@ -515,8 +518,8 @@ class C4GBrickCommon
      */
     public static function array_collection_sort($array, $on, $order = SORT_ASC, $newKeys = false, $rowCount = 0)
     {
-        $new_array = array();
-        $sortable_array = array();
+        $new_array = [];
+        $sortable_array = [];
 
         if (count($array) > 0) {
             foreach ($array as $k => $v) {
@@ -530,10 +533,12 @@ class C4GBrickCommon
                 case SORT_ASC:
                 case 'asc':
                     asort($sortable_array);
+
                     break;
                 case SORT_DESC:
                 case 'desc':
                     arsort($sortable_array);
+
                     break;
             }
 
@@ -561,8 +566,8 @@ class C4GBrickCommon
      */
     public static function sortArrayByFields($arr, $fields)
     {
-        $sortFields = array();
-        $args       = array();
+        $sortFields = [];
+        $args = [];
 
         foreach ($arr as $key => $row) {
             foreach ($fields as $field => $order) {
@@ -598,7 +603,7 @@ class C4GBrickCommon
     public static function filter_by_value($array, $index, $value, $newKeys = false)
     {
         if (is_array($array) && count($array) > 0) {
-            $newarray = array();
+            $newarray = [];
             foreach (array_keys($array) as $key) {
                 $temp[$key] = $array[$key][$index];
 
@@ -611,6 +616,7 @@ class C4GBrickCommon
                 }
             }
         }
+
         return $newarray;
     }
 
@@ -632,12 +638,12 @@ class C4GBrickCommon
         }
         $xml = null;
         $return = $GLOBALS['TL_LANG']['fe_c4g_projects']['address_not_found'];
-        $arrParams = array(
+        $arrParams = [
             'format' => 'xml',
             'lat' => $lat,
             'lon' => $lon,
-            'addressdetails' => 1
-        );
+            'addressdetails' => 1,
+        ];
 
         try {
             $nominatimApi = new ReverseSearchApi();
@@ -657,16 +663,16 @@ class C4GBrickCommon
                             }
 
                             if (!$anonymous) {
-                                $housenumber  = $address->house_number; //Hausnummer
+                                $housenumber = $address->house_number; //Hausnummer
                             }
-                            $pedestrian   = $address->pedestrian; //Fussweg
-                            $road         = $address->road; //Straße
-                            $suburb       = $address->suburb; //Ortsteil
-                            $town         = $address->town; //Ort
-                            $county       = $address->county; //Landkreis
-                            $state        = $address->state; //Bundesland
-                            $postcode     = $address->postcode; //Postleitzahl
-                            $country      = $address->country; //Land
+                            $pedestrian = $address->pedestrian; //Fussweg
+                            $road = $address->road; //Straße
+                            $suburb = $address->suburb; //Ortsteil
+                            $town = $address->town; //Ort
+                            $county = $address->county; //Landkreis
+                            $state = $address->state; //Bundesland
+                            $postcode = $address->postcode; //Postleitzahl
+                            $country = $address->country; //Land
                             $country_code = $address->country_code; //Länderschlüssel
 
                             $return = $road;
@@ -675,21 +681,20 @@ class C4GBrickCommon
                             }
 
                             if ($return && $housenumber) {
-                                $return .= ' '.$housenumber;
+                                $return .= ' ' . $housenumber;
                             }
 
-                            if ( ($postcode || $town) && ($road || $pedestrian) ) {
+                            if (($postcode || $town) && ($road || $pedestrian)) {
                                 $return .= ',';
                             }
 
                             if ($postcode) {
-                                $return .= ' '.$postcode;
+                                $return .= ' ' . $postcode;
                             }
 
                             if ($town) {
-                                $return .= ' '.$town;
+                                $return .= ' ' . $town;
                             }
-
                         }
                     }
                 }
@@ -713,6 +718,7 @@ class C4GBrickCommon
         } else {
             $return = null;
         }
+
         return $return;
     }
 
@@ -733,10 +739,11 @@ class C4GBrickCommon
                     $object->$name = static::arrayToObject($value);
                 }
             }
+
             return $object;
-        } else {
-            return FALSE;
         }
+
+        return false;
     }
 
     /**
@@ -747,10 +754,11 @@ class C4GBrickCommon
     {
         if ($number) {
             $TelLink = '<a href="tel:' . $number . '">' . $number . '</a>';
+
             return $TelLink;
-        } else {
-            return null;
         }
+
+        return null;
     }
 
     /**
@@ -803,7 +811,7 @@ class C4GBrickCommon
      */
     public function seedShuffle($array, $seed)
     {
-        $tmp = array();
+        $tmp = [];
         for ($rest = $count = count($array); $count > 0; $count--) {
             $seed %= $count;
             $t = array_splice($array, $seed, 1);
@@ -823,19 +831,17 @@ class C4GBrickCommon
     {
         $time = strtotime($string);
         if (!$time) {
-            $arrDate = explode("-", $string);
+            $arrDate = explode('-', $string);
             if (count($arrDate) == 2) {
-                $date = explode(".", $arrDate[0]);
+                $date = explode('.', $arrDate[0]);
                 // this disables the view of years before 2000
-                $date[2] = "20" . $date[2];
-                $arrDate[0] = implode(".", $date);
-                $timeString = $arrDate[0] . trim($arrDate[1]) . ":00";
+                $date[2] = '20' . $date[2];
+                $arrDate[0] = implode('.', $date);
+                $timeString = $arrDate[0] . trim($arrDate[1]) . ':00';
                 $time = strtotime($timeString);
             }
         }
+
         return $time;
     }
-
 }
-
-

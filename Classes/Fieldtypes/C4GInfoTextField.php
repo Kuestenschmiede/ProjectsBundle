@@ -29,25 +29,23 @@ class C4GInfoTextField extends C4GBrickField
      * @param $data
      * @return string
      */
-    public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = array())
+    public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = [])
     {
-        $id = "c4g_" . $this->getFieldName();
+        $id = 'c4g_' . $this->getFieldName();
         $required = $this->generateRequiredString($data, $dialogParams);
         $value = $this->generateInitialValue($data);
         $result = '';
 
         if ($this->isShowIfEmpty() || !empty($value)) {
-
             $condition = $this->createConditionData($fieldList, $data);
 
             $result = $this->addC4GField($condition, $dialogParams, $fieldList, $data,
-                '<input ' . $required . ' ' . $condition['conditionPrepare'] . ' type="text" id="' . $id . '" class="formdata ' . $id . ' c4g_brick_info_text" name="' . $this->getFieldName() . '" value="' . $value . '" style="text-align:'.$this->align.'"">');
+                '<input ' . $required . ' ' . $condition['conditionPrepare'] . ' type="text" id="' . $id . '" class="formdata ' . $id . ' c4g_brick_info_text" name="' . $this->getFieldName() . '" value="' . $value . '" style="text-align:' . $this->align . '"">');
 
             /* TODO - wird mit label versehen, p ist dann ungültig.
                     $result = $this->addC4GField($condition, $dialogParams, $fieldList, $data,
             '<p ' . $condition['conditionPrepare'] . ' id="' . $id . '" class="formdata c4g_brick_info_text" style="text-align:'.   $this->align.'">'.$value.'</p>');
-            */ 
-
+            */
         }
 
         return $result;
@@ -70,6 +68,7 @@ class C4GInfoTextField extends C4GBrickField
         if (strcmp($dbValue, $dlgValue) != 0) {
             $result = new C4GBrickFieldCompare($this, $dbValue, $dlgValue);
         }
+
         return $result;
     }
 
@@ -88,7 +87,7 @@ class C4GInfoTextField extends C4GBrickField
     public function setAlign($align)
     {
         $this->align = $align;
+
         return $this;
     }
-
 }

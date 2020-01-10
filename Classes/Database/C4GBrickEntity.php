@@ -12,9 +12,6 @@
  */
 namespace con4gis\ProjectsBundle\Classes\Database;
 
-use \Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\Mapping\GenerateValue;
-
 /**
  * Class C4GBrickEntity
  * @package c4g\projects
@@ -25,11 +22,10 @@ abstract class C4GBrickEntity
      * BaseEntiy constructor.
      * @param array $data
      */
-    public function __construct($data = array())
+    public function __construct($data = [])
     {
         $this->setData($data);
     }
-
 
     /**
      * Setzt die Daten eines Arrays als Eigenschaften der Klasse.

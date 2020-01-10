@@ -12,7 +12,6 @@
  */
 namespace con4gis\ProjectsBundle\Classes\Filter;
 
-
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickConst;
 
 class C4GMethodListFilter extends C4GListFilter
@@ -54,15 +53,16 @@ class C4GMethodListFilter extends C4GListFilter
             if ($this->callMode === self::STATIC) {
                 $class = $this->methodClass;
                 $method = $this->method;
+
                 return $class::$method($elements, $dialogParams);
-            } else {
-                $object = $this->methodObject;
-                $method = $this->method;
-                return $object->$method($elements, $dialogParams);
             }
-        } else {
-            return $elements;
+            $object = $this->methodObject;
+            $method = $this->method;
+
+            return $object->$method($elements, $dialogParams);
         }
+
+        return $elements;
     }
 
     /**
@@ -73,7 +73,7 @@ class C4GMethodListFilter extends C4GListFilter
     {
         if ($this->on === 1) {
             $listParams->addButton(C4GBrickConst::BUTTON_TOGGLE_METHOD_FILTER, $this->switchOffButtonCaption);
-            //$listParams->addButton(C4GBrickConst::BUTTON_RESET_FILTER);
+        //$listParams->addButton(C4GBrickConst::BUTTON_RESET_FILTER);
         } else {
             $listParams->addButton(C4GBrickConst::BUTTON_TOGGLE_METHOD_FILTER, $this->switchOnButtonCaption);
             //$listParams->deleteButton(C4GBrickConst::BUTTON_RESET_FILTER);
@@ -85,7 +85,7 @@ class C4GMethodListFilter extends C4GListFilter
      */
     protected function setFilterCookies($brickKey)
     {
-        setcookie($brickKey.'_methodFilter', $this->on, time()+3600, '/');
+        setcookie($brickKey . '_methodFilter', $this->on, time() + 3600, '/');
     }
 
     /**
@@ -93,7 +93,7 @@ class C4GMethodListFilter extends C4GListFilter
      */
     public function getFilterCookies($brickKey)
     {
-        $methodFilterCookie = $_COOKIE[$brickKey.'_methodFilter'];
+        $methodFilterCookie = $_COOKIE[$brickKey . '_methodFilter'];
         if ($methodFilterCookie === '1' || $methodFilterCookie === 1) {
             $this->on = 1;
         } else {
@@ -121,6 +121,7 @@ class C4GMethodListFilter extends C4GListFilter
     public function setCallMode(string $callMode): C4GMethodListFilter
     {
         $this->callMode = $callMode;
+
         return $this;
     }
 
@@ -139,6 +140,7 @@ class C4GMethodListFilter extends C4GListFilter
     public function setMethodClass(string $methodClass): C4GMethodListFilter
     {
         $this->methodClass = $methodClass;
+
         return $this;
     }
 
@@ -162,6 +164,7 @@ class C4GMethodListFilter extends C4GListFilter
         } else {
             throw new \Exception('C4GMethodListFilter::setMethodObject() must be given an object, ' . gettype($methodObject) . ' given. Did you mean to call setMethodClass()?');
         }
+
         return $this;
     }
 
@@ -180,6 +183,7 @@ class C4GMethodListFilter extends C4GListFilter
     public function setMethod(string $method): C4GMethodListFilter
     {
         $this->method = $method;
+
         return $this;
     }
 
@@ -198,6 +202,7 @@ class C4GMethodListFilter extends C4GListFilter
     public function setSwitchOnButtonCaption(string $switchOnButtonCaption): C4GMethodListFilter
     {
         $this->switchOnButtonCaption = $switchOnButtonCaption;
+
         return $this;
     }
 
@@ -216,6 +221,7 @@ class C4GMethodListFilter extends C4GListFilter
     public function setSwitchOffButtonCaption(string $switchOffButtonCaption): C4GMethodListFilter
     {
         $this->switchOffButtonCaption = $switchOffButtonCaption;
+
         return $this;
     }
 }

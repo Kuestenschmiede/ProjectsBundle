@@ -18,11 +18,11 @@ use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 class C4GLastChangeField extends C4GMemberField
 {
     private $withcolon = false;
-    private $titleText = "";
+    private $titleText = '';
 
-    public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = array())
+    public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = [])
     {
-        $id = "c4g_" . $this->getFieldName();
+        $id = 'c4g_' . $this->getFieldName();
         $required = $this->generateRequiredString($data, $dialogParams);
         $value = $this->generateInitialValue($data);
         // $value is an ID
@@ -30,7 +30,7 @@ class C4GLastChangeField extends C4GMemberField
         $groupId = $dialogParams->getGroupId();
         $value = MemberModel::getDisplaynameForGroup($groupId, $member->id);
         if ($data->tstamp) {
-            $resVal = sprintf("Zuletzt geändert am %s durch %s", date('d.m.Y H:i:s', $data->tstamp), $value);
+            $resVal = sprintf('Zuletzt geändert am %s durch %s', date('d.m.Y H:i:s', $data->tstamp), $value);
         } else {
             $resVal = $value;
         }
@@ -38,11 +38,10 @@ class C4GLastChangeField extends C4GMemberField
         $result = '';
 
         if ($this->isShowIfEmpty() || !empty($resVal)) {
-
             $condition = $this->createConditionData($fieldList, $data);
 
             $result = $this->addC4GField($condition, $dialogParams, $fieldList, $data,
-                '<input ' . $required . ' ' . $condition['conditionPrepare'] . ' type="text" id="' . $id . '" class="formdata ' . $id . '" size="'.$this->size.'"  maxLength="'.$this->maxLength.'" name="' . $this->getFieldName() . '" value="' . $resVal . '">');
+                '<input ' . $required . ' ' . $condition['conditionPrepare'] . ' type="text" id="' . $id . '" class="formdata ' . $id . '" size="' . $this->size . '"  maxLength="' . $this->maxLength . '" name="' . $this->getFieldName() . '" value="' . $resVal . '">');
         }
 
         return $result;
@@ -54,15 +53,16 @@ class C4GLastChangeField extends C4GMemberField
         $member = MemberModel::findByPk($value);
         $value = MemberModel::getDisplaynameForGroup($groupId, $member->id);
         if ($data['tstamp']) {
-            $result = sprintf("<b>Zuletzt geändert am</b> %s durch %s", date('d.m.Y H:i:s', $data['tstamp']), $value);
+            $result = sprintf('<b>Zuletzt geändert am</b> %s durch %s', date('d.m.Y H:i:s', $data['tstamp']), $value);
         } else {
             $result = $value;
         }
-        $colon = " ";
+        $colon = ' ';
         if ($this->withcolon) {
-            $colon = ": ";
+            $colon = ': ';
         }
-        return "<p><b>". $this->titleText . "</b>" . $colon . $result ."</p>";
+
+        return '<p><b>' . $this->titleText . '</b>' . $colon . $result . '</p>';
     }
 
     /**

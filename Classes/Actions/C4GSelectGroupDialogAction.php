@@ -19,6 +19,7 @@ class C4GSelectGroupDialogAction extends C4GBrickDialogAction
     public function run()
     {
         $dialog = new C4GBrickSelectGroupDialog($this->getDialogParams());
+
         return $dialog->show();
     }
 
@@ -27,4 +28,3 @@ class C4GSelectGroupDialogAction extends C4GBrickDialogAction
         return true;
     }
 }
-

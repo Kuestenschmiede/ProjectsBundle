@@ -32,7 +32,7 @@ class C4GShowListAction extends C4GBrickDialogAction
         $dialogParams = $this->getDialogParams();
         $id = $dialogParams->getId();
         $memberId = $dialogParams->getMemberId();
-        $groupId  = $dialogParams->getGroupId();
+        $groupId = $dialogParams->getGroupId();
         $projectId = $dialogParams->getProjectId();
         $projectKey = $dialogParams->getProjectKey();
         $parentId = $dialogParams->getParentId();
@@ -49,12 +49,12 @@ class C4GShowListAction extends C4GBrickDialogAction
         $modelListFunction = $viewParams->getModelListFunction();
         $listParams = $this->getListParams();
         $fieldList = $this->getFieldList();
-        $putVars   = $this->getPutVars();
+        $putVars = $this->getPutVars();
         $brickDatabase = $this->getBrickDatabase();
         $database = $this->brickDatabase->getParams()->getDatabase();
         $modelClass = $brickDatabase->getParams()->getModelClass();
         $viewFormatFunction = $listParams->getViewFormatFunction();
-    
+
         // strip fieldlist to avoid iterating irrelevant fields
         $listFieldlist = [];
         foreach ($fieldList as $field) {
@@ -63,7 +63,7 @@ class C4GShowListAction extends C4GBrickDialogAction
             }
         }
         $fieldList = $listFieldlist;
-        
+
         $groupCount = -1;
         if ($GLOBALS['con4gis']['groups']['installed']) {
             $groupCount = count(C4GBrickCommon::getGroupListForBrick($memberId, $brickKey));
@@ -90,35 +90,36 @@ class C4GShowListAction extends C4GBrickDialogAction
                     $putVars,
                     $brickDatabase
                 );
+
                 return $action->run();
-            } else {
-                if ($onlyGroupId != -1) {
-                    $groupId = $onlyGroupId;
-                    $this->dialogParams->setGroupId($onlyGroupId);
-                    $this->listParams->deleteButton(C4GBrickConst::BUTTON_GROUP);
-                }
-                \Session::getInstance()->set("c4g_brick_group_id", $groupId);
             }
+            if ($onlyGroupId != -1) {
+                $groupId = $onlyGroupId;
+                $this->dialogParams->setGroupId($onlyGroupId);
+                $this->listParams->deleteButton(C4GBrickConst::BUTTON_GROUP);
+            }
+            \Session::getInstance()->set('c4g_brick_group_id', $groupId);
 
             $group = \MemberGroupModel::findByPk($groupId);
             if ($group) {
-                $group_headline = '<div class="c4g_brick_headtext">'.$GLOBALS['TL_LANG']['FE_C4G_LIST']['USERMESSAGE_ACTIVE_GROUP'].'<b>'.$group->name.'</b></div>';
+                $group_headline = '<div class="c4g_brick_headtext">' . $GLOBALS['TL_LANG']['FE_C4G_LIST']['USERMESSAGE_ACTIVE_GROUP'] . '<b>' . $group->name . '</b></div>';
             }
 
-            if ( $listParams->checkButtonVisibility(C4GBrickConst::BUTTON_PROJECT) && ( ($projectId == null) || ($projectId == -1))) {
+            if ($listParams->checkButtonVisibility(C4GBrickConst::BUTTON_PROJECT) && (($projectId == null) || ($projectId == -1))) {
                 $action = new C4GSelectProjectDialogAction($dialogParams, $listParams, $fieldList, $putVars, $brickDatabase);
+
                 return $action->run();
-            } else if (($viewType == C4GBrickViewType::PROJECTBASED) || ($viewType == C4GBrickViewType::PROJECTPARENTBASED) || ($viewType == C4GBrickViewType::PROJECTPARENTVIEW)){
+            } elseif (($viewType == C4GBrickViewType::PROJECTBASED) || ($viewType == C4GBrickViewType::PROJECTPARENTBASED) || ($viewType == C4GBrickViewType::PROJECTPARENTVIEW)) {
                 $project = C4gProjectsModel::findByPk($projectId);
                 if ($project) {
-                    $project_headline = '<div class="c4g_brick_headtext">'.$GLOBALS['TL_LANG']['FE_C4G_LIST']['USERMESSAGE_ACTIVE_PROJECT'].'<b>'.$project->caption.'</b></div>';
+                    $project_headline = '<div class="c4g_brick_headtext">' . $GLOBALS['TL_LANG']['FE_C4G_LIST']['USERMESSAGE_ACTIVE_PROJECT'] . '<b>' . $project->caption . '</b></div>';
                 } else {
-                    \Session::getInstance()->set("c4g_brick_project_id", '');
-                    \Session::getInstance()->set("c4g_brick_project_uuid", '');
+                    \Session::getInstance()->set('c4g_brick_project_id', '');
+                    \Session::getInstance()->set('c4g_brick_project_uuid', '');
 
                     $redirects = $dialogParams->getRedirects();
                     if ($redirects) {
-                        foreach($redirects as $redirect) {
+                        foreach ($redirects as $redirect) {
                             $redirect->setActive($redirect->getType() == C4GBrickConst::REDIRECT_PROJECT);
                         }
 
@@ -129,10 +130,11 @@ class C4GShowListAction extends C4GBrickDialogAction
                             $putVars,
                             $brickDatabase
                         );
+
                         return $action->run();
-                    } else {
-                        return array('usermessage' => $GLOBALS['TL_LANG']['FE_C4G_LIST']['USERMESSAGE_FIRST_CREATE_PROJECT']);
                     }
+
+                    return ['usermessage' => $GLOBALS['TL_LANG']['FE_C4G_LIST']['USERMESSAGE_FIRST_CREATE_PROJECT']];
                 }
             }
 
@@ -146,6 +148,7 @@ class C4GShowListAction extends C4GBrickDialogAction
                     $putVars,
                     $brickDatabase
                 );
+
                 return $action->run();
             } elseif ($listParams->checkButtonVisibility(C4GBrickConst::BUTTON_PARENT)
                     && (($viewType == C4GBrickViewType::PROJECTPARENTBASED)
@@ -167,7 +170,7 @@ class C4GShowListAction extends C4GBrickDialogAction
                                     if (substr(trim($caption), -1, 1) == '(') {
                                         $caption = substr(trim($caption), 0, -1);
                                     } else {
-                                        $caption = trim($caption).$value;
+                                        $caption = trim($caption) . $value;
                                     }
                                 } else {
                                     $caption .= $value;
@@ -185,48 +188,45 @@ class C4GShowListAction extends C4GBrickDialogAction
                         );
                         $caption = $arrCaptions[$parentId];
                     }
-                    $parent_headline = '<div class="c4g_brick_headtext"> '.$parentCaption.': <b>'.$caption.'</b></div>';
+                    $parent_headline = '<div class="c4g_brick_headtext"> ' . $parentCaption . ': <b>' . $caption . '</b></div>';
                 } elseif (!$dialogParams->isWithCommonParentOption()) {
-                    \Session::getInstance()->set("c4g_brick_parent_id", '');
+                    \Session::getInstance()->set('c4g_brick_parent_id', '');
 
-                    return array('title' => $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_MISSING_PARENT_TITLE'] .$parentCaption,
-                        'usermessage' => $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_MISSING_PARENT']. $parentCaption . '.'
-                    );
+                    return ['title' => $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_MISSING_PARENT_TITLE'] . $parentCaption,
+                        'usermessage' => $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_MISSING_PARENT'] . $parentCaption . '.',
+                    ];
                 }
             }
-
-
         } elseif (C4GBrickView::isPublicParentBased($viewType)) {
             if ($dialogParams->getParentId() < 0) {
                 $action = new C4GSelectPublicParentDialogAction($dialogParams, $listParams, $fieldList, $putVars, $brickDatabase);
                 $action->setModule($this->module);
+
                 return $action->run();
+            }
+            if ($listParams->checkButtonVisibility(C4GBrickConst::BUTTON_PUBLIC_PARENT)) {
+                $parent = $parentModel::findByPk($parentId);
+                if ($parent) {
+                    if (is_array($parent)) {
+                        $caption = $parent['name'];
+                    } elseif ($parent instanceof \stdClass) {
+                        $caption = $parent->name;
+                    } else {
+                        $caption = 'NULL';
+                    }
+                    $parent_headline = '<div class="c4g_brick_headtext"> ' . $parentCaption . ': <b>' . $caption . '</b></div>';
+                    $listParams->addButton(C4GBrickConst::BUTTON_RESET_PARENT);
                 } else {
-                    if ($listParams->checkButtonVisibility(C4GBrickConst::BUTTON_PUBLIC_PARENT)) {
-                        $parent = $parentModel::findByPk($parentId);
-                        if ($parent) {
-                            if (is_array($parent)) {
-                                $caption = $parent['name'];
-                            } elseif ($parent instanceof \stdClass) {
-                                $caption = $parent->name;
-                            } else {
-                                $caption = 'NULL';
-                            }
-                            $parent_headline = '<div class="c4g_brick_headtext"> '.$parentCaption.': <b>'.$caption.'</b></div>';
-                            $listParams->addButton(C4GBrickConst::BUTTON_RESET_PARENT);
-                        } else {
-                            $listParams->deleteButton(C4GBrickConst::BUTTON_RESET_PARENT);
-                        }
+                    $listParams->deleteButton(C4GBrickConst::BUTTON_RESET_PARENT);
                 }
             }
         }
 
-        try
-        {
+        try {
             $tableName = $brickDatabase->getParams()->getTableName();
-            switch($viewType) {
+            switch ($viewType) {
                 case C4GBrickView::isGroupBased($viewType):
-                    if($viewType == C4GBrickViewType::GROUPPARENTVIEW || $viewType == C4GBrickViewType::GROUPPARENTBASED) {
+                    if ($viewType == C4GBrickViewType::GROUPPARENTVIEW || $viewType == C4GBrickViewType::GROUPPARENTBASED) {
                         $pid_field = 'pid';
                         if ($parentIdField) {
                             $pid_field = $parentIdField;
@@ -269,9 +269,11 @@ class C4GShowListAction extends C4GBrickDialogAction
                             $elements = $brickDatabase->findBy($groupKeyField, $groupId);
                         }
                     }
+
                     break;
                 case C4GBrickView::isProjectBased($viewType):
                     $elements = $brickDatabase->findBy('project_id', $projectId);
+
                     break;
                 case C4GBrickView::isProjectParentBased($viewType):
                     $pid_field = 'pid';
@@ -279,12 +281,14 @@ class C4GShowListAction extends C4GBrickDialogAction
                         $pid_field = $parentIdField;
                     }
                     $elements = $brickDatabase->findBy($pid_field, $parentId);
+
                     break;
-                case C4GBrickViewType::ADMINBASED;
+                case C4GBrickViewType::ADMINBASED:
                     $elements = $brickDatabase->findAll();
+
                     break;
                 case C4GBrickView::isMemberBased($viewType):
-                    if($modelListFunction) {
+                    if ($modelListFunction) {
                         $function = $modelListFunction;
                         $database = $brickDatabase->getParams()->getDatabase();
                         //ToDo Umbau brickDatabase
@@ -294,11 +298,11 @@ class C4GShowListAction extends C4GBrickDialogAction
                             $list_headline = '<div class="c4g_brick_headtext_highlighted">' . $elements->headline . '</div>';
                             unset($elements->headline);
                         }
-                    }
-                    else {
+                    } else {
                         $memberKeyField = $viewParams->getMemberKeyField();
                         $elements = $brickDatabase->findBy($memberKeyField, $memberId);
                     }
+
                     break;
                 case C4GBrickView::isPublicBased($viewType):
                     if ($modelListFunction) {
@@ -316,14 +320,15 @@ class C4GShowListAction extends C4GBrickDialogAction
                         }
                     } else {
                         if ($brickDatabase->getParams()->getFindBy() && (count($brickDatabase->getParams()->getFindBy()) > 0)) {
-                            $elements = call_user_func_array(array($brickDatabase,'findBy'),$brickDatabase->getParams()->getFindBy());
+                            $elements = call_user_func_array([$brickDatabase,'findBy'], $brickDatabase->getParams()->getFindBy());
                         } else {
                             $elements = $brickDatabase->findAll();
                         }
                     }
+
                     break;
                 case C4GBrickView::isPublicUUIDBased($viewType):
-                    if($modelListFunction) {
+                    if ($modelListFunction) {
                         $function = $modelListFunction;
                         $database = $brickDatabase->getParams()->getDatabase();
                         $model = $modelClass;
@@ -332,11 +337,11 @@ class C4GShowListAction extends C4GBrickDialogAction
                             $list_headline = '<div class="c4g_brick_headtext_highlighted">' . $elements->headline . '</div>';
                             unset($elements->headline);
                         }
-                    }
-                    else {
+                    } else {
                         $uuid = $this->dialogParams->getUuid();
                         $elements = $brickDatabase->findBy('uuid', $uuid);
                     }
+
                     break;
                 case C4GBrickView::isPublicParentBased($viewType):
                     if ($modelListFunction) {
@@ -355,6 +360,7 @@ class C4GShowListAction extends C4GBrickDialogAction
                             $elements = $brickDatabase->findBy($dialogParams->getParentIdField(), $parentId);
                         }
                     }
+
                     break;
                 default:
 
@@ -371,7 +377,7 @@ class C4GShowListAction extends C4GBrickDialogAction
             $filterText = $filterObject->getFilterHeadline();
         } else {
             /** DEPRECATED; use a C4GListFilter object. */
-            $filterParams =  $listParams->getFilterParams();
+            $filterParams = $listParams->getFilterParams();
             if ($filterParams instanceof C4GBrickFilterParams) {
                 if ($filterParams->isWithRangeFilter() && !$modelListFunction) {
                     $dateFrom = $filterParams->getRangeFrom();
@@ -381,9 +387,9 @@ class C4GShowListAction extends C4GBrickDialogAction
                     $highlightSpan = '<span class="c4g_brick_headtext_highlighted">';
                     $highlightSpanEnd = '</span>';
                     if ($filterParams->isWithoutFiltertext()) {
-                        $filterText = "";
+                        $filterText = '';
                     } else {
-                        $filterText = "Zeitraum von " . $highlightSpan . $dateFrom . $highlightSpanEnd . ' bis zum ' .
+                        $filterText = 'Zeitraum von ' . $highlightSpan . $dateFrom . $highlightSpanEnd . ' bis zum ' .
                             $highlightSpan . $dateTo . $highlightSpanEnd;
                     }
                     $filterField = $filterParams->getFilterField();
@@ -413,10 +419,10 @@ class C4GShowListAction extends C4GBrickDialogAction
                         $class = $filterParams->getFilterMethod()[0];
                         $method = $filterParams->getFilterMethod()[1];
                         $elements = $class::$method($elements, $dialogParams);
-                        setcookie($dialogParams->getBrickKey().'_methodFilter', '1', time()+3600, '/');
-                        //$listParams->addButton(C4GBrickConst::BUTTON_RESET_FILTER);
+                        setcookie($dialogParams->getBrickKey() . '_methodFilter', '1', time() + 3600, '/');
+                    //$listParams->addButton(C4GBrickConst::BUTTON_RESET_FILTER);
                     } else {
-                        setcookie($dialogParams->getBrickKey().'_methodFilter', '0', time()+3600, '/');
+                        setcookie($dialogParams->getBrickKey() . '_methodFilter', '0', time() + 3600, '/');
                         //$listParams->deleteButton(C4GBrickConst::BUTTON_RESET_FILTER);
                     }
                 }
@@ -429,7 +435,7 @@ class C4GShowListAction extends C4GBrickDialogAction
         }
 
         if (!$elements) {
-            $elements = array();
+            $elements = [];
         }
         $content = '';
         if (!$dialogParams->getC4gMap()) {
@@ -447,9 +453,9 @@ class C4GShowListAction extends C4GBrickDialogAction
 
         // ignore default headlines if set
         if ($listParams->isCustomHeadline() && $list_headline) {
-            $headtext = "";
+            $headtext = '';
             if ($listParams->getHeadline()) {
-                $headtext = '<'.$headlineTag.'>'.$listParams->getHeadline().'</'.$headlineTag.'>';
+                $headtext = '<' . $headlineTag . '>' . $listParams->getHeadline() . '</' . $headlineTag . '>';
             }
             $headtext .= C4GHTMLFactory::lineBreak() . $list_headline;
             if ($group_headline) {
@@ -462,29 +468,28 @@ class C4GShowListAction extends C4GBrickDialogAction
                 $headtext .= $parent_headline;
             }
         } else {
-            $headtext = '<'.$headlineTag.'>'.$dialogParams->getHeadline().'</'.$headlineTag.'>';
+            $headtext = '<' . $headlineTag . '>' . $dialogParams->getHeadline() . '</' . $headlineTag . '>';
             if ($listParams->getHeadline()) {
-                $headtext = '<'.$headlineTag.'>'.$listParams->getHeadline().'</'.$headlineTag.'>';
+                $headtext = '<' . $headlineTag . '>' . $listParams->getHeadline() . '</' . $headlineTag . '>';
             } elseif (($group_headline) && ($project_headline) && ($parent_headline)) {
                 $headtext = $headtext .
                     $group_headline . $project_headline . $parent_headline;
             } elseif (($group_headline) && ($project_headline)) {
-                $headtext = $headtext.$group_headline.$project_headline;
+                $headtext = $headtext . $group_headline . $project_headline;
             } elseif (($group_headline) && ($parent_headline)) {
-                $headtext = $headtext.$group_headline.$parent_headline;
+                $headtext = $headtext . $group_headline . $parent_headline;
             } elseif ($group_headline) {
-                $headtext = $headtext.$group_headline;
+                $headtext = $headtext . $group_headline;
             } elseif ($parent_headline) {
-                $headtext = $headtext.$parent_headline;
+                $headtext = $headtext . $parent_headline;
             }
             if ($list_headline) {
-                $headtext .= C4GHTMLFactory::lineBreak().$list_headline;
+                $headtext .= C4GHTMLFactory::lineBreak() . $list_headline;
             }
             if ($filterText) {
                 $headtext .= $filterText;
             }
         }
-
 
         $renderMode = $listParams->getRenderMode();
         switch ($renderMode) {
@@ -500,6 +505,7 @@ class C4GShowListAction extends C4GBrickDialogAction
                     $parentCaption,
                     $listParams
                 );
+
                 break;
             case C4GBrickRenderMode::TABLEBASED:
                 $result = C4GBrickList::showC4GTableList(
@@ -513,6 +519,7 @@ class C4GShowListAction extends C4GBrickDialogAction
                     $parentCaption,
                     $listParams
                 );
+
                 break;
             case C4GBrickRenderMode::TILEBASED:
                 //ToDo Der Funktionsumfang von TILEBASED muss immer an LISTBASED angepasst sein. Bitte nachziehen.
@@ -527,8 +534,10 @@ class C4GShowListAction extends C4GBrickDialogAction
                     $parentCaption,
                     $withLabels
                 );
+
                 break;
         }
+
         return $result;
     }
 

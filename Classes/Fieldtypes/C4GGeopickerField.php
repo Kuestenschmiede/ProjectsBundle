@@ -13,7 +13,6 @@
 namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
 
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickCommon;
-use con4gis\ProjectsBundle\Classes\Database\C4GBrickDatabase;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldCompare;
@@ -33,9 +32,9 @@ class C4GGeopickerField extends C4GBrickField
      * @param array $additionalParams
      * @return string
      */
-    public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = array())
+    public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = [])
     {
-        $id = "c4g_" . $this->getFieldName();
+        $id = 'c4g_' . $this->getFieldName();
         $title = $this->getTitle();
         $extModel = $this->getExternalModel();
         $extFieldName = $this->getExternalIdField();
@@ -57,8 +56,7 @@ class C4GGeopickerField extends C4GBrickField
             if ($addressField) {
                 $address = $data->$addressField;
             }
-        }
-        else {
+        } else {
             $lon = $data->loc_geox;
             $lat = $data->loc_geoy;
         }
@@ -85,7 +83,7 @@ class C4GGeopickerField extends C4GBrickField
         }
         $onChange = '';
 
-        if(!$withoutAddressRow) {
+        if (!$withoutAddressRow) {
             if ($withoutAddressReloadButton) {
                 $onChange = 'onchange="C4GGeopickerAddress(\'' . $profile_id . '\')"';
                 $address_line =
@@ -93,12 +91,12 @@ class C4GGeopickerField extends C4GBrickField
             } else {
                 $address_line =
                     '<div class="c4g_reverse_address"><input name="c4g_geopicker_address" id="c4g_brick_geopicker_address" value="' . $address . '" type="text" disabled="disabled" class="formdata" >' .
-                    '<button id="c4g_addressUpdateButton" onClick="C4GGeopickerAddress(\'' . $profile_id . '\')">'.$GLOBALS['TL_LANG']['FE_C4G_DIALOG']['LOAD_ADDRESS_BUTTON'].'</button></div>';
+                    '<button id="c4g_addressUpdateButton" onClick="C4GGeopickerAddress(\'' . $profile_id . '\')">' . $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['LOAD_ADDRESS_BUTTON'] . '</button></div>';
             }
         }
 
         $condition = $this->createConditionData($fieldList, $data);
-        $description = $this->getC4GDescriptionLabel($this->getDescription(),$condition);
+        $description = $this->getC4GDescriptionLabel($this->getDescription(), $condition);
 
         $result =
             $content . //Inhaltselement der Karte
@@ -107,14 +105,13 @@ class C4GGeopickerField extends C4GBrickField
             . $condition['conditionType']
             . $condition['conditionValue']
             . $condition['conditionDisable'] . '>'
-            . $this->addC4GFieldLabel($id, $title, $this->isMandatory(),$condition,$fieldList,$data,$dialogParams)
-            . $address_line.
-            '<input ' . $required . ' name="geox" id="c4g_brick_geopicker_geox" '.$onChange.' value="' . $lon . '" type="text" disabled="disabled" class="formdata" >' .
+            . $this->addC4GFieldLabel($id, $title, $this->isMandatory(), $condition, $fieldList, $data, $dialogParams)
+            . $address_line .
+            '<input ' . $required . ' name="geox" id="c4g_brick_geopicker_geox" ' . $onChange . ' value="' . $lon . '" type="text" disabled="disabled" class="formdata" >' .
             '<input ' . $required . ' name="geoy" id="c4g_brick_geopicker_geoy" value="' . $lat . '" type="text" disabled="disabled" class="formdata" >' .
             $description .
             '<div id="c4g_brick_geopicker"></div>' .
             '<div id="c4g_brick_map"></div></div>';
-
 
         return $result;
     }
@@ -135,8 +132,8 @@ class C4GGeopickerField extends C4GBrickField
         $dlg_geoy = $dlgValues['geoy'];
         //$dlg_locstyle = $dlgValues[$fieldName];
 
-        if ( ($db_geox != $dlg_geox) || ($db_geoy != $dlg_geoy)) {
-            return new C4GBrickFieldCompare($this, $db_geox.'|'.$db_geoy, $dlg_geox.'|'.$dlg_geoy);
+        if (($db_geox != $dlg_geox) || ($db_geoy != $dlg_geoy)) {
+            return new C4GBrickFieldCompare($this, $db_geox . '|' . $db_geoy, $dlg_geox . '|' . $dlg_geoy);
         }
     }
     /**
@@ -159,7 +156,7 @@ class C4GGeopickerField extends C4GBrickField
         $profile_id = null;
         $withoutAddressRow = $this->isWithoutAddressRow();
         $db = Database::getInstance();
-        $settings = $db->execute("SELECT * FROM tl_c4g_settings LIMIT 1")->fetchAssoc();
+        $settings = $db->execute('SELECT * FROM tl_c4g_settings LIMIT 1')->fetchAssoc();
         if ($settings['defaultprofile']) {
             $profile_id = $settings['defaultprofile'];
         } else {
@@ -179,18 +176,16 @@ class C4GGeopickerField extends C4GBrickField
         if (!$withoutAddressRow && $profile_id) {
             $addressField = $this->getAddressField();
             $address_db = $rowData->$addressField;
-            if(!$address_db)
-            {
+            if (!$address_db) {
                 $extDbValues = $extModel::findByPk($idFromModel);
                 $address = C4GBrickCommon::convert_coordinates_to_address($lat, $lon, $profile_id, $database);
                 $extDbValues->$addressField = $address;
                 $extDbValues->save();
-            }
-            else
-            {
+            } else {
                 $address = $address_db;
             }
         }
+
         return $address;
     }
 
@@ -200,13 +195,12 @@ class C4GGeopickerField extends C4GBrickField
      * @param array $dlgValues
      * @return bool|C4GBrickField
      */
-
     public function checkMandatory($dlgValues)
     {
         //$this->setSpecialMandatoryMessage($this->getFieldName()); //Useful for debugging
         if (!$this->isMandatory()) {
             return false;
-        } elseif(!$this->isDisplay()) {
+        } elseif (!$this->isDisplay()) {
             return false;
         } elseif ($this->getCondition()) {
             foreach ($this->getCondition() as $con) {
@@ -220,9 +214,9 @@ class C4GGeopickerField extends C4GBrickField
         $loc_geoy = $dlgValues['geoy'];
         if ($loc_geox && $loc_geoy) {
             return true;
-        } else {
-            return $this;
         }
+
+        return $this;
     }
 
     /**
@@ -240,6 +234,7 @@ class C4GGeopickerField extends C4GBrickField
     public function setWithoutAddressReloadButton($withoutAddressReloadButton)
     {
         $this->withoutAddressReloadButton = $withoutAddressReloadButton;
+
         return $this;
     }
 
@@ -258,6 +253,7 @@ class C4GGeopickerField extends C4GBrickField
     public function setWithoutAddressRow($withoutAddressRow)
     {
         $this->withoutAddressRow = $withoutAddressRow;
+
         return $this;
     }
 
@@ -276,6 +272,7 @@ class C4GGeopickerField extends C4GBrickField
     public function setLocGeoxFieldname($locGeoxFieldname)
     {
         $this->locGeoxFieldname = $locGeoxFieldname;
+
         return $this;
     }
 
@@ -294,7 +291,7 @@ class C4GGeopickerField extends C4GBrickField
     public function setLocGeoyFieldname($locGeoyFieldname)
     {
         $this->locGeoyFieldname = $locGeoyFieldname;
+
         return $this;
     }
-
 }

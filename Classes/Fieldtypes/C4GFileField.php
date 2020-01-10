@@ -23,10 +23,10 @@ use con4gis\ProjectsBundle\Classes\Views\C4GBrickViewType;
 class C4GFileField extends C4GBrickField
 {
     private $maxFileSize = '4194304';
-    private $nameFormat   = ''; //standardmäßig wird eine eindeutiger Name generiert (uuid)
-    private $withDate     = false;
-    private $withNumber   = false;
-    private $path         = '';
+    private $nameFormat = ''; //standardmäßig wird eine eindeutiger Name generiert (uuid)
+    private $withDate = false;
+    private $withNumber = false;
+    private $path = '';
     private $uploadURL = 'c4g_uploadURL';
     private $deleteURL = 'c4g_deleteURL';
     private $filenameColumn = '';
@@ -42,7 +42,7 @@ class C4GFileField extends C4GBrickField
      * @param array $additionalParams
      * @return string
      */
-    public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = array())
+    public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = [])
     {
         if ($this->path) {
             $homeDir = $this->path;
@@ -58,7 +58,7 @@ class C4GFileField extends C4GBrickField
         $fieldName = $this->getFieldName();
         $fileTypes = $this->getFileTypes();
 
-        $id = "c4g_" . $fieldName;
+        $id = 'c4g_' . $fieldName;
         $title = $this->getTitle();
         $required = $this->generateRequiredString($data, $dialogParams);
         $buttonRequired = $required;
@@ -69,7 +69,7 @@ class C4GFileField extends C4GBrickField
                     ($viewType == C4GBrickViewType::PROJECTPARENTVIEW) ||
                     ($viewType == C4GBrickViewType::PUBLICPARENTVIEW) ||
                     ($viewType == C4GBrickViewType::MEMBERVIEW) ||
-                    ($viewType == C4GBrickViewType::PUBLICUUIDVIEW) )
+                    ($viewType == C4GBrickViewType::PUBLICUUIDVIEW))
 
             ))
         ) {
@@ -93,55 +93,57 @@ class C4GFileField extends C4GBrickField
             $sourceField = $arrField->getSourceField();
             if ($sourceField && ($sourceField == $fieldName)) {
                 $targetField = $arrField->getFieldName();
+
                 break;
             }
         }
 
-        $file_link = '<label id="c4g_uploadLink_'.$fieldName.'" class="c4g_uploadLink"></label>' .
-            '<button id="c4g_deleteButton_'.$fieldName.'" class="c4g_deleteButton"' . $buttonRequired . ' onClick="deleteC4GBrickFile(this)" style="display:none">X</button>';
+        $file_link = '<label id="c4g_uploadLink_' . $fieldName . '" class="c4g_uploadLink"></label>' .
+            '<button id="c4g_deleteButton_' . $fieldName . '" class="c4g_deleteButton"' . $buttonRequired . ' onClick="deleteC4GBrickFile(this)" style="display:none">X</button>';
 
         if ($fileObject) {
-            $file_uuid  = $fileObject->uuid;
-            $file_url   = $fileObject->path;
+            $file_uuid = $fileObject->uuid;
+            $file_url = $fileObject->path;
             $filenameColumn = $this->filenameColumn;
             $file_label = $data->$filenameColumn;
             if (!$file_label) {
                 $file_label = basename($fileObject->name);
                 if ($file_label) {
-                    $file_label = str_replace("C:\\fakepath\\", "", $file_label);
+                    $file_label = str_replace('C:\\fakepath\\', '', $file_label);
                 }
             }
             switch ($this->linkType) {
                 case self::LINK_TYPE_ANCHOR:
                     $linkTag = '<a href="' . $file_url . '" target="_blank">' . $file_label . '</a>';
+
                     break;
                 case self::LINK_TYPE_IMAGE:
-                    $linkTag = '<a data-lightbox="'.$id.'" href="' . $file_url . '" target="_blank"><img class="c4g_preview_image" src="' . $file_url . '" alt="' . $file_label . '"></a>';
+                    $linkTag = '<a data-lightbox="' . $id . '" href="' . $file_url . '" target="_blank"><img class="c4g_preview_image" src="' . $file_url . '" alt="' . $file_label . '"></a>';
+
                     break;
                 default:
                     $linkTag = '';
+
                     break;
             }
             $file_link =
-                '<label id="c4g_uploadLink_'.$fieldName.'" class="c4g_uploadLink">' . $linkTag.
-                '<button id="c4g_deleteButton_'.$fieldName.'" class="c4g_deleteButton"' . $buttonRequired . ' onClick="deleteC4GBrickImage(this)">X</button></label>';
+                '<label id="c4g_uploadLink_' . $fieldName . '" class="c4g_uploadLink">' . $linkTag .
+                '<button id="c4g_deleteButton_' . $fieldName . '" class="c4g_deleteButton"' . $buttonRequired . ' onClick="deleteC4GBrickImage(this)">X</button></label>';
         }
-
 
         $result = '';
 
         if ($this->isShowIfEmpty() || !empty($value)) {
-
             $condition = $this->createConditionData($fieldList, $data);
             $result =
                 $this->addC4GField($condition,$dialogParams,$fieldList,$data,
-                    '<button id="c4g_uploadButton_'.$fieldName.'" class="c4g_uploadButton"' . $buttonRequired . ' ' . $condition['conditionPrepare'] . ' onClick="document.getElementById(\'' . $id . '\').click()">'.$GLOBALS['TL_LANG']['FE_C4G_DIALOG']['FILE_UPLOAD'].'</button>' .
+                    '<button id="c4g_uploadButton_' . $fieldName . '" class="c4g_uploadButton"' . $buttonRequired . ' ' . $condition['conditionPrepare'] . ' onClick="document.getElementById(\'' . $id . '\').click()">' . $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['FILE_UPLOAD'] . '</button>' .
                     $file_link . C4GHTMLFactory::lineBreak() .
-                    '<input type="hidden" id="'.$this->uploadURL.'_'.$fieldName.'" name="'.$this->uploadURL.'" class="formdata" ' . $condition['conditionPrepare'] . ' value="' . $file_url . '">' .
-                    '<input type="hidden" id="'.$this->deleteURL.'_'.$fieldName.'" name="'.$this->deleteURL.'" class="formdata" ' . $condition['conditionPrepare'] . ' value="">' .
+                    '<input type="hidden" id="' . $this->uploadURL . '_' . $fieldName . '" name="' . $this->uploadURL . '" class="formdata" ' . $condition['conditionPrepare'] . ' value="' . $file_url . '">' .
+                    '<input type="hidden" id="' . $this->deleteURL . '_' . $fieldName . '" name="' . $this->deleteURL . '" class="formdata" ' . $condition['conditionPrepare'] . ' value="">' .
                     '<input type="file" id="' . $id . '"  class="formdata ' . $id . '" ' . $condition['conditionPrepare'] . ' name="' . $fieldName . '"' .
-                    ' multiple="false" accept="' . $fileTypes . '" maxlength="'.$this->maxFileSize.'"' .
-                    'onchange="handleC4GBrickFile(this.files,\'' . $homeDir . '\',\'' . $this->uploadURL . '_' . '\',\'' . $this->deleteURL . '_' . '\',\'' . $fieldName.'\',\''.$targetField . '\',\'' . $fileTypes . '\');" value="' . $file_url . '" ' . $required . ' style="display:none">');
+                    ' multiple="false" accept="' . $fileTypes . '" maxlength="' . $this->maxFileSize . '"' .
+                    'onchange="handleC4GBrickFile(this.files,\'' . $homeDir . '\',\'' . $this->uploadURL . '_' . '\',\'' . $this->deleteURL . '_' . '\',\'' . $fieldName . '\',\'' . $targetField . '\',\'' . $fileTypes . '\');" value="' . $file_url . '" ' . $required . ' style="display:none">');
         }
 
         return $result;
@@ -162,7 +164,7 @@ class C4GFileField extends C4GBrickField
             $dbValue = $dbValues->$fieldname;
             $dbValue = trim($dbValue);
         } else {
-            return array();
+            return [];
         }
 
         $fileObject = C4GBrickCommon::loadFile($dbValue);
@@ -170,7 +172,7 @@ class C4GFileField extends C4GBrickField
             $file_url = $fileObject->path;
         }
 
-        $result = array();
+        $result = [];
         $url = $dlgValues[$this->uploadURL];
         if (strcmp($url, $file_url) != 0) {
             $result[] = new C4GBrickFieldCompare($this, $file_url, $url);
@@ -189,7 +191,7 @@ class C4GFileField extends C4GBrickField
     {
         $fieldData = $dlgValues[$this->getFieldName()];
         $original_filename = $fieldData;
-        $this->filename = $original_filename !== '' ? explode('.', str_replace("C:\\fakepath\\", '', $original_filename))[0] : '';
+        $this->filename = $original_filename !== '' ? explode('.', str_replace('C:\\fakepath\\', '', $original_filename))[0] : '';
         $fieldName = $this->getFieldName();
         $upload_url = $dlgValues[$this->uploadURL];
         $old_file = $dbValues->$fieldName;
@@ -215,7 +217,7 @@ class C4GFileField extends C4GBrickField
                         $fileName = $dlgValues[$field];
                         $first = false;
                     } else {
-                        $fileName .= '-'.$dlgValues[$field];
+                        $fileName .= '-' . $dlgValues[$field];
                     }
                 }
 
@@ -231,11 +233,11 @@ class C4GFileField extends C4GBrickField
             }
             if ($this->isWithNumber()) {
                 if ($fileName) {
-                    $i=1;
-                    $tmpName = $fileName.'-'.str_pad($i, 3 ,'0', STR_PAD_LEFT);
-                    while (file_exists($_SERVER["DOCUMENT_ROOT"].$dir . '/' . $tmpName . '.' . $ext)) {
-                        $i=$i+1;
-                        $tmpName = $fileName.'-'.str_pad($i, 3 ,'0', STR_PAD_LEFT);
+                    $i = 1;
+                    $tmpName = $fileName . '-' . str_pad($i, 3, '0', STR_PAD_LEFT);
+                    while (file_exists($_SERVER['DOCUMENT_ROOT'] . $dir . '/' . $tmpName . '.' . $ext)) {
+                        $i = $i + 1;
+                        $tmpName = $fileName . '-' . str_pad($i, 3, '0', STR_PAD_LEFT);
                     }
                     $fileName = $tmpName;
                 }
@@ -255,19 +257,19 @@ class C4GFileField extends C4GBrickField
         $delete_file = $dlgValues[$this->deleteURL];
 
         if (!empty($delete_file) && ($fieldData != $old_file)) {
-
-            if (!empty($old_file) && (!\Validator::isUuid($old_file)) ) {
+            if (!empty($old_file) && (!\Validator::isUuid($old_file))) {
                 C4GBrickCommon::deleteFile($delete_file);
-            } else if (!empty($old_file)) {
+            } elseif (!empty($old_file)) {
                 C4GBrickCommon::deleteFileByUUID($old_file);
             }
 
-            $fieldData = "";
+            $fieldData = '';
         } else {
             if (!\Validator::isUuid($fieldData)) {
                 $fieldData = $old_file;
             }
         }
+
         return $fieldData;
     }
 
@@ -291,6 +293,7 @@ class C4GFileField extends C4GBrickField
         } else {
             $field = 'UNKNOWN';
         }
+
         return $field;
     }
 
@@ -304,39 +307,33 @@ class C4GFileField extends C4GBrickField
     {
         $fieldName = $this->getFieldName();
         $file = $element->$fieldName;
-        if (!is_string($file))
-        {
+        if (!is_string($file)) {
             $file = '';
         }
         $fileObject = C4GBrickCommon::loadFile($file);
         if ($fileObject) {
-            switch($this->getFileTypes())
-            {
+            switch ($this->getFileTypes()) {
                 case C4GBrickFileType::IMAGES_ALL:
                 case C4GBrickFileType::IMAGES_JPG:
                 case C4GBrickFileType::IMAGES_PNG:
                 case C4GBrickFileType::IMAGES_PNG_JPG:
                 case C4GBrickFileType::IMAGES_PNG_JPG_TIFF:
-                    if($fileObject->path[0] == '/')
-                    {
-                        return $fieldTitle . '<div class="c4g_tile value">' . '<img src="' .substr ($fileObject->path, 1 ). '" width="'.$this->getSize().'" height="'.$this->getSize().'">' . '</div>';
+                    if ($fileObject->path[0] == '/') {
+                        return $fieldTitle . '<div class="c4g_tile value">' . '<img src="' . substr($fileObject->path, 1) . '" width="' . $this->getSize() . '" height="' . $this->getSize() . '">' . '</div>';
                     }
-                    else
-                    {
-                        return $fieldTitle . '<div class="c4g_tile value">' . '<img src="' .$fileObject->path. '" width="'.$this->getSize().'" height="'.$this->getSize().'">' . '</div>';
-                    }
+
+                        return $fieldTitle . '<div class="c4g_tile value">' . '<img src="' . $fileObject->path . '" width="' . $this->getSize() . '" height="' . $this->getSize() . '">' . '</div>';
+
             }
-        }
-        else
-        {
-            switch($this->getFileTypes())
-            {
+        } else {
+            switch ($this->getFileTypes()) {
                 case C4GBrickFileType::IMAGES_ALL:
                 case C4GBrickFileType::IMAGES_JPG:
                 case C4GBrickFileType::IMAGES_PNG:
                 case C4GBrickFileType::IMAGES_PNG_JPG:
                 case C4GBrickFileType::IMAGES_PNG_JPG_TIFF:
                     return $fieldTitle . '<div class="c4g_tile value">' . '<img src="system/modules/con4gis_projects/assets/missing.png">' . '</div>';
+
                     break;
                 default:
                     return $fieldTitle . '<div class="c4g_tile value">' . '<div class="error"></div>' . '</div>';
@@ -359,9 +356,9 @@ class C4GFileField extends C4GBrickField
         $fileObject = C4GBrickCommon::loadFile($file);
         if ($fileObject) {
             return $fileObject->name;
-        } else {
-            return 'UNKNOWN';
         }
+
+        return 'UNKNOWN';
     }
 
     /**
@@ -379,6 +376,7 @@ class C4GFileField extends C4GBrickField
     public function setMaxFileSize($maxFileSize)
     {
         $this->maxFileSize = $maxFileSize;
+
         return $this;
     }
 
@@ -397,6 +395,7 @@ class C4GFileField extends C4GBrickField
     public function setNameFormat($nameFormat)
     {
         $this->nameFormat = $nameFormat;
+
         return $this;
     }
 
@@ -415,6 +414,7 @@ class C4GFileField extends C4GBrickField
     public function setWithDate($withDate)
     {
         $this->withDate = $withDate;
+
         return $this;
     }
 
@@ -433,6 +433,7 @@ class C4GFileField extends C4GBrickField
     public function setWithNumber($withNumber)
     {
         $this->withNumber = $withNumber;
+
         return $this;
     }
 
@@ -467,6 +468,7 @@ class C4GFileField extends C4GBrickField
     public function setUploadURL(string $uploadURL): C4GFileField
     {
         $this->uploadURL = $uploadURL;
+
         return $this;
     }
 
@@ -485,6 +487,7 @@ class C4GFileField extends C4GBrickField
     public function setDeleteURL(string $deleteURL): C4GFileField
     {
         $this->deleteURL = $deleteURL;
+
         return $this;
     }
 
@@ -495,6 +498,7 @@ class C4GFileField extends C4GBrickField
     public function setLinkType(string $linkType)
     {
         $this->linkType = $linkType;
+
         return $this;
     }
 
@@ -513,6 +517,7 @@ class C4GFileField extends C4GBrickField
     public function setFilenameColumn(string $filenameColumn)
     {
         $this->filenameColumn = $filenameColumn;
+
         return $this;
     }
 
@@ -531,6 +536,7 @@ class C4GFileField extends C4GBrickField
     public function setFilename(string $filename)
     {
         $this->filename = $filename;
+
         return $this;
     }
 }

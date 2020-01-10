@@ -21,7 +21,6 @@ class C4GRedirectBackAction extends C4GBrickDialogAction
         $id = $dialogParams->getId();
 
         if ($redirectBackSite && (($jumpTo = \PageModel::findByPk($redirectBackSite)) !== null)) {
-
             if ($dialogParams->isRedirectWithSaving()) {
                 $this->saveDialog($id);
             }

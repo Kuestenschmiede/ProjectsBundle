@@ -19,8 +19,8 @@ class C4GBrickNotification
 {
     public function getArrayTokens($dlgValues, $fieldList, $button_email = false, $object = null)
     {
-        $field_array = array();
-        $tokensValues = array();
+        $field_array = [];
+        $tokensValues = [];
         $permalink_name = '';
         // filter the notifications fields
         foreach ($fieldList as $field) {
@@ -66,7 +66,7 @@ class C4GBrickNotification
                             $multiCheckboxString = $dlgValue;
                         }
                         $tokensValues[$field->getFieldName()] .= $multiCheckboxString;
-                    } else if (!$field instanceof C4GMultiCheckboxField) {
+                    } elseif (!$field instanceof C4GMultiCheckboxField) {
                         $tokensValues[$field->getFieldName()] = $dlgValue;
                     }
                 } /*else {
@@ -93,23 +93,23 @@ class C4GBrickNotification
         }
 
         //ToDo prüfen ob flüssiger als flüssig
-        if($button_email) {
+        if ($button_email) {
             $tokensValues = $dlgValues;
         }
         $tokensValues['c4g_member_id'] = $dlgValues['c4g_member_id'];
         $arrTokens = C4GBrickNotification::getMemberDetails($tokensValues, $permalink_name);
+
         return $arrTokens;
     }
 
     public static function getMemberDetails($tokensValues, $permalink_name = '')
     {
-        if($tokensValues) {
-            foreach($tokensValues as $name=>$tokenValue) {
-
-                if($name == 'c4g_member_id') {
+        if ($tokensValues) {
+            foreach ($tokensValues as $name => $tokenValue) {
+                if ($name == 'c4g_member_id') {
                     $member = MemberModel::findByPk($tokenValue);
                     $tokensValues['firstname'] = $member->firstname;
-                    $tokensValues['lastname']  = $member->lastname;
+                    $tokensValues['lastname'] = $member->lastname;
 
                     //Sonderlocke
                     if ($tokensValues['email']) {
@@ -119,13 +119,14 @@ class C4GBrickNotification
                     }
                 }
 
-                if($name == 'permalink' && $permalink_name !== '') {
+                if ($name == 'permalink' && $permalink_name !== '') {
                     if ($tokensValues[$permalink_name]) {
-                        $tokensValues['permalink'] = $tokenValue.$tokensValues[$permalink_name];
+                        $tokensValues['permalink'] = $tokenValue . $tokensValues[$permalink_name];
                     }
                 }
             }
         }
+
         return $tokensValues;
     }
 }

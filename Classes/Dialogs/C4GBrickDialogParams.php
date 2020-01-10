@@ -11,6 +11,7 @@
  * @link       https://www.con4gis.org
  */
 namespace con4gis\ProjectsBundle\Classes\Dialogs;
+
 use con4gis\CoreBundle\Resources\contao\classes\callback\C4GCallback;
 use con4gis\ProjectsBundle\Classes\Buttons\C4GBrickButton;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickConst;
@@ -28,8 +29,8 @@ class C4GBrickDialogParams
     private $id = -1; //dialogId
     private $brickKey = ''; //brickKey (module key)
     private $projectKey = '';//project key (parent brickKey)
-    private $captionField       = 'caption'; //Feldname für die Benennung eines einzelnen Datensatzes. Kann überschrieben werden.
-    private $brickCaption       = ''; //Standard Singular Datensatzbeschriftung. Kann überschrieben werden.
+    private $captionField = 'caption'; //Feldname für die Benennung eines einzelnen Datensatzes. Kann überschrieben werden.
+    private $brickCaption = ''; //Standard Singular Datensatzbeschriftung. Kann überschrieben werden.
     private $brickCaptionPlural = ''; //Standard Plural Datensatzbeschriftung. Kann überschrieben werden.
     private $memberId = -1; //memberId (user)
     private $groupId = -1; //groupId (membergroup)
@@ -42,13 +43,13 @@ class C4GBrickDialogParams
     private $parentModel = ''; //In Verbindung mit ViewType PROJECTPARENTBASED und GROUPPARENTVIEW
     private $parentCaption = ''; //Hinweistexte können sich so im Kontext auf den Parent beziehen.
     private $parentCaptionPlural = ''; //Hinweistexte können sich so im Kontext auf den Parent beziehen.
-    private $parentCaptionFields = array(); // Für die Selectbox in der Parentauswahl, sodass die Bezeichnung auch aus einem anderen Feld als caption/name kommen kann
-    private $parentCaptionCallback = array(); // Funktion aus dem aktuellen Modul, sodass die Bezeichnungen über einen Callback gesetzt werden
+    private $parentCaptionFields = []; // Für die Selectbox in der Parentauswahl, sodass die Bezeichnung auch aus einem anderen Feld als caption/name kommen kann
+    private $parentCaptionCallback = []; // Funktion aus dem aktuellen Modul, sodass die Bezeichnungen über einen Callback gesetzt werden
     private $homeDir = ''; //homeDir for saving project data
     private $viewType = ''; //viewType -> see C4GBrickView
     private $viewParams = null; //viewParams for BrickView (params for List and Dialog)
     private $frozen = false; //special locks the dialog
-    private $buttons = array(); //dialog buttons
+    private $buttons = []; //dialog buttons
     private $accordion = false; //activates accordion (every headline is an accordeon button)
     private $accordion_counter = 0; //counts the accordions button to calc end of div
     private $accordion_all_opened = false; //opens all accordion buttons by default
@@ -72,17 +73,17 @@ class C4GBrickDialogParams
     private $sendEMails = null; //siehe C4GBrickSendEMail
     private $notificationType = null; //notification type
     private $notificationTypeContactRequest = null;
-    private $withNotification     = false; //activate notifications
-    private $withBackup           = false; //backup see con4gis-Streamer
-    private $popup                = false; //shows dialog as magnific popup
-    private $withActivationInfo   = false; //activation info
-    private $modelListFunction    = null; //Lädt die Datensätze der Tabelle über eine spezielle Modelfunktion.
-    private $withLabels           = true; //deactivates all labels
-    private $withDescriptions     = true; //deactivates all descriptions
-    private $tableRows            = false; //shows label and input in one row
+    private $withNotification = false; //activate notifications
+    private $withBackup = false; //backup see con4gis-Streamer
+    private $popup = false; //shows dialog as magnific popup
+    private $withActivationInfo = false; //activation info
+    private $modelListFunction = null; //Lädt die Datensätze der Tabelle über eine spezielle Modelfunktion.
+    private $withLabels = true; //deactivates all labels
+    private $withDescriptions = true; //deactivates all descriptions
+    private $tableRows = false; //shows label and input in one row
     private $uniqueTitle = ''; //unique message title
     private $uniqueMessage = ''; //unique message
-    private $withPrintButton      = false; //activates print button
+    private $withPrintButton = false; //activates print button
     private $filterParams = null; //siehe C4GBrickFilterParams
     private $confirmActivation = false;
     private $notifyOnChanges = false;
@@ -94,7 +95,7 @@ class C4GBrickDialogParams
     private $additionalHeadText = '';
     private $isWithEmptyParentOption = false;
     private $isWithCommonParentOption = false;
-    private $redirects = array();//C4GBrickRedirect
+    private $redirects = [];//C4GBrickRedirect
     private $saveWithUuid = false;
     private $saveTimestamp = true;
     private $uuid = '';
@@ -113,7 +114,6 @@ class C4GBrickDialogParams
     private $insertNewCondition = null;
     private $customDialogCallback = null;
 
-
     /**
      * C4GBrickDialogParams constructor.
      */
@@ -130,7 +130,6 @@ class C4GBrickDialogParams
         $this->brickCaptionPlural = $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['BRICK_CAPTION_PLURAL'];
 
         $this->setButtons($this->getDefaultDialogButtons($this->getViewType()));
-
     }
 
     /**
@@ -138,7 +137,7 @@ class C4GBrickDialogParams
      */
     public function getDefaultDialogButtons($viewType)
     {
-        $buttons = array();
+        $buttons = [];
 
         if ($viewType) {
             if ($viewType != C4GBrickViewType::MEMBERBOOKING) {
@@ -164,7 +163,7 @@ class C4GBrickDialogParams
                 $buttons[] = new C4GBrickButton(C4GBrickConst::BUTTON_ACTIVATION);
             }
 
-            if ( ($viewType != C4GBrickViewType::GROUPFORM) &&
+            if (($viewType != C4GBrickViewType::GROUPFORM) &&
                 ($viewType != C4GBrickViewType::GROUPFORMCOPY) &&
                 ($viewType != C4GBrickViewType::PROJECTPARENTFORMCOPY) &&
                 ($viewType != C4GBrickViewType::PROJECTFORM) &&
@@ -177,12 +176,10 @@ class C4GBrickDialogParams
             if ($this->withPrintButton) {
                 $buttons[] = new C4GBrickButton(C4GBrickConst::BUTTON_PRINT);
             }
-
         }
 
         return $buttons;
     }
-
 
     /**
      * @return int
@@ -199,6 +196,7 @@ class C4GBrickDialogParams
     public function setId($id)
     {
         $this->id = $id;
+
         return $this;
     }
 
@@ -217,6 +215,7 @@ class C4GBrickDialogParams
     public function setGroupId($groupId)
     {
         $this->groupId = $groupId;
+
         return $this;
     }
 
@@ -235,6 +234,7 @@ class C4GBrickDialogParams
     public function setMemberId($memberId)
     {
         $this->memberId = $memberId;
+
         return $this;
     }
 
@@ -253,6 +253,7 @@ class C4GBrickDialogParams
     public function setProjectId($projectId)
     {
         $this->projectId = $projectId;
+
         return $this;
     }
 
@@ -271,6 +272,7 @@ class C4GBrickDialogParams
     public function setProjectUuid($projectUuid)
     {
         $this->projectUuid = $projectUuid;
+
         return $this;
     }
 
@@ -289,6 +291,7 @@ class C4GBrickDialogParams
     public function setParentId($parentId)
     {
         $this->parentId = $parentId;
+
         return $this;
     }
 
@@ -307,6 +310,7 @@ class C4GBrickDialogParams
     public function setParentIdField($parentIdField)
     {
         $this->parentIdField = $parentIdField;
+
         return $this;
     }
 
@@ -325,6 +329,7 @@ class C4GBrickDialogParams
     public function setHomeDir($homeDir)
     {
         $this->homeDir = $homeDir;
+
         return $this;
     }
 
@@ -343,6 +348,7 @@ class C4GBrickDialogParams
     public function setViewType($viewType)
     {
         $this->viewType = $viewType;
+
         return $this;
     }
 
@@ -361,6 +367,7 @@ class C4GBrickDialogParams
     public function setViewParams($viewParams)
     {
         $this->viewParams = $viewParams;
+
         return $this;
     }
 
@@ -379,23 +386,24 @@ class C4GBrickDialogParams
     public function setFrozen($frozen = true)
     {
         $this->frozen = $frozen;
+
         return $this;
     }
 
-    public function addButton($type, $caption='', $visible=true, $enabled=true, $action = '', $accesskey = '', $defaultByEnter = false, $notification = null, $condition = null, $additionalClass = '') {
-
+    public function addButton($type, $caption = '', $visible = true, $enabled = true, $action = '', $accesskey = '', $defaultByEnter = false, $notification = null, $condition = null, $additionalClass = '')
+    {
         $exists = false;
         if ($caption == '') {
             $caption = C4GBrickButton::getTypeCaption($type);
         }
 
         if ($action == '') {
-            $action =  C4GBrickButton::getTypeAction($type);
+            $action = C4GBrickButton::getTypeAction($type);
         }
 
         $button = null;
         if ($type && ($type != C4GBrickConst::BUTTON_CLICK)) {
-            foreach($this->buttons as $btn) {
+            foreach ($this->buttons as $btn) {
                 if ($btn->getType() == $type) {
                     $btn->setCaption($caption);
                     $btn->setVisible($visible);
@@ -408,6 +416,7 @@ class C4GBrickDialogParams
                     $btn->setAdditionalCssClass($additionalClass);
                     $button = $btn;
                     $exists = true;
+
                     break;
                 }
             }
@@ -422,10 +431,10 @@ class C4GBrickDialogParams
         return $button;
     }
 
-    public function deleteButton($type) {
-
-        $exists  = false;
-        foreach($this->buttons as $btn) {
+    public function deleteButton($type)
+    {
+        $exists = false;
+        foreach ($this->buttons as $btn) {
             if ($btn->getType() == $type) {
                 $btn->setCaption('');
                 $btn->setVisible(false);
@@ -435,6 +444,7 @@ class C4GBrickDialogParams
                 $btn->setDefaultByEnter(false);
 
                 $exists = true;
+
                 break;
             }
         }
@@ -444,10 +454,12 @@ class C4GBrickDialogParams
         }
     }
 
-    public function changeButtonText($type, $caption) {
-        foreach($this->buttons as $btn) {
+    public function changeButtonText($type, $caption)
+    {
+        foreach ($this->buttons as $btn) {
             if ($btn->getType() == $type) {
                 $btn->setCaption($caption);
+
                 return true;
             }
         }
@@ -455,8 +467,9 @@ class C4GBrickDialogParams
         return false;
     }
 
-    public function getButton($type) {
-        foreach($this->buttons as $button) {
+    public function getButton($type)
+    {
+        foreach ($this->buttons as $button) {
             if ($button->getType() == $type) {
                 return $button;
             }
@@ -465,9 +478,10 @@ class C4GBrickDialogParams
         return null;
     }
 
-    public function getButtonsArray($type) {
-        $result = Array();
-        foreach($this->buttons as $button) {
+    public function getButtonsArray($type)
+    {
+        $result = [];
+        foreach ($this->buttons as $button) {
             if ($button->getType() == $type) {
                 $result[] = $button;
             }
@@ -476,14 +490,15 @@ class C4GBrickDialogParams
         return $result;
     }
 
-    public function checkButtonVisibility($type, $dbValues = null) {
+    public function checkButtonVisibility($type, $dbValues = null)
+    {
         if ($type) {
             foreach ($this->buttons as $button) {
                 if ($button->getType() == $type) {
                     $condition = $button->getCondition();
                     if ($condition) {
                         $fieldName = $condition->getFieldName();
-                        $value     = $condition->getValue();
+                        $value = $condition->getValue();
 
                         if ($dbValues && $dbValues->$fieldName) {
                             $button->setVisible($dbValues->$fieldName == $value);
@@ -494,9 +509,9 @@ class C4GBrickDialogParams
 
                     if ($button->isVisible()) {
                         return true;
-                    } else {
-                        return false;
                     }
+
+                    return false;
                 }
             }
         }
@@ -524,6 +539,7 @@ class C4GBrickDialogParams
     public function setButtons($buttons)
     {
         $this->buttons = $buttons;
+
         return $this;
     }
 
@@ -542,6 +558,7 @@ class C4GBrickDialogParams
     public function setTableRows($tableRows = true)
     {
         $this->tableRows = $tableRows;
+
         return $this;
     }
 
@@ -560,6 +577,7 @@ class C4GBrickDialogParams
     public function setAccordion($accordion = true)
     {
         $this->accordion = $accordion;
+
         return $this;
     }
 
@@ -578,6 +596,7 @@ class C4GBrickDialogParams
     public function setAccordionCounter($accordion_counter)
     {
         $this->accordion_counter = $accordion_counter;
+
         return $this;
     }
 
@@ -590,6 +609,7 @@ class C4GBrickDialogParams
         if ($accordion_all_opened == true) {
             return $this->addOnLoadScript('openAccordion("all");');
         }
+
         return $this;
     }
 
@@ -608,6 +628,7 @@ class C4GBrickDialogParams
     public function setSaveOnMandatory($saveOnMandatory = true)
     {
         $this->saveOnMandatory = $saveOnMandatory;
+
         return $this;
     }
 
@@ -626,6 +647,7 @@ class C4GBrickDialogParams
     public function setMandatoryCheckOnActivate($mandatoryCheckOnActivate = true)
     {
         $this->mandatoryCheckOnActivate = $mandatoryCheckOnActivate;
+
         return $this;
     }
 
@@ -644,6 +666,7 @@ class C4GBrickDialogParams
     public function setRedirectWithSaving($redirectWithSaving = true)
     {
         $this->redirectWithSaving = $redirectWithSaving;
+
         return $this;
     }
 
@@ -662,6 +685,7 @@ class C4GBrickDialogParams
     public function setRedirectWithActivation($redirectWithActivation = true)
     {
         $this->redirectWithActivation = $redirectWithActivation;
+
         return $this;
     }
 
@@ -680,6 +704,7 @@ class C4GBrickDialogParams
     public function setWithoutGuiHeader($withoutGuiHeader = true)
     {
         $this->withoutGuiHeader = $withoutGuiHeader;
+
         return $this;
     }
 
@@ -698,6 +723,7 @@ class C4GBrickDialogParams
     public function setSaveWithoutMessages($saveWithoutMessages = true)
     {
         $this->saveWithoutMessages = $saveWithoutMessages;
+
         return $this;
     }
 
@@ -716,6 +742,7 @@ class C4GBrickDialogParams
     public function setSaveWithoutSavingMessage($saveWithoutSavingMessage = true)
     {
         $this->saveWithoutSavingMessage = $saveWithoutSavingMessage;
+
         return $this;
     }
 
@@ -734,6 +761,7 @@ class C4GBrickDialogParams
     public function setWithInitialSaving($withInitialSaving = true)
     {
         $this->withInitialSaving = $withInitialSaving;
+
         return $this;
     }
 
@@ -752,6 +780,7 @@ class C4GBrickDialogParams
     public function setRedirectSite($redirectSite)
     {
         $this->redirectSite = $redirectSite;
+
         return $this;
     }
 
@@ -770,6 +799,7 @@ class C4GBrickDialogParams
     public function setRedirectBackSite($redirectBackSite)
     {
         $this->redirectBackSite = $redirectBackSite;
+
         return $this;
     }
 
@@ -788,6 +818,7 @@ class C4GBrickDialogParams
     public function setBrickKey($brickKey)
     {
         $this->brickKey = $brickKey;
+
         return $this;
     }
 
@@ -806,6 +837,7 @@ class C4GBrickDialogParams
     public function setProjectKey($projectKey)
     {
         $this->projectKey = $projectKey;
+
         return $this;
     }
 
@@ -832,6 +864,7 @@ class C4GBrickDialogParams
     public function setBrickCaption($brickCaption)
     {
         $this->brickCaption = $brickCaption;
+
         return $this;
     }
 
@@ -842,6 +875,7 @@ class C4GBrickDialogParams
     public function setBrickCaptionPlural($brickCaptionPlural)
     {
         $this->brickCaptionPlural = $brickCaptionPlural;
+
         return $this;
     }
 
@@ -860,6 +894,7 @@ class C4GBrickDialogParams
     public function setCaptionField($captionField)
     {
         $this->captionField = $captionField;
+
         return $this;
     }
 
@@ -878,6 +913,7 @@ class C4GBrickDialogParams
     public function setParentModel($parentModel)
     {
         $this->parentModel = $parentModel;
+
         return $this;
     }
 
@@ -896,6 +932,7 @@ class C4GBrickDialogParams
     public function setParentCaption($parentCaption)
     {
         $this->parentCaption = $parentCaption;
+
         return $this;
     }
 
@@ -914,6 +951,7 @@ class C4GBrickDialogParams
     public function setParentCaptionPlural($parentCaptionPlural)
     {
         $this->parentCaptionPlural = $parentCaptionPlural;
+
         return $this;
     }
 
@@ -932,6 +970,7 @@ class C4GBrickDialogParams
     public function setC4gMap($c4gMap)
     {
         $this->c4gMap = $c4gMap;
+
         return $this;
     }
 
@@ -950,9 +989,9 @@ class C4GBrickDialogParams
     public function setContentId($contentId)
     {
         $this->contentId = $contentId;
+
         return $this;
     }
-
 
     /**
      * @return string
@@ -969,6 +1008,7 @@ class C4GBrickDialogParams
     public function setHeadline($headline)
     {
         $this->headline = $headline;
+
         return $this;
     }
 
@@ -987,6 +1027,7 @@ class C4GBrickDialogParams
     public function setSendEMails($sendEMails)
     {
         $this->sendEMails = $sendEMails;
+
         return $this;
     }
 
@@ -1005,6 +1046,7 @@ class C4GBrickDialogParams
     public function setNotificationTypeContactRequest($notificationTypeContactRequest)
     {
         $this->notificationTypeContactRequest = $notificationTypeContactRequest;
+
         return $this;
     }
 
@@ -1023,6 +1065,7 @@ class C4GBrickDialogParams
     public function setNotificationType($notificationType)
     {
         $this->notificationType = $notificationType;
+
         return $this;
     }
 
@@ -1041,6 +1084,7 @@ class C4GBrickDialogParams
     public function setWithNotification($withNotification = true)
     {
         $this->withNotification = $withNotification;
+
         return $this;
     }
 
@@ -1059,6 +1103,7 @@ class C4GBrickDialogParams
     public function setWithBackup($withBackup)
     {
         $this->withBackup = $withBackup;
+
         return $this;
     }
 
@@ -1077,6 +1122,7 @@ class C4GBrickDialogParams
     public function setPopup($popup = true)
     {
         $this->popup = $popup;
+
         return $this;
     }
 
@@ -1095,6 +1141,7 @@ class C4GBrickDialogParams
     public function setWithActivationInfo($withActivationInfo = true)
     {
         $this->withActivationInfo = $withActivationInfo;
+
         return $this;
     }
 
@@ -1113,6 +1160,7 @@ class C4GBrickDialogParams
     public function setModelListFunction($modelListFunction)
     {
         $this->modelListFunction = $modelListFunction;
+
         return $this;
     }
 
@@ -1131,6 +1179,7 @@ class C4GBrickDialogParams
     public function setWithLabels($withLabels = true)
     {
         $this->withLabels = $withLabels;
+
         return $this;
     }
 
@@ -1149,6 +1198,7 @@ class C4GBrickDialogParams
     public function setWithDescriptions($withDescriptions = true)
     {
         $this->withDescriptions = $withDescriptions;
+
         return $this;
     }
 
@@ -1167,6 +1217,7 @@ class C4GBrickDialogParams
     public function setAdditionalId($additionalId)
     {
         $this->additionalId = $additionalId;
+
         return $this;
     }
 
@@ -1185,6 +1236,7 @@ class C4GBrickDialogParams
     public function setAdditionalIdField($additionalIdField)
     {
         $this->additionalIdField = $additionalIdField;
+
         return $this;
     }
 
@@ -1203,6 +1255,7 @@ class C4GBrickDialogParams
     public function setUniqueMessage($uniqueMessage)
     {
         $this->uniqueMessage = $uniqueMessage;
+
         return $this;
     }
 
@@ -1221,6 +1274,7 @@ class C4GBrickDialogParams
     public function setUniqueTitle($uniqueTitle)
     {
         $this->uniqueTitle = $uniqueTitle;
+
         return $this;
     }
 
@@ -1239,6 +1293,7 @@ class C4GBrickDialogParams
     public function setWithPrintButton($withPrintButton = true)
     {
         $this->withPrintButton = $withPrintButton;
+
         return $this;
     }
 
@@ -1257,6 +1312,7 @@ class C4GBrickDialogParams
     public function setTabContent($tabContent = true)
     {
         $this->tabContent = $tabContent;
+
         return $this;
     }
 
@@ -1275,6 +1331,7 @@ class C4GBrickDialogParams
     public function setTabContentCounter($tabContent_counter)
     {
         $this->tabContent_counter = $tabContent_counter;
+
         return $this;
     }
 
@@ -1293,6 +1350,7 @@ class C4GBrickDialogParams
     public function setWithTabContentCheck($withTabContentCheck = true)
     {
         $this->withTabContentCheck = $withTabContentCheck;
+
         return $this;
     }
 
@@ -1311,6 +1369,7 @@ class C4GBrickDialogParams
     public function setFilterParams($filterParams)
     {
         $this->filterParams = $filterParams;
+
         return $this;
     }
 
@@ -1329,6 +1388,7 @@ class C4GBrickDialogParams
     public function setConfirmActivation($confirmActivation = true)
     {
         $this->confirmActivation = $confirmActivation;
+
         return $this;
     }
 
@@ -1347,6 +1407,7 @@ class C4GBrickDialogParams
     public function setNotifyOnChanges($notifyOnChanges = true)
     {
         $this->notifyOnChanges = $notifyOnChanges;
+
         return $this;
     }
 
@@ -1365,6 +1426,7 @@ class C4GBrickDialogParams
     public function setSaveWithoutClose($saveWithoutClose = true)
     {
         $this->saveWithoutClose = $saveWithoutClose;
+
         return $this;
     }
 
@@ -1383,6 +1445,7 @@ class C4GBrickDialogParams
     public function setWithNextPrevButtons($withNextPrevButtons = true)
     {
         $this->withNextPrevButtons = $withNextPrevButtons;
+
         return $this;
     }
 
@@ -1401,6 +1464,7 @@ class C4GBrickDialogParams
     public function setGroupKeyField($groupKeyField)
     {
         $this->groupKeyField = $groupKeyField;
+
         return $this;
     }
 
@@ -1426,7 +1490,6 @@ class C4GBrickDialogParams
      * @param $onloadScript
      * @return $this
      */
-
     public function addOnLoadScript($onloadScript)
     {
         if ($this->onloadScript !== '') {
@@ -1434,6 +1497,7 @@ class C4GBrickDialogParams
         } else {
             $this->onloadScript = $onloadScript;
         }
+
         return $this;
     }
 
@@ -1452,6 +1516,7 @@ class C4GBrickDialogParams
     public function setParentCaptionFields($parentCaptionField)
     {
         $this->parentCaptionFields = $parentCaptionField;
+
         return $this;
     }
 
@@ -1470,6 +1535,7 @@ class C4GBrickDialogParams
     public function setBeforeSaveAction($beforeSaveAction)
     {
         $this->beforeSaveAction = $beforeSaveAction;
+
         return $this;
     }
 
@@ -1488,6 +1554,7 @@ class C4GBrickDialogParams
     public function setAdditionalHeadText($additionalHeadText)
     {
         $this->additionalHeadText = $additionalHeadText;
+
         return $this;
     }
 
@@ -1506,6 +1573,7 @@ class C4GBrickDialogParams
     public function setIsWithEmptyParentOption($isWithEmptyParentOption = true)
     {
         $this->isWithEmptyParentOption = $isWithEmptyParentOption;
+
         return $this;
     }
 
@@ -1524,6 +1592,7 @@ class C4GBrickDialogParams
     public function setParentCaptionCallback($parentCaptionCallback)
     {
         $this->parentCaptionCallback = $parentCaptionCallback;
+
         return $this;
     }
 
@@ -1542,15 +1611,18 @@ class C4GBrickDialogParams
     public function setRedirects($redirects)
     {
         $this->redirects = $redirects;
+
         return $this;
     }
 
-    public function addRedirect($newRedirect) {
+    public function addRedirect($newRedirect)
+    {
         if ($newRedirect) {
             $addRedirect = true;
             foreach ($this->redirects as $redirect) {
                 if ($newRedirect->getType() == $redirect->getType()) {
                     $addRedirect = false;
+
                     break;
                 }
             }
@@ -1559,6 +1631,7 @@ class C4GBrickDialogParams
                 $this->redirects[] = $newRedirect;
             }
         }
+
         return $this;
     }
 
@@ -1577,6 +1650,7 @@ class C4GBrickDialogParams
     public function setSaveWithUuid($saveWithUuid = true)
     {
         $this->saveWithUuid = $saveWithUuid;
+
         return $this;
     }
 
@@ -1595,6 +1669,7 @@ class C4GBrickDialogParams
     public function setIsWithCommonParentOption($isWithCommonParentOption = true)
     {
         $this->isWithCommonParentOption = $isWithCommonParentOption;
+
         return $this;
     }
 
@@ -1613,9 +1688,9 @@ class C4GBrickDialogParams
     public function setSaveTimestamp($saveTimestamp = true)
     {
         $this->saveTimestamp = $saveTimestamp;
+
         return $this;
     }
-
 
     /**
      * @return string
@@ -1632,6 +1707,7 @@ class C4GBrickDialogParams
     public function setUuid($uuid)
     {
         $this->uuid = $uuid;
+
         return $this;
     }
 
@@ -1650,6 +1726,7 @@ class C4GBrickDialogParams
     public function setHeadlineTag($headlineTag)
     {
         $this->headlineTag = $headlineTag;
+
         return $this;
     }
 
@@ -1668,6 +1745,7 @@ class C4GBrickDialogParams
     public function setModelDialogFunction($modelDialogFunction)
     {
         $this->modelDialogFunction = $modelDialogFunction;
+
         return $this;
     }
 
@@ -1686,6 +1764,7 @@ class C4GBrickDialogParams
     public function setSelectParentCaption(string $selectParentCaption): C4GBrickDialogParams
     {
         $this->selectParentCaption = $selectParentCaption;
+
         return $this;
     }
 
@@ -1704,6 +1783,7 @@ class C4GBrickDialogParams
     public function setSelectParentMessage(string $selectParentMessage): C4GBrickDialogParams
     {
         $this->selectParentMessage = $selectParentMessage;
+
         return $this;
     }
 
@@ -1722,6 +1802,7 @@ class C4GBrickDialogParams
     public function setSaveInNewDataset(bool $saveInNewDataset = true): C4GBrickDialogParams
     {
         $this->saveInNewDataset = $saveInNewDataset;
+
         return $this;
     }
 
@@ -1740,6 +1821,7 @@ class C4GBrickDialogParams
     public function setOriginalIdName(string $originalIdName): C4GBrickDialogParams
     {
         $this->originalIdName = $originalIdName;
+
         return $this;
     }
 
@@ -1758,6 +1840,7 @@ class C4GBrickDialogParams
     public function setSaveInNewDataSetIfCondition(C4GBrickCondition $saveInNewDataSetIfCondition = null)
     {
         $this->saveInNewDataSetIfCondition = $saveInNewDataSetIfCondition;
+
         return $this;
     }
 
@@ -1776,6 +1859,7 @@ class C4GBrickDialogParams
     public function setDoNotSaveIfValuesDidNotChange(bool $doNotSaveIfValuesDidNotChange): C4GBrickDialogParams
     {
         $this->doNotSaveIfValuesDidNotChange = $doNotSaveIfValuesDidNotChange;
+
         return $this;
     }
 
@@ -1794,6 +1878,7 @@ class C4GBrickDialogParams
     public function setSaveCallback(C4GCallback $saveCallback): C4GBrickDialogParams
     {
         $this->saveCallback = $saveCallback;
+
         return $this;
     }
 
@@ -1812,6 +1897,7 @@ class C4GBrickDialogParams
     public function setDeleteCallback(C4GCallback $deleteCallback): C4GBrickDialogParams
     {
         $this->deleteCallback = $deleteCallback;
+
         return $this;
     }
 
@@ -1830,6 +1916,7 @@ class C4GBrickDialogParams
     public function setShowSuccessfullySavedMessage(bool $showSuccessfullySavedMessage): C4GBrickDialogParams
     {
         $this->showSuccessfullySavedMessage = $showSuccessfullySavedMessage;
+
         return $this;
     }
 
@@ -1864,10 +1951,12 @@ class C4GBrickDialogParams
     public function setInsertNewCondition(C4GCallback $callback): C4GBrickDialogParams
     {
         $this->insertNewCondition = $callback;
+
         return $this;
     }
 
-    public function clearInsertNewCondition() {
+    public function clearInsertNewCondition()
+    {
         $this->insertNewCondition = null;
     }
 
@@ -1886,6 +1975,7 @@ class C4GBrickDialogParams
     public function setCustomDialogCallback(C4GCallback $customDialogCallback)
     {
         $this->customDialogCallback = $customDialogCallback;
+
         return $this;
     }
 }

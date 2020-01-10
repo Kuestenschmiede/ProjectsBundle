@@ -27,15 +27,16 @@ class C4GConfirmGroupSelectAction extends C4GBrickDialogAction
         $dialogParams->setProjectUuid('');
         $dialogParams->setParentId('');
 
-        \Session::getInstance()->set("c4g_brick_group_id", $dlgValues[$groupKeyField]);
-        \Session::getInstance()->set("c4g_brick_project_id", '');
-        \Session::getInstance()->set("c4g_brick_project_uuid", '');
-        \Session::getInstance()->set("c4g_brick_parent_id", '');
+        \Session::getInstance()->set('c4g_brick_group_id', $dlgValues[$groupKeyField]);
+        \Session::getInstance()->set('c4g_brick_project_id', '');
+        \Session::getInstance()->set('c4g_brick_project_uuid', '');
+        \Session::getInstance()->set('c4g_brick_parent_id', '');
 
         $this->setPutVars(null);
         //$this->setFieldList(null);
 
         $action = new C4GShowListAction($dialogParams, $this->getListParams(), $this->getFieldList(), $this->getPutVars(), $this->getBrickDatabase());
+
         return $action->run();
     }
 

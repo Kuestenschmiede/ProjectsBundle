@@ -20,11 +20,12 @@ class C4GDeleteDialogAction extends C4GBrickDialogAction
     {
         $dlgValues = $this->getPutVars();
         $dialogParams = $this->getDialogParams();
-        $dialogId  = $dialogParams->getId();
+        $dialogId = $dialogParams->getId();
 
         if ($dialogId == '') {
             $dialogParams->setId(-1);
             $action = new C4GCloseDialogAction($dialogParams, $this->getListParams(), $this->getFieldList(), $this->getPutVars(), $this->getBrickDatabase());
+
             return $action->run();
         }
 

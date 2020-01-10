@@ -16,8 +16,9 @@ namespace con4gis\ProjectsBundle\Classes\Database;
  * Class C4GBrickDatabaseType
  * @package c4g\projects
  */
-class C4GBrickDatabaseType {
-    const NO_DB          = 'no_db';
-    const DCA_MODEL      = 'dca_model'; //dieser Typ geht von einer Standard Contao DCA und der zugehörigen Model-Klasse aus.
-    const DOCTRINE       = 'doctrine'; //dieser Typ erwartet eine doctrine entity Klasse
+class C4GBrickDatabaseType
+{
+    const NO_DB = 'no_db';
+    const DCA_MODEL = 'dca_model'; //dieser Typ geht von einer Standard Contao DCA und der zugehörigen Model-Klasse aus.
+    const DOCTRINE = 'doctrine'; //dieser Typ erwartet eine doctrine entity Klasse
 }

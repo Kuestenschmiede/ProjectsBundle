@@ -26,12 +26,12 @@ class C4GDateTimeLocationField extends C4GBrickField
      * @param array $additionalParams
      * @return string
      */
-    public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = array())
+    public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = [])
     {
         $fieldName = $this->getFieldName();
         $content = $additionalParams['content'];
         $database = $additionalParams['database'];
-        $id = "c4g_" . $fieldName;
+        $id = 'c4g_' . $fieldName;
         $title = $this->getTitle();
         $extModel = $this->getExternalModel();
         $extFieldName = $this->getExternalIdField();
@@ -41,7 +41,7 @@ class C4GDateTimeLocationField extends C4GBrickField
         $withoutAddressReloadButton = $this->isWithoutAddressReloadButton();
         // $size = $field->getSize();
         $time = $data->loc_time;
-        $required = $this->generateRequiredString( $data, $dialogParams);
+        $required = $this->generateRequiredString($data, $dialogParams);
 
         $address = null;
         if ($extModel && $extFieldName && $latitudeField && $longitudeField) {
@@ -63,7 +63,7 @@ class C4GDateTimeLocationField extends C4GBrickField
             $find = 'profile":"';
             $pos = strpos($content, $find);
             if ($pos > 0) {
-                $str_profile_id = substr($content,$pos+10,4);
+                $str_profile_id = substr($content, $pos + 10, 4);
                 if ($str_profile_id) {
                     $profile_id = intval($str_profile_id);
                 }
@@ -78,22 +78,20 @@ class C4GDateTimeLocationField extends C4GBrickField
             }
         }
         if ($address) {
-            if($withoutAddressReloadButton)
-            {
+            if ($withoutAddressReloadButton) {
                 $address_line =
                     '<div class="c4g_reverse_address"><input ' . $required . ' name="address" id="c4g_brick_geopicker_address_without_reloadbutton" value="' . $address . '" type="text" disabled="disabled" class="formdata" >';
-            }
-            else{
+            } else {
                 $address_line =
                     '<div class="c4g_reverse_address"><input ' . $required . ' name="address" id="c4g_brick_geopicker_address" value="' . $address . '" type="text" disabled="disabled" class="formdata" >' .
                     '<button ' . $required . ' id="c4g_addressUpdateButton" onClick="C4GGeopickerAddress(\'' . $profile_id . '\')">Adresse neu laden</button></div>';
             }
         } else {
-            $address_line = "";
+            $address_line = '';
         }
 
         $condition = $this->createConditionData($fieldList, $data);
-        $description = $this->getC4GDescriptionLabel($this->getDescription(),$condition);
+        $description = $this->getC4GDescriptionLabel($this->getDescription(), $condition);
 
         $result =
 //            $content . //Inhaltselement der Karte
@@ -103,7 +101,7 @@ class C4GDateTimeLocationField extends C4GBrickField
             . $condition['conditionValue']
             . $condition['conditionDisable'] . '>
             <label class="c4g_brick_geopicker_label">' . $title . '</label>' .
-            $address_line.
+            $address_line .
             '<input ' . $required . ' name="geox" id="c4g_brick_geopicker_geox" onchange="C4GGeopickerAddress(\'' . $profile_id . '\')" value="' . $lon . '" type="text" disabled="disabled" class="formdata" >' .
             '<input ' . $required . ' name="geoy" id="c4g_brick_geopicker_geoy" onchange="C4GGeopickerAddress(\'' . $profile_id . '\')" value="' . $lat . '" type="text" disabled="disabled" class="formdata" >' .
             $description .
@@ -129,8 +127,8 @@ class C4GDateTimeLocationField extends C4GBrickField
         $dlg_geoy = $dlgValues['geoy'];
         //$dlg_locstyle = $dlgValues[$fieldName];
 
-        if ( ($db_geox != $dlg_geox) || ($db_geoy != $dlg_geoy)) {
-            $result[] = new C4GBrickFieldCompare($this, $db_geox.'|'.$db_geoy, $dlg_geox.'|'.$dlg_geoy);
+        if (($db_geox != $dlg_geox) || ($db_geoy != $dlg_geoy)) {
+            $result[] = new C4GBrickFieldCompare($this, $db_geox . '|' . $db_geoy, $dlg_geox . '|' . $dlg_geoy);
         }
     }
     /**
@@ -143,5 +141,4 @@ class C4GDateTimeLocationField extends C4GBrickField
     {
         // TODO: Implement getC4GListField() method.
     }
-
 }
