@@ -12,6 +12,7 @@
  */
 namespace con4gis\ProjectsBundle\Classes\Common;
 
+use con4gis\CoreBundle\Resources\contao\models\C4gLogModel;
 use con4gis\MapsBundle\Resources\contao\models\C4gMapProfilesModel;
 use con4gis\MapsBundle\Resources\contao\models\C4gMapsModel;
 use con4gis\MapsBundle\Resources\contao\modules\api\ReverseSearchApi;
@@ -77,7 +78,7 @@ class C4GBrickCommon
                     }
                 }
             } catch (Exception $e) {
-                \System::log('File delete Exception: ' . $e, __CLASS__ . '::' . __FUNCTION__, TL_ERROR);
+                C4gLogModel::addLogEntry('projects', $e->getMessage());
             }
         }
     }
@@ -94,7 +95,7 @@ class C4GBrickCommon
                 $objFiles = \Files::getInstance();
                 $result = $objFiles->mkdir($path);
             } catch (Exception $e) {
-                \System::log('File delete Exception: ' . $e, __CLASS__ . '::' . __FUNCTION__, TL_ERROR);
+                C4gLogModel::addLogEntry('projects', $e->getMessage());
             }
         }
 
@@ -114,7 +115,7 @@ class C4GBrickCommon
                     unlink($file);
                 }
             } catch (Exception $e) {
-                \System::log('File delete Exception: ' . $e, __CLASS__ . '::' . __FUNCTION__, TL_ERROR);
+                C4gLogModel::addLogEntry('maps', $e->getMessage());
             }
         }
     }
@@ -699,7 +700,7 @@ class C4GBrickCommon
                 }
             }
         } catch (Exception $e) {
-            //Adresse nicht ermittelbar
+            C4gLogModel::addLogEntry('maps', $e->getMessage());
         }
 
         return trim($return);

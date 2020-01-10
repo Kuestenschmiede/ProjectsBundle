@@ -25,6 +25,7 @@ class C4GHeadlineField extends C4GBrickField
     protected $showHeadlineNumber = false;
     protected $showFieldCount = false;
     protected $accordionIcon = ''; //HTML of the icon to be displayed before the title.
+    protected $associatedFields = [];
 
     const ACCORDION_HEADLINE_CLASS = 'c4g_accordion_headline';
     const ACCORDION_HEADLINE_ICON_CLASS = 'c4g_accordion_icon';
@@ -43,6 +44,31 @@ class C4GHeadlineField extends C4GBrickField
     public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = [])
     {
         $result = '';
+        if ($this->associatedFields !== []) {
+            $hasValues = false;
+
+            foreach ($this->associatedFields as $associatedField) {
+                $fieldName = $associatedField->getFieldName();
+                if (!empty($data->$fieldName) && trim($data->$fieldName) !== '') {
+                    if ($associatedField instanceof C4GMultiLinkField) {
+                        $arrayData = \StringUtil::deserialize($data->$fieldName);
+                        foreach ($arrayData as $row) {
+                            foreach ($row as $key => $item) {
+                                if (trim($item) !== '') {
+                                    $hasValues = true;
+                                }
+                            }
+                        }
+                    } else {
+                        $hasValues = true;
+                    }
+                }
+            }
+
+            if ($hasValues === false) {
+                return '';
+            }
+        }
 
         if ($this->isShowIfEmpty() || !empty($this->getTitle())) {
             $condition = $this->createConditionData($fieldList, $data);
@@ -264,6 +290,14 @@ class C4GHeadlineField extends C4GBrickField
     public function setAccordionIcon($accordionIcon)
     {
         $this->accordionIcon = $accordionIcon;
+
+        return $this;
+    }
+}
+
+    public function addAssociatedField(C4GBrickField $brickField)
+    {
+        $this->associatedFields[] = $brickField;
 
         return $this;
     }

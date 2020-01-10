@@ -12,6 +12,7 @@
  */
 namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
 
+use con4gis\CoreBundle\Resources\contao\models\C4gLogModel;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldCompare;
@@ -114,6 +115,7 @@ class C4GDateTimePickerField extends C4GBrickField
             } catch (\Exception $exception) {
                 // fallback, this results in $diff being a time difference of 0
                 $diff = \DateInterval::createFromDateString($time);
+                C4gLogModel::addLogEntry('projects', $exception->getMessage());
             }
             $objDate->add($diff);
             $fieldData = $objDate->getTimestamp();
