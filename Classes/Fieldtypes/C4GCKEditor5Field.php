@@ -4,7 +4,7 @@
  * the gis-kit for Contao CMS.
  *
  * @package    con4gis
- * @version    6
+ * @version    7
  * @author     con4gis contributors (see "authors.txt")
  * @license    LGPL-3.0-or-later
  * @copyright  Küstenschmiede GmbH Software & Design
@@ -43,7 +43,6 @@ class C4GCKEditor5Field extends C4GBrickField
         self::TOOL_REDO,
         self::TOOL_UNDO,
     ];
-
 
     const PLUGIN_ESSENTIALS = 'Essentials';
     const PLUGIN_CK_FINDER_UPLOAD_ADAPTER = 'CKFinderUploadAdapter';
@@ -91,9 +90,9 @@ class C4GCKEditor5Field extends C4GBrickField
      * @param array $additionalParams
      * @return array|string
      */
-    public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = array())
+    public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = [])
     {
-        $id = "c4g_ckeditor_".self::$instances;
+        $id = 'c4g_ckeditor_' . self::$instances;
         self::$instances += 1;
         $required = $this->generateRequiredString($data, $dialogParams);
         $value = $this->generateInitialValue($data);
@@ -111,15 +110,16 @@ class C4GCKEditor5Field extends C4GBrickField
             $tools = [];
         }
 
-        $script = 'ClassicEditor.create(document.querySelector( \'#'.$id.'\' ), { 
-                removePlugins: [ '. $this->createJSONStringFromArray($this->removedPlugins) .' ], 
-                toolbar: [ '. $this->createJSONStringFromArray($tools) .' ]
-            }).then( editor => { ckeditor5instances[\'#'.$id.'\'] = editor; editor.isReadOnly = \''.$isReadOnly.'\';} ).catch( error => {console.error(error);});';
+        $script = 'ClassicEditor.create(document.querySelector( \'#' . $id . '\' ), { 
+                removePlugins: [ ' . $this->createJSONStringFromArray($this->removedPlugins) . ' ], 
+                toolbar: [ ' . $this->createJSONStringFromArray($tools) . ' ]
+            }).then( editor => { ckeditor5instances[\'#' . $id . '\'] = editor; editor.isReadOnly = \'' . $isReadOnly . '\';} ).catch( error => {console.error(error);});';
         $condition = $this->createConditionData($fieldList, $data);
-        $fieldData = '<textarea onfocus="'.$script.'" ' . $required . ' ' . $condition['conditionPrepare'] . 'id="'.$id.'"' . ' class="formdata js-ckeditor' . ' ui-corner-all" name="' . $this->getFieldName() . '" cols="80" rows="'.$size.'" >' . $value . ' </textarea>';
-        $fieldData .= '<script>'.$script.'</script>';
+        $fieldData = '<textarea onfocus="' . $script . '" ' . $required . ' ' . $condition['conditionPrepare'] . 'id="' . $id . '"' . ' class="formdata js-ckeditor' . ' ui-corner-all" name="' . $this->getFieldName() . '" cols="80" rows="' . $size . '" >' . $value . ' </textarea>';
+        $fieldData .= '<script>' . $script . '</script>';
 
-        $result = $this->addC4GField($condition,$dialogParams,$fieldList,$data,$fieldData);
+        $result = $this->addC4GField($condition, $dialogParams, $fieldList, $data, $fieldData);
+
         return $result;
     }
 
@@ -139,10 +139,12 @@ class C4GCKEditor5Field extends C4GBrickField
         if (strcmp($dbValue, $dlgValue) != 0) {
             $result = new C4GBrickFieldCompare($this, $dbValue, $dlgValue);
         }
+
         return $result;
     }
 
-    protected function createJSONStringFromArray(array $array) {
+    protected function createJSONStringFromArray(array $array)
+    {
         $json = '';
         foreach ($array as $entry) {
             if ($json !== '') {
@@ -150,12 +152,14 @@ class C4GCKEditor5Field extends C4GBrickField
             }
             $json .= "'$entry'";
         }
+
         return $json;
     }
 
-    private function addPlugin(string $plugin) {
+    private function addPlugin(string $plugin)
+    {
         if (in_array($plugin, $this->removedPlugins)) {
-            unset ($this->removedPlugins[array_search($plugin, $this->removedPlugins)]);
+            unset($this->removedPlugins[array_search($plugin, $this->removedPlugins)]);
         }
     }
 
@@ -177,23 +181,28 @@ class C4GCKEditor5Field extends C4GBrickField
             case self::TOOL_TABLE_ROW:
             case self::TOOL_TABLE_COLUMN:
                 $this->tools[] = $tool;
+
                 break;
             case self::TOOL_UNORDERED_LIST:
             case self::TOOL_ORDERED_LIST:
                 $this->tools[] = $tool;
                 $this->addPlugin(self::PLUGIN_LIST);
+
                 break;
             case self::TOOL_BLOCK_QUOTE:
                 $this->tools[] = $tool;
                 $this->addPlugin(self::PLUGIN_BLOCK_QUOTE);
+
                 break;
             case self::TOOL_LINK:
                 $this->tools[] = $tool;
                 $this->addPlugin(self::PLUGIN_LINK);
+
                 break;
             case self::TOOL_HEADING:
                 $this->tools[] = $tool;
                 $this->addPlugin(self::PLUGIN_HEADING);
+
                 break;
             case self::TOOL_IMAGE_UPLOAD:
                 $this->tools[] = $tool;
@@ -201,23 +210,28 @@ class C4GCKEditor5Field extends C4GBrickField
                 $this->addPlugin(self::PLUGIN_IMAGE_TOOLBAR);
                 $this->addPlugin(self::PLUGIN_IMAGE_STYLE);
                 $this->addPlugin(self::PLUGIN_IMAGE_CAPTION);
+
                 break;
             case self::TOOL_MEDIA_EMBED:
                 $this->tools[] = $tool;
                 $this->addPlugin(self::PLUGIN_MEDIA_EMBED);
+
                 break;
             case self::TOOL_INSERT_TABLE:
                 $this->tools[] = $tool;
                 $this->addPlugin(self::PLUGIN_TABLE);
+
                 break;
             case self::TOOL_TABLE:
                 $this->tools[] = self::TOOL_INSERT_TABLE;
                 $this->addPlugin(self::PLUGIN_TABLE);
                 $this->addPlugin(self::PLUGIN_TABLE_TOOLBAR);
+
                 break;
             default:
                 break;
         }
+
         return $this;
     }
 
@@ -228,8 +242,9 @@ class C4GCKEditor5Field extends C4GBrickField
     public function removeTool(string $tool): C4GCKEditor5Field
     {
         if (in_array($tool, $this->tools)) {
-            unset ($this->tools[array_search($tool, $this->tools)]);
+            unset($this->tools[array_search($tool, $this->tools)]);
         }
+
         return $this;
     }
 
@@ -239,7 +254,7 @@ class C4GCKEditor5Field extends C4GBrickField
     public function clearTools(): C4GCKEditor5Field
     {
         $this->tools = [];
+
         return $this;
     }
-
 }

@@ -4,7 +4,7 @@
  * the gis-kit for Contao CMS.
  *
  * @package    con4gis
- * @version    6
+ * @version    7
  * @author     con4gis contributors (see "authors.txt")
  * @license    LGPL-3.0-or-later
  * @copyright  Küstenschmiede GmbH Software & Design
@@ -20,18 +20,18 @@ class C4GBrickFilterParams
 
     private $withRangeFilter = false;
     private $withGeofilter = false;
-    private $rangeFrom  = ''; //Date, Timestamp, Woche, ...
-    private $rangeTo    = ''; //Date, Timestamp, Woche, ...
+    private $rangeFrom = ''; //Date, Timestamp, Woche, ...
+    private $rangeTo = ''; //Date, Timestamp, Woche, ...
 
     private $withSelectFilter = false;
     private $withCheckboxFilter = false;
     private $withMethodFilter = false;
     private $dateTimeFilter = false;
     private $useMethodFilter = 0;
-    private $filterMethod = array();
+    private $filterMethod = [];
 
-    private $fields = array();  // Checkbox = array('spaltenname' => 'Übersetzung', 'spaltenname' => 'Übersetzung');
-    private $options = array();
+    private $fields = [];  // Checkbox = array('spaltenname' => 'Übersetzung', 'spaltenname' => 'Übersetzung');
+    private $options = [];
 
     private $filterField = ''; // The fieldname of the field which the data should be filtered by
     private $withoutFiltertext = false;
@@ -43,7 +43,6 @@ class C4GBrickFilterParams
     {
         $this->getBrickFilterCookies($brickKey);
     }
-
 
     /**
      * @return string
@@ -60,6 +59,7 @@ class C4GBrickFilterParams
     public function setHeadtext($headtext)
     {
         $this->headtext = $headtext;
+
         return $this;
     }
 
@@ -78,6 +78,7 @@ class C4GBrickFilterParams
     public function setButtontext($buttontext)
     {
         $this->buttontext = $buttontext;
+
         return $this;
     }
 
@@ -96,6 +97,7 @@ class C4GBrickFilterParams
     public function setMinItems($minItems)
     {
         $this->minItems = $minItems;
+
         return $this;
     }
 
@@ -115,6 +117,7 @@ class C4GBrickFilterParams
     {
         @trigger_error('Use of C4GBrickFilterParams is deprecated, use a C4GListFilter object instead.');
         $this->withRangeFilter = $withRangeFilter;
+
         return $this;
     }
 
@@ -133,6 +136,7 @@ class C4GBrickFilterParams
     public function setRangeFrom($rangeFrom)
     {
         $this->rangeFrom = $rangeFrom;
+
         return $this;
     }
 
@@ -151,6 +155,7 @@ class C4GBrickFilterParams
     public function setRangeTo($rangeTo)
     {
         $this->rangeTo = $rangeTo;
+
         return $this;
     }
 
@@ -166,10 +171,11 @@ class C4GBrickFilterParams
      * @param bool $withSelectFilter
      * @return $this
      */
-    public function setWithSelectFilter($withSelectFilter  = true)
+    public function setWithSelectFilter($withSelectFilter = true)
     {
         @trigger_error('Use of C4GBrickFilterParams is deprecated, use a C4GListFilter object instead.');
         $this->withSelectFilter = $withSelectFilter;
+
         return $this;
     }
 
@@ -189,6 +195,7 @@ class C4GBrickFilterParams
     {
         @trigger_error('Use of C4GBrickFilterParams is deprecated, use a C4GListFilter object instead.');
         $this->withCheckboxFilter = $withCheckboxFilter;
+
         return $this;
     }
 
@@ -207,6 +214,7 @@ class C4GBrickFilterParams
     public function setFields($fields)
     {
         $this->fields = $fields;
+
         return $this;
     }
 
@@ -225,6 +233,7 @@ class C4GBrickFilterParams
     public function setOptions($options)
     {
         $this->options = $options;
+
         return $this;
     } // Werten wonach gesucht werden soll || $list[] = array('id' => 'der zu suchende Wert', 'name' => 'Name');
 
@@ -244,6 +253,7 @@ class C4GBrickFilterParams
     {
         @trigger_error('Use of C4GBrickFilterParams is deprecated, use a C4GListFilter object instead.');
         $this->withGeofilter = $withGeofilter;
+
         return $this;
     }
 
@@ -262,27 +272,31 @@ class C4GBrickFilterParams
     public function setFilterField($filterField)
     {
         $this->filterField = $filterField;
+
         return $this;
     }
 
-    public function setBrickFilterCookies($brickKey) {
+    public function setBrickFilterCookies($brickKey)
+    {
         $fromValue = $this->rangeFrom;
         $toValue = $this->rangeTo;
         $useMethodFilter = $this->useMethodFilter;
-        if($fromValue && $toValue) {
-            setcookie($brickKey.'_rangeFrom', $fromValue, time()+3600, '/');
-            setcookie($brickKey.'_rangeTo', $toValue, time()+3600, '/');
+        if ($fromValue && $toValue) {
+            setcookie($brickKey . '_rangeFrom', $fromValue, time() + 3600, '/');
+            setcookie($brickKey . '_rangeTo', $toValue, time() + 3600, '/');
         }
         if ($this->withMethodFilter) {
-            setcookie($brickKey.'_methodFilter', $useMethodFilter, time()+3600, '/');
+            setcookie($brickKey . '_methodFilter', $useMethodFilter, time() + 3600, '/');
         }
+
         return $this;
     }
 
-    public function getBrickFilterCookies($brickKey) {
-        $fromCookie = $_COOKIE[$brickKey.'_rangeFrom'];
-        $toCookie   = $_COOKIE[$brickKey.'_rangeTo'];
-        $methodFilterCookie = $_COOKIE[$brickKey.'_methodFilter'];
+    public function getBrickFilterCookies($brickKey)
+    {
+        $fromCookie = $_COOKIE[$brickKey . '_rangeFrom'];
+        $toCookie = $_COOKIE[$brickKey . '_rangeTo'];
+        $methodFilterCookie = $_COOKIE[$brickKey . '_methodFilter'];
         if ($fromCookie && $toCookie) {
             $this->rangeFrom = $fromCookie;
             $this->rangeTo = $toCookie;
@@ -326,6 +340,7 @@ class C4GBrickFilterParams
     {
         @trigger_error('Use of C4GBrickFilterParams is deprecated, use a C4GListFilter object instead.');
         $this->withMethodFilter = $withMethodFilter;
+
         return $this;
     }
 
@@ -344,6 +359,7 @@ class C4GBrickFilterParams
     public function setFilterMethod(array $filterMethod)
     {
         $this->filterMethod = $filterMethod;
+
         return $this;
     }
 
@@ -379,5 +395,4 @@ class C4GBrickFilterParams
     {
         $this->dateTimeFilter = $dateTimeFilter;
     }
-
 }

@@ -4,7 +4,7 @@
  * the gis-kit for Contao CMS.
  *
  * @package    con4gis
- * @version    6
+ * @version    7
  * @author     con4gis contributors (see "authors.txt")
  * @license    LGPL-3.0-or-later
  * @copyright  Küstenschmiede GmbH Software & Design
@@ -14,11 +14,11 @@ namespace con4gis\ProjectsBundle\Classes\Fieldlist;
 
 class C4GBrickLoadOptions
 {
-    private $model      = ''; //Model Klasse
-    private $keyField   = 'id'; //wenn leer werden alle Datensätze geladen, ansonsten wird die Value des Feldes als Schlüßel benutzt
-    private $idField    = ''; //id Feld für Select
-    private $nameField  = ''; //Beschriftung für Select
-    private $pathField  = ''; //Für die Bildgalerie
+    private $model = ''; //Model Klasse
+    private $keyField = 'id'; //wenn leer werden alle Datensätze geladen, ansonsten wird die Value des Feldes als Schlüßel benutzt
+    private $idField = ''; //id Feld für Select
+    private $nameField = ''; //Beschriftung für Select
+    private $pathField = ''; //Für die Bildgalerie
     private $publishedField = ''; //Boolean Spalte steuert Sichtbarkeit
 
     /**
@@ -36,9 +36,9 @@ class C4GBrickLoadOptions
     public function setPublishedField($publishedField)
     {
         $this->publishedField = $publishedField;
+
         return $this;
     }
-
 
     /**
      * @return string
@@ -55,6 +55,7 @@ class C4GBrickLoadOptions
     public function setModel($model)
     {
         $this->model = $model;
+
         return $this;
     }
 
@@ -73,6 +74,7 @@ class C4GBrickLoadOptions
     public function setKeyField($keyField)
     {
         $this->keyField = $keyField;
+
         return $this;
     }
 
@@ -91,6 +93,7 @@ class C4GBrickLoadOptions
     public function setIdField($idField)
     {
         $this->idField = $idField;
+
         return $this;
     }
 
@@ -109,6 +112,7 @@ class C4GBrickLoadOptions
     public function setNameField($nameField)
     {
         $this->nameField = $nameField;
+
         return $this;
     }
 
@@ -127,9 +131,7 @@ class C4GBrickLoadOptions
     public function setPathField($pathField)
     {
         $this->pathField = $pathField;
+
         return $this;
     }
-
-
-
 }

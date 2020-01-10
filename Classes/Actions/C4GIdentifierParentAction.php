@@ -4,7 +4,7 @@
  * the gis-kit for Contao CMS.
  *
  * @package    con4gis
- * @version    6
+ * @version    7
  * @author     con4gis contributors (see "authors.txt")
  * @license    LGPL-3.0-or-later
  * @copyright  Küstenschmiede GmbH Software & Design
@@ -12,10 +12,10 @@
  */
 namespace con4gis\ProjectsBundle\Classes\Actions;
 
-
 class C4GIdentifierParentAction extends C4GBrickAction
 {
-    public function run() {
+    public function run()
+    {
         $dialogParams = $this->getDialogParams();
         $listParams = $this->getListParams();
         $fieldList = $this->getFieldList();
@@ -26,6 +26,7 @@ class C4GIdentifierParentAction extends C4GBrickAction
         $dialogParams->setId(-1);
         $dialogParams->setParentId($id);
         $action = new C4GShowDialogAction($dialogParams, $listParams, $fieldList, $putVars, $brickDatabase);
+
         return $action->run();
     }
 

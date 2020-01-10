@@ -4,14 +4,13 @@
  * the gis-kit for Contao CMS.
  *
  * @package    con4gis
- * @version    6
+ * @version    7
  * @author     con4gis contributors (see "authors.txt")
  * @license    LGPL-3.0-or-later
  * @copyright  Küstenschmiede GmbH Software & Design
  * @link       https://www.con4gis.org
  */
 namespace con4gis\ProjectsBundle\Classes\Actions;
-
 
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialog;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
@@ -31,24 +30,27 @@ trait C4GTraitCheckMandatoryFields
         if ($mandatoryCheckResult !== true) {
             if ($mandatoryCheckResult instanceof C4GBrickField) {
                 if ($mandatoryCheckResult->getSpecialMandatoryMessage() != '') {
-                    return array('usermessage' => $mandatoryCheckResult->getSpecialMandatoryMessage(), 'title' => $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_MANDATORY_TITLE'],
-                        'callback' => array('function' => 'focusOnElement', 'params' => 'c4g_' . $mandatoryCheckResult->getFieldName()));
+                    return ['usermessage' => $mandatoryCheckResult->getSpecialMandatoryMessage(), 'title' => $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_MANDATORY_TITLE'],
+                        'callback' => ['function' => 'focusOnElement', 'params' => 'c4g_' . $mandatoryCheckResult->getFieldName()], ];
                 } elseif ($mandatoryCheckResult->getTitle() != '') {
                     if (!$callbackParams) {
-                        $callbackParams = 'c4g_'. $mandatoryCheckResult->getFieldName();
+                        $callbackParams = 'c4g_' . $mandatoryCheckResult->getFieldName();
                     }
-                    return array('usermessage' => $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_MANDATORY_FIELD'].'"'. $mandatoryCheckResult->getTitle().'".',
+
+                    return ['usermessage' => $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_MANDATORY_FIELD'] . '"' . $mandatoryCheckResult->getTitle() . '".',
                         'title' => $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_MANDATORY_TITLE'],
-                        'callback' => array('function' => $callback, 'params' => $callbackParams));
+                        'callback' => ['function' => $callback, 'params' => $callbackParams], ];
                 }
             }
-            return array('usermessage' => $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_MANDATORY'], 'title' => $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_MANDATORY_TITLE']);
+
+            return ['usermessage' => $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_MANDATORY'], 'title' => $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_MANDATORY_TITLE']];
         }
 
         $validate_result = C4GBrickDialog::validateFields($this->makeRegularFieldList($fieldList), $dlgValues);
         if ($validate_result) {
-            return array('usermessage' => $validate_result, 'title' => $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['INVALID_INPUT']);
+            return ['usermessage' => $validate_result, 'title' => $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['INVALID_INPUT']];
         }
-        return array();
+
+        return [];
     }
 }

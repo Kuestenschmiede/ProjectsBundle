@@ -4,7 +4,7 @@
  * the gis-kit for Contao CMS.
  *
  * @package    con4gis
- * @version    6
+ * @version    7
  * @author     con4gis contributors (see "authors.txt")
  * @license    LGPL-3.0-or-later
  * @copyright  Küstenschmiede GmbH Software & Design
@@ -12,14 +12,11 @@
  */
 namespace con4gis\ProjectsBundle\Classes\Models;
 
-
 class C4gProjectMapDataModel extends \Model
 {
-
     /**
      * Table name
      * @var string
      */
     protected static $strTable = 'tl_c4g_project_mapdata';
-
 }

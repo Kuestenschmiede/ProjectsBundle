@@ -4,7 +4,7 @@
  * the gis-kit for Contao CMS.
  *
  * @package    con4gis
- * @version    6
+ * @version    7
  * @author     con4gis contributors (see "authors.txt")
  * @license    LGPL-3.0-or-later
  * @copyright  Küstenschmiede GmbH Software & Design
@@ -27,6 +27,7 @@ class C4GShowFilterDialogAction extends C4GBrickDialogAction
         if ($this->listParams->getFilterObject() !== null) {
             $dialog->setFilter($this->listParams->getFilterObject());
         }
+
         return $dialog->show();
     }
 

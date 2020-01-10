@@ -4,7 +4,7 @@
  * the gis-kit for Contao CMS.
  *
  * @package    con4gis
- * @version    6
+ * @version    7
  * @author     con4gis contributors (see "authors.txt")
  * @license    LGPL-3.0-or-later
  * @copyright  Küstenschmiede GmbH Software & Design
@@ -12,10 +12,8 @@
  */
 namespace con4gis\ProjectsBundle\Classes\Fieldlist;
 
-
 class C4GBrickFieldProperties
 {
-
     private $data = null;
     private $dialogParams = null;
     private $frozen = false;
@@ -50,6 +48,7 @@ class C4GBrickFieldProperties
     public function setData($data)
     {
         $this->data = $data;
+
         return $this;
     }
 
@@ -84,8 +83,7 @@ class C4GBrickFieldProperties
     public function setFrozen($frozen = true)
     {
         $this->frozen = $frozen;
+
         return $this;
     }
-
-
 }

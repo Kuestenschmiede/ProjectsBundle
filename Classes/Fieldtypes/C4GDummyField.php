@@ -4,7 +4,7 @@
  * the gis-kit for Contao CMS.
  *
  * @package    con4gis
- * @version    6
+ * @version    7
  * @author     con4gis contributors (see "authors.txt")
  * @license    LGPL-3.0-or-later
  * @copyright  Küstenschmiede GmbH Software & Design
@@ -17,10 +17,10 @@ use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
 
 class C4GDummyField extends C4GBrickField
 {
-
-    public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = array())
+    public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = [])
     {
         $result = '<div class="c4g_dummy_field"></div>';
+
         return $result;
     }
 
@@ -34,5 +34,4 @@ class C4GDummyField extends C4GBrickField
     {
         return true;
     }
-
 }

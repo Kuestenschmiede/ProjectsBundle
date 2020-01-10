@@ -4,7 +4,7 @@
  * the gis-kit for Contao CMS.
  *
  * @package    con4gis
- * @version    6
+ * @version    7
  * @author     con4gis contributors (see "authors.txt")
  * @license    LGPL-3.0-or-later
  * @copyright  Küstenschmiede GmbH Software & Design
@@ -41,12 +41,11 @@ abstract class C4GBrickField
      * @property string $specialMandatoryMessage Set an individual message for this mandatory field. Default: empty.
      * @property string $styleClass Additional css class for this field . Default: empty.
      * @property bool $tableColumn Whether this field is shown in the data table. Default: false.
-     *
      */
     //Todo globale Properties prüfen und ggf. den Feldklassen zuordnen
 
     //please follow alphabetical sorting
-    private $action = array(); //action for action callable fieldtypes
+    private $action = []; //action for action callable fieldtypes
 
     /**
      * @var string
@@ -60,7 +59,7 @@ abstract class C4GBrickField
     private $columnWidth = 0; //culumn width on datatable view
     private $comparable = true; //for field Compare on saving
     private $withoutValidation = false; //disable field validation
-    private $condition = array(); //see C4GBrickCondition
+    private $condition = []; //see C4GBrickCondition
     private $contentId = ''; //for transfer contao content elements like Map
     private $databaseField = true; //is this field with database mapping (saving, compare, ...)
     private $dbUnique = false; //unique field value
@@ -89,7 +88,7 @@ abstract class C4GBrickField
     private $formField = true; //you can use this property if the field shouldn't be part of the formular
     private $hidden = false; //for hidden fields
     private $ignoreViewType = false; //special to set over viewType properties like disabled fields
-    private $initialFields = array(); //z.B. für die Bildgallerie
+    private $initialFields = []; //z.B. für die Bildgallerie
     private $initialValue = ''; //set the initial value for the field (presetting)
     private $insertLink = ''; //???
     private $latitudeField = 'loc_geoy'; //Coordinate for geopicker field
@@ -100,10 +99,10 @@ abstract class C4GBrickField
     private $maxLength = 0; //max length
     private $min = 0; //min value
     private $notificationField = false; // for Notification Center
-    private $options = array(); //Options for select boxes, radio groups, ...
+    private $options = []; //Options for select boxes, radio groups, ...
     private $popupField = true; // show in popup or not
     private $radiusFieldName = ''; //???
-    private $randomValue  = ''; //Use this instead of initialValue if the value is randomly generated. The generated value must not be an empty string. If the Field is not a FormField, use initialValue.
+    private $randomValue = ''; //Use this instead of initialValue if the value is randomly generated. The generated value must not be an empty string. If the Field is not a FormField, use initialValue.
     private $searchField = false; //für C4GMatching
     private $searchMaximumField = false; // C4GMatching
     private $searchMinimumField = false; // C4GMatching
@@ -145,14 +144,13 @@ abstract class C4GBrickField
     private $withLinkDescription = false;
     private $conditionType = null; //see C4GBrickConditionType
     private $additionalLabel = ''; //Additional String to be added to the label, e.g.
-    private $changeValueToIf = array(); //Changes the field value to the 'to' value if it is the 'if' value.
+    private $changeValueToIf = []; //Changes the field value to the 'to' value if it is the 'if' value.
 
     /**
      * C4GBrickField constructor.
      */
     public function __construct()
     {
-
     }
 
     public static function create(string $fieldName,
@@ -162,7 +160,8 @@ abstract class C4GBrickField
                                   bool $tableColumn = true,
                                   bool $databaseField = true,
                                   bool $editable = true,
-                                  array $properties = []) {
+                                  array $properties = [])
+    {
         $field = new static();
         $field->setFieldName($fieldName)
             ->setTitle($title)
@@ -172,10 +171,12 @@ abstract class C4GBrickField
             ->setDatabaseField($databaseField)
             ->setEditable($editable);
         $field->setProperties($properties);
+
         return $field;
     }
 
-    public function setProperties(array $properties) {
+    public function setProperties(array $properties)
+    {
         foreach ($properties as $key => $value) {
             if ((property_exists(static::class, $key) === true) || (property_exists(self::class, $key))) {
                 $this->$key = $value;
@@ -191,7 +192,7 @@ abstract class C4GBrickField
      * @param array $additionalParams
      * @return array
      */
-    public abstract function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = array());
+    abstract public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = []);
 
     /**
      * Public method for generating the HTML code for fields based on the parameters given by the child class.
@@ -201,7 +202,6 @@ abstract class C4GBrickField
      * @param string $html The field-specific HTML code
      * @return string The generated HTML code
      */
-
     public function generateC4GFieldHTML($condition, $html, $class = '')
     {
         $display = '';
@@ -215,6 +215,7 @@ abstract class C4GBrickField
         if ($this->initInvisible) {
             $display = 'style="display: none"';
         }
+
         return '<div id="c4g_condition" '
         . $class
         . $condition['conditionName']
@@ -224,7 +225,7 @@ abstract class C4GBrickField
         . $condition['conditionDisable']
         . $display . '>'
         . $html
-        .'</div>';
+        . '</div>';
     }
 
     /**
@@ -239,10 +240,10 @@ abstract class C4GBrickField
 
         $value = $rowData->$fieldName;
         if ($this->getAddStrBeforeValue()) {
-            $value = $this->getAddStrBeforeValue().$value;
+            $value = $this->getAddStrBeforeValue() . $value;
         }
         if ($this->getAddStrBehindValue()) {
-            $value = $value.$this->getAddStrBehindValue();
+            $value = $value . $this->getAddStrBehindValue();
         }
 
         return $value;
@@ -257,6 +258,7 @@ abstract class C4GBrickField
     public function getC4GTileField($fieldTitle, $element)
     {
         $fieldName = $this->getFieldName();
+
         return $element->$fieldName;
     }
 
@@ -265,13 +267,13 @@ abstract class C4GBrickField
         if ($data[$this->getFieldName()]) {
             $styleClass = $this->getStyleClass();
             if ($this->isWithoutLabel()) {
-                return "<div class=".$styleClass.">" . $data[$this->getFieldName()] ."</div>";
-            } else {
-                return "<p class=".$styleClass."><b>". $this->getTitle() . "</b>: " . $data[$this->getFieldName()] ."</p>";
+                return '<div class=' . $styleClass . '>' . $data[$this->getFieldName()] . '</div>';
             }
-        } else {
-            return '';
+
+            return '<p class=' . $styleClass . '><b>' . $this->getTitle() . '</b>: ' . $data[$this->getFieldName()] . '</p>';
         }
+
+        return '';
     }
 
     /**
@@ -295,17 +297,19 @@ abstract class C4GBrickField
      * @param $dlgvalue
      * @return array
      */
-    public abstract function compareWithDB($dbValue, $dlgvalue);
+    abstract public function compareWithDB($dbValue, $dlgvalue);
 
     /**
      * Method that will be called in the saveC4GDialog() in C4GBrickDialog
      * @return array
      */
-    public function createFieldData($dlgValues) {
-        if(($this instanceof C4GDecimalField || $this instanceof C4GNumberField) && $this->getThousandsSep() !== ''){
-            $value = str_replace($this->getThousandsSep(),'',$dlgValues[$this->getFieldName()]);
+    public function createFieldData($dlgValues)
+    {
+        if (($this instanceof C4GDecimalField || $this instanceof C4GNumberField) && $this->getThousandsSep() !== '') {
+            $value = str_replace($this->getThousandsSep(), '', $dlgValues[$this->getFieldName()]);
             $dlgValues[$this->getFieldName()] = $value;
         }
+
         return $dlgValues[$this->getFieldName()];
     }
 
@@ -335,14 +339,14 @@ abstract class C4GBrickField
             if ($mandatory && (!$this->isWithoutMandatoryStar())) {
                 $star = '<strong class="c4g_mandatory_class">*</strong>';
             }
-            if(!$withoutLineBreak && $dialogParams->isWithLabels() === true){
+            if (!$withoutLineBreak && $dialogParams->isWithLabels() === true) {
                 $linebreak = C4GHTMLFactory::lineBreak();
             }
             $tdo = '';
             $tdc = '';
             if (($dialogParams && $dialogParams->isTableRows()) || $this->isTableRow()) {
                 $linebreak = '';
-                $tdo = '<td style="width:'.$this->getTableRowLabelWidth().'">';
+                $tdo = '<td style="width:' . $this->getTableRowLabelWidth() . '">';
                 $tdc = '</td>';
             }
 
@@ -353,14 +357,14 @@ abstract class C4GBrickField
             if ($this->getAdditionalLabel()) {
                 $additionalLabel = $this->getAdditionalLabel();
             }
-            if($this->isWithoutLabel() || ($dialogParams->isWithLabels() === false && !($this instanceof C4GMultiCheckboxField || $this instanceof C4GCheckboxField))) {
-                return $tdo.'<label for="' . $id . '" ' . $condition['conditionPrepare'] . '>' . $star . $additionalLabel . $linebreak . '</label>'.$tdc.$extTitleField;
-            } else {
-                return $tdo.'<label for="' . $id . '" ' . $condition['conditionPrepare'] . '>' . $star . $title . $additionalLabel . $linebreak . '</label>'.$tdc.$extTitleField;
+            if ($this->isWithoutLabel() || ($dialogParams->isWithLabels() === false && !($this instanceof C4GMultiCheckboxField || $this instanceof C4GCheckboxField))) {
+                return $tdo . '<label for="' . $id . '" ' . $condition['conditionPrepare'] . '>' . $star . $additionalLabel . $linebreak . '</label>' . $tdc . $extTitleField;
             }
-        } else {
-            return '';
+
+            return $tdo . '<label for="' . $id . '" ' . $condition['conditionPrepare'] . '>' . $star . $title . $additionalLabel . $linebreak . '</label>' . $tdc . $extTitleField;
         }
+
+        return '';
     }
 
     public function checkCondition($fieldList, $data, $conditions)
@@ -399,10 +403,9 @@ abstract class C4GBrickField
                                     // ist der aktuelle Wert der freischaltende Wert?
                                     if ($conditionFieldData == $conditionValue) {
                                         return true;
-                                    } else {
-                                        if (empty($conditionFieldData) || ($conditionFieldData == -1)) {
-                                            $emptyConditionFieldData = true;
-                                        }
+                                    }
+                                    if (empty($conditionFieldData) || ($conditionFieldData == -1)) {
+                                        $emptyConditionFieldData = true;
                                     }
                                 }
                             } else {
@@ -419,14 +422,14 @@ abstract class C4GBrickField
                                     // ist der aktuelle Wert der freischaltende Wert?
                                     if ($conditionFieldData == $conditionValue) {
                                         return true;
-                                    } else {
-                                        if (empty($conditionFieldData) || ($conditionFieldData == -1)) {
-                                            $emptyConditionFieldData = true;
-                                        }
+                                    }
+                                    if (empty($conditionFieldData) || ($conditionFieldData == -1)) {
+                                        $emptyConditionFieldData = true;
                                     }
                                 }
                             }
                         }
+
                         break;
                     case C4GBrickConditionType::METHODSWITCH:
                         $conditionField = $condition->getFieldName();
@@ -445,11 +448,11 @@ abstract class C4GBrickField
 
                                     if ($conditionModel && $conditionFunction) {
                                         return $conditionModel::$conditionFunction($conditionFieldData);
-                                    } else {
-                                        return false;
                                     }
+
+                                    return false;
                                 }
-                            } else if ($conditionField == $listField->getFieldName()) {
+                            } elseif ($conditionField == $listField->getFieldName()) {
                                 if (($data) && ($data->$conditionField)) {
                                     $conditionFieldData = $data->$conditionField;
                                 } else {
@@ -458,15 +461,15 @@ abstract class C4GBrickField
 
                                 if ($conditionModel && $conditionFunction) {
                                     return $conditionModel::$conditionFunction($conditionFieldData);
-                                } else {
-                                    return false;
                                 }
+
+                                return false;
                             }
                         }
+
                         break;
                 }
             }
-
         }
 
         return false;/*!$emptyConditionFieldData*/
@@ -483,9 +486,9 @@ abstract class C4GBrickField
         $result = '';
         if ($description && ($description != '') && $withLinkDescription) {
             $result = '<p class="c4g_field_description" ' . $condition['conditionPrepare'] . '><a href="' . $description . '" target="_blank">Link</a>' . C4GHTMLFactory::lineBreak() . C4GHTMLFactory::lineBreak() . '</p>';
-        } else if ($description && ($description != '')) {
+        } elseif ($description && ($description != '')) {
             $result = '<p class="c4g_field_description" ' . $condition['conditionPrepare'] . '>' . $description . C4GHTMLFactory::lineBreak() . C4GHTMLFactory::lineBreak() . '</p>';
-        } else if (!$withoutLineBreak) {
+        } elseif (!$withoutLineBreak) {
             $result = '<p ' . $condition['conditionPrepare'] . '>' . '</p>';
         } else {
             $result = '<div class="c4g_field_descripton_hole"></div>';
@@ -493,8 +496,6 @@ abstract class C4GBrickField
 
         return $result;
     }
-
-
 
     protected function createConditionData($fieldList, $data)
     {
@@ -520,7 +521,7 @@ abstract class C4GBrickField
                     continue;
                 }
 
-                if (!empty($conditionname) OR $conditionname == '0') {
+                if (!empty($conditionname) or $conditionname == '0') {
                     $conditionname .= '~' . $condition->getFieldName();
                     $conditionvalue .= '~' . $condition->getValue();
                     $conditionfunction .= '~' . $condition->getFunction();
@@ -531,7 +532,6 @@ abstract class C4GBrickField
                 }
 
                 $conditiontype = $condition->getType();
-
             }
 
             if (!$this->isEditable()) {
@@ -539,11 +539,11 @@ abstract class C4GBrickField
             } else {
                 $conditiondisable = 'false';
             }
-        } else if ($this->isRemoveWithEmptyCondition()) {
+        } elseif ($this->isRemoveWithEmptyCondition()) {
             $conditionPrepare = 'style="display: none;"';
         }
 
-        return array(
+        return [
             'conditionResult' => $conditionResult,
             'conditionPrepare' => $conditionPrepare,
             'class' => $class,
@@ -552,26 +552,26 @@ abstract class C4GBrickField
             'conditionValue' => 'data-condition-value="' . $conditionvalue . '"',
             'conditionFunction' => 'data-condition-function="' . $conditionfunction . '"',
             'conditionDisable' => 'data-condition-disable="' . $conditiondisable . '"',
-        );
+        ];
     }
 
-    public function addC4GField($condition, $dialogParams, $fieldList, $data, $fieldData) {
+    public function addC4GField($condition, $dialogParams, $fieldList, $data, $fieldData)
+    {
         //ToDo change table to display:grid if feature released for all standard browsers
-        $id = "c4g_" . $this->getFieldName();
+        $id = 'c4g_' . $this->getFieldName();
         $value = $this->generateInitialValue($data);
 
-        if($value && ($this instanceof C4GEmailField || $this instanceof C4GUrlField) && $this->isWithLinkDescription()) {
-            if($this instanceof C4GEmailField) {
-                $description = $this->getC4GDescriptionLabel('mailto:'.$value, $condition);
+        if ($value && ($this instanceof C4GEmailField || $this instanceof C4GUrlField) && $this->isWithLinkDescription()) {
+            if ($this instanceof C4GEmailField) {
+                $description = $this->getC4GDescriptionLabel('mailto:' . $value, $condition);
             } else {
-                if($this->isExternalLink()){
-                    if(!(C4GUtils::startsWith($value,'http') || C4GUtils::startsWith($value, 'https'))) {
-                        $value = 'http://'.$value;
+                if ($this->isExternalLink()) {
+                    if (!(C4GUtils::startsWith($value, 'http') || C4GUtils::startsWith($value, 'https'))) {
+                        $value = 'http://' . $value;
                     }
                 }
                 $description = $this->getC4GDescriptionLabel($value, $condition);
             }
-
         } else {
             if ($dialogParams->isWithDescriptions()) {
                 $description = $this->getC4GDescriptionLabel($this->getDescription(), $condition);
@@ -586,7 +586,7 @@ abstract class C4GBrickField
 
         if (($dialogParams && $dialogParams->isTableRows()) || $this->isTableRow()) {
             //$linebreak = '';
-            $tableo = '<table class="c4g_brick_table_rows" style="width:'.$this->getTableRowWidth().'">';
+            $tableo = '<table class="c4g_brick_table_rows" style="width:' . $this->getTableRowWidth() . '">';
             $tro = '<tr>';
             $trc = '</tr>';
             $tdo = '<td>';
@@ -596,7 +596,7 @@ abstract class C4GBrickField
 
         $class = '';
         if ($this->getStyleClass()) {
-            $class = 'class="'.$this->getStyleClass() .'" ';
+            $class = 'class="' . $this->getStyleClass() . '" ';
         }
 
         $fieldLabel = $this->addC4GFieldLabel($id, $this->getTitle(), $this->isMandatory(), $condition, $fieldList, $data, $dialogParams, true, $this->switchTitleLabel);
@@ -605,16 +605,15 @@ abstract class C4GBrickField
             $label = $fieldLabel;
             $data = $fieldData;
             $fieldLabel = $data;
-            $fieldData  = $label;
+            $fieldData = $label;
         }
 
         if ($this->isConditionalDisplay()) {
             // isset seems not to work with expression results
             if ($this->getConditionalFieldName() != '' && ($this->displayValue !== '-1')) {
                 // all required properties are set
-                $string = ' data-condition-field="c4g_'. $this->getConditionalFieldName() .'" data-condition-value="'. $this->getDisplayValue() .'" ';
+                $string = ' data-condition-field="c4g_' . $this->getConditionalFieldName() . '" data-condition-value="' . $this->getDisplayValue() . '" ';
                 $class .= $string;
-
             }
         }
 
@@ -624,9 +623,9 @@ abstract class C4GBrickField
         . $condition['conditionType']
         . $condition['conditionValue']
         . $condition['conditionFunction']
-        . $condition['conditionDisable']  . '>' .
-        $tableo.$tro.$fieldLabel.
-        $tdo.$fieldData.$tdc.$trc.$tablec.
+        . $condition['conditionDisable'] . '>' .
+        $tableo . $tro . $fieldLabel .
+        $tdo . $fieldData . $tdc . $trc . $tablec .
         $description . '</div>';
     }
 
@@ -638,13 +637,11 @@ abstract class C4GBrickField
     {
         if (((!$data)) ||
                 (!$this->isDatabaseField()) && ($this->getSource() != C4GBrickFieldSourceType::OTHER_FIELD) &&
-                (!$this->getExternalIdField()))
-        {
+                (!$this->getExternalIdField())) {
             $value = $this->getInitialValue();
         } else {
             $fieldName = $this->getFieldName();
             if ($this->getAdditionalID()) {
-
                 $pos = strripos($fieldName, '_');
                 if ($pos !== false) {
                     $fieldName = substr($fieldName, 0, $pos);
@@ -659,10 +656,10 @@ abstract class C4GBrickField
         }
 
         if ($this->getAddStrBeforeValue()) {
-            $value = $this->getAddStrBeforeValue().$value;
+            $value = $this->getAddStrBeforeValue() . $value;
         }
         if ($this->getAddStrBehindValue()) {
-            $value = $value.$this->getAddStrBehindValue();
+            $value = $value . $this->getAddStrBehindValue();
         }
 
         return $value;
@@ -675,18 +672,18 @@ abstract class C4GBrickField
      */
     protected function generateRequiredString($data, $dialogParams)
     {
-        $required = "";
+        $required = '';
         if ($this->getConditionType() == C4GBrickConditionType::BOOLSWITCH) {
             $condition = $this->getCondition();
             if ($condition) {
                 $thisName = $condition[0]->getFieldName();
                 if ($data && ($data->$thisName != $condition[0]->getValue())) {
-                    $required = "disabled readonly";
+                    $required = 'disabled readonly';
                     $this->setWithoutMandatoryStar(true);
                     $this->setEditable(false);
+
                     return $required;
                 }
-
             }
         }
 
@@ -701,22 +698,22 @@ abstract class C4GBrickField
                 ($viewType == C4GBrickViewType::PUBLICUUIDVIEW) ||
                 ($dialogParams->isFrozen() == 1))
         ) {
-            $required = "disabled readonly";
+            $required = 'disabled readonly';
             $this->setWithoutMandatoryStar(true);
             $this->setEditable(false);
-            return $required;
 
+            return $required;
         }
 
         if ($this->isMandatory()) {
-            $required = "required";
+            $required = 'required';
         }
 
         if (!$this->isEditable()) {
-            if ($required != "") {
-                $required .= " disabled readonly";
+            if ($required != '') {
+                $required .= ' disabled readonly';
             } else {
-                $required = "disabled readonly";
+                $required = 'disabled readonly';
             }
         }
 
@@ -725,7 +722,7 @@ abstract class C4GBrickField
 
     protected function createFieldID()
     {
-        return "c4g_" . $this->getFieldName();
+        return 'c4g_' . $this->getFieldName();
     }
 
     /**
@@ -734,13 +731,12 @@ abstract class C4GBrickField
      * @param array $dlgValues
      * @return bool|C4GBrickField
      */
-
     public function checkMandatory($dlgValues)
     {
         //$this->specialMandatoryMessage = $this->fieldName;    //Useful for debugging
         if (!$this->mandatory) {
             return false;
-        } elseif(!$this->display) {
+        } elseif (!$this->display) {
             return false;
         } elseif ($this->condition) {
             foreach ($this->condition as $con) {
@@ -760,9 +756,9 @@ abstract class C4GBrickField
         }
         if (($fieldData !== null) && ($fieldData) == '') {
             return $this;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**
@@ -780,6 +776,7 @@ abstract class C4GBrickField
     public function setRadiusFieldName($radiusFieldName)
     {
         $this->radiusFieldName = $radiusFieldName;
+
         return $this;
     }
 
@@ -798,6 +795,7 @@ abstract class C4GBrickField
     public function setAddressField($addressField)
     {
         $this->addressField = $addressField;
+
         return $this;
     }
 
@@ -816,9 +814,9 @@ abstract class C4GBrickField
     public function setExternalSortField($externalSortField)
     {
         $this->externalSortField = $externalSortField;
+
         return $this;
     }
-
 
     /**
      * @return null
@@ -835,9 +833,9 @@ abstract class C4GBrickField
     public function setExternalSearchValue($externalSearchValue)
     {
         $this->externalSearchValue = $externalSearchValue;
+
         return $this;
     }
-
 
     /**
      * @return string
@@ -854,6 +852,7 @@ abstract class C4GBrickField
     public function setExternalModel($externalModel)
     {
         $this->externalModel = $externalModel;
+
         return $this;
     }
 
@@ -872,6 +871,7 @@ abstract class C4GBrickField
     public function setExternalIdField($externalIdField)
     {
         $this->externalIdField = $externalIdField;
+
         return $this;
     }
 
@@ -890,6 +890,7 @@ abstract class C4GBrickField
     public function setExternalFieldName($externalFieldName)
     {
         $this->externalFieldName = $externalFieldName;
+
         return $this;
     }
 
@@ -908,6 +909,7 @@ abstract class C4GBrickField
     public function setMaxLength($maxLength)
     {
         $this->maxLength = $maxLength;
+
         return $this;
     }
 
@@ -926,6 +928,7 @@ abstract class C4GBrickField
     public function setLatitudeField($latitudeField)
     {
         $this->latitudeField = $latitudeField;
+
         return $this;
     }
 
@@ -944,6 +947,7 @@ abstract class C4GBrickField
     public function setLongitudeField($longitudeField)
     {
         $this->longitudeField = $longitudeField;
+
         return $this;
     }
 
@@ -962,6 +966,7 @@ abstract class C4GBrickField
     public function setNotificationField($notificationField = true)
     {
         $this->notificationField = $notificationField;
+
         return $this;
     }
 
@@ -980,6 +985,7 @@ abstract class C4GBrickField
     public function setSearchField($searchField = true)
     {
         $this->searchField = $searchField;
+
         return $this;
     }
 
@@ -998,6 +1004,7 @@ abstract class C4GBrickField
     public function setSearchMinimumField($searchMinimumField = true)
     {
         $this->searchMinimumField = $searchMinimumField;
+
         return $this;
     }
 
@@ -1016,9 +1023,9 @@ abstract class C4GBrickField
     public function setSearchMaximumField($searchMaximumField = true)
     {
         $this->searchMaximumField = $searchMaximumField;
+
         return $this;
     }
-
 
     /**
      * @return int
@@ -1035,10 +1042,9 @@ abstract class C4GBrickField
     public function setSearchWeightings($searchWeightings)
     {
         $this->searchWeightings = $searchWeightings;
+
         return $this;
     }
-
-
 
     /**
      * @return string
@@ -1055,6 +1061,7 @@ abstract class C4GBrickField
     public function setSourceField($sourceField)
     {
         $this->sourceField = $sourceField;
+
         return $this;
     }
 
@@ -1073,6 +1080,7 @@ abstract class C4GBrickField
     public function setWithLinkDescription($withLinkDescription = true)
     {
         $this->withLinkDescription = $withLinkDescription;
+
         return $this;
     }
 
@@ -1091,6 +1099,7 @@ abstract class C4GBrickField
     public function setWithEmptyOption($withEmptyOption = true)
     {
         $this->withEmptyOption = $withEmptyOption;
+
         return $this;
     }
 
@@ -1101,6 +1110,7 @@ abstract class C4GBrickField
     public function setAdditionalID($additionalID)
     {
         $this->additionalID = $additionalID;
+
         return $this;
     }
 
@@ -1108,7 +1118,6 @@ abstract class C4GBrickField
     {
         return $this->additionalID;
     }
-
 
     /**
      * @return string
@@ -1125,9 +1134,9 @@ abstract class C4GBrickField
     public function setInsertLink($insertLink)
     {
         $this->insertLink = $insertLink;
+
         return $this;
     }
-
 
     /**
      * @return array
@@ -1144,11 +1153,10 @@ abstract class C4GBrickField
      */
     public function setAction($actionType, $actionEvent)
     {
-        $this->action = array('actiontype' => $actionType, 'actionevent' => $actionEvent);
+        $this->action = ['actiontype' => $actionType, 'actionevent' => $actionEvent];
+
         return $this;
     }
-
-
 
     /**
      * @return boolean
@@ -1165,9 +1173,9 @@ abstract class C4GBrickField
     public function setComparable($comparable = true)
     {
         $this->comparable = $comparable;
+
         return $this;
     }
-
 
     /**
      * @return boolean
@@ -1184,6 +1192,7 @@ abstract class C4GBrickField
     public function setShowIfEmpty($showIfEmpty = true)
     {
         $this->showIfEmpty = $showIfEmpty;
+
         return $this;
     }
 
@@ -1202,10 +1211,9 @@ abstract class C4GBrickField
     public function setSource($source)
     {
         $this->source = $source;
+
         return $this;
     }
-
-
 
     /**
      * @return null
@@ -1222,6 +1230,7 @@ abstract class C4GBrickField
     public function setLoadOptions($loadOptions)
     {
         $this->loadOptions = $loadOptions;
+
         return $this;
     }
 
@@ -1240,6 +1249,7 @@ abstract class C4GBrickField
     public function setInitialFields($initialFields)
     {
         $this->initialFields = $initialFields;
+
         return $this;
     }
 
@@ -1250,9 +1260,10 @@ abstract class C4GBrickField
     public function setConditionType($conditionType)
     {
         $this->conditionType = $conditionType;
+
         return $this;
     }
-    
+
     public function getConditionType()
     {
         return $this->conditionType;
@@ -1277,9 +1288,9 @@ abstract class C4GBrickField
         } else {
             $this->condition[] = $condition;
         }
+
         return $this;
     }
-
 
     /**
      * @return string
@@ -1296,9 +1307,9 @@ abstract class C4GBrickField
     public function setDescription($description)
     {
         $this->description = $description;
+
         return $this;
     } //siehe C4GBrickFileType
-
 
     /**
      * @return string
@@ -1315,6 +1326,7 @@ abstract class C4GBrickField
     public function setFileTypes($fileTypes)
     {
         $this->fileTypes = $fileTypes;
+
         return $this;
     }
 
@@ -1333,9 +1345,9 @@ abstract class C4GBrickField
     public function setContentId($contentId)
     {
         $this->contentId = $contentId;
+
         return $this;
     } //zur Einbindung von Inhaltselementen in die Maske
-
 
     /**
      * @return boolean
@@ -1352,6 +1364,7 @@ abstract class C4GBrickField
     public function setDatabaseField($databaseField = true)
     {
         $this->databaseField = $databaseField;
+
         return $this;
     }
 
@@ -1370,6 +1383,7 @@ abstract class C4GBrickField
     public function setInitialValue($initialValue)
     {
         $this->initialValue = $initialValue;
+
         return $this;
     }
 
@@ -1388,6 +1402,7 @@ abstract class C4GBrickField
     public function setSortSequence($sortSequence)
     {
         $this->sortSequence = $sortSequence;
+
         return $this;
     }
 
@@ -1406,6 +1421,7 @@ abstract class C4GBrickField
     public function setSortType($sortType)
     {
         $this->sortType = $sortType;
+
         return $this;
     }
 
@@ -1424,6 +1440,7 @@ abstract class C4GBrickField
     public function setOptions($options)
     {
         $this->options = $options;
+
         return $this;
     }
 
@@ -1434,24 +1451,23 @@ abstract class C4GBrickField
      */
     public function setOptionsByModel($model, $captionField = 'caption')
     {
-        $result = array();
+        $result = [];
         if ($model) {
             $options = $model::findAll();
             if ($options) {
-                foreach($options as $option) {
-                    $idList[] = array(
-                        'id'     => $option->id,
-                        'name'   => $option->$captionField);
+                foreach ($options as $option) {
+                    $idList[] = [
+                        'id' => $option->id,
+                        'name' => $option->$captionField, ];
                 }
                 $result = $idList;
             }
         }
 
         $this->setOptions($result);
+
         return $this;
     }
-
-
 
     /**
      * @return boolean
@@ -1468,6 +1484,7 @@ abstract class C4GBrickField
     public function setFormField($formField = true)
     {
         $this->formField = $formField;
+
         return $this;
     }
 
@@ -1486,6 +1503,7 @@ abstract class C4GBrickField
     public function setEditable($editable = true)
     {
         $this->editable = $editable;
+
         return $this;
     }
 
@@ -1504,6 +1522,7 @@ abstract class C4GBrickField
     public function setMandatory($mandatory = true)
     {
         $this->mandatory = $mandatory;
+
         return $this;
     }
 
@@ -1522,6 +1541,7 @@ abstract class C4GBrickField
     public function setSize($size)
     {
         $this->size = $size;
+
         return $this;
     }
 
@@ -1540,6 +1560,7 @@ abstract class C4GBrickField
     public function setMin($min)
     {
         $this->min = $min;
+
         return $this;
     }
 
@@ -1558,6 +1579,7 @@ abstract class C4GBrickField
     public function setMax($max)
     {
         $this->max = $max;
+
         return $this;
     }
 
@@ -1576,6 +1598,7 @@ abstract class C4GBrickField
     public function setFieldName($thisName)
     {
         $this->fieldName = $thisName;
+
         return $this;
     }
 
@@ -1594,6 +1617,7 @@ abstract class C4GBrickField
     public function setTitle($title)
     {
         $this->title = $title;
+
         return $this;
     }
 
@@ -1612,6 +1636,7 @@ abstract class C4GBrickField
     public function setType($type)
     {
         $this->type = $type;
+
         return $this;
     }
 
@@ -1630,6 +1655,7 @@ abstract class C4GBrickField
     public function setExternalCallBackFunction($externalCallBackFunction)
     {
         $this->externalCallBackFunction = $externalCallBackFunction;
+
         return $this;
     }
 
@@ -1648,6 +1674,7 @@ abstract class C4GBrickField
     public function setColumnWidth($columnWidth)
     {
         $this->columnWidth = $columnWidth;
+
         return $this;
     }
 
@@ -1666,6 +1693,7 @@ abstract class C4GBrickField
     public function setSortColumn($sortColumn = false)
     {
         $this->sortColumn = $sortColumn;
+
         return $this;
     }
 
@@ -1684,6 +1712,7 @@ abstract class C4GBrickField
     public function setTableColumn($tableColumn = true)
     {
         $this->tableColumn = $tableColumn;
+
         return $this;
     }
 
@@ -1702,6 +1731,7 @@ abstract class C4GBrickField
     public function setCallOnChange($callOnChange = true)
     {
         $this->callOnChange = $callOnChange;
+
         return $this;
     }
 
@@ -1720,6 +1750,7 @@ abstract class C4GBrickField
     public function setCallOnChangeFunction($callOnChangeFunction)
     {
         $this->callOnChangeFunction = $callOnChangeFunction;
+
         return $this;
     }
 
@@ -1738,6 +1769,7 @@ abstract class C4GBrickField
     public function setUnique($unique = true)
     {
         $this->unique = $unique;
+
         return $this;
     }
 
@@ -1756,6 +1788,7 @@ abstract class C4GBrickField
     public function setDbUnique($dbUnique = true)
     {
         $this->dbUnique = $dbUnique;
+
         return $this;
     }
 
@@ -1774,6 +1807,7 @@ abstract class C4GBrickField
     public function setDbUniqueResult($dbUniqueResult)
     {
         $this->dbUniqueResult = $dbUniqueResult;
+
         return $this;
     }
 
@@ -1792,6 +1826,7 @@ abstract class C4GBrickField
     public function setDbUniqueAdditionalCondition($dbUniqueAdditionalCondition)
     {
         $this->dbUniqueAdditionalCondition = $dbUniqueAdditionalCondition;
+
         return $this;
     }
 
@@ -1810,6 +1845,7 @@ abstract class C4GBrickField
     public function setTableRow($tableRow = true)
     {
         $this->tableRow = $tableRow;
+
         return $this;
     }
 
@@ -1828,6 +1864,7 @@ abstract class C4GBrickField
     public function setTableRowWidth($tableRowWidth)
     {
         $this->tableRowWidth = $tableRowWidth;
+
         return $this;
     }
 
@@ -1846,6 +1883,7 @@ abstract class C4GBrickField
     public function setTableRowLabelWidth($tableRowLabelWidth)
     {
         $this->tableRowLabelWidth = $tableRowLabelWidth;
+
         return $this;
     }
 
@@ -1864,6 +1902,7 @@ abstract class C4GBrickField
     public function setSort($sort = true)
     {
         $this->sort = $sort;
+
         return $this;
     }
 
@@ -1882,6 +1921,7 @@ abstract class C4GBrickField
     public function setExtTitleField($extTitleField)
     {
         $this->extTitleField = $extTitleField;
+
         return $this;
     }
 
@@ -1900,6 +1940,7 @@ abstract class C4GBrickField
     public function setHidden($hidden = true)
     {
         $this->hidden = $hidden;
+
         return $this;
     }
 
@@ -1918,6 +1959,7 @@ abstract class C4GBrickField
     public function setWithoutLabel($withoutLabel = true)
     {
         $this->withoutLabel = $withoutLabel;
+
         return $this;
     }
 
@@ -1936,6 +1978,7 @@ abstract class C4GBrickField
     public function setWithoutDescriptionLineBreak($withoutDescriptionLineBreak = true)
     {
         $this->withoutDescriptionLineBreak = $withoutDescriptionLineBreak;
+
         return $this;
     }
 
@@ -1963,6 +2006,7 @@ abstract class C4GBrickField
     public function setStyleClass($styleClass)
     {
         $this->styleClass = $styleClass;
+
         return $this;
     }
 
@@ -1977,6 +2021,7 @@ abstract class C4GBrickField
         } else {
             $this->styleClass = $styleClass;
         }
+
         return $this;
     }
 
@@ -1995,6 +2040,7 @@ abstract class C4GBrickField
     public function setSwitchTitleLabel($switchTitleLabel = true)
     {
         $this->switchTitleLabel = $switchTitleLabel;
+
         return $this;
     }
 
@@ -2013,6 +2059,7 @@ abstract class C4GBrickField
     public function setWithoutMandatoryStar($withoutMandatoryStar = true)
     {
         $this->withoutMandatoryStar = $withoutMandatoryStar;
+
         return $this;
     }
 
@@ -2031,6 +2078,7 @@ abstract class C4GBrickField
     public function setSpecialMandatoryMessage($specialMandatoryMessage)
     {
         $this->specialMandatoryMessage = $specialMandatoryMessage;
+
         return $this;
     }
 
@@ -2049,6 +2097,7 @@ abstract class C4GBrickField
     public function setTestValue($testValue)
     {
         $this->testValue = $testValue;
+
         return $this;
     }
 
@@ -2067,6 +2116,7 @@ abstract class C4GBrickField
     public function setIgnoreViewType($ignoreViewType = true)
     {
         $this->ignoreViewType = $ignoreViewType;
+
         return $this;
     }
 
@@ -2085,6 +2135,7 @@ abstract class C4GBrickField
     public function setAlign($align)
     {
         $this->align = $align;
+
         return $this;
     }
 
@@ -2103,6 +2154,7 @@ abstract class C4GBrickField
     public function setConditionalDisplay($conditionalDisplay = true)
     {
         $this->conditionalDisplay = $conditionalDisplay;
+
         return $this;
     }
 
@@ -2121,6 +2173,7 @@ abstract class C4GBrickField
     public function setConditionalFieldName($conditionalFieldName)
     {
         $this->conditionalFieldName = $conditionalFieldName;
+
         return $this;
     }
 
@@ -2139,6 +2192,7 @@ abstract class C4GBrickField
     public function setDisplayValue($displayValue)
     {
         $this->displayValue = $displayValue;
+
         return $this;
     }
 
@@ -2157,6 +2211,7 @@ abstract class C4GBrickField
     public function setAddStrBeforeValue($addStrBeforeValue)
     {
         $this->addStrBeforeValue = $addStrBeforeValue;
+
         return $this;
     }
 
@@ -2175,6 +2230,7 @@ abstract class C4GBrickField
     public function setAddStrBehindValue($addStrBehindValue)
     {
         $this->addStrBehindValue = $addStrBehindValue;
+
         return $this;
     }
 
@@ -2193,6 +2249,7 @@ abstract class C4GBrickField
     public function setDisplay($display = true)
     {
         $this->display = $display;
+
         return $this;
     }
 
@@ -2211,6 +2268,7 @@ abstract class C4GBrickField
     public function setRemoveWithEmptyCondition($removeWithEmptyCondition = true)
     {
         $this->removeWithEmptyCondition = $removeWithEmptyCondition;
+
         return $this;
     }
 
@@ -2229,6 +2287,7 @@ abstract class C4GBrickField
     public function setTileClass($tileClass = true)
     {
         $this->tileClass = $tileClass;
+
         return $this;
     }
 
@@ -2247,6 +2306,7 @@ abstract class C4GBrickField
     public function setTileClassTable($tileClassTable)
     {
         $this->tileClassTable = $tileClassTable;
+
         return $this;
     }
 
@@ -2265,6 +2325,7 @@ abstract class C4GBrickField
     public function setTileClassField($tileClassField)
     {
         $this->tileClassField = $tileClassField;
+
         return $this;
     }
 
@@ -2283,6 +2344,7 @@ abstract class C4GBrickField
     public function setShowSum($showSum = true)
     {
         $this->showSum = $showSum;
+
         return $this;
     }
 
@@ -2301,6 +2363,7 @@ abstract class C4GBrickField
     public function setInitInvisible($invisible = true)
     {
         $this->initInvisible = $invisible;
+
         return $this;
     }
 
@@ -2321,6 +2384,7 @@ abstract class C4GBrickField
     {
         $this->randomValue = $randomValue;
         $this->initialValue = $caption;
+
         return $this;
     }
 
@@ -2339,6 +2403,7 @@ abstract class C4GBrickField
     public function setTableColumnPriority($tableColumnPriority)
     {
         $this->tableColumnPriority = $tableColumnPriority;
+
         return $this;
     }
 
@@ -2357,6 +2422,7 @@ abstract class C4GBrickField
     public function setPopupField($popupField)
     {
         $this->popupField = $popupField;
+
         return $this;
     }
 
@@ -2391,7 +2457,8 @@ abstract class C4GBrickField
      */
     public function setChangeValueToIf($to, $if): C4GBrickField
     {
-        $this->changeValueToIf = array('to' => $to, 'if' => $if);
+        $this->changeValueToIf = ['to' => $to, 'if' => $if];
+
         return $this;
     }
 
@@ -2426,6 +2493,7 @@ abstract class C4GBrickField
     public function setShowSortIcons(bool $showSortIcons)
     {
         $this->showSortIcons = $showSortIcons;
+
         return $this;
     }
 

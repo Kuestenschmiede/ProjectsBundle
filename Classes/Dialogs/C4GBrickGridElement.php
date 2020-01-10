@@ -4,7 +4,7 @@
  * the gis-kit for Contao CMS.
  *
  * @package    con4gis
- * @version    6
+ * @version    7
  * @author     con4gis contributors (see "authors.txt")
  * @license    LGPL-3.0-or-later
  * @copyright  Küstenschmiede GmbH Software & Design
@@ -16,14 +16,14 @@ use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
 
 class C4GBrickGridElement
 {
-    private $col  = 0;
+    private $col = 0;
     private $colspan = 0;
-    private $row     = 0;
+    private $row = 0;
     private $rowspan = 0;
-    private $width   = '100%';
+    private $width = '100%';
     private $horizontal = 'left';
     private $vertical = 'top';
-    private $field   = null;
+    private $field = null;
 
     /**
      * C4GBrickGridElement constructor.
@@ -55,6 +55,7 @@ class C4GBrickGridElement
     public function setCol($col)
     {
         $this->col = $col;
+
         return $this;
     }
 
@@ -73,6 +74,7 @@ class C4GBrickGridElement
     public function setWidth($width)
     {
         $this->width = $width;
+
         return $this;
     }
 
@@ -91,6 +93,7 @@ class C4GBrickGridElement
     public function setField($field)
     {
         $this->field = $field;
+
         return $this;
     }
 
@@ -109,6 +112,7 @@ class C4GBrickGridElement
     public function setRow($row)
     {
         $this->row = $row;
+
         return $this;
     }
 
@@ -127,6 +131,7 @@ class C4GBrickGridElement
     public function setHorizontal($horizontal)
     {
         $this->horizontal = $horizontal;
+
         return $this;
     }
 
@@ -145,6 +150,7 @@ class C4GBrickGridElement
     public function setVertical($vertical)
     {
         $this->vertical = $vertical;
+
         return $this;
     }
 
@@ -163,6 +169,7 @@ class C4GBrickGridElement
     public function setRowspan($rowspan)
     {
         $this->rowspan = $rowspan;
+
         return $this;
     }
 
@@ -181,8 +188,7 @@ class C4GBrickGridElement
     public function setColspan($colspan)
     {
         $this->colspan = $colspan;
+
         return $this;
     }
-
-
 }

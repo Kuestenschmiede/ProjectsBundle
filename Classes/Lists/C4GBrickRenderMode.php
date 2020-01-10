@@ -4,7 +4,7 @@
  * the gis-kit for Contao CMS.
  *
  * @package    con4gis
- * @version    6
+ * @version    7
  * @author     con4gis contributors (see "authors.txt")
  * @license    LGPL-3.0-or-later
  * @copyright  Küstenschmiede GmbH Software & Design
@@ -12,8 +12,9 @@
  */
 namespace con4gis\ProjectsBundle\Classes\Lists;
 
-class C4GBrickRenderMode {
-    const LISTBASED  = 'list';
-    const TILEBASED  = 'tiles';
+class C4GBrickRenderMode
+{
+    const LISTBASED = 'list';
+    const TILEBASED = 'tiles';
     const TABLEBASED = 'table';
 }

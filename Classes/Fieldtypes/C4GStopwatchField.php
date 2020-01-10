@@ -4,7 +4,7 @@
  * the gis-kit for Contao CMS.
  *
  * @package    con4gis
- * @version    6
+ * @version    7
  * @author     con4gis contributors (see "authors.txt")
  * @license    LGPL-3.0-or-later
  * @copyright  Küstenschmiede GmbH Software & Design
@@ -39,14 +39,13 @@ class C4GStopwatchField extends C4GBrickField
      * @param array $additionalParams
      * @return string
      */
-    public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = array())
+    public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = [])
     {
-        $id = "c4g_" . $this->getFieldName();
+        $id = 'c4g_' . $this->getFieldName();
         $result = '';
 
         $seconds = $this->seconds;
-        if  ($seconds) {
-
+        if ($seconds) {
             $condition = $this->createConditionData($fieldList, $data);
 
             $overlay_html = '';
@@ -59,17 +58,17 @@ class C4GStopwatchField extends C4GBrickField
 
             $action = '';
             if ($this->runningOutAction == C4GBrickActionType::ACTION_RESTART) {
-                $action = '<a href="#" id="'.$id.'_action" class="c4gGuiAction c4g_brick_timer_action c4gGuiAction" style="display:none" onClick="stopwatch(\'' . $id . '\',\''.$seconds.'\',\''.$overlay_id.'\',\''.$overlay_link.'\')" role="button" ></a>';
-            } else if ($this->runningOutAction) {
+                $action = '<a href="#" id="' . $id . '_action" class="c4gGuiAction c4g_brick_timer_action c4gGuiAction" style="display:none" onClick="stopwatch(\'' . $id . '\',\'' . $seconds . '\',\'' . $overlay_id . '\',\'' . $overlay_link . '\')" role="button" ></a>';
+            } elseif ($this->runningOutAction) {
                 if ($this->runningOutId == '') {
                     $this->runningOutId = $dialogParams->getId();
                 }
-                $action = '<a href="#" id="'.$id.'_action" class="c4gGuiAction c4g_brick_timer_action c4gGuiAction c4gGuiButton c4gGuiSend c4g_brick_button" style="display:none" data-action="' . $this->runningOutAction. ':'.$this->runningOutId.'" role="button" ></a>';
+                $action = '<a href="#" id="' . $id . '_action" class="c4gGuiAction c4g_brick_timer_action c4gGuiAction c4gGuiButton c4gGuiSend c4g_brick_button" style="display:none" data-action="' . $this->runningOutAction . ':' . $this->runningOutId . '" role="button" ></a>';
             }
 
             $html =
-                '<div id="'.$id.'" class="c4g_brick_stopwatch c4gGuiDialogButtonsJqui" onClick="stopwatch(\'' . $id . '\',\''.$seconds.'\',\''.$overlay_id.'\',\''.$overlay_link.'\')">'.
-                '</div><script>jQuery("#'.$id.'").click();</script>'.$action.$overlay_html;
+                '<div id="' . $id . '" class="c4g_brick_stopwatch c4gGuiDialogButtonsJqui" onClick="stopwatch(\'' . $id . '\',\'' . $seconds . '\',\'' . $overlay_id . '\',\'' . $overlay_link . '\')">' .
+                '</div><script>jQuery("#' . $id . '").click();</script>' . $action . $overlay_html;
 
             $result = $this->addC4GField($condition, $dialogParams, $fieldList, $data, $html);
         }
@@ -102,6 +101,7 @@ class C4GStopwatchField extends C4GBrickField
     public function setSeconds($seconds)
     {
         $this->seconds = $seconds;
+
         return $this;
     }
 
@@ -120,6 +120,7 @@ class C4GStopwatchField extends C4GBrickField
     public function setRunningOutAction($runningOutAction)
     {
         $this->runningOutAction = $runningOutAction;
+
         return $this;
     }
 
@@ -138,6 +139,7 @@ class C4GStopwatchField extends C4GBrickField
     public function setRunningOutId($runningOutId)
     {
         $this->runningOutId = $runningOutId;
+
         return $this;
     }
 
@@ -156,6 +158,7 @@ class C4GStopwatchField extends C4GBrickField
     public function setOverlay($overlay)
     {
         $this->overlay = $overlay;
+
         return $this;
     }
 }

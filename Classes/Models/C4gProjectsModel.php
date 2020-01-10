@@ -4,7 +4,7 @@
  * the gis-kit for Contao CMS.
  *
  * @package    con4gis
- * @version    6
+ * @version    7
  * @author     con4gis contributors (see "authors.txt")
  * @license    LGPL-3.0-or-later
  * @copyright  Küstenschmiede GmbH Software & Design
@@ -16,27 +16,27 @@ use con4gis\ProjectsBundle\Classes\Common\C4GBrickCommon;
 
 class C4gProjectsModel extends \Model
 {
-
     /**
      * Table name
      * @var string
      */
     protected static $strTable = 'tl_c4g_projects';
 
-    public static function getProjectListForBrick($memberId, $groupId, $brick_key) {
+    public static function getProjectListForBrick($memberId, $groupId, $brick_key)
+    {
         $t = static::$strTable;
 
-        $arrColumns = array("$t.group_id=? AND $t.brick_key=?");
-        $arrValues = array($groupId, $brick_key);
-        $arrOptions = array(
-            'order' => "$t.caption ASC"
-        );
+        $arrColumns = ["$t.group_id=? AND $t.brick_key=?"];
+        $arrValues = [$groupId, $brick_key];
+        $arrOptions = [
+            'order' => "$t.caption ASC",
+        ];
 
         $projects = static::findBy($arrColumns, $arrValues, $arrOptions);
 
-        $result = array();
+        $result = [];
         if ($projects) {
-            foreach($projects as $project) {
+            foreach ($projects as $project) {
                 if (C4GBrickCommon::hasMemberRightsForBrick($memberId, $project->id, $brick_key)) {
                     $result[] = $project;
                 }
@@ -46,11 +46,13 @@ class C4gProjectsModel extends \Model
         return $result;
     }
 
-    public static function checkProjectId($project_id, $brick_key) {
-        if ($project_id  && $brick_key) {
+    public static function checkProjectId($project_id, $brick_key)
+    {
+        if ($project_id && $brick_key) {
             $project = static::findByPk($project_id);
             if ($project && ($project->brick_key == $brick_key)) {
-                \Session::getInstance()->set("c4g_brick_project_uuid", $project->uuid);
+                \Session::getInstance()->set('c4g_brick_project_uuid', $project->uuid);
+
                 return true;
             }
         }
@@ -58,8 +60,9 @@ class C4gProjectsModel extends \Model
         return false;
     }
 
-    public static function checkProjectGroup($project_id, $groupId) {
-        if ($project_id  && $groupId) {
+    public static function checkProjectGroup($project_id, $groupId)
+    {
+        if ($project_id && $groupId) {
             $project = static::findByPk($project_id);
             if ($project && ($project->group_id == $groupId)) {
                 return true;

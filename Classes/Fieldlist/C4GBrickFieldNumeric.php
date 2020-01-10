@@ -4,14 +4,13 @@
  * the gis-kit for Contao CMS.
  *
  * @package    con4gis
- * @version    6
+ * @version    7
  * @author     con4gis contributors (see "authors.txt")
  * @license    LGPL-3.0-or-later
  * @copyright  Küstenschmiede GmbH Software & Design
  * @link       https://www.con4gis.org
  */
 namespace con4gis\ProjectsBundle\Classes\Fieldlist;
-
 
 abstract class C4GBrickFieldNumeric extends C4GBrickField
 {
@@ -23,11 +22,9 @@ abstract class C4GBrickFieldNumeric extends C4GBrickField
      * @property string $thousands_sep Thousands Separator. Default: empty
      * @property string $decimal_point Decimal point for fields with decimals. Default: ,
      * @property integer $decimals Number of decimals. Default: 0
-     *
      */
     //Todo Alle nötigen Properties aus BrickField und den Kindern hier einfügen
     //Todo Prüfen, ob alles funktioniert und erst danach die Properties aus BrickField und den Kindern löschen.
-
 
     protected $max = 99999;
     protected $min = 0;
@@ -42,7 +39,7 @@ abstract class C4GBrickFieldNumeric extends C4GBrickField
      */
     public function __construct()
     {
-        $this->setAlign("right");
+        $this->setAlign('right');
     }
 
     /**
@@ -60,6 +57,7 @@ abstract class C4GBrickFieldNumeric extends C4GBrickField
     public function setMax($max)
     {
         $this->max = $max;
+
         return $this;
     }
 
@@ -78,6 +76,7 @@ abstract class C4GBrickFieldNumeric extends C4GBrickField
     public function setMin($min)
     {
         $this->min = $min;
+
         return $this;
     }
 
@@ -96,6 +95,7 @@ abstract class C4GBrickFieldNumeric extends C4GBrickField
     public function setStep($step)
     {
         $this->step = $step;
+
         return $this;
     }
 
@@ -114,6 +114,7 @@ abstract class C4GBrickFieldNumeric extends C4GBrickField
     public function setThousandsSep($thousands_sep)
     {
         $this->thousands_sep = $thousands_sep;
+
         return $this;
     }
 
@@ -132,6 +133,7 @@ abstract class C4GBrickFieldNumeric extends C4GBrickField
     public function setDecimalPoint($decimal_point)
     {
         $this->decimal_point = $decimal_point;
+
         return $this;
     }
 
@@ -150,6 +152,7 @@ abstract class C4GBrickFieldNumeric extends C4GBrickField
     public function setDecimals($decimals)
     {
         $this->decimals = $decimals;
+
         return $this;
     }
 
@@ -168,6 +171,7 @@ abstract class C4GBrickFieldNumeric extends C4GBrickField
     public function setPattern($pattern)
     {
         $this->pattern = $pattern;
+
         return $this;
     }
 
@@ -175,5 +179,4 @@ abstract class C4GBrickFieldNumeric extends C4GBrickField
     {
         return '';
     }
-
 }

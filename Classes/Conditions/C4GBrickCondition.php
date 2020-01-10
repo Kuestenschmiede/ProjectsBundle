@@ -4,7 +4,7 @@
  * the gis-kit for Contao CMS.
  *
  * @package    con4gis
- * @version    6
+ * @version    7
  * @author     con4gis contributors (see "authors.txt")
  * @license    LGPL-3.0-or-later
  * @copyright  Küstenschmiede GmbH Software & Design
@@ -12,20 +12,19 @@
  */
 namespace con4gis\ProjectsBundle\Classes\Conditions;
 
-
 class C4GBrickCondition
 {
-    private $fieldName  = '';   //Abhängig von diesem Feld
-    private $type       = C4GBrickConditionType::BOOLSWITCH;
-    private $value      = '';
-    private $model      = '';
-    private $function   = '';
+    private $fieldName = '';   //Abhängig von diesem Feld
+    private $type = C4GBrickConditionType::BOOLSWITCH;
+    private $value = '';
+    private $model = '';
+    private $function = '';
 
     public function __construct($conditionType, $fieldName, $fieldValue = -1)
     {
         $this->fieldName = $fieldName;
-        $this->type      = $conditionType;
-        $this->value     = $fieldValue;
+        $this->type = $conditionType;
+        $this->value = $fieldValue;
     }
 
     /**
@@ -38,13 +37,14 @@ class C4GBrickCondition
         if ($this->model && $this->function) {
             $model = $this->model;
             $function = $this->function;
+
             return $model::$function($Value);
         }
         if ($Value == $this->value) {
             return true;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**
@@ -62,6 +62,7 @@ class C4GBrickCondition
     public function setFieldName($fieldName)
     {
         $this->fieldName = $fieldName;
+
         return $this;
     }
 
@@ -80,9 +81,9 @@ class C4GBrickCondition
     public function setType($type)
     {
         $this->type = $type;
+
         return $this;
     }
-
 
     /**
      * @return string
@@ -99,6 +100,7 @@ class C4GBrickCondition
     public function setValue($value)
     {
         $this->value = $value;
+
         return $this;
     }
 
@@ -117,6 +119,7 @@ class C4GBrickCondition
     public function setModel($model)
     {
         $this->model = $model;
+
         return $this;
     }
 
@@ -135,8 +138,7 @@ class C4GBrickCondition
     public function setFunction($function)
     {
         $this->function = $function;
+
         return $this;
     }
-
-
 }

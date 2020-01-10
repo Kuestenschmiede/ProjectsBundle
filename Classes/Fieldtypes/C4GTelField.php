@@ -4,7 +4,7 @@
  * the gis-kit for Contao CMS.
  *
  * @package    con4gis
- * @version    6
+ * @version    7
  * @author     con4gis contributors (see "authors.txt")
  * @license    LGPL-3.0-or-later
  * @copyright  Küstenschmiede GmbH Software & Design
@@ -23,15 +23,14 @@ class C4GTelField extends C4GBrickField
      * @param $data
      * @return string
      */
-    public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = array())
+    public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = [])
     {
-        $id = "c4g_" . $this->getFieldName();
+        $id = 'c4g_' . $this->getFieldName();
         $required = $this->generateRequiredString($data, $dialogParams);
         $value = $this->generateInitialValue($data);
         $result = '';
 
         if ($this->isShowIfEmpty() || !empty($value)) {
-
             $condition = $this->createConditionData($fieldList, $data);
 
             $result =
@@ -59,6 +58,7 @@ class C4GTelField extends C4GBrickField
         if (strcmp($dbValue, $dlgValue) != 0) {
             $result = new C4GBrickFieldCompare($this, $dbValue, $dlgValue);
         }
+
         return $result;
     }
 }

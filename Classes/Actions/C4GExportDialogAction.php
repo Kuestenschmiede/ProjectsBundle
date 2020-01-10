@@ -4,7 +4,7 @@
  * the gis-kit for Contao CMS.
  *
  * @package    con4gis
- * @version    6
+ * @version    7
  * @author     con4gis contributors (see "authors.txt")
  * @license    LGPL-3.0-or-later
  * @copyright  Küstenschmiede GmbH Software & Design
@@ -20,25 +20,24 @@ class C4GExportDialogAction extends C4GBrickDialogAction
         $dialogParams = $this->getDialogParams();
         $dialogId = $dialogParams->getId();
         $memberId = $dialogParams->getMemberId();
-        $groupId  = $dialogParams->getGroupId();
+        $groupId = $dialogParams->getGroupId();
         $viewType = $dialogParams->getViewType();
         $fieldList = $this->getFieldList();
         $brickDatabase = $this->getBrickDatabase();
 //        $dbValue = $model::findByPk($dialogId);
 
-
         //save data
         if (!C4GBrickDialog::checkMandatoryFields($fieldList, $dlgValues)) {
-            return array('usermessage' => $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_MANDATORY']);
+            return ['usermessage' => $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_MANDATORY']];
         }
 
         $validate_result = C4GBrickDialog::validateFields($fieldList, $dlgValues);
         if ($validate_result) {
-            return array('usermessage' => $validate_result);
+            return ['usermessage' => $validate_result];
         }
 
-        $database  = $brickDatabase->getParams()->getDatabase();
-        $dbValues  = $brickDatabase->findByPk($dialogId);
+        $database = $brickDatabase->getParams()->getDatabase();
+        $dbValues = $brickDatabase->findByPk($dialogId);
         $tableName = $brickDatabase->getParams()->getTableName();
 
         $changes = C4GBrickDialog::compareWithDB($this->makeRegularFieldList($fieldList), $dlgValues, $dbValues, $viewType, false);
@@ -46,7 +45,7 @@ class C4GExportDialogAction extends C4GBrickDialogAction
         if (count($changes) > 0) {
             $validate_result = C4GBrickDialog::validateUnique($this->makeRegularFieldList($fieldList), $dlgValues, $brickDatabase, $dialogParams);
             if ($validate_result) {
-                return array('usermessage' => $validate_result, 'title' => $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['validate_title']);
+                return ['usermessage' => $validate_result, 'title' => $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['validate_title']];
             }
 
             $result = C4GBrickDialog::saveC4GDialog($dialogId, $tableName, $this->makeRegularFieldList($fieldList),
@@ -58,8 +57,8 @@ class C4GExportDialogAction extends C4GBrickDialogAction
                     \con4gis\BookingBundle\Resources\contao\models\C4gBookingGroupsModel::checkProjectCount($this->group_id);
                 }
                 $dialogId = $result['insertId'];
-                $dbValues  = $brickDatabase->findByPk($dialogId);
-            } else if ( ($dialogId) && ($GLOBALS['con4gis']['booking']['installed'])) {
+                $dbValues = $brickDatabase->findByPk($dialogId);
+            } elseif (($dialogId) && ($GLOBALS['con4gis']['booking']['installed'])) {
                 \con4gis\BookingBundle\Resources\contao\models\C4gBookingGroupsModel::log($dbValues);
             }
         }
@@ -86,7 +85,7 @@ class C4GExportDialogAction extends C4GBrickDialogAction
 //        $tmp2 = $tmpFile->basename;
 //        $tmp3 = $tmpFile->filename;
 //        $tmp4 = $tmpFile->filesize;
-////        $tmp5 = $tmpFile->sendToBrowser();
+        ////        $tmp5 = $tmpFile->sendToBrowser();
 //
 //
 //        // Open the "save as …" dialogue
@@ -140,9 +139,9 @@ class C4GExportDialogAction extends C4GBrickDialogAction
 //        readfile($filename, $dir);
 //        ============================================================
 
-
         // zurueck zur Uebersicht
         $action = new C4GShowListAction($dialogParams, $this->getListParams(), $this->getFieldList(), $this->getPutVars(), $this->getBrickDatabase());
+
         return $action->run();
     }
 

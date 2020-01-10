@@ -4,7 +4,7 @@
  * the gis-kit for Contao CMS.
  *
  * @package    con4gis
- * @version    6
+ * @version    7
  * @author     con4gis contributors (see "authors.txt")
  * @license    LGPL-3.0-or-later
  * @copyright  Küstenschmiede GmbH Software & Design
@@ -18,10 +18,10 @@ use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
 
 class C4GGalleryField extends C4GBrickField
 {
-    private $imageWidth  = '';
+    private $imageWidth = '';
     private $imageHeight = '';
-    private $withTitle   = false;
-    private $maxImages   = 0; //0 show all
+    private $withTitle = false;
+    private $maxImages = 0; //0 show all
 
     /**
      * @param C4GBrickField[] $fieldList
@@ -30,7 +30,7 @@ class C4GGalleryField extends C4GBrickField
      * @param array $additionalParams
      * @return string
      */
-    public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = array())
+    public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = [])
     {
 
         //set image sizes
@@ -38,22 +38,21 @@ class C4GGalleryField extends C4GBrickField
         if ($size) {
             $width = $size;
             $height = $size;
-            $size = 'width: ' . $width .';'. ' height: ' . $height . ';';
-
+            $size = 'width: ' . $width . ';' . ' height: ' . $height . ';';
         } else {
             $width = $this->getImageWidth();
             $height = $this->getImageHeight();
 
             if ($width && $height) {
-                $size = 'width: ' . $width . ';'.'height: ' . $height . ';';
-            } else if ($width) {
+                $size = 'width: ' . $width . ';' . 'height: ' . $height . ';';
+            } elseif ($width) {
                 $size = 'width: ' . $width . ';';
-            } else if ($height) {
+            } elseif ($height) {
                 $size = 'height: ' . $height . ';';
             }
         }
         if ($size) {
-            $size = 'style="'.$size.'"';
+            $size = 'style="' . $size . '"';
         }
 
         $value = $this->generateInitialValue($data);
@@ -62,9 +61,8 @@ class C4GGalleryField extends C4GBrickField
         $result = '';
 
         if ($this->isShowIfEmpty() || $files) {
-
             $condition = $this->createConditionData($fieldList, $data);
-            $description =$this->getC4GDescriptionLabel($this->getDescription(), $condition);
+            $description = $this->getC4GDescriptionLabel($this->getDescription(), $condition);
 
             if ($files) {
                 $images = '';
@@ -74,7 +72,7 @@ class C4GGalleryField extends C4GBrickField
                     $src = $imageFile->path;
                     $title = $this->withTitle ? $imageFile->name : '';
                     $image_cnt++;
-                    $images .= '<li class="ce_image c4g_gallery_image c4g_' . $this->getFieldName() .'_'.$image_cnt.' block"><figure class="image_container" itemscope="" itemtype="http://schema.org/ImageObject"><a href="' . $src . '" data-lightbox="c4g_' . $this->getFieldName() .'_'.$image_cnt.'" data-title="' . $title . '"><img src="' . $src . '" itemprop="image" title="' . $title . '" '.$size.'/></a></figure></li>';
+                    $images .= '<li class="ce_image c4g_gallery_image c4g_' . $this->getFieldName() . '_' . $image_cnt . ' block"><figure class="image_container" itemscope="" itemtype="http://schema.org/ImageObject"><a href="' . $src . '" data-lightbox="c4g_' . $this->getFieldName() . '_' . $image_cnt . '" data-title="' . $title . '"><img src="' . $src . '" itemprop="image" title="' . $title . '" ' . $size . '/></a></figure></li>';
 
                     if (($this->maxImages > 0) && ($image_cnt >= $this->maxImages)) {
                         break;
@@ -86,7 +84,7 @@ class C4GGalleryField extends C4GBrickField
                     . $condition['conditionType']
                     . $condition['conditionValue']
                     . $condition['conditionDisable'] . '>
-                        <div class="c4g_gallery formdata c4g_' . $this->getFieldName() . '"><div class="c4g_image_label"><label>' . $this->getTitle() . '</label></div><ul class="c4g_gallery_images c4g_' . $this->getFieldName() . '_images">'.$images.'</ul><div class="c4g_gallery_description">' .
+                        <div class="c4g_gallery formdata c4g_' . $this->getFieldName() . '"><div class="c4g_image_label"><label>' . $this->getTitle() . '</label></div><ul class="c4g_gallery_images c4g_' . $this->getFieldName() . '_images">' . $images . '</ul><div class="c4g_gallery_description">' .
                     $description . '</div></div></div>';
             }
         }
@@ -210,6 +208,7 @@ class C4GGalleryField extends C4GBrickField
     public function setImageWidth($imageWidth)
     {
         $this->imageWidth = $imageWidth;
+
         return $this;
     }
 
@@ -228,6 +227,7 @@ class C4GGalleryField extends C4GBrickField
     public function setImageHeight($imageHeight)
     {
         $this->imageHeight = $imageHeight;
+
         return $this;
     }
 
@@ -246,6 +246,7 @@ class C4GGalleryField extends C4GBrickField
     public function setWithTitle($withTitle)
     {
         $this->withTitle = $withTitle;
+
         return $this;
     }
 
@@ -264,6 +265,7 @@ class C4GGalleryField extends C4GBrickField
     public function setMaxImages($maxImages)
     {
         $this->maxImages = $maxImages;
+
         return $this;
     }
 }

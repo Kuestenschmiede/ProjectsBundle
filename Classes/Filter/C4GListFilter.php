@@ -4,14 +4,13 @@
  * the gis-kit for Contao CMS.
  *
  * @package    con4gis
- * @version    6
+ * @version    7
  * @author     con4gis contributors (see "authors.txt")
  * @license    LGPL-3.0-or-later
  * @copyright  Küstenschmiede GmbH Software & Design
  * @link       https://www.con4gis.org
  */
 namespace con4gis\ProjectsBundle\Classes\Filter;
-
 
 abstract class C4GListFilter
 {
@@ -21,7 +20,8 @@ abstract class C4GListFilter
      * C4GListFilter constructor.
      * @param $brickKey
      */
-    public final function __construct($brickKey) {
+    final public function __construct($brickKey)
+    {
         $this->getFilterCookies($brickKey);
     }
 
@@ -29,7 +29,7 @@ abstract class C4GListFilter
      * @param $dlgValues
      * @param $brickKey
      */
-    public abstract function setFilter($dlgValues, $brickKey);
+    abstract public function setFilter($dlgValues, $brickKey);
 
     /**
      * Filter out undesired elements and return the desired ones.
@@ -37,25 +37,25 @@ abstract class C4GListFilter
      * @param $dialogParams
      * @return mixed
      */
-    public abstract function filter($elements, $dialogParams);
+    abstract public function filter($elements, $dialogParams);
 
     /**
      * Call listParams->addButton() to dynamically add the filter button to the list.
      * @param $listParams
      */
-    public abstract function addButton($listParams);
+    abstract public function addButton($listParams);
 
     /**
      * Save the current filter settings in a cookie.
      * @param $brickKey
      */
-    protected abstract function setFilterCookies($brickKey);
+    abstract protected function setFilterCookies($brickKey);
 
     /**
      * Load the settings stored in the cookie into the object.
      * @param $brickKey
      */
-    public abstract function getFilterCookies($brickKey);
+    abstract public function getFilterCookies($brickKey);
 
     /**
      * Return the text to be displayed above the table.
@@ -63,7 +63,7 @@ abstract class C4GListFilter
      *  The return value may be an empty string.
      * @return mixed
      */
-    public abstract function getFilterHeadline(): string;
+    abstract public function getFilterHeadline(): string;
 
     /**
      * @return string
@@ -80,8 +80,7 @@ abstract class C4GListFilter
     public function setHeadText(string $headText): C4GListFilter
     {
         $this->headText = $headText;
+
         return $this;
     }
-
-
 }

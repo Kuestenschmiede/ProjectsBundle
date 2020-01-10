@@ -4,7 +4,7 @@
  * the gis-kit for Contao CMS.
  *
  * @package    con4gis
- * @version    6
+ * @version    7
  * @author     con4gis contributors (see "authors.txt")
  * @license    LGPL-3.0-or-later
  * @copyright  Küstenschmiede GmbH Software & Design
@@ -39,7 +39,7 @@ class C4GBrickActionType
     //MESSAGE DIALOG ACTIONS
 
     //TABLE DIALOG ACTIONS
-    const ACTION_SHOWDIALOG   = 'C4GShowDialogAction';
+    const ACTION_SHOWDIALOG = 'C4GShowDialogAction';
     const ACTION_DELETEDIALOG = 'C4GDeleteDialogAction';
     const ACTION_ARCHIVEDIALOG = 'C4GArchiveDialogAction';
     const ACTION_EMAILNOTIFICATIONDIALOG = 'C4GShowEmailNotificationDialogAction';
@@ -47,22 +47,22 @@ class C4GBrickActionType
     const ACTION_ACTIVATIONDIALOG = 'C4GActivationDialogAction';
     const ACTION_FREEZEDIALOG = 'C4GFreezeDialogAction';
     const ACTION_DEFROSTDIALOG = 'C4GDefrostDialogAction';
-    const ACTION_CLOSEDIALOG  = 'C4GCloseDialogAction';
-    const ACTION_SAVEDIALOG   = 'C4GSaveDialogAction';
-    const ACTION_SAVEANDNEWDIALOG   = 'C4GSaveAndNewDialogAction';
-    const ACTION_SAVEANDREDIRECTDIALOG   = 'C4GSaveAndRedirectDialogAction';
+    const ACTION_CLOSEDIALOG = 'C4GCloseDialogAction';
+    const ACTION_SAVEDIALOG = 'C4GSaveDialogAction';
+    const ACTION_SAVEANDNEWDIALOG = 'C4GSaveAndNewDialogAction';
+    const ACTION_SAVEANDREDIRECTDIALOG = 'C4GSaveAndRedirectDialogAction';
     const ACTION_TICKET = 'C4GTicketDialogAction';
     const ACTION_SEARCH = 'search'; //Todo Unused. Delete?
     const ACTION_EXPORT = 'C4GExportDialogAction';
-    const ACTION_PRINT  = 'C4GPrintDialogAction';
-    const ACTION_POPUP  = 'popup'; //Todo Unused. Delete?
+    const ACTION_PRINT = 'C4GPrintDialogAction';
+    const ACTION_POPUP = 'popup'; //Todo Unused. Delete?
     const ACTION_REDIRECT = 'C4GRedirectAction';
     const ACTION_REDIRECT_TO_DETAIL = 'C4GRedirectDetailAction';   //Todo new Action
     const ACTION_REDIRECTBACK = 'C4GRedirectBackAction';
     const ACTION_REDIRECTDIALOGACTION = 'C4GRedirectDialogAction';
     const ACTION_SHOWANIMATION = 'animation'; //Todo Unused. Delete?
-    const ACTION_BUTTONCLICK   = 'buttonclick'; //Todo Does this not have an action?
-    const ACTION_RELOAD  = 'C4GReloadAction';
+    const ACTION_BUTTONCLICK = 'buttonclick'; //Todo Does this not have an action?
+    const ACTION_RELOAD = 'C4GReloadAction';
     const ACTION_RESTART = 'C4GReloadAction'; //timer //Todo new Action
     const ACTION_LOGINREDIRECT = 'C4GLoginRedirectAction';
 
@@ -81,29 +81,29 @@ class C4GBrickActionType
     const ACTION_CONFIRMDEFROST = 'C4GConfirmDefrostAction';
     const ACTION_CANCELDEFROST = 'C4GCancelDialogAction';
     const ACTION_CLOSEPOPUPDIALOG = 'C4GClosePopupDialogAction'; //Todo Empty Class
-    const ACTION_CHANGEFIELD    = 'C4GChangeFieldAction';
-    const ACTION_CONFIRM_CUSTOM_DIALOG    = 'C4GConfirmCustomDialogAction';
+    const ACTION_CHANGEFIELD = 'C4GChangeFieldAction';
+    const ACTION_CONFIRM_CUSTOM_DIALOG = 'C4GConfirmCustomDialogAction';
 
     //TABLE LIST ACTIONS
     const ACTION_CLICK = 'C4GShowDialogAction';
-    const ACTION_SELECTGROUP    = 'C4GSelectGroupDialogAction';
-    const ACTION_SELECTPROJECT  = 'C4GSelectProjectDialogAction';
-    const ACTION_SELECTPARENT   = 'C4GSelectParentDialogAction';
-    const ACTION_SELECTPUBLICPARENT   = 'C4GSelectPublicParentDialogAction';
-    const ACTION_FILTER         = 'C4GShowFilterDialogAction';
-    const ACTION_RESETPARENT    = 'C4GResetParentAction';
-    const ACTION_PRINTLIST      = 'printlist'; //Todo Unused. Delete?
-    const ACTION_IMPORT         = 'import'; //Todo Unused. Delete?
+    const ACTION_SELECTGROUP = 'C4GSelectGroupDialogAction';
+    const ACTION_SELECTPROJECT = 'C4GSelectProjectDialogAction';
+    const ACTION_SELECTPARENT = 'C4GSelectParentDialogAction';
+    const ACTION_SELECTPUBLICPARENT = 'C4GSelectPublicParentDialogAction';
+    const ACTION_FILTER = 'C4GShowFilterDialogAction';
+    const ACTION_RESETPARENT = 'C4GResetParentAction';
+    const ACTION_PRINTLIST = 'printlist'; //Todo Unused. Delete?
+    const ACTION_IMPORT = 'import'; //Todo Unused. Delete?
 
     //SELECT DIALOG ACTIONS
-    const ACTION_CONFIRMSELECT          = 'confirmselect'; //Todo Unused. Delete?
-    const ACTION_CANCELSELECT           = 'cancelselect'; //Todo Unused. Delete?
-    const ACTION_CONFIRMGROUPSELECT     = 'C4GConfirmGroupSelectAction';
-    const ACTION_CANCELGROUPSELECT      = 'C4GCancelDialogAction';
-    const ACTION_CONFIRMPROJECTSELECT   = 'C4GSetProjectIdAction';
-    const ACTION_CANCELPROJECTSELECT    = 'C4GCancelDialogAction';
-    const ACTION_CONFIRMPARENTSELECT    = 'C4GSetParentIdAction';
-    const ACTION_CANCELPARENTSELECT     = 'C4GCancelDialogAction';
-    const ACTION_CONFIRMPARENTFILTER    = 'C4GSetFilterAction';
-    const ACTION_CANCELPARENTFILTER     = 'C4GShowListAction';
+    const ACTION_CONFIRMSELECT = 'confirmselect'; //Todo Unused. Delete?
+    const ACTION_CANCELSELECT = 'cancelselect'; //Todo Unused. Delete?
+    const ACTION_CONFIRMGROUPSELECT = 'C4GConfirmGroupSelectAction';
+    const ACTION_CANCELGROUPSELECT = 'C4GCancelDialogAction';
+    const ACTION_CONFIRMPROJECTSELECT = 'C4GSetProjectIdAction';
+    const ACTION_CANCELPROJECTSELECT = 'C4GCancelDialogAction';
+    const ACTION_CONFIRMPARENTSELECT = 'C4GSetParentIdAction';
+    const ACTION_CANCELPARENTSELECT = 'C4GCancelDialogAction';
+    const ACTION_CONFIRMPARENTFILTER = 'C4GSetFilterAction';
+    const ACTION_CANCELPARENTFILTER = 'C4GShowListAction';
 }

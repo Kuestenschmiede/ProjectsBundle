@@ -4,7 +4,7 @@
  * the gis-kit for Contao CMS.
  *
  * @package    con4gis
- * @version    6
+ * @version    7
  * @author     con4gis contributors (see "authors.txt")
  * @license    LGPL-3.0-or-later
  * @copyright  Küstenschmiede GmbH Software & Design
@@ -25,9 +25,9 @@ class C4GCKEditorField extends C4GBrickField
      * @param array $additionalParams
      * @return array|string
      */
-    public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = array())
+    public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = [])
     {
-        $id = "c4g_" . $this->getFieldName();
+        $id = 'c4g_' . $this->getFieldName();
         $required = $this->generateRequiredString($data, $dialogParams);
         $value = $this->generateInitialValue($data);
         $result = '';
@@ -40,13 +40,13 @@ class C4GCKEditorField extends C4GBrickField
 
         //ckeditor
         if ($this->isShowIfEmpty() || !empty($value)) {
-
             $condition = $this->createConditionData($fieldList, $data);
 
             $result =
                 $this->addC4GField($condition,$dialogParams,$fieldList,$data,
-                '<textarea ' . $required . ' ' . $condition['conditionPrepare'] . ' id="ckeditor" class="formdata ' . $id . ' ui-corner-all" name="' . $this->getFieldName() . '" cols="80" rows="'.$size.'" >' . $value . ' </textarea>');
+                '<textarea ' . $required . ' ' . $condition['conditionPrepare'] . ' id="ckeditor" class="formdata ' . $id . ' ui-corner-all" name="' . $this->getFieldName() . '" cols="80" rows="' . $size . '" >' . $value . ' </textarea>');
         }
+
         return $result;
     }
 
@@ -67,6 +67,7 @@ class C4GCKEditorField extends C4GBrickField
         if (strcmp($dbValue, $dlgValue) != 0) {
             $result = new C4GBrickFieldCompare($this, $dbValue, $dlgValue);
         }
+
         return $result;
     }
 }

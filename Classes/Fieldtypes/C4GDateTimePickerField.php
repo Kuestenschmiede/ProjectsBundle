@@ -4,7 +4,7 @@
  * the gis-kit for Contao CMS.
  *
  * @package    con4gis
- * @version    6
+ * @version    7
  * @author     con4gis contributors (see "authors.txt")
  * @license    LGPL-3.0-or-later
  * @copyright  Küstenschmiede GmbH Software & Design
@@ -28,10 +28,10 @@ class C4GDateTimePickerField extends C4GBrickField
      * @param array $additionalParams
      * @return string
      */
-    public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = array())
+    public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = [])
     {
         $fieldName = $this->getFieldName();
-        $id = "c4g_" . $fieldName;
+        $id = 'c4g_' . $fieldName;
         $title = $this->getTitle();
         $required = $this->generateRequiredString($data, $dialogParams);
         $value = $this->generateInitialValue($data);
@@ -43,12 +43,11 @@ class C4GDateTimePickerField extends C4GBrickField
         if ($value > 0) {
             $value = date($dateFormat, $value);
         } else {
-            $value = "";
+            $value = '';
         }
         $result = '';
 
         if ($this->isShowIfEmpty() || !empty($value)) {
-
             $condition = $this->createConditionData($fieldList, $data);
             $description = $this->getC4GDescriptionLabel($this->getDescription(), $condition);
 
@@ -79,12 +78,11 @@ class C4GDateTimePickerField extends C4GBrickField
             if (strcmp($dbValue, $dlgValue) != 0) {
                 $result = new C4GBrickFieldCompare($this, $dbValue, $dlgValue);
             }
-        }
-        else
-        {
+        } else {
             $dlgValue = '';
             $result = new C4GBrickFieldCompare($this, $dbValue, $dlgValue);
         }
+
         return $result;
     }
 
@@ -95,43 +93,44 @@ class C4GDateTimePickerField extends C4GBrickField
     public function createFieldData($dlgValues)
     {
         $fieldData = $dlgValues[$this->getFieldName()];
-        if (strpos($fieldData, "-") === 9) {
+        if (strpos($fieldData, '-') === 9) {
             // special case. format "dd.mm.yy - H:i:s"
-            $arrDate = explode("-", $fieldData);
+            $arrDate = explode('-', $fieldData);
             $date = trim($arrDate[0]);
             // fill the year to 4 digits
-            $tmpDate = explode(".", $date);
+            $tmpDate = explode('.', $date);
             if (strlen($tmpDate[2]) === 2) {
                 // ToDo filtern ob 19 oder 20 vorgehängt werden muss
-                $tmpDate[2] = "20" . $tmpDate[2];
+                $tmpDate[2] = '20' . $tmpDate[2];
             }
-            $date = implode(".", $tmpDate);
+            $date = implode('.', $tmpDate);
             $time = $arrDate[1];
             // split into hour, minute and seconds
-            $arrTime = explode(":", $time);
+            $arrTime = explode(':', $time);
             $objDate = new \DateTime($date);
+
             try {
-                $diff = new \DateInterval("PT" . trim($arrTime[0]) . "H" . trim($arrTime[1]) . "M");
+                $diff = new \DateInterval('PT' . trim($arrTime[0]) . 'H' . trim($arrTime[1]) . 'M');
             } catch (\Exception $exception) {
                 // fallback, this results in $diff being a time difference of 0
                 $diff = \DateInterval::createFromDateString($time);
             }
             $objDate->add($diff);
             $fieldData = $objDate->getTimestamp();
-            return $fieldData;
-        } else {
-            $date = strtotime($fieldData);
-            $datetime = new \DateTime($fieldData);
-            if ($date) {
-                $fieldData = $date;
-            } elseif ($datetime) {
-                $fieldData = $datetime->getTimestamp();
-            } else {
-                $fieldData = "";
-            }
+
             return $fieldData;
         }
+        $date = strtotime($fieldData);
+        $datetime = new \DateTime($fieldData);
+        if ($date) {
+            $fieldData = $date;
+        } elseif ($datetime) {
+            $fieldData = $datetime->getTimestamp();
+        } else {
+            $fieldData = '';
+        }
 
+        return $fieldData;
     }
 
     /**
@@ -146,9 +145,9 @@ class C4GDateTimePickerField extends C4GBrickField
         $date = $rowData->$fieldName;
         if ($date) {
             return date($GLOBALS['TL_CONFIG']['datimFormat'], $date);
-        } else {
-            return '';
         }
+
+        return '';
     }
 
     /**

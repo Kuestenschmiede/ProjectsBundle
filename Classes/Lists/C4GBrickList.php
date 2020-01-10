@@ -4,14 +4,13 @@
  * the gis-kit for Contao CMS.
  *
  * @package    con4gis
- * @version    6
+ * @version    7
  * @author     con4gis contributors (see "authors.txt")
  * @license    LGPL-3.0-or-later
  * @copyright  Küstenschmiede GmbH Software & Design
  * @link       https://www.con4gis.org
  */
 namespace con4gis\ProjectsBundle\Classes\Lists;
-
 
 use con4gis\CoreBundle\Resources\contao\classes\C4GUtils;
 use con4gis\MapsBundle\Resources\contao\models\C4gMapsModel;
@@ -22,11 +21,9 @@ use con4gis\ProjectsBundle\Classes\Common\C4GBrickConst;
 use con4gis\ProjectsBundle\Classes\Conditions\C4GBrickConditionType;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GDateTimeLocationField;
-use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GDecimalField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GGeopickerField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GKeyField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GSelectField;
-use con4gis\CoreBundle\Resources\contao\classes\C4GHTMLFactory;
 use Contao\ContentModel;
 
 class C4GBrickList
@@ -34,24 +31,23 @@ class C4GBrickList
     public static function addButtonArray(C4GBrickButton $button, $parentCaption = null)
     {
         if ($button->getType() == C4GBrickConst::BUTTON_PARENT && $parentCaption) {
-            return array(
+            return [
                 'id' => $button->getAction() . ':-1',
                 'text' => sprintf($button->getCaption(), $parentCaption),
-                'tableSelection' => false
-            );
+                'tableSelection' => false,
+            ];
         } /*else if ($button->getType() == C4GBrickConst::BUTTON_PRINTLIST) {
                 return array(
                     'extend' => 'pdf',
                     'text'  => sprintf($button->getCaption(), $parentCaption),
                     'tableSelection'    => false,
             );
-        }*/ else {
-            return array(
+        }*/
+        return [
                 'id' => $button->getAction() . ':-1',
                 'text' => $button->getCaption(),
-                'tableSelection' => false
-            );
-        }
+                'tableSelection' => false,
+            ];
     }
 
     /**
@@ -59,8 +55,9 @@ class C4GBrickList
      * @param $showAddButton
      * @return array
      */
-    public static function getDialogButtons(C4GBrickListParams $listParams, $parentCaption) {
-        $result = array();
+    public static function getDialogButtons(C4GBrickListParams $listParams, $parentCaption)
+    {
+        $result = [];
 
         if ($listParams->checkButtonVisibility(C4GBrickConst::BUTTON_GROUP)) {
             $group_button = $listParams->getButton(C4GBrickConst::BUTTON_GROUP);
@@ -120,12 +117,13 @@ class C4GBrickList
         return $result;
     }
 
-    public static function translateBool($bool) {
-        if ( ($bool == '1' || $bool == true) && $bool != 'false') {
+    public static function translateBool($bool)
+    {
+        if (($bool == '1' || $bool == true) && $bool != 'false') {
             return $GLOBALS['TL_LANG']['FE_C4G_LIST']['TRUE'];
-        } else {
-            return $GLOBALS['TL_LANG']['FE_C4G_LIST']['FALSE'];
         }
+
+        return $GLOBALS['TL_LANG']['FE_C4G_LIST']['FALSE'];
     }
 
     /**
@@ -133,8 +131,9 @@ class C4GBrickList
      * @param $fieldList
      * @param $tableElements
      */
-    public static function deleteElementsPerFlag($fieldList, $tableElements) {
-        $newTableElements = array();
+    public static function deleteElementsPerFlag($fieldList, $tableElements)
+    {
+        $newTableElements = [];
 
         $deleteFlag = null;
         $publishedFlag = null;
@@ -142,8 +141,8 @@ class C4GBrickList
             $fieldName = $field->getFieldName();
         }
 
-        if ( ($deleteFlag) || ($publishedFlag)) {
-            foreach ($tableElements as $key=>$element) {
+        if (($deleteFlag) || ($publishedFlag)) {
+            foreach ($tableElements as $key => $element) {
                 if ($deleteFlag) {
                     if ($element->$fieldName == false) {
                         $newTableElements[] = $element;
@@ -169,17 +168,19 @@ class C4GBrickList
      * @param $data
      * @return mixed
      */
-    private static function hideDuplicatedColumns($data) {
-        $titles = array();
-        $keys = array();
+    private static function hideDuplicatedColumns($data)
+    {
+        $titles = [];
+        $keys = [];
 
         foreach ($data['aoColumnDefs'] as $columnKey => $column) {
             $columnTitle = $column['sTitle'];
 
             $found = false;
-            foreach($titles as $title) {
+            foreach ($titles as $title) {
                 if ($title == $columnTitle) {
                     $keys[] = $columnKey;
+
                     break;
                 }
             }
@@ -193,18 +194,18 @@ class C4GBrickList
             unset($data['aoColumnDefs'][$key]);
 
             if ($data['aaData']) {
-                foreach($data['aaData'] as $rowKey => $row) {
+                foreach ($data['aaData'] as $rowKey => $row) {
                     unset($data['aaData'][$rowKey][$key]);
                 }
             }
         }
 
         //neue Indexs setzen
-        $newColumnDefs = array();
-        $cnt=0;
+        $newColumnDefs = [];
+        $cnt = 0;
         if ($data['aoColumnDefs']) {
             foreach ($data['aoColumnDefs'] as $columnKey => $columnDef) {
-                $columnDef['aTargets'] = array($cnt);
+                $columnDef['aTargets'] = [$cnt];
                 $newColumnDefs[] = $columnDef;
                 $cnt++;
             }
@@ -213,14 +214,13 @@ class C4GBrickList
         $data['aoColumnDefs'] = $newColumnDefs;
 
         if (($data) && ($data['aaData'])) {
-            foreach($data['aaData'] as $rowKey => $row) {
-                $newRowData = array();
-                foreach($data['aaData'][$rowKey] as $columnKey => $column) {
+            foreach ($data['aaData'] as $rowKey => $row) {
+                $newRowData = [];
+                foreach ($data['aaData'][$rowKey] as $columnKey => $column) {
                     $newRowData[] = $column;
                 }
                 $data['aaData'][$rowKey] = $newRowData;
             }
-
         }
 
         return $data;
@@ -236,22 +236,22 @@ class C4GBrickList
         //$fieldName = $column->getFieldName();
         $conditions = $column->getCondition();
         if ($conditions) {
-            foreach($conditions as $condition) {
+            foreach ($conditions as $condition) {
                 $conditionFieldName = $condition->getFieldName();
-                $conditionValue     = $condition->getValue();
-                $conditionType      = $condition->getType();
+                $conditionValue = $condition->getValue();
+                $conditionType = $condition->getType();
 
                 if ($conditionType == C4GBrickConditionType::VALUESWITCH) {
                     if ($conditionValue != $element->$conditionFieldName) {
                         foreach ($fieldList as $field) {
                             $fieldConditions = $field->getCondition();
                             if ($fieldConditions) {
-                                foreach($fieldConditions as $fieldCondition) {
+                                foreach ($fieldConditions as $fieldCondition) {
                                     $fieldConditionFieldName = $fieldCondition->getFieldName();
-                                    $fieldConditionValue     = $fieldCondition->getValue();
-                                    $fieldConditionType      = $fieldCondition->getType();
+                                    $fieldConditionValue = $fieldCondition->getValue();
+                                    $fieldConditionType = $fieldCondition->getType();
 
-                                    if ( ($fieldConditionType == C4GBrickConditionType::VALUESWITCH) && ($fieldConditionFieldName == $conditionFieldName)) {
+                                    if (($fieldConditionType == C4GBrickConditionType::VALUESWITCH) && ($fieldConditionFieldName == $conditionFieldName)) {
                                         if ($fieldConditionValue == $element->$conditionFieldName) {
                                             return $field->getOptions();
                                         }
@@ -263,6 +263,7 @@ class C4GBrickList
                 }
             }
         }
+
         return $column->getOptions();
     }
 
@@ -275,11 +276,11 @@ class C4GBrickList
      * @return array
      */
     public static function showC4GTableList(
-        $listCaption, $database, $content, $listHeadline,  $fieldList, $tableElements, $key,
+        $listCaption, $database, $content, $listHeadline, $fieldList, $tableElements, $key,
         $parentCaption, $listParams)
     {
         if (!$tableElements) {
-            $tableElements = array();
+            $tableElements = [];
         } else {
             $tableElements = C4GBrickList::deleteElementsPerFlag($fieldList, $tableElements);
         }
@@ -289,25 +290,25 @@ class C4GBrickList
         //der erste Buchstabe steht für den Typ -> s=string, b=boolean, i=int, usw.(ao array object?)
 
         // define datatable
-        $data = array();
+        $data = [];
         //$data['iDisplayIndex'] = $key;
-        $data['aoColumnDefs']    = array();
-        $data['bJQueryUI']       = $listParams->isWithJQueryUI();
+        $data['aoColumnDefs'] = [];
+        $data['bJQueryUI'] = $listParams->isWithJQueryUI();
         $data['bScrollCollapse'] = true;
-        $data['bStateSave']      = true;
-        $data['bPaginate']       = $listParams->isPaginate();
-        $data['bLengthChange']   = $listParams->isLengthChange();
-        $data['bFilter']         = $listParams->isFilter();
-        $data['bInfo']           = $listParams->isInfo();
-        $data['bDeferRender']    = true;
-        $data['bScroller']       = true;
-        $data['responsive']      = true;
+        $data['bStateSave'] = true;
+        $data['bPaginate'] = $listParams->isPaginate();
+        $data['bLengthChange'] = $listParams->isLengthChange();
+        $data['bFilter'] = $listParams->isFilter();
+        $data['bInfo'] = $listParams->isInfo();
+        $data['bDeferRender'] = true;
+        $data['bScroller'] = true;
+        $data['responsive'] = true;
 
         if ($listParams->isWithExportButtons()) {
             if ($listParams->isWithJQueryUI()) {
                 $data['sDom'] =
-                    '<"fg-toolbar ui-toolbar ui-widget-header ui-helper-clearfix ui-corner-tl ui-corner-tr"lfr>'.
-                    't'.
+                    '<"fg-toolbar ui-toolbar ui-widget-header ui-helper-clearfix ui-corner-tl ui-corner-tr"lfr>' .
+                    't' .
                     '<"fg-toolbar ui-toolbar ui-widget-header ui-helper-clearfix ui-corner-bl ui-corner-br"ip>B';
             } else {
                 $data['sDom'] = '<"H"lfr>t<"F"ip>B';
@@ -316,10 +317,9 @@ class C4GBrickList
             if ($listParams->getExportButtons()) {
                 $data['buttons'] = $listParams->getExportButtons()->getButtonArr();
             }
-
         }
 
-        if($listParams) {
+        if ($listParams) {
             $data['iDisplayLength'] = $listParams->getDisplayLength();
         } else {
             $data['iDisplayLength'] = 25;
@@ -332,18 +332,18 @@ class C4GBrickList
             $listCaption2 = $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['BRICK_CAPTION_PLURAL2'];
         }
 
-        $data['oLanguage'] = array(
+        $data['oLanguage'] = [
             'oPaginate' => $GLOBALS['TL_LANG']['FE_C4G_LIST']['DATATABLE_CAPTION_PAGINATION'],
             'sEmptyTable' => $GLOBALS['TL_LANG']['FE_C4G_LIST']['DATATABLE_CAPTION_NONE'] . $listCaption . $GLOBALS['TL_LANG']['FE_C4G_LIST']['DATATABLE_CAPTION_EXISTS'],
-            'sInfo' => '_TOTAL_ ' . $listCaption . ' (_START_'.$GLOBALS['TL_LANG']['FE_C4G_LIST']['DATATABLE_CAPTION_TO'].'_END_'.')',
+            'sInfo' => '_TOTAL_ ' . $listCaption . ' (_START_' . $GLOBALS['TL_LANG']['FE_C4G_LIST']['DATATABLE_CAPTION_TO'] . '_END_' . ')',
             'sInfoEmpty' => '_TOTAL_ ',
-            'sInfoFiltered' => ' '.$GLOBALS['TL_LANG']['FE_C4G_LIST']['DATATABLE_CAPTION_FROM'].'_MAX_ '. $listCaption2,
+            'sInfoFiltered' => ' ' . $GLOBALS['TL_LANG']['FE_C4G_LIST']['DATATABLE_CAPTION_FROM'] . '_MAX_ ' . $listCaption2,
             'sInfoThousands' => $GLOBALS['TL_LANG']['FE_C4G_LIST']['DATATABLE_CAPTION_INFO_THOUSANDS'],
-            'sLengthMenu' => $GLOBALS['TL_LANG']['FE_C4G_LIST']['DATATABLE_CAPTION_SHOW'].'_MENU_ ' . $listCaption,
+            'sLengthMenu' => $GLOBALS['TL_LANG']['FE_C4G_LIST']['DATATABLE_CAPTION_SHOW'] . '_MENU_ ' . $listCaption,
             'sProcessing' => $GLOBALS['TL_LANG']['FE_C4G_LIST']['DATATABLE_CAPTION_PROCESSING'],
             'sSearch' => $GLOBALS['TL_LANG']['FE_C4G_LIST']['DATATABLE_CAPTION_SEARCH'],
             'sZeroRecords' => $GLOBALS['TL_LANG']['FE_C4G_LIST']['DATATABLE_CAPTION_NONE'] . $listCaption . $GLOBALS['TL_LANG']['FE_C4G_LIST']['DATATABLE_CAPTION_FOUND'],
-        );
+        ];
 
         $cnt = 0;
 
@@ -351,7 +351,7 @@ class C4GBrickList
             $additionalClasses = ' c4g_list_align_left';
             if ($column->getAlign() == 'right') {
                 $additionalClasses = ' c4g_list_align_right';
-            } else if ($column->getAlign() == 'center') {
+            } elseif ($column->getAlign() == 'center') {
                 $additionalClasses = ' c4g_list_align_center';
             }
             if ($column->isShowSum()) {
@@ -362,46 +362,45 @@ class C4GBrickList
                 $priority = $column->getTableColumnPriority();
             }
             if ($cnt == 0) {
-                $data['aoColumnDefs'][] = array(
-                    'sClass' => 'c4g_brick_col_'.$cnt,
+                $data['aoColumnDefs'][] = [
+                    'sClass' => 'c4g_brick_col_' . $cnt,
                     'sTitle' => 'key',
                     'bVisible' => false,
                     'bSearchable' => false,
-                    'aTargets' => array(0),
-                    'responsivePriority' => array($priority));
+                    'aTargets' => [0],
+                    'responsivePriority' => [$priority], ];
                 $cnt++;
             } else {
                 if ($column->isTableColumn()) {
                     $noMouseEvents = $column->isShowSortIcons() === false ? ' nomouseevents' : '';
 
                     if ($column->isSortColumn()) {
-                        $data['aoColumnDefs'][] = array(
-                            'sClass' => 'c4g_brick_col c4g_brick_col_'.$cnt.$noMouseEvents.$additionalClasses,
+                        $data['aoColumnDefs'][] = [
+                            'sClass' => 'c4g_brick_col c4g_brick_col_' . $cnt . $noMouseEvents . $additionalClasses,
                             'sTitle' => $column->getTitle(),
-                            'aDataSort' => array($cnt),
+                            'aDataSort' => [$cnt],
                             'sWidth' => $column->getColumnWidth() . '%',
-                            'aTargets' => array($cnt),
+                            'aTargets' => [$cnt],
                             'sType' => $column->getSortType(),
-                            'responsivePriority' => array($priority));
+                            'responsivePriority' => [$priority], ];
 
-                        if($column->getSortSequence() == 'desc') {
+                        if ($column->getSortSequence() == 'desc') {
                             $data['aaSorting'] = [[$cnt, 'desc']];
                         } else {
                             $data['aaSorting'] = [[$cnt, 'asc']];
                         }
                     } else {
-                        $data['aoColumnDefs'][] = array(
-                            'sClass' => 'c4g_brick_col c4g_brick_col_'.$cnt.$noMouseEvents.$additionalClasses,
+                        $data['aoColumnDefs'][] = [
+                            'sClass' => 'c4g_brick_col c4g_brick_col_' . $cnt . $noMouseEvents . $additionalClasses,
                             'sTitle' => $column->getTitle(),
                             'sWidth' => $column->getColumnWidth() . '%',
                             'sType' => $column->getSortType(),
-                            'aTargets' => array($cnt),
-                            'responsivePriority' => array($priority));
+                            'aTargets' => [$cnt],
+                            'responsivePriority' => [$priority], ];
                     }
                     $cnt++;
                 }
             }
-
         }
 
         foreach ($tableElements as $element) {
@@ -409,7 +408,7 @@ class C4GBrickList
                 continue;
             }
 
-            $fields = array();
+            $fields = [];
             $cnt = 0;
             $col = 1;
             $convertingCount = 0; //DateTimeLocation
@@ -460,9 +459,9 @@ class C4GBrickList
                     if ($column->isTableColumn()) {
                         if ($column  instanceof C4GSelectField) {
                             $fields[] = C4GBrickCommon::translateSelectOption($row_data->$fieldName, C4GBrickList::getOptions($fieldList, $row_data, $column));
-                        } else if ($column instanceof C4GGeopickerField) {
+                        } elseif ($column instanceof C4GGeopickerField) {
                             $fields[] = $column->getC4GListField($row_data, $content, $database);
-                        } else if ($column instanceof C4GDateTimeLocationField){
+                        } elseif ($column instanceof C4GDateTimeLocationField) {
                             $lat = $row_data->loc_geoy;
                             $lon = $row_data->loc_geox;
                             $time = $row_data->loc_time;
@@ -477,6 +476,7 @@ class C4GBrickList
                                 // when the value is already set, i.e. in a modellistfunction
                                 $fields[] = $row_data->$fieldName;
                                 $cnt++;
+
                                 continue;
                             }
 
@@ -491,24 +491,21 @@ class C4GBrickList
                                 }
                             }
                             $address = '';
-                            if(($convertingCount == 1) && ($profile_id))
-                            {
+                            if (($convertingCount == 1) && ($profile_id)) {
                                 $lat_2 = $row_data->loc_geoy_2;
                                 $lon_2 = $row_data->loc_geox_2;
                                 $time_2 = $row_data->loc_time_2;
-                                if($address_db) {
-                                    $address = $time_2. ' ('.$address_db. ' )';
-                                }
-                                else if($lat_2 && $lon_2  && $time_2) {
+                                if ($address_db) {
+                                    $address = $time_2 . ' (' . $address_db . ' )';
+                                } elseif ($lat_2 && $lon_2 && $time_2) {
                                     $address = $time_2 . ' (' . C4GBrickCommon::convert_coordinates_to_address($lat_2, $lon_2, $profile_id, $database) . ')';
-                                }
-                                else {
-                                    $address = $time .' ('.C4GBrickCommon::convert_coordinates_to_address($lat, $lon, $profile_id, $database). ')';
+                                } else {
+                                    $address = $time . ' (' . C4GBrickCommon::convert_coordinates_to_address($lat, $lon, $profile_id, $database) . ')';
                                 }
                                 $convertingCount = 0;
                             } elseif ($profile_id) {
-                                if($address_db) {
-                                    $address = $time. ' ('.$address_db. ' )';
+                                if ($address_db) {
+                                    $address = $time . ' (' . $address_db . ' )';
                                     $convertingCount = 1;
                                 } else {
                                     $address = $time . ' (' . C4GBrickCommon::convert_coordinates_to_address($lat, $lon, $profile_id, $database) . ')';
@@ -536,7 +533,6 @@ class C4GBrickList
                         $cnt++;
                     }
                 }
-
             }
 
             //an dieser Stelle können beliebigviele Daten über das Array durchgereicht werden. Zum Beispiel
@@ -547,15 +543,16 @@ class C4GBrickList
         $data = C4GBrickList::hideDuplicatedColumns($data);
         if ($listParams) {
             $withDetails = $listParams->isWithDetails();
-            $selectRow   = $listParams->getSelectRow();
+            $selectRow = $listParams->getSelectRow();
         } else {
             $withDetails = true;
             $selectRow = -1;
         }
         if ($selectRow == -1) {
             foreach ($tableElements as $element) {
-                if ($element && is_object($element) && property_exists((object) $element, "selectrow")) {
+                if ($element && is_object($element) && property_exists((object) $element, 'selectrow')) {
                     $selectRow = $element->selectrow;
+
                     break;
                 }
             }
@@ -568,34 +565,31 @@ class C4GBrickList
         if (!$listParams->isWithoutListButtons()) {
             $buttons = C4GBrickList::getDialogButtons($listParams, $parentCaption);
         }
-        $return = array
-        (
+        $return = [
             'contenttype' => 'datatable',
             'contentdata' => $data,
-            'contentoptions' => array
-            (
+            'contentoptions' => [
                 'actioncol' => 0,
                 'selectrow' => $selectRow,
                 'clickAction' => $withDetails,
-            ),
+            ],
             'state' => C4GBrickActionType::IDENTIFIER_LIST . ':' . $key, //Listenstatus
             'headline' => $listHeadline,
-            'buttons' => $buttons
-        );
+            'buttons' => $buttons,
+        ];
         if ($searchValue = \Session::getInstance()->get('c4g_list_searchValue')) {
             $return['searchValue'] = $searchValue;
             \Session::getInstance()->remove('c4g_list_searchValue');
         }
 
-
         if ($listParams->isshowToolTips()) {
-            $return['contentoptions']['tooltipcol']  = $col;
+            $return['contentoptions']['tooltipcol'] = $col;
         }
 
         return $return;
     }
 
-    public static function showC4GList($listCaption, $database, $content, $listHeadline,  $fieldList, $tableElements, $key, $parentCaption, C4GBrickListParams $listParams)
+    public static function showC4GList($listCaption, $database, $content, $listHeadline, $fieldList, $tableElements, $key, $parentCaption, C4GBrickListParams $listParams)
     {
         $customListViewFunction = $listParams->getCustomListViewFunction();
         if (empty($customListViewFunction)) {
@@ -611,11 +605,11 @@ class C4GBrickList
         }
 
         if ($listParams->isShowFullTextSearchInHeadline() === true) {
-            $fullTextSearchField = '<input type="search" id="c4g_list_search" name="c4g_list_search" placeholder="'.
-                $GLOBALS['TL_LANG']['FE_C4G_LIST']['SEARCH'].'" aria-label="'.
-                $GLOBALS['TL_LANG']['FE_C4G_LIST']['SEARCH'].'" oninput="search(this, event);">';
+            $fullTextSearchField = '<input type="search" id="c4g_list_search" name="c4g_list_search" placeholder="' .
+                $GLOBALS['TL_LANG']['FE_C4G_LIST']['SEARCH'] . '" aria-label="' .
+                $GLOBALS['TL_LANG']['FE_C4G_LIST']['SEARCH'] . '" oninput="search(this, event);">';
         } else {
-            $fullTextSearchField = "";
+            $fullTextSearchField = '';
         }
 
         $result =
@@ -631,7 +625,7 @@ class C4GBrickList
             ]),
             'dialogid' => C4GBrickActionType::IDENTIFIER_LIST . ':' . $key, //Listenstatus
             'dialogstate' => C4GBrickActionType::IDENTIFIER_LIST . ':' . $key, //Listenstatus
-            'dialogbuttons' => $buttons
+            'dialogbuttons' => $buttons,
         ];
 
         if ($searchValue = \Session::getInstance()->get('c4g_list_searchValue')) {
@@ -650,7 +644,6 @@ class C4GBrickList
         $listParams
     ) {
         $view = '<div class="' . C4GBrickConst::CLASS_LIST . '">';
-
 
         $view .= '<ul class="c4g_brick_list_header">';
 
@@ -717,7 +710,7 @@ class C4GBrickList
 
                 $additionalParameters['content'] = $content;
                 if ($field->isTableColumn() && !($field instanceof C4GKeyField)) {
-                    $beforeDiv = '<li class="c4g_brick_list_column c4g_brick_list_row_column '.$field->getFieldName().'">';
+                    $beforeDiv = '<li class="c4g_brick_list_column c4g_brick_list_row_column ' . $field->getFieldName() . '">';
                     $afterDiv = '</li>';
                     if ($field->isHidden()) {
                         $beforeDiv .= '<div class="c4g_brick_hidden_field" style="display:none">';
@@ -725,9 +718,9 @@ class C4GBrickList
                     }
                     if ($field  instanceof C4GSelectField) {
                         $fieldView .= $beforeDiv . C4GBrickCommon::translateSelectOption($row->$fieldName, C4GBrickList::getOptions($fieldList, $row, $field)) . $afterDiv;
-                    } else if ($field instanceof C4GGeopickerField) {
+                    } elseif ($field instanceof C4GGeopickerField) {
                         $fieldView .= $beforeDiv . $field->getC4GListField($row, $content, $database) . $afterDiv;
-                    } else if ($field instanceof C4GDateTimeLocationField) {
+                    } elseif ($field instanceof C4GDateTimeLocationField) {
                         $lat = $row->loc_geoy;
                         $lon = $row->loc_geox;
                         $time = $row->loc_time;
@@ -749,28 +742,23 @@ class C4GBrickList
                             }
                         }
                         $address = '';
-                        if(($convertingCount == 1) && ($profile_id))
-                        {
+                        if (($convertingCount == 1) && ($profile_id)) {
                             $lat_2 = $row->loc_geoy_2;
                             $lon_2 = $row->loc_geox_2;
                             $time_2 = $row->loc_time_2;
-                            if($address_db) {
-                                $address = $time_2. ' ('.$address_db. ' )';
-                            }
-                            else if($lat_2 && $lon_2  && $time_2) {
+                            if ($address_db) {
+                                $address = $time_2 . ' (' . $address_db . ' )';
+                            } elseif ($lat_2 && $lon_2 && $time_2) {
                                 $address = $time_2 . ' (' . C4GBrickCommon::convert_coordinates_to_address($lat_2, $lon_2, $profile_id, $database) . ')';
-                            }
-                            else {
-                                $address = $time .' ('.C4GBrickCommon::convert_coordinates_to_address($lat, $lon, $profile_id, $database). ')';
+                            } else {
+                                $address = $time . ' (' . C4GBrickCommon::convert_coordinates_to_address($lat, $lon, $profile_id, $database) . ')';
                             }
                             $convertingCount = 0;
-                        }
-                        else if ($profile_id) {
-                            if($address_db) {
-                                $address = $time. ' ('.$address_db. ' )';
+                        } elseif ($profile_id) {
+                            if ($address_db) {
+                                $address = $time . ' (' . $address_db . ' )';
                                 $convertingCount = 1;
-                            }
-                            else {
+                            } else {
                                 $address = $time . ' (' . C4GBrickCommon::convert_coordinates_to_address($lat, $lon, $profile_id, $database) . ')';
                                 $convertingCount = 1;
                             }
@@ -784,14 +772,13 @@ class C4GBrickList
                         }
                     }
                 }
-
             }
 
-            $view .= '<div class="c4gGuiAction" aria-label="jump to dataset '.$row->id.'" data-action="'.$href.'">';
-            $view .= '<ul class="c4g_brick_list_row c4g_brick_list_row_'.$i.'" data-tooltip="'.$tooltip.'" title="'.$tooltip.'">'. $fieldView . '</ul>';
+            $view .= '<div class="c4gGuiAction" aria-label="jump to dataset ' . $row->id . '" data-action="' . $href . '">';
+            $view .= '<ul class="c4g_brick_list_row c4g_brick_list_row_' . $i . '" data-tooltip="' . $tooltip . '" title="' . $tooltip . '">' . $fieldView . '</ul>';
             $view .= '</div>';
         }
+
         return $view;
     }
-
 }

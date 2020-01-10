@@ -4,7 +4,7 @@
  * the gis-kit for Contao CMS.
  *
  * @package    con4gis
- * @version    6
+ * @version    7
  * @author     con4gis contributors (see "authors.txt")
  * @license    LGPL-3.0-or-later
  * @copyright  Küstenschmiede GmbH Software & Design
@@ -20,6 +20,7 @@ class C4GRedirectDetailAction extends C4GRedirectAction
     public function run()
     {
         $this->setRedirectSite($this->getListParams()->getRedirectTo());
+
         return parent::run();
     }
 
@@ -38,6 +39,7 @@ class C4GRedirectDetailAction extends C4GRedirectAction
     public function setRedirectWithSaving($redirectWithSaving = true)
     {
         $this->redirectWithSaving = $redirectWithSaving;
+
         return $this;
     }
 
@@ -56,6 +58,7 @@ class C4GRedirectDetailAction extends C4GRedirectAction
     public function setRedirectToDetail($redirectToDetail = true)
     {
         $this->redirectToDetail = $redirectToDetail;
+
         return $this;
     }
 }

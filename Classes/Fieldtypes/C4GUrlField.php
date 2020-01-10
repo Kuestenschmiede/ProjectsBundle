@@ -4,7 +4,7 @@
  * the gis-kit for Contao CMS.
  *
  * @package    con4gis
- * @version    6
+ * @version    7
  * @author     con4gis contributors (see "authors.txt")
  * @license    LGPL-3.0-or-later
  * @copyright  Küstenschmiede GmbH Software & Design
@@ -25,28 +25,28 @@ class C4GUrlField extends C4GBrickField
      * @param $data
      * @return string
      */
-    public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = array())
+    public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = [])
     {
-        $id = "c4g_" . $this->getFieldName();
+        $id = 'c4g_' . $this->getFieldName();
         $required = $this->generateRequiredString($data, $dialogParams);
         $value = $this->generateInitialValue($data);
         $result = '';
 
         if ($this->isShowIfEmpty() || !empty($value)) {
-
             $condition = $this->createConditionData($fieldList, $data);
             $fieldDataBefore = '';
-            $fieldDataAfter  = '';
+            $fieldDataAfter = '';
 
             if ($this->withLink && !$this->isEditable()) {
-                $fieldDataBefore = '<a href="'.$value.'" target="_blank" rel="noopener">';
+                $fieldDataBefore = '<a href="' . $value . '" target="_blank" rel="noopener">';
                 $fieldDataAfter = '</a>';
             };
 
             $result =
                 $this->addC4GField($condition,$dialogParams,$fieldList,$data,
-                    $fieldDataBefore.'<input type="url" ' . $required . ' ' . $condition['conditionPrepare'] . ' id="' . $id . '" class="formdata" name="' . $this->getFieldName() . '" title="' . $this->getTitle() . '" value="' . $value . '">'.$fieldDataAfter);
+                    $fieldDataBefore . '<input type="url" ' . $required . ' ' . $condition['conditionPrepare'] . ' id="' . $id . '" class="formdata" name="' . $this->getFieldName() . '" title="' . $this->getTitle() . '" value="' . $value . '">' . $fieldDataAfter);
         }
+
         return $result;
     }
 
@@ -67,6 +67,7 @@ class C4GUrlField extends C4GBrickField
         if (strcmp($dbValue, $dlgValue) != 0) {
             $result = new C4GBrickFieldCompare($this, $dbValue, $dlgValue);
         }
+
         return $result;
     }
 
@@ -85,7 +86,7 @@ class C4GUrlField extends C4GBrickField
     public function setWithLink($withLink)
     {
         $this->withLink = $withLink;
+
         return $this;
     }
-
 }

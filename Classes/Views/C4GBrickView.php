@@ -4,7 +4,7 @@
  * the gis-kit for Contao CMS.
  *
  * @package    con4gis
- * @version    6
+ * @version    7
  * @author     con4gis contributors (see "authors.txt")
  * @license    LGPL-3.0-or-later
  * @copyright  Küstenschmiede GmbH Software & Design
@@ -12,14 +12,14 @@
  */
 namespace con4gis\ProjectsBundle\Classes\Views;
 
-class C4GBrickView {
-
+class C4GBrickView
+{
     /**
      * @return boolean
      */
     public static function isPublicBased($viewType)
     {
-        switch($viewType) {
+        switch ($viewType) {
             case C4GBrickViewType::PUBLICVIEW:
             case C4GBrickViewType::PUBLICBASED:
             case C4GBrickViewType::PUBLICFORM:
@@ -36,7 +36,7 @@ class C4GBrickView {
      */
     public static function isGroupBased($viewType)
     {
-        switch($viewType) {
+        switch ($viewType) {
             case C4GBrickViewType::GROUPPROJECT:
             case C4GBrickViewType::GROUPPARENTVIEW:
             case C4GBrickViewType::GROUPPARENTBASED:
@@ -86,7 +86,7 @@ class C4GBrickView {
      */
     public static function isProjectBased($viewType)
     {
-        switch($viewType) {
+        switch ($viewType) {
             case C4GBrickViewType::PROJECTBASED:
             case C4GBrickViewType::PROJECTFORM:
             case C4GBrickViewType::PROJECTFORMCOPY:
@@ -147,7 +147,7 @@ class C4GBrickView {
      */
     public static function isWithoutList($viewType)
     {
-        switch($viewType) {
+        switch ($viewType) {
             case C4GBrickViewType::GROUPFORM:
             case C4GBrickViewType::GROUPFORMCOPY:
             case C4GBrickViewType::MEMBERFORM:
@@ -166,7 +166,7 @@ class C4GBrickView {
      */
     public static function isWithoutEditing($viewType)
     {
-        switch($viewType) {
+        switch ($viewType) {
             case C4GBrickViewType::GROUPPARENTVIEW:
             case C4GBrickViewType::GROUPVIEW:
             case C4GBrickViewType::MEMBERVIEW:
@@ -180,7 +180,8 @@ class C4GBrickView {
         return false;
     }
 
-    public static function isWithMember($viewType) {
+    public static function isWithMember($viewType)
+    {
         if (C4GBrickView::isMemberBased($viewType)) {
             return true;
         }
@@ -192,13 +193,15 @@ class C4GBrickView {
      * @param $viewType
      * @return bool
      */
-    public static function isWithGroup($viewType) {
+    public static function isWithGroup($viewType)
+    {
         if (C4GBrickView::isGroupBased($viewType) ||
             C4GBrickView::isProjectBased($viewType) ||
             C4GBrickView::isProjectParentBased($viewType) ||
             C4GBrickView::isGroupParentBased($viewType)) {
             return true;
         }
+
         return false;
     }
 
@@ -208,7 +211,6 @@ class C4GBrickView {
      */
     public static function isWithProject($viewType)
     {
-
         if (C4GBrickView::isProjectBased($viewType) ||
             C4GBrickView::isProjectParentBased($viewType)) {
             return true;
@@ -223,7 +225,6 @@ class C4GBrickView {
      */
     public static function isWithParent($viewType)
     {
-
         if (C4GBrickView::isProjectParentBased($viewType) ||
             C4GBrickView::isGroupParentBased($viewType) /*||
             C4GBrickView::isPublicParentBased($viewType)*/) {
@@ -237,7 +238,8 @@ class C4GBrickView {
      * @param $viewType
      * @return bool
      */
-    public static function isWithSaving($viewType) {
+    public static function isWithSaving($viewType)
+    {
         if ((C4GBrickView::isPublicBased($viewType) ||
             C4GBrickView::isPublicParentBased($viewType) ||
             C4GBrickView::isGroupBased($viewType) ||
@@ -255,7 +257,8 @@ class C4GBrickView {
      * @param $viewType
      * @return bool
      */
-    public static function isFormular($viewType) {
+    public static function isFormular($viewType)
+    {
         if (($viewType == C4GBrickViewType::GROUPFORM) ||
             ($viewType == C4GBrickViewType::GROUPFORMCOPY) ||
             ($viewType == C4GBrickViewType::PROJECTPARENTFORMCOPY) ||
@@ -263,7 +266,7 @@ class C4GBrickView {
             ($viewType == C4GBrickViewType::PROJECTFORMCOPY) ||
             ($viewType == C4GBrickViewType::MEMBERFORM) ||
             ($viewType == C4GBrickViewType::PUBLICFORM)) {
-             return true;
+            return true;
         }
 
         return false;

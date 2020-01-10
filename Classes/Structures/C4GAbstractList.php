@@ -4,7 +4,7 @@
  * the gis-kit for Contao CMS.
  *
  * @package    con4gis
- * @version    6
+ * @version    7
  * @author     con4gis contributors (see "authors.txt")
  * @license    LGPL-3.0-or-later
  * @copyright  Küstenschmiede GmbH Software & Design
@@ -40,6 +40,7 @@ abstract class C4GAbstractList
     public function addEntry($entry)
     {
         $this->entries[] = $entry;
+
         return count($this->entries);
     }
 
@@ -54,9 +55,11 @@ abstract class C4GAbstractList
             if ($currentEntry->equals($entry)) {
                 $return = $this->entries[$key];
                 unset($this->entries[$key]);
+
                 return $return;
             }
         }
+
         return false;
     }
 
@@ -71,9 +74,11 @@ abstract class C4GAbstractList
             if ($key == $index) {
                 $return = $this->entries[$key];
                 unset($this->entries[$key]);
+
                 return $return;
             }
         }
+
         return false;
     }
 
@@ -89,6 +94,7 @@ abstract class C4GAbstractList
                 return $this->entries[$key];
             }
         }
+
         return false;
     }
 }

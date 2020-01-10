@@ -4,7 +4,7 @@
  * the gis-kit for Contao CMS.
  *
  * @package    con4gis
- * @version    6
+ * @version    7
  * @author     con4gis contributors (see "authors.txt")
  * @license    LGPL-3.0-or-later
  * @copyright  Küstenschmiede GmbH Software & Design
@@ -65,7 +65,7 @@ class C4GShowMessageChangesDialogAction extends C4GBrickDialogAction
                 }
 
                 if (($value1 || $value2) && ($value1 != $value2)) {
-                    $fields .= '<li>'.$fieldTitle.' ('.  $value1 .' => '.$value2.')</li>';
+                    $fields .= '<li>' . $fieldTitle . ' (' . $value1 . ' => ' . $value2 . ')</li>';
                     $message_cnt++;
                 }
             }
@@ -74,18 +74,18 @@ class C4GShowMessageChangesDialogAction extends C4GBrickDialogAction
             if ($message_cnt == 0 || $dialogParams->isHideChangesMessage()) {
                 $dialogParams->setId(-1);
                 $action = new C4GShowListAction($dialogParams, $this->getListParams(), $this->getFieldList(), $this->getPutVars(), $this->getBrickDatabase());
+
                 return $action->run();
-            } else {
-                $result = C4GBrickDialog::showC4GMessageDialog(
+            }
+            $result = C4GBrickDialog::showC4GMessageDialog(
                     $id,
                     $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['MESSAGE_DIALOG_CLOSE_DIALOG_QUESTION'],
-                    $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['MESSAGE_DIALOG_CLOSE_DIALOG_FIELDLIST'].'</br>'.$fields,
+                    $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['MESSAGE_DIALOG_CLOSE_DIALOG_FIELDLIST'] . '</br>' . $fields,
                     C4GBrickActionType::ACTION_CONFIRMMESSAGE,
                     $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['MESSAGE_DIALOG_CLOSE_DIALOG_YES'],
                     C4GBrickActionType::ACTION_CANCELMESSAGE,
                     $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['MESSAGE_DIALOG_CLOSE_DIALOG_NO'],
                     $dlgValues);
-            }
         } else {
             $result = C4GBrickDialog::showC4GMessageDialog(
                 $id,
@@ -99,7 +99,6 @@ class C4GShowMessageChangesDialogAction extends C4GBrickDialogAction
         }
 
         return $result;
-
     }
 
     /**
@@ -117,6 +116,7 @@ class C4GShowMessageChangesDialogAction extends C4GBrickDialogAction
     public function setChanges($changes)
     {
         $this->changes = $changes;
+
         return $this;
     }
 

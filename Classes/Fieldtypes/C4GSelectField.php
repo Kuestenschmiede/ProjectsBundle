@@ -4,7 +4,7 @@
  * the gis-kit for Contao CMS.
  *
  * @package    con4gis
- * @version    6
+ * @version    7
  * @author     con4gis contributors (see "authors.txt")
  * @license    LGPL-3.0-or-later
  * @copyright  Küstenschmiede GmbH Software & Design
@@ -26,11 +26,10 @@ class C4GSelectField extends C4GBrickField
     private $emptyOptionLabel = '-';
     private $simpleTextWithoutEditing = false;
 
-
-    public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = array())
+    public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = [])
     {
         if ($this->getAdditionalID()) {
-            $this->setFieldName($this->getFieldName() .'_'.$this->getAdditionalID());
+            $this->setFieldName($this->getFieldName() . '_' . $this->getAdditionalID());
         }
 
         $id = $this->createFieldID();
@@ -46,33 +45,33 @@ class C4GSelectField extends C4GBrickField
         $result = '';
 
         if ($this->isShowIfEmpty() || !empty($value)) {
-
             $condition = $this->createConditionData($fieldList, $data);
 
             $options = $this->getSelectOptions($data, $value, $condition);
             $class = 'formdata';
             if ($this->isChosen() && (count($this->getOptions()) >= $this->getMinChosenCount())) {
-                if (strpos($required, "disabled")) {
-                    $class = $class.' chzn-select-disabled';
+                if (strpos($required, 'disabled')) {
+                    $class = $class . ' chzn-select-disabled';
                 } else {
-                    $class = $class.' chzn-select'; // class 'chzn-select' triggers javascript to make the select list a filterable combobox
+                    $class = $class . ' chzn-select'; // class 'chzn-select' triggers javascript to make the select list a filterable combobox
                 }
                 // render the chosen field more nicely
                 $onLoadScript = $dialogParams->getOnloadScript();
-                $onLoadScript .= " resizeChosen(\"c4g_" . $id . "_chosen\");";
+                $onLoadScript .= ' resizeChosen("c4g_' . $id . '_chosen");';
                 $dialogParams->setOnloadScript($onLoadScript);
             }
 
             $placeholder = $this->placeholder ? $this->placeholder :$GLOBALS['TL_LANG']['FE_C4G_DIALOG']['PLACEHOLDER_SELECT'];
             if ($this->isSimpleTextWithoutEditing()) {
-                $initialValue = "";
+                $initialValue = '';
                 foreach ($this->getOptions() as $option) {
                     if ($option['id'] == $value) {
                         $initialValue = $option['name'];
+
                         break;
                     }
                 }
-                $fieldData = '<div ' . $required . ' ' . $condition['conditionPrepare'] . ' id="' . $id . '">'. $initialValue . '</div>';
+                $fieldData = '<div ' . $required . ' ' . $condition['conditionPrepare'] . ' id="' . $id . '">' . $initialValue . '</div>';
             } else {
                 $fieldData = '<select id="' . $id . '" ' . $required . ' ' . $condition['conditionPrepare']
                     . ' class="' . $class . '" name="' . $this->getFieldName() . '" ' . $changeAction . ' size="' . $this->getSize() . '"'
@@ -89,6 +88,7 @@ class C4GSelectField extends C4GBrickField
                 $dialogParams, $fieldList, $data, $fieldData
             );
         }
+
         return $result;
     }
 
@@ -99,7 +99,7 @@ class C4GSelectField extends C4GBrickField
         if ($this->isWithEmptyOption()) {
             $fieldOptions = $this->getOptions();
             if ($fieldOptions) {
-                array_unshift($fieldOptions, array('id' => '-1', 'name' => $this->emptyOptionLabel));
+                array_unshift($fieldOptions, ['id' => '-1', 'name' => $this->emptyOptionLabel]);
                 $this->setOptions($fieldOptions);
             }
         }
@@ -117,10 +117,9 @@ class C4GSelectField extends C4GBrickField
                 $elements = C4GBrickCommon::array_sort($elements, $nameField);
             }
 
-
             foreach ($elements as $element) {
                 if ((!$element->$idField) && (!$element->$nameField)) {
-                    $option[] = array('id' => $value, 'name' => $value);
+                    $option[] = ['id' => $value, 'name' => $value];
                 }
 
                 if ($this->isShowIfEmpty() || (!empty($element->$idField) && !empty($element->$nameField))) {
@@ -135,28 +134,26 @@ class C4GSelectField extends C4GBrickField
                     if ($value == $option_id) {
                         $selected = 'selected';
                     }
-                    $options = $options . "<option " . $selected . " value=" . $option_id . ">" . $option_name . "</option>";
+                    $options = $options . '<option ' . $selected . ' value=' . $option_id . '>' . $option_name . '</option>';
                 }
             }
         } else {
             if (($this->getOptions())) {
-
                 if ($this->isSort()) {
                     $selectoptions = C4GBrickCommon::array_sort($this->getOptions(), 'name');
                 } else {
                     $selectoptions = $this->getOptions();
                 }
 
-
                 foreach ($selectoptions as $option) {
                     if ((!$option['id']) && (!$option['name'])) {
-                        $option[] = array('id' => $value, 'name' => $value);
+                        $option[] = ['id' => $value, 'name' => $value];
                     }
 
                     if ($this->isShowIfEmpty() || (!empty($option['id']) && !empty($option['name']))) {
                         $option_id = $option['id'];
                         $option_name = $option['name'];
-                        $optionAttributes = $option['attributes'] ? ' '.$option['attributes'].' ': '';
+                        $optionAttributes = $option['attributes'] ? ' ' . $option['attributes'] . ' ': '';
 
                         if ($option_name == '') {
                             $option_name = $option_id;
@@ -166,7 +163,7 @@ class C4GSelectField extends C4GBrickField
                         if (($value == $option_id) && ($condition['conditionPrepare'] == '')) {
                             $selected = ' selected';
                         }
-                        $options = $options . "<option" . $selected . $optionAttributes . " value=" . $option_id . ">" . $option_name . "</option>";
+                        $options = $options . '<option' . $selected . $optionAttributes . ' value=' . $option_id . '>' . $option_name . '</option>';
                     }
                 }
             }
@@ -190,7 +187,7 @@ class C4GSelectField extends C4GBrickField
         $conditions = $this->getCondition();
         if (($conditions) && ($this->getConditionType() != C4GBrickConditionType::BOOLSWITCH)) {
             $found = false;
-            foreach($conditions as $condition) {
+            foreach ($conditions as $condition) {
                 if (empty($condition)) {
                     continue;
                 }
@@ -202,6 +199,7 @@ class C4GSelectField extends C4GBrickField
                     $conFieldValue = $dlgValues[$conditionField];
                     if ($conditionValue == $conFieldValue) {
                         $found = true;
+
                         break;
                     }
                 }
@@ -213,19 +211,19 @@ class C4GSelectField extends C4GBrickField
 
         $additionalId = $this->getAdditionalID();
         if (!empty($additionalId)) {
-            $dlgValue = $dlgValues[$this->getFieldName().'_'.$additionalId];
+            $dlgValue = $dlgValues[$this->getFieldName() . '_' . $additionalId];
         } else {
             $dlgValue = $dlgValues[$this->getFieldName()];
         }
 
         //compare for C4GMatching
-        if($this->isSearchField()) {
-            if($dbValue != $dlgValue) {
+        if ($this->isSearchField()) {
+            if ($dbValue != $dlgValue) {
                 $tmpValue = unserialize($dlgValue);
-                if(strlen($tmpValue[0]) > 0) {
+                if (strlen($tmpValue[0]) > 0) {
                     $dlgValue = $tmpValue[0];
                 } else {
-                    $dbValue = C4GBrickCommon::translateSelectOption($dbValue,$this->getOptions());
+                    $dbValue = C4GBrickCommon::translateSelectOption($dbValue, $this->getOptions());
                 }
             }
         }
@@ -235,10 +233,10 @@ class C4GSelectField extends C4GBrickField
                 $dbValue = '';
             }
 
-            if ($dlgValue == -1 || $dlgValue == "-1" || $dlgValue == 0) {
+            if ($dlgValue == -1 || $dlgValue == '-1' || $dlgValue == 0) {
                 $dlgValue = '';
             }
-            if($dbValue != $dlgValue) {
+            if ($dbValue != $dlgValue) {
                 $result = new C4GBrickFieldCompare($this, $dbValue, $dlgValue);
             }
         }
@@ -257,7 +255,7 @@ class C4GSelectField extends C4GBrickField
         $conditions = $this->getCondition();
         if (($conditions) && ($this->getConditionType() != C4GBrickConditionType::BOOLSWITCH)) {
             $found = false;
-            foreach($conditions as $condition) {
+            foreach ($conditions as $condition) {
                 if ($condition->getType() == C4GBrickConditionType::VALUESWITCH) {
                     $conditionField = $condition->getFieldName();
                     $conditionValue = $condition->getValue();
@@ -269,6 +267,7 @@ class C4GSelectField extends C4GBrickField
                         if (!empty($additionalId)) {
                             $fieldData = $dlgValues[$this->getFieldName() . '_' . $additionalId];
                         }
+
                         break;
                     }
                 }
@@ -277,9 +276,10 @@ class C4GSelectField extends C4GBrickField
                 return null;
             }
         }
-        if ($fieldData == "-1") {
-            $fieldData = "";
+        if ($fieldData == '-1') {
+            $fieldData = '';
         }
+
         return $fieldData;
     }
 
@@ -299,13 +299,12 @@ class C4GSelectField extends C4GBrickField
      * @param array $dlgValues
      * @return bool|C4GBrickField
      */
-
     public function checkMandatory($dlgValues)
     {
         //$this->setSpecialMandatoryMessage($this->getFieldName());     //Useful for debugging
         if (!$this->isMandatory()) {
             return false;
-        } elseif(!$this->isDisplay()) {
+        } elseif (!$this->isDisplay()) {
             return false;
         } elseif ($this->getCondition()) {
             foreach ($this->getCondition() as $con) {
@@ -319,13 +318,13 @@ class C4GSelectField extends C4GBrickField
         $fieldData = $dlgValues[$fieldName];
         $additionalId = $this->getAdditionalID();
         if (!empty($additionalId)) {
-            $fieldData = $dlgValues[$fieldName.'_'.$additionalId];
+            $fieldData = $dlgValues[$fieldName . '_' . $additionalId];
         }
-        if (($fieldData == '-1') || ($fieldData == ''))  {
+        if (($fieldData == '-1') || ($fieldData == '')) {
             return $this;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**
@@ -338,13 +337,13 @@ class C4GSelectField extends C4GBrickField
         if ($data[$this->getFieldName()]) {
             $styleClass = $this->getStyleClass();
             if ($this->isWithoutLabel()) {
-                return "<div class=".$styleClass.">" . C4GBrickCommon::translateSelectOption($data[$this->getFieldName()],$this->getOptions()) ."</div>";
-            } else {
-                return "<p class=".$styleClass."><b>". $this->getTitle() . "</b>: " . C4GBrickCommon::translateSelectOption($data[$this->getFieldName()],$this->getOptions()) ."</p>";
+                return '<div class=' . $styleClass . '>' . C4GBrickCommon::translateSelectOption($data[$this->getFieldName()], $this->getOptions()) . '</div>';
             }
-        } else {
-            return '';
+
+            return '<p class=' . $styleClass . '><b>' . $this->getTitle() . '</b>: ' . C4GBrickCommon::translateSelectOption($data[$this->getFieldName()], $this->getOptions()) . '</p>';
         }
+
+        return '';
     }
 
     /**
@@ -352,17 +351,20 @@ class C4GSelectField extends C4GBrickField
      * @param array $array
      * @return array
      */
-    public function createOptionArray(array $array) {
+    public function createOptionArray(array $array)
+    {
         $options = [];
         $count = 1           ;
         foreach ($array as $entry) {
             $options[] = ['id' => strval($count), 'name' => strval($entry)];
             $count += 1;
         }
+
         return $options;
     }
 
-    public function setOptionsFromArray(array $array) {
+    public function setOptionsFromArray(array $array)
+    {
         return $this->setOptions($this->createOptionArray($array));
     }
 
@@ -381,6 +383,7 @@ class C4GSelectField extends C4GBrickField
     public function setChosen($chosen)
     {
         $this->chosen = $chosen;
+
         return $this;
     }
 
@@ -399,6 +402,7 @@ class C4GSelectField extends C4GBrickField
     public function setMinChosenCount($minChosenCount)
     {
         $this->minChosenCount = $minChosenCount;
+
         return $this;
     }
 
@@ -417,6 +421,7 @@ class C4GSelectField extends C4GBrickField
     public function setPlaceholder($placeholder)
     {
         $this->placeholder = $placeholder;
+
         return $this;
     }
 
@@ -435,6 +440,7 @@ class C4GSelectField extends C4GBrickField
     public function setEmptyOptionLabel($emptyOptionLabel)
     {
         $this->emptyOptionLabel = $emptyOptionLabel;
+
         return $this;
     }
 

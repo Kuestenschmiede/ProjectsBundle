@@ -4,7 +4,7 @@
  * the gis-kit for Contao CMS.
  *
  * @package    con4gis
- * @version    6
+ * @version    7
  * @author     con4gis contributors (see "authors.txt")
  * @license    LGPL-3.0-or-later
  * @copyright  Küstenschmiede GmbH Software & Design
@@ -20,11 +20,12 @@ class C4GDeleteDialogAction extends C4GBrickDialogAction
     {
         $dlgValues = $this->getPutVars();
         $dialogParams = $this->getDialogParams();
-        $dialogId  = $dialogParams->getId();
+        $dialogId = $dialogParams->getId();
 
         if ($dialogId == '') {
             $dialogParams->setId(-1);
             $action = new C4GCloseDialogAction($dialogParams, $this->getListParams(), $this->getFieldList(), $this->getPutVars(), $this->getBrickDatabase());
+
             return $action->run();
         }
 

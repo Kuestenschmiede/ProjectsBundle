@@ -4,14 +4,13 @@
  * the gis-kit for Contao CMS.
  *
  * @package    con4gis
- * @version    6
+ * @version    7
  * @author     con4gis contributors (see "authors.txt")
  * @license    LGPL-3.0-or-later
  * @copyright  Küstenschmiede GmbH Software & Design
  * @link       https://www.con4gis.org
  */
 namespace con4gis\ProjectsBundle\Classes\Common;
-
 
 /**
  * Class C4GBrickRegEx
@@ -23,7 +22,6 @@ class C4GBrickRegEx
     /**
      * Constant Expressions
      */
-
     const DIGITS = '^[0-9](\d*)$'; //Whole numbers, from 0 to infinite, no negatives and no separators.
     const DIGITS_NEG = '^[-]?[0-9](\d*)$'; //Digits, but allowed to go negative.
     const NUMBERS = '^[1-9](\d*)$'; //Whole numbers, from 1 to infinite, no negatives and no separators.
@@ -38,7 +36,6 @@ class C4GBrickRegEx
     const URL = '^(https?:\/\/)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&\/\/=]*)$'; //URL
     const YEARS = '^[1][90](\d{2})|[2][0](\d{2})$'; //Years, from 1900 to 20xx. Will also allow 29xx, so make sure to set a max value!
     const DATE_D_M_Y = '^([0-2][0-9]|[3][0-1])[.]([0][0-9]|[1][0-2])[.]([1][90](\d{2})|[2][0](\d{2}))$'; //Dates in DD.MM.YYYY format
-
 
     /**
      * Dynamic Expressions
@@ -64,6 +61,7 @@ class C4GBrickRegEx
             $decimals = 0;
             $decimalPoint = '';
         }
-        return '^'. $allowNegative .'(\d+)(('. $thousandsSep .')(\d{3}))*((('. $decimalPoint .'))(\d{0,'. $decimals .'}))?$';
+
+        return '^' . $allowNegative . '(\d+)((' . $thousandsSep . ')(\d{3}))*(((' . $decimalPoint . '))(\d{0,' . $decimals . '}))?$';
     }
 }

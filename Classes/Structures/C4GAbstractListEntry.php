@@ -4,7 +4,7 @@
  * the gis-kit for Contao CMS.
  *
  * @package    con4gis
- * @version    6
+ * @version    7
  * @author     con4gis contributors (see "authors.txt")
  * @license    LGPL-3.0-or-later
  * @copyright  Küstenschmiede GmbH Software & Design
@@ -24,5 +24,5 @@ abstract class C4GAbstractListEntry
      * @param C4GAbstractListEntry $entry   The entry to compare to this.
      * @return bool                         True when the entries should be treated equal, false otherwise.
      */
-    public abstract function equals(C4GAbstractListEntry $entry);
+    abstract public function equals(C4GAbstractListEntry $entry);
 }

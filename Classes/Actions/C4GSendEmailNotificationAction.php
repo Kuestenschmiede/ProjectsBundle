@@ -4,7 +4,7 @@
  * the gis-kit for Contao CMS.
  *
  * @package    con4gis
- * @version    6
+ * @version    7
  * @author     con4gis contributors (see "authors.txt")
  * @license    LGPL-3.0-or-later
  * @copyright  Küstenschmiede GmbH Software & Design
@@ -35,7 +35,7 @@ class C4GSendEmailNotificationAction extends C4GBrickDialogAction
 //          $memberId = $modelClass::$function($putVars);
 //        }
 
-        $dlgValues = array();
+        $dlgValues = [];
         $notification_array = unserialize($dialogParams->getNotificationTypeContactRequest());
 
         if ($id != -1) {
@@ -47,7 +47,7 @@ class C4GSendEmailNotificationAction extends C4GBrickDialogAction
 
         $memberId = $dialogParams->getMemberId();
         $dlgValues['c4g_member_id'] = $memberId;
-        if($dialogParams->isWithNotification() && $id) {
+        if ($dialogParams->isWithNotification() && $id) {
             if (sizeof($notification_array) == 1) {
                 $objNotification = \NotificationCenter\Model\Notification::findByPk($notification_array);
                 if ($objNotification !== null) {
@@ -76,10 +76,11 @@ class C4GSendEmailNotificationAction extends C4GBrickDialogAction
         if ($this->closeDialog) {
             $dialogParams->setId(-1);
             $action = new C4GCloseDialogAction($dialogParams, $this->getListParams(), $this->getFieldList(), $this->getPutVars(), $this->getBrickDatabase());
+
             return $action->run();
-        } else {
-            return $result;
         }
+
+        return $result;
     }
 
     /**
@@ -97,6 +98,7 @@ class C4GSendEmailNotificationAction extends C4GBrickDialogAction
     public function setCloseDialog($closeDialog = true)
     {
         $this->closeDialog = $closeDialog;
+
         return $this;
     }
 
@@ -104,5 +106,4 @@ class C4GSendEmailNotificationAction extends C4GBrickDialogAction
     {
         return false;
     }
-
 }

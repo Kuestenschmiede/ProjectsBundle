@@ -4,7 +4,7 @@
  * the gis-kit for Contao CMS.
  *
  * @package    con4gis
- * @version    6
+ * @version    7
  * @author     con4gis contributors (see "authors.txt")
  * @license    LGPL-3.0-or-later
  * @copyright  Küstenschmiede GmbH Software & Design
@@ -12,14 +12,14 @@
  */
 namespace con4gis\ProjectsBundle\Classes\Actions;
 
-
 use con4gis\ProjectsBundle\Classes\Views\C4GBrickView;
 
 class C4GIdentifierListAction extends C4GBrickAction
 {
     protected $module = null;
 
-    public function run() {
+    public function run()
+    {
         $dialogParams = $this->getDialogParams();
         $listParams = $this->getListParams();
         $fieldList = $this->getFieldList();
@@ -37,15 +37,16 @@ class C4GIdentifierListAction extends C4GBrickAction
             if ($module->getDialogChangeHandler()) {
                 $module->getDialogChangeHandler()->clearSession($module->getBrickKey());
             }
-            return $return;
-        } else {
-            $action = new C4GShowListAction($dialogParams, $listParams, $fieldList, $putVars, $brickDatabase);
-            $return = $action->run();
-            if ($module->getDialogChangeHandler()) {
-                $module->getDialogChangeHandler()->clearSession($module->getBrickKey());
-            }
+
             return $return;
         }
+        $action = new C4GShowListAction($dialogParams, $listParams, $fieldList, $putVars, $brickDatabase);
+        $return = $action->run();
+        if ($module->getDialogChangeHandler()) {
+            $module->getDialogChangeHandler()->clearSession($module->getBrickKey());
+        }
+
+        return $return;
     }
 
     /**
@@ -62,6 +63,7 @@ class C4GIdentifierListAction extends C4GBrickAction
     public function setModule($module)
     {
         $this->module = $module;
+
         return $this;
     }
 

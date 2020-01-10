@@ -4,7 +4,7 @@
  * the gis-kit for Contao CMS.
  *
  * @package    con4gis
- * @version    6
+ * @version    7
  * @author     con4gis contributors (see "authors.txt")
  * @license    LGPL-3.0-or-later
  * @copyright  Küstenschmiede GmbH Software & Design
@@ -22,7 +22,6 @@ class C4GMoreButtonField extends C4GBrickField
 {
     // override parent fields
     protected $databaseField = false;
-
 
     /**
      * The C4GMoreButton object that belongs to this field.
@@ -52,7 +51,6 @@ class C4GMoreButtonField extends C4GBrickField
         $this->setTableColumnPriority(1);
     }
 
-
     /**
      * Method that will be called in the compareWithDB() in C4GBrickDialog
      * @param $dbValue
@@ -73,7 +71,7 @@ class C4GMoreButtonField extends C4GBrickField
      * @param array $additionalParams
      * @return string
      */
-    public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = array())
+    public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = [])
     {
         $tableo = '';
         $tablec = '';
@@ -84,7 +82,7 @@ class C4GMoreButtonField extends C4GBrickField
 
         $class = '';
         if ($this->getStyleClass()) {
-            $class = 'class='.$this->getStyleClass().' ';
+            $class = 'class=' . $this->getStyleClass() . ' ';
         }
 
         $fieldData = $this->moreButton->renderButton(
@@ -97,23 +95,23 @@ class C4GMoreButtonField extends C4GBrickField
 
         if (($dialogParams && $dialogParams->isTableRows()) || $this->isTableRow()) {
             //$linebreak = '';
-            $tableo = '<table class="c4g_brick_table_rows" style="width:'.$this->getTableRowWidth().'">';
+            $tableo = '<table class="c4g_brick_table_rows" style="width:' . $this->getTableRowWidth() . '">';
             $tro = '<tr>';
             $trc = '</tr>';
             $tdo = '<td>';
             $tdc = '</td>';
             $tablec = '</table>';
         }
-        $id = "c4g_condition";
+        $id = 'c4g_condition';
         if ($dialogParams->getId() != -1) {
             $id .= '_' . $dialogParams->getId();
         }
 
-        return '<div id='. $id .' '
+        return '<div id=' . $id . ' '
             . $class
             . '>' .
-            $tableo.$tro.
-            $tdo.$fieldData.$tdc.$trc.$tablec.
+            $tableo . $tro .
+            $tdo . $fieldData . $tdc . $trc . $tablec .
              '</div>';
     }
 
@@ -128,14 +126,15 @@ class C4GMoreButtonField extends C4GBrickField
                 $rowData->id
             );
         } else {
-            $value = "";
+            $value = '';
         }
         if ($this->getAddStrBeforeValue()) {
-            $value = $this->getAddStrBeforeValue().$value;
+            $value = $this->getAddStrBeforeValue() . $value;
         }
         if ($this->getAddStrBehindValue()) {
-            $value = $value.$this->getAddStrBehindValue();
+            $value = $value . $this->getAddStrBehindValue();
         }
+
         return $value;
     }
 
@@ -149,9 +148,9 @@ class C4GMoreButtonField extends C4GBrickField
                 C4GBrickRenderMode::TILEBASED,
                 $element->id
             );
-        } else {
-            return "";
         }
+
+        return '';
     }
 
     /**
@@ -169,6 +168,7 @@ class C4GMoreButtonField extends C4GBrickField
     public function setDatabaseField($databaseField)
     {
         $this->databaseField = $databaseField;
+
         return $this;
     }
 
@@ -187,6 +187,7 @@ class C4GMoreButtonField extends C4GBrickField
     public function setMoreButton($moreButton)
     {
         $this->moreButton = $moreButton;
+
         return $this;
     }
 
@@ -205,6 +206,7 @@ class C4GMoreButtonField extends C4GBrickField
     public function setClassName($className)
     {
         $this->className = $className;
+
         return $this;
     }
 
@@ -223,6 +225,7 @@ class C4GMoreButtonField extends C4GBrickField
     public function setButtonTitle($buttonTitle)
     {
         $this->buttonTitle = $buttonTitle;
+
         return $this;
     }
 }

@@ -4,7 +4,7 @@
  * the gis-kit for Contao CMS.
  *
  * @package    con4gis
- * @version    6
+ * @version    7
  * @author     con4gis contributors (see "authors.txt")
  * @license    LGPL-3.0-or-later
  * @copyright  Küstenschmiede GmbH Software & Design
@@ -33,7 +33,7 @@ class C4GMultiCheckboxField extends C4GBrickField
      * @param array $additionalParams
      * @return string
      */
-    public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = array())
+    public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = [])
     {
         $id = $this->createFieldID();
 
@@ -48,7 +48,7 @@ class C4GMultiCheckboxField extends C4GBrickField
         $result = '';
         $required = '';
 
-        $values = array();
+        $values = [];
         if ($value) {
             if ($this->serializeResult) {
                 $tmpArray = StringUtil::deserialize(html_entity_decode($value));
@@ -67,6 +67,7 @@ class C4GMultiCheckboxField extends C4GBrickField
             $option_id = $option['id'];
             if (isset($values[$option_id])) {
                 $withOptions = true;
+
                 break;
             }
         }
@@ -85,12 +86,12 @@ class C4GMultiCheckboxField extends C4GBrickField
                 . $condition['conditionValue']
                 . $condition['conditionDisable']
                 . '>';
-            if($this->isModernStyle() == false){
-                $div =  $conditionStart.'<div class="c4g_multicheckbox formdata" '.$condition['conditionPrepare'];
-                $spanStart =  '<span class="c4g_checkbox">';
+            if ($this->isModernStyle() == false) {
+                $div = $conditionStart . '<div class="c4g_multicheckbox formdata" ' . $condition['conditionPrepare'];
+                $spanStart = '<span class="c4g_checkbox">';
                 $spanEnd = '</span>';
             } else {
-                $div = $conditionStart.'<div class="c4g_multicheckbox_modern formdata" '.$condition['conditionPrepare'];
+                $div = $conditionStart . '<div class="c4g_multicheckbox_modern formdata" ' . $condition['conditionPrepare'];
             }
 
             $result = $div . '>';
@@ -105,21 +106,20 @@ class C4GMultiCheckboxField extends C4GBrickField
                     ($viewType == C4GBrickViewType::PUBLICUUIDVIEW) ||
                     (($viewType == C4GBrickViewType::GROUPPROJECT) && $dialogParams->isFrozen()))
             ) {
-                $required = "disabled readonly";
+                $required = 'disabled readonly';
             }
 
             if ($this->isMandatory()) {
-                $required = "required";
+                $required = 'required';
             }
 
             if (!$this->isEditable()) {
-                if ($required != "") {
-                    $required .= " disabled readonly";
+                if ($required != '') {
+                    $required .= ' disabled readonly';
                 } else {
-                    $required = "disabled readonly";
+                    $required = 'disabled readonly';
                 }
             }
-
 
             //$required .= ' style="display:none;"';
 
@@ -132,10 +132,10 @@ class C4GMultiCheckboxField extends C4GBrickField
                     $type_caption = $option['name'];
                     $optionId = $this->getFieldName() . '|' . $option_id;
                     $condition['conditionPrepare'] = '';
-                    $result .= $spanStart.
+                    $result .= $spanStart .
                         '<input type="checkbox" id="c4g_' . $optionId . '" ' . $required . ' class="formdata c4g_display_none" size="' . $size . '" name="' . $optionId . '" value="' . $optionId . '"' .
                         ($values && isset($values[$option_id]) ? ' checked="checked"' : '') . '">' . $this->addC4GFieldLabel('c4g_' . $optionId, $type_caption, false, $condition, $fieldList, $data, $dialogParams, false, true)
-                        .$spanEnd;
+                        . $spanEnd;
                 }
                 $result .= $description;
                 $result .= '</div><br></div>';
@@ -147,7 +147,7 @@ class C4GMultiCheckboxField extends C4GBrickField
                     }
                     $csv[] = $option['name'];
                 }
-                $result .= "<span>".implode(', ', $csv)."</span>";
+                $result .= '<span>' . implode(', ', $csv) . '</span>';
                 $result .= '</div><br></div>';
             }
         }
@@ -166,13 +166,12 @@ class C4GMultiCheckboxField extends C4GBrickField
         $fieldName = $this->getFieldName();
         $dbValue = $dbValues->$fieldName;
         $field_content = $dbValue;
-        $result = array();
+        $result = [];
         if ($field_content) {
             $cbArray = null;
             $tmpArray = StringUtil::deserialize($field_content);
             if ($tmpArray) {
-                foreach ($tmpArray as $tmpKey => $tmpValue)
-                {
+                foreach ($tmpArray as $tmpKey => $tmpValue) {
                     $cbArray[$tmpValue] = $tmpKey;
                 }
             }
@@ -181,14 +180,13 @@ class C4GMultiCheckboxField extends C4GBrickField
             $cbArray = null;
         }
         $prefix = $this->getFieldName() . '|';
-        $dlgArr = array();
-        foreach($dlgValues as $valueKey=>$dlgValue) {
-            if (C4GUtils::startsWith($valueKey, $prefix))
-            {
+        $dlgArr = [];
+        foreach ($dlgValues as $valueKey => $dlgValue) {
+            if (C4GUtils::startsWith($valueKey, $prefix)) {
                 $pos = strpos($valueKey, '|');
                 $key = substr($valueKey, $pos + 1);
                 $options = $this->getOptions();
-                foreach($options as $option) {
+                foreach ($options as $option) {
                     if ($option['id'] == $key) {
                         $name = $option['name'];
                     }
@@ -200,38 +198,36 @@ class C4GMultiCheckboxField extends C4GBrickField
                     }
                 }
             }
-
         }
         if ($cbArray) {
-            foreach($cbArray as $key=>$cbValue) {
+            foreach ($cbArray as $key => $cbValue) {
                 $options = $this->getOptions();
-                foreach($options as $option) {
+                foreach ($options as $option) {
                     if ($option['id'] == $key) {
                         $name = $option['name'];
                     }
                 }
                 if (!isset($dlgArr[$key]) && !$this->isSearchField()) {
                     $result[] = new C4GBrickFieldCompare($this, $name, '');
-                }
-                else {
+                } else {
                     //change format of the data like in the DB - exception for C4GMatching
                     $dlgValues = serialize($tmpArray);
-                    if(strcmp($field_content, $dlgValues) != 0) {
+                    if (strcmp($field_content, $dlgValues) != 0) {
                         $result[] = new C4GBrickFieldCompare($this, $field_content, $dlgValues);
                     }
                 }
             }
         }
         //query for C4GBrickMatching
-        if(sizeof($result) == 0 && $this->isSearchField()) {
-            if(is_array($dlgValues)) {
+        if (sizeof($result) == 0 && $this->isSearchField()) {
+            if (is_array($dlgValues)) {
                 $dlgValue = StringUtil::deserialize($dlgValues[$fieldName]);
             } else {
                 $dlgValue = $dlgValues;
             }
             $dbValue = $dbValues->$fieldName;
-            if(is_array($dlgValue)){
-                if(is_array($dbValue)) {
+            if (is_array($dlgValue)) {
+                if (is_array($dbValue)) {
                     $diff = array_diff($dbValue, $dlgValue);
                     if ($diff) {
                         $result = new C4GBrickFieldCompare($this, $dbValue, $dlgValue);
@@ -239,11 +235,11 @@ class C4GMultiCheckboxField extends C4GBrickField
                 } else {
                     $result = new C4GBrickFieldCompare($this, $dbValue, $dlgValue);
                 }
+            } elseif (strcmp($dbValue, $dlgValue) != 0) {
+                $result = new C4GBrickFieldCompare($this, $dbValue, $dlgValue);
             }
-            else if(strcmp($dbValue, $dlgValue) != 0) {
-                    $result = new C4GBrickFieldCompare($this, $dbValue, $dlgValue);
-                }
         }
+
         return $result;
     }
 
@@ -255,25 +251,25 @@ class C4GMultiCheckboxField extends C4GBrickField
     {
 //        $fieldData = $dlgValues[$this->getFieldName()];
         $fieldName = $this->getFieldName();
-        $valueArr = array();
+        $valueArr = [];
         $prefix = $fieldName . '|';// . $dlgValues['id'];
 
-        foreach($dlgValues as $valueKey=>$dlgValue) {
-            if (C4GUtils::startsWith($valueKey, $prefix) && ($dlgValue && (is_bool($dlgValue) || $dlgValue === 'true')))
-            {
+        foreach ($dlgValues as $valueKey => $dlgValue) {
+            if (C4GUtils::startsWith($valueKey, $prefix) && ($dlgValue && (is_bool($dlgValue) || $dlgValue === 'true'))) {
                 $pos = strpos($valueKey, '|');
                 $key = substr($valueKey, $pos + 1);
                 $valueArr[] = trim($key);
             }
         }
         $fieldData = [];
-        if(sizeof($valueArr) > 0) {
+        if (sizeof($valueArr) > 0) {
             if ($this->serializeResult) {
                 $fieldData = serialize($valueArr);
             } else {
                 $fieldData = $valueArr;
             }
         }
+
         return $fieldData;
     }
 
@@ -293,13 +289,12 @@ class C4GMultiCheckboxField extends C4GBrickField
      * @param array $dlgValues
      * @return bool|C4GBrickField
      */
-
     public function checkMandatory($dlgValues)
     {
         //$this->setSpecialMandatoryMessage($this->getFieldName());   //Useful for debugging
         if (!$this->isMandatory()) {
             return false;
-        } elseif(!$this->isDisplay()) {
+        } elseif (!$this->isDisplay()) {
             return false;
         } elseif ($this->getCondition()) {
             foreach ($this->getCondition() as $con) {
@@ -312,9 +307,10 @@ class C4GMultiCheckboxField extends C4GBrickField
         $fieldData = '';
         $fieldName = $this->getFieldName();
         foreach ($dlgValues as $name => $dlgValue) {
-            if (C4GUtils::startsWith($name, $fieldName.'|')) {
+            if (C4GUtils::startsWith($name, $fieldName . '|')) {
                 if ($dlgValue == true && $dlgValue !== 'false') {
                     $fieldData = $name;
+
                     break;
                 }
             }
@@ -342,6 +338,7 @@ class C4GMultiCheckboxField extends C4GBrickField
     public function setModernStyle($modernStyle = true)
     {
         $this->modernStyle = $modernStyle;
+
         return $this;
     }
 
@@ -360,6 +357,7 @@ class C4GMultiCheckboxField extends C4GBrickField
     public function setSerialize($serializeResult)
     {
         $this->serializeResult = $serializeResult;
+
         return $this;
     }
 
@@ -368,17 +366,20 @@ class C4GMultiCheckboxField extends C4GBrickField
      * @param array $array
      * @return array
      */
-    public function createOptionArray(array $array) {
+    public function createOptionArray(array $array)
+    {
         $options = [];
         $count = 1           ;
         foreach ($array as $entry) {
             $options[] = ['id' => strval($count), 'name' => strval($entry)];
             $count += 1;
         }
+
         return $options;
     }
 
-    public function setOptionsFromArray(array $array) {
+    public function setOptionsFromArray(array $array)
+    {
         return $this->setOptions($this->createOptionArray($array));
     }
 
@@ -397,6 +398,7 @@ class C4GMultiCheckboxField extends C4GBrickField
     public function setShowAsCsv(bool $showAsCsv = true): C4GMultiCheckboxField
     {
         $this->showAsCsv = $showAsCsv;
+
         return $this;
     }
 }

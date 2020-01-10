@@ -4,7 +4,7 @@
  * the gis-kit for Contao CMS.
  *
  * @package    con4gis
- * @version    6
+ * @version    7
  * @author     con4gis contributors (see "authors.txt")
  * @license    LGPL-3.0-or-later
  * @copyright  Küstenschmiede GmbH Software & Design
@@ -26,7 +26,7 @@ class C4GColorField extends C4GBrickField
      * @param array $additionalParams
      * @return string
      */
-    public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = array())
+    public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = [])
     {
         $fieldName = $this->getFieldName();
         $id = $this->createFieldID();
@@ -37,20 +37,18 @@ class C4GColorField extends C4GBrickField
         $result = '';
 
         if ($this->isShowIfEmpty() || !empty($value)) {
-
             $condition = $this->getCondition();
             $conditionResult = $this->checkCondition($fieldList, $data, $condition);
             $description = $this->getC4GDescriptionLabel($this->getDescription(), $condition);
-            $conditionPrepare = array();
+            $conditionPrepare = [];
 
             if (!$conditionResult) {
-                $conditionPrepare = array('style="display: none;"', 'disabled');
-                $prepareCondition = array(
-                    'conditionPrepare' => 'style="display: none;"');
+                $conditionPrepare = ['style="display: none;"', 'disabled'];
+                $prepareCondition = [
+                    'conditionPrepare' => 'style="display: none;"', ];
             } else {
-                $prepareCondition = array(
-                    'conditionPrepare' => 'style="display: block;"');
-
+                $prepareCondition = [
+                    'conditionPrepare' => 'style="display: block;"', ];
             }
 
             $conditionname = '';
@@ -68,7 +66,6 @@ class C4GColorField extends C4GBrickField
                 '<input ' . $required . ' type="color" id="' . $id . '" class="formdata ' . $id . '" name="' . $fieldName . '" value="' . $value . '" ' . $conditionPrepare[1] . '>' .
                 $description);
         }
-
 
         return $result;
     }
@@ -90,6 +87,7 @@ class C4GColorField extends C4GBrickField
         if (strcmp($dbValue, $dlgValue) != 0) {
             $result = new C4GBrickFieldCompare($this, $dbValue, $dlgValue);
         }
+
         return $result;
     }
 }

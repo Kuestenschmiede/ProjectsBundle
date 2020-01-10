@@ -4,7 +4,7 @@
  * the gis-kit for Contao CMS.
  *
  * @package    con4gis
- * @version    6
+ * @version    7
  * @author     con4gis contributors (see "authors.txt")
  * @license    LGPL-3.0-or-later
  * @copyright  Küstenschmiede GmbH Software & Design
@@ -34,26 +34,26 @@ class C4GPermalinkField extends C4GBrickField
      * @param $data
      * @return string
      */
-    public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = array())
+    public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = [])
     {
-        $id = "c4g_" . $this->getFieldName();
+        $id = 'c4g_' . $this->getFieldName();
         $required = $this->generateRequiredString($data, $dialogParams);
         $value = $this->generateInitialValue($data);
-            if($value && $this->getPermaLinkName()) {
-                $permaLinkName = $this->getPermaLinkName();
-                $value .= $data->$permaLinkName;
-            }
+        if ($value && $this->getPermaLinkName()) {
+            $permaLinkName = $this->getPermaLinkName();
+            $value .= $data->$permaLinkName;
+        }
         $result = '';
 
         if ($this->isShowIfEmpty() || !empty($value)) {
-
             $condition = $this->createConditionData($fieldList, $data);
 
             $result =
                 $this->addC4GField($condition,$dialogParams,$fieldList,$data,
                 //'<input ' . $required . ' ' . $condition['conditionPrepare'] . ' type="text" id="' . $id . '" class="formdata" name="' . $this->getFieldName() . '" value="' . $value . '">' .
-                '<a class="c4g_dialog_link" href="'.$value.'" target="_blank" rel="noopener">'.$value.'</a>');
+                '<a class="c4g_dialog_link" href="' . $value . '" target="_blank" rel="noopener">' . $value . '</a>');
         }
+
         return $result;
     }
 
@@ -82,8 +82,7 @@ class C4GPermalinkField extends C4GBrickField
     public function setPermaLinkName($permaLinkName)
     {
         $this->permaLinkName = $permaLinkName;
+
         return $this;
     }
-
-
 }

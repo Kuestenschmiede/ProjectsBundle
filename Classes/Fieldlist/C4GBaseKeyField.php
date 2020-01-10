@@ -4,7 +4,7 @@
  * the gis-kit for Contao CMS.
  *
  * @package    con4gis
- * @version    6
+ * @version    7
  * @author     con4gis contributors (see "authors.txt")
  * @license    LGPL-3.0-or-later
  * @copyright  Küstenschmiede GmbH Software & Design
@@ -23,24 +23,23 @@ abstract class C4GBaseKeyField extends C4GBrickField
      * @param array $additionalParams
      * @return string
      */
-    public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = array())
+    public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = [])
     {
         $required = $this->generateRequiredString($data, $dialogParams);
         $value = $this->generateInitialValue($data);
         $result = '';
-        $id = "c4g_" . $this->getFieldName();
+        $id = 'c4g_' . $this->getFieldName();
         if ($this->isHidden()) {
             $type = 'hidden';
         } else {
             $type = 'number';
         }
         if ($this->isShowIfEmpty() || !empty($value)) {
-
             $condition = $this->createConditionData($fieldList, $data);
 
             $result =
                 $this->addC4GField($condition,$dialogParams,$fieldList,$data,
-                '<input ' . $required . ' ' . $condition['conditionPrepare'] . ' type="'.$type.'" id="' . $id . '" class="formdata ' . $id . '" size="' .
+                '<input ' . $required . ' ' . $condition['conditionPrepare'] . ' type="' . $type . '" id="' . $id . '" class="formdata ' . $id . '" size="' .
                 $this->getSize() . '" pattern="\d*" name="' .
                 $this->getFieldName() . '" value="' . $value . '" >');
         }
@@ -64,6 +63,7 @@ abstract class C4GBaseKeyField extends C4GBrickField
         if (strcmp($dbValue, $dlgValue) != 0) {
             $result = new C4GBrickFieldCompare($this, $dbValue, $dlgValue);
         }
+
         return $result;
     }
 
@@ -71,7 +71,8 @@ abstract class C4GBaseKeyField extends C4GBrickField
      * Method that will be called in the saveC4GDialog() in C4GBrickDialog
      * @return array
      */
-    public function createFieldData($dlgValues) {
+    public function createFieldData($dlgValues)
+    {
         return intval($dlgValues[$this->getFieldName()]);
     }
 
@@ -80,11 +81,12 @@ abstract class C4GBaseKeyField extends C4GBrickField
      * @param $value
      * @return mixed
      */
-    public function validateFieldValue($value) {
+    public function validateFieldValue($value)
+    {
         if (is_string($value)) {
             return intval($value);
-        } else {
-            return $value;
         }
+
+        return $value;
     }
 }

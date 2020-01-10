@@ -4,7 +4,7 @@
  * the gis-kit for Contao CMS.
  *
  * @package    con4gis
- * @version    6
+ * @version    7
  * @author     con4gis contributors (see "authors.txt")
  * @license    LGPL-3.0-or-later
  * @copyright  Küstenschmiede GmbH Software & Design
@@ -14,7 +14,7 @@ namespace con4gis\ProjectsBundle\Classes\Dialogs;
 
 class C4GBrickGrid
 {
-    private $elements = array();
+    private $elements = [];
 
     /**
      * C4GBrickGrid
@@ -39,7 +39,7 @@ class C4GBrickGrid
     public function setElements($elements)
     {
         $this->elements = $elements;
+
         return $this;
     }
-
 }

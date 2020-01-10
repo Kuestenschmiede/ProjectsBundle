@@ -4,7 +4,7 @@
  * the gis-kit for Contao CMS.
  *
  * @package    con4gis
- * @version    6
+ * @version    7
  * @author     con4gis contributors (see "authors.txt")
  * @license    LGPL-3.0-or-later
  * @copyright  Küstenschmiede GmbH Software & Design
@@ -38,7 +38,7 @@ class C4GConfirmActivationAction extends C4GBrickDialogAction
         if ($object) {
             $notifications = C4GBrickDialog::getButtonNotifications(
                 C4GBrickActionType::ACTION_ACTIVATIONDIALOG,
-                $dialogParams,$object);
+                $dialogParams, $object);
 
             $object->published = true;
             $object->save();
@@ -55,26 +55,27 @@ class C4GConfirmActivationAction extends C4GBrickDialogAction
                 $recipient = $sendEMails->getRecipient();
                 $senderName = C4GBrickCommon::getNameForMember($memberId);
                 if (($viewType == C4GBrickViewType::MEMBERBOOKING) && ($GLOBALS['con4gis']['booking']['installed'])) {
-                    $senderName = C4GBrickCommon::getNameForMember($memberId).' ('.$object->caption.')';
+                    $senderName = C4GBrickCommon::getNameForMember($memberId) . ' (' . $object->caption . ')';
                 }
 
                 $action = new C4GSendEmailAction($dialogParams, $this->getListParams(), $this->getFieldList(), $this->getPutVars(), $this->getBrickDatabase());
                 $action->setRecipient($recipient);
                 $action->setSenderName($senderName);
-                $action->setText($brickCaption.$GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_REACTIVATED']);
+                $action->setText($brickCaption . $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_REACTIVATED']);
                 $action->run();
-            } else if ($dialogParams->isWithNotification()) {
+            } elseif ($dialogParams->isWithNotification()) {
                 $this->sendNotifications($notifications, $dlgValues, $fieldList, $memberId, $object);
             }
         }
 
         if ($dialogParams->getRedirectSite() && (($dialogParams->isRedirectWithActivation() && (!($dialogParams->isRedirectWithActivation() && !$dialogParams->isRedirectWithSaving()))))) {
             $action = new C4GRedirectAction($dialogParams, $this->getListParams(), $this->getFieldList(), $this->getPutVars(), $this->getBrickDatabase());
-            return $action->run();
-        } else {
-            $action = new C4GShowListAction($dialogParams, $this->getListParams(), $this->getFieldList(), $this->getPutVars(), $this->getBrickDatabase());
+
             return $action->run();
         }
+        $action = new C4GShowListAction($dialogParams, $this->getListParams(), $this->getFieldList(), $this->getPutVars(), $this->getBrickDatabase());
+
+        return $action->run();
     }
 
     /**
@@ -91,6 +92,7 @@ class C4GConfirmActivationAction extends C4GBrickDialogAction
     public function setModule($module)
     {
         $this->module = $module;
+
         return $this;
     }
 

@@ -4,14 +4,13 @@
  * the gis-kit for Contao CMS.
  *
  * @package    con4gis
- * @version    6
+ * @version    7
  * @author     con4gis contributors (see "authors.txt")
  * @license    LGPL-3.0-or-later
  * @copyright  Küstenschmiede GmbH Software & Design
  * @link       https://www.con4gis.org
  */
 namespace con4gis\ProjectsBundle\Classes\Fieldlist;
-
 
 class C4GBrickFieldCompare
 {
@@ -56,6 +55,7 @@ class C4GBrickFieldCompare
     public function setField($field)
     {
         $this->field = $field;
+
         return $this;
     }
 
@@ -74,6 +74,7 @@ class C4GBrickFieldCompare
     public function setDbValue($dbValue)
     {
         $this->dbValue = $dbValue;
+
         return $this;
     }
 
@@ -92,8 +93,7 @@ class C4GBrickFieldCompare
     public function setDlgValue($dlgValue)
     {
         $this->dlgValue = $dlgValue;
+
         return $this;
     }
-
-
 }

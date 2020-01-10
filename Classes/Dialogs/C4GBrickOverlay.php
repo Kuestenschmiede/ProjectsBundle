@@ -4,18 +4,16 @@
  * the gis-kit for Contao CMS.
  *
  * @package    con4gis
- * @version    6
+ * @version    7
  * @author     con4gis contributors (see "authors.txt")
  * @license    LGPL-3.0-or-later
  * @copyright  Küstenschmiede GmbH Software & Design
  * @link       https://www.con4gis.org
  */
 namespace con4gis\ProjectsBundle\Classes\Dialogs;
-use con4gis\CoreBundle\Resources\contao\classes\C4GUtils;
+
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickConst;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickCommon;
-use Contao\ModuleModel;
-
 
 /**
  * Class C4GBrickOverlay
@@ -41,18 +39,19 @@ class C4GBrickOverlay
 
         switch ($type) {
             case C4GBrickConst::OVERLAY_DIALOG:
-                $this->html = '<a id="'.$id.'" onclick="' .
+                $this->html = '<a id="' . $id . '" onclick="' .
                     C4GBrickCommon::getPopupWindowString($link) . '"></a>';
+
                 break;
             case C4GBrickConst::OVERLAY_ANIMATION:
-                $this->html = '<div id="c4g_brick_overlay_content"></div><a id="'.$id.'" onclick="'.C4GBrickCommon::getPopupElementString('\''.$id.'_animation\'').';document.getElementById(\''.$id.'_animation\').play(); document.getElementById(\''.$id.'_animation\').addEventListener(\'ended\',C4GAnimationHandler,false);
+                $this->html = '<div id="c4g_brick_overlay_content"></div><a id="' . $id . '" onclick="' . C4GBrickCommon::getPopupElementString('\'' . $id . '_animation\'') . ';document.getElementById(\'' . $id . '_animation\').play(); document.getElementById(\'' . $id . '_animation\').addEventListener(\'ended\',C4GAnimationHandler,false);
                     function C4GAnimationHandler(e) {jQuery.magnificPopup.close()}" style="display:none"></a>';
+
                 break;
             default:
                 break;
         }
     }
-
 
     /**
      * @param $class
@@ -93,6 +92,7 @@ class C4GBrickOverlay
     public function setId($id)
     {
         $this->id = $id;
+
         return $this;
     }
 
@@ -111,6 +111,7 @@ class C4GBrickOverlay
     public function setLink($link)
     {
         $this->link = $link;
+
         return $this;
     }
 
@@ -137,8 +138,7 @@ class C4GBrickOverlay
     public function setType($type)
     {
         $this->type = $type;
+
         return $this;
     }
-
-
 }

@@ -4,7 +4,7 @@
  * the gis-kit for Contao CMS.
  *
  * @package    con4gis
- * @version    6
+ * @version    7
  * @author     con4gis contributors (see "authors.txt")
  * @license    LGPL-3.0-or-later
  * @copyright  Küstenschmiede GmbH Software & Design
@@ -14,59 +14,50 @@ namespace con4gis\ProjectsBundle\Classes\Services;
 
 class C4GBrickServiceParent extends \Controller
 {
-
-    protected $arrReturn = array();
+    protected $arrReturn = [];
     protected $blnDebugMode = false;
 
     public function __construct()
     {
-        if ($this->Input->get('debug') && ($this->Input->get('debug')=='1' || $this->Input->get('debug')=='true'))
-        {
+        if ($this->Input->get('debug') && ($this->Input->get('debug') == '1' || $this->Input->get('debug') == 'true')) {
             $this->blnDebugMode = true;
         }
 
         if (FE_USER_LOGGED_IN) {
             $this->import('FrontendUser', 'User');
             $this->User->authenticate();
-
         }
     }
 
     public function generate()
     {
         $strMethod = \Input::get('method');
-        $strId     = \Input::get('id');
+        $strId = \Input::get('id');
 
-        if (method_exists($this, $strMethod))
-        {
+        if (method_exists($this, $strMethod)) {
             if ($strId) {
-                if ($this->$strMethod($strId))
-                {
+                if ($this->$strMethod($strId)) {
                     if ($this->arrReturn) {
                         return json_encode($this->arrReturn);
-                    } else {
-                        return false;
                     }
+
+                    return false;
                 }
             } else {
-                if ($this->$strMethod())
-                {
+                if ($this->$strMethod()) {
                     if ($this->arrReturn) {
                         return json_encode($this->arrReturn);
-                    } else {
-                        return false;
                     }
+
+                    return false;
                 }
             }
 
             //ToDo Language
             return json_encode($this->getErrorReturn('Fehler: ' . $strMethod));
         }
-        else
-        {
-            return false;
-        }
 
+        return false;
     }
 
     protected function getPosition($id)
@@ -92,9 +83,10 @@ class C4GBrickServiceParent extends \Controller
 
     private function getErrorReturn($strMessage)
     {
-        $arrReturn = array();
+        $arrReturn = [];
         $arrReturn['error'] = true;
         $arrReturn['message'] = $strMessage;
+
         return $arrReturn;
     }
 }

@@ -4,17 +4,13 @@
  * the gis-kit for Contao CMS.
  *
  * @package    con4gis
- * @version    6
+ * @version    7
  * @author     con4gis contributors (see "authors.txt")
  * @license    LGPL-3.0-or-later
  * @copyright  Küstenschmiede GmbH Software & Design
  * @link       https://www.con4gis.org
  */
 namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
-
-
-use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
-use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
 
 class C4GMapLinkButtonField extends C4GLinkButtonField
 {
@@ -33,7 +29,8 @@ class C4GMapLinkButtonField extends C4GLinkButtonField
         return [];
     }
 
-    protected function createHref($rowData, $content) {
+    protected function createHref($rowData, $content)
+    {
         $latField = $this->latitudeColumn;
         $longField = $this->longitudeColumn;
         $lat = $rowData->$latField;
@@ -43,9 +40,9 @@ class C4GMapLinkButtonField extends C4GLinkButtonField
         $html = parent::createHref($rowData, $content);
         if ($baseLayer !== 0) {
             return $html . "#$lon/$lat/$zoom/0/$baseLayer/0";
-        } else {
-            return $html . "#$lon/$lat/$zoom";
         }
+
+        return $html . "#$lon/$lat/$zoom";
     }
 
     /**
@@ -63,6 +60,7 @@ class C4GMapLinkButtonField extends C4GLinkButtonField
     public function setLatitudeColumn(string $latitudeColumn): C4GMapLinkButtonField
     {
         $this->latitudeColumn = $latitudeColumn;
+
         return $this;
     }
 
@@ -81,6 +79,7 @@ class C4GMapLinkButtonField extends C4GLinkButtonField
     public function setLongitudeColumn(string $longitudeColumn): C4GMapLinkButtonField
     {
         $this->longitudeColumn = $longitudeColumn;
+
         return $this;
     }
 
@@ -99,6 +98,7 @@ class C4GMapLinkButtonField extends C4GLinkButtonField
     public function setZoom(int $zoom): C4GLinkButtonField
     {
         $this->zoom = $zoom;
+
         return $this;
     }
 
@@ -117,9 +117,7 @@ class C4GMapLinkButtonField extends C4GLinkButtonField
     public function setBaseLayer(int $baseLayer): C4GMapLinkButtonField
     {
         $this->baseLayer = $baseLayer;
+
         return $this;
     }
-
-
-
 }

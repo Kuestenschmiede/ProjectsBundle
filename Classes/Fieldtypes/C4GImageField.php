@@ -4,7 +4,7 @@
  * the gis-kit for Contao CMS.
  *
  * @package    con4gis
- * @version    6
+ * @version    7
  * @author     con4gis contributors (see "authors.txt")
  * @license    LGPL-3.0-or-later
  * @copyright  Küstenschmiede GmbH Software & Design
@@ -31,23 +31,22 @@ class C4GImageField extends C4GBrickField
      * @param array $additionalParams
      * @return string
      */
-    public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = array())
+    public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = [])
     {
         $size = $this->getSize();
         if ($size) {
             $width = $size;
             $height = $size;
             $size = 'width="' . $width . '" height="' . $height . '"';
-
         } else {
             $width = $this->getWidth();
             $height = $this->getHeight();
 
             if ($width && $height) {
                 $size = 'width="' . $width . '" height="' . $height . '"';
-            } else if ($width) {
+            } elseif ($width) {
                 $size = 'width="' . $width . '"';
-            } else if ($height) {
+            } elseif ($height) {
                 $size = 'height="' . $height . '"';
             }
         }
@@ -58,6 +57,7 @@ class C4GImageField extends C4GBrickField
             foreach ($fieldList as $arrField) {
                 if ($arrField->getFieldName() == $sourceFieldName) {
                     $sourceField = $arrField;
+
                     break;
                 }
             }
@@ -67,7 +67,6 @@ class C4GImageField extends C4GBrickField
                 //TODO fehlerbehandlung
                 $value = '';
             }
-
         } else {
             $value = $this->generateInitialValue($data);
         }
@@ -80,15 +79,13 @@ class C4GImageField extends C4GBrickField
         } else {
             $pathobj = C4GBrickCommon::loadFile($value);
             $path = $pathobj->path;
-
         }
 
         $result = '';
 
         if ($this->isShowIfEmpty() || $path) {
-
             $condition = $this->createConditionData($fieldList, $data);
-            $description =$this->getC4GDescriptionLabel($this->getDescription(), $condition);
+            $description = $this->getC4GDescriptionLabel($this->getDescription(), $condition);
 
             if ($path) {
 //                if ($pathobj->path[0] != '/') {
@@ -104,11 +101,11 @@ class C4GImageField extends C4GBrickField
                     $description = '';
                 }
 
-                $img = "<img src=\"$path\" title=\"".$this->getTitle()."\" $size/>";
-                $i = $this->getFieldName()."Link";
+                $img = "<img src=\"$path\" title=\"" . $this->getTitle() . "\" $size/>";
+                $i = $this->getFieldName() . 'Link';
                 $link = $data->$i;
                 if ($link !== '') {
-                    $img = "<a href=\"".$link."\" target=\"_blank\" rel=\"noopener noreferrer\">$img</a>";
+                    $img = '<a href="' . $link . "\" target=\"_blank\" rel=\"noopener noreferrer\">$img</a>";
                 }
 
                 $result = '
@@ -121,6 +118,7 @@ class C4GImageField extends C4GBrickField
                     $img . $description . '</div></div></div>';
             }
         }
+
         return $result;
     }
 
@@ -152,21 +150,21 @@ class C4GImageField extends C4GBrickField
             $width = $size;
             $height = $size;
             $size = 'width="' . $width . '" height="' . $height . '"';
-
         } else {
             $width = $this->getWidth();
             $height = $this->getHeight();
 
             if ($width && $height) {
                 $size = 'width="' . $width . '" height="' . $height . '"';
-            } else if ($width) {
+            } elseif ($width) {
                 $size = 'width="' . $width . '"';
-            } else if ($height) {
+            } elseif ($height) {
                 $size = 'height="' . $height . '"';
             }
         }
 
         $i = $this->getFieldName();
+
         try {
             $path = C4GBrickCommon::loadFile($rowData->$i)->path;
         } catch (\Throwable $throwable) {
@@ -176,13 +174,14 @@ class C4GImageField extends C4GBrickField
         $result = '';
 
         if ($path) {
-            $img = "<img src=\"$path\" title=\"".$this->getTitle()."\" $size/>";
-            $i = $this->getFieldName()."Link";
+            $img = "<img src=\"$path\" title=\"" . $this->getTitle() . "\" $size/>";
+            $i = $this->getFieldName() . 'Link';
             $link = $rowData->$i;
             if ($link !== '') {
-                $result = "<a href=\"".$link."\" target=\"_blank\" rel=\"noopener noreferrer\" onclick=\"event.stopPropagation()\">$img</a>";
+                $result = '<a href="' . $link . "\" target=\"_blank\" rel=\"noopener noreferrer\" onclick=\"event.stopPropagation()\">$img</a>";
             }
         }
+
         return $result;
     }
 
@@ -196,37 +195,31 @@ class C4GImageField extends C4GBrickField
     {
         $fieldName = $this->getFieldName();
         $file = $element->$fieldName;
-        if (!is_string($file))
-        {
+        if (!is_string($file)) {
             $file = '';
         }
         $fileObject = C4GBrickCommon::loadFile($file);
         if ($fileObject) {
-            switch($this->getFileTypes())
-            {
+            switch ($this->getFileTypes()) {
                 case C4GBrickFileType::IMAGES_ALL:
                 case C4GBrickFileType::IMAGES_JPG:
                 case C4GBrickFileType::IMAGES_PNG:
                 case C4GBrickFileType::IMAGES_PNG_JPG:
-                    if($fileObject->path[0] == '/')
-                    {
-                        return $fieldTitle . '<div class="c4g_tile value">' . '<img src="' .substr ($fileObject->path, 1 ). '" width="'.$this->getSize().'" height="'.$this->getSize().'">' . '</div>';
+                    if ($fileObject->path[0] == '/') {
+                        return $fieldTitle . '<div class="c4g_tile value">' . '<img src="' . substr($fileObject->path, 1) . '" width="' . $this->getSize() . '" height="' . $this->getSize() . '">' . '</div>';
                     }
-                    else
-                    {
-                        return $fieldTitle . '<div class="c4g_tile value">' . '<img src="' .$fileObject->path. '" width="'.$this->getSize().'" height="'.$this->getSize().'">' . '</div>';
-                    }
+
+                        return $fieldTitle . '<div class="c4g_tile value">' . '<img src="' . $fileObject->path . '" width="' . $this->getSize() . '" height="' . $this->getSize() . '">' . '</div>';
+
             }
-        }
-        else
-        {
-            switch($this->getFileTypes())
-            {
+        } else {
+            switch ($this->getFileTypes()) {
                 case C4GBrickFileType::IMAGES_ALL:
                 case C4GBrickFileType::IMAGES_JPG:
                 case C4GBrickFileType::IMAGES_PNG:
                 case C4GBrickFileType::IMAGES_PNG_JPG:
                     return $fieldTitle . '<div class="c4g_tile value">' . '<img src="bundles/con4gisprojects/images/missing.png">' . '</div>';
+
                     break;
                 default:
                     return $fieldTitle . '<div class="c4g_tile value">' . '<div class="error"></div>' . '</div>';
@@ -249,9 +242,9 @@ class C4GImageField extends C4GBrickField
         $fileObject = C4GBrickCommon::loadFile($file);
         if ($fileObject) {
             return $fileObject->name;
-        } else {
-            return '';
         }
+
+        return '';
     }
 
     /**
@@ -269,6 +262,7 @@ class C4GImageField extends C4GBrickField
     public function setWidth($width)
     {
         $this->width = $width;
+
         return $this;
     }
 
@@ -287,6 +281,7 @@ class C4GImageField extends C4GBrickField
     public function setHeight($height)
     {
         $this->height = $height;
+
         return $this;
     }
 
@@ -305,6 +300,7 @@ class C4GImageField extends C4GBrickField
     public function setDeserialize($deserialize)
     {
         $this->deserialize = $deserialize;
+
         return $this;
     }
 }

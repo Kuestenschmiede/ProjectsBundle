@@ -4,7 +4,7 @@
  * the gis-kit for Contao CMS.
  *
  * @package    con4gis
- * @version    6
+ * @version    7
  * @author     con4gis contributors (see "authors.txt")
  * @license    LGPL-3.0-or-later
  * @copyright  Küstenschmiede GmbH Software & Design
@@ -12,18 +12,18 @@
  */
 namespace con4gis\ProjectsBundle\Classes\Views;
 
-class C4GBrickViewParams {
-
+class C4GBrickViewParams
+{
     private $viewType = C4GBrickViewType::GROUPBASED;
 
     private $memberKeyField = 'member_id';
-    private $groupKeyField  = 'group_id';
+    private $groupKeyField = 'group_id';
     private $parentKeyField = 'pid';
     private $projectKeyField = 'project_id';
     private $modelListFunction = null; //Lädt die Datensätze der Tabelle über eine spezielle Modelfunktion.
     private $modelDialogFunction = null; //Lädt die Datensätze der Tabelle über eine spezielle Modelfunktion.
-    private $loginRedirect  = '';
-    private $actionNamespaces = array();    //Namespaces for custom actions, full path including the name of the action.
+    private $loginRedirect = '';
+    private $actionNamespaces = [];    //Namespaces for custom actions, full path including the name of the action.
 
     /**
      * C4GBrickViewParams constructor.

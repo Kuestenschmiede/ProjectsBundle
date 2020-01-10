@@ -4,7 +4,7 @@
  * the gis-kit for Contao CMS.
  *
  * @package    con4gis
- * @version    6
+ * @version    7
  * @author     con4gis contributors (see "authors.txt")
  * @license    LGPL-3.0-or-later
  * @copyright  Küstenschmiede GmbH Software & Design
@@ -31,7 +31,7 @@ class C4GRedirectDialogAction extends C4GBrickDialogAction
             }
         }
 
-        if ( $pageId && (($jumpTo = \PageModel::findByPk( $pageId)) !== null)) {
+        if ($pageId && (($jumpTo = \PageModel::findByPk($pageId)) !== null)) {
             $return['jump_to_url'] = $jumpTo->getFrontendUrl();
         }
 

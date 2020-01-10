@@ -4,7 +4,7 @@
  * the gis-kit for Contao CMS.
  *
  * @package    con4gis
- * @version    6
+ * @version    7
  * @author     con4gis contributors (see "authors.txt")
  * @license    LGPL-3.0-or-later
  * @copyright  Küstenschmiede GmbH Software & Design
@@ -27,6 +27,7 @@ class C4GShowEmailNotificationDialogAction extends C4GBrickDialogAction
         if ($dialogId == '') {
             $dialogParams->setId(-1);
             $action = new C4GCloseDialogAction($dialogParams, $this->getListParams(), $this->getFieldList(), $this->getPutVars(), $this->getBrickDatabase());
+
             return $action->run();
         }
 
@@ -47,10 +48,10 @@ class C4GShowEmailNotificationDialogAction extends C4GBrickDialogAction
             C4GBrickActionType::ACTION_CANCELEMAILNOTIFICATION,
             $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['MESSAGE_DIALOG_EMAIL_NOTIFICATION_DIALOG_NO'],
             $dlgValues,
-            C4GHTMLFactory::lineBreak().$additional_email_text->getC4GDialogField(array($additional_email_text), null, $dialogParams)
+            C4GHTMLFactory::lineBreak() . $additional_email_text->getC4GDialogField([$additional_email_text], null, $dialogParams)
         );
-        return $result;
 
+        return $result;
     }
 
     public function isReadOnly()

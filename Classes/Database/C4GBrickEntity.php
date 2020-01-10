@@ -4,16 +4,13 @@
  * the gis-kit for Contao CMS.
  *
  * @package    con4gis
- * @version    6
+ * @version    7
  * @author     con4gis contributors (see "authors.txt")
  * @license    LGPL-3.0-or-later
  * @copyright  Küstenschmiede GmbH Software & Design
  * @link       https://www.con4gis.org
  */
 namespace con4gis\ProjectsBundle\Classes\Database;
-
-use \Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\Mapping\GenerateValue;
 
 /**
  * Class C4GBrickEntity
@@ -25,11 +22,10 @@ abstract class C4GBrickEntity
      * BaseEntiy constructor.
      * @param array $data
      */
-    public function __construct($data = array())
+    public function __construct($data = [])
     {
         $this->setData($data);
     }
-
 
     /**
      * Setzt die Daten eines Arrays als Eigenschaften der Klasse.

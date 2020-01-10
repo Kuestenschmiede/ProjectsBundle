@@ -4,7 +4,7 @@
  * the gis-kit for Contao CMS.
  *
  * @package    con4gis
- * @version    6
+ * @version    7
  * @author     con4gis contributors (see "authors.txt")
  * @license    LGPL-3.0-or-later
  * @copyright  Küstenschmiede GmbH Software & Design
@@ -25,11 +25,12 @@ class C4GCustomDialogAction extends C4GBrickDialogAction
     {
         $dlgValues = $this->getPutVars();
         $dialogParams = $this->getDialogParams();
-        $dialogId  = $dialogParams->getId();
+        $dialogId = $dialogParams->getId();
 
         if ($dialogId == '') {
             $dialogParams->setId(-1);
             $action = new C4GCloseDialogAction($dialogParams, $this->getListParams(), $this->getFieldList(), $this->getPutVars(), $this->getBrickDatabase());
+
             return $action->run();
         }
 
@@ -62,6 +63,7 @@ class C4GCustomDialogAction extends C4GBrickDialogAction
     public function setMessageTitle(string $messageTitle): C4GCustomDialogAction
     {
         $this->messageTitle = $messageTitle;
+
         return $this;
     }
 
@@ -80,6 +82,7 @@ class C4GCustomDialogAction extends C4GBrickDialogAction
     public function setMessageText(string $messageText): C4GCustomDialogAction
     {
         $this->messageText = $messageText;
+
         return $this;
     }
 
@@ -98,6 +101,7 @@ class C4GCustomDialogAction extends C4GBrickDialogAction
     public function setConfirmButtonText(string $confirmButtonText): C4GCustomDialogAction
     {
         $this->confirmButtonText = $confirmButtonText;
+
         return $this;
     }
 
@@ -116,6 +120,7 @@ class C4GCustomDialogAction extends C4GBrickDialogAction
     public function setCancelButtonText(string $cancelButtonText): C4GCustomDialogAction
     {
         $this->cancelButtonText = $cancelButtonText;
+
         return $this;
     }
 

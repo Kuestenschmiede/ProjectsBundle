@@ -4,7 +4,7 @@
  * the gis-kit for Contao CMS.
  *
  * @package    con4gis
- * @version    6
+ * @version    7
  * @author     con4gis contributors (see "authors.txt")
  * @license    LGPL-3.0-or-later
  * @copyright  Küstenschmiede GmbH Software & Design
@@ -22,9 +22,9 @@ class C4GMemberField extends C4GBrickFieldText
     protected $size = 255;
     protected $maxLength = 255;
 
-    public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = array())
+    public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = [])
     {
-        $id = "c4g_" . $this->getFieldName();
+        $id = 'c4g_' . $this->getFieldName();
         $required = $this->generateRequiredString($data, $dialogParams);
         $value = $this->generateInitialValue($data);
         // $value is an ID
@@ -32,16 +32,15 @@ class C4GMemberField extends C4GBrickFieldText
         $groupId = $dialogParams->getGroupId();
         $value = MemberModel::getDisplaynameForGroup($groupId, $member->id);
         if ($value === '') {
-            $value = $member->firstname . " " . $member->lastname;
+            $value = $member->firstname . ' ' . $member->lastname;
         }
         $result = '';
 
         if ($this->isShowIfEmpty() || !empty($value)) {
-
             $condition = $this->createConditionData($fieldList, $data);
 
             $result = $this->addC4GField($condition, $dialogParams, $fieldList, $data,
-                '<input ' . $required . ' ' . $condition['conditionPrepare'] . ' type="text" id="' . $id . '" class="formdata ' . $id . '" size="'.$this->size.'"  maxLength="'.$this->maxLength.'" name="' . $this->getFieldName() . '" value="' . $value . '">');
+                '<input ' . $required . ' ' . $condition['conditionPrepare'] . ' type="text" id="' . $id . '" class="formdata ' . $id . '" size="' . $this->size . '"  maxLength="' . $this->maxLength . '" name="' . $this->getFieldName() . '" value="' . $value . '">');
         }
 
         return $result;
@@ -52,9 +51,9 @@ class C4GMemberField extends C4GBrickFieldText
         $value = $data[$this->getFieldName()];
         $member = MemberModel::findByPk($value);
         $value = MemberModel::getDisplaynameForGroup($groupId, $member->id);
-        return "<p><b>". $this->getTitle() . "</b>: " . $value ."</p>";
-    }
 
+        return '<p><b>' . $this->getTitle() . '</b>: ' . $value . '</p>';
+    }
 
     /**
      * @param $dbValues
@@ -72,6 +71,7 @@ class C4GMemberField extends C4GBrickFieldText
         if (strcmp($dbValue, $dlgValue) != 0) {
             $result = new C4GBrickFieldCompare($this, $dbValue, $dlgValue);
         }
+
         return $result;
     }
 
@@ -90,6 +90,7 @@ class C4GMemberField extends C4GBrickFieldText
     public function setSize($size)
     {
         $this->size = $size;
+
         return $this;
     }
 
@@ -108,8 +109,7 @@ class C4GMemberField extends C4GBrickFieldText
     public function setMaxLength($maxLength)
     {
         $this->maxLength = $maxLength;
+
         return $this;
     }
-
-
 }
