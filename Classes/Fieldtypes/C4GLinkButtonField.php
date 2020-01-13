@@ -12,6 +12,7 @@
  */
 namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
 
+use con4gis\CoreBundle\Resources\contao\classes\C4GUtils;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
 
@@ -93,7 +94,11 @@ class C4GLinkButtonField extends C4GBrickField
         if ($this->targetMode === self::TARGET_MODE_PAGE) {
             $href = \Contao\Controller::replaceInsertTags('{{link_url::' . $this->targetPageId . '}}');
         } elseif ($this->targetMode === self::TARGET_MODE_URL) {
-            $href = $this->targetPageUrl;
+            if (!C4GUtils::startsWith($this->targetPageUrl, 'http')) {
+                $href = 'http://' . $this->targetPageUrl;
+            } else {
+                $href = $this->targetPageUrl;
+            }
         } else {
             return '';
         }
