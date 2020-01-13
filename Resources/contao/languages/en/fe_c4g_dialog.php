@@ -12,6 +12,7 @@
  */
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['BRICK_CAPTION']        = 'Data Set';
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['BRICK_CAPTION_PLURAL'] = 'Data Sets';
+$GLOBALS['TL_LANG']['FE_C4G_DIALOG']['BRICK_CAPTION_PLURAL2'] = 'Data Sets';
 
 /** FE Buttons **/
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['SAVE']            = 'Save';
@@ -62,6 +63,10 @@ $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_DONT_SEND_NOTIFICATION'] = 'Th
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_DONT_SEND_NOTIFICATION_TITLE'] = 'Not sent';
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_MISSING_UUID'] = 'An error occurrred. Please reload the page and try again.';
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_MISSING_UUID_TITLE'] = 'Error';
+$GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_MISSING_TICKET'] = 'The ticket scope has not been defined. Please contact the operator.';
+$GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_MISSING_TICKET_TITLE'] = 'Missing ticket scope';
+$GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_MISSING_PARENT'] = 'Please create a ';
+$GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_MISSING_PARENT_TITLE'] = 'Missing ';
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_SUCCESSFULLY_SAVED'] = 'The data has successfully been saved.';
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_SUCCESSFULLY_SAVED_TITLE'] = 'Data saved';
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_SUCCESSFULLY_SAVED_NO_NEW_DATA'] = 'The data has not been changed.';
@@ -172,6 +177,8 @@ $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['validate_uniqe']  = 'For the field';
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['validate_uniqe_2'] = 'does the following field value already exist in the database: ';
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['validate_title'] = 'Already exists ...';
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['MAX_LENGTH'] = ' [Character Limit: ';
+$GLOBALS['TL_LANG']['FE_C4G_DIALOG']['INVALID_INPUT'] = 'Invalid Input';
+$GLOBALS['TL_LANG']['FE_C4G_DIALOG']['CHECK_FIELD'] = 'Invalid input in field ';
 
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG_COMPARE']['newEntry']     = 'New Entry';
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG_COMPARE']['deletedEntry'] = 'Field contents cleared';
