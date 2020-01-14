@@ -14,6 +14,7 @@ namespace con4gis\ProjectsBundle\Classes\Lists;
 
 use con4gis\ProjectsBundle\Classes\Buttons\C4GBrickButton;
 use con4gis\ProjectsBundle\Classes\Buttons\C4GExportButtons;
+use con4gis\ProjectsBundle\Classes\Buttons\C4GFilterButton;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickConst;
 use con4gis\ProjectsBundle\Classes\Filter\C4GBrickFilterParams;
 use con4gis\ProjectsBundle\Classes\Filter\C4GListFilter;
@@ -60,6 +61,7 @@ class C4GBrickListParams
     private $forceShowListAction = false; //Press true to force a ShowListAction to be used to display the module instead of a ShowDialogAction if id > 0
     private $customHeadline = false; // if true, only the headline from the list data will be displayed
     private $showFullTextSearchInHeadline = false; // redundant in table view
+    private $filterButtons = [];
 
     /**
      * C4GBrickListParams constructor.
@@ -842,6 +844,24 @@ class C4GBrickListParams
     {
         $this->showFullTextSearchInHeadline = $showFullTextSearchInHeadline;
 
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getFilterButtons() : array
+    {
+        return $this->filterButtons;
+    }
+
+    /**
+     * @param C4GFilterButton $filterButton
+     * @return $this
+     */
+    public function addFilterButton(C4GFilterButton $filterButton)
+    {
+        $this->filterButtons[] = $filterButton;
         return $this;
     }
 }
