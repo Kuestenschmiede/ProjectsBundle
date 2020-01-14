@@ -33,8 +33,7 @@ class C4GLinkButtonField extends C4GBrickField
         parent::__construct();
         $this->setDatabaseField(false)
             ->setFormField(false)
-            ->setTableColumn()
-            ->setDatabaseField(false);
+            ->setTableColumn();
     }
 
     /**
