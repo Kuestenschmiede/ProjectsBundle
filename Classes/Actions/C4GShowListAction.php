@@ -491,6 +491,13 @@ class C4GShowListAction extends C4GBrickDialogAction
             }
         }
 
+        $filterButtons = $listParams->getFilterButtons();
+        if ($filterButtons !== null) {
+            foreach ($filterButtons as $filterButton) {
+                $brickCaptionPlural .= $filterButton->getButtonHtml();
+            }
+        }
+
         $renderMode = $listParams->getRenderMode();
         switch ($renderMode) {
             case C4GBrickRenderMode::LISTBASED:
