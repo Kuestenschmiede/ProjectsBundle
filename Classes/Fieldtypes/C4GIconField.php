@@ -19,7 +19,7 @@ use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
 class C4GIconField extends C4GBrickField
 {
     protected $icon = '';
-    protected $conditional = false;     //true = the Link is only shown if the field value is '1'
+    protected $conditional = false;     //true = the icon is only shown if the field value is '1'
 
     public function __construct()
     {
@@ -54,14 +54,13 @@ class C4GIconField extends C4GBrickField
     final public function getC4GListField($rowData, $content)
     {
         $fieldName = $this->getFieldName();
-        C4gLogModel::addLogEntry('fieldname', strval($fieldName));
         if (!$this->conditional || ($rowData->$fieldName === '1')) {
-            $class = 'ui-button ui-corner-all';
+            $class = 'ui-button ui-corner-all c4g_icon';
             if ($this->getStyleClass()) {
                 $class .= $this->getStyleClass();
             }
 
-            $html = "<span class=\"$class\">";
+            $html = "<span class=\"$class\" title=\"".$this->getDescription()."\">";
             $html .= $this->icon;
             $html .= '</span>';
 

@@ -20,6 +20,7 @@ use con4gis\ProjectsBundle\Classes\Common\C4GBrickCommon;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickConst;
 use con4gis\ProjectsBundle\Classes\Conditions\C4GBrickConditionType;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
+use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GClassField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GDateTimeLocationField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GGeopickerField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GKeyField;
@@ -701,6 +702,7 @@ class C4GBrickList
             }
             $fieldView = '';
             $fieldIndexes = [];
+            $class = 'c4gGuiAction';
             foreach ($fieldList as $field) {
                 $fieldName = $field->getFieldName();
                 //special char decode (&#40; &#41;)
@@ -764,6 +766,10 @@ class C4GBrickList
                             }
                         }
                         $fieldView .= $beforeDiv . $address . $afterDiv;
+                    } elseif ($field instanceof C4GClassField) {
+                        if ($field->doesFieldValueMatch($row->$fieldName)) {
+                            $class .= ' '. $field->getStyleClass();
+                        }
                     } else {
                         $fieldContent = $field->getC4GListField($row, $content);
                         if ($fieldContent !== '' || !$field->isShowIfEmpty()) {
@@ -774,7 +780,7 @@ class C4GBrickList
                 }
             }
 
-            $view .= '<div class="c4gGuiAction" aria-label="jump to dataset ' . $row->id . '" data-action="' . $href . '">';
+            $view .= '<div class="'.$class.'" aria-label="jump to dataset ' . $row->id . '" data-action="' . $href . '">';
             $view .= '<ul class="c4g_brick_list_row c4g_brick_list_row_' . $i . '" data-tooltip="' . $tooltip . '" title="' . $tooltip . '">' . $fieldView . '</ul>';
             $view .= '</div>';
         }
