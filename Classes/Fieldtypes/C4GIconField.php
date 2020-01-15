@@ -56,7 +56,7 @@ class C4GIconField extends C4GBrickField
     {
         $fieldName = $this->getFieldName();
         if (!$this->conditional || ($rowData->$fieldName === '1')) {
-            $class = 'ui-button ui-corner-all';
+            $class = 'ui-button ui-corner-all c4g_icon';
             if ($this->getStyleClass()) {
                 $class .= $this->getStyleClass();
             }
