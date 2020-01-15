@@ -12,6 +12,7 @@
  */
 namespace con4gis\ProjectsBundle\Classes\Common;
 
+use con4gis\CoreBundle\Classes\C4GVersionProvider;
 use con4gis\CoreBundle\Resources\contao\models\C4gLogModel;
 use con4gis\MapsBundle\Resources\contao\models\C4gMapProfilesModel;
 use con4gis\MapsBundle\Resources\contao\models\C4gMapsModel;
@@ -237,7 +238,7 @@ class C4GBrickCommon
     {
         $resultList = [];
 
-        if ($GLOBALS['con4gis']['groups']['installed']) {
+        if (C4GVersionProvider::isInstalled('con4gis/groups')) {
             $groups = MemberGroupModel::getGroupListForMember($memberId);
             foreach ($groups as $group) {
                 $rights = MemberGroupModel::getMemberRightsInGroup($group->id, $memberId);
@@ -629,7 +630,7 @@ class C4GBrickCommon
     public static function convert_coordinates_to_address($lat, $lon, $intProfileId = 0, $database = null)
     {
         if ($database) {
-            if ($GLOBALS['con4gis']['trackingPortal']['installed'] == true) {
+            if (C4GVersionProvider::isInstalled('con4gis/tracking')) {
                 $address = \con4gis\TrackingPortalBundle\Resources\contao\models\C4gTrackingPortalPositionsModel::lookupCache($database, $lat, $lon, false);
                 if ($address != 'not cached') {
                     return $address;

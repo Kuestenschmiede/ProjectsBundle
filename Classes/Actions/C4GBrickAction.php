@@ -13,6 +13,7 @@
 namespace con4gis\ProjectsBundle\Classes\Actions;
 
 use con4gis\CoreBundle\Classes\C4GUtils;
+use con4gis\CoreBundle\Classes\C4GVersionProvider;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickCommon;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickConst;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GDateTimeLocationField;
@@ -374,7 +375,7 @@ abstract class C4GBrickAction
      */
     public static function checkGroupId($groupId, $memberId, $brickKey)
     {
-        if ($GLOBALS['con4gis']['groups']['installed']) {
+        if (C4GVersionProvider::isInstalled('con4gis/groups')) {
             $groups = C4GBrickCommon::getGroupListForBrick($memberId, $brickKey);
             if ($groups) {
                 foreach ($groups as $group) {
@@ -398,7 +399,7 @@ abstract class C4GBrickAction
     public static function getOnlyOneGroupId($memberId, $brickKey)
     {
         $result = -1;
-        if ($GLOBALS['con4gis']['groups']['installed']) {
+        if (C4GVersionProvider::isInstalled('con4gis/groups')) {
             $groups = C4GBrickCommon::getGroupListForBrick($memberId, $brickKey);
             $count = count($groups);
 

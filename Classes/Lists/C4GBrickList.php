@@ -768,7 +768,7 @@ class C4GBrickList
                         $fieldView .= $beforeDiv . $address . $afterDiv;
                     } elseif ($field instanceof C4GClassField) {
                         if ($field->doesFieldValueMatch($row->$fieldName)) {
-                            $class .= ' '. $field->getStyleClass();
+                            $class .= ' ' . $field->getStyleClass();
                         }
                     } else {
                         $fieldContent = $field->getC4GListField($row, $content);
@@ -780,7 +780,7 @@ class C4GBrickList
                 }
             }
 
-            $view .= '<div class="'.$class.'" aria-label="jump to dataset ' . $row->id . '" data-action="' . $href . '">';
+            $view .= '<div class="' . $class . '" aria-label="jump to dataset ' . $row->id . '" data-action="' . $href . '">';
             $view .= '<ul class="c4g_brick_list_row c4g_brick_list_row_' . $i . '" data-tooltip="' . $tooltip . '" title="' . $tooltip . '">' . $fieldView . '</ul>';
             $view .= '</div>';
         }

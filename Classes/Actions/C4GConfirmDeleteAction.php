@@ -12,6 +12,7 @@
  */
 namespace con4gis\ProjectsBundle\Classes\Actions;
 
+use con4gis\CoreBundle\Classes\C4GVersionProvider;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickCommon;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialog;
 use con4gis\ProjectsBundle\Classes\Logs\C4GLogEntryType;
@@ -65,7 +66,7 @@ class C4GConfirmDeleteAction extends C4GBrickDialogAction
         if ($sendEmails) {
             $recipient = $sendEmails->getRecipient();
             $senderName = C4GBrickCommon::getNameForMember($memberId);
-            if (($viewType == C4GBrickViewType::MEMBERBOOKING) && ($GLOBALS['con4gis']['booking']['installed'])) {
+            if (($viewType == C4GBrickViewType::MEMBERBOOKING) && (C4GVersionProvider::isInstalled('con4gis/booking'))) {
                 $senderName = C4GBrickCommon::getNameForMember($memberId) . ' (' . $dbValues->caption . ')';
             }
 
@@ -93,7 +94,7 @@ class C4GConfirmDeleteAction extends C4GBrickDialogAction
         }
 
         //if a project was deleted we have to change the project booking count
-        if (($projectKey != '') && ($GLOBALS['con4gis']['booking']['installed'])) {
+        if (($projectKey != '') && (C4GVersionProvider::isInstalled('con4gis/booking'))) {
             \con4gis\BookingBundle\Resources\contao\models\C4gBookingGroupsModel::checkProjectCount($groupId);
         }
 

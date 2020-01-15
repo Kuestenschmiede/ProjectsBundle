@@ -14,6 +14,7 @@ namespace con4gis\ProjectsBundle\Classes\Framework;
 
 use con4gis\CoreBundle\Classes\C4GJQueryGUI;
 use con4gis\CoreBundle\Classes\C4GUtils;
+use con4gis\CoreBundle\Classes\C4GVersionProvider;
 use con4gis\CoreBundle\Classes\ResourceLoader;
 use con4gis\GroupsBundle\Resources\contao\models\MemberGroupModel;
 use con4gis\GroupsBundle\Resources\contao\models\MemberModel;
@@ -246,7 +247,7 @@ class C4GBrickModuleParent extends \Module
         if ($this->ignoreCon4GisRights) {
             return false;
         }
-        if ($this->brickKey && $GLOBALS['con4gis']['groups']['installed'] &&
+        if ($this->brickKey && C4GVersionProvider::isInstalled('con4gis/groups') &&
             (C4GBrickView::isMemberBased($this->viewType) ||
              C4GBrickView::isGroupBased($this->viewType))) {
             if (!MemberModel::hasRightInAnyGroup($this->User->id, $this->brickKey)) {
@@ -275,7 +276,7 @@ class C4GBrickModuleParent extends \Module
                 )) {
                 $this->viewType = $this->publicViewType;
             }
-        } elseif (!C4GBrickView::isPublicBased($this->viewType) && !C4GBrickView::isPublicParentBased($this->viewType) && $GLOBALS['con4gis']['groups']['installed']) {
+        } elseif (!C4GBrickView::isPublicBased($this->viewType) && !C4GBrickView::isPublicParentBased($this->viewType) && C4GVersionProvider::isInstalled('con4gis/groups')) {
             $this->loadLanguageFiles();
 
             if ($init) {

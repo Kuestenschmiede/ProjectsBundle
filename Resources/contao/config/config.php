@@ -10,15 +10,13 @@
  * @copyright  Küstenschmiede GmbH Software & Design
  * @link       https://www.con4gis.org
  */
-/**
- * Global settings
- */
-$GLOBALS['con4gis']['projects']['installed'] = true;
-
 
 /**
  * Kartenstrukturelemente
  */
+
+use con4gis\CoreBundle\Classes\C4GVersionProvider;
+
 $apiBaseUrl = 'con4gis';
 
 $GLOBALS['TL_HOOKS']['postLogout'][] = array('con4gis\ProjectsBundle\Classes\Framework\C4GMaintenance', 'onLogoutClearSessions');
@@ -27,7 +25,7 @@ $GLOBALS['TL_HOOKS']['postLogin'][] = array('con4gis\ProjectsBundle\Classes\Fram
 /**
  * Frontend Modules
  */
-array_insert( $GLOBALS['FE_MOD']['con4gis'], $GLOBALS['con4gis']['maps']['installed']?1:0, array
+array_insert( $GLOBALS['FE_MOD']['con4gis'], C4GVersionProvider::isInstalled('con4gis/maps')?1:0, array
     (
         'C4GSearchModule' => 'con4gis\ProjectsBundle\Classes\Modules\C4GSearchModule',
     )

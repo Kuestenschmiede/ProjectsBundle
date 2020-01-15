@@ -12,6 +12,7 @@
  */
 namespace con4gis\ProjectsBundle\Classes\Dialogs;
 
+use con4gis\CoreBundle\Classes\C4GVersionProvider;
 use con4gis\ProjectsBundle\Classes\Actions\C4GBrickActionType;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickCommon;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GSelectField;
@@ -38,7 +39,7 @@ class C4GBrickSelectGroupDialog extends C4GBrickDialog
 
         $grouplist = [];
         $groups = null;
-        if ($GLOBALS['con4gis']['groups']['installed']) {
+        if (C4GVersionProvider::isInstalled('con4gis/groups')) {
             $groups = C4GBrickCommon::getGroupListForBrick($memberId, $brickKey);
         }
 
