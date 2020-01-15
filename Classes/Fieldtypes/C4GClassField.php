@@ -17,6 +17,12 @@ use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
 
 class C4GClassField extends C4GBrickField
 {
+    public function __construct()
+    {
+        parent::__construct();
+        $this->setTableColumn();
+    }
+
     public function doesFieldValueMatch($fieldValue) {
         foreach ($this->getOptions() as $option) {
             if ($fieldValue === $option) {
