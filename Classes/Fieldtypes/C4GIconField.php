@@ -20,7 +20,7 @@ use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
 class C4GIconField extends C4GBrickField
 {
     protected $icon = '';
-    protected $conditional = false;     //true = the Link is only shown if the field value is '1'
+    protected $conditional = false;     //true = the icon is only shown if the field value is '1'
 
     public function __construct()
     {
