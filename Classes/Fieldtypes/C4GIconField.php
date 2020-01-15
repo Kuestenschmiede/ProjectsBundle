@@ -55,7 +55,6 @@ class C4GIconField extends C4GBrickField
     final public function getC4GListField($rowData, $content)
     {
         $fieldName = $this->getFieldName();
-        C4gLogModel::addLogEntry('fieldname', strval($fieldName));
         if (!$this->conditional || ($rowData->$fieldName === '1')) {
             $class = 'ui-button ui-corner-all';
             if ($this->getStyleClass()) {
