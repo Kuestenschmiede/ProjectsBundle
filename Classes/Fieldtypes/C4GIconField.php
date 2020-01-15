@@ -61,7 +61,7 @@ class C4GIconField extends C4GBrickField
                 $class .= $this->getStyleClass();
             }
 
-            $html = "<span class=\"$class\">";
+            $html = "<span class=\"$class\" title=\"".$this->getDescription()."\">";
             $html .= $this->icon;
             $html .= '</span>';
 
