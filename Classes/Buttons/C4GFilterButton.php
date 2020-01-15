@@ -1,8 +1,6 @@
 <?php
 
-
 namespace con4gis\ProjectsBundle\Classes\Buttons;
-
 
 class C4GFilterButton
 {
@@ -18,6 +16,6 @@ class C4GFilterButton
      */
     public function getButtonHtml(): string
     {
-        return '<span class="ui-button ui-corner-all">'.$this->icon.'</span>';
+        return '<span class="ui-button ui-corner-all">' . $this->icon . '</span>';
     }
 }

@@ -12,9 +12,9 @@
  */
 namespace con4gis\ProjectsBundle\Classes\Framework;
 
-use con4gis\CoreBundle\Resources\contao\classes\C4GJQueryGUI;
-use con4gis\CoreBundle\Resources\contao\classes\C4GUtils;
-use con4gis\CoreBundle\Resources\contao\classes\ResourceLoader;
+use con4gis\CoreBundle\Classes\C4GJQueryGUI;
+use con4gis\CoreBundle\Classes\C4GUtils;
+use con4gis\CoreBundle\Classes\ResourceLoader;
 use con4gis\GroupsBundle\Resources\contao\models\MemberGroupModel;
 use con4gis\GroupsBundle\Resources\contao\models\MemberModel;
 use con4gis\ProjectsBundle\Classes\Actions\C4GBrickAction;

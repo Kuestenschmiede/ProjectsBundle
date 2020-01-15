@@ -12,7 +12,7 @@
  */
 namespace con4gis\ProjectsBundle\Classes\Permission;
 
-use con4gis\CoreBundle\Resources\contao\classes\C4GUtils;
+use con4gis\CoreBundle\Classes\C4GUtils;
 
 class C4GTablePermission
 {

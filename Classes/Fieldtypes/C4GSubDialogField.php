@@ -12,8 +12,8 @@
  */
 namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
 
-use con4gis\CoreBundle\Resources\contao\classes\C4GUtils;
-use con4gis\CoreBundle\Resources\contao\classes\callback\C4GCallback;
+use con4gis\CoreBundle\Classes\C4GUtils;
+use con4gis\CoreBundle\Resources\Callback\C4GCallback;
 use con4gis\ProjectsBundle\Classes\Conditions\C4GBrickCondition;
 use con4gis\ProjectsBundle\Classes\Database\C4GBrickDatabase;
 use con4gis\ProjectsBundle\Classes\Database\C4GBrickDatabaseParams;

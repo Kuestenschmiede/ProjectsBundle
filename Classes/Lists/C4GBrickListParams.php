@@ -862,6 +862,7 @@ class C4GBrickListParams
     public function addFilterButton(C4GFilterButton $filterButton)
     {
         $this->filterButtons[] = $filterButton;
+
         return $this;
     }
 }

@@ -12,7 +12,7 @@
  */
 namespace con4gis\ProjectsBundle\Classes\Dialogs;
 
-use con4gis\CoreBundle\Resources\contao\classes\ResourceLoader;
+use con4gis\CoreBundle\Classes\ResourceLoader;
 use con4gis\GroupsBundle\Resources\contao\models\MemberGroupModel;
 use con4gis\GroupsBundle\Resources\contao\models\MemberModel;
 use con4gis\ProjectsBundle\Classes\Actions\C4GBrickActionType;
@@ -42,8 +42,8 @@ use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GTelField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GUrlField;
 use con4gis\ProjectsBundle\Classes\Views\C4GBrickView;
 use con4gis\ProjectsBundle\Classes\Views\C4GBrickViewType;
-use con4gis\CoreBundle\Resources\contao\classes\C4GHTMLFactory;
-use con4gis\CoreBundle\Resources\contao\classes\C4GUtils;
+use con4gis\CoreBundle\Classes\C4GHTMLFactory;
+use con4gis\CoreBundle\Classes\C4GUtils;
 
 //ToDo Klassen weiter auslagern -> siehe bspw. C4gBrickSelectGroupDialog,
 //ToDo danach sollte C4GBrickDialog lediglich die Parentklasse sein.

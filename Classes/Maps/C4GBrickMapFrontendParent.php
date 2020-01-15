@@ -13,7 +13,7 @@
 namespace con4gis\ProjectsBundle\Classes\Maps;
 
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickCommon;
-use con4gis\CoreBundle\Resources\contao\classes\C4GHTMLFactory;
+use con4gis\CoreBundle\Classes\C4GHTMLFactory;
 use Contao\Controller;
 
 class C4GBrickMapFrontendParent

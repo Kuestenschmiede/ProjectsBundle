@@ -12,7 +12,7 @@
  */
 namespace con4gis\ProjectsBundle\Classes\Actions;
 
-use con4gis\CoreBundle\Resources\contao\classes\C4GHTMLFactory;
+use con4gis\CoreBundle\Classes\C4GHTMLFactory;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickCommon;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickConst;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GKeyField;

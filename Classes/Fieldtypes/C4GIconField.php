@@ -12,7 +12,6 @@
  */
 namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
 
-use con4gis\CoreBundle\Resources\contao\classes\C4GUtils;
 use con4gis\CoreBundle\Resources\contao\models\C4gLogModel;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
@@ -87,6 +86,7 @@ class C4GIconField extends C4GBrickField
     public function setIcon(string $icon): C4GIconField
     {
         $this->icon = $icon;
+
         return $this;
     }
 
@@ -105,6 +105,7 @@ class C4GIconField extends C4GBrickField
     public function setConditional(bool $conditional = true): C4GIconField
     {
         $this->conditional = $conditional;
+
         return $this;
     }
 }

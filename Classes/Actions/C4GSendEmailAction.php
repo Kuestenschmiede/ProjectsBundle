@@ -12,7 +12,7 @@
  */
 namespace con4gis\ProjectsBundle\Classes\Actions;
 
-use con4gis\CoreBundle\Resources\contao\classes\C4GUtils;
+use con4gis\CoreBundle\Classes\C4GUtils;
 
 class C4GSendEmailAction extends C4GBrickDialogAction
 {

@@ -12,8 +12,8 @@
  */
 namespace con4gis\ProjectsBundle\Classes\Fieldlist;
 
-use con4gis\CoreBundle\Resources\contao\classes\C4GHTMLFactory;
-use con4gis\CoreBundle\Resources\contao\classes\C4GUtils;
+use con4gis\CoreBundle\Classes\C4GHTMLFactory;
+use con4gis\CoreBundle\Classes\C4GUtils;
 use con4gis\ProjectsBundle\Classes\Conditions\C4GBrickConditionType;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GButtonField;

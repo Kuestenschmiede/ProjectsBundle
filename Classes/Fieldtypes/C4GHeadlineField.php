@@ -294,7 +294,6 @@ class C4GHeadlineField extends C4GBrickField
         return $this;
     }
 
-
     public function addAssociatedField(C4GBrickField $brickField)
     {
         $this->associatedFields[] = $brickField;
