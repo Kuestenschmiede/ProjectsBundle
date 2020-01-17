@@ -76,9 +76,11 @@ class C4GLinkButtonField extends C4GBrickField
             $href = $this->createHref($rowData, $content);
             $title = $this->getTitle();
 
+            $label = $this->buttonLabel ?: $href;
+
             $html = "<a $rel href='$href' title='$title' onclick='event.stopPropagation()'>";
             $html .= "<span class='$class'>";
-            $html .= $this->buttonLabel;
+            $html .= $label;
             $html .= '</span>';
             $html .= '</a>';
 
