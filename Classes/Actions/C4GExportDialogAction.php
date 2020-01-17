@@ -12,6 +12,8 @@
  */
 namespace con4gis\ProjectsBundle\Classes\Actions;
 
+use con4gis\CoreBundle\Classes\C4GVersionProvider;
+
 class C4GExportDialogAction extends C4GBrickDialogAction
 {
     public function run()
@@ -53,12 +55,12 @@ class C4GExportDialogAction extends C4GBrickDialogAction
                 $memberId);
             if ($result['insertId']) {
                 //if a project was added we have to change the project booking count
-                if ((empty($dbValues)) && ($this->projectKey != '') && ($GLOBALS['con4gis']['booking']['installed'])) {
+                if ((empty($dbValues)) && ($this->projectKey != '') && (C4GVersionProvider::isInstalled('con4gis/booking'))) {
                     \con4gis\BookingBundle\Resources\contao\models\C4gBookingGroupsModel::checkProjectCount($this->group_id);
                 }
                 $dialogId = $result['insertId'];
                 $dbValues = $brickDatabase->findByPk($dialogId);
-            } elseif (($dialogId) && ($GLOBALS['con4gis']['booking']['installed'])) {
+            } elseif (($dialogId) && (C4GVersionProvider::isInstalled('con4gis/booking'))) {
                 \con4gis\BookingBundle\Resources\contao\models\C4gBookingGroupsModel::log($dbValues);
             }
         }

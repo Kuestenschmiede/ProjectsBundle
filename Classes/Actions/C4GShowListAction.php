@@ -13,6 +13,7 @@
 namespace con4gis\ProjectsBundle\Classes\Actions;
 
 use con4gis\CoreBundle\Classes\C4GHTMLFactory;
+use con4gis\CoreBundle\Classes\C4GVersionProvider;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickCommon;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickConst;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GKeyField;
@@ -65,7 +66,7 @@ class C4GShowListAction extends C4GBrickDialogAction
         $fieldList = $listFieldlist;
 
         $groupCount = -1;
-        if ($GLOBALS['con4gis']['groups']['installed']) {
+        if (C4GVersionProvider::isInstalled('con4gis/groups')) {
             $groupCount = count(C4GBrickCommon::getGroupListForBrick($memberId, $brickKey));
         }
 

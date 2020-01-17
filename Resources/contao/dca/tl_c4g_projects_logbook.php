@@ -22,9 +22,6 @@ $GLOBALS['TL_DCA']['tl_c4g_projects_logbook'] = array
         'closed'            => true, //lässt den Hinzufügen-Button verschwinden.
         'dataContainer'     => 'Table',
         'enableVersioning'  => 'true',
-        'onsubmit_callback'           => array(
-            array('\con4gis\CoreBundle\Classes\C4GAutomator', 'purgeApiCache')
-        ),
         'sql'               => array
         (
             'keys' => array

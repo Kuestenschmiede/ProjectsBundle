@@ -12,7 +12,6 @@
  */
 namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
 
-use con4gis\CoreBundle\Resources\contao\models\C4gLogModel;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
 
@@ -60,7 +59,7 @@ class C4GIconField extends C4GBrickField
                 $class .= $this->getStyleClass();
             }
 
-            $html = "<span class=\"$class\" title=\"".$this->getDescription()."\">";
+            $html = "<span class=\"$class\" title=\"" . $this->getDescription() . '">';
             $html .= $this->icon;
             $html .= '</span>';
 

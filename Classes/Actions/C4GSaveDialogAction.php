@@ -12,6 +12,7 @@
  */
 namespace con4gis\ProjectsBundle\Classes\Actions;
 
+use con4gis\CoreBundle\Classes\C4GVersionProvider;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickCommon;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickConst;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialog;
@@ -99,7 +100,7 @@ class C4GSaveDialogAction extends C4GBrickDialogAction
                     \Session::getInstance()->set($this->setSessionIdAfterInsert, $result['insertId']);
                 }
                 //if a project was added we have to change the project booking count
-                if ((empty($dbValues)) && ($projectKey != '') && ($GLOBALS['con4gis']['booking']['installed'])) {
+                if ((empty($dbValues)) && ($projectKey != '') && (C4GVersionProvider::isInstalled('con4gis/booking'))) {
                     \con4gis\BookingBundle\Resources\contao\models\C4gBookingGroupsModel::checkProjectCount($groupId);
                 }
                 if ($this->setParentIdAfterSave) {
@@ -109,7 +110,7 @@ class C4GSaveDialogAction extends C4GBrickDialogAction
                 $dialogId = $result['insertId'];
                 $dbValues = $brickDatabase->findByPk($dialogId);
                 \Session::getInstance()->set('c4g_brick_dialog_id', $dialogId);
-            } elseif (($dialogId) && ($GLOBALS['con4gis']['booking']['installed'])) {
+            } elseif (($dialogId) && (C4GVersionProvider::isInstalled('con4gis/booking'))) {
                 \con4gis\BookingBundle\Resources\contao\models\C4gBookingGroupsModel::log($dbValues);
             }
         }
@@ -135,7 +136,7 @@ class C4GSaveDialogAction extends C4GBrickDialogAction
         if ($sendEMails) {
             $recipient = $sendEMails->getRecipient();
             $senderName = C4GBrickCommon::getNameForMember($memberId);
-            if (($viewType == C4GBrickViewType::MEMBERBOOKING) && ($GLOBALS['con4gis']['booking']['installed'])) {
+            if (($viewType == C4GBrickViewType::MEMBERBOOKING) && (C4GVersionProvider::isInstalled('con4gis/booking'))) {
                 $senderName = C4GBrickCommon::getNameForMember($memberId) . ' (' . $dbValues->caption . ')';
             }
 

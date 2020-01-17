@@ -23,7 +23,8 @@ class C4GClassField extends C4GBrickField
         $this->setTableColumn();
     }
 
-    public function doesFieldValueMatch($fieldValue) {
+    public function doesFieldValueMatch($fieldValue)
+    {
         foreach ($this->getOptions() as $option) {
             if ($fieldValue === $option) {
                 return true;
