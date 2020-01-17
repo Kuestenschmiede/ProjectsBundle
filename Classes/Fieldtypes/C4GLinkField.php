@@ -19,6 +19,7 @@ use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
 class C4GLinkField extends C4GBrickField
 {
     protected $linkLabel = '';
+    protected $labelField = '';
     protected $linkType = self::LINK_TYPE_DEFAULT;
     protected $newTab = false;
 
@@ -78,13 +79,20 @@ class C4GLinkField extends C4GBrickField
                     break;
             }
 
-            $this->linkLabel ? $label = $this->linkLabel : $label = $value;
-
             if ($this->newTab) {
                 $rel = "target='_blank' rel='noopener noreferrer' ";
             } else {
                 $rel = '';
             }
+
+            if ($this->labelField !== '') {
+                $labelFieldName = $this->labelField;
+                $label = $data->$labelFieldName;
+            } else {
+                $label = '';
+            }
+
+            $label = $label ?: $this->linkLabel ?: $value;
 
             $result =
                 $this->addC4GField($condition,$dialogParams,$fieldList,$data,
@@ -131,7 +139,14 @@ class C4GLinkField extends C4GBrickField
                 break;
         }
 
-        $label = $this->linkLabel ? $this->linkLabel : $value;
+        if ($this->labelField !== '') {
+            $labelFieldName = $this->labelField;
+            $label = $rowData->$labelFieldName;
+        } else {
+            $label = '';
+        }
+
+        $label = $label ?: $this->linkLabel ?: $value;
 
         if ($this->getAddStrBeforeValue()) {
             $label = $this->getAddStrBeforeValue() . $label;
@@ -168,6 +183,24 @@ class C4GLinkField extends C4GBrickField
     {
         $this->linkType = $linkType;
 
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLabelField(): string
+    {
+        return $this->labelField;
+    }
+
+    /**
+     * @param string $labelField
+     * @return C4GLinkField
+     */
+    public function setLabelField(string $labelField): C4GLinkField
+    {
+        $this->labelField = $labelField;
         return $this;
     }
 
