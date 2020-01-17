@@ -511,7 +511,7 @@ table.dataTable.display tbody, table.dataTable thead th div.DataTables_sort_wrap
     vertical-align: middle;
     text-align: center;
     left: 50px;
-    background-image: url("../images/point.png");
+    background-image: url("../images/point.svg");
     background-repeat: no-repeat;
     background-position: center;
 }

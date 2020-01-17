@@ -16,7 +16,6 @@ use con4gis\CoreBundle\Classes\C4GVersionProvider;
 use con4gis\CoreBundle\Resources\contao\models\C4gLogModel;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickCommon;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialog;
-use con4gis\ProjectsBundle\Classes\Logs\C4GLogEntryType;
 use con4gis\ProjectsBundle\Classes\Views\C4GBrickViewType;
 
 class C4GConfirmDeleteAction extends C4GBrickDialogAction

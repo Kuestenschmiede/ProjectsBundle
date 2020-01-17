@@ -13,7 +13,6 @@
 namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
 
 use con4gis\CoreBundle\Classes\Helper\ArrayHelper;
-use con4gis\ProjectsBundle\Classes\Common\C4GBrickCommon;
 use con4gis\ProjectsBundle\Classes\Database\C4GBrickDatabase;
 use con4gis\ProjectsBundle\Classes\Database\C4GBrickDatabaseType;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;

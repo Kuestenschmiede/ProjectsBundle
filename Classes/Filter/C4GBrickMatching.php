@@ -14,7 +14,6 @@ namespace con4gis\ProjectsBundle\Classes\Filter;
 
 use con4gis\CoreBundle\Classes\C4GUtils;
 use con4gis\CoreBundle\Classes\Helper\ArrayHelper;
-use con4gis\ProjectsBundle\Classes\Common\C4GBrickCommon;
 
 class C4GBrickMatching
 {

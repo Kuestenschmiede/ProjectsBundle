@@ -68,7 +68,7 @@ $GLOBALS['TL_DCA']['tl_c4g_projects_logbook'] = array
             (
                 'label'         => $GLOBALS['TL_LANG']['tl_c4g_projects_logbook']['show'],
                 'href'          => 'act=show',
-                'icon'          => 'show.gif',
+                'icon'          => 'show.svg',
             ),
         )
     ),

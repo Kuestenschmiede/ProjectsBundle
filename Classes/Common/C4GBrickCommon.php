@@ -17,7 +17,6 @@ use con4gis\CoreBundle\Resources\contao\models\C4gLogModel;
 use con4gis\MapsBundle\Resources\contao\models\C4gMapProfilesModel;
 use con4gis\MapsBundle\Resources\contao\models\C4gMapsModel;
 use con4gis\MapsBundle\Resources\contao\modules\api\ReverseSearchApi;
-use con4gis\ProjectsBundle\Classes\models\C4gProjectsLogbookModel;
 use con4gis\ProjectsBundle\Classes\Models\C4gProjectsModel;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use con4gis\GroupsBundle\Resources\contao\models\MemberModel;
