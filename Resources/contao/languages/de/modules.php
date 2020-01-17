@@ -13,5 +13,6 @@
 $GLOBALS['TL_LANG']['MOD']['ProjectsLogbook'] = array('Logbuch', 'Logbuch');
 $GLOBALS['TL_LANG']['MOD']['Projects'] = array('Projekte', 'Projekte');
 $GLOBALS['TL_LANG']['MOD']['Backups'] = array('Import/Export', 'Datensicherung von Projekten');
-$GLOBALS['TL_LANG']['FMD']['C4GSearchModule'] = array('con4gis-Projects: Suchweiterleitung', 'Ein Formular für einen Suchbegriff, mit dem die verknüpfte Liste durchsucht wird.');
+
+$GLOBALS['TL_LANG']['FMD']['C4GSearchModule'] = array('projects: Suchweiterleitung', 'Ein Formular für einen Suchbegriff, mit dem die verknüpfte Liste durchsucht wird.');
 

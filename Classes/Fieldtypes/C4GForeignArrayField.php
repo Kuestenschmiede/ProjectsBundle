@@ -12,6 +12,7 @@
  */
 namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
 
+use con4gis\CoreBundle\Classes\Helper\ArrayHelper;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickCommon;
 use con4gis\ProjectsBundle\Classes\Database\C4GBrickDatabase;
 use con4gis\ProjectsBundle\Classes\Database\C4GBrickDatabaseType;
@@ -62,7 +63,7 @@ class C4GForeignArrayField extends C4GBrickField
         }
 
         foreach ($subData as $dbVals) {
-            $dbVals = C4GBrickCommon::arrayToObject($dbVals);
+            $dbVals = ArrayHelper::arrayToObject($dbVals);
 
             /* $fieldNames = array();
              $fieldNamesIndex = 0;

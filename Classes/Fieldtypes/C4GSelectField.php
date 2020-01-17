@@ -12,6 +12,7 @@
  */
 namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
 
+use con4gis\CoreBundle\Classes\Helper\ArrayHelper;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickCommon;
 use con4gis\ProjectsBundle\Classes\Conditions\C4GBrickConditionType;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
@@ -114,7 +115,7 @@ class C4GSelectField extends C4GBrickField
             $elements = $model::findby($keyField, $id);
 
             if ($this->isSort()) {
-                $elements = C4GBrickCommon::array_sort($elements, $nameField);
+                $elements = ArrayHelper::array_sort($elements, $nameField);
             }
 
             foreach ($elements as $element) {
@@ -140,7 +141,7 @@ class C4GSelectField extends C4GBrickField
         } else {
             if (($this->getOptions())) {
                 if ($this->isSort()) {
-                    $selectoptions = C4GBrickCommon::array_sort($this->getOptions(), 'name');
+                    $selectoptions = ArrayHelper::array_sort($this->getOptions(), 'name');
                 } else {
                     $selectoptions = $this->getOptions();
                 }

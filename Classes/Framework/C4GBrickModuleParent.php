@@ -12,7 +12,7 @@
  */
 namespace con4gis\ProjectsBundle\Classes\Framework;
 
-use con4gis\CoreBundle\Classes\C4GJQueryGUI;
+use con4gis\ProjectsBundle\Classes\jQuery\C4GJQueryGUI;
 use con4gis\CoreBundle\Classes\C4GUtils;
 use con4gis\CoreBundle\Classes\C4GVersionProvider;
 use con4gis\CoreBundle\Classes\ResourceLoader;

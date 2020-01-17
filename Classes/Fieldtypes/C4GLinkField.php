@@ -201,6 +201,7 @@ class C4GLinkField extends C4GBrickField
     public function setLabelField(string $labelField): C4GLinkField
     {
         $this->labelField = $labelField;
+
         return $this;
     }
 

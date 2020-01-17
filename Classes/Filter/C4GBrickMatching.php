@@ -13,6 +13,7 @@
 namespace con4gis\ProjectsBundle\Classes\Filter;
 
 use con4gis\CoreBundle\Classes\C4GUtils;
+use con4gis\CoreBundle\Classes\Helper\ArrayHelper;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickCommon;
 
 class C4GBrickMatching
@@ -65,7 +66,7 @@ class C4GBrickMatching
                 $resultSet[] = $query->row();
             }
             foreach ($resultSet as $entry) {
-                $entry = C4GBrickCommon::arrayToObject($entry);
+                $entry = ArrayHelper::arrayToObject($entry);
                 $accuracy_number = 0;
                 foreach ($importance_fields as $importance_field) {
                     if ($importance_field->isSearchField()) {

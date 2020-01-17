@@ -41,7 +41,7 @@ class C4GMultiCheckboxField extends C4GBrickField
         $size = $this->getSize();
         $value = $this->generateInitialValue($data);
         if ($this->isSort()) {
-            $options = C4GBrickCommon::array_sort($this->getOptions(), 'name');
+            $options = ArrayHelper::array_sort($this->getOptions(), 'name');
         } else {
             $options = $this->getOptions();
         }

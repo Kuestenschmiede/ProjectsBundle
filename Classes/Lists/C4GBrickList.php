@@ -13,6 +13,7 @@
 namespace con4gis\ProjectsBundle\Classes\Lists;
 
 use con4gis\CoreBundle\Classes\C4GUtils;
+use con4gis\CoreBundle\Classes\Helper\ArrayHelper;
 use con4gis\MapsBundle\Resources\contao\models\C4gMapsModel;
 use con4gis\ProjectsBundle\Classes\Actions\C4GBrickActionType;
 use con4gis\ProjectsBundle\Classes\Buttons\C4GBrickButton;
@@ -680,7 +681,7 @@ class C4GBrickList
                     $sortSequenceIdentifier = 3;
                 }
             }
-            $tableElements = C4GBrickCommon::array_collection_sort($tableElements, $sortColumn, $sortSequenceIdentifier, false, $rowCount);
+            $tableElements = ArrayHelper::array_collection_sort($tableElements, $sortColumn, $sortSequenceIdentifier, false, $rowCount);
         }
 
         foreach ($tableElements as $row) {

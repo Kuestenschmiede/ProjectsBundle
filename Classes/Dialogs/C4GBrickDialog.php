@@ -12,6 +12,7 @@
  */
 namespace con4gis\ProjectsBundle\Classes\Dialogs;
 
+use con4gis\CoreBundle\Classes\Helper\ArrayHelper;
 use con4gis\CoreBundle\Classes\ResourceLoader;
 use con4gis\GroupsBundle\Resources\contao\models\MemberGroupModel;
 use con4gis\GroupsBundle\Resources\contao\models\MemberModel;
@@ -339,7 +340,7 @@ class C4GBrickDialog
                 }
             }
             if (is_array($dbValues)) {
-                $dbValues = C4GBrickCommon::arrayToObject($dbValues);
+                $dbValues = ArrayHelper::arrayToObject($dbValues);
             }
             if ($extModel && $extCallbackFunction) {
                 $dbvalues_result = $extModel::$extCallbackFunction($dbValues, $database, $dialogParams);

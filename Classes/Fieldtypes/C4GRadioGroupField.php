@@ -72,7 +72,7 @@ class C4GRadioGroupField extends C4GBrickField
         }
 
         if ($this->isSort()) {
-            $options = C4GBrickCommon::array_sort($this->getOptions(), 'name');
+            $options = ArrayHelper::array_sort($this->getOptions(), 'name');
         } else {
             $options = $this->getOptions();
         }

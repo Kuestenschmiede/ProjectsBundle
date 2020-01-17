@@ -70,7 +70,7 @@ class C4GMultiSelectField extends C4GBrickField
             $id = $data->id;
             $elements = $model::findby($keyField, $id);
 
-            $elements = C4GBrickCommon::array_sort($elements, $nameField);
+            $elements = ArrayHelper::array_sort($elements, $nameField);
 
             foreach ($elements as $element) {
                 if ((!$element->$idField) && (!$element->$nameField)) {
@@ -94,7 +94,7 @@ class C4GMultiSelectField extends C4GBrickField
             }
         } else {
             if (($this->getOptions())) {
-                $selectoptions = C4GBrickCommon::array_sort($this->getOptions(), 'name');
+                $selectoptions = ArrayHelper::array_sort($this->getOptions(), 'name');
 
                 if (!in_array($value, $selectoptions)) {
                 };

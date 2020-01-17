@@ -25,11 +25,8 @@ $GLOBALS['TL_HOOKS']['postLogin'][] = array('con4gis\ProjectsBundle\Classes\Fram
 /**
  * Frontend Modules
  */
-array_insert( $GLOBALS['FE_MOD']['con4gis'], C4GVersionProvider::isInstalled('con4gis/maps')?1:0, array
-    (
-        'C4GSearchModule' => 'con4gis\ProjectsBundle\Classes\Modules\C4GSearchModule',
-    )
-);
+$GLOBALS['FE_MOD']['con4gis']['C4GSearchModule'] = 'con4gis\ProjectsBundle\Classes\Modules\C4GSearchModule';
+asort($GLOBALS['FE_MOD']['con4gis']);
 
 /**
  * API MODULES

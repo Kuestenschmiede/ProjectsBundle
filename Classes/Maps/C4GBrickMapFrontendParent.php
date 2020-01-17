@@ -12,6 +12,7 @@
  */
 namespace con4gis\ProjectsBundle\Classes\Maps;
 
+use con4gis\CoreBundle\Classes\Helper\ArrayHelper;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickCommon;
 use con4gis\CoreBundle\Classes\C4GHTMLFactory;
 use Contao\Controller;
@@ -757,9 +758,9 @@ class C4GBrickMapFrontendParent
             if (!$sort) {
                 $arrSortedData = $arrChildData;
             } elseif ($arrChildData['layername'] != $arrChildData['name']) {
-                $arrSortedData = C4GBrickCommon::array_sort($arrChildData, 'layername', SORT_ASC, true);
+                $arrSortedData = ArrayHelper::array_sort($arrChildData, 'layername', SORT_ASC, true);
             } else {
-                $arrSortedData = C4GBrickCommon::array_sort($arrChildData, 'name', SORT_ASC, true);
+                $arrSortedData = ArrayHelper::array_sort($arrChildData, 'name', SORT_ASC, true);
             }
 
             foreach ($arrSortedData as $key => $arrSortedDataValue) {
@@ -808,9 +809,9 @@ class C4GBrickMapFrontendParent
             if (!$sort) {
                 $arrSortedData = $arrData['childs'];
             } elseif ($childData['layername'] != $childData['name']) {
-                $arrSortedData = C4GBrickCommon::array_sort($arrData['childs'], 'layername', SORT_ASC, true);
+                $arrSortedData = ArrayHelper::array_sort($arrData['childs'], 'layername', SORT_ASC, true);
             } else {
-                $arrSortedData = C4GBrickCommon::array_sort($arrData['childs'], 'name', SORT_ASC, true);
+                $arrSortedData = ArrayHelper::array_sort($arrData['childs'], 'name', SORT_ASC, true);
             }
 
             foreach ($arrSortedData as $key => $arrSortedDataValue) {

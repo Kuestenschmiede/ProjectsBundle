@@ -13,6 +13,7 @@
 namespace con4gis\ProjectsBundle\Classes\Actions;
 
 use con4gis\CoreBundle\Classes\C4GVersionProvider;
+use con4gis\CoreBundle\Resources\contao\models\C4gLogModel;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickCommon;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialog;
 use con4gis\ProjectsBundle\Classes\Logs\C4GLogEntryType;
@@ -54,14 +55,7 @@ class C4GConfirmDeleteAction extends C4GBrickDialogAction
         }
 
         $elementName = $captionField;
-        C4GBrickCommon::logEntry(
-            $dialogId,
-            C4GLogEntryType::DELETE_DATASET,
-            $dlgValues[$elementName] . $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_DELETED'],
-            $brickKey,
-            $viewType,
-            $groupId,
-            $memberId);
+        C4gLogModel::addLogEntry('projects', $dlgValues[$elementName] . $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_DELETED']);
 
         if ($sendEmails) {
             $recipient = $sendEmails->getRecipient();

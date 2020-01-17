@@ -12,6 +12,7 @@
  */
 namespace con4gis\ProjectsBundle\Classes\Filter;
 
+use con4gis\CoreBundle\Classes\Helper\ArrayHelper;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickCommon;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickConst;
 
@@ -77,7 +78,7 @@ class C4GDateTimeListFilter extends C4GListFilter
             return $elements;
         }
 
-        return C4GBrickCommon::arrayToObject($rowElements);
+        return ArrayHelper::arrayToObject($rowElements);
     }
 
     /**
