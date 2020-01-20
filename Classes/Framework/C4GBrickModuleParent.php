@@ -749,12 +749,12 @@ class C4GBrickModuleParent extends \Module
             if (!$foundHeadlement) {
                 ResourceLoader::loadJavaScriptResourceTag("var ckEditorItems = ['" .
                     implode("','", $aToolbarButtons) . "'];");
-                ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/ckeditor/ckeditor.js');
+                ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/vendor/ckeditor/ckeditor.js');
             }
         }
 
         if ($this->loadCkEditor5Resources) {
-            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/ckeditor5/ckeditor.js',
+            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/vendor/ckeditor5/ckeditor.js',
                 ResourceLoader::HEAD);
             ResourceLoader::loadJavaScriptResourceTag('var ckeditor5instances = {};');
         }
@@ -781,8 +781,8 @@ class C4GBrickModuleParent extends \Module
             ResourceLoader::loadCssResource($this->brickStyle, 'c4g_brick_style_' . $this->name);
         }
         if ($this->loadCkEditorResources) {
-            ResourceLoader::loadCssResource('bundles/con4giscore/vendor/wswgEditor/css/editor.css');
-            ResourceLoader::loadCssResource('bundles/con4giscore/vendor/wswgEditor/css/bbcodes.css');
+            ResourceLoader::loadCssResource('bundles/con4gisprojects/vendor/wswgEditor/css/editor.css');
+            ResourceLoader::loadCssResource('bundles/con4gisprojects/vendor/wswgEditor/css/bbcodes.css');
         }
         if ($this->loadDateTimePickerResources) {
             ResourceLoader::loadCssResource(
