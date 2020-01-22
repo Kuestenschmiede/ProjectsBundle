@@ -50,7 +50,7 @@ class C4GHeadlineField extends C4GBrickField
             foreach ($this->associatedFields as $associatedField) {
                 $fieldName = $associatedField->getFieldName();
                 if (!empty($data->$fieldName) && trim($data->$fieldName) !== '') {
-                    if ($associatedField instanceof C4GMultiLinkField) {
+                    if ($associatedField instanceof C4GMultiLinkField || $associatedField instanceof C4GMultiCheckboxField) {
                         $arrayData = \StringUtil::deserialize($data->$fieldName);
                         foreach ($arrayData as $row) {
                             foreach ($row as $key => $item) {
