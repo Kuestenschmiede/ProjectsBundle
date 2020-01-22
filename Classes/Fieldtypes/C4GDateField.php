@@ -268,9 +268,9 @@ class C4GDateField extends C4GBrickField
             return $value;
         } elseif ($value == $GLOBALS['TL_LANG']['FE_C4G_DIALOG_COMPARE']['newEntry']) {
             return $value;
-        } else {
-            return date($GLOBALS['TL_CONFIG']['dateFormat'], $date);
         }
+
+        return date($GLOBALS['TL_CONFIG']['dateFormat'], $date);
     }
 
     /**
