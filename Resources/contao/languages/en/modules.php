@@ -14,4 +14,4 @@ $GLOBALS['TL_LANG']['MOD']['ProjectsLogbook'] = array('Log', 'Log');
 $GLOBALS['TL_LANG']['MOD']['Projects'] = array('Projects', 'Projects');
 $GLOBALS['TL_LANG']['MOD']['Backups'] = array('Import/Export', 'Project Backups');
 
-$GLOBALS['TL_LANG']['FMD']['C4GSearchModule'] = array('projects: Searchredirection', 'Form for search redirection to a projects list module.');
+$GLOBALS['TL_LANG']['FMD']['C4GSearchModule'] = array('(projects) Searchredirection', 'Form for search redirection to a projects list module.');
