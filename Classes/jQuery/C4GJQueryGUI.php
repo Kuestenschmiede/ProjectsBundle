@@ -3,6 +3,7 @@ namespace con4gis\ProjectsBundle\Classes\jQuery;
 
 use Contao\LayoutModel;
 use con4gis\CoreBundle\Classes\ResourceLoader;
+use con4gis\MapsBundle\Classes\ResourceLoader as MapsResourceLoader;
 use con4gis\CoreBundle\Classes\C4GVersionProvider;
 
 if (!defined('TL_ROOT')) {
@@ -134,8 +135,8 @@ class C4GJQueryGUI
 
         if ($useMaps && C4GVersionProvider::isInstalled('con4gis/maps')) {
             // TODO: recieve and use profileId
-            \con4gis\MapsBundle\Classes\ResourceLoader::loadResources();
-            \con4gis\MapsBundle\Classes\ResourceLoader::loadTheme();
+            MapsResourceLoader::loadResources();
+            MapsResourceLoader::loadTheme();
 
             ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/magnific-popup/jquery.magnific-popup.min.js', $location = ResourceLoader::JAVASCRIPT, $key = 'magnific-popup');
             $GLOBALS['TL_CSS']['magnific-popup'] = 'bundles/con4giscore/vendor/magnific-popup/magnific-popup.css';
