@@ -54,7 +54,7 @@ class C4GIconField extends C4GBrickField
     {
         $fieldName = $this->getFieldName();
         if (!$this->conditional || ($rowData->$fieldName === '1')) {
-            return $this->icon;
+            return '<span title="'.$this->getTitle().'">'.$this->icon.'</span>';
         }
 
         return '';
