@@ -36,16 +36,9 @@ class C4GLinkButtonField extends C4GBrickField
             ->setTableColumn();
     }
 
-    /**
-     * @param C4GBrickField[] $fieldList
-     * @param $data
-     * @param C4GBrickDialogParams $dialogParams
-     * @param array $additionalParams
-     * @return array
-     */
     public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = [])
     {
-        return [];
+        return $this->getC4GListField($data, '');
     }
 
     /**
