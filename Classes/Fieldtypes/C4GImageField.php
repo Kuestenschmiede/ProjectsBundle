@@ -25,6 +25,7 @@ class C4GImageField extends C4GBrickField
     private $width = '256px';
     private $height = '256px';
     private $deserialize = false;
+    private $lightBoxField = '';
 
     /**
      * @param C4GBrickField[] $fieldList
@@ -106,12 +107,14 @@ class C4GImageField extends C4GBrickField
                 $img = "<img src=\"$path\" title=\"" . $this->getTitle() . "\" $size/>";
                 $i = $this->getFieldName() . 'Link';
                 $link = $data->$i;
+                $lightBoxField = $this->lightBoxField;
                 if ($link !== '') {
                     $img = '<a href="' . $link . "\" target=\"_blank\" rel=\"noopener noreferrer\">$img</a>";
+                } elseif ($lightBoxField !== '' && $data->$lightBoxField === '1') {
+                    $img = "<a href=\"$path\" data-lightbox=\"c4g_image\">$img</a>";
                 }
 
-                $result = '
-                        <div '
+                $result = '<div '
                     . $condition['conditionName']
                     . $condition['conditionType']
                     . $condition['conditionValue']
@@ -177,12 +180,17 @@ class C4GImageField extends C4GBrickField
 
         $result = '';
 
+        $lightBoxField = $this->lightBoxField;
         if ($path) {
             $img = "<img src=\"$path\" title=\"" . $this->getTitle() . "\" $size/>";
             $i = $this->getFieldName() . 'Link';
             $link = $rowData->$i;
             if ($link !== '') {
                 $result = '<a href="' . $link . "\" target=\"_blank\" rel=\"noopener noreferrer\" onclick=\"event.stopPropagation()\">$img</a>";
+//            } elseif ($lightBoxField !== '' && $rowData->$lightBoxField === '1') {
+//                $result = "<a href=\"$path\" data-lightbox=\"c4g_image\" onclick=\"event.stopPropagation()\">$img</a>";
+            } else {
+                $result = $img;
             }
         }
 
@@ -305,6 +313,24 @@ class C4GImageField extends C4GBrickField
     {
         $this->deserialize = $deserialize;
 
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function isLightBoxField(): string
+    {
+        return $this->lightBoxField;
+    }
+
+    /**
+     * @param string $lightBoxField
+     * @return C4GImageField
+     */
+    public function setLightBoxField(string $lightBoxField): C4GImageField
+    {
+        $this->lightBoxField = $lightBoxField;
         return $this;
     }
 }
