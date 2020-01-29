@@ -15,6 +15,7 @@ namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickCommon;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
+use Contao\StringUtil;
 
 class C4GGalleryField extends C4GBrickField
 {
@@ -56,7 +57,7 @@ class C4GGalleryField extends C4GBrickField
         }
 
         $value = $this->generateInitialValue($data);
-        $files = deserialize($value);
+        $files = StringUtil::deserialize($value);
 
         $result = '';
 

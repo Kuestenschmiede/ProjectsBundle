@@ -18,6 +18,7 @@ use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldSourceType;
 use con4gis\ProjectsBundle\Classes\Files\C4GBrickFileType;
+use Contao\StringUtil;
 
 class C4GImageField extends C4GBrickField
 {
@@ -74,7 +75,7 @@ class C4GImageField extends C4GBrickField
 
         if ($this->deserialize) {
             if ($value) {
-                $path = deserialize($value)[0];
+                $path = StringUtil::deserialize($value)[0];
                 //$path = \Contao\FilesModel::findOneBy('path', $value);
             }
         } else {
