@@ -608,9 +608,9 @@ class C4GBrickList
         }
 
         if ($listParams->isShowFullTextSearchInHeadline() === true) {
-            $fullTextSearchField = '<input type="search" id="c4g_list_search" class="c4g_list_filter" name="c4g_list_search" placeholder="' .
+            $fullTextSearchField = '<div class="c4g_list_filter_container"><input type="search" id="c4g_list_search" class="c4g_list_filter" name="c4g_list_search" placeholder="' .
                 $GLOBALS['TL_LANG']['FE_C4G_LIST']['SEARCH'] . '" aria-label="' .
-                $GLOBALS['TL_LANG']['FE_C4G_LIST']['SEARCH'] . '" oninput="search(this, event);">';
+                $GLOBALS['TL_LANG']['FE_C4G_LIST']['SEARCH'] . '" oninput="search(this, event);"></div>';
         } else {
             $fullTextSearchField = '';
         }
