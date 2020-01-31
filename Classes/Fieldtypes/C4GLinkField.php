@@ -148,11 +148,15 @@ class C4GLinkField extends C4GBrickField
 
         $label = $label ?: $this->linkLabel ?: $value;
 
+        if ($label !== '') {
+            $label = "<span>$label</span>";
+        }
+
         if ($this->getAddStrBeforeValue()) {
-            $label = $this->getAddStrBeforeValue() . $label;
+            $label = '<span>' . $this->getAddStrBeforeValue() . '</span>'. $label;
         }
         if ($this->getAddStrBehindValue()) {
-            $label = $label . $this->getAddStrBehindValue();
+            $label = $label . '<span>' . $this->getAddStrBehindValue() . '</span>';
         }
 
         if ($this->newTab) {
