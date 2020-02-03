@@ -26,6 +26,7 @@ use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GDataClassField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GDateTimeLocationField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GGeopickerField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GKeyField;
+use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GLinkField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GSelectField;
 use Contao\ContentModel;
 
@@ -714,7 +715,18 @@ class C4GBrickList
 
                 $additionalParameters['content'] = $content;
                 if ($field->isTableColumn() && !($field instanceof C4GKeyField)) {
-                    $beforeDiv = '<li class="c4g_brick_list_column c4g_brick_list_row_column ' . $field->getFieldName() . '">';
+                    if ($field->getItemProp() && $row->itemType && !($field instanceof C4GLinkField)) {
+                        $itemprop = ' itemprop="' . $field->getItemProp() . '"';
+                    } else {
+                        $itemprop = '';
+                    }
+                    if ($field->getItemType() && $row->itemType && !($field instanceof C4GLinkField)) {
+                        $itemType = ' itemscope itemtype="' . $field->getItemType() . '"';
+                    } else {
+                        $itemType = '';
+                    }
+                    $beforeDiv = '<li class="c4g_brick_list_column c4g_brick_list_row_column ' . $field->getFieldName() .
+                        '"' . $itemprop . $itemType . '>';
                     $afterDiv = '</li>';
                     if ($field->isHidden()) {
                         $beforeDiv .= '<div class="c4g_brick_hidden_field" style="display:none">';
@@ -786,8 +798,14 @@ class C4GBrickList
                 }
             }
 
+            if ($listParams->isShowItemType()) {
+                $itemType = 'itemscope itemtype="'. $row->itemType .'" ';
+            } else {
+                $itemType = '';
+            }
+
             $view .= '<div class="'.$class.'" aria-label="jump to dataset ' . $row->id . '" data-action="' . $href . '">';
-            $view .= '<ul class="c4g_brick_list_row c4g_brick_list_row_' . $i . '" data-tooltip="' . $tooltip . '" title="' . $tooltip . '">' . $fieldView . '</ul>';
+            $view .= '<ul ' . $itemType . 'class="c4g_brick_list_row c4g_brick_list_row_' . $i . '" data-tooltip="' . $tooltip . '" title="' . $tooltip . '">' . $fieldView . '</ul>';
             $view .= '</div>';
         }
 

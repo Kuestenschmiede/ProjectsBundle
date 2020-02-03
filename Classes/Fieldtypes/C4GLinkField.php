@@ -149,7 +149,11 @@ class C4GLinkField extends C4GBrickField
         $label = $label ?: $this->linkLabel ?: $value;
 
         if ($label !== '') {
-            $label = "<span>$label</span>";
+            if ($this->getItemprop() && $rowData->itemType) {
+                $label = "<span itemprop=\"" . $this->getItemProp()."\">$label</span>";
+            } else {
+                $label = "<span>$label</span>";
+            }
         }
 
         if ($this->getAddStrBeforeValue()) {

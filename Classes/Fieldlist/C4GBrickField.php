@@ -145,6 +145,8 @@ abstract class C4GBrickField
     private $conditionType = null; //see C4GBrickConditionType
     private $additionalLabel = ''; //Additional String to be added to the label, e.g.
     private $changeValueToIf = []; //Changes the field value to the 'to' value if it is the 'if' value.
+    private $itemprop = '';
+    private $itemType = '';
 
     /**
      * C4GBrickField constructor.
@@ -2527,5 +2529,41 @@ abstract class C4GBrickField
     public function setWithoutValidation(bool $withoutValidation): void
     {
         $this->withoutValidation = $withoutValidation;
+    }
+
+    /**
+     * @return string
+     */
+    public function getItemprop(): string
+    {
+        return $this->itemprop;
+    }
+
+    /**
+     * @param string $itemprop
+     * @return C4GBrickField
+     */
+    public function setItemprop(string $itemprop): C4GBrickField
+    {
+        $this->itemprop = $itemprop;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getItemType(): string
+    {
+        return $this->itemType;
+    }
+
+    /**
+     * @param string $itemType
+     * @return C4GBrickField
+     */
+    public function setItemType(string $itemType): C4GBrickField
+    {
+        $this->itemType = $itemType;
+        return $this;
     }
 }

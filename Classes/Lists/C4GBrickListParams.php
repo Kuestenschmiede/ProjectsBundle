@@ -62,6 +62,7 @@ class C4GBrickListParams
     private $customHeadline = false; // if true, only the headline from the list data will be displayed
     private $showFullTextSearchInHeadline = false; // redundant in table view
     private $filterButtons = [];
+    private $showItemType = false;
 
     /**
      * C4GBrickListParams constructor.
@@ -863,6 +864,24 @@ class C4GBrickListParams
     {
         $this->filterButtons[] = $filterButton;
 
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isShowItemType(): bool
+    {
+        return $this->showItemType;
+    }
+
+    /**
+     * @param bool $showItemType
+     * @return C4GBrickListParams
+     */
+    public function setShowItemType(bool $showItemType = true): C4GBrickListParams
+    {
+        $this->showItemType = $showItemType;
         return $this;
     }
 }
