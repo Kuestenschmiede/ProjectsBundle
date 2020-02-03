@@ -30,6 +30,7 @@ class C4GCheckboxFilterButton implements C4GFilterButtonInterface
                     'element = element.item(element.length - 1);' .
                     'element.classList.toggle(\'filter_' . $this->class . '_parent\');' .
                     'this.classList.toggle(\'checkbox_checked\')">' . $this->label . '</span>';
+
                 break;
             case 'button':
                 return '<span class="c4g_list_filter ui-button ui-corner-all" title="' . $this->description .

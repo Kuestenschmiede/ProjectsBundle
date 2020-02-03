@@ -23,9 +23,9 @@ class C4GFilterResetButton implements C4GFilterButtonInterface
             'element = element.item(element.length - 1);' .
             'element = element.parentNode.parentNode.firstChild;' .
             'let filters = element.getElementsByClassName(\'c4g_list_filter\');' .
-            'Array.from(filters).forEach(function(element, index, array)'.
-            '{if (element.classList.contains(\'c4g_button_pressed\')) {element.click();}'.
-            'else if (element.tagName === \'INPUT\') {element.value = \'\'; jQuery(element).trigger(\'input\')}'.
+            'Array.from(filters).forEach(function(element, index, array)' .
+            '{if (element.classList.contains(\'c4g_button_pressed\')) {element.click();}' .
+            'else if (element.tagName === \'INPUT\') {element.value = \'\'; jQuery(element).trigger(\'input\')}' .
             '});' .
             '">' . $this->buttonText . '</span>';
     }

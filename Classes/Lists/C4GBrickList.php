@@ -782,11 +782,11 @@ class C4GBrickList
                         $fieldView .= $beforeDiv . $address . $afterDiv;
                     } elseif ($field instanceof C4GClassField) {
                         if ($field->doesFieldValueMatch($row->$fieldName)) {
-                            $class .= ' '. $field->getStyleClass();
+                            $class .= ' ' . $field->getStyleClass();
                         }
                     } elseif ($field instanceof C4GDataClassField) {
                         if ($row->$fieldName !== '') {
-                            $class .= ' '. $field->getClass($row->$fieldName);
+                            $class .= ' ' . $field->getClass($row->$fieldName);
                         }
                     } else {
                         $fieldContent = $field->getC4GListField($row, $content);
