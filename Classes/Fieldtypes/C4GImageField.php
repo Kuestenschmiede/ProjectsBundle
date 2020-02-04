@@ -331,6 +331,7 @@ class C4GImageField extends C4GBrickField
     public function setLightBoxField(string $lightBoxField): C4GImageField
     {
         $this->lightBoxField = $lightBoxField;
+
         return $this;
     }
 }

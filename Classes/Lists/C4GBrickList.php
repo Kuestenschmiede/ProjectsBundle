@@ -799,12 +799,12 @@ class C4GBrickList
             }
 
             if ($listParams->isShowItemType()) {
-                $itemType = 'itemscope itemtype="'. $row->itemType .'" ';
+                $itemType = 'itemscope itemtype="' . $row->itemType . '" ';
             } else {
                 $itemType = '';
             }
 
-            $view .= '<div class="'.$class.'" aria-label="jump to dataset ' . $row->id . '" data-action="' . $href . '">';
+            $view .= '<div class="' . $class . '" aria-label="jump to dataset ' . $row->id . '" data-action="' . $href . '">';
             $view .= '<ul ' . $itemType . 'class="c4g_brick_list_row c4g_brick_list_row_' . $i . '" data-tooltip="' . $tooltip . '" title="' . $tooltip . '">' . $fieldView . '</ul>';
             $view .= '</div>';
         }
