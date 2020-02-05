@@ -27,7 +27,7 @@ class C4GIconField extends C4GBrickField
             ->setFormField(false)
             ->setTableColumn();
     }
-    
+
     public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = [])
     {
         return '<div>' . $this->getC4GListField($data, '') . '</div>';

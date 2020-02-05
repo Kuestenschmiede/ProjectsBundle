@@ -882,6 +882,7 @@ class C4GBrickListParams
     public function setShowItemType(bool $showItemType = true): C4GBrickListParams
     {
         $this->showItemType = $showItemType;
+
         return $this;
     }
 }

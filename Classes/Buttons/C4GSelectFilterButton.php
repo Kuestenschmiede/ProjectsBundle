@@ -16,7 +16,7 @@ class C4GSelectFilterButton implements C4GFilterButtonInterface
      */
     public function getButtonHtml(): string
     {
-        $options = "<option value=\"\">-</option>";
+        $options = '<option value="">-</option>';
         foreach ($this->options as $key => $option) {
             $options .= "<option value=\"$option\">$option</option>";
         }

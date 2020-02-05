@@ -2546,6 +2546,7 @@ abstract class C4GBrickField
     public function setItemprop(string $itemprop): C4GBrickField
     {
         $this->itemprop = $itemprop;
+
         return $this;
     }
 
@@ -2564,6 +2565,7 @@ abstract class C4GBrickField
     public function setItemType(string $itemType): C4GBrickField
     {
         $this->itemType = $itemType;
+
         return $this;
     }
 }

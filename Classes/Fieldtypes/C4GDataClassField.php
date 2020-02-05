@@ -36,7 +36,8 @@ class C4GDataClassField extends C4GBrickField
         return null;
     }
 
-    public function getClass(string $class) {
+    public function getClass(string $class)
+    {
         return $this->classPrefix . $class . $this->classSuffix;
     }
 
@@ -47,6 +48,7 @@ class C4GDataClassField extends C4GBrickField
     public function setClassPrefix(string $classPrefix): C4GDataClassField
     {
         $this->classPrefix = $classPrefix;
+
         return $this;
     }
 
@@ -57,8 +59,7 @@ class C4GDataClassField extends C4GBrickField
     public function setClassSuffix(string $classSuffix): C4GDataClassField
     {
         $this->classSuffix = $classSuffix;
+
         return $this;
     }
-
-
 }

@@ -495,11 +495,11 @@ class C4GShowListAction extends C4GBrickDialogAction
         $brickCaptionPlural = "<span class=\"c4g_list_headline\">$brickCaptionPlural</span>";
         $filterButtons = $listParams->getFilterButtons();
         if ($filterButtons !== null) {
-            $brickCaptionPlural .= "<div class=\"c4g_list_filter_buttons\">";
+            $brickCaptionPlural .= '<div class="c4g_list_filter_buttons">';
             foreach ($filterButtons as $filterButton) {
                 $brickCaptionPlural .= $filterButton->getButtonHtml();
             }
-            $brickCaptionPlural .= "</div>";
+            $brickCaptionPlural .= '</div>';
         }
 
         $renderMode = $listParams->getRenderMode();

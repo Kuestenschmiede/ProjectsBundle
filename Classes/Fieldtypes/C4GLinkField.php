@@ -150,14 +150,14 @@ class C4GLinkField extends C4GBrickField
 
         if ($label !== '') {
             if ($this->getItemprop() && $rowData->itemType) {
-                $label = "<span itemprop=\"" . $this->getItemProp()."\">$label</span>";
+                $label = '<span itemprop="' . $this->getItemProp() . "\">$label</span>";
             } else {
                 $label = "<span>$label</span>";
             }
         }
 
         if ($this->getAddStrBeforeValue()) {
-            $label = '<span>' . $this->getAddStrBeforeValue() . '</span>'. $label;
+            $label = '<span>' . $this->getAddStrBeforeValue() . '</span>' . $label;
         }
         if ($this->getAddStrBehindValue()) {
             $label = $label . '<span>' . $this->getAddStrBehindValue() . '</span>';
