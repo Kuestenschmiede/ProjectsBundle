@@ -1283,7 +1283,7 @@ class C4GBrickDialog
                     $result = $brickDatabase->update($id, $set, $id_fieldName);
                     if ($dialogParams->getSaveCallback()) {
                         $cb = $dialogParams->getSaveCallback();
-                        $cb->call($brickDatabase->getParams()->getTableName(), $set, $result['insertId'], 'update', $fieldList);
+                        $cb->call($brickDatabase->getParams()->getTableName(), $set, $id, 'update', $fieldList);
                     }
                 }
             } else {
