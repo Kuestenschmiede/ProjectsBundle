@@ -125,8 +125,6 @@ class C4GSaveDialogAction extends C4GBrickDialogAction
             }
         }
 
-        C4gLogModel::addLogEntry('projects', $dlgValues[$captionField] . $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_SAVED']);
-
         if ($sendEMails) {
             $recipient = $sendEMails->getRecipient();
             $senderName = C4GBrickCommon::getNameForMember($memberId);
