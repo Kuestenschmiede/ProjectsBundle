@@ -672,9 +672,6 @@ class C4GBrickModuleParent extends \Module
 
     protected function compileJavaScript()
     {
-        if ($this->loadClearBrowserUrlResources) {
-            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/js/ClearBrowserUrl.js');
-        }
         if ($this->loadDefaultResources) {
             ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/js/C4GBrickDialog.js');
         }
