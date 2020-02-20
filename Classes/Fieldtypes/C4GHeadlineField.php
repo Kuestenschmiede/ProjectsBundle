@@ -185,7 +185,7 @@ class C4GHeadlineField extends C4GBrickField
 
     public function getC4GListField($rowData, $content)
     {
-        return '<h1>' . $this->getTitle() . '</h1>';
+        return '<span class="c4g_list_headline">' . $this->getTitle() . '</span>';
     }
 
     /**
