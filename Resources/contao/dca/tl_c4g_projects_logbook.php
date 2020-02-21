@@ -97,6 +97,11 @@ $GLOBALS['TL_DCA']['tl_c4g_projects_logbook'] = array
             'sql'               => "int(10) unsigned NOT NULL default '0'",
         ),
 
+        'importId' => array
+        (
+            'sql'               => "int(10) unsigned NOT NULL default '0'"
+        ),
+
         'entry_id' => array
         (
             'label'                   => &$GLOBALS['TL_LANG']['tl_c4g_projects_logbook']['entry_id'],
