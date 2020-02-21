@@ -709,7 +709,9 @@ class C4GBrickList
             foreach ($fieldList as $field) {
                 $fieldName = $field->getFieldName();
                 //special char decode (&#40; &#41;)
-                $row->$fieldName = html_entity_decode($row->$fieldName);
+                if (!is_object($row->$fieldName)) {
+                    $row->$fieldName = html_entity_decode($row->$fieldName);
+                }
                 $additionalParameters = [];
                 $additionalParameters['database'] = $database;
 
@@ -785,8 +787,12 @@ class C4GBrickList
                             $class .= ' ' . $field->getStyleClass();
                         }
                     } elseif ($field instanceof C4GDataClassField) {
-                        if ($row->$fieldName !== '') {
+                        if (is_string($row->$fieldName) && $row->$fieldName !== '') {
                             $class .= ' ' . $field->getClass($row->$fieldName);
+                        } elseif (is_object($row->$fieldName)) {
+                            foreach ($row->$fieldName as $entry) {
+                                $class .= ' ' . $field->getClass($entry);
+                            }
                         }
                     } else {
                         $fieldContent = $field->getC4GListField($row, $content);
