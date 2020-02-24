@@ -25,7 +25,7 @@ class C4GSelectFilterButton implements C4GFilterButtonInterface
 
         $classesToRemove = '';
         foreach ($this->options as $key => $option) {
-            $classesToRemove .= "element.classList.remove('filter_" . $this->class . "_" . str_replace(' ', '', $option) . "\_parent');";
+            $classesToRemove .= "element.classList.remove('filter_" . $this->class . '_' . str_replace(' ', '', $option) . "\_parent');";
         }
 
         return '<select class="c4g_list_filter" onchange="let element = document.getElementsByClassName(\'c4g_brick_list\');' .

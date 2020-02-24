@@ -816,7 +816,7 @@ class C4GBrickList
                 $action = '';
             }
 
-            $view .= '<div class="' . $class . '" aria-label="jump to dataset ' . $row->id . '"' . $action.'>';
+            $view .= '<div class="' . $class . '" aria-label="jump to dataset ' . $row->id . '"' . $action . '>';
             $view .= '<ul ' . $itemType . 'class="c4g_brick_list_row c4g_brick_list_row_' . $i . '" data-tooltip="' . $tooltip . '" title="' . $tooltip . '">' . $fieldView . '</ul>';
             $view .= '</div>';
         }
