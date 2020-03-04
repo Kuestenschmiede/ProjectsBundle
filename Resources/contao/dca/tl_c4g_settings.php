@@ -15,7 +15,7 @@
 // only add field if maps is installed
 $packages = \Contao\System::getContainer()->getParameter('kernel.packages');
 if ($packages['con4gis/maps']) {
-    $GLOBALS['TL_DCA']['tl_c4g_settings']['palettes']['default'] .= '{projects_legend},position_map;';
+    $GLOBALS['TL_DCA']['tl_c4g_settings']['palettes']['default'] .= '{projects_legend:hide},position_map;';
     
     $GLOBALS['TL_DCA']['tl_c4g_settings']['fields']['position_map'] = array
     (
@@ -28,5 +28,6 @@ if ($packages['con4gis/maps']) {
     );
 }
 
-$GLOBALS['TL_DCA']['tl_c4g_settings']['fields']['uploadPathImages']['eval']['mandatory'] = true;
-$GLOBALS['TL_DCA']['tl_c4g_settings']['fields']['uploadPathDocuments']['eval']['mandatory'] = true;
+//removed because of rare use case
+//$GLOBALS['TL_DCA']['tl_c4g_settings']['fields']['uploadPathImages']['eval']['mandatory'] = true;
+//$GLOBALS['TL_DCA']['tl_c4g_settings']['fields']['uploadPathDocuments']['eval']['mandatory'] = true;
