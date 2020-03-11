@@ -377,6 +377,7 @@ class C4GBrickMapFrontendParent
      * @param $hide
      * @param null $content
      * @param bool $withUrl
+     * @param array $dataLayer
      * @return array
      */
     public function createMapStructureElementWithIdCalc(
@@ -390,7 +391,8 @@ class C4GBrickMapFrontendParent
             $display,
             $hide,
             $content = null,
-            $withUrl = false)
+            $withUrl = false,
+            $dataLayer = [])
     {
         //ToDo only refresh we do not use the url
         $arrData = [];
@@ -427,7 +429,9 @@ class C4GBrickMapFrontendParent
 
         $arrData['name'] = C4GBrickCommon::cutText($name, 44);
         $arrData['layername'] = C4GBrickCommon::cutText($layername ?: $name, 44);
-        $arrData['activeForBaselayers'] = 'all';
+        $arrData['activeForBaselayers'] = $dataLayer['activeForBaselayers'];
+        $arrData['noFilter'] = $dataLayer['noFilter'];
+        $arrData['noRealFilter'] = $dataLayer['noRealFilter'];
         $arrData['display'] = ($display && ($content != null));
         $arrData['hide'] = $hide;
 
