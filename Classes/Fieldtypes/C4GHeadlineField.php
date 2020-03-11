@@ -183,6 +183,11 @@ class C4GHeadlineField extends C4GBrickField
         return $result;
     }
 
+    public function getC4GListField($rowData, $content)
+    {
+        return '<span class="c4g_list_headline">' . $this->getTitle() . '</span>';
+    }
+
     /**
      * @param $data
      * @param $groupId

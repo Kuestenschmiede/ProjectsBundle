@@ -1409,7 +1409,7 @@ this.c4g.projects = this.c4g.projects || {};
     }, // end of fnInitContentDiv
 
     fnHistoryPush: function (state) {
-      if (history != null) {
+      if (history != null && !c4g.projects.clearUrl) {
         this.pushingState = true;
         var newHref = window.location.href;
         var index = newHref.indexOf('?state=');
@@ -1442,9 +1442,6 @@ this.c4g.projects = this.c4g.projects || {};
               base.href = base.href;
             }
           }
-        }
-        if (c4g.projects.clearUrl && typeof clearBrowserUrl === 'function') {
-          clearBrowserUrl();
         }
 
         this.pushingState = false;

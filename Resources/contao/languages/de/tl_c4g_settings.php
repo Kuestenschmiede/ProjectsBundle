@@ -11,7 +11,7 @@
  * @link       https://www.con4gis.org
  */
 /** FIELDS **/
-$GLOBALS['TL_LANG']['tl_c4g_settings']['position_map'] = array('Karteninhaltselement', 'Wählen Sie die Karte für den Geopicker.');
+$GLOBALS['TL_LANG']['tl_c4g_settings']['position_map'] = array('Karteninhaltselement', 'Wählen Sie die Karte für den Geopicker im Frontend. Nur für Projects Frontend Module erforderlich.');
 
 /** LEGENDS **/
-$GLOBALS['TL_LANG']['tl_c4g_settings']['projects_legend'] = "Projekteinstellungen";
+$GLOBALS['TL_LANG']['tl_c4g_settings']['projects_legend'] = "Projekteinstellungen (con4gis/projects)";

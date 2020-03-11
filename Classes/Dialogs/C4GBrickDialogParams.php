@@ -12,7 +12,7 @@
  */
 namespace con4gis\ProjectsBundle\Classes\Dialogs;
 
-use con4gis\CoreBundle\Resources\Callback\C4GCallback;
+use con4gis\CoreBundle\Classes\Callback\C4GCallback;
 use con4gis\ProjectsBundle\Classes\Buttons\C4GBrickButton;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickConst;
 use con4gis\ProjectsBundle\Classes\Conditions\C4GBrickCondition;

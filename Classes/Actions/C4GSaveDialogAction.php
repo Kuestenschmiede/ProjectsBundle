@@ -13,7 +13,6 @@
 namespace con4gis\ProjectsBundle\Classes\Actions;
 
 use con4gis\CoreBundle\Classes\C4GVersionProvider;
-use con4gis\CoreBundle\Resources\contao\models\C4gLogModel;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickCommon;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickConst;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialog;
@@ -124,8 +123,6 @@ class C4GSaveDialogAction extends C4GBrickDialogAction
                 $dialogParams = $addition;
             }
         }
-
-        C4gLogModel::addLogEntry('projects', $dlgValues[$captionField] . $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_SAVED']);
 
         if ($sendEMails) {
             $recipient = $sendEMails->getRecipient();

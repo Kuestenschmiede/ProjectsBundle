@@ -709,7 +709,9 @@ class C4GBrickList
             foreach ($fieldList as $field) {
                 $fieldName = $field->getFieldName();
                 //special char decode (&#40; &#41;)
-                $row->$fieldName = html_entity_decode($row->$fieldName);
+                if (!is_object($row->$fieldName)) {
+                    $row->$fieldName = html_entity_decode($row->$fieldName);
+                }
                 $additionalParameters = [];
                 $additionalParameters['database'] = $database;
 
@@ -785,8 +787,12 @@ class C4GBrickList
                             $class .= ' ' . $field->getStyleClass();
                         }
                     } elseif ($field instanceof C4GDataClassField) {
-                        if ($row->$fieldName !== '') {
+                        if (is_string($row->$fieldName) && $row->$fieldName !== '') {
                             $class .= ' ' . $field->getClass($row->$fieldName);
+                        } elseif (is_object($row->$fieldName)) {
+                            foreach ($row->$fieldName as $entry) {
+                                $class .= ' ' . $field->getClass($entry);
+                            }
                         }
                     } else {
                         $fieldContent = $field->getC4GListField($row, $content);
@@ -810,7 +816,7 @@ class C4GBrickList
                 $action = '';
             }
 
-            $view .= '<div class="'.$class.'" aria-label="jump to dataset ' . $row->id . '"'.$action.'>';
+            $view .= '<div class="' . $class . '" aria-label="jump to dataset ' . $row->id . '"' . $action . '>';
             $view .= '<ul ' . $itemType . 'class="c4g_brick_list_row c4g_brick_list_row_' . $i . '" data-tooltip="' . $tooltip . '" title="' . $tooltip . '">' . $fieldView . '</ul>';
             $view .= '</div>';
         }
