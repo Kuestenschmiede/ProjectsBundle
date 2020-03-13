@@ -98,7 +98,7 @@ this.c4g.projects = this.c4g.projects || {};
         if (typeof(options.title) !== 'undefined') {
           jQuery('<h1 id="c4gGuiTitle">'+options.title+'</h1>').appendTo(jQuery(this));
         }
-        jQuery('<h3 id="c4gGuiSubtitle"> </h3>').appendTo(jQuery(this));
+        //jQuery('<h3 id="c4gGuiSubtitle"> </h3>').appendTo(jQuery(this));
 
 
 
@@ -467,13 +467,13 @@ this.c4g.projects = this.c4g.projects || {};
         jQuery('#c4gGuiTitle').html(content.title);
       }
 
-      if (typeof(content.subtitle) !== "undefined") {
-        jQuery('#c4gGuiSubtitle').html(content.subtitle);
-      } else {
-        if (typeof(content.title) !== "undefined") {
-          jQuery('#c4gGuiSubtitle').html("");
-        }
-      }
+      // if (typeof(content.subtitle) !== "undefined") {
+      //   jQuery('#c4gGuiSubtitle').html(content.subtitle);
+      // } else {
+      //   if (typeof(content.title) !== "undefined") {
+      //     jQuery('#c4gGuiSubtitle').html("");
+      //   }
+      // }
 
       var currentState = "";
 
