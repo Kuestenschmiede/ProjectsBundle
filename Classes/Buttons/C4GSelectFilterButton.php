@@ -24,12 +24,12 @@ class C4GSelectFilterButton implements C4GFilterButtonInterface
     {
         $options = '<option value="">-</option>';
         foreach ($this->options as $key => $option) {
-            $options .= "<option value=\"$option\">$option</option>";
+            $options .= "<option value=\"" . str_replace([' ', '/', '.', ',', '-'], '', $option) . "\">$option</option>";
         }
 
         $classesToRemove = '';
         foreach ($this->options as $key => $option) {
-            $classesToRemove .= "element.classList.remove('filter_" . $this->class . '_' . str_replace(' ', '', $option) . "\_parent');";
+            $classesToRemove .= "element.classList.remove('filter_" . $this->class . '_' . str_replace([' ', '/', '.', ',', '-'], '', $option) . "\_parent');";
         }
 
         return '<span><label for="' . $this->id . '">' . $this->label . '</label></span><span><select id="' . $this->id . '" class="c4g_list_filter" onchange="let element = document.getElementsByClassName(\'c4g_brick_list\');' .
