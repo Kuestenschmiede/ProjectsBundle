@@ -950,8 +950,6 @@ class C4GBrickDialog
                     $compareResult = $field->compareWithDB($dbValues, $dlgValues);
                     if ($compareResult) {
                         if (is_array($compareResult) && sizeof($compareResult) > 0) {
-                            // TODO prüfen ob dies den gewünschten effekt hat oder lieber die loop oben genommen wird
-                            // TODO möglw. könnte man auch array_merge nutzen, aber nur wenn keine alphanumeric keys da sind
                             $result += $compareResult;
                         } else {
                             $result[] = $compareResult;
