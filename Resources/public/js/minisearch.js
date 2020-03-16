@@ -15,7 +15,7 @@ function initSearch() {
         let text = '';
         while (c < columns.length) {
             if (columns.item(c).tagName === 'LI') {
-                text += columns.item(c).innerText + ', ';
+                text += columns.item(c).innerText.split(/(?=[A-Z])/).join(' ') + ', ';
             }
             c += 1;
         }
