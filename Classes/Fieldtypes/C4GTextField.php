@@ -69,7 +69,7 @@ class C4GTextField extends C4GBrickFieldText
         $fieldname = $this->getFieldName();
         $dbValue = $dbValues->$fieldname;
         $dlgvalue = $dlgValues[$this->getFieldName()];
-        $dbValue = trim($dbValue);
+        $dbValue = str_replace(['&#40;', '&#41;'], ['(', ')'], trim($dbValue));
         $dlgValue = trim($dlgvalue);
         $result = null;
         if (strcmp($dbValue, $dlgValue) != 0) {
