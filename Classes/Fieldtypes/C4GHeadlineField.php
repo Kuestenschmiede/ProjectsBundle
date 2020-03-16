@@ -26,6 +26,7 @@ class C4GHeadlineField extends C4GBrickField
     protected $showFieldCount = false;
     protected $accordionIcon = ''; //HTML of the icon to be displayed before the title.
     protected $associatedFields = [];
+    protected $number = 0;
 
     const ACCORDION_HEADLINE_CLASS = 'c4g_accordion_headline';
     const ACCORDION_HEADLINE_ICON_CLASS = 'c4g_accordion_icon';
@@ -185,7 +186,12 @@ class C4GHeadlineField extends C4GBrickField
 
     public function getC4GListField($rowData, $content)
     {
-        return '<span class="c4g_list_headline">' . $this->getTitle() . '</span>';
+        if ($this->number > 0) {
+            $class = "c4g_list_headline c4g_list_headline_" . $this->number;
+        } else {
+            $class = "c4g_list_headline";
+        }
+        return '<span class="' . $class . '">' . $this->getTitle() . '</span>';
     }
 
     /**
@@ -303,6 +309,24 @@ class C4GHeadlineField extends C4GBrickField
     {
         $this->associatedFields[] = $brickField;
 
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getNumber(): int
+    {
+        return $this->number;
+    }
+
+    /**
+     * @param int $number
+     * @return C4GHeadlineField
+     */
+    public function setNumber(int $number): C4GHeadlineField
+    {
+        $this->number = $number;
         return $this;
     }
 }
