@@ -26,6 +26,7 @@ class C4GSelectField extends C4GBrickField
     private $placeholder = ''; // GUI placeholder text
     private $emptyOptionLabel = '-';
     private $simpleTextWithoutEditing = false;
+    private $defaultOptionId = '';
 
     public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = [])
     {
@@ -161,7 +162,7 @@ class C4GSelectField extends C4GBrickField
                         }
 
                         $selected = '';
-                        if (($value == $option_id) && ($condition['conditionPrepare'] == '')) {
+                        if (($value == $option_id || (!$value && $this->defaultOptionId === $option_id)) && ($condition['conditionPrepare'] == '')) {
                             $selected = ' selected';
                         }
                         $options = $options . '<option' . $selected . $optionAttributes . ' value=' . $option_id . '>' . $option_name . '</option>';
@@ -459,5 +460,23 @@ class C4GSelectField extends C4GBrickField
     public function setSimpleTextWithoutEditing(bool $simpleTextWithoutEditing): void
     {
         $this->simpleTextWithoutEditing = $simpleTextWithoutEditing;
+    }
+
+    /**
+     * @return int
+     */
+    public function getDefaultOptionId(): string
+    {
+        return $this->defaultOptionId;
+    }
+
+    /**
+     * @param int $defaultOptionId
+     * @return C4GSelectField
+     */
+    public function setDefaultOptionId(string $defaultOptionId): C4GSelectField
+    {
+        $this->defaultOptionId = $defaultOptionId;
+        return $this;
     }
 }
