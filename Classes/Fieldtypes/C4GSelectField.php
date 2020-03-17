@@ -477,6 +477,7 @@ class C4GSelectField extends C4GBrickField
     public function setDefaultOptionId(string $defaultOptionId): C4GSelectField
     {
         $this->defaultOptionId = $defaultOptionId;
+
         return $this;
     }
 }

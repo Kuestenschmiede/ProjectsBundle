@@ -187,10 +187,11 @@ class C4GHeadlineField extends C4GBrickField
     public function getC4GListField($rowData, $content)
     {
         if ($this->number > 0) {
-            $class = "c4g_list_headline c4g_list_headline_" . $this->number;
+            $class = 'c4g_list_headline c4g_list_headline_' . $this->number;
         } else {
-            $class = "c4g_list_headline";
+            $class = 'c4g_list_headline';
         }
+
         return '<span class="' . $class . '">' . $this->getTitle() . '</span>';
     }
 
@@ -327,6 +328,7 @@ class C4GHeadlineField extends C4GBrickField
     public function setNumber(int $number): C4GHeadlineField
     {
         $this->number = $number;
+
         return $this;
     }
 }

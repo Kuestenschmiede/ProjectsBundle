@@ -24,7 +24,7 @@ class C4GSelectFilterButton implements C4GFilterButtonInterface
     {
         $options = '<option value="">-</option>';
         foreach ($this->options as $key => $option) {
-            $options .= "<option value=\"" . str_replace([' ', '/', '.', ',', '-'], '', $option) . "\">$option</option>";
+            $options .= '<option value="' . str_replace([' ', '/', '.', ',', '-'], '', $option) . "\">$option</option>";
         }
 
         $classesToRemove = '';

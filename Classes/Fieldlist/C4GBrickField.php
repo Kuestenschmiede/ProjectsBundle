@@ -657,9 +657,8 @@ abstract class C4GBrickField
         if ($value === '') {
             if ($this->defaultValue === '') {
                 return '';
-            } else {
-                $value = $this->defaultValue;
             }
+            $value = $this->defaultValue;
         }
 
         if ($this->getAddStrBeforeValue()) {
@@ -2589,6 +2588,7 @@ abstract class C4GBrickField
     public function setDefaultValue(string $defaultValue): C4GBrickField
     {
         $this->defaultValue = $defaultValue;
+
         return $this;
     }
 }
