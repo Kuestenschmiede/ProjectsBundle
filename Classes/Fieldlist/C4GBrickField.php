@@ -147,6 +147,7 @@ abstract class C4GBrickField
     private $changeValueToIf = []; //Changes the field value to the 'to' value if it is the 'if' value.
     private $itemprop = '';
     private $itemType = '';
+    private $defaultValue = '';
 
     /**
      * C4GBrickField constructor.
@@ -654,7 +655,11 @@ abstract class C4GBrickField
         }
 
         if ($value === '') {
-            return '';
+            if ($this->defaultValue === '') {
+                return '';
+            } else {
+                $value = $this->defaultValue;
+            }
         }
 
         if ($this->getAddStrBeforeValue()) {
@@ -2566,6 +2571,24 @@ abstract class C4GBrickField
     {
         $this->itemType = $itemType;
 
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDefaultValue(): string
+    {
+        return $this->defaultValue;
+    }
+
+    /**
+     * @param string $defaultValue
+     * @return C4GBrickField
+     */
+    public function setDefaultValue(string $defaultValue): C4GBrickField
+    {
+        $this->defaultValue = $defaultValue;
         return $this;
     }
 }
