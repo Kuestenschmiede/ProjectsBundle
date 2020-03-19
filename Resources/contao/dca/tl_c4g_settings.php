@@ -15,8 +15,12 @@
 // only add field if maps is installed
 $packages = \Contao\System::getContainer()->getParameter('kernel.packages');
 if ($packages['con4gis/maps']) {
-    $GLOBALS['TL_DCA']['tl_c4g_settings']['palettes']['default'] .= '{projects_legend:hide},position_map;';
-    
+    Contao\CoreBundle\DataContainer\PaletteManipulator::create()
+        ->addLegend('projects_legend', 'expert_legend', Contao\CoreBundle\DataContainer\PaletteManipulator::POSITION_BEFORE, true)
+        ->addField('position_map', 'projects_legend', Contao\CoreBundle\DataContainer\PaletteManipulator::POSITION_APPEND)
+        ->applyToPalette('default', 'tl_c4g_settings');
+
+
     $GLOBALS['TL_DCA']['tl_c4g_settings']['fields']['position_map'] = array
     (
         'label'                   => &$GLOBALS['TL_LANG']['tl_c4g_settings']['position_map'],
