@@ -1409,42 +1409,10 @@ this.c4g.projects = this.c4g.projects || {};
     }, // end of fnInitContentDiv
 
     fnHistoryPush: function (state) {
-      if (history != null && !c4g.projects.clearUrl) {
-        this.pushingState = true;
-        var newHref = window.location.href;
-        var index = newHref.indexOf('?state=');
-        if (index !== -1) {
-          newHref = newHref.substr(0, index);
+      if (history != null ) {
+        if (typeof historyPush === 'function') {
+          historyPush(state, history, this);
         }
-        var queryString = '';
-        if (newHref.indexOf('?') !== -1) {
-          queryString = '&state=';
-          index = newHref.indexOf('&state=');
-          if (index !== -1) {
-            newHref = newHref.substr(0, index);
-          }
-        } else {
-          queryString = '?state='
-        }
-        if (document.location.hash) {
-          history.pushState(null, document.title, newHref + queryString + state + document.location.hash);
-        } else {
-          history.pushState(null, document.title, newHref + queryString + state);
-        }
-
-        // strange workaround for Opera >= 11.60 bug
-        // TODO kann raus ?
-        if (typeof(document.getElement) !== 'undefined') {
-          var head = document.getElement("head");
-          if (typeof(head) === 'object') {
-            var base = head.getElement('base');
-            if (typeof(base) === 'object') {
-              base.href = base.href;
-            }
-          }
-        }
-
-        this.pushingState = false;
       }
     } // end of fnHistoryPush
 

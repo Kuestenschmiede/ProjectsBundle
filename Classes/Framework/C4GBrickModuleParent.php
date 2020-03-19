@@ -141,6 +141,7 @@ class C4GBrickModuleParent extends \Module
     protected $loadFileUploadResources = false;
     protected $loadMultiColumnResources = false;
     protected $loadMiniSearchResources = false;
+    protected $loadHistoryPushResources = false;
 
     //JQuery GUI Resource Params
     protected $jQueryAddCore = true;
@@ -765,6 +766,10 @@ class C4GBrickModuleParent extends \Module
                 ResourceLoader::HEAD);
             ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/js/minisearch.js',
                 ResourceLoader::HEAD);
+        }
+
+        if ($this->loadHistoryPushResources === true) {
+            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/js/historyPush.js');
         }
     }
 

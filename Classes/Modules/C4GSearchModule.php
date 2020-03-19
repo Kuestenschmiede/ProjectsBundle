@@ -29,7 +29,7 @@ class C4GSearchModule extends C4GBrickModuleParent
     protected $loadTriggerSearchFromOtherModuleResources = true;
     protected $jQueryUseScrollPane = false;
     protected $jQueryUseTable = false;
-    protected $loadClearBrowserUrlResources = true;
+    protected $loadHistoryPushResources = false;
 
     public function initBrickModule($id)
     {
