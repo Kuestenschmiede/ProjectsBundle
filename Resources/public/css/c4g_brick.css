@@ -235,8 +235,8 @@ input:invalid {
 .c4g_brick_dialog textarea:disabled,
 .c4g_brick_dialog textarea:read-only
 /*.c4g_brick_dialog textarea:-moz-read-only*/,
-.c4g_brick_dialog select:disabled,
-.c4g_brick_dialog select:read-only {
+.c4g_brick_dialog select:disabled/*,
+.c4g_brick_dialog select:read-only*/ {
     background-color: whitesmoke;
     /*border: 0px;*/
     /*cursor: not-allowed;*/
@@ -733,8 +733,11 @@ label.c4g_multicheckbox{
 }
 .c4g_brick_dialog .c4g_brick_table_rows {
     position: relative;
-    margin-left: 1.5%;
+    margin-left: 2.5%;
     width: 98%;
+}
+.c4g_brick_dialog .c4g_brick_table_rows label {
+    margin-left: 0%;
 }
 .c4g_brick_dialog .c4g_brick_stopwatch{
     position:relative;
