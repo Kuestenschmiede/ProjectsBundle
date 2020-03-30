@@ -104,9 +104,19 @@ class C4GImageField extends C4GBrickField
                     $description = '';
                 }
 
+                $width = $this->getFieldName() . 'MaxWidth';
+                $width = $data->$width;
+                $height = $this->getFieldName() . 'MaxHeight';
+                $height = $data->$height;
+
+                if ($width && $height) {
+                    $size = 'width="' . $width . '" height="' . $height . '"';
+                }
+
                 $img = "<img src=\"$path\" title=\"" . $this->getTitle() . "\" $size/>";
                 $i = $this->getFieldName() . 'Link';
                 $link = $data->$i;
+
                 $lightBoxField = $this->lightBoxField;
                 if ($link !== '') {
                     $img = '<a href="' . $link . "\" target=\"_blank\" rel=\"noopener noreferrer\">$img</a>";
@@ -166,6 +176,15 @@ class C4GImageField extends C4GBrickField
             } elseif ($height) {
                 $size = 'height="' . $height . '"';
             }
+        }
+
+        $width = $this->getFieldName() . 'MaxWidth';
+        $width = $rowData->$width;
+        $height = $this->getFieldName() . 'MaxHeight';
+        $height = $rowData->$height;
+
+        if ($width && $height) {
+            $size = 'width="' . $width . '" height="' . $height . '"';
         }
 
         $i = $this->getFieldName();
