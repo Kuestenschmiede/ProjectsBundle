@@ -26,9 +26,11 @@ function initSearch() {
 }
 
 function search(input, event) {
-    initSearch();
     let result;
     if (input.value.length > 2) {
+        if (typeof minisearch.documents === 'undefined' || document.getElementsByClassName('c4g_brick_list').length > 1) {
+            initSearch();
+        }
         result = minisearch.minisearch.search(input.value, {'prefix': true});
     }
     let rows = document.getElementsByClassName('c4g_brick_list_row');
