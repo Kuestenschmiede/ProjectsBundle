@@ -16,6 +16,7 @@ function initSearch() {
         while (c < columns.length) {
             if (columns.item(c).tagName === 'LI') {
                 text += columns.item(c).innerText.split(/(?=[A-Z])/).join(' ') + ', ';
+                text += getTitles(columns.item(c));
             }
             c += 1;
         }
@@ -53,5 +54,20 @@ function search(input, event) {
             rows.item(r).parentNode.classList.remove('c4g_list_search_hide');
             r += 1;
         }
+    }
+}
+
+function getTitles(element) {
+    let titles = [element.title || ''];
+    for(let child=element.firstChild; child!==null; child=child.nextSibling) {
+        titles.push(getTitles(child));
+    }
+    titles = titles.filter(function(val) {
+        return val !== '';
+    });
+    if (titles.length > 0) {
+        return titles.join(' ') + ', ';
+    } else {
+        return '';
     }
 }
