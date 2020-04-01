@@ -32,7 +32,7 @@ function search(input, event) {
         if (typeof minisearch.documents === 'undefined' || document.getElementsByClassName('c4g_brick_list').length > 1) {
             initSearch();
         }
-        result = minisearch.minisearch.search(input.value, {'prefix': true});
+        result = minisearch.minisearch.search(input.value, {'prefix': true, 'combineWith': 'AND'});
     }
     let rows = document.getElementsByClassName('c4g_brick_list_row');
     let r = 0;
