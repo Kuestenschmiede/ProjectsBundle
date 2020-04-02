@@ -36,23 +36,6 @@ class C4GImageField extends C4GBrickField
      */
     public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = [])
     {
-        $size = $this->getSize();
-        if ($size) {
-            $width = $size;
-            $height = $size;
-            $size = 'width="' . $width . '" height="' . $height . '"';
-        } else {
-            $width = $this->getWidth();
-            $height = $this->getHeight();
-
-            if ($width && $height) {
-                $size = 'width="' . $width . '" height="' . $height . '"';
-            } elseif ($width) {
-                $size = 'width="' . $width . '"';
-            } elseif ($height) {
-                $size = 'height="' . $height . '"';
-            }
-        }
         //If the Image-Field has another field as source, load the image from that field instead
         if ($this->getSource() == C4GBrickFieldSourceType::OTHER_FIELD) {
             $sourceFieldName = $this->getSourceField();
@@ -104,13 +87,32 @@ class C4GImageField extends C4GBrickField
                     $description = '';
                 }
 
-                $width = $this->getFieldName() . 'MaxWidth';
-                $width = $data->$width;
-                $height = $this->getFieldName() . 'MaxHeight';
-                $height = $data->$height;
-
-                if ($width && $height) {
+                $size = $this->getSize();
+                if ($size) {
+                    $width = $size;
+                    $height = $size;
                     $size = 'width="' . $width . '" height="' . $height . '"';
+                } else {
+                    $width = $this->getWidth();
+                    $height = $this->getHeight();
+                    $maxWidth = $this->getFieldName() . 'MaxWidth';
+                    $maxWidth = $data->$maxWidth;
+                    $maxheight = $this->getFieldName() . 'MaxHeight';
+                    $maxheight = $data->$maxheight;
+
+                    if ($width && $height) {
+                        $size = 'width="' . $width . '" height="' . $height . '"';
+                    } elseif ($width && $maxheight) {
+                        $size = 'width="' . $width . '" height="' . $maxheight . '"';
+                    } elseif ($width) {
+                        $size = 'width="' . $width . '"';
+                    } elseif ($height && $maxWidth) {
+                        $size = 'width="' . $maxWidth . '" height="' . $height . '"';
+                    } elseif ($height) {
+                        $size = 'height="' . $height . '"';
+                    } else if ($maxWidth && $maxheight) {
+                        $size = 'width="' . $maxWidth . '" height="' . $maxheight . '"';
+                    }
                 }
 
                 $img = "<img src=\"$path\" title=\"" . $this->getTitle() . "\" $size/>";
