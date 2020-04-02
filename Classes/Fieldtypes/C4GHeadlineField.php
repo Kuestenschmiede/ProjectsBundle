@@ -186,6 +186,32 @@ class C4GHeadlineField extends C4GBrickField
 
     public function getC4GListField($rowData, $content)
     {
+        if ($this->associatedFields !== []) {
+            $hasValues = false;
+
+            foreach ($this->associatedFields as $associatedField) {
+                $fieldName = $associatedField->getFieldName();
+                if (!empty($rowData->$fieldName) && trim($rowData->$fieldName) !== '') {
+                    if ($associatedField instanceof C4GMultiLinkField || $associatedField instanceof C4GMultiCheckboxField) {
+                        $arrayData = \StringUtil::deserialize($rowData->$fieldName);
+                        foreach ($arrayData as $row) {
+                            foreach ($row as $key => $item) {
+                                if (trim($item) !== '') {
+                                    $hasValues = true;
+                                }
+                            }
+                        }
+                    } else {
+                        $hasValues = true;
+                    }
+                }
+            }
+
+            if ($hasValues === false) {
+                return '';
+            }
+        }
+
         if ($this->number > 0) {
             $class = 'c4g_list_headline c4g_list_headline_' . $this->number;
         } else {
