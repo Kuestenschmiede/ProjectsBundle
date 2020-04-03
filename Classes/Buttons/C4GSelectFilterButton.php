@@ -25,7 +25,7 @@ class C4GSelectFilterButton implements C4GFilterButtonInterface
     public function getButtonHtml(): string
     {
         if ($this->labelMode === 1 || $this->labelMode === 2) {
-            $options = '<option value="">'.$this->label.'</option>';
+            $options = '<option value="">' . $this->label . '</option>';
         } else {
             $options = '<option value="">-</option>';
         }
@@ -44,12 +44,12 @@ class C4GSelectFilterButton implements C4GFilterButtonInterface
             $ariaLabel = '';
         } else {
             $label = '<label for="' . $this->id . '"></label>';
-            $ariaLabel = ' aria-label="'.$this->label.'"';
+            $ariaLabel = ' aria-label="' . $this->label . '"';
         }
 
-        return '<span>'.$label.'</span><span><select id="' . $this->id . '" class="c4g_list_filter" onchange="let element = document.getElementsByClassName(\'c4g_brick_list\');' .
+        return '<span>' . $label . '</span><span><select id="' . $this->id . '" class="c4g_list_filter" onchange="let element = document.getElementsByClassName(\'c4g_brick_list\');' .
             'element = element.item(element.length - 1);' . $classesToRemove .
-            'element.classList.add(\'filter_' . $this->class . '_\' + this.options[this.selectedIndex].value.replace(/\s+/g, \'\') + \'_parent\');"'.$ariaLabel.'>' . $options .
+            'element.classList.add(\'filter_' . $this->class . '_\' + this.options[this.selectedIndex].value.replace(/\s+/g, \'\') + \'_parent\');"' . $ariaLabel . '>' . $options .
             '</select></span>';
     }
 }

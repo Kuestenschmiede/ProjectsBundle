@@ -110,7 +110,7 @@ class C4GImageField extends C4GBrickField
                         $size = 'width="' . $maxWidth . '" height="' . $height . '"';
                     } elseif ($height) {
                         $size = 'height="' . $height . '"';
-                    } else if ($maxWidth && $maxheight) {
+                    } elseif ($maxWidth && $maxheight) {
                         $size = 'width="' . $maxWidth . '" height="' . $maxheight . '"';
                     }
                 }
