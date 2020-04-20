@@ -129,10 +129,12 @@ abstract class C4GBrickFieldText extends C4GBrickField
 
     /**
      * @param bool $replaceInsertTag
+     * @return $this
      */
-    public function setReplaceInsertTag($replaceInsertTag)
+    public function setReplaceInsertTag($replaceInsertTag = true)
     {
         $this->replaceInsertTag = $replaceInsertTag;
+        return $this;
     }
 
     /**
