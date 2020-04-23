@@ -788,10 +788,10 @@ class C4GBrickList
                         }
                     } elseif ($field instanceof C4GDataClassField) {
                         if (is_string($row->$fieldName) && $row->$fieldName !== '') {
-                            $class .= ' ' . $field->getClass(str_replace([' ', '/', '.', ',', '-'], '', $row->$fieldName));
+                            $class .= ' ' . $field->getClass(str_replace([' ', '/', '.', ',', '-', '&'], '', $row->$fieldName));
                         } elseif (is_object($row->$fieldName)) {
                             foreach ($row->$fieldName as $entry) {
-                                $class .= ' ' . $field->getClass(str_replace([' ', '/', '.', ',', '-'], '', $entry));
+                                $class .= ' ' . $field->getClass(str_replace([' ', '/', '.', ',', '-', '&'], '', $entry));
                             }
                         }
                     } else {

@@ -31,12 +31,12 @@ class C4GSelectFilterButton implements C4GFilterButtonInterface
         }
 
         foreach ($this->options as $key => $option) {
-            $options .= '<option value="' . str_replace([' ', '/', '.', ',', '-'], '', $option) . "\">$option</option>";
+            $options .= '<option value="' . str_replace([' ', '/', '.', ',', '-', '&'], '', $option) . "\">$option</option>";
         }
 
         $classesToRemove = '';
         foreach ($this->options as $key => $option) {
-            $classesToRemove .= "element.classList.remove('filter_" . $this->class . '_' . str_replace([' ', '/', '.', ',', '-'], '', $option) . "\_parent');";
+            $classesToRemove .= "element.classList.remove('filter_" . $this->class . '_' . str_replace([' ', '/', '.', ',', '-', '&'], '', $option) . "\_parent');";
         }
 
         if ($this->labelMode === 0 || $this->labelMode === 2) {
