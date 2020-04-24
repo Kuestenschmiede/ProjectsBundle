@@ -319,7 +319,7 @@ class AjaxController extends Controller
         $mimeTypes = explode(',', $GLOBALS['TL_CONFIG']['uploadTypes']);
         $found = false;
         foreach ($mimeTypes as $mimeType) {
-            if ($sFileType === 'image/'.$mimeType) {
+            if ($sFileType === 'image/'.$mimeType || $sFileType === 'application/'.$mimeType) {
                 $found = true;
             }
         }
