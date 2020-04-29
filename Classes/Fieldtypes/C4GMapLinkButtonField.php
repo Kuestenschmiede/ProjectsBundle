@@ -42,7 +42,7 @@ class C4GMapLinkButtonField extends C4GLinkButtonField
             return $html . "#$lon/$lat/$zoom/0/$baseLayer/0";
         }
 
-        return $html . "#$lon/$lat/$zoom";
+        return $html . "#$lon/$lat/$zoom/0";
     }
 
     /**
