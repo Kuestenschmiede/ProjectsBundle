@@ -578,13 +578,12 @@ label.c4g_multicheckbox{
 }
 .c4g_brick_dialog input[type='checkbox'] + label {
     display: inline-block;
-    font-family: "Font Awesome 5 Free";
     font-size: inherit;
-    font-weight: 700;
+    font-weight: 100;
     text-rendering: auto;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    /*margin-left: 5px;*/
+    margin-left: 0;
 }
 .c4g_multicheckbox input[type='checkbox']{
     display: inline-block!important;
