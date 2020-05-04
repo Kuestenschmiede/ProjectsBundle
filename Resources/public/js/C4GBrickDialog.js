@@ -1178,6 +1178,7 @@ function addSubDialog(button, event) {
     var string = document.getElementById(button.dataset.template).innerHTML.split(button.dataset.wildcard).join(button.dataset.index);
     var newElement = document.createElement('div');
     newElement.classList.add('c4g_sub_dialog_set');
+    newElement.classList.add('c4g_sub_dialog_set_new');
     newElement.innerHTML = string;
     var child;
     if ((target.firstChild !== null) && (button.dataset.insert === 'before')) {
