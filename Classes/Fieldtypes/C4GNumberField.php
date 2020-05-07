@@ -43,7 +43,7 @@ class C4GNumberField extends C4GBrickFieldNumeric
         if ($this->getAdditionalID()) {
             $id .= '_' . $this->getAdditionalId();
         }
-        $onChange = '';
+        //$onChange = '';
 
         if ($this->getThousandsSep() !== '') {
             $number = str_replace(',', '.', $this->generateInitialValue($data));
@@ -61,9 +61,15 @@ class C4GNumberField extends C4GBrickFieldNumeric
         if ($this->isShowIfEmpty() || !empty($value)) {
             $condition = $this->createConditionData($fieldList, $data);
 
+            $changeAction = '';
+
+            if ($this->isCallOnChange()) {
+                $changeAction = 'onchange="' . $this->getCallOnChangeFunction() . '"';
+            }
+
             $result =
                 $this->addC4GField($condition,$dialogParams,$fieldList,$data,
-                    '<input ' . $required . ' ' . $condition['conditionPrepare'] . ' type="' . $type . '" ' . $onChange . ' id="' . $id . '" class="formdata ' . $id . '" size="' .
+                    '<input ' . $required . ' ' . $condition['conditionPrepare'] . ' type="' . $type . '" ' . $changeAction . ' id="' . $id . '" class="formdata ' . $id . '" size="' .
                     $this->getSize() . '" min="' . $this->getMin() . '" max="' . $this->getMax() . '" step="' . $this->getStep() . '" pattern="' . $this->pattern . '" name="' .
                     $this->getFieldName() . '" value="' . $value . '">');
         }
