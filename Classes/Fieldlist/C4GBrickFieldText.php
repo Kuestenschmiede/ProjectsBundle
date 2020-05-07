@@ -134,6 +134,7 @@ abstract class C4GBrickFieldText extends C4GBrickField
     public function setReplaceInsertTag($replaceInsertTag = true)
     {
         $this->replaceInsertTag = $replaceInsertTag;
+
         return $this;
     }
 

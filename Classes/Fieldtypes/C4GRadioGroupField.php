@@ -101,7 +101,6 @@ class C4GRadioGroupField extends C4GBrickField
                 if ($object_id && $object_id != -1) {
                     $object_class = 'class="radio_object_' . $object_id . '" ';
                 }
-                //$object_class = 'class="radio_object_disabled" disabled ';
 
                 $option_results = $option_results . '<div class="radio_element rb_turned"><input type="radio" ' . $object_class . 'id="' . $option_name . '" name="' . $name . '" ' . $optionAttributes . $required . ' ' . $changeAction . ' value="' . $option_id . '" ' . (($value == $option_id) ? 'checked' : '') . ' /><label class="full lbl_turned" for="' . $for . '" >' . $type_caption . '</label></div>';
             } else {

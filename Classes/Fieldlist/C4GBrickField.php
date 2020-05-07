@@ -103,6 +103,7 @@ abstract class C4GBrickField
     private $popupField = true; // show in popup or not
     private $radiusFieldName = ''; //???
     private $randomValue = ''; //Use this instead of initialValue if the value is randomly generated. The generated value must not be an empty string. If the Field is not a FormField, use initialValue.
+    private $rangeField = ''; //To restrict the options via an input field and min / max params
     private $searchField = false; //für C4GMatching
     private $searchMaximumField = false; // C4GMatching
     private $searchMinimumField = false; // C4GMatching
@@ -2591,4 +2592,21 @@ abstract class C4GBrickField
 
         return $this;
     }
+
+    /**
+     * @return string
+     */
+    public function getRangeField(): string
+    {
+        return $this->rangeField;
+    }
+
+    /**
+     * @param string $rangeField
+     */
+    public function setRangeField(string $rangeField): void
+    {
+        $this->rangeField = $rangeField;
+    }
+
 }

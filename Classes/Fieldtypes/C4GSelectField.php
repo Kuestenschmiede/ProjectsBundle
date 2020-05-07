@@ -101,7 +101,13 @@ class C4GSelectField extends C4GBrickField
         if ($this->isWithEmptyOption()) {
             $fieldOptions = $this->getOptions();
             if ($fieldOptions) {
-                array_unshift($fieldOptions, ['id' => '-1', 'name' => $this->emptyOptionLabel]);
+                if ($this->getRangeField()) {
+                    $min = $fieldOptions['min'];
+                    $max = $fieldOptions['max'];
+                    array_unshift($fieldOptions, ['id' => '-1', 'name' => $this->emptyOptionLabel, 'min' => $min, 'max' => $max]);
+                } else {
+                    array_unshift($fieldOptions, ['id' => '-1', 'name' => $this->emptyOptionLabel]);
+                }
                 $this->setOptions($fieldOptions);
             }
         }
@@ -121,7 +127,7 @@ class C4GSelectField extends C4GBrickField
 
             foreach ($elements as $element) {
                 if ((!$element->$idField) && (!$element->$nameField)) {
-                    $option[] = ['id' => $value, 'name' => $value];
+                    $option[] = ['id' => $value, 'name' => $value, ''];
                 }
 
                 if ($this->isShowIfEmpty() || (!empty($element->$idField) && !empty($element->$nameField))) {
@@ -148,8 +154,14 @@ class C4GSelectField extends C4GBrickField
                 }
 
                 foreach ($selectoptions as $option) {
-                    if ((!$option['id']) && (!$option['name'])) {
-                        $option[] = ['id' => $value, 'name' => $value];
+                    if ($this->getRangeField()) {
+                        if ((!$option['id']) && (!$option['name'])) {
+                            $option[] = ['id' => $value, 'name' => $value, 'min' => $option['min'], 'max' => $option['max']];
+                        }
+                    } else {
+                        if ((!$option['id']) && (!$option['name'])) {
+                            $option[] = ['id' => $value, 'name' => $value];
+                        }
                     }
 
                     if ($this->isShowIfEmpty() || (!empty($option['id']) && !empty($option['name']))) {
@@ -165,7 +177,14 @@ class C4GSelectField extends C4GBrickField
                         if (($value == $option_id || (!$value && $this->defaultOptionId === $option_id)) && ($condition['conditionPrepare'] == '')) {
                             $selected = ' selected';
                         }
-                        $options = $options . '<option' . $selected . $optionAttributes . ' value=' . $option_id . '>' . $option_name . '</option>';
+
+                        if ($this->getRangeField()) {
+                            $min = $option['min'];
+                            $max = $option['max'];
+                            $options = $options . '<option' . $selected . $optionAttributes . ' min="'.$min.'" max="'.$max.'" value="' . $option_id . '">' . $option_name . '</option>';
+                        } else {
+                            $options = $options . '<option' . $selected . $optionAttributes . ' value="' . $option_id . '">' . $option_name . '</option>';
+                        }
                     }
                 }
             }
@@ -480,4 +499,5 @@ class C4GSelectField extends C4GBrickField
 
         return $this;
     }
+
 }
