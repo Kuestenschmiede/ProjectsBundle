@@ -619,6 +619,10 @@ function C4GCheckMethodswitchCondition(field)
         currentName = "c4g_" + fieldNames[f];
         currentFunction = window[fieldFunction[f]];
 
+        if (!currentFunction) {
+            continue;
+        }
+
         checkValue = document.getElementById(currentName).value;
 
         if (checkValue) {
@@ -663,6 +667,10 @@ function C4GCheckMethodswitchCondition(field)
     {
         currentName = "c4g_" + fieldNames[f];
         currentFunction = window[fieldFunction[f]];
+
+        if (!currentFunction) {
+            continue;
+        }
 
         checkValue = document.getElementById(currentName).value;
 
