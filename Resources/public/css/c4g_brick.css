@@ -733,6 +733,7 @@ label.c4g_multicheckbox{
 .c4g_brick_dialog .c4g_brick_table_rows {
     position: relative;
     margin-left: 2.5%;
+    margin-bottom: .25em;
     width: 98%;
 }
 .c4g_brick_dialog .c4g_brick_table_rows label {
