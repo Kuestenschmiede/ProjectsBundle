@@ -28,6 +28,7 @@ class C4GBrickNotification
                 if ($field->getFieldName() == 'permalink') {
                     $permalink_name = $field->getPermaLinkName();
                 }
+
                 $field_array[] = $field;
             }
         }
@@ -96,7 +97,12 @@ class C4GBrickNotification
         if ($button_email) {
             $tokensValues = $dlgValues;
         }
-        $tokensValues['c4g_member_id'] = $dlgValues['c4g_member_id'];
+
+
+        if ($dlgValues['c4g_member_id']) {
+            $tokensValues['c4g_member_id'] = $dlgValues['c4g_member_id'];
+        }
+
         $arrTokens = C4GBrickNotification::getMemberDetails($tokensValues, $permalink_name);
 
         return $arrTokens;
@@ -108,13 +114,15 @@ class C4GBrickNotification
             foreach ($tokensValues as $name => $tokenValue) {
                 if ($name == 'c4g_member_id') {
                     $member = MemberModel::findByPk($tokenValue);
-                    $tokensValues['firstname'] = $member->firstname;
-                    $tokensValues['lastname'] = $member->lastname;
+                    if ($member) {
+                        $tokensValues['firstname'] = $member->firstname;
+                        $tokensValues['lastname'] = $member->lastname;
+                    }
 
                     //Sonderlocke
                     if ($tokensValues['email']) {
                         $tokensValues['user_email'] = $tokensValues['email'];
-                    } else {
+                    } else if ($member) {
                         $tokensValues['user_email'] = $member->email;
                     }
                 }
