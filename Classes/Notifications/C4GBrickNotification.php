@@ -13,7 +13,7 @@
 namespace con4gis\ProjectsBundle\Classes\Notifications;
 
 use con4gis\CoreBundle\Classes\C4GUtils;
-use con4gis\GroupsBundle\Resources\contao\models\MemberModel;
+use Contao\MemberModel;
 
 class C4GBrickNotification
 {
