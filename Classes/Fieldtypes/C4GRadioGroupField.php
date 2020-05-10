@@ -12,6 +12,7 @@
  */
 namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
 
+use con4gis\CoreBundle\Classes\Helper\ArrayHelper;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickCommon;
 use con4gis\ProjectsBundle\Classes\Conditions\C4GBrickConditionType;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
@@ -100,14 +101,17 @@ class C4GRadioGroupField extends C4GBrickField
             if ($this->turnButton) {
                 if ($object_id && $object_id != -1) {
                     $object_class = 'class="radio_object_' . $object_id . '" ';
-                }
+                }/* else {
+                    $object_class = 'class="radio_object_disabled" disabled ';
+                }*/
 
                 $option_results = $option_results . '<div class="radio_element rb_turned"><input type="radio" ' . $object_class . 'id="' . $option_name . '" name="' . $name . '" ' . $optionAttributes . $required . ' ' . $changeAction . ' value="' . $option_id . '" ' . (($value == $option_id) ? 'checked' : '') . ' /><label class="full lbl_turned" for="' . $for . '" >' . $type_caption . '</label></div>';
             } else {
                 if ($object_id && $object_id != -1) {
                     $object_class = 'class="radio_object_' . $object_id . '" ';
-                }
-                //$object_class = 'class="radio_object_disabled" disabled ';
+                }/* else {
+                    $object_class = 'class="radio_object_disabled" disabled ';
+                }*/
 
                 $option_results = $option_results . '<div class="radio_element"><label class="full" for="' . $for . '" >' . $type_caption . '</label><input type="radio" ' . $object_class . 'id="' . $option_name . '" name="' . $name . '" ' . $optionAttributes . $required . ' ' . $changeAction . ' value="' . $option_id . '" ' . (($value == $option_id) ? 'checked' : '') . ' /></div>';
             }

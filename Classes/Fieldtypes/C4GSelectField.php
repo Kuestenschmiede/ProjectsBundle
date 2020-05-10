@@ -27,6 +27,7 @@ class C4GSelectField extends C4GBrickField
     private $emptyOptionLabel = '-';
     private $simpleTextWithoutEditing = false;
     private $defaultOptionId = '';
+    private $initialCallOnChange = false;
 
     public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = [])
     {
@@ -43,6 +44,12 @@ class C4GSelectField extends C4GBrickField
         if ($this->isCallOnChange()) {
             $changeAction = 'onchange="C4GCallOnChange(this)"';
         }
+
+//        if ($this->isInitialCallOnChange()) {
+//            $onLoadScript = $dialogParams->getOnloadScript();
+//            $onLoadScript .= ' document.getElementById("c4g_'.$this->getFieldname.'").onchange();';
+//            $dialogParams->setOnloadScript(trim($onLoadScript));
+//        }
 
         $result = '';
 
@@ -500,4 +507,19 @@ class C4GSelectField extends C4GBrickField
         return $this;
     }
 
+    /**
+     * @return bool
+     */
+    public function isInitialCallOnChange(): bool
+    {
+        return $this->initialCallOnChange;
+    }
+
+    /**
+     * @param bool $initialCallOnChange
+     */
+    public function setInitialCallOnChange(bool $initialCallOnChange): void
+    {
+        $this->initialCallOnChange = $initialCallOnChange;
+    }
 }
