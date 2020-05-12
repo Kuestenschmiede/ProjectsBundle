@@ -54,7 +54,6 @@ class C4GBrickNotification
                                 if ($check) {
                                     $pos = strpos($name, '|');
                                     $dlgValue = substr($name, $pos + 1);
-                                    $name = $field->getFieldName();
                                     $dlgValue = $field->translateFieldValue($dlgValue);
                                 }
                             }
