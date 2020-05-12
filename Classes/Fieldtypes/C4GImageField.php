@@ -126,23 +126,6 @@ class C4GImageField extends C4GBrickField
                     $img = "<a href=\"$path\" data-lightbox=\"c4g_image\">$img</a>";
                 }
 
-                if ($this->labelField !== '') {
-                    $labelFieldName = $this->labelField;
-                    $label = $data->$labelFieldName;
-                } else {
-                    $label = '';
-                }
-
-                $label = $label ?: $this->linkLabel ?: $value;
-
-                if ($label !== '') {
-                    if ($this->getItemprop() && $data->itemType) {
-                        $label = '<span itemprop="' . $this->getItemProp() . "\">$label</span>";
-                    } else {
-                        $label = "<span>$label</span>";
-                    }
-                }
-
                 $result = '<div '
                     . $condition['conditionName']
                     . $condition['conditionType']
@@ -214,22 +197,6 @@ class C4GImageField extends C4GBrickField
             C4gLogModel::addLogEntry('projects', $throwable->getMessage());
 
             return '';
-        }
-        if ($this->labelField !== '') {
-            $labelFieldName = $this->labelField;
-            $label = $rowData->$labelFieldName;
-        } else {
-            $label = '';
-        }
-
-        $label = $label ?: $this->linkLabel ?: $value;
-
-        if ($label !== '') {
-            if ($this->getItemprop() && $rowData->itemType) {
-                $label = '<span itemprop="' . $this->getItemProp() . "\">$label</span>";
-            } else {
-                $label = "<span>$label</span>";
-            }
         }
 
         $result = '';

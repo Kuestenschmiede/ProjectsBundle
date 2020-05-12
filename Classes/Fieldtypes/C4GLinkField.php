@@ -39,11 +39,9 @@ class C4GLinkField extends C4GBrickField
     }
 
     /**
-     * @param C4GBrickField[] $fieldList
-     * @param C4GBrickDialogParams $data
-     * @param C4GBrickDialogParams $dialogParams
-     * @param array $additionalParams
-     * @return array|string
+     * @param $field
+     * @param $data
+     * @return string
      */
     public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = [])
     {
@@ -95,14 +93,6 @@ class C4GLinkField extends C4GBrickField
             }
 
             $label = $label ?: $this->linkLabel ?: $value;
-
-            if ($label !== '') {
-                if ($this->getItemprop() && $data->itemType) {
-                    $label = '<span itemprop="' . $this->getItemProp() . "\">$label</span>";
-                } else {
-                    $label = "<span>$label</span>";
-                }
-            }
 
             $result =
                 $this->addC4GField($condition,$dialogParams,$fieldList,$data,

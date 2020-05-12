@@ -38,6 +38,7 @@ $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['BACK']            = 'Zurück';
 
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['LOAD_ADDRESS_BUTTON'] = 'Adresse neu laden';
 
+
 /** FE Layout **/
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['HEADLINES_ADD'] = 'hinzufügen';
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['HEADLINES_EDIT'] = 'bearbeiten';
@@ -195,6 +196,7 @@ $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['EMAIL_MESSAGE']             =
 
 /** MISC */
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['RNG'] = 'Wird automatisch generiert.';
+
 
 //Placeholder
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['PLACEHOLDER_SELECT'] = 'Bitte wählen Sie eine Option ...';
