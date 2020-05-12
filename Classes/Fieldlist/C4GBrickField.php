@@ -529,13 +529,14 @@ abstract class C4GBrickField
                     $conditionname .= '~' . $condition->getFieldName();
                     $conditionvalue .= '~' . $condition->getValue();
                     $conditionfunction .= '~' . $condition->getFunction();
+                    $conditiontype .= '~' . $condition->getType();
                 } else {
                     $conditionname = $condition->getFieldName();
                     $conditionvalue = $condition->getValue();
                     $conditionfunction .= $condition->getFunction();
+                    $conditiontype .= $condition->getType();
                 }
 
-                $conditiontype = $condition->getType();
             }
 
             if (!$this->isEditable()) {

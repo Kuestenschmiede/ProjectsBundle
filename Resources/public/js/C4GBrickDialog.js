@@ -434,6 +434,7 @@ function C4GCallOnChange(object) {
 }
 
 /**
+/*
  *
  * @param object
  * @constructor
@@ -497,17 +498,24 @@ function C4GCheckCondition(field)
 {
     var fieldNames = field.dataset.conditionName.split("~");
     var fieldValues = field.dataset.conditionValue.split("~");
+    var fieldType = field.dataset.conditionType.split("~");
 
 
     var currentName;
     var currentValue;
+    var currentType;
 
     for(f = 0; f < fieldNames.length; f++)
     {
         currentName = "c4g_" + fieldNames[f];
         currentValue = fieldValues[f];
+        currentType = fieldType[f];
 
-        checkValue = document.getElementById(currentName).value;
+        if (currentType == "method") {
+            continue;
+        }
+
+        checkValue = document.getElementById(currentName) ? document.getElementById(currentName).value : false;
 
         if (checkValue) {
             if (checkValue != currentValue) {
@@ -547,8 +555,13 @@ function C4GCheckCondition(field)
     {
         currentName = "c4g_" + fieldNames[f];
         currentValue = fieldValues[f];
+        currentType = fieldType[f];
 
-        checkValue = document.getElementById(currentName).value;
+        if (currentType == "method") {
+            continue;
+        }
+
+        checkValue = document.getElementById(currentName) ? document.getElementById(currentName).value : false;
 
         if (checkValue) {
             if (checkValue == currentValue) {
@@ -610,20 +623,27 @@ function C4GCheckMethodswitchCondition(field)
 {
     var fieldNames = field.dataset.conditionName.split("~");
     var fieldFunction = field.dataset.conditionFunction.split("~");
+    var fieldType = field.dataset.conditionType.split("~");
 
     var currentName;
     var currentFunction;
+    var currentType;
 
     for(f = 0; f < fieldNames.length; f++)
     {
         currentName = "c4g_" + fieldNames[f];
         currentFunction = window[fieldFunction[f]];
+        currentType = fieldType[f];
+
+        if (currentType == "value") {
+            continue;
+        }
 
         if (!currentFunction) {
             continue;
         }
 
-        checkValue = document.getElementById(currentName).value;
+        checkValue = document.getElementById(currentName) ? document.getElementById(currentName).value : false;
 
         if (checkValue) {
             if (!currentFunction(checkValue)) {
@@ -667,12 +687,16 @@ function C4GCheckMethodswitchCondition(field)
     {
         currentName = "c4g_" + fieldNames[f];
         currentFunction = window[fieldFunction[f]];
+        currentType = fieldType[f];
 
+        if (currentType == "value") {
+            continue;
+        }
         if (!currentFunction) {
             continue;
         }
 
-        checkValue = document.getElementById(currentName).value;
+        checkValue = document.getElementById(currentName) ? document.getElementById(currentName).value : false;
 
         if (checkValue) {
             if (currentFunction(checkValue)) {
@@ -748,7 +772,7 @@ function C4GSortConditionFields(fields)
     if (fields) {
         for(i = 0; i < fields.length; i++)
         {
-            if (fields[i].dataset.conditionName && fields[i].dataset.conditionValue && fields[i].dataset.conditionType && (fields[i].dataset.conditionType == "value")) {
+            if (fields[i].dataset.conditionName && fields[i].dataset.conditionValue && fields[i].dataset.conditionType && (fields[i].dataset.conditionType.split("~").includes("value"))) {
                 goodFields[timer] = fields[i];
                 timer++;
             }
@@ -771,7 +795,7 @@ function C4GSortConditionMethodswitchFields(fields)
     if (fields) {
         for(i = 0; i < fields.length; i++)
         {
-            if (fields[i].dataset.conditionName && fields[i].dataset.conditionFunction && fields[i].dataset.conditionType && (fields[i].dataset.conditionType == "method")) {
+            if (fields[i].dataset.conditionName && fields[i].dataset.conditionFunction && fields[i].dataset.conditionType && (fields[i].dataset.conditionType.split("~").includes("method"))) {
                 goodFields[timer] = fields[i];
                 timer++;
             }
