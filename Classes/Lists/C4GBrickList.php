@@ -704,7 +704,6 @@ class C4GBrickList
                 $tooltip = $row->$captionField;
             }
             $fieldView = '';
-            $fieldIndexes = [];
             $class = 'c4gGuiAction';
             foreach ($fieldList as $field) {
                 $fieldName = $field->getFieldName();
@@ -798,7 +797,6 @@ class C4GBrickList
                         $fieldContent = $field->getC4GListField($row, $content);
                         if ($fieldContent !== '' || !$field->isShowIfEmpty()) {
                             $fieldView .= $beforeDiv . $fieldContent . $afterDiv;
-                            $fieldIndexes[] = $fieldContent;
                         }
                     }
                 }

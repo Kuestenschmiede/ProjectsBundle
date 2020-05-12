@@ -175,7 +175,7 @@ class C4GSaveDialogAction extends C4GBrickDialogAction
         }
 
         if ((C4GBrickView::isWithoutList($viewType))) {
-            if ($this->isWithRedirect()) {
+            if ($this->isWithRedirect() == true) {
                 if ($dialogParams->getRedirectSite() && (($jumpTo = \PageModel::findByPk($dialogParams->getRedirectSite())) !== null)) {
                     $return['jump_to_url'] = $jumpTo->getFrontendUrl();
 

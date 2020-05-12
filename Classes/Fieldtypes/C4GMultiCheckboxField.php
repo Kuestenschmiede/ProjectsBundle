@@ -95,8 +95,8 @@ class C4GMultiCheckboxField extends C4GBrickField
                 $div = $conditionStart . '<div class="c4g_multicheckbox_modern formdata" ' . $condition['conditionPrepare'];
             }
 
-            $result = $div . '>';
-            $result .= $this->addC4GFieldLabel($id, $title, $this->isMandatory(), $condition, $fieldList, $data, $dialogParams);
+            $label = $this->addC4GFieldLabel($id, $title, $this->isMandatory(), $condition, $fieldList, $data, $dialogParams);
+            $result = $div . '>' . $label;
 
             $viewType = $dialogParams->getViewType();
             if ($viewType && (
