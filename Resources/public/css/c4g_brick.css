@@ -975,6 +975,10 @@ label:empty, li:empty, #c4g_description:empty {
     margin-right: 2.5%;
 }
 
+/*.formdata .c4g_multicheckbox label[for='c4g_*'] {
+    display: block!important;
+}*/
+
 .c4gGuiContentWrapper #c4g_list_search {
     background-color: white !important;
 }
