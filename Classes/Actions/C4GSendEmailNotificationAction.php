@@ -35,17 +35,17 @@ class C4GSendEmailNotificationAction extends C4GBrickDialogAction
 //          $memberId = $modelClass::$function($putVars);
 //        }
 
-        $dlgValues = [];
+        $dlgValues = $this->getPutVars();
         $notification_array = unserialize($dialogParams->getNotificationTypeContactRequest());
 
-        if ($id != -1) {
-            $table_data_user = MemberModel::findByPk($id);
+        $memberId = $dialogParams->getMemberId();
+        if ($memberId && $memberId > 0) {
+            $table_data_user = MemberModel::findByPk($memberId);
             $dlgValues['user_data_email'] = $table_data_user->email;
             $dlgValues['user_data_firstname'] = $table_data_user->firstname;
             $dlgValues['user_data_lastname'] = $table_data_user->lastname;
         }
 
-        $memberId = $dialogParams->getMemberId();
         $dlgValues['c4g_member_id'] = $memberId;
         if ($dialogParams->isWithNotification() && $id) {
             if (sizeof($notification_array) == 1) {
