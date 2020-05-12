@@ -1087,9 +1087,10 @@ class C4GBrickDialog
                 } else {
                     $fieldData = $field->createFieldData($dlgValues);
                     if (!$field->getRandomValue()) {
-                        if ($id == null && $field->isFormField() && $field->getInitialValue() !== '' && $fieldData !== $field->getInitialValue() && !$field->isEditable()) {
-                            continue;
-                        }
+                        //generated values should not continued
+//                        if ($id == null && $field->isFormField() && $field->getInitialValue() !== '' && $fieldData !== $field->getInitialValue() && !$field->isEditable()) {
+//                            continue;
+//                        }
                     } else {
                         $fieldData = $field->getRandomValue();
                     }
