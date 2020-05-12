@@ -28,6 +28,7 @@ class C4GDateField extends C4GBrickField
 
     // customize single date fields
     protected $customFormat = null;
+    protected $customLanguage = null;
     protected $sortType = 'de_date';
     protected $pattern = C4GBrickRegEx::DATE_D_M_Y;
 
@@ -47,6 +48,12 @@ class C4GDateField extends C4GBrickField
             $dateFormat = $this->customFormat;
         } else {
             $dateFormat = $GLOBALS['TL_CONFIG']['dateFormat'];
+        }
+
+        if ($this->customLanguage) {
+            $pickerLanguage = $this->customLanguage;
+        } else {
+            $pickerLanguage = $GLOBALS['TL_LANGUAGE'];
         }
         $fieldName = $this->getFieldName();
         $id = 'c4g_' . $fieldName;
@@ -116,9 +123,9 @@ class C4GDateField extends C4GBrickField
                 }
             }
             if (!$display) {
-                $html = '<div class="c4g_date_field_container" style="display: none"  onmousedown="C4GDatePicker(\'' . $id . '\', \'date\', \'' . $this->minDate . '\', \'' . $this->maxDate . '\', \'' . $format . '\',\'' . $GLOBALS['TL_LANGUAGE'] . '\',\'' . $this->excludeWeekdays . '\',\'' . $this->excludeDates . '\')" >';
+                $html = '<div class="c4g_date_field_container" style="display: none"  onmousedown="C4GDatePicker(\'' . $id . '\', \'date\', \'' . $this->minDate . '\', \'' . $this->maxDate . '\', \'' . $format . '\',\'' . $pickerLanguage . '\',\'' . $this->excludeWeekdays . '\',\'' . $this->excludeDates . '\')" >';
             } else {
-                $html = '<div class="c4g_date_field_container" onmousedown="C4GDatePicker(\'' . $id . '\', \'date\', \'' . $this->minDate . '\', \'' . $this->maxDate . '\', \'' . $format . '\',\'' . $GLOBALS['TL_LANGUAGE'] . '\',\'' . $this->excludeWeekdays . '\',\'' . $this->excludeDates . '\')" >';
+                $html = '<div class="c4g_date_field_container" onmousedown="C4GDatePicker(\'' . $id . '\', \'date\', \'' . $this->minDate . '\', \'' . $this->maxDate . '\', \'' . $format . '\',\'' . $pickerLanguage . '\',\'' . $this->excludeWeekdays . '\',\'' . $this->excludeDates . '\')" >';
             }
             $html .= '<input readonly="true" autocomplete="off" ' . $required . ' type="text" id="' . $id . '" class="formdata c4g_date_field_input ' . $id . '" ' . $changeAction . ' name="' . $fieldName . '" value="' . $value . '" ' . $condition['conditionPrepare'] . 'pattern="' . $this->pattern . '"' . '>';
             if (!$this->isIgnoreViewType() && (C4GBrickView::isWithoutEditing($dialogParams->getViewType()) || !$this->isEditable())) {
@@ -366,6 +373,22 @@ class C4GDateField extends C4GBrickField
         $this->customFormat = $customFormat;
 
         return $this;
+    }
+
+    /**
+     * @return null
+     */
+    public function getCustomLanguage()
+    {
+        return $this->customLanguage;
+    }
+
+    /**
+     * @param null $customLanguage
+     */
+    public function setCustomLanguage($customLanguage): void
+    {
+        $this->customLanguage = $customLanguage;
     }
 
     /**
