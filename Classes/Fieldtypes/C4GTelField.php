@@ -38,6 +38,23 @@ class C4GTelField extends C4GBrickField
                 '<input type="tel" ' . $required . ' ' . $condition['conditionPrepare'] . ' id="' . $id . '"' . ' class="formdata ' . $id . '" name="' . $this->getFieldName() . '" title="' . $this->getTitle() . '" value="' . $value . '">');
         }
 
+        if ($this->labelField !== '') {
+            $labelFieldName = $this->labelField;
+            $label = $data->$labelFieldName;
+        } else {
+            $label = '';
+        }
+
+        $label = $label ?: $this->linkLabel ?: $value;
+
+        if ($label !== '') {
+            if ($this->getItemprop() && $data->itemType) {
+                $label = '<span itemprop="' . $this->getItemProp() . "\">$label</span>";
+            } else {
+                $label = "<span>$label</span>";
+            }
+        }
+
         return $result;
     }
 

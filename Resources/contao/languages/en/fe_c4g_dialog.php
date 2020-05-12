@@ -10,6 +10,7 @@
  * @copyright  Küstenschmiede GmbH Software & Design
  * @link       https://www.con4gis.org
  */
+
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['BRICK_CAPTION']        = 'Data Set';
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['BRICK_CAPTION_PLURAL'] = 'Data Sets';
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['BRICK_CAPTION_PLURAL2'] = 'Data Sets';

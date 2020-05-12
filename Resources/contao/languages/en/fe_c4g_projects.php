@@ -10,6 +10,7 @@
  * @copyright  Küstenschmiede GmbH Software & Design
  * @link       https://www.con4gis.org
  */
+
 /** FIELDS */
 $GLOBALS['TL_LANG']['fe_c4g_projects']['caption']        = 'Project Name';
 $GLOBALS['TL_LANG']['fe_c4g_projects']['brick_key']      = 'Kind of Project';

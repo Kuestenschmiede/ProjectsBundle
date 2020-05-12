@@ -47,6 +47,23 @@ class C4GUrlField extends C4GBrickField
                     $fieldDataBefore . '<input type="url" ' . $required . ' ' . $condition['conditionPrepare'] . ' id="' . $id . '" class="formdata" name="' . $this->getFieldName() . '" title="' . $this->getTitle() . '" value="' . $value . '">' . $fieldDataAfter);
         }
 
+        if ($this->labelField !== '') {
+            $labelFieldName = $this->labelField;
+            $label = $data->$labelFieldName;
+        } else {
+            $label = '';
+        }
+
+        $label = $label ?: $this->linkLabel ?: $value;
+
+        if ($label !== '') {
+            if ($this->getItemprop() && $data->itemType) {
+                $label = '<span itemprop="' . $this->getItemProp() . "\">$label</span>";
+            } else {
+                $label = "<span>$label</span>";
+            }
+        }
+
         return $result;
     }
 
