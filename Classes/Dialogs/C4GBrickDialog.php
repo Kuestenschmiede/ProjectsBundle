@@ -966,11 +966,21 @@ class C4GBrickDialog
                     }
 
                     $fieldName = $field->getFieldName();
+                    $additionalId = $field->getAdditionalID();
+                    if (!empty($additionalId)) {
+                        $fieldName .= '_' . $additionalId;
+                    }
                     if (/*($viewType == C4GBrickViewType::MEMBERBOOKING) || */(($field->isFormField()) && ($field->isDatabaseField()))) {
                         //Muss davon ausgehen, dass boolean-Werte immer mit false vorbelegt sind. Funktioniert auch nur dann.
                         if (/*($viewType == C4GBrickViewType::MEMBERBOOKING) || */
                             ($field instanceof C4GMultiCheckboxField) ||
-                            (($dlgValues[$fieldName] != null) || ($field instanceof C4GMultiCheckboxField)) && (trim($dlgValues[$fieldName]) != '') && ($dlgValues[$fieldName] != 'id') && ($dlgValues[$fieldName] != 'false') && (intval($dlgValues[$fieldName]) !== $field->getInitialValue()) && (strval($dlgValues[$fieldName]) !== $field->getInitialValue()) && ($dlgValues[$fieldName] != -1)) {
+                            (
+                                ($dlgValues[$fieldName] != null)  && (trim($dlgValues[$fieldName]) != '') &&
+                                ($dlgValues[$fieldName] != 'id') && ($dlgValues[$fieldName] != 'false') &&
+                                (intval($dlgValues[$fieldName]) !== $field->getInitialValue()) &&
+                                (strval($dlgValues[$fieldName]) !== $field->getInitialValue()) &&
+                                ($dlgValues[$fieldName] != -1)
+                            )) {
                             $result[] = new C4GBrickFieldCompare($field, '', $dlgValues[$fieldName]);
                         }
                     }
@@ -1056,6 +1066,10 @@ class C4GBrickDialog
                     continue;
                 }
                 $fieldName = $field->getFieldName();
+                if ($field->getAdditionalID()) {
+                    $fieldName .= '_' . $field->getAdditionalId();
+                }
+
                 $fieldData = $dlgValues[$fieldName];
                 if ((!$field->isFormField()) && (!$fieldData) && ($field->getInitialValue() || $field->getRandomValue())) {
                     $fieldData = $field->getRandomValue();
@@ -1105,12 +1119,12 @@ class C4GBrickDialog
                             $fieldData = $array['to'];
                         }
                     }
-                    $set[$fieldName] = $fieldData;
+                    $set[$field->getFieldName()] = $fieldData;
                     if ($field instanceof C4GFileField && $field->getFilenameColumn() !== '' && $field->getFilename() !== '') {
                         $set[$field->getFilenameColumn()] = $field->getFilename();
                     }
                     if (!($field instanceof C4GFileField) && !($field instanceof C4GMultiCheckboxField) && (!$field instanceof C4GForeignArrayField)) {
-                        $set[$fieldName] = html_entity_decode(C4GUtils::secure_ugc($fieldData));
+                        $set[$field->getFieldName()] = html_entity_decode(C4GUtils::secure_ugc($fieldData));
                     }
                 }
             }

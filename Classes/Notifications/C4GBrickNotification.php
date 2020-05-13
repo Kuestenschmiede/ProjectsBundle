@@ -59,7 +59,7 @@ class C4GBrickNotification
                     }
                     if ($field instanceof C4GMultiCheckboxField && (strpos($name, '|') !== false)) {
                         if (!empty($tokensValues[$field->getFieldName()])) {
-                            $multiCheckboxString = ' , ' . $dlgValue;
+                            $multiCheckboxString = ', ' . $dlgValue;
                         } else {
                             $multiCheckboxString = $dlgValue;
                         }
@@ -67,9 +67,7 @@ class C4GBrickNotification
                     } elseif (!$field instanceof C4GMultiCheckboxField) {
                         $tokensValues[$field->getFieldName()] = $dlgValue;
                     }
-                } /*else {
-                    $tokensValues[$field->getFieldName()] = $dlgValue;
-                }*/
+                }
             }
         }
 

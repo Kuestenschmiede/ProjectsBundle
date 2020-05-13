@@ -258,6 +258,10 @@ class C4GMultiCheckboxField extends C4GBrickField
     {
 //        $fieldData = $dlgValues[$this->getFieldName()];
         $fieldName = $this->getFieldName();
+        if ($this->getAdditionalID()) {
+            $fieldName .= '_' . $this->getAdditionalId();
+        }
+
         $valueArr = [];
         $prefix = $fieldName . '|';// . $dlgValues['id'];
 

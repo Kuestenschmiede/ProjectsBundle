@@ -312,7 +312,7 @@ abstract class C4GBrickField
         $fieldName = $this->getFieldName();
         $additionalId = $this->getAdditionalID();
         if (!empty($additionalId)) {
-            $fieldName = $fieldName . '_' . $additionalId;
+            $fieldName .= '_' . $additionalId;
         }
 
         if (($this instanceof C4GDecimalField || $this instanceof C4GNumberField) && $this->getThousandsSep() !== '') {
@@ -320,7 +320,7 @@ abstract class C4GBrickField
             $dlgValues[$fieldName] = $value;
         }
 
-        return $dlgValues[$this->getFieldName()];
+        return $dlgValues[$fieldName];
     }
 
     /**
