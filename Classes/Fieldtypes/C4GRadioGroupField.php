@@ -248,6 +248,7 @@ class C4GRadioGroupField extends C4GBrickField
      */
     public function createFieldData($dlgValues)
     {
+        $fieldName = $this->getFieldName();
         $additionalId = $this->getAdditionalID();
         if (!empty($additionalId)) {
             $fieldName = $fieldName . '_' . $additionalId;
