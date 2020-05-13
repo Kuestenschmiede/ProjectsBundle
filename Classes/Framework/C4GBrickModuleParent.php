@@ -1113,6 +1113,7 @@ class C4GBrickModuleParent extends \Module
         //special event because of calling module function
         if ($values[0] == C4GBrickActionType::ACTION_BUTTONCLICK) {
             $function = strval($values[1]);
+
             $putVars = $this->putVars;
             if (!$putVars || (count($putVars) <= 0)) {
                 $putVars = \Session::getInstance()->get('c4g_brick_dialog_values');
@@ -1121,6 +1122,11 @@ class C4GBrickModuleParent extends \Module
             foreach ($this->fieldList as $field) {
                 $fieldName = $field->getFieldName();
                 $putVars[$fieldName] = $field->validateFieldValue($putVars[$fieldName]);
+            }
+
+            //id lost with button field (ONCLICK_TYPE_SERVER)
+            if ($values[2]) {
+                $putVars['id'] = $values[2];
             }
 
             $result = $this->$function($values, $putVars);

@@ -309,9 +309,15 @@ abstract class C4GBrickField
      */
     public function createFieldData($dlgValues)
     {
+        $fieldName = $this->getFieldName();
+        $additionalId = $this->getAdditionalID();
+        if (!empty($additionalId)) {
+            $fieldName = $fieldName . '_' . $additionalId;
+        }
+
         if (($this instanceof C4GDecimalField || $this instanceof C4GNumberField) && $this->getThousandsSep() !== '') {
-            $value = str_replace($this->getThousandsSep(), '', $dlgValues[$this->getFieldName()]);
-            $dlgValues[$this->getFieldName()] = $value;
+            $value = str_replace($this->getThousandsSep(), '', $dlgValues[$fieldName]);
+            $dlgValues[$fieldName] = $value;
         }
 
         return $dlgValues[$this->getFieldName()];
