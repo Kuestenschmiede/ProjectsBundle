@@ -1050,7 +1050,7 @@ class C4GBrickDialog
             }
 
             foreach ($fieldList as $field) {
-                if ($field instanceof C4GKeyField || !$field->isDatabaseField() || ($id != null && !$field->isEditable())) {
+                if ($field instanceof C4GKeyField || !$field->isDatabaseField() || (($id != null) && ($id != -1) && !$field->isEditable())) {
                     continue;
                 }
                 $fieldName = $field->getFieldName();
