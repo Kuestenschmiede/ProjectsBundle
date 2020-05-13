@@ -60,7 +60,7 @@ class C4GButtonField extends C4GBrickField
             $class = 'c4gGuiAction c4gGuiButton c4g_brick_button c4gGuiSend';
 
             if ($this->getOnClickType() == C4GBrickConst::ONCLICK_TYPE_SERVER) {
-                $dataAction = 'href="#" data-action="' . $button->getAction() . ':' . $function . '" role="button"';
+                $dataAction = 'href="#" data-action="' . $button->getAction() . ':' . $function . ':' . $dialogParams->getId() . '" role="button"';
             } else {
                 $dataAction = 'href="#" onClick="this.submit;' . $function . '"';
             }

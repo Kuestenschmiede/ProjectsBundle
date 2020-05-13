@@ -42,7 +42,11 @@ class C4GSelectField extends C4GBrickField
         $changeAction = '';
 
         if ($this->isCallOnChange()) {
-            $changeAction = 'onchange="C4GCallOnChange(this)"';
+            if ($this->getCallOnChangeFunction()) {
+                $changeAction = 'onchange="' . $this->getCallOnChangeFunction() . '"';
+            } else {
+                $changeAction = 'onchange="C4GCallOnChange(this)"';
+            }
         }
 
 //        if ($this->isInitialCallOnChange()) {
@@ -278,7 +282,12 @@ class C4GSelectField extends C4GBrickField
      */
     public function createFieldData($dlgValues)
     {
-        $fieldData = $dlgValues[$this->getFieldName()];
+        $fieldName = $this->getFieldName();
+        $additionalId = $this->getAdditionalID();
+        if (!empty($additionalId)) {
+            $fieldName = $fieldName . '_' . $additionalId;
+        }
+        $fieldData = $dlgValues[$fieldName];
 
         $conditions = $this->getCondition();
         if (($conditions) && ($this->getConditionType() != C4GBrickConditionType::BOOLSWITCH)) {

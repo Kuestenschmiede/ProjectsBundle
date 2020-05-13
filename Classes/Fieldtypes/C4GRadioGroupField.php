@@ -248,7 +248,11 @@ class C4GRadioGroupField extends C4GBrickField
      */
     public function createFieldData($dlgValues)
     {
-        $fieldData = $dlgValues[$this->getFieldName()];
+        $additionalId = $this->getAdditionalID();
+        if (!empty($additionalId)) {
+            $fieldName = $fieldName . '_' . $additionalId;
+        }
+        $fieldData = $dlgValues[$fieldName];
         $conditions = $this->getCondition();
         if (($conditions) && ($this->getConditionType() != C4GBrickConditionType::BOOLSWITCH)) {
             $found = false;
@@ -261,20 +265,22 @@ class C4GRadioGroupField extends C4GBrickField
                     if ($conditionField && $conditionModel && $conditionFunction) {
                         $conFieldValue = strtotime($dlgValues[$conditionField]);
                         $found = $conditionModel::$conditionFunction($conFieldValue);
+
                         if ($found) {
-                            $additionalId = $this->getAdditionalID();
-                            if (!empty($additionalId)) {
-                                $fieldData = $dlgValues[$this->getFieldName() . '_' . $additionalId];
-                            }
+//???
+//                            $additionalId = $this->getAdditionalID();
+//                            if (!empty($additionalId)) {
+//                                $fieldData = $dlgValues[$this->getFieldName() . '_' . $additionalId];
+//                            }
 
                             break;
                         }
                     }
                 }
             }
-            if (!$found) {
-                return null;
-            }
+//            if (!$found) {
+//                return null;
+//            }
         }
 
         return $fieldData;
