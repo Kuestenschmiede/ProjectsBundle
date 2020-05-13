@@ -968,7 +968,9 @@ class C4GBrickDialog
                     $fieldName = $field->getFieldName();
                     if (/*($viewType == C4GBrickViewType::MEMBERBOOKING) || */(($field->isFormField()) && ($field->isDatabaseField()))) {
                         //Muss davon ausgehen, dass boolean-Werte immer mit false vorbelegt sind. Funktioniert auch nur dann.
-                        if (/*($viewType == C4GBrickViewType::MEMBERBOOKING) || */(($dlgValues[$fieldName] != null) && (trim($dlgValues[$fieldName]) != '') && ($dlgValues[$fieldName] != 'id') && ($dlgValues[$fieldName] != 'false') && (intval($dlgValues[$fieldName]) !== $field->getInitialValue()) && (strval($dlgValues[$fieldName]) !== $field->getInitialValue()) && ($dlgValues[$fieldName] != -1))) {
+                        if (/*($viewType == C4GBrickViewType::MEMBERBOOKING) || */
+                            ($field instanceof C4GMultiCheckboxField) ||
+                            (($dlgValues[$fieldName] != null) || ($field instanceof C4GMultiCheckboxField)) && (trim($dlgValues[$fieldName]) != '') && ($dlgValues[$fieldName] != 'id') && ($dlgValues[$fieldName] != 'false') && (intval($dlgValues[$fieldName]) !== $field->getInitialValue()) && (strval($dlgValues[$fieldName]) !== $field->getInitialValue()) && ($dlgValues[$fieldName] != -1)) {
                             $result[] = new C4GBrickFieldCompare($field, '', $dlgValues[$fieldName]);
                         }
                     }

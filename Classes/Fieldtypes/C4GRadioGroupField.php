@@ -257,6 +257,7 @@ class C4GRadioGroupField extends C4GBrickField
         $conditions = $this->getCondition();
         if (($conditions) && ($this->getConditionType() != C4GBrickConditionType::BOOLSWITCH)) {
             $found = false;
+            //ToDo reservation
             foreach ($conditions as $condition) {
                 if ($condition->getType() == C4GBrickConditionType::METHODSWITCH) {
                     $conditionField = $condition->getFieldName();
@@ -266,23 +267,18 @@ class C4GRadioGroupField extends C4GBrickField
                     if ($conditionField && $conditionModel && $conditionFunction) {
                         $conFieldValue = strtotime($dlgValues[$conditionField]);
                         $found = $conditionModel::$conditionFunction($conFieldValue);
-
                         if ($found) {
-//???
-//                            $additionalId = $this->getAdditionalID();
-//                            if (!empty($additionalId)) {
-//                                $fieldData = $dlgValues[$this->getFieldName() . '_' . $additionalId];
-//                            }
-
                             break;
                         }
                     }
                 }
             }
-//            if (!$found) {
-//                return null;
-//            }
+
+            if (!$found) {
+                return null;
+            }
         }
+
 
         return $fieldData;
     }

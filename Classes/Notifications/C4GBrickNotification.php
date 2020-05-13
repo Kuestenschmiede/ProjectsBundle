@@ -14,6 +14,7 @@ namespace con4gis\ProjectsBundle\Classes\Notifications;
 
 use con4gis\CoreBundle\Classes\C4GUtils;
 use Contao\MemberModel;
+use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GMultiCheckboxField;
 
 class C4GBrickNotification
 {
@@ -42,24 +43,21 @@ class C4GBrickNotification
                     $fieldName = $fieldName . '_' . $additionalId;
                 }
 
-                if ($fieldName == $name || C4GUtils::startsWith($name, $field->getFieldName()) && $field instanceof C4GMultiCheckboxField) {
+                if (($fieldName == $name) || ((strpos($name, $fieldName) !== false) && $field instanceof C4GMultiCheckboxField)) {
                     if (!$field instanceof C4GDateField) {
                         if (!$field instanceof C4GMultiCheckboxField) {
                             $dlgValue = $field->translateFieldValue($dlgValue);
                         } else {
-                            $check = false;
-                            //adding multicheckbox values which are true
                             if ($dlgValue != 'false') {
-                                $check = C4GUtils::startsWith($name, $field->getFieldName() . '|');
-                                if ($check) {
-                                    $pos = strpos($name, '|');
+                                $pos = strpos($name, '|');
+                                if ($pos !== false) {
                                     $dlgValue = substr($name, $pos + 1);
                                     $dlgValue = $field->translateFieldValue($dlgValue);
                                 }
                             }
                         }
                     }
-                    if ($field instanceof C4GMultiCheckboxField && $check) {
+                    if ($field instanceof C4GMultiCheckboxField && (strpos($name, '|') !== false)) {
                         if (!empty($tokensValues[$field->getFieldName()])) {
                             $multiCheckboxString = ' , ' . $dlgValue;
                         } else {

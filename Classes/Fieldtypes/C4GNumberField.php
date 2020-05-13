@@ -39,9 +39,11 @@ class C4GNumberField extends C4GBrickFieldNumeric
         $required = $this->generateRequiredString($data, $dialogParams);
 
         $result = '';
-        $id = 'c4g_' . $this->getFieldName();
+        $fieldName = $this->getFieldName();
+        $id = 'c4g_' . $fieldName;
         if ($this->getAdditionalID()) {
             $id .= '_' . $this->getAdditionalId();
+            $fieldName .= '_' . $this->getAdditionalId();
         }
         //$onChange = '';
 
@@ -71,7 +73,7 @@ class C4GNumberField extends C4GBrickFieldNumeric
                 $this->addC4GField($condition,$dialogParams,$fieldList,$data,
                     '<input ' . $required . ' ' . $condition['conditionPrepare'] . ' type="' . $type . '" ' . $changeAction . ' id="' . $id . '" class="formdata ' . $id . '" size="' .
                     $this->getSize() . '" min="' . $this->getMin() . '" max="' . $this->getMax() . '" step="' . $this->getStep() . '" pattern="' . $this->pattern . '" name="' .
-                    $this->getFieldName() . '" value="' . $value . '">');
+                    $fieldName . '" value="' . $value . '">');
         }
 
         return $result;
