@@ -66,6 +66,7 @@ function C4GDatePicker(id,
             dMax = new Date(maxDate * 1000);
         }
 
+        jQuery.datepicker.setDefaults(jQuery.datepicker.regional[lang || "de"]);
         jQuery("#"+id).datepicker({
             beforeShowDay: function(date){
                 if (weekdays) {
