@@ -55,22 +55,6 @@ class C4GTextField extends C4GBrickFieldText
                     '<input ' . $required . ' ' . $condition['conditionPrepare'] . ' type="text" id="' . $id . '" class="formdata ' . $id . '" size="' . $this->size . '"  maxLength="' . $this->maxLength . '" name="' . $this->getFieldName() . '" value="' . $value . '"' . $placeholder . $aria . '>');
             }
         }
-        if ($this->labelField !== '') {
-            $labelFieldName = $this->labelField;
-            $label = $data->$labelFieldName;
-        } else {
-            $label = '';
-        }
-
-        $label = $label ?: $this->linkLabel ?: $value;
-
-        if ($label !== '') {
-            if ($this->getItemprop() && $data->itemType) {
-                $label = '<span itemprop="' . $this->getItemProp() . "\">$label</span>";
-            } else {
-                $label = "<span>$label</span>";
-            }
-        }
 
         return $result;
     }
