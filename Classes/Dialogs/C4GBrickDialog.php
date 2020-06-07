@@ -975,7 +975,7 @@ class C4GBrickDialog
                         if (/*($viewType == C4GBrickViewType::MEMBERBOOKING) || */
                             ($field instanceof C4GMultiCheckboxField) ||
                             (
-                                ($dlgValues[$fieldName] != null)  && (trim($dlgValues[$fieldName]) != '') &&
+                                ($dlgValues[$fieldName] != null) && (trim($dlgValues[$fieldName]) != '') &&
                                 ($dlgValues[$fieldName] != 'id') && ($dlgValues[$fieldName] != 'false') &&
                                 (intval($dlgValues[$fieldName]) !== $field->getInitialValue()) &&
                                 (strval($dlgValues[$fieldName]) !== $field->getInitialValue()) &&

@@ -542,7 +542,6 @@ abstract class C4GBrickField
                     $conditionfunction .= $condition->getFunction();
                     $conditiontype .= $condition->getType();
                 }
-
             }
 
             if (!$this->isEditable()) {
@@ -2615,5 +2614,4 @@ abstract class C4GBrickField
     {
         $this->rangeField = $rangeField;
     }
-
 }

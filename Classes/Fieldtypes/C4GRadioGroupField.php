@@ -129,7 +129,7 @@ class C4GRadioGroupField extends C4GBrickField
                        '<fieldset' . $addToFieldset . '>' .
                        $option_results .
                        '</fieldset><span class="reset_c4g_brick_radio_group"></span><script>function resetRadioGroup(){ jQuery("input[name=\'_' . $id . '\']").removeAttr(\'checked\');jQuery("#' . $id . '").val(0); };jQuery(document).ready(function(){jQuery("input[name=\'_' . $id . '\']").on("click",function(){jQuery("#' . $id . '").val(jQuery("input[name=\'_' . $id . '\']:checked").val())})});</script>' .
-                       '</div><br>'));
+                       '</div>'));
 
         return $result;
 
@@ -278,7 +278,6 @@ class C4GRadioGroupField extends C4GBrickField
                 return null;
             }
         }
-
 
         return $fieldData;
     }

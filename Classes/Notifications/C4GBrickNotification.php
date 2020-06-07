@@ -12,7 +12,6 @@
  */
 namespace con4gis\ProjectsBundle\Classes\Notifications;
 
-use con4gis\CoreBundle\Classes\C4GUtils;
 use Contao\MemberModel;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GMultiCheckboxField;
 
@@ -93,7 +92,6 @@ class C4GBrickNotification
             $tokensValues = $dlgValues;
         }
 
-
         if ($dlgValues['c4g_member_id']) {
             $tokensValues['c4g_member_id'] = $dlgValues['c4g_member_id'];
         }
@@ -117,7 +115,7 @@ class C4GBrickNotification
                     //Sonderlocke
                     if ($tokensValues['email']) {
                         $tokensValues['user_email'] = $tokensValues['email'];
-                    } else if ($member) {
+                    } elseif ($member) {
                         $tokensValues['user_email'] = $member->email;
                     }
                 }

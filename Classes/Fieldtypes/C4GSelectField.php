@@ -192,7 +192,7 @@ class C4GSelectField extends C4GBrickField
                         if ($this->getRangeField()) {
                             $min = $option['min'];
                             $max = $option['max'];
-                            $options = $options . '<option' . $selected . $optionAttributes . ' min="'.$min.'" max="'.$max.'" value="' . $option_id . '">' . $option_name . '</option>';
+                            $options = $options . '<option' . $selected . $optionAttributes . ' min="' . $min . '" max="' . $max . '" value="' . $option_id . '">' . $option_name . '</option>';
                         } else {
                             $options = $options . '<option' . $selected . $optionAttributes . ' value="' . $option_id . '">' . $option_name . '</option>';
                         }
