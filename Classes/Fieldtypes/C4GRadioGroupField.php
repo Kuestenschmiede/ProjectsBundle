@@ -265,7 +265,7 @@ class C4GRadioGroupField extends C4GBrickField
                     $conditionModel = $condition->getModel();
 
                     if ($conditionField && $conditionModel && $conditionFunction) {
-                        $conFieldValue = strtotime($dlgValues[$conditionField]);
+                        $conFieldValue = $dlgValues[$conditionField];
                         $found = $conditionModel::$conditionFunction($conFieldValue);
                         if ($found) {
                             break;
