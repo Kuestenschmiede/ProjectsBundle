@@ -131,7 +131,7 @@ class C4GDateField extends C4GBrickField
             if (!$this->isIgnoreViewType() && (C4GBrickView::isWithoutEditing($dialogParams->getViewType()) || !$this->isEditable())) {
                 $html .= '<span class="ui-button ui-corner-all c4g_date_field_button"><i class="far fa-calendar-alt"></i></span>';
             } else {
-                $html .= '<span onclick="getElementById(' . $buttonId . ').focus()" class="ui-button ui-corner-all c4g_date_field_button_interactive"><i class="far fa-calendar-alt"></i></span>';
+                $html .= '<span onclick="$(document.getElementById(' . $buttonId . ')) ? $(document.getElementById(' . $buttonId . ')).focus() : false" class="ui-button ui-corner-all c4g_date_field_button_interactive"><i class="far fa-calendar-alt"></i></span>';
             }
             $html .= '</div>';
             $result =
