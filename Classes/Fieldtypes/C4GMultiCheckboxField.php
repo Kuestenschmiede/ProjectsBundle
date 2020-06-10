@@ -145,7 +145,7 @@ class C4GMultiCheckboxField extends C4GBrickField
                         . $spanEnd;
                 }
                 $result .= $description;
-                $result .= '</div><br></div>';
+                $result .= '</div></div>';
             } else {
                 $csv = [];
                 foreach ($options as $option) {
@@ -155,7 +155,7 @@ class C4GMultiCheckboxField extends C4GBrickField
                     $csv[] = $option['name'];
                 }
                 $result .= '<span>' . implode(', ', $csv) . '</span>';
-                $result .= '</div><br></div>';
+                $result .= '</div></div>';
             }
         }
 
