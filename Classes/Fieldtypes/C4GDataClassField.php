@@ -19,6 +19,7 @@ class C4GDataClassField extends C4GBrickField
 {
     protected $classPrefix = '';
     protected $classSuffix = '';
+    protected $splitBy = ', ';
 
     public function __construct()
     {
@@ -60,6 +61,24 @@ class C4GDataClassField extends C4GBrickField
     {
         $this->classSuffix = $classSuffix;
 
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSplitBy(): string
+    {
+        return $this->splitBy;
+    }
+
+    /**
+     * @param string $splitBy
+     * @return C4GDataClassField
+     */
+    public function setSplitBy(string $splitBy): C4GDataClassField
+    {
+        $this->splitBy = $splitBy;
         return $this;
     }
 }

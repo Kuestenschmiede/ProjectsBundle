@@ -787,7 +787,15 @@ class C4GBrickList
                         }
                     } elseif ($field instanceof C4GDataClassField) {
                         if (is_string($row->$fieldName) && $row->$fieldName !== '') {
-                            $class .= ' ' . $field->getClass(str_replace([' ', '/', '.', ',', '-', '&'], '', $row->$fieldName));
+                            $value = strip_tags($row->$fieldName);
+                            if ($field->getSplitBy() !== '') {
+                                $value = explode($field->getSplitBy(), $value);
+                                foreach ($value as $v) {
+                                    $class .= ' ' . $field->getClass(str_replace([' ', '/', '.', ',', '-', '&'], '', $v));
+                                }
+                            } else {
+                                $class .= ' ' . $field->getClass(str_replace([' ', '/', '.', ',', '-', '&'], '', $row->$fieldName));
+                            }
                         } elseif (is_object($row->$fieldName)) {
                             foreach ($row->$fieldName as $entry) {
                                 $class .= ' ' . $field->getClass(str_replace([' ', '/', '.', ',', '-', '&'], '', $entry));
