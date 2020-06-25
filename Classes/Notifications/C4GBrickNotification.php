@@ -12,6 +12,7 @@
  */
 namespace con4gis\ProjectsBundle\Classes\Notifications;
 
+use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GDateField;
 use Contao\MemberModel;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GMultiCheckboxField;
 
