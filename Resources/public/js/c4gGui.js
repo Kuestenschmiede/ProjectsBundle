@@ -1310,10 +1310,21 @@ this.c4g.projects = this.c4g.projects || {};
 
       // show map
       if ((typeof(content.mapdata) !== 'undefined')) {
-        content.mapdata.addIdToDiv = false;
-        window.mapData = window.mapData || {};
-        window.mapData[content.mapdata['id']] = content.mapdata;
-        window.initMap(window.mapData[content.mapdata['id']]);
+        for (let i in content.mapdata) {
+          if (content.mapdata.hasOwnProperty(i)) {
+            content.mapdata[i].mapDiv = content.mapdata[i].div;
+            content.mapdata[i].addIdToDiv = false;
+          }
+        }
+        if (Array.isArray(content.mapdata)) {
+          window.initMaps(content.mapdata);
+        }
+        else {
+          content.mapdata.addIdToDiv = false;
+          window.mapData = window.mapData || {};
+          window.mapData[content.mapdata['id']] = content.mapdata;
+          window.initMap(window.mapData[content.mapdata['id']]);
+        }
       }
 
       if ((typeof(content.cronexec) !== 'undefined') && (content.cronexec != null)) {
