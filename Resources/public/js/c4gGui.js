@@ -247,6 +247,7 @@ this.c4g.projects = this.c4g.projects || {};
         } else {
           ajaxUrl += "&id=0";
         }
+        ajaxUrl += options.contaoLanguage ? "&language=" + options.contaoLanguage : "";
         jQuery.ajax({
           internalId: internalId,
           url: ajaxUrl,
@@ -1310,10 +1311,169 @@ this.c4g.projects = this.c4g.projects || {};
 
       // show map
       if ((typeof(content.mapdata) !== 'undefined')) {
-        content.mapdata.addIdToDiv = false;
-        window.mapData = window.mapData || {};
-        window.mapData[content.mapdata['id']] = content.mapdata;
-        window.initMap(window.mapData[content.mapdata['id']]);
+        for (let i in content.mapdata) {
+          if (content.mapdata.hasOwnProperty(i)) {
+            content.mapdata[i].mapDiv = content.mapdata[i].div;
+            content.mapdata[i].addIdToDiv = false;
+          }
+        }
+        if (Array.isArray(content.mapdata)) {
+          window.initMaps(content.mapdata);
+        }
+        else {
+          content.mapdata.addIdToDiv = false;
+          window.mapData = window.mapData || {};
+          window.mapData[content.mapdata['id']] = content.mapdata;
+          window.initMap(window.mapData[content.mapdata['id']]);
+        }
+        if (content.locations && content.locations.length > 0) {
+          window.c4gMapsHooks = window.c4gMapsHooks || {};
+          window.c4gMapsHooks.hook_layer = [];
+          window.c4gMapsHooks.hook_layer.push(
+              function (data) {
+                var featureCollection = {
+                  features: [],
+                  type: "FeatureCollection",
+                  properties: {}
+                }
+                data.config.countAll++;
+                if (window.location.href.search("search") >= 0) {
+                  for (var i = 0; content.locations && i < content.locations.length; i++) {
+                    if (parseFloat(content.locations[i].geox) && parseFloat(content.locations[i].geoy)) {
+                      var link = window.location.href;
+                      link = link.replace("_search", "_view")
+                      link += content.locations[i].id;
+                      var feature = {
+                        geometry: {
+                          coordinates: [content.locations[i].geox, content.locations[i].geoy],
+                          type: 'Point'
+                        },
+                        type: 'Feature',
+                        properties: {
+                          name: content.locations[i].name,
+                          graphicTitle: "",
+                          projection: "EPSG:4326",
+                          popup: {
+                            async: false,
+                            content: '<div><h1>' + content.locations[i].name + '</h1><p><strong>ID:</strong>' + content.locations[i].id + '</p><p><a href="' + link + '">Details</a></p></div>'
+                          },
+                          tooltip: "" /* Tooltip, der beim Hovern über die Lokation angezeigt werden soll */
+                        }
+                      };
+                      featureCollection.features.push(feature);
+                    }
+                  }
+                  if (featureCollection && featureCollection.features && featureCollection.features.length) {
+                    var findIndex = data.layer.findIndex(function (element) {
+                      return element.id === 9999
+                    });
+                    if (findIndex === -1) {
+                      data.config.countAll++;
+                      data.layer.push({
+                        activeForBaselayers: 'all',
+                        content: [
+                          {
+                            data: featureCollection,
+                            type: "GeoJSON",
+                            id: 9999, /* IDs sollten einmalig sein */
+                            locationStyle: "1" /* Hier solltest Du die ID eines passenden Lokationsstils einfügen. */
+                          }
+                        ],
+                        childs: [
+                          /* Hier kannst du ein Array von passenden Kindern des Layers in der gleichen Struktur einfügen. */
+                        ],
+                        childsCount: 0, /* Zum Array von Kindern passendern Zähler */
+                        display: true, /* Hierüber kannst du festlegen, ob der Layer initial dargestellt werden soll. */
+                        id: 9999, /* IDs sollten einmalig sein */
+                        name: "TestHook",
+                        noFilter: "", /* Layer vom Filter im Starboard ausnehmen. */
+                        noRealFilter: false, /* Layer vom Karten-Filter ausnehmen. */
+                        type: "GeoJSON"
+                      });
+                    }
+                    else {
+                      data.layer[findIndex] = {
+                        activeForBaselayers: 'all',
+                        content: [
+                          {
+                            data: featureCollection,
+                            type: "GeoJSON",
+                            id: 9999, /* IDs sollten einmalig sein */
+                            locationStyle: "1" /* Hier solltest Du die ID eines passenden Lokationsstils einfügen. */
+                          }
+                        ],
+                        childs: [
+                          /* Hier kannst du ein Array von passenden Kindern des Layers in der gleichen Struktur einfügen. */
+                        ],
+                        childsCount: 0, /* Zum Array von Kindern passendern Zähler */
+                        display: true, /* Hierüber kannst du festlegen, ob der Layer initial dargestellt werden soll. */
+                        id: 9999, /* IDs sollten einmalig sein */
+                        name: "TestHook",
+                        noFilter: "", /* Layer vom Filter im Starboard ausnehmen. */
+                        noRealFilter: false, /* Layer vom Karten-Filter ausnehmen. */
+                        type: "GeoJSON"
+                      };
+                    }
+                  }
+                }
+                else {
+                  try{
+                    var selectTr = jQuery("div:nth-child(5) > div.cwc_dTable_wrapper > table > tbody > tr.cwc_dTable_additional > td > div:nth-child(3) > table > tbody > tr");
+                    var featureCollection = {
+                      features: [],
+                      type: "FeatureCollection",
+                      properties: {}
+                    }
+                    for (var i = 0; i < selectTr.length; i++) {
+                      var lat = parseFloat(selectTr[i].cells[1].childNodes[1].data);
+                      var lon = parseFloat(selectTr[i].cells[0].childNodes[1].data);
+                      var feature = {
+                        geometry: {
+                          coordinates: [lon, lat],
+                          type: 'Point'
+                        },
+                        type: 'Feature',
+                        properties: {
+                          graphicTitle: "",
+                          projection: "EPSG:4326",
+                          popup: false,
+                          tooltip: "" /* Tooltip, der beim Hovern über die Lokation angezeigt werden soll */
+                        }
+                      };
+                      featureCollection.features.push(feature);
+                    }
+                  }
+                  catch(error) {
+                    console.log(error);
+                  }
+                  if (lat && lon) {
+
+                    data.layer.push({
+                      activeForBaselayers: 'all',
+                      content: [
+                        {
+                          data: featureCollection,
+                          type: "GeoJSON",
+                          id: 9999, /* IDs sollten einmalig sein */
+                          locationStyle: "1" /* Hier solltest Du die ID eines passenden Lokationsstils einfügen. */
+                        }
+                      ],
+                      childs: [
+                        /* Hier kannst du ein Array von passenden Kindern des Layers in der gleichen Struktur einfügen. */
+                      ],
+                      childsCount: 0, /* Zum Array von Kindern passendern Zähler */
+                      display: true, /* Hierüber kannst du festlegen, ob der Layer initial dargestellt werden soll. */
+                      id: 9999, /* IDs sollten einmalig sein */
+                      name: "TestHook",
+                      noFilter: "", /* Layer vom Filter im Starboard ausnehmen. */
+                      noRealFilter: false, /* Layer vom Karten-Filter ausnehmen. */
+                      type: "GeoJSON"
+                    });
+                  }
+                }
+              }
+          );
+        }
       }
 
       if ((typeof(content.cronexec) !== 'undefined') && (content.cronexec != null)) {
