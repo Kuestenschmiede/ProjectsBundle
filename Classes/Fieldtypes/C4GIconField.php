@@ -18,6 +18,7 @@ use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
 class C4GIconField extends C4GBrickField
 {
     protected $icon = '';
+    protected $iconText = '';
     protected $conditional = false;     //true = the icon is only shown if the field value is '1'
 
     public function __construct()
@@ -30,7 +31,12 @@ class C4GIconField extends C4GBrickField
 
     public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = [])
     {
-        return '<div>' . $this->getC4GListField($data, '') . '</div>';
+        if ($this->iconText) {
+            $text = '<span>'.$this->iconText.'</span>';
+        } else {
+            $text = '';
+        }
+        return '<div class="'.$this->getStyleClass().'">' . $this->getC4GListField($data, '') . $text . '</div>';
     }
 
     /**
@@ -69,6 +75,24 @@ class C4GIconField extends C4GBrickField
     {
         $this->icon = $icon;
 
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getIconText(): string
+    {
+        return $this->iconText;
+    }
+
+    /**
+     * @param string $iconText
+     * @return C4GIconField
+     */
+    public function setIconText(string $iconText): C4GIconField
+    {
+        $this->iconText = $iconText;
         return $this;
     }
 
