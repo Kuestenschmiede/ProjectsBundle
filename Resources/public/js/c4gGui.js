@@ -398,6 +398,241 @@ this.c4g.projects = this.c4g.projects || {};
         }
       };
 
+      var fnAddContent = function (content, appendTo = null) {
+        var contenttype = content.contenttype;
+        var contentoptions = content.contentoptions;
+        var contentdata = content.contentdata;
+        if ((contenttype === 'datatable')
+            && (typeof (contentdata) !== 'undefined')) {
+
+          if (typeof (jQuery.fn.dataTable) === 'undefined') {
+            jQuery(scope.contentDiv).html('<h1>jQuery.dataTable missing</h1>');
+          } else {
+            var tableDiv = jQuery('<table />')
+                .attr('id', 'c4gGuiDataTable:' + content.state)
+                // .attr('id','c4gGuiDataTable'+internalId)
+                .attr('cellpadding', '0')
+                .attr('cellspacing', '0')
+                .attr('border', '0')
+                .attr('class', 'display c4gGuiDataTable')
+                .appendTo(appendTo || scope.contentDiv);
+
+            var actioncol = -1;
+            var selectrow = -1;
+            var tooltipcol = -1;
+            var selectOnHover = false;
+            var clickAction = false;
+            var multiSelect = false;
+
+
+            if (typeof(contentoptions) !== 'undefined') {
+              if (typeof(contentoptions.actioncol) !== 'undefined') {
+                actioncol = contentoptions.actioncol;
+              }
+              if (typeof(contentoptions.selectrow) !== 'undefined') {
+                selectrow = contentoptions.selectrow;
+              }
+              if (typeof(contentoptions.tooltipcol) !== 'undefined') {
+                tooltipcol = contentoptions.tooltipcol;
+              }
+              if (typeof(contentoptions.selectOnHover) !== 'undefined') {
+                selectOnHover = contentoptions.selectOnHover;
+              }
+              if (typeof(contentoptions.clickAction) !== 'undefined') {
+                clickAction = contentoptions.clickAction;
+              }
+              if (typeof(contentoptions.multiSelect) !== 'undefined') {
+                multiSelect = contentoptions.multiSelect;
+              }
+            }
+            contentdata = jQuery.extend({
+              "fnRowCallback": function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
+                if (actioncol !== -1) {
+                  jQuery(nRow).attr('data-action', aData[actioncol]);
+                }
+                if (selectrow !== -1) {
+                  if (iDisplayIndex === selectrow) {
+                    jQuery(nRow).addClass('selected');
+                    jQuery(".dataTables_scrollBody").scrollTo(nRow);
+                  }
+                }
+                if ((tooltipcol !== -1) && (typeof(jQuery.fn.tooltip) === 'function')) {
+                  if (aData[tooltipcol]) {
+                    jQuery(nRow).attr('data-tooltip', aData[tooltipcol]);
+                    jQuery(nRow).tooltip({
+                          bodyHandler: function () {
+                            return jQuery(nRow).attr('data-tooltip');
+                          },
+                          extraClass: "c4gGuiTooltipComponent c4gGuiTooltipInTable"
+                        }
+                    );
+                  }
+                }
+                return nRow;
+              },
+              //"lengthMenu": [ [25, 50, "-1"], [25, 50, "All"] ],
+              "footerCallback": function (row, data, start, end, display) {
+                var api = this.api();
+                if (jQuery('.c4g_sumfoot').length > 0) {
+                  jQuery('.c4g_sumfoot').remove();
+                }
+
+                if (jQuery('.c4g_sum').length > 0) {
+                  jQuery(this).append('<tfoot class="c4g_sumfoot"><tr role="row" class="c4g_sumrow ui-state-highlight"></tr></tfoot>');
+                  api.columns('.c4g_brick_col', {page: 'current'}).every(function () {
+                    if (jQuery(this.header()).css("display") !== "none") {
+                      if (this.header().className.indexOf('c4g_sum')) {
+                        var sum = api
+                            .cells(null, this.index())
+                            .data()
+                            .reduce(function (a, b) {
+                              a += "";
+                              b += "";
+                              var x = a.replace(",", ".");
+                              x = parseFloat(x) || 0;
+                              var y = b.replace(",", ".");
+                              y = parseFloat(y) || 0;
+                              return x + y;
+                            }, 0);
+
+                        if (sum) {
+                          // TODO Internationalize this
+                          // TODO make this configurable ?
+                          sum = parseFloat(sum).toFixed(2).toLocaleString();
+                          sum = sum.replace(".", ",");
+                        }
+                      }
+
+                      if (sum && this.header().className && (this.header().className.indexOf('c4g_sum') !== -1)) {
+                        jQuery('.c4g_sumrow').append('<th class="c4g_list_align_right" style="width:100%;">' + sum + '</th>');
+                      } else {
+                        jQuery('.c4g_sumrow').append('<th class="c4g_list_align_right" style="width:100%;"></th>');
+                      }
+                    }
+                  });
+                }
+              },
+              "fnDrawCallback": function () {
+                jQuery(tableDiv).find('tr')
+                    .unbind('hover')
+                    .unbind('click')
+                    .hover(function () {
+                      if (selectOnHover) {
+                        jQuery(this).addClass('row_selected');
+                      }
+                      if (clickAction || multiSelect) {
+                        jQuery(this).addClass('cursor_pointer');
+                      }
+                    }, function () {
+                      if (selectOnHover) {
+                        jQuery(this).removeClass('row_selected');
+                      }
+                      if (clickAction || multiSelect) {
+                        jQuery(this).removeClass('cursor_pointer');
+                      }
+                    })
+                    .click(function () {
+                      if (multiSelect) {
+                        jQuery(this).toggleClass('row_selected');
+                      }
+                      if ((clickAction) && (typeof(jQuery(this).attr('data-action')) !== 'undefined')) {
+                        fnExecAjaxGet(options.ajaxData + '/' + jQuery(this).attr('data-action'));
+                        return false;
+                      }
+                    });
+              }
+            }, contentdata);
+            oDataTable = jQuery(tableDiv).DataTable(contentdata);
+            // scope.dataTableApi = oDataTable.api();
+            scope.fnDataTableColumnVis(oDataTable);
+          }
+
+        }
+
+        if (contenttype === 'html') {
+          var aClass = 'c4gGuiHtml';
+          if (typeof(contentoptions) !== 'undefined') {
+            if (contentoptions.scrollable) {
+              aClass = aClass + ' c4gGuiScrollable';
+            }
+          }
+          var aHtmlDiv = jQuery('<div />')
+              .attr('id', 'c4gGuiHtml' + internalId)
+              .attr('class', aClass)
+              .appendTo(scope.contentDiv)
+              .html(contentdata);
+
+          aHtmlDiv
+              .find('.c4gGuiAction')
+              .hover(function () {
+                if (jQuery(this).attr('data-hoverclass') !== 'undefined') {
+                  if (jQuery(this).attr('data-hoverclass')) {
+                    jQuery(this).addClass(jQuery(this).attr('data-hoverclass'));
+                  }
+                }
+              }, function () {
+                if (jQuery(this).attr('data-hoverclass') !== 'undefined') {
+                  if (jQuery(this).attr('data-hoverclass')) {
+                    jQuery(this).removeClass(jQuery(this).attr('data-hoverclass'));
+                  }
+                }
+
+              })
+              .click(function () {
+                if (typeof(jQuery(this).attr('data-href')) !== 'undefined') {
+                  if (jQuery(this).attr('data-href_newwindow')) {
+                    fnJumpToLink(jQuery(this).attr('data-href'), true);
+                  }
+                  else {
+                    fnJumpToLink(jQuery(this).attr('data-href'));
+                  }
+                  return false;
+                }
+
+                if ((typeof ckeditor5instances !== 'undefined') && (ckeditor5instances)) {
+                  let i = Object.keys(ckeditor5instances).length;
+                  while (i > 0) {
+                    i -= 1;
+                    ckeditor5instances[i].updateSourceElement();
+                  }
+                }
+
+                if (jQuery(this).hasClass('c4gGuiSend')) {
+                  var formdata = {};
+                  jQuery(scope.contentDiv).find('.formdata').each(function (index, element) {
+                    if (jQuery(element).attr('type') === 'checkbox') {
+                      // formdata[jQuery(element).attr('name')] = (jQuery(element).attr('checked') == 'checked');
+                      formdata[jQuery(element).attr('name')] = jQuery(element).is(':checked');
+                    } else {
+                      formdata[jQuery(element).attr('name')] = jQuery(element).val();
+                    }
+                  });
+
+                  if (typeof(jQuery(this).attr('data-action')) !== 'undefined') {
+                    fnExecAjaxPut(
+                        options.ajaxUrl + '/' + options.ajaxData + '/' + jQuery(this).attr('data-action'),
+                        formdata);
+                  }
+                  return false;
+                }
+                else if (typeof(jQuery(this).attr('data-action')) !== 'undefined') {
+                  fnExecAjaxGet(options.ajaxData + '/' + jQuery(this).attr('data-action'));
+                  return false;
+                }
+
+              });
+
+          fnAddButton(aHtmlDiv);
+          fnAddTooltip(aHtmlDiv);
+          fnAddAccordion(aHtmlDiv);
+          fnMakeCollapsible(aHtmlDiv);
+        }
+
+        //ToDo test
+        window.scrollTo(0, 0);
+
+      };  // function fnAddContent
+
       var fnDialogClose = function (element) {
         if (options.embedDialogs) {
           jQuery(element).hide();
@@ -657,240 +892,6 @@ this.c4g.projects = this.c4g.projects || {};
         }
 
 
-        var fnAddContent = function (content) {
-          var contenttype = content.contenttype;
-          var contentoptions = content.contentoptions;
-          var contentdata = content.contentdata;
-          if ((contenttype === 'datatable')
-            && (typeof (contentdata) !== 'undefined')) {
-
-            if (typeof (jQuery.fn.dataTable) === 'undefined') {
-              jQuery(scope.contentDiv).html('<h1>jQuery.dataTable missing</h1>');
-            } else {
-              var tableDiv = jQuery('<table />')
-                .attr('id', 'c4gGuiDataTable:' + content.state)
-                // .attr('id','c4gGuiDataTable'+internalId)
-                .attr('cellpadding', '0')
-                .attr('cellspacing', '0')
-                .attr('border', '0')
-                .attr('class', 'display c4gGuiDataTable')
-                .appendTo(scope.contentDiv);
-
-              var actioncol = -1;
-              var selectrow = -1;
-              var tooltipcol = -1;
-              var selectOnHover = false;
-              var clickAction = false;
-              var multiSelect = false;
-
-
-              if (typeof(contentoptions) !== 'undefined') {
-                if (typeof(contentoptions.actioncol) !== 'undefined') {
-                  actioncol = contentoptions.actioncol;
-                }
-                if (typeof(contentoptions.selectrow) !== 'undefined') {
-                  selectrow = contentoptions.selectrow;
-                }
-                if (typeof(contentoptions.tooltipcol) !== 'undefined') {
-                  tooltipcol = contentoptions.tooltipcol;
-                }
-                if (typeof(contentoptions.selectOnHover) !== 'undefined') {
-                  selectOnHover = contentoptions.selectOnHover;
-                }
-                if (typeof(contentoptions.clickAction) !== 'undefined') {
-                  clickAction = contentoptions.clickAction;
-                }
-                if (typeof(contentoptions.multiSelect) !== 'undefined') {
-                  multiSelect = contentoptions.multiSelect;
-                }
-              }
-              contentdata = jQuery.extend({
-                "fnRowCallback": function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
-                  if (actioncol !== -1) {
-                    jQuery(nRow).attr('data-action', aData[actioncol]);
-                  }
-                  if (selectrow !== -1) {
-                    if (iDisplayIndex === selectrow) {
-                      jQuery(nRow).addClass('selected');
-                      jQuery(".dataTables_scrollBody").scrollTo(nRow);
-                    }
-                  }
-                  if ((tooltipcol !== -1) && (typeof(jQuery.fn.tooltip) === 'function')) {
-                    if (aData[tooltipcol]) {
-                      jQuery(nRow).attr('data-tooltip', aData[tooltipcol]);
-                      jQuery(nRow).tooltip({
-                          bodyHandler: function () {
-                            return jQuery(nRow).attr('data-tooltip');
-                          },
-                          extraClass: "c4gGuiTooltipComponent c4gGuiTooltipInTable"
-                        }
-                      );
-                    }
-                  }
-                  return nRow;
-                },
-                //"lengthMenu": [ [25, 50, "-1"], [25, 50, "All"] ],
-                "footerCallback": function (row, data, start, end, display) {
-                  var api = this.api();
-                  if (jQuery('.c4g_sumfoot').length > 0) {
-                    jQuery('.c4g_sumfoot').remove();
-                  }
-
-                  if (jQuery('.c4g_sum').length > 0) {
-                    jQuery(this).append('<tfoot class="c4g_sumfoot"><tr role="row" class="c4g_sumrow ui-state-highlight"></tr></tfoot>');
-                    api.columns('.c4g_brick_col', {page: 'current'}).every(function () {
-                      if (jQuery(this.header()).css("display") !== "none") {
-                        if (this.header().className.indexOf('c4g_sum')) {
-                          var sum = api
-                            .cells(null, this.index())
-                            .data()
-                            .reduce(function (a, b) {
-                              a += "";
-                              b += "";
-                              var x = a.replace(",", ".");
-                              x = parseFloat(x) || 0;
-                              var y = b.replace(",", ".");
-                              y = parseFloat(y) || 0;
-                              return x + y;
-                            }, 0);
-
-                          if (sum) {
-                            // TODO Internationalize this
-                            // TODO make this configurable ?
-                            sum = parseFloat(sum).toFixed(2).toLocaleString();
-                            sum = sum.replace(".", ",");
-                          }
-                        }
-
-                        if (sum && this.header().className && (this.header().className.indexOf('c4g_sum') !== -1)) {
-                          jQuery('.c4g_sumrow').append('<th class="c4g_list_align_right" style="width:100%;">' + sum + '</th>');
-                        } else {
-                          jQuery('.c4g_sumrow').append('<th class="c4g_list_align_right" style="width:100%;"></th>');
-                        }
-                      }
-                    });
-                  }
-                },
-                "fnDrawCallback": function () {
-                  jQuery(tableDiv).find('tr')
-                    .unbind('hover')
-                    .unbind('click')
-                    .hover(function () {
-                      if (selectOnHover) {
-                        jQuery(this).addClass('row_selected');
-                      }
-                      if (clickAction || multiSelect) {
-                        jQuery(this).addClass('cursor_pointer');
-                      }
-                    }, function () {
-                      if (selectOnHover) {
-                        jQuery(this).removeClass('row_selected');
-                      }
-                      if (clickAction || multiSelect) {
-                        jQuery(this).removeClass('cursor_pointer');
-                      }
-                    })
-                    .click(function () {
-                      if (multiSelect) {
-                        jQuery(this).toggleClass('row_selected');
-                      }
-                      if ((clickAction) && (typeof(jQuery(this).attr('data-action')) !== 'undefined')) {
-                        fnExecAjaxGet(options.ajaxData + '/' + jQuery(this).attr('data-action'));
-                        return false;
-                      }
-                    });
-                }
-              }, contentdata);
-              oDataTable = jQuery(tableDiv).DataTable(contentdata);
-              // scope.dataTableApi = oDataTable.api();
-              scope.fnDataTableColumnVis(oDataTable);
-            }
-
-          }
-
-          if (contenttype === 'html') {
-            var aClass = 'c4gGuiHtml';
-            if (typeof(contentoptions) !== 'undefined') {
-              if (contentoptions.scrollable) {
-                aClass = aClass + ' c4gGuiScrollable';
-              }
-            }
-            var aHtmlDiv = jQuery('<div />')
-              .attr('id', 'c4gGuiHtml' + internalId)
-              .attr('class', aClass)
-              .appendTo(scope.contentDiv)
-              .html(contentdata);
-
-            aHtmlDiv
-              .find('.c4gGuiAction')
-              .hover(function () {
-                if (jQuery(this).attr('data-hoverclass') !== 'undefined') {
-                  if (jQuery(this).attr('data-hoverclass')) {
-                    jQuery(this).addClass(jQuery(this).attr('data-hoverclass'));
-                  }
-                }
-              }, function () {
-                if (jQuery(this).attr('data-hoverclass') !== 'undefined') {
-                  if (jQuery(this).attr('data-hoverclass')) {
-                    jQuery(this).removeClass(jQuery(this).attr('data-hoverclass'));
-                  }
-                }
-
-              })
-              .click(function () {
-                if (typeof(jQuery(this).attr('data-href')) !== 'undefined') {
-                  if (jQuery(this).attr('data-href_newwindow')) {
-                    fnJumpToLink(jQuery(this).attr('data-href'), true);
-                  }
-                  else {
-                    fnJumpToLink(jQuery(this).attr('data-href'));
-                  }
-                  return false;
-                }
-
-                if ((typeof ckeditor5instances !== 'undefined') && (ckeditor5instances)) {
-                  let i = Object.keys(ckeditor5instances).length;
-                  while (i > 0) {
-                    i -= 1;
-                    ckeditor5instances[i].updateSourceElement();
-                  }
-                }
-
-                if (jQuery(this).hasClass('c4gGuiSend')) {
-                  var formdata = {};
-                  jQuery(scope.contentDiv).find('.formdata').each(function (index, element) {
-                    if (jQuery(element).attr('type') === 'checkbox') {
-                      // formdata[jQuery(element).attr('name')] = (jQuery(element).attr('checked') == 'checked');
-                      formdata[jQuery(element).attr('name')] = jQuery(element).is(':checked');
-                    } else {
-                      formdata[jQuery(element).attr('name')] = jQuery(element).val();
-                    }
-                  });
-
-                  if (typeof(jQuery(this).attr('data-action')) !== 'undefined') {
-                    fnExecAjaxPut(
-                      options.ajaxUrl + '/' + options.ajaxData + '/' + jQuery(this).attr('data-action'),
-                      formdata);
-                  }
-                  return false;
-                }
-                else if (typeof(jQuery(this).attr('data-action')) !== 'undefined') {
-                  fnExecAjaxGet(options.ajaxData + '/' + jQuery(this).attr('data-action'));
-                  return false;
-                }
-
-              });
-
-            fnAddButton(aHtmlDiv);
-            fnAddTooltip(aHtmlDiv);
-            fnAddAccordion(aHtmlDiv);
-            fnMakeCollapsible(aHtmlDiv);
-          }
-
-          //ToDo test
-          window.scrollTo(0, 0);
-
-        };  // function fnAddContent
 
         // call function to add the contents
         if (jQuery.isArray(content.contents)) {
@@ -1174,7 +1175,9 @@ this.c4g.projects = this.c4g.projects || {};
               });
 
           }
-
+          if(typeof(content.dialogdata) === 'object') {
+            fnAddContent(content.dialogdata, tmpDialogDiv);
+          }
           jQuery(tmpDialogDiv)
             .attr('data-state', currentState);
 
