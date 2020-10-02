@@ -79,6 +79,7 @@ class C4GDataClassField extends C4GBrickField
     public function setSplitBy(string $splitBy): C4GDataClassField
     {
         $this->splitBy = $splitBy;
+
         return $this;
     }
 }

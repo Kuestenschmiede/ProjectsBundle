@@ -217,7 +217,7 @@ abstract class C4GBrickField
         }
 
         if ($this->initInvisible) {
-            $display = 'style="display: none"';
+            $display = ' style="display: none"';
         }
 
         return '<div id="c4g_condition" '
@@ -500,7 +500,7 @@ abstract class C4GBrickField
             $result = '<p class="c4g_field_description" ' . $condition['conditionPrepare'] . '>' . $description . C4GHTMLFactory::lineBreak() . C4GHTMLFactory::lineBreak() . '</p>';
         } elseif (!$withoutLineBreak) {
             $result = '<p ' . $condition['conditionPrepare'] . '>' . '</p>';
-        } else {
+        } else /*if ($description && ($description != ''))*/ {
             $result = '<div class="c4g_field_descripton_hole"></div>';
         }
 
@@ -523,7 +523,7 @@ abstract class C4GBrickField
             $conditionResult = $this->checkCondition($fieldList, $data, $conditions);
 
             if (!$conditionResult) {
-                $conditionPrepare = 'style="display: none;"';
+                $conditionPrepare = ' style="display: none;"';
             }
 
             foreach ($conditions as $condition) {
@@ -550,7 +550,7 @@ abstract class C4GBrickField
                 $conditiondisable = 'false';
             }
         } elseif ($this->isRemoveWithEmptyCondition()) {
-            $conditionPrepare = 'style="display: none;"';
+            $conditionPrepare = ' style="display: none;"';
         }
 
         return [
