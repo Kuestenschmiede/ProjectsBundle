@@ -96,7 +96,14 @@ class C4GRadioGroupField extends C4GBrickField
                 //$addToWrapper = '';
             }
             $type_caption = $option['name'];
-            $object_id = $option['object'];
+
+            if ($option['objects'] && count($option['objects']) > 0) {
+                $cnt = 0;
+                foreach ($option['objects'] as $key=>$object) {
+                       $object_id = ($cnt == 0) ? $option['objects'][$key]['id'] : $object_id.'-'.$option['objects'][$key]['id'];
+                       $cnt++;
+                }
+            }
             $optionAttributes = $option['attributes'] ? ' ' . $option['attributes'] . ' ': '';
             if ($this->turnButton) {
                 if ($object_id && $object_id != -1) {
