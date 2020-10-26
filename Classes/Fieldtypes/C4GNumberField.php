@@ -140,4 +140,38 @@ class C4GNumberField extends C4GBrickFieldNumeric
 
         return $this;
     }
+
+    public function checkMandatory($dlgValues)
+    {
+        if (!$this->isMandatory()) {
+            return false;
+        } elseif (!$this->isDisplay()) {
+            return false;
+        } elseif ($this->getCondition()) {
+            foreach ($this->getCondition() as $con) {
+                if (empty($con)) {
+                    continue;
+                }
+                $fieldName = $con->getFieldName();
+                if (!$con->checkAgainstCondition($dlgValues[$fieldName])) {
+                    return false;
+                }
+            }
+        }
+        $fieldName = $this->getFieldName();
+        $additionalId = $this->getAdditionalID();
+        if (!empty($additionalId)) {
+            $fieldName .= '_' . $additionalId;
+        }
+
+        $fieldData = $dlgValues[$fieldName];
+        if (is_string($dlgValues[$fieldName])) {
+            $fieldData = trim($fieldData);
+        }
+        if ($fieldData !== null && (($fieldData == '') || (intval($fieldData) < $this->getMin()) || (intval($fieldData) > $this->getMax()))) {
+            return $this;
+        }
+
+        return false;
+    }
 }
