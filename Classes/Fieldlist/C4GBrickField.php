@@ -763,6 +763,12 @@ abstract class C4GBrickField
             }
         }
         $fieldName = $this->fieldName;
+
+        $additionalId = $this->getAdditionalID();
+        if (!empty($additionalId)) {
+            $fieldName .= '_' . $additionalId;
+        }
+
         $fieldData = $dlgValues[$fieldName];
         if (is_string($dlgValues[$fieldName])) {
             $fieldData = trim($fieldData);
@@ -1471,7 +1477,8 @@ abstract class C4GBrickField
                 foreach ($options as $option) {
                     $idList[] = [
                         'id' => $option->id,
-                        'name' => $option->$captionField, ];
+                        'name' => $option->$captionField
+                    ];
                 }
                 $result = $idList;
             }
