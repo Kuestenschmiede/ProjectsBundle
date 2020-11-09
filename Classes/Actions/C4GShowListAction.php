@@ -16,6 +16,7 @@ use con4gis\CoreBundle\Classes\C4GHTMLFactory;
 use con4gis\CoreBundle\Classes\C4GVersionProvider;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickCommon;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickConst;
+use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldText;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GKeyField;
 use con4gis\ProjectsBundle\Classes\Filter\C4GBrickFilterParams;
 use con4gis\ProjectsBundle\Classes\Lists\C4GBrickList;
@@ -292,7 +293,6 @@ class C4GShowListAction extends C4GBrickDialogAction
                     if ($modelListFunction) {
                         $function = $modelListFunction;
                         $database = $brickDatabase->getParams()->getDatabase();
-                        //ToDo Umbau brickDatabase
                         $model = $modelClass;
                         $elements = $model::$function($memberId, $tableName, $database, $fieldList, $listParams);
                         if ($elements->headline) {
@@ -433,6 +433,29 @@ class C4GShowListAction extends C4GBrickDialogAction
         // call formatter if set
         if ($viewFormatFunction && $modelClass) {
             $elements = $modelClass::$viewFormatFunction($elements);
+        }
+
+        foreach ($fieldList as $field) {
+            if ($field instanceof C4GBrickFieldText && $field->isTableColumn() && $field->isTableAutoCut()) {
+                $fieldName = $field->getFieldName();
+                if ($elements != null) {
+                    foreach ($elements as $element) {
+                        if ($element instanceof \stdClass) {
+                            $width = $field->getColumnWidth();
+                            if ($width > 0 && (strlen($element->$fieldName) > $width)) {
+                                $element->$fieldName = $field->cutFieldValue($element->$fieldName, $width);
+                            }
+                        } else {
+                            $e = $element->row();
+                            $width = $field->getColumnWidth();
+                            if ($width > 0 && (strlen($e[$fieldName]) > $width)) {
+                                $e[$fieldName] = $field->cutFieldValue($e[$fieldName], $width);
+                                $element->setRow($e);
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         if (!$elements) {

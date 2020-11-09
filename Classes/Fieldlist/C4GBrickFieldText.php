@@ -27,6 +27,7 @@ abstract class C4GBrickFieldText extends C4GBrickField
     protected $replaceInsertTag = false;
     protected $encodeHtmlEntities = true;
     protected $placeholder = '';
+    protected $tableAutoCut = false;
 
     /**
      * Will be called by if the field value is longer than $maxChars. Return a value that will replace it.
@@ -173,6 +174,24 @@ abstract class C4GBrickFieldText extends C4GBrickField
     {
         $this->placeholder = $placeholder;
 
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isTableAutoCut(): bool
+    {
+        return $this->tableAutoCut;
+    }
+
+    /**
+     * @param bool $tableAutoCut
+     * @return C4GBrickFieldText
+     */
+    public function setTableAutoCut(bool $tableAutoCut = true): C4GBrickFieldText
+    {
+        $this->tableAutoCut = $tableAutoCut;
         return $this;
     }
 }
