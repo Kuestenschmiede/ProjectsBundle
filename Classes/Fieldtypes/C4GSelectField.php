@@ -49,12 +49,6 @@ class C4GSelectField extends C4GBrickField
             }
         }
 
-//        if ($this->isInitialCallOnChange()) {
-//            $onLoadScript = $dialogParams->getOnloadScript();
-//            $onLoadScript .= ' document.getElementById("c4g_'.$this->getFieldname.'").onchange();';
-//            $dialogParams->setOnloadScript(trim($onLoadScript));
-//        }
-
         $result = '';
 
         if ($this->isShowIfEmpty() || !empty($value)) {
@@ -66,9 +60,8 @@ class C4GSelectField extends C4GBrickField
                 if (strpos($required, 'disabled')) {
                     $class = $class . ' chzn-select-disabled';
                 } else {
-                    $class = $class . ' chzn-select'; // class 'chzn-select' triggers javascript to make the select list a filterable combobox
+                    $class = $class . ' chzn-select';
                 }
-                // render the chosen field more nicely
                 $onLoadScript = $dialogParams->getOnloadScript();
                 $onLoadScript .= ' resizeChosen("c4g_' . $id . '_chosen");';
                 $dialogParams->setOnloadScript($onLoadScript);
