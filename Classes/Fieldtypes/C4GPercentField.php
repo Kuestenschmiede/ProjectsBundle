@@ -172,19 +172,6 @@ class C4GPercentField extends C4GBrickFieldNumeric
     }
 
     /**
-     * Method that will be called in the saveC4GDialog() in C4GBrickDialog
-     * @return array
-     */
-    public function createFieldData($dlgValues)
-    {
-        $value = str_replace($this->getThousandsSep(), '', $dlgValues[$this->getFieldName()]);
-        $value = floatval($value);
-        $dlgValues[$this->getFieldName()] = $value;
-
-        return $dlgValues[$this->getFieldName()];
-    }
-
-    /**
      * @return mixed
      */
     public function getPercentGroup()

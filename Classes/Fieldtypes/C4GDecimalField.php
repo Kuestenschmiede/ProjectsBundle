@@ -156,23 +156,6 @@ class C4GDecimalField extends C4GBrickFieldNumeric
     }
 
     /**
-     * Method that will be called in the saveC4GDialog() in C4GBrickDialog
-     * @return array
-     */
-    public function createFieldData($dlgValues)
-    {
-        $value = str_replace($this->getThousandsSep(), '', $dlgValues[$this->getFieldName()]);
-        if ($this->getDecimalPoint() === ',') {
-            // floatval expects the argument to use a dot as decimal seperator
-            $value = str_replace($this->getDecimalPoint(), '.', $value);
-        }
-        $value = floatval($value);
-        $dlgValues[$this->getFieldName()] = $value;
-
-        return $dlgValues[$this->getFieldName()];
-    }
-
-    /**
      * @return string
      */
     public function getThousandsSep()

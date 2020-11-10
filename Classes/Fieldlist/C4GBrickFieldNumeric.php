@@ -12,6 +12,7 @@
  */
 namespace con4gis\ProjectsBundle\Classes\Fieldlist;
 
+
 abstract class C4GBrickFieldNumeric extends C4GBrickField
 {
     /**
@@ -40,6 +41,36 @@ abstract class C4GBrickFieldNumeric extends C4GBrickField
     public function __construct()
     {
         $this->setAlign('right');
+    }
+
+    public function createFieldData($dlgValues)
+    {
+        $fieldName = $this->getFieldName();
+        $additionalId = $this->getAdditionalID();
+        if (!empty($additionalId)) {
+            $fieldName .= '_' . $additionalId;
+        }
+        $value = $dlgValues[$fieldName];
+
+        if ($this->getThousandsSep() !== '') {
+            $value = str_replace($this->getThousandsSep(), '', $dlgValues[$fieldName]);
+        }
+
+        if ($this->getDecimalPoint() === ',') {
+            $value = str_replace($this->getDecimalPoint(), '.', $value);
+            $value = (float) $value;
+        } else {
+            $value = (int) $value;
+        }
+
+        if ($value > $this->max) {
+            $value = $this->max;
+        } elseif ($value < $this->min) {
+            $value = $this->min;
+        }
+
+        $dlgValues[$fieldName] = $value;
+        return $dlgValues[$fieldName];
     }
 
     /**
