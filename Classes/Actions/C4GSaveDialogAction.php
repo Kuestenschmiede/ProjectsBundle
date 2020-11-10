@@ -45,7 +45,6 @@ class C4GSaveDialogAction extends C4GBrickDialogAction
         $notification_type = $dialogParams->getNotificationType();
         $brickKey = $dialogParams->getBrickKey();
         $brickCaption = $dialogParams->getBrickCaption();
-        $captionField = $dialogParams->getCaptionField();
         $sendEMails = $dialogParams->getSendEMails();
         $withBackup = $dialogParams->isWithBackup();
         $isPopup = $dialogParams->isPopup();
