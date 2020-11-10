@@ -59,6 +59,8 @@ abstract class C4GBrickFieldNumeric extends C4GBrickField
         if ($this->getDecimalPoint() === ',') {
             $value = str_replace($this->getDecimalPoint(), '.', $value);
             $value = (float) $value;
+        } elseif ($this->getDecimalPoint() === '.') {
+            $value = (float) $value;
         } else {
             $value = (int) $value;
         }
