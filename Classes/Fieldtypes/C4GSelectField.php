@@ -307,7 +307,7 @@ class C4GSelectField extends C4GBrickField
             }
         }
         if ($fieldData == '-1') {
-            $fieldData = '';
+            $fieldData = '0';
         }
 
         return $fieldData;
