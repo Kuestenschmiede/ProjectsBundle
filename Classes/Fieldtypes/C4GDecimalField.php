@@ -22,6 +22,7 @@ class C4GDecimalField extends C4GBrickFieldNumeric
 {
     protected $decimals = 2;
     protected $allowNegative = false;
+    protected $decimal_point = ',';
 
     public function __construct()
     {

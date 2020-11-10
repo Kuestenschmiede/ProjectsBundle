@@ -31,7 +31,7 @@ abstract class C4GBrickFieldNumeric extends C4GBrickField
     protected $min = 0;
     protected $step = 1;
     protected $thousands_sep = '';
-    protected $decimal_point = ',';
+    protected $decimal_point = '';
     protected $decimals = 0;
     protected $pattern = '';
 
