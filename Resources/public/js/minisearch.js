@@ -1,6 +1,6 @@
 const minisearch = {};
 
-function initSearch() {
+function initSearch(includeSubordinateData) {
     let lists = document.getElementsByClassName('c4g_brick_list');
     minisearch.documents = [];
     minisearch.minisearch = new MiniSearch({fields: ['text']});
@@ -14,8 +14,8 @@ function initSearch() {
         let c = 0;
         let text = '';
         while (c < columns.length) {
-            if (columns.item(c).tagName === 'LI') {
-                text += columns.item(c).innerText.split(/(?=[A-Z])/).join(' ') + ', ';
+            if (columns.item(c).tagName === 'LI' && (includeSubordinateData || !(columns.item(c).classList.contains('searchInfoSubordinate')))) {
+                text += columns.item(c).textContent.split(/(?=[A-Z])/).join(' ') + ', ';
                 text += getTitles(columns.item(c));
             }
             c += 1;
@@ -29,10 +29,12 @@ function initSearch() {
 function search(input, event) {
     let result;
     if (input.value.length > 2) {
-        if (typeof minisearch.documents === 'undefined' || document.getElementsByClassName('c4g_brick_list').length > 1) {
-            initSearch();
-        }
+        initSearch(false);
         result = minisearch.minisearch.search(input.value, {'prefix': true, 'combineWith': 'AND'});
+        if (result.length === 0) {
+            initSearch(true);
+            result = minisearch.minisearch.search(input.value, {'prefix': true, 'combineWith': 'AND'});
+        }
     }
     let rows = document.getElementsByClassName('c4g_brick_list_row');
     let r = 0;
