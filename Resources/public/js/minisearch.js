@@ -40,6 +40,17 @@ function search(input, event) {
     let r = 0;
 
     if (typeof result !== 'undefined') {
+        if (result.length === 0) {
+            try {
+                let notice = document.getElementsByClassName('c4g_brick_list_minisearch_no_results_note')[0];
+                notice.style.display = 'block';
+            } catch (e) {}
+        } else {
+            try {
+                let notice = document.getElementsByClassName('c4g_brick_list_minisearch_no_results_note')[0];
+                notice.style.display = 'none';
+            } catch (e) {}
+        }
         while (r < rows.length) {
             rows.item(r).parentNode.classList.add('c4g_list_search_hide');
             r += 1;
@@ -56,6 +67,10 @@ function search(input, event) {
             rows.item(r).parentNode.classList.remove('c4g_list_search_hide');
             r += 1;
         }
+        try {
+            let notice = document.getElementsByClassName('c4g_brick_list_minisearch_no_results_note')[0];
+            notice.style.display = 'none';
+        } catch (e) {}
     }
 }
 

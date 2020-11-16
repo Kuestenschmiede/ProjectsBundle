@@ -63,6 +63,7 @@ class C4GBrickListParams
     private $showFullTextSearchInHeadline = false; // redundant in table view
     private $filterButtons = [];
     private $showItemType = false;
+    private $miniSearchNotice = '';
 
     /**
      * C4GBrickListParams constructor.
@@ -883,6 +884,24 @@ class C4GBrickListParams
     {
         $this->showItemType = $showItemType;
 
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMiniSearchNotice(): string
+    {
+        return $this->miniSearchNotice;
+    }
+
+    /**
+     * @param string $miniSearchNotice
+     * @return C4GBrickListParams
+     */
+    public function setMiniSearchNotice(string $miniSearchNotice): C4GBrickListParams
+    {
+        $this->miniSearchNotice = $miniSearchNotice;
         return $this;
     }
 }
