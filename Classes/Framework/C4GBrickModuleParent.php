@@ -277,7 +277,7 @@ class C4GBrickModuleParent extends \Module
                 )) {
                 $this->viewType = $this->publicViewType;
             }
-        } elseif (!C4GBrickView::isPublicBased($this->viewType) && !C4GBrickView::isPublicParentBased($this->viewType) && C4GVersionProvider::isInstalled('con4gis/groups')) {
+        } elseif (!C4GBrickView::isPublicBased($this->viewType) && !C4GBrickView::isPublicParentBased($this->viewType) && !C4GBrickView::isPublicUUIDBased($this->viewType) && C4GVersionProvider::isInstalled('con4gis/groups')) {
             $this->loadLanguageFiles();
 
             if ($init) {
@@ -1140,7 +1140,6 @@ class C4GBrickModuleParent extends \Module
 
     /**
      * Initialize C4GPermissions for this module.
-     * TODO ist final hier nicht überflüssig, da die Methode sowieso private ist und in der Kindklasse nicht sichtbar ist?
      */
     final private function initPermissions()
     {

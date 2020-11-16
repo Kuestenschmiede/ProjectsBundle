@@ -104,7 +104,6 @@ class C4GBrickDialogParams
     private $selectParentMessage = '';
     private $saveInNewDataset = false;
     private $originalIdName = '';
-//    private $overrideValuesIfSavingInNewDataset = array();
     private $saveInNewDataSetIfCondition = null;
     private $doNotSaveIfValuesDidNotChange = false;     //Will not save to the database if the values did not change, but will not interrupt saving of sub dialogs.
     private $saveCallback = null;
@@ -113,6 +112,8 @@ class C4GBrickDialogParams
     private $hideChangesMessage = false;
     private $insertNewCondition = null;
     private $customDialogCallback = null;
+    private $confirmActivationActionCallback = [];
+    private $emptyListMessage = [];
 
     /**
      * C4GBrickDialogParams constructor.
@@ -1977,5 +1978,40 @@ class C4GBrickDialogParams
         $this->customDialogCallback = $customDialogCallback;
 
         return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getConfirmActivationActionCallback()
+    {
+        return $this->confirmActivationActionCallback;
+    }
+
+    /**
+     * @param array $confirmActivationActionCallback
+     */
+    public function setConfirmActivationActionCallback(array $confirmActivationActionCallback)
+    {
+        $this->confirmActivationActionCallback = $confirmActivationActionCallback;
+    }
+
+    /**
+     * @return array
+     */
+    public function getEmptyListMessage()
+    {
+        return $this->emptyListMessage;
+    }
+
+    /**
+     * @param $title
+     * @param $message
+     * @return array
+     */
+    public function setEmptyListMessage($title, $message)
+    {
+        $this->emptyListMessage = [$title, $message];
+        return $this->emptyListMessage;
     }
 }

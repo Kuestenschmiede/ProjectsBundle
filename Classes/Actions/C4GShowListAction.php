@@ -573,7 +573,10 @@ class C4GShowListAction extends C4GBrickDialogAction
 
                 break;
         }
-
+        if (!$elements && $dialogParams->getEmptyListMessage()) {
+            $result['usermessage'] =  $dialogParams->getEmptyListMessage()[1];
+            $result['title'] = $dialogParams->getEmptyListMessage()[0];
+        }
         return $result;
     }
 

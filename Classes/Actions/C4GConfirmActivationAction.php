@@ -36,6 +36,12 @@ class C4GConfirmActivationAction extends C4GBrickDialogAction
         $brickDatabase = $this->getBrickDatabase();
         $object = $brickDatabase->findByPk($dialogId);
 
+        $callback = $dialogParams->getConfirmActivationActionCallback();
+        if ($callback) {
+            $callObject = $callback[0];
+            $method = $callback[1];
+            $callObject->$method();
+        }
         if ($object) {
             $notifications = C4GBrickDialog::getButtonNotifications(
                 C4GBrickActionType::ACTION_ACTIVATIONDIALOG,
