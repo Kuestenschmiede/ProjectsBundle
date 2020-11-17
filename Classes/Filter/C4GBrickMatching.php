@@ -53,13 +53,10 @@ class C4GBrickMatching
         }
 
         if ($tableName && $dlgValues) {
-            //getting all available data
             if ($own_query !== '') {
-                $own_field_value = $own_query[0];
-                $own_field_name = $own_query[1];
-                $query = $database->prepare("SELECT * FROM $tableName WHERE published = TRUE AND $own_field_name > $own_field_value")->execute();
+                $query = $database->prepare("SELECT * FROM $tableName WHERE published = 1 AND $own_query")->execute();
             } else {
-                $query = $database->prepare("SELECT * FROM $tableName WHERE published = TRUE")->execute();
+                $query = $database->prepare("SELECT * FROM $tableName WHERE published = 1")->execute();
             }
             $resultSet = [];
             while ($query->next()) {
