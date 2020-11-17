@@ -64,6 +64,7 @@ class C4GBrickListParams
     private $filterButtons = [];
     private $showItemType = false;
     private $miniSearchNotice = '';
+    private $params = [];
 
     /**
      * C4GBrickListParams constructor.
@@ -902,6 +903,24 @@ class C4GBrickListParams
     public function setMiniSearchNotice(string $miniSearchNotice): C4GBrickListParams
     {
         $this->miniSearchNotice = $miniSearchNotice;
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getParams(): array
+    {
+        return $this->params;
+    }
+
+    /**
+     * @param array $params
+     * @return C4GBrickListParams
+     */
+    public function setParams(array $params): C4GBrickListParams
+    {
+        $this->params = $params;
         return $this;
     }
 }
