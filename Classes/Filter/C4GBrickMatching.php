@@ -54,13 +54,9 @@ class C4GBrickMatching
 
         if ($tableName && $dlgValues) {
             if ($own_query !== '') {
-                $query = $database->prepare("SELECT * FROM $tableName WHERE published = 1 AND $own_query")->execute();
+                $resultSet = $database->prepare("SELECT * FROM $tableName WHERE published = 1 AND $own_query")->execute()->fetchAllAssoc();
             } else {
-                $query = $database->prepare("SELECT * FROM $tableName WHERE published = 1")->execute();
-            }
-            $resultSet = [];
-            while ($query->next()) {
-                $resultSet[] = $query->row();
+                $resultSet = $database->prepare("SELECT * FROM $tableName WHERE published = 1")->execute()->fetchAllAssoc();
             }
             foreach ($resultSet as $entry) {
                 $entry = ArrayHelper::arrayToObject($entry);
