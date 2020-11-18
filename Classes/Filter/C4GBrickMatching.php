@@ -102,6 +102,7 @@ class C4GBrickMatching
                 if (is_object($entry)) {
                     $entry->accuracy_number = $accuracy_number;
                     $entry->search_name = $dlgValues['teaser'];
+                    $entry->request_number = $dlgValues['request_number'];
                     if ($entry->accuracy_number > 0) {
                         $data[$entry->id] = $entry;
                     }
