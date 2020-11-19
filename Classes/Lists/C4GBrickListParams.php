@@ -65,6 +65,7 @@ class C4GBrickListParams
     private $showItemType = false;
     private $miniSearchNotice = '';
     private $params = [];
+    private $stripFieldList = true;
 
     /**
      * C4GBrickListParams constructor.
@@ -921,6 +922,24 @@ class C4GBrickListParams
     public function setParams(array $params): C4GBrickListParams
     {
         $this->params = $params;
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isStripFieldList(): bool
+    {
+        return $this->stripFieldList;
+    }
+
+    /**
+     * @param bool $stripFieldList
+     * @return C4GBrickListParams
+     */
+    public function setStripFieldList(bool $stripFieldList): C4GBrickListParams
+    {
+        $this->stripFieldList = $stripFieldList;
         return $this;
     }
 }

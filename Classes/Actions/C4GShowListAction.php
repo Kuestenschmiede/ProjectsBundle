@@ -58,13 +58,15 @@ class C4GShowListAction extends C4GBrickDialogAction
         $viewFormatFunction = $listParams->getViewFormatFunction();
 
         // strip fieldlist to avoid iterating irrelevant fields
-        $listFieldlist = [];
-        foreach ($fieldList as $field) {
-            if ($field->isTableColumn() || $field instanceof C4GKeyField) {
-                $listFieldlist[] = $field;
+        if ($listParams->isStripFieldList() === true) {
+            $listFieldlist = [];
+            foreach ($fieldList as $field) {
+                if ($field->isTableColumn() || $field instanceof C4GKeyField) {
+                    $listFieldlist[] = $field;
+                }
             }
+            $fieldList = $listFieldlist;
         }
-        $fieldList = $listFieldlist;
 
         $groupCount = -1;
         if (C4GVersionProvider::isInstalled('con4gis/groups')) {
