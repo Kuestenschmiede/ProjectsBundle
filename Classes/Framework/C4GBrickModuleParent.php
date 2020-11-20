@@ -1301,6 +1301,7 @@ class C4GBrickModuleParent extends \Module
                 $objNotification = Notification::findByPk($notification_array);
                 if ($objNotification !== null) {
                     $arrTokens = C4GBrickNotification::getArrayTokens($dlgValues, $fieldList);
+                    $arrTokens['admin_email'] = $GLOBALS['TL_CONFIG']['adminEmail'];
                     $objNotification->send($arrTokens);
                 }
             } else {
@@ -1308,6 +1309,7 @@ class C4GBrickModuleParent extends \Module
                     $objNotification = Notification::findByPk($notification);
                     if ($objNotification !== null) {
                         $arrTokens = C4GBrickNotification::getArrayTokens($dlgValues, $fieldList);
+                        $arrTokens['admin_email'] = $GLOBALS['TL_CONFIG']['adminEmail'];
                         $objNotification->send($arrTokens);
                     }
                 }
