@@ -49,6 +49,12 @@ class C4GSelectField extends C4GBrickField
             }
         }
 
+        if ($this->isInitialCallOnChange()) {
+            $onLoadScript = $dialogParams->getOnloadScript();
+            $onLoadScript .= ' document.getElementById("c4g_'.$this->getFieldname.'").onchange();';
+            $dialogParams->setOnloadScript(trim($onLoadScript));
+        }
+
         $result = '';
 
         if ($this->isShowIfEmpty() || !empty($value)) {

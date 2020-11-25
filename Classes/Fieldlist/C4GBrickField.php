@@ -211,9 +211,9 @@ abstract class C4GBrickField
         $display = '';
 
         if ($class == '') {
-            $class = 'class="' . $this->styleClass . '"';
+            $class = 'class="c4g_condition ' . $this->styleClass . '"';
         } else {
-            $class = 'class="' . $class . '"';
+            $class = 'class="c4g_condition ' . $class . '"';
         }
 
         if ($this->initInvisible) {
@@ -604,9 +604,9 @@ abstract class C4GBrickField
             $tablec = '</table>';
         }
 
-        $class = '';
+        $class = 'class="c4g_condition" ';
         if ($this->getStyleClass()) {
-            $class = 'class="' . $this->getStyleClass() . '" ';
+            $class = 'class="c4g_condition ' . $this->getStyleClass() . '" ';
         }
 
         $fieldLabel = $this->addC4GFieldLabel($id, $this->getTitle(), $this->isMandatory(), $condition, $fieldList, $data, $dialogParams, true, $this->switchTitleLabel);

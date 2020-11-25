@@ -94,7 +94,7 @@ class C4GHeadlineField extends C4GBrickField
 
             $headline =
                 '<h2 class="c4g_brick_headline" ' . $condition['conditionPrepare'] . '>' . $headlineText . '</h2>';
-            $class = 'formdata ';
+            $class = 'class="c4g_condition formdata" ';
 //            $headline = $this->generateC4GFieldHTML($condition, $headline . $this->additionalHeaderText, $class);
             $headline = '<div id="c4g_condition" '
                 . $class
@@ -128,7 +128,7 @@ class C4GHeadlineField extends C4GBrickField
 
                 $dialogParams->setAccordionCounter($dialogParams->getAccordionCounter() + 1);
                 $headline = '<h3 class="c4g_brick_headline ui-accordion-header ui-corner-top ui-accordion-icons c4gGuiCollapsible_trigger_target"><a href="#">' . $icon . $this->getTitle() . '</a></h3>';
-                $class = 'formdata ';
+                $class = 'class="c4g_condition formdata" ';
                 $headline = '<div id="c4g_condition" '
                     . $class
                     . $condition['conditionName']

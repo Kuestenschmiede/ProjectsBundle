@@ -81,7 +81,7 @@ class C4GMultiCheckboxField extends C4GBrickField
             $spanEnd = '';
             $conditionStart =
                 '<div id="c4g_condition" '
-                . 'class="formdata"'
+                . 'class="formdata c4g_condition"'
                 . $condition['conditionName']
                 . $condition['conditionType']
                 . $condition['conditionValue']

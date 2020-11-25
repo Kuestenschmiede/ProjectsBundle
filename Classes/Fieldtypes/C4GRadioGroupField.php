@@ -127,35 +127,23 @@ class C4GRadioGroupField extends C4GBrickField
         if (!$option_results) {
             $option_results = '<div class="c4g_brick_radio_group_clear">' . $this->clearGroupText . '</div>';
         }
+
+        $conditionPrepare = $condition['conditionPrepare'];
+        if ($this->isTurnButton()) {
+            $conditionPrepare = '';
+        }
+
         $attributes = $this->getAttributes() ? ' ' . $this->getAttributes() . ' ': '';
 
         $result .= $this->generateC4GFieldHTML($condition, '<div class="c4g_brick_radio_group_wrapper" ' . $condition['conditionPrepare'] . '>' .
-                       '<input type="hidden" name="' . $this->getFieldName() . '" value="' . $value . '" id="' . $id . '"  ' . $required . ' ' .
-                       $condition['conditionPrepare'] . ' ' . 'class="formdata ' . $id . $attributes . '">' .
-                       '<label '.$condition['conditionPrepare'].'>' . $this->addC4GField(null, $dialogParams, $fieldList, $data, '</label>' .
+                       '<input type="hidden" name="' . $this->getFieldName() . '" value="' . $value . '" id="' . $id . '"  ' . $required . ' ' .$conditionPrepare. ' ' . 'class="formdata ' . $id . $attributes . '">' .
+                       '<label '.$conditionPrepare.'>' . $this->addC4GField(null, $dialogParams, $fieldList, $data, '</label>' .
                        '<fieldset' . $addToFieldset . '>' .
                        $option_results .
                        '</fieldset><span class="reset_c4g_brick_radio_group"></span><script>function resetRadioGroup(){ jQuery("input[name=\'_' . $id . '\']").removeAttr(\'checked\');jQuery("#' . $id . '").val(0); };jQuery(document).ready(function(){jQuery("input[name=\'_' . $id . '\']").on("click",function(){jQuery("#' . $id . '").val(jQuery("input[name=\'_' . $id . '\']:checked").val())})});</script>' .
                        '</div>'));
 
         return $result;
-
-        //Old Code
-        /*$result .=  '<div id="c4g_condition" '
-                    . $condition['conditionName']
-                    . $condition['conditionType']
-                    . $condition['conditionValue']
-                    . $condition['conditionFunction']
-                    . $condition['conditionDisable']
-                    . $initiallyHiddenClass . '>' .*/
-                    /*'<div class="c4g_brick_radio_group_wrapper" '.$condition['conditionPrepare'].'>' .
-                    '<input type="hidden" name="'.$this->getFieldName().'" value="' . $value . '" id="'.$id.'"  ' . $required . ' ' . $condition['conditionPrepare'] . ' '.'class="formdata ' . $id . '">' .
-                    '<label>' . $this->addC4GField(null,$dialogParams,$fieldList,$data,'</label>' .
-                    '<fieldset class="c4g_brick_radio_group">' .
-                    $option_results .
-                    '</fieldset><span class="reset_c4g_brick_radio_group"></span><script>function resetRadioGroup(){ jQuery("input[name=\'_'.$id.'\']").removeAttr(\'checked\');jQuery("#'.$id.'").val(0); };jQuery(document).ready(function(){jQuery("input[name=\'_'.$id.'\']").on("click",function(){jQuery("#'.$id.'").val(jQuery("input[name=\'_'.$id.'\']:checked").val())})});</script>'.
-                    '</div></div>');
-        return $result;*/
     }
 
     /**

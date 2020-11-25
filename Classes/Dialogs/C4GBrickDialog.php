@@ -873,7 +873,8 @@ class C4GBrickDialog
                     if ($dlgValue && (trim($dlgValue) != '')) {
                         $pattern = $field->getPattern();
                         if (($pattern != '') && (!preg_match('/' . $pattern . '/i', $dlgValue))) {
-                            return $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['CHECK_FIELD'] . '"' . $field->getTitle() . '".';
+                            $caption = $field->getTitle() ? $field->getTitle() : $fieldName;
+                            return $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['CHECK_FIELD'] . '"' . $caption . '".';
                         }
                     }
                 } elseif ($field instanceof C4GBrickFieldNumeric) {
@@ -884,10 +885,11 @@ class C4GBrickDialog
                         $pattern = $field->getRegEx();
                     }
                     if ($dlgValue !== null && $dlgValue !== '') {
+                        $caption = $field->getTitle() ? $field->getTitle() : $fieldName;
                         if (($pattern != '') && !(preg_match('/' . $pattern . '/', $dlgValue))) {
-                            return $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['CHECK_FIELD'] . '"' . $field->getTitle() . '".';
+                            return $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['CHECK_FIELD'] . '"' . $caption . '".';
                         } elseif ($dlgValue > $field->getMax() || $dlgValue < $field->getMin()) {
-                            return $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['CHECK_FIELD'] . '"' . $field->getTitle() . '".';
+                            return $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['CHECK_FIELD'] . '"' . $caption . '".';
                         }
                     }
                     //Todo percentGroups
@@ -902,7 +904,8 @@ class C4GBrickDialog
                     if ($pattern != '') {
                         if ($dlgValue && (trim($dlgValue) != '')) {
                             if (($pattern != '') && !(preg_match('/' . $pattern . '/', $dlgValue))) {
-                                return $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['CHECK_FIELD'] . '"' . $field->getTitle() . '".';
+                                $caption = $field->getTitle() ? $field->getTitle() : $fieldName;
+                                return $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['CHECK_FIELD'] . '"' . $caption . '".';
                             }
                         }
                     }
