@@ -1430,6 +1430,20 @@ class C4GBrickDialog
                                 } else {
                                     $dialogParams->clearInsertNewCondition();
                                 }
+
+                                //hotfix for empty entries
+                                $emptyArray = true;
+                                foreach($value as $dlgKey=>$dlgValue) {
+                                    if ($dlgValue) {
+                                        $emptyArray = false;
+                                        break;
+                                    }
+                                }
+
+                                if ($emptyArray) {
+                                    continue;
+                                }
+
                                 if (!$value[$id_fieldName]) {
                                     $value[$field->getForeignKeyField()->getFieldName()] = $elementId;
                                     $subDbValues = $field->getBrickDatabase()->findByPk(0);
