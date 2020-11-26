@@ -129,9 +129,6 @@ class C4GRadioGroupField extends C4GBrickField
         }
 
         $conditionPrepare = $condition['conditionPrepare'];
-        if ($this->isTurnButton()) {
-            $conditionPrepare = '';
-        }
 
         $attributes = $this->getAttributes() ? ' ' . $this->getAttributes() . ' ': '';
 
