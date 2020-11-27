@@ -33,8 +33,9 @@ class C4GRadioGroupField extends C4GBrickField
         $is_frozen = $dialogParams->isFrozen();
         $result = '';
 
+        $fieldName = $this->getFieldName();
         if ($this->getAdditionalID() || $this->getAdditionalID() == '0') {
-            $this->setFieldName($this->getFieldName() . '_' . $this->getAdditionalID());
+            $fieldName = $this->getFieldName() . '_' . $this->getAdditionalID();
         }
 
         $id = $this->createFieldID();
@@ -83,8 +84,8 @@ class C4GRadioGroupField extends C4GBrickField
             $option_id = $option['id'];
             if ($this->addNameToId) {
                 $name = '_' . $id;
-                $option_name = $this->getFieldName() . $option_id;
-                $for = $this->getFieldName() . $option_id;
+                $option_name = $fieldName . $option_id;
+                $for = $fieldName . $option_id;
                 $addToFieldset = ' class="c4g_brick_radio_group"';
             //$addToWrapper = '';
             } else {
@@ -133,7 +134,7 @@ class C4GRadioGroupField extends C4GBrickField
         $attributes = $this->getAttributes() ? ' ' . $this->getAttributes() . ' ': '';
 
         $result .= $this->generateC4GFieldHTML($condition, '<div class="c4g_brick_radio_group_wrapper" ' . $condition['conditionPrepare'] . '>' .
-                       '<input type="hidden" name="' . $this->getFieldName() . '" value="' . $value . '" id="' . $id . '"  ' . $required . ' ' .$conditionPrepare. ' ' . 'class="formdata ' . $id . $attributes . '">' .
+                       '<input type="hidden" name="' . $fieldName . '" value="' . $value . '" id="' . $id . '"  ' . $required . ' ' .$conditionPrepare. ' ' . 'class="formdata ' . $id . $attributes . '">' .
                        '<label '.$conditionPrepare.'>' . $this->addC4GField(null, $dialogParams, $fieldList, $data, '</label>' .
                        '<fieldset' . $addToFieldset . '>' .
                        $option_results .

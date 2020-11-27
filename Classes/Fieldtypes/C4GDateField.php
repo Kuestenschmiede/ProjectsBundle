@@ -41,8 +41,9 @@ class C4GDateField extends C4GBrickField
      */
     public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = [])
     {
+        $fieldName = $this->getFieldName();
         if ($this->getAdditionalID()) {
-            $this->setFieldName($this->getFieldName() . '_' . $this->getAdditionalID());
+            $fieldName = $this->getFieldName() . '_' . $this->getAdditionalID();
         }
         if ($this->customFormat) {
             $dateFormat = $this->customFormat;
@@ -55,7 +56,7 @@ class C4GDateField extends C4GBrickField
         } else {
             $pickerLanguage = $GLOBALS['TL_LANGUAGE'];
         }
-        $fieldName = $this->getFieldName();
+
         $id = 'c4g_' . $fieldName;
         $title = $this->getTitle();
         $required = $this->generateRequiredString($data, $dialogParams);

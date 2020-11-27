@@ -31,8 +31,9 @@ class C4GSelectField extends C4GBrickField
 
     public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = [])
     {
+        $fieldName = $this->getFieldName();
         if ($this->getAdditionalID()) {
-            $this->setFieldName($this->getFieldName() . '_' . $this->getAdditionalID());
+            $fieldName = $this->getFieldName() . '_' . $this->getAdditionalID();
         }
 
         $id = $this->createFieldID();
@@ -47,12 +48,6 @@ class C4GSelectField extends C4GBrickField
             } else {
                 $changeAction = 'onchange="C4GCallOnChange(this)"';
             }
-        }
-
-        if ($this->isInitialCallOnChange()) {
-            $onLoadScript = $dialogParams->getOnloadScript();
-            $onLoadScript .= ' document.getElementById("c4g_'.$this->getFieldname.'").onchange();';
-            $dialogParams->setOnloadScript(trim($onLoadScript));
         }
 
         $result = '';
@@ -86,7 +81,7 @@ class C4GSelectField extends C4GBrickField
                 $fieldData = '<div ' . $required . ' ' . $condition['conditionPrepare'] . ' id="' . $id . '">' . $initialValue . '</div>';
             } else {
                 $fieldData = '<select id="' . $id . '" ' . $required . ' ' . $condition['conditionPrepare']
-                    . ' class="' . $class . '" name="' . $this->getFieldName() . '" ' . $changeAction . ' size="' . $this->getSize() . '"'
+                    . ' class="' . $class . '" name="' . $fieldName . '" ' . $changeAction . ' size="' . $this->getSize() . '"'
                     . ' data-placeholder="' . $placeholder . '" ';
                 if ($this->getInitialValue()) {
                     $fieldData .= 'value=' . $this->getInitialValue();

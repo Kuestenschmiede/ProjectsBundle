@@ -97,9 +97,12 @@ class C4GSubDialogField extends C4GBrickField
                 $field->setFilenameColumn($this->getFieldName() . $this->delimiter . $filenameColumn . $this->delimiter . $this->wildcard);
             }
             $templateData = new \stdClass();
-            foreach ($data as $key => $value) {
-                $templateData->$key = '';
+            if ($data) {
+                foreach ($data as $key => $value) {
+                    $templateData->$key = '';
+                }
             }
+
             $field->setFieldName($this->getFieldName() . $this->delimiter . $fieldName . $this->delimiter . $this->wildcard);
 //            if (!$field instanceof C4GForeignArrayField)  {
 //                if ((!$editButton) || ($editable)) {

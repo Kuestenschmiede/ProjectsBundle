@@ -735,7 +735,11 @@ abstract class C4GBrickField
 
     protected function createFieldID()
     {
-        return 'c4g_' . $this->getFieldName();
+        if ($this->getAdditionalID()) {
+            return 'c4g_' . $this->getFieldName().'_'.$this->getAdditionalID();
+        } else {
+            return 'c4g_' . $this->getFieldName();
+        }
     }
 
     /**
