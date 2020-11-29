@@ -689,6 +689,9 @@ class C4GBrickDialog
             if (($fieldList) && ($dlgValues)) {
                 foreach ($fieldList as $field) {
                     $fieldName = $field->getFieldName();
+                    if ($field->getAdditionalID()) {
+                        $fieldName = $fieldName . "_" . $field->getAdditionalID();
+                    }
                     $caption = $field->getTitle();
 
                     //Für diese Variante muss validateDBUnique aufgerufen werden.
@@ -848,9 +851,13 @@ class C4GBrickDialog
                     }
                 }
 
+                $fieldName = $field->getFieldName();
+                if ($field->getAdditionalID()) {
+                    $fieldName = $fieldName."_".$field->getAdditionalID();
+                }
+                $dlgValue = $dlgValues[$fieldName];
+
                 if ($field instanceof C4GTelField) {
-                    $fieldName = $field->getFieldName();
-                    $dlgValue = $dlgValues[$fieldName];
                     if ($dlgValue && (trim($dlgValue) != '')) {
                         //$phone = C4GUtils::phoneIsValid($dlgValue);
                         if ($fieldName != 'fax' && !preg_match('/^[\+0-9\-\/\(\)\s]*$/', $dlgValue)) {
@@ -860,16 +867,12 @@ class C4GBrickDialog
                         }
                     }
                 } elseif ($field instanceof C4GUrlField) {
-                    $fieldName = $field->getFieldName();
-                    $dlgValue = $dlgValues[$fieldName];
                     if ($dlgValue && (trim($dlgValue) != '')) {
                         if (!preg_match("/\b(?:(?:https?|ftp):\/\/|www\.)[-a-z0-9+&@#\/%?=~_|!:,.;]*[-a-z0-9+&@#\/%=~_|]/i", $dlgValue)) {
                             return $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['validate_website'];
                         }
                     }
                 } elseif ($field instanceof C4GDateField) {
-                    $fieldName = $field->getFieldName();
-                    $dlgValue = $dlgValues[$fieldName];
                     if ($dlgValue && (trim($dlgValue) != '')) {
                         $pattern = $field->getPattern();
                         if (($pattern != '') && (!preg_match('/' . $pattern . '/i', $dlgValue))) {
@@ -878,8 +881,6 @@ class C4GBrickDialog
                         }
                     }
                 } elseif ($field instanceof C4GBrickFieldNumeric) {
-                    $fieldName = $field->getFieldName();
-                    $dlgValue = $dlgValues[$fieldName];
                     $pattern = $field->getPattern();
                     if ($pattern == '') {
                         $pattern = $field->getRegEx();
@@ -898,8 +899,6 @@ class C4GBrickDialog
 
                     }*/
                 } elseif ($field instanceof C4GBrickFieldText) {
-                    $fieldName = $field->getFieldName();
-                    $dlgValue = $dlgValues[$fieldName];
                     $pattern = $field->getPattern();
                     if ($pattern != '') {
                         if ($dlgValue && (trim($dlgValue) != '')) {
@@ -938,6 +937,9 @@ class C4GBrickDialog
         if (($dbValues) && ($dlgValues)) {
             foreach ($fieldList as $field) {
                 $fieldName = $field->getFieldName();
+                if ($field->getAdditionalID()) {
+                    $fieldName = $fieldName.'_'.$field->getAdditionalID();
+                }
 
                 if (!$field->isComparable()) {
                     continue;
@@ -969,6 +971,9 @@ class C4GBrickDialog
                     }
 
                     $fieldName = $field->getFieldName();
+                    if ($field->getAdditionalID()) {
+                        $fieldName = $fieldName.'_'.$field->getAdditionalID();
+                    }
                     $additionalId = $field->getAdditionalID();
                     if (!empty($additionalId)) {
                         $fieldName .= '_' . $additionalId;
