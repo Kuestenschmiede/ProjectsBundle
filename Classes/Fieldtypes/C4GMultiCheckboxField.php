@@ -26,6 +26,7 @@ class C4GMultiCheckboxField extends C4GBrickField
     private $modernStyle = false;
     private $serializeResult = true;
     private $showAsCsv = false;
+    private $allChecked = false;
 
     /**
      * @param $fieldList
@@ -115,15 +116,15 @@ class C4GMultiCheckboxField extends C4GBrickField
             }
 
             if (!$this->isEditable()) {
+                $checked = $this->allChecked ? ' checked' : '';
                 if ($required != '') {
-                    $required .= ' disabled readonly';
+                    $required .= ' disabled readonly'.$checked;
                 } else {
-                    $required = 'disabled readonly';
+                    $required = 'disabled readonly'.$checked;
                 }
             }
 
             //$required .= ' style="display:none;"';
-
             if ($this->showAsCsv === false) {
                 foreach ($options as $option) {
                     $option_id = $option['id'];
@@ -411,5 +412,21 @@ class C4GMultiCheckboxField extends C4GBrickField
         $this->showAsCsv = $showAsCsv;
 
         return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isAllChecked(): bool
+    {
+        return $this->allChecked;
+    }
+
+    /**
+     * @param bool $allChecked
+     */
+    public function setAllChecked(bool $allChecked): void
+    {
+        $this->allChecked = $allChecked;
     }
 }
