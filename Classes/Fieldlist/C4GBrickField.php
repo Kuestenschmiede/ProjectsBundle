@@ -494,8 +494,12 @@ abstract class C4GBrickField
         $withoutLineBreak = $this->isWithoutDescriptionLineBreak() || !$description;
 
         $result = '';
-        if ($description && ($description != '') && $withLinkDescription) {
+        if ($description && ($description != '') && $withLinkDescription && $withoutLineBreak) {
+            $result = '<p class="c4g_field_description" ' . $condition['conditionPrepare'] . '><a href="' . $description . '" target="_blank">Link</a>' . '</p>';
+        } elseif ($description && ($description != '') && $withLinkDescription) {
             $result = '<p class="c4g_field_description" ' . $condition['conditionPrepare'] . '><a href="' . $description . '" target="_blank">Link</a>' . C4GHTMLFactory::lineBreak() . C4GHTMLFactory::lineBreak() . '</p>';
+        } elseif ($description && ($description != '') && $withoutLineBreak) {
+            $result = '<p class="c4g_field_description" ' . $condition['conditionPrepare'] . '>' . $description . '</p>';
         } elseif ($description && ($description != '')) {
             $result = '<p class="c4g_field_description" ' . $condition['conditionPrepare'] . '>' . $description . C4GHTMLFactory::lineBreak() . C4GHTMLFactory::lineBreak() . '</p>';
         } elseif (!$withoutLineBreak) {
