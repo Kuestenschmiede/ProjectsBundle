@@ -248,11 +248,9 @@ class C4GSaveDialogAction extends C4GBrickDialogAction
      * @param bool $withRedirect
      * @return $this
      */
-    public function setWithRedirect($withRedirect = true)
+    public function setWithRedirect(bool $withRedirect) : void
     {
         $this->withRedirect = $withRedirect;
-
-        return $this;
     }
 
     /**
