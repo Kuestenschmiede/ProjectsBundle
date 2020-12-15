@@ -99,6 +99,14 @@ class C4GBrickNotification
 
         $arrTokens = C4GBrickNotification::getMemberDetails($tokensValues, $permalink_name);
 
+        if ($arrTokens) {
+            $raw_data = '';
+            foreach ($arrTokens as $key => $value) {
+                $raw_data = $raw_data ? $raw_data.', '.$key.'=>'.$value : $key.'=>'.$value;
+            }
+
+            $arrTokens['raw_data'] = $raw_data;
+        }
         return $arrTokens;
     }
 
