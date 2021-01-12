@@ -594,7 +594,8 @@ class C4GBrickModuleParent extends \Module
             $data['initData'] = json_encode($arrAction);
         } else {
             $initData = $this->generateAjax($request);
-            if ($initData && (is_array(json_decode($initData)) || json_decode($initData) instanceof \stdClass) && count(json_decode($initData)) > 0) {
+            if ($initData && (is_array(json_decode($initData)) && (count(json_decode($initData)) > 0) ||
+                    (json_decode($initData) instanceof \stdClass) && count((array) json_decode($initData)) > 0)) {
                 $data['initData'] = $initData;
             } else {
                 $initData = $this->generateAjax(C4GBrickActionType::IDENTIFIER_LIST . ':-1');
