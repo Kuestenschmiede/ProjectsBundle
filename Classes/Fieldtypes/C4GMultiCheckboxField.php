@@ -264,15 +264,21 @@ class C4GMultiCheckboxField extends C4GBrickField
         }
 
         $valueArr = [];
-        $prefix = $fieldName . '|';// . $dlgValues['id'];
 
-        foreach ($dlgValues as $valueKey => $dlgValue) {
-            if (C4GUtils::startsWith($valueKey, $prefix) && ($dlgValue && (is_bool($dlgValue) || $dlgValue === 'true'))) {
-                $pos = strpos($valueKey, '|');
-                $key = substr($valueKey, $pos + 1);
-                $valueArr[] = trim($key);
+        if (is_array($dlgValues[$fieldName])) {
+            $valueArr = $dlgValues[$fieldName];
+        } else {
+            $prefix = $fieldName . '|';// . $dlgValues['id'];
+
+            foreach ($dlgValues as $valueKey => $dlgValue) {
+                if (C4GUtils::startsWith($valueKey, $prefix) && ($dlgValue && (is_bool($dlgValue) || $dlgValue === 'true'))) {
+                    $pos = strpos($valueKey, '|');
+                    $key = substr($valueKey, $pos + 1);
+                    $valueArr[] = trim($key);
+                }
             }
         }
+
         $fieldData = [];
         if (sizeof($valueArr) > 0) {
             if ($this->serializeResult) {

@@ -1324,9 +1324,21 @@ class C4GBrickDialog
                         $subDlgValues = [];
                         $indexList = [];
                         $indexListIndex = 0;
+                        $valueArray = [];
                         foreach ($dlgValues as $key => $value) {
                             $keyArray = explode($field->getDelimiter(), $key);
                             if ($keyArray && $keyArray[0] == $field->getFieldName()) {
+                                $pos = strpos($keyArray[2],'|');
+                                if ($pos) {
+                                    $keyValue = $keyArray[2];
+                                    $keyArray[2] = substr($keyValue,0, $pos);
+                                    if ($value && $value !== 'false') {
+                                        $valueArray[$keyArray[2]][] = substr($keyValue,$pos+1);
+                                    }
+
+                                    $value = $valueArray[$keyArray[2]];
+                                }
+
                                 $subDlgValues[$keyArray[0] . $field->getDelimiter() . $keyArray[2]][$keyArray[1]] = $value;
                                 $indexList[] = $keyArray[0] . $field->getDelimiter() . $keyArray[2];
                                 array_unique($indexList);
