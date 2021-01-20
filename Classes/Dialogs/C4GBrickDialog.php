@@ -974,10 +974,7 @@ class C4GBrickDialog
                     if ($field->getAdditionalID()) {
                         $fieldName = $fieldName.'_'.$field->getAdditionalID();
                     }
-                    $additionalId = $field->getAdditionalID();
-                    if (!empty($additionalId)) {
-                        $fieldName .= '_' . $additionalId;
-                    }
+
                     if (/*($viewType == C4GBrickViewType::MEMBERBOOKING) || */(($field->isFormField()) && ($field->isDatabaseField()))) {
                         //Muss davon ausgehen, dass boolean-Werte immer mit false vorbelegt sind. Funktioniert auch nur dann.
                         if (/*($viewType == C4GBrickViewType::MEMBERBOOKING) || */
@@ -1327,7 +1324,11 @@ class C4GBrickDialog
                         $valueArray = [];
                         foreach ($dlgValues as $key => $value) {
                             $keyArray = explode($field->getDelimiter(), $key);
-                            if ($keyArray && $keyArray[0] == $field->getFieldName()) {
+                            $fieldName = $field->getFieldName();
+                            if ($field->getAdditionalID()) {
+                                $fieldName .= '_' . $field->getAdditionalId();
+                            }
+                            if ($keyArray && $keyArray[0] == $fieldName) {
                                 $pos = strpos($keyArray[2],'|');
                                 if ($pos) {
                                     $keyValue = $keyArray[2];

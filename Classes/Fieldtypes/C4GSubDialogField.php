@@ -49,7 +49,6 @@ class C4GSubDialogField extends C4GBrickField
     private $allowDelete = true;
     private $saveInNewDataset = false;
     private $originalIdName = '';
-//    private $overrideValuesIfSavingInNewDataset = array();
     private $saveInNewDataSetIfCondition = null;
     private $insertNewCondition = null;
     private $deleteCondition = null;
@@ -62,12 +61,14 @@ class C4GSubDialogField extends C4GBrickField
         $this->database = \Database::getInstance();
         $this->setTableColumn(false);
         $this->setFormField(true);
-//        $this->setComparable(false);
     }
 
     public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = [])
     {
         $name = $this->getFieldName();
+        if ($this->getAdditionalID()) {
+            $name .= '_' . $this->getAdditionalId();
+        }
         $title = $this->getTitle();
         $addButton = $this->addButton;
         $removeButton = $this->removeButton;
@@ -75,17 +76,14 @@ class C4GSubDialogField extends C4GBrickField
         $this->generateRequiredString($data, $dialogParams);
 
         $fieldsHtml = '';
-        $fieldName = $this->keyField->getFieldName();
-        $this->keyField->setFieldName($this->getFieldName() . $this->delimiter . $fieldName . $this->delimiter . $this->wildcard);
+        $keyFieldName = $this->keyField->getFieldName();
+
+        $this->keyField->setFieldName($name . $this->delimiter . $keyFieldName . $this->delimiter . $this->wildcard);
         $fieldsHtml .= $this->keyField->getC4GDialogField($this->getFieldList(), $data, $dialogParams, $additionalParams = []);
-        $this->keyField->setFieldName($fieldName);
-//        $dataFieldNamesArray = array();
+        $this->keyField->setFieldName($keyFieldName);
+
         foreach ($this->fieldList as $field) {
             $fieldName = $field->getFieldName();
-//            if ($editButton) {
-//                $editable = $field->isEditable();
-//                $field->setEditable(false);
-//            }
             if ($field instanceof C4GForeignArrayField) {
                 continue;
             }
@@ -93,9 +91,9 @@ class C4GSubDialogField extends C4GBrickField
                 $uploadURL = $field->getUploadURL();
                 $deleteURL = $field->getDeleteURL();
                 $filenameColumn = $field->getFilenameColumn();
-                $field->setUploadURL($this->getFieldName() . $this->delimiter . $uploadURL . $this->delimiter . $this->wildcard);
-                $field->setDeleteURL($this->getFieldName() . $this->delimiter . $deleteURL . $this->delimiter . $this->wildcard);
-                $field->setFilenameColumn($this->getFieldName() . $this->delimiter . $filenameColumn . $this->delimiter . $this->wildcard);
+                $field->setUploadURL($name . $this->delimiter . $uploadURL . $this->delimiter . $this->wildcard);
+                $field->setDeleteURL($name . $this->delimiter . $deleteURL . $this->delimiter . $this->wildcard);
+                $field->setFilenameColumn($name . $this->delimiter . $filenameColumn . $this->delimiter . $this->wildcard);
             }
             $templateData = new \stdClass();
             if ($data) {
@@ -104,13 +102,7 @@ class C4GSubDialogField extends C4GBrickField
                 }
             }
 
-            $field->setFieldName($this->getFieldName() . $this->delimiter . $fieldName . $this->delimiter . $this->wildcard);
-//            if (!$field instanceof C4GForeignArrayField)  {
-//                if ((!$editButton) || ($editable)) {
-//                    $dataFieldNamesArray[] = $field->getFieldName();
-//                }
-//            }
-//            $field->addStyleClass($this->getFieldName());
+            $field->setFieldName($name . $this->delimiter . $fieldName . $this->delimiter . $this->wildcard);
             if (!$field->hasStyleClass($this->getFieldName())) {
                 $field->addStyleClass($this->getFieldName());
             }
@@ -121,24 +113,13 @@ class C4GSubDialogField extends C4GBrickField
                 $field->setDeleteURL($deleteURL);
                 $field->setFilenameColumn($filenameColumn);
             }
-//            if ($editButton) {
-//                $field->setEditable($editable);
-//            }
         }
-//        $dataFieldNames = implode(',', $dataFieldNamesArray);
+
         if ($this->showButtons && !C4GBrickView::isWithoutEditing($dialogParams->getViewType())) {
-//            if ($editButton || !$this->isEditable()) {
-//                $captionFinish = $this->finishEditingCaption;
-//                $editButtonHtml = "<span class='ui-button ui-corner-all c4g_sub_dialog_edit_button' onclick='editSubDialog(this,event);' data-fields='$dataFieldNames' data-captionFinishEditing='$captionFinish' data-captionBeginEditing='$editButton'>$editButton</span>";
-//            } else {
-//                $editButtonHtml = '';
-//            }
-//            $fieldsHtml .= "$editButtonHtml<span class='ui-button ui-corner-all c4g_sub_dialog_remove_button' onclick='removeSubDialog(this,event);'>$removeButton</span>";
             $removeButtonClass = $this->removeButtonClass;
             $message = $this->removeButtonMessage;
             $fieldsHtml .= "<span class='ui-button ui-corner-all c4g_sub_dialog_remove_button js-sub-dialog-button $removeButtonClass' onclick='removeSubDialog(this,event);' data-message='$message' title='$message'>$removeButton</span>";
         }
-//        $fieldsHtml = str_replace('"', "'", $fieldsHtml);
 
         /** Generate html for already loaded data sets if there are any */
         $numLoadedDataSets = 0;
@@ -147,11 +128,11 @@ class C4GSubDialogField extends C4GBrickField
             while (true) {
                 /* We break manually if the condition is not met. */
                 $numLoadedDataSets += 1;
-                $propertyName = $this->getFieldName() . $this->delimiter . $this->keyField->getFieldName() . $this->delimiter . $numLoadedDataSets;
+                $propertyName = $name . $this->delimiter . $keyFieldName . $this->delimiter . $numLoadedDataSets;
                 if ($data->$propertyName) {
                     /* skip data sets where any where clause is not met  */
                     foreach ($this->where as $key => $clause) {
-                        $field = $this->getFieldName() . $this->delimiter . $clause[0] . $this->delimiter . $numLoadedDataSets;
+                        $field = $name . $this->delimiter . $clause[0] . $this->delimiter . $numLoadedDataSets;
                         $value = $clause[1];
                         if (!is_array($data->$field) && $data->$field == $value) {
                             if ($clause[2] === 'or') {
@@ -177,7 +158,7 @@ class C4GSubDialogField extends C4GBrickField
                     }
                     $setData = new \stdClass();
                     foreach ($data as $key => $value) {
-                        $start = C4GUtils::startsWith($key, $this->getFieldName());
+                        $start = C4GUtils::startsWith($key, $name);
                         $end = C4GUtils::endsWith($key, (string) $numLoadedDataSets);
                         if ($start && $end) {
                             $setData->$key = $value;
@@ -195,13 +176,16 @@ class C4GSubDialogField extends C4GBrickField
                             $dataSetClass = 'c4g_sub_dialog_set';
                         }
                         $loadedDataHtml .= "<div class='$dataSetClass'>";
-                        $fieldName = $this->keyField->getFieldName();
-                        $this->keyField->setFieldName($this->getFieldName() . $this->delimiter . $fieldName . $this->delimiter . $numLoadedDataSets);
+                        $fieldName = $keyFieldName;
+                        $this->keyField->setFieldName($name . $this->delimiter . $fieldName . $this->delimiter . $numLoadedDataSets);
                         $loadedDataHtml .= $this->keyField->getC4GDialogField($this->getFieldList(), $data, $dialogParams, $additionalParams = []);
                         $this->keyField->setFieldName($fieldName);
                         $dataFieldNamesArray = [];
                         foreach ($this->fieldList as $field) {
                             $fieldName = $field->getFieldName();
+                            if ($field->getAdditionalID()) {
+                                $fieldName .= '_' . $field->getAdditionalId();
+                            }
                             if ($editButton || !$this->isEditable()) {
                                 $editable = $field->isEditable();
                                 $field->setEditable(false);
@@ -210,17 +194,20 @@ class C4GSubDialogField extends C4GBrickField
                                 $uploadURL = $field->getUploadURL();
                                 $deleteURL = $field->getDeleteURL();
                                 $filenameColumn = $field->getFilenameColumn();
-                                $field->setUploadURL($this->getFieldName() . $this->delimiter . $uploadURL . $this->delimiter . $numLoadedDataSets);
-                                $field->setDeleteURL($this->getFieldName() . $this->delimiter . $deleteURL . $this->delimiter . $numLoadedDataSets);
-                                $field->setFilenameColumn($this->getFieldName() . $this->delimiter . $filenameColumn . $this->delimiter . $numLoadedDataSets);
+                                $field->setUploadURL($name . $this->delimiter . $uploadURL . $this->delimiter . $numLoadedDataSets);
+                                $field->setDeleteURL($name . $this->delimiter . $deleteURL . $this->delimiter . $numLoadedDataSets);
+                                $field->setFilenameColumn($name . $this->delimiter . $filenameColumn . $this->delimiter . $numLoadedDataSets);
                             }
-                            $field->setFieldName($this->getFieldName() . $this->delimiter . $fieldName . $this->delimiter . $numLoadedDataSets);
+                            $field->setFieldName($name . $this->delimiter . $fieldName . $this->delimiter . $numLoadedDataSets);
                             if (!$field instanceof C4GForeignArrayField) {
                                 if ((!$editButton) || ($editable)) {
                                     $dataFieldNamesArray[] = $field->getFieldName();
                                 }
                             }
                             if (!$field->hasStyleClass($this->getFieldName())) {
+
+
+
                                 $field->addStyleClass($this->getFieldName());
                             }
                             $loadedDataHtml .= $field->getC4GDialogField($this->getFieldList(), $data, $dialogParams, $additionalParams = []);
@@ -260,7 +247,7 @@ class C4GSubDialogField extends C4GBrickField
             }
         } else if ($this->isShowFirstDataSet()) {
             $numLoadedDataSets = 1;
-            $propertyName = $this->getFieldName() . $this->delimiter . $this->keyField->getFieldName() . $this->delimiter . $numLoadedDataSets;
+            $propertyName = $name . $this->delimiter . $keyFieldName . $this->delimiter . $numLoadedDataSets;
             if ($fieldsHtml) {
                 if ($editButton) {
                     $dataSetClass = 'c4g_sub_dialog_set c4g_sub_dialog_set_uneditable';
@@ -268,13 +255,16 @@ class C4GSubDialogField extends C4GBrickField
                     $dataSetClass = 'c4g_sub_dialog_set';
                 }
                 $loadedDataHtml .= "<div class='$dataSetClass'>";
-                $fieldName = $this->keyField->getFieldName();
-                $this->keyField->setFieldName($this->getFieldName() . $this->delimiter . $fieldName . $this->delimiter . $numLoadedDataSets);
+                $fieldName = $keyFieldName;
+                $this->keyField->setFieldName($name . $this->delimiter . $fieldName . $this->delimiter . $numLoadedDataSets);
                 $loadedDataHtml .= $this->keyField->getC4GDialogField($this->getFieldList(), $data, $dialogParams, $additionalParams = []);
                 $this->keyField->setFieldName($fieldName);
                 $dataFieldNamesArray = [];
                 foreach ($this->fieldList as $field) {
                     $fieldName = $field->getFieldName();
+                    if ($field->getAdditionalID()) {
+                        $fieldName .= '_' . $field->getAdditionalId();
+                    }
                     if ($editButton || !$this->isEditable()) {
                         $editable = $field->isEditable();
                         $field->setEditable(false);
@@ -283,14 +273,14 @@ class C4GSubDialogField extends C4GBrickField
                         $uploadURL = $field->getUploadURL();
                         $deleteURL = $field->getDeleteURL();
                         $filenameColumn = $field->getFilenameColumn();
-                        $field->setUploadURL($this->getFieldName() . $this->delimiter . $uploadURL . $this->delimiter . $numLoadedDataSets);
-                        $field->setDeleteURL($this->getFieldName() . $this->delimiter . $deleteURL . $this->delimiter . $numLoadedDataSets);
-                        $field->setFilenameColumn($this->getFieldName() . $this->delimiter . $filenameColumn . $this->delimiter . $numLoadedDataSets);
+                        $field->setUploadURL($name . $this->delimiter . $uploadURL . $this->delimiter . $numLoadedDataSets);
+                        $field->setDeleteURL($name . $this->delimiter . $deleteURL . $this->delimiter . $numLoadedDataSets);
+                        $field->setFilenameColumn($name . $this->delimiter . $filenameColumn . $this->delimiter . $numLoadedDataSets);
                     }
-                    $field->setFieldName($this->getFieldName() . $this->delimiter . $fieldName . $this->delimiter . $numLoadedDataSets);
+                    $field->setFieldName($name . $this->delimiter . $fieldName . $this->delimiter . $numLoadedDataSets);
                     if (!$field instanceof C4GForeignArrayField) {
                         if ((!$editButton) || ($editable)) {
-                            $dataFieldNamesArray[] = $field->getFieldName();
+                            $dataFieldNamesArray[] = $fieldName;
                         }
                     }
                     if (!$field->hasStyleClass($this->getFieldName())) {
@@ -332,19 +322,28 @@ class C4GSubDialogField extends C4GBrickField
         }
 
         if (($this->showButtons && !C4GBrickView::isWithoutEditing($dialogParams->getViewType())) || $loadedDataHtml) {
-            $html = "<div class='c4g_sub_dialog_container' id='c4g_$name'>";
+            $condition = $this->createConditionData($fieldList, $data);
+            $conditionStart =
+                '<div id="c4g_condition" '
+                . 'class="formdata c4g_condition"'
+                . $condition['conditionName']
+                . $condition['conditionType']
+                . $condition['conditionValue']
+                . $condition['conditionDisable']
+                . '>';
+
+            $html = $conditionStart."<div class='c4g_sub_dialog_container formdata' ".$condition['conditionPrepare']." id='c4g_$name'>";
             $html .= "<template id='c4g_$name" . '_template' . "'>$fieldsHtml</template>";
             $insert = $this->insertBefore === true ? 'before' : 'after';
             if ($this->showButtons && !C4GBrickView::isWithoutEditing($dialogParams->getViewType())) {
-//                $title = '';
-                $this->setAdditionalLabel("<span class='ui-button ui-corner-all c4g_sub_dialog_add_button js-sub-dialog-button' onclick='addSubDialog(this,event);' data-template='c4g_$name" . '_template' . "' data-target='c4g_dialog_$name' data-field='$name' data-index='$numLoadedDataSets' data-wildcard='" . $this->wildcard . "' data-insert='$insert'>$addButton</span><span class='c4g_sub_dialog_add_button_label'>$this->addButtonLabel</span>");
+                $max = $this->getMax();
+                $this->setAdditionalLabel("<span class='ui-button ui-corner-all c4g_sub_dialog_add_button js-sub-dialog-button' onclick='addSubDialog(this,event,$max);' data-template='c4g_$name" . '_template' . "' data-target='c4g_dialog_$name' data-field='$name' data-index='$numLoadedDataSets' data-wildcard='" . $this->wildcard . "' data-insert='$insert'>$addButton</span><span class='c4g_sub_dialog_add_button_label'>$this->addButtonLabel</span>");
             }
-            $html .= $this->addC4GFieldLabel("c4g_$name", $title, $this->isMandatory(), $this->createConditionData($fieldList, $data), $fieldList, $data, $dialogParams);
-            $html .= "<div class='c4g_sub_dialog' id='c4g_dialog_$name'>";
-
-//            $loadedDataHtml = str_replace('"', "'", $loadedDataHtml);
+            $html .= $this->addC4GFieldLabel("c4g_$name", $title, $this->isMandatory(), '', $fieldList, $data, $dialogParams);
+            $html .= "<div class='c4g_sub_dialog formdata' id='c4g_dialog_$name'>";
             $html .= $loadedDataHtml;
 
+            $html .= '</div>';
             $html .= '</div>';
             $html .= '</div>';
         }
@@ -361,7 +360,12 @@ class C4GSubDialogField extends C4GBrickField
         $indexListIndex = 0;
         foreach ($dlgValues as $key => $value) {
             $keyArray = explode($this->delimiter, $key);
-            if ($keyArray && $keyArray[0] == $this->getFieldName()) {
+            $fieldName = $this->getFieldName();
+            if ($this->getAdditionalID()) {
+                $fieldName .= '_' . $this->getAdditionalId();
+            }
+
+            if ($keyArray && $keyArray[0] == $fieldName) {
                 $subDlgValues[$keyArray[0] . $this->delimiter . $keyArray[2]][$keyArray[1]] = $value;
                 $indexList[] = $keyArray[0] . $this->delimiter . $keyArray[2];
                 array_unique($indexList);
@@ -432,6 +436,7 @@ class C4GSubDialogField extends C4GBrickField
             } else {
                 foreach ($subDlgValues as $sDlgValuesKey => $sDlgvalues) {
                     $idFieldName = $this->keyField->getFieldName();
+
                     $subDbValues = $this->brickDatabase->findBy($idFieldName, $sDlgvalues[$idFieldName]);
                     if ($subDbValues) {
                         foreach ($this->fieldList as $field) {
@@ -499,9 +504,14 @@ class C4GSubDialogField extends C4GBrickField
         $subDlgValues = [];
         $indexList = [];
         $indexListIndex = 0;
+        $fieldName = $this->getFieldName();
+        if ($this->getAdditionalID()) {
+            $fieldName .= '_' . $this->getAdditionalId();
+        }
+
         foreach ($dlgValues as $key => $value) {
             $keyArray = explode($this->delimiter, $key);
-            if ($keyArray && $keyArray[0] == $this->getFieldName()) {
+            if ($keyArray && $keyArray[0] == $fieldName) {
                 $subDlgValues[$keyArray[0] . $this->delimiter . $keyArray[2]][$keyArray[1]] = $value;
                 $indexList[] = $keyArray[0] . $this->delimiter . $keyArray[2];
                 array_unique($indexList);

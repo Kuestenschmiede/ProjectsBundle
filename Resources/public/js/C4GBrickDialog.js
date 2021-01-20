@@ -1201,7 +1201,7 @@ function removeSubDialog(button, event) {
  * @param button
  * @param event
  */
-function addSubDialog(button, event) {
+function addSubDialog(button, event, max) {
     if (typeof(event) !== 'undefined') {
         event.stopPropagation();
     }
@@ -1213,56 +1213,59 @@ function addSubDialog(button, event) {
     newElement.classList.add('c4g_sub_dialog_set_new');
     newElement.innerHTML = string;
     var child;
-    if ((target.firstChild !== null) && (button.dataset.insert === 'before')) {
-        child = target.insertBefore(newElement, target.firstChild);
-    } else {
-        child = target.appendChild(newElement);
-    }
-    var inputs = child.getElementsByTagName('input');
-    // console.log(inputs);
-    var j = 0;
-    while (j < inputs.length) {
-        if (typeof(inputs[j]) !== 'undefined') {
-            if (inputs[j].disabled === true) {
-                inputs[j].disabled = false;
-            }
-            if (inputs[j].readOnly === true) {
-                inputs[j].readOnly = false;
-            }
+    var count = target.children.length;
+    if (count < max) {
+        if ((target.firstChild !== null) && (button.dataset.insert === 'before')) {
+            child = target.insertBefore(newElement, target.firstChild);
+        } else {
+            child = target.appendChild(newElement);
         }
-        j += 1;
-    }
-    var textareas = child.getElementsByTagName('textarea');
-    // console.log(inputs);
-    var k = 0;
-    while (k < textareas.length) {
-        if (typeof(textareas[k]) !== 'undefined') {
-            if (textareas[k].disabled === true) {
-                textareas[k].disabled = false;
+        var inputs = child.getElementsByTagName('input');
+        // console.log(inputs);
+        var j = 0;
+        while (j < inputs.length) {
+            if (typeof(inputs[j]) !== 'undefined') {
+                if (inputs[j].disabled === true) {
+                    inputs[j].disabled = false;
+                }
+                if (inputs[j].readOnly === true) {
+                    inputs[j].readOnly = false;
+                }
             }
-            if (textareas[k].readOnly === true) {
-                textareas[k].readOnly = false;
-            }
+            j += 1;
         }
-        k += 1;
-    }
+        var textareas = child.getElementsByTagName('textarea');
+        // console.log(inputs);
+        var k = 0;
+        while (k < textareas.length) {
+            if (typeof(textareas[k]) !== 'undefined') {
+                if (textareas[k].disabled === true) {
+                    textareas[k].disabled = false;
+                }
+                if (textareas[k].readOnly === true) {
+                    textareas[k].readOnly = false;
+                }
+            }
+            k += 1;
+        }
 
-    var butts = child.getElementsByClassName('js-sub-dialog-button');
-    // console.log(inputs);
-    var l = 0;
-    while (l < butts.length) {
-        if (typeof(butts[l]) !== 'undefined') {
-            if (butts[l].disabled === true) {
-                butts[l].disabled = false;
+        var butts = child.getElementsByClassName('js-sub-dialog-button');
+        // console.log(inputs);
+        var l = 0;
+        while (l < butts.length) {
+            if (typeof(butts[l]) !== 'undefined') {
+                if (butts[l].disabled === true) {
+                    butts[l].disabled = false;
+                }
+                if (butts[l].readOnly === true) {
+                    butts[l].readOnly = false;
+                }
+                if (butts[l].style.display === 'none') {
+                    butts[l].style.display = 'unset';
+                }
             }
-            if (butts[l].readOnly === true) {
-                butts[l].readOnly = false;
-            }
-            if (butts[l].style.display === 'none') {
-                butts[l].style.display = 'unset';
-            }
+            l += 1;
         }
-        l += 1;
     }
 }
 
