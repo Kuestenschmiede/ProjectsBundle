@@ -205,9 +205,6 @@ class C4GSubDialogField extends C4GBrickField
                                 }
                             }
                             if (!$field->hasStyleClass($this->getFieldName())) {
-
-
-
                                 $field->addStyleClass($this->getFieldName());
                             }
                             $loadedDataHtml .= $field->getC4GDialogField($this->getFieldList(), $data, $dialogParams, $additionalParams = []);
@@ -245,7 +242,7 @@ class C4GSubDialogField extends C4GBrickField
                     break;
                 }
             }
-        } else if ($this->isShowFirstDataSet()) {
+        } elseif ($this->isShowFirstDataSet()) {
             $numLoadedDataSets = 1;
             $propertyName = $name . $this->delimiter . $keyFieldName . $this->delimiter . $numLoadedDataSets;
             if ($fieldsHtml) {
@@ -318,7 +315,6 @@ class C4GSubDialogField extends C4GBrickField
 
                 $loadedDataHtml .= '</div>';
             }
-
         }
 
         if (($this->showButtons && !C4GBrickView::isWithoutEditing($dialogParams->getViewType())) || $loadedDataHtml) {
@@ -332,7 +328,7 @@ class C4GSubDialogField extends C4GBrickField
                 . $condition['conditionDisable']
                 . '>';
 
-            $html = $conditionStart."<div class='c4g_sub_dialog_container formdata' ".$condition['conditionPrepare']." id='c4g_$name'>";
+            $html = $conditionStart . "<div class='c4g_sub_dialog_container formdata' " . $condition['conditionPrepare'] . " id='c4g_$name'>";
             $html .= "<template id='c4g_$name" . '_template' . "'>$fieldsHtml</template>";
             $insert = $this->insertBefore === true ? 'before' : 'after';
             if ($this->showButtons && !C4GBrickView::isWithoutEditing($dialogParams->getViewType())) {
@@ -1134,5 +1130,4 @@ class C4GSubDialogField extends C4GBrickField
     {
         $this->showFirstDataSet = $showFirstDataSet;
     }
-
 }

@@ -192,6 +192,7 @@ abstract class C4GBrickFieldText extends C4GBrickField
     public function setTableAutoCut(bool $tableAutoCut = true): C4GBrickFieldText
     {
         $this->tableAutoCut = $tableAutoCut;
+
         return $this;
     }
 }

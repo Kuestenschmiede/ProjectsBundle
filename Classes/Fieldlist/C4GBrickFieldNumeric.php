@@ -12,7 +12,6 @@
  */
 namespace con4gis\ProjectsBundle\Classes\Fieldlist;
 
-
 abstract class C4GBrickFieldNumeric extends C4GBrickField
 {
     /**
@@ -72,6 +71,7 @@ abstract class C4GBrickFieldNumeric extends C4GBrickField
         }
 
         $dlgValues[$fieldName] = $value;
+
         return $dlgValues[$fieldName];
     }
 

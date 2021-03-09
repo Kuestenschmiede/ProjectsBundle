@@ -48,7 +48,7 @@ class C4GBrickActionType
     const ACTION_FREEZEDIALOG = 'C4GFreezeDialogAction';
     const ACTION_DEFROSTDIALOG = 'C4GDefrostDialogAction';
     const ACTION_CLOSEDIALOG = 'C4GCloseDialogAction';
-    const ACTION_CLOSEDIALOG_IGNORE_CHANGES  = 'C4GCloseDialogIgnoreChangesAction';
+    const ACTION_CLOSEDIALOG_IGNORE_CHANGES = 'C4GCloseDialogIgnoreChangesAction';
     const ACTION_SAVEDIALOG = 'C4GSaveDialogAction';
     const ACTION_SAVEANDNEWDIALOG = 'C4GSaveAndNewDialogAction';
     const ACTION_SAVEANDREDIRECTDIALOG = 'C4GSaveAndRedirectDialogAction';

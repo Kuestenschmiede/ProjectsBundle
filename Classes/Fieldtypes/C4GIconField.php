@@ -32,11 +32,12 @@ class C4GIconField extends C4GBrickField
     public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = [])
     {
         if ($this->iconText) {
-            $text = '<span>'.$this->iconText.'</span>';
+            $text = '<span>' . $this->iconText . '</span>';
         } else {
             $text = '';
         }
-        return '<div class="'.$this->getStyleClass().'">' . $this->getC4GListField($data, '') . $text . '</div>';
+
+        return '<div class="' . $this->getStyleClass() . '">' . $this->getC4GListField($data, '') . $text . '</div>';
     }
 
     /**
@@ -93,6 +94,7 @@ class C4GIconField extends C4GBrickField
     public function setIconText(string $iconText): C4GIconField
     {
         $this->iconText = $iconText;
+
         return $this;
     }
 

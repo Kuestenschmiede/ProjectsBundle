@@ -118,9 +118,9 @@ class C4GMultiCheckboxField extends C4GBrickField
             if (!$this->isEditable()) {
                 $checked = $this->allChecked ? ' checked' : '';
                 if ($required != '') {
-                    $required .= ' disabled readonly'.$checked;
+                    $required .= ' disabled readonly' . $checked;
                 } else {
-                    $required = 'disabled readonly'.$checked;
+                    $required = 'disabled readonly' . $checked;
                 }
             }
 

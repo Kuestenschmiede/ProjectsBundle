@@ -102,11 +102,12 @@ class C4GBrickNotification
         if ($arrTokens) {
             $raw_data = '';
             foreach ($arrTokens as $key => $value) {
-                $raw_data = $raw_data ? $raw_data.', '.$key.'=>'.$value : $key.'=>'.$value;
+                $raw_data = $raw_data ? $raw_data . ', ' . $key . '=>' . $value : $key . '=>' . $value;
             }
 
             $arrTokens['raw_data'] = $raw_data;
         }
+
         return $arrTokens;
     }
 

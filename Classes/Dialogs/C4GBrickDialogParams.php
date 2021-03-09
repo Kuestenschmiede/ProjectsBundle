@@ -2012,6 +2012,7 @@ class C4GBrickDialogParams
     public function setEmptyListMessage($title, $message)
     {
         $this->emptyListMessage = [$title, $message];
+
         return $this->emptyListMessage;
     }
 }

@@ -19,7 +19,14 @@
   ],
   "require": {
     "contao/core-bundle": "^4.4",
-    "con4gis/core": "^4.0"
+    "con4gis/core": "^4.1",
+    "menatwork/contao-multicolumnwizard-bundle": "^3.4",
+    "doctrine/orm": "^2.8.1",
+    "doctrine/data-fixtures": "^1.4.4",
+    "doctrine/persistence": "^2.1.0",
+    "terminal42/notification_center": "^1.5",
+    "bugbuster/contao-mobiledetection-bundle": "^1.0",
+    "guzzlehttp/guzzle": "^6.2"
   },
   "conflict": {
     "contao/core": "*",

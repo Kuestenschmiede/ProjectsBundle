@@ -828,8 +828,9 @@ class C4GBrickList
         }
 
         if ($listParams->getMiniSearchNotice()) {
-            $view .= '<div class="c4g_brick_list_minisearch_no_results_note" style="display: none;">'.$listParams->getMiniSearchNotice().'</div>';
+            $view .= '<div class="c4g_brick_list_minisearch_no_results_note" style="display: none;">' . $listParams->getMiniSearchNotice() . '</div>';
         }
+
         return $view;
     }
 }

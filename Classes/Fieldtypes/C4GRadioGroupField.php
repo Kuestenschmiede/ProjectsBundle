@@ -100,9 +100,9 @@ class C4GRadioGroupField extends C4GBrickField
 
             if ($option['objects'] && count($option['objects']) > 0) {
                 $cnt = 0;
-                foreach ($option['objects'] as $key=>$object) {
-                       $object_id = ($cnt == 0) ? $option['objects'][$key]['id'] : $object_id.'-'.$option['objects'][$key]['id'];
-                       $cnt++;
+                foreach ($option['objects'] as $key => $object) {
+                    $object_id = ($cnt == 0) ? $option['objects'][$key]['id'] : $object_id . '-' . $option['objects'][$key]['id'];
+                    $cnt++;
                 }
             }
             $optionAttributes = $option['attributes'] ? ' ' . $option['attributes'] . ' ': '';
@@ -134,8 +134,8 @@ class C4GRadioGroupField extends C4GBrickField
         $attributes = $this->getAttributes() ? ' ' . $this->getAttributes() . ' ': '';
 
         $result .= $this->generateC4GFieldHTML($condition, '<div class="c4g_brick_radio_group_wrapper" ' . $condition['conditionPrepare'] . '>' .
-                       '<input type="hidden" name="' . $fieldName . '" value="' . $value . '" id="' . $id . '"  ' . $required . ' ' .$conditionPrepare. ' ' . 'class="formdata ' . $id . $attributes . '">' .
-                       '<label '.$conditionPrepare.'>' . $this->addC4GField(null, $dialogParams, $fieldList, $data, '</label>' .
+                       '<input type="hidden" name="' . $fieldName . '" value="' . $value . '" id="' . $id . '"  ' . $required . ' ' . $conditionPrepare . ' ' . 'class="formdata ' . $id . $attributes . '">' .
+                       '<label ' . $conditionPrepare . '>' . $this->addC4GField(null, $dialogParams, $fieldList, $data, '</label>' .
                        '<fieldset' . $addToFieldset . '>' .
                        $option_results .
                        '</fieldset><span class="reset_c4g_brick_radio_group"></span><script>function resetRadioGroup(){ jQuery("input[name=\'_' . $id . '\']").removeAttr(\'checked\');jQuery("#' . $id . '").val(0); };jQuery(document).ready(function(){jQuery("input[name=\'_' . $id . '\']").on("click",function(){jQuery("#' . $id . '").val(jQuery("input[name=\'_' . $id . '\']:checked").val())})});</script>' .

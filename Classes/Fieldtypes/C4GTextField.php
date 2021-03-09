@@ -28,7 +28,7 @@ class C4GTextField extends C4GBrickFieldText
     {
         $id = 'c4g_' . $this->getFieldName();
         if ($this->getAdditionalID()) {
-            $id .= "_".$this->getAdditionalID();
+            $id .= '_' . $this->getAdditionalID();
         }
         $required = $this->generateRequiredString($data, $dialogParams);
         $value = $this->generateInitialValue($data);

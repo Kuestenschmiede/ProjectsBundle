@@ -368,10 +368,10 @@ abstract class C4GBrickField
                 $additionalLabel = $this->getAdditionalLabel();
             }
             if ($this->isWithoutLabel() || ($dialogParams->isWithLabels() === false && !($this instanceof C4GMultiCheckboxField || $this instanceof C4GCheckboxField))) {
-                return $tdo . '<label class="'.$this->getFieldName().' '.$id.'" for="' . $id . '" ' . $condition['conditionPrepare'] . '>' . $star . $additionalLabel . $linebreak . '</label>' . $tdc . $extTitleField;
+                return $tdo . '<label class="' . $this->getFieldName() . ' ' . $id . '" for="' . $id . '" ' . $condition['conditionPrepare'] . '>' . $star . $additionalLabel . $linebreak . '</label>' . $tdc . $extTitleField;
             }
 
-            return $tdo . '<label class="'.$this->getFieldName().' '.$id.'" for="' . $id . '" ' . $condition['conditionPrepare'] . '>' . $star . $title . $additionalLabel . $linebreak . '</label>' . $tdc . $extTitleField;
+            return $tdo . '<label class="' . $this->getFieldName() . ' ' . $id . '" for="' . $id . '" ' . $condition['conditionPrepare'] . '>' . $star . $title . $additionalLabel . $linebreak . '</label>' . $tdc . $extTitleField;
         }
 
         return '';
@@ -574,7 +574,7 @@ abstract class C4GBrickField
         //ToDo change table to display:grid if feature released for all standard browsers
         $id = 'c4g_' . $this->getFieldName();
         if ($this->getAdditionalID()) {
-            $id .= "_".$this->getAdditionalID();
+            $id .= '_' . $this->getAdditionalID();
         }
         $value = $this->generateInitialValue($data);
 
@@ -743,10 +743,10 @@ abstract class C4GBrickField
     protected function createFieldID()
     {
         if ($this->getAdditionalID()) {
-            return 'c4g_' . $this->getFieldName().'_'.$this->getAdditionalID();
-        } else {
-            return 'c4g_' . $this->getFieldName();
+            return 'c4g_' . $this->getFieldName() . '_' . $this->getAdditionalID();
         }
+
+        return 'c4g_' . $this->getFieldName();
     }
 
     /**
@@ -1488,7 +1488,7 @@ abstract class C4GBrickField
                 foreach ($options as $option) {
                     $idList[] = [
                         'id' => $option->id,
-                        'name' => $option->$captionField
+                        'name' => $option->$captionField,
                     ];
                 }
                 $result = $idList;

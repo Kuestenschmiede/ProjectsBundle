@@ -904,6 +904,7 @@ class C4GBrickListParams
     public function setMiniSearchNotice(string $miniSearchNotice): C4GBrickListParams
     {
         $this->miniSearchNotice = $miniSearchNotice;
+
         return $this;
     }
 
@@ -922,6 +923,7 @@ class C4GBrickListParams
     public function setParams(array $params): C4GBrickListParams
     {
         $this->params = $params;
+
         return $this;
     }
 
@@ -940,6 +942,7 @@ class C4GBrickListParams
     public function setStripFieldList(bool $stripFieldList): C4GBrickListParams
     {
         $this->stripFieldList = $stripFieldList;
+
         return $this;
     }
 }

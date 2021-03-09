@@ -341,7 +341,7 @@ class C4GSelectField extends C4GBrickField
             foreach ($this->getCondition() as $con) {
                 $fieldName = $con->getFieldName();
                 if ($this->getAdditionalID()) {
-                    $fieldName = $fieldName.'_'.$this->getAdditionalID(); //ToDo
+                    $fieldName = $fieldName . '_' . $this->getAdditionalID(); //ToDo
                 }
                 if (!$con->checkAgainstCondition($dlgValues[$fieldName])) {
                     return false;

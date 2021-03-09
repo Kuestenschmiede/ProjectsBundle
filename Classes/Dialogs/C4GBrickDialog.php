@@ -690,7 +690,7 @@ class C4GBrickDialog
                 foreach ($fieldList as $field) {
                     $fieldName = $field->getFieldName();
                     if ($field->getAdditionalID()) {
-                        $fieldName = $fieldName . "_" . $field->getAdditionalID();
+                        $fieldName = $fieldName . '_' . $field->getAdditionalID();
                     }
                     $caption = $field->getTitle();
 
@@ -853,7 +853,7 @@ class C4GBrickDialog
 
                 $fieldName = $field->getFieldName();
                 if ($field->getAdditionalID()) {
-                    $fieldName = $fieldName."_".$field->getAdditionalID();
+                    $fieldName = $fieldName . '_' . $field->getAdditionalID();
                 }
                 $dlgValue = $dlgValues[$fieldName];
 
@@ -877,6 +877,7 @@ class C4GBrickDialog
                         $pattern = $field->getPattern();
                         if (($pattern != '') && (!preg_match('/' . $pattern . '/i', $dlgValue))) {
                             $caption = $field->getTitle() ? $field->getTitle() : $fieldName;
+
                             return $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['CHECK_FIELD'] . '"' . $caption . '".';
                         }
                     }
@@ -904,6 +905,7 @@ class C4GBrickDialog
                         if ($dlgValue && (trim($dlgValue) != '')) {
                             if (($pattern != '') && !(preg_match('/' . $pattern . '/', $dlgValue))) {
                                 $caption = $field->getTitle() ? $field->getTitle() : $fieldName;
+
                                 return $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['CHECK_FIELD'] . '"' . $caption . '".';
                             }
                         }
@@ -938,7 +940,7 @@ class C4GBrickDialog
             foreach ($fieldList as $field) {
                 $fieldName = $field->getFieldName();
                 if ($field->getAdditionalID()) {
-                    $fieldName = $fieldName.'_'.$field->getAdditionalID();
+                    $fieldName = $fieldName . '_' . $field->getAdditionalID();
                 }
 
                 if (!$field->isComparable()) {
@@ -972,7 +974,7 @@ class C4GBrickDialog
 
                     $fieldName = $field->getFieldName();
                     if ($field->getAdditionalID()) {
-                        $fieldName = $fieldName.'_'.$field->getAdditionalID();
+                        $fieldName = $fieldName . '_' . $field->getAdditionalID();
                     }
 
                     if (/*($viewType == C4GBrickViewType::MEMBERBOOKING) || */(($field->isFormField()) && ($field->isDatabaseField()))) {
@@ -1329,12 +1331,12 @@ class C4GBrickDialog
                                 $fieldName .= '_' . $field->getAdditionalId();
                             }
                             if ($keyArray && $keyArray[0] == $fieldName) {
-                                $pos = strpos($keyArray[2],'|');
+                                $pos = strpos($keyArray[2], '|');
                                 if ($pos) {
                                     $keyValue = $keyArray[2];
-                                    $keyArray[2] = substr($keyValue,0, $pos);
+                                    $keyArray[2] = substr($keyValue, 0, $pos);
                                     if ($value && $value !== 'false') {
-                                        $valueArray[$keyArray[2]][] = substr($keyValue,$pos+1);
+                                        $valueArray[$keyArray[2]][] = substr($keyValue, $pos + 1);
                                     }
 
                                     $value = $valueArray[$keyArray[2]];
@@ -1451,9 +1453,10 @@ class C4GBrickDialog
 
                                 //hotfix for empty entries
                                 $emptyArray = true;
-                                foreach($value as $dlgKey=>$dlgValue) {
+                                foreach ($value as $dlgKey => $dlgValue) {
                                     if ($dlgValue) {
                                         $emptyArray = false;
+
                                         break;
                                     }
                                 }
