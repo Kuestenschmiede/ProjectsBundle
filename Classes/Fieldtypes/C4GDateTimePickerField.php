@@ -146,7 +146,7 @@ class C4GDateTimePickerField extends C4GBrickField
         $fieldName = $this->getFieldName();
         $date = $rowData->$fieldName;
         if ($date) {
-            return date($GLOBALS['TL_CONFIG']['datimFormat'], $date);
+            return "<span style='display:none;'>$date</span>".'<span>'.date($GLOBALS['TL_CONFIG']['datimFormat'], $date).'</span>';
         }
 
         return '';
