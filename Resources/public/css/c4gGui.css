@@ -155,6 +155,10 @@ a.dt-button {
     font-weight: 900;
 }
 
+.dataTables_wrapper .fg-button {
+    z-index: 10;
+}
+
 .ui-dialog {
 	width: auto!important;
 }
