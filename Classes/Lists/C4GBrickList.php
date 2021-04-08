@@ -388,7 +388,7 @@ class C4GBrickList
                             'sType' => $column->getSortType(),
                             'responsivePriority' => [$priority], ];
 
-                        if ($column->getSortSequence() == 'desc') {
+                        if (($column->getSortSequence() == 'desc') || ($column->getSortSequence() == SORT_DESC)) {
                             $data['aaSorting'] = [[$cnt, 'desc']];
                         } else {
                             $data['aaSorting'] = [[$cnt, 'asc']];
