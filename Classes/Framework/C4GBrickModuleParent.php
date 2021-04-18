@@ -614,19 +614,19 @@ class C4GBrickModuleParent extends \Module
             //Keep for backwards compatibility
             //Todo Remove
             C4GJQueryGUI::initializeLibraries(
-                true,
-                true,
-                false,
-                false,
-                true,
-                false,
-                true,
-                true,
-                false,
-                true,
-                true,
-                true,
-                true
+                $this->jQueryAddCore,
+                $this->jQueryAddJquery,
+                $this->jQueryAddJqueryUI,
+                $this->jQueryUseTree,
+                $this->jQueryUseTable,
+                $this->jQueryUseHistory,
+                $this->jQueryUseTooltip,
+                $this->jQueryUseMaps,
+                $this->jQueryUseGoogleMaps,
+                $this->jQueryUseMapsEditor,
+                $this->jQueryUseWswgEditor,
+                $this->jQueryUseScrollPane,
+                $this->jQueryUsePopups
             );
         } else {
             C4GJQueryGUI::initializeLibraries(
