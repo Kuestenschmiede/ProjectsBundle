@@ -93,7 +93,9 @@ function C4GDatePicker(id,
             },
             //yearRange: dMin.getFullYear()+":"+dMax.getFullYear(),
             minDate: dMin,
-            maxDate: dMax
+            maxDate: dMax,
+            changeMonth: true,
+            changeYear: true,
         });
         jQuery(function(jQuery){
             if (lang) {
