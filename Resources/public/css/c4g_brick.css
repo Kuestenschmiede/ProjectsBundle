@@ -331,6 +331,9 @@ div.cg_block {
 .dataTables_wrapper {
     font-size: inherit;
 }
+.dataTables_wrapper {
+    overflow-y: auto;
+}
 .dataTables_paginate .ui-button {
     padding: 0!important;
 }

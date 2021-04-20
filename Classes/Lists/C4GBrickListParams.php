@@ -66,7 +66,9 @@ class C4GBrickListParams
     private $miniSearchNotice = '';
     private $params = [];
     private $stripFieldList = true;
-    private $scrollX = true;
+    private $scrollX = false;
+    private $autoWidth = false;
+    private $responsive = true;
 
     /**
      * C4GBrickListParams constructor.
@@ -953,5 +955,45 @@ class C4GBrickListParams
     public function isScrollX(): bool
     {
         return $this->scrollX;
+    }
+
+    /**
+     * @param bool $scrollX
+     */
+    public function setScrollX(bool $scrollX): void
+    {
+        $this->scrollX = $scrollX;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isAutoWidth(): bool
+    {
+        return $this->autoWidth;
+    }
+
+    /**
+     * @param bool $autoWidth
+     */
+    public function setAutoWidth(bool $autoWidth): void
+    {
+        $this->autoWidth = $autoWidth;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isResponsive(): bool
+    {
+        return $this->responsive;
+    }
+
+    /**
+     * @param bool $responsive
+     */
+    public function setResponsive(bool $responsive): void
+    {
+        $this->responsive = $responsive;
     }
 }

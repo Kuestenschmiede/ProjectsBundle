@@ -306,9 +306,9 @@ class C4GBrickList
         $data['bInfo'] = $listParams->isInfo();
         $data['bDeferRender'] = true;
         $data['bScroller'] = true;
-        $data['responsive'] = true;
-
+        $data['responsive'] = $listParams->isResponsive();
         $data['scrollX'] = $listParams->isScrollX();
+        $data['autoWidth'] = $listParams->isAutoWidth();
 
         if ($listParams->isWithExportButtons()) {
             if ($listParams->isWithJQueryUI()) {
