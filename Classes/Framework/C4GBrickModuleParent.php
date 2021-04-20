@@ -925,6 +925,17 @@ class C4GBrickModuleParent extends \Module
                 C4GBrickCommon::mkdir($path);
 
                 //Hier wird nur die UserId benötigt und die steht überall zur Verfügung.
+            } else {
+                if (($this->group_id == -1) || ($this->group_id == null)) {
+
+                    //falls die group_id über die Liste vorhanden ist, soll diese auch hier für Module geladen werden, die den viewType wechseln können.
+                    $groupId = \Session::getInstance()->get('c4g_brick_group_id');
+                    if ($groupId && MemberGroupModel::isMemberOfGroup($groupId, $this->User->id)) {
+                        if (MemberModel::hasRightInGroup($this->User->id, $groupId, $this->brickKey)) {
+                            $this->group_id = $groupId;
+                        }
+                    }
+                }
             }
 
             $this->frontendUrl = $this->Environment->url . TL_PATH . '/' . $session['referer']['current'];
