@@ -493,8 +493,7 @@ table.dataTable.display tbody, table.dataTable thead th div.DataTables_sort_wrap
 {
     border: 1px solid rgb(226, 226, 226);
     height: auto;
-    width: 76px;
-    margin-left: 2.5%;
+    width: auto;
     overflow: hidden;
     display: flex;
 }
@@ -506,7 +505,7 @@ table.dataTable.display tbody, table.dataTable thead th div.DataTables_sort_wrap
     text-align: center;
     height: auto;
     min-height: 27px;
-    width: 49px;
+    width: auto;
     border: 0px inset;
     margin-top: 0px;
     margin-bottom: 0px;
@@ -534,7 +533,7 @@ table.dataTable.display tbody, table.dataTable thead th div.DataTables_sort_wrap
 }
 .c4g_brick_dialog .c4g_timefield:disabled,
 .c4g_brick_dialog .c4g_timefield:read-only {
-    width: 57px;
+    width: auto;
     border-style: inherit;
 }
 .c4g_brick_dialog a input[type='url'] {
