@@ -53,7 +53,7 @@ class C4GPostalField extends C4GBrickFieldNumeric
         $dbValue = trim($dbValue);
         $dlgValue = trim($dlgvalue);
         $result = null;
-        if (strcmp($dbValue, $dlgValue) != 0) {
+        if ($dbValue && $dlgvalue && strcmp($dbValue, $dlgValue) != 0) {
             $result = new C4GBrickFieldCompare($this, $dbValue, $dlgValue);
         }
 
