@@ -66,6 +66,7 @@ class C4GBrickListParams
     private $miniSearchNotice = '';
     private $params = [];
     private $stripFieldList = true;
+    private $scrollX = true;
 
     /**
      * C4GBrickListParams constructor.
@@ -944,5 +945,13 @@ class C4GBrickListParams
         $this->stripFieldList = $stripFieldList;
 
         return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isScrollX(): bool
+    {
+        return $this->scrollX;
     }
 }
