@@ -17,9 +17,11 @@ use con4gis\MapsBundle\Resources\contao\modules\api\ReverseNominatimApi;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickConst;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialog;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GDateField;
+use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GEmailField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GForeignArrayField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GSelectField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GSubDialogField;
+use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GTelField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GTextareaField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GTextField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GTimeField;
@@ -150,7 +152,7 @@ class AjaxController extends Controller
             $field->setDescription("");
             $field->setEditable(false);
             $field->setShowIfEmpty(false);
-            if (($field instanceof C4GTextField) || ($field instanceof C4GTextareaField) || ($field instanceof C4GDateField) || ($field instanceof C4GTimeField)) {
+            if (($field instanceof C4GTextField) || ($field instanceof C4GTextareaField) || ($field instanceof C4GDateField) || ($field instanceof C4GTimeField) || ($field instanceof C4GEmailField) || ($field instanceof C4GTelField)) {
                 $newField = new C4GTextField();
                 $newField->setFieldName($field->getFieldName());
                 $newField->setTitle($field->getTitle());
