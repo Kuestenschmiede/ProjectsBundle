@@ -493,7 +493,7 @@ table.dataTable.display tbody, table.dataTable thead th div.DataTables_sort_wrap
 {
     border: 1px solid rgb(226, 226, 226);
     height: auto;
-    width: auto;
+    width: auto!important;
     overflow: hidden;
     display: flex;
 }
