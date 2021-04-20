@@ -865,6 +865,11 @@ a.c4g_tile_button:hover {
     margin-bottom: auto;
 }
 
+.c4g_date_field_button_flipped {
+    margin-right: 0% !important;
+    margin-left: 2.5% !important;
+}
+
 .c4g_date_field_button_interactive {
     display: inherit !important;
     cursor: pointer;
@@ -873,11 +878,25 @@ a.c4g_tile_button:hover {
     margin-bottom: auto;
 }
 
-.c4g_date_field_input {
+.c4g_date_field_button_interactive_flipped {
     display: inherit !important;
-    margin-right: 1.25%
+    cursor: pointer;
+    margin-left: 2.5% !important;
+    margin-right: 0% !important;
+    margin-top: auto;
+    margin-bottom: auto;
+
 }
 
+.c4g_date_field_input {
+    display: inherit !important;
+    margin-right: 1.25%;
+}
+.c4g_date_field_input_flipped {
+    display: inherit !important;
+    margin-right: 1em !important;
+    margin-left: 1em !important;
+}
 .c4g_accordion_icon {
     vertical-align: middle;
     font-size: 30px;

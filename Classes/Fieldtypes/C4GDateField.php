@@ -32,6 +32,8 @@ class C4GDateField extends C4GBrickField
     protected $sortType = 'de_date';
     protected $pattern = C4GBrickRegEx::DATE_D_M_Y;
 
+    protected $flipButtonPosition = false;
+
     /**
      * @param C4GBrickField[] $fieldList
      * @param $data
@@ -123,17 +125,28 @@ class C4GDateField extends C4GBrickField
                     }
                 }
             }
+
             if (!$display) {
                 $html = '<div class="c4g_date_field_container" style="display: none"  onmousedown="C4GDatePicker(\'' . $id . '\', \'date\', \'' . $this->minDate . '\', \'' . $this->maxDate . '\', \'' . $format . '\',\'' . $pickerLanguage . '\',\'' . $this->excludeWeekdays . '\',\'' . $this->excludeDates . '\')" >';
             } else {
                 $html = '<div class="c4g_date_field_container" onmousedown="C4GDatePicker(\'' . $id . '\', \'date\', \'' . $this->minDate . '\', \'' . $this->maxDate . '\', \'' . $format . '\',\'' . $pickerLanguage . '\',\'' . $this->excludeWeekdays . '\',\'' . $this->excludeDates . '\')" >';
             }
-            $html .= '<input readonly="true" autocomplete="off" ' . $required . ' type="text" id="' . $id . '" class="formdata c4g_date_field_input ' . $id . '" ' . $changeAction . ' name="' . $fieldName . '" value="' . $value . '" ' . $condition['conditionPrepare'] . 'pattern="' . $this->pattern . '"' . '>';
-            if (!$this->isIgnoreViewType() && (C4GBrickView::isWithoutEditing($dialogParams->getViewType()) || !$this->isEditable())) {
-                $html .= '<span class="ui-button ui-corner-all c4g_date_field_button"><i class="far fa-calendar-alt"></i></span>';
+            if ($this->isFlipButtonPosition()) {
+                if (!$this->isIgnoreViewType() && (C4GBrickView::isWithoutEditing($dialogParams->getViewType()) || !$this->isEditable())) {
+                    $html .= '<span class="ui-button ui-corner-all c4g_date_field_button c4g_date_field_button_flipped"><i class="far fa-calendar-alt"></i></span>';
+                } else {
+                    $html .= '<span onclick="$(document.getElementById(' . $buttonId . ')) ? $(document.getElementById(' . $buttonId . ')).focus() : false" class="ui-button ui-corner-all c4g_date_field_button_interactive c4g_date_field_button_interactive_flipped"><i class="far fa-calendar-alt"></i></span>';
+                }
+                $html .= '<input readonly="true" autocomplete="off" ' . $required . ' type="text" id="' . $id . '" class="formdata c4g_date_field_input c4g_date_field_input_flipped ' . $id . '" ' . $changeAction . ' name="' . $fieldName . '" value="' . $value . '" ' . $condition['conditionPrepare'] . 'pattern="' . $this->pattern . '"' . '>';
             } else {
-                $html .= '<span onclick="$(document.getElementById(' . $buttonId . ')) ? $(document.getElementById(' . $buttonId . ')).focus() : false" class="ui-button ui-corner-all c4g_date_field_button_interactive"><i class="far fa-calendar-alt"></i></span>';
+                $html .= '<input readonly="true" autocomplete="off" ' . $required . ' type="text" id="' . $id . '" class="formdata c4g_date_field_input ' . $id . '" ' . $changeAction . ' name="' . $fieldName . '" value="' . $value . '" ' . $condition['conditionPrepare'] . 'pattern="' . $this->pattern . '"' . '>';
+                if (!$this->isIgnoreViewType() && (C4GBrickView::isWithoutEditing($dialogParams->getViewType()) || !$this->isEditable())) {
+                    $html .= '<span class="ui-button ui-corner-all c4g_date_field_button"><i class="far fa-calendar-alt"></i></span>';
+                } else {
+                    $html .= '<span onclick="$(document.getElementById(' . $buttonId . ')) ? $(document.getElementById(' . $buttonId . ')).focus() : false" class="ui-button ui-corner-all c4g_date_field_button_interactive"><i class="far fa-calendar-alt"></i></span>';
+                }
             }
+
             $html .= '</div>';
             $result =
                 $this->addC4GField($condition,$dialogParams,$fieldList,$data,
@@ -407,4 +420,37 @@ class C4GDateField extends C4GBrickField
     {
         $this->pattern = $pattern;
     }
+
+    /**
+     * @return string
+     */
+    public function getSortType(): string
+    {
+        return $this->sortType;
+    }
+
+    /**
+     * @param string $sortType
+     */
+    public function setSortType(string $sortType): void
+    {
+        $this->sortType = $sortType;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isFlipButtonPosition(): bool
+    {
+        return $this->flipButtonPosition;
+    }
+
+    /**
+     * @param bool $flipButtonPosition
+     */
+    public function setFlipButtonPosition(bool $flipButtonPosition): void
+    {
+        $this->flipButtonPosition = $flipButtonPosition;
+    }
+
 }
