@@ -25,6 +25,7 @@ use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GTelField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GTextareaField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GTextField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GTimeField;
+use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GTimepickerField;
 use con4gis\ProjectsBundle\Classes\Framework\C4GModuleManager;
 use Contao\Database;
 use Contao\Input;
@@ -152,7 +153,14 @@ class AjaxController extends Controller
             $field->setDescription("");
             $field->setEditable(false);
             $field->setShowIfEmpty(false);
-            if (($field instanceof C4GTextField) || ($field instanceof C4GTextareaField) || ($field instanceof C4GDateField) || ($field instanceof C4GTimeField) || ($field instanceof C4GEmailField) || ($field instanceof C4GTelField)) {
+            if (
+                ($field instanceof C4GTextField) ||
+                ($field instanceof C4GTextareaField) ||
+                ($field instanceof C4GDateField) ||
+                ($field instanceof C4GTimeField) ||
+                ($field instanceof C4GTimepickerField) ||
+                ($field instanceof C4GEmailField) ||
+                ($field instanceof C4GTelField)) {
                 $newField = new C4GTextField();
                 $newField->setFieldName($field->getFieldName());
                 $newField->setTitle($field->getTitle());
