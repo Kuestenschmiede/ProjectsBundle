@@ -91,11 +91,11 @@ function C4GDatePicker(id,
                 }
                 return [true,""];
             },
-            //yearRange: dMin.getFullYear()+":"+dMax.getFullYear(),
             minDate: dMin,
             maxDate: dMax,
             changeMonth: true,
             changeYear: true,
+            yearRange: dMin.getFullYear()+":"+dMax.getFullYear(),
         });
         jQuery(function(jQuery){
             if (lang) {
