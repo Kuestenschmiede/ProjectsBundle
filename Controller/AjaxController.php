@@ -19,6 +19,7 @@ use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialog;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GDateField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GEmailField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GForeignArrayField;
+use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GPostalField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GSelectField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GSubDialogField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GTelField;
@@ -160,6 +161,7 @@ class AjaxController extends Controller
                 ($field instanceof C4GTimeField) ||
                 ($field instanceof C4GTimepickerField) ||
                 ($field instanceof C4GEmailField) ||
+                ($field instanceof C4GPostalField) ||
                 ($field instanceof C4GTelField)) {
                 $newField = new C4GTextField();
                 $newField->setFieldName($field->getFieldName());
