@@ -21,6 +21,8 @@ class C4GDateTimePickerField extends C4GBrickField
 {
     // customize single date fields
     private $customFormat = null;
+    private $dateField = ''; //merged with time if necessary
+    private $timeField = ''; //merged with date if necessary
 
     /**
      * @param C4GBrickField[] $fieldList
@@ -36,6 +38,51 @@ class C4GDateTimePickerField extends C4GBrickField
         $title = $this->getTitle();
         $required = $this->generateRequiredString($data, $dialogParams);
         $value = $this->generateInitialValue($data);
+
+        if (is_int($value) && $this->dateField) {
+            $dateField = $this->dateField;
+            $date = $data->$dateField;
+            if ($date) {
+                //ToDo move to helper classes
+                $hour = date('h',$value);
+                $minute = date('i',$value);
+                $second = date('s',$value);
+                $year = date('Y',$date);
+                $month = date('m',$date);
+                $day = date('d',$date);
+
+                $value = mktime(
+                    intval($hour),
+                    intval($minute),
+                    intval($second),
+                    intval($month),
+                    intval($day),
+                    intval($year)
+                );
+            }
+        } else if (is_int($value) && $this->timeField) {
+            $timeField = $this->timeField;
+            $time = $data->$timeField;
+            if ($time) {
+                //ToDo move to helper classes
+                $hour = date('h',$time);
+                $minute = date('i',$time);
+                $second = date('s',$time);
+                $year = date('Y',$value);
+                $month = date('m',$value);
+                $day = date('d',$value);
+
+                $value = mktime(
+                    intval($hour),
+                    intval($minute),
+                    intval($second),
+                    intval($month),
+                    intval($day),
+                    intval($year)
+                );
+            }
+        }
+
         if ($this->customFormat) {
             $dateFormat = $this->customFormat;
         } else {
@@ -144,9 +191,52 @@ class C4GDateTimePickerField extends C4GBrickField
     public function getC4GListField($rowData, $content)
     {
         $fieldName = $this->getFieldName();
-        $date = $rowData->$fieldName;
-        if ($date) {
-            return "<span style='display:none;'>$date</span>" . '<span>' . date($GLOBALS['TL_CONFIG']['datimFormat'], $date) . '</span>';
+        $value = $rowData->$fieldName;
+        if ($value) {
+            if ($this->dateField) {
+                $dateField = $this->dateField;
+                $date = $rowData->$dateField;
+                if ($date) {
+                    //ToDo move to helper classes
+                    $hour = date('h',$value);
+                    $minute = date('i',$value);
+                    $second = date('s',$value);
+                    $year = date('Y',$date);
+                    $month = date('m',$date);
+                    $day = date('d',$date);
+
+                    $value = mktime(
+                        intval($hour),
+                        intval($minute),
+                        intval($second),
+                        intval($month),
+                        intval($day),
+                        intval($year)
+                    );
+                }
+            } else if ($this->timeField) {
+                $timeField = $this->timeField;
+                $time = $rowData->$timeField;
+                if ($time) {
+                    //ToDo move to helper classes
+                    $hour = date('h',$time);
+                    $minute = date('i',$time);
+                    $second = date('s',$time);
+                    $year = date('Y',$value);
+                    $month = date('m',$value);
+                    $day = date('d',$value);
+
+                    $value = mktime(
+                        intval($hour),
+                        intval($minute),
+                        intval($second),
+                        intval($month),
+                        intval($day),
+                        intval($year)
+                    );
+                }
+            }
+
         }
 
         return '';

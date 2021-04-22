@@ -452,5 +452,4 @@ class C4GDateField extends C4GBrickField
     {
         $this->flipButtonPosition = $flipButtonPosition;
     }
-
 }
