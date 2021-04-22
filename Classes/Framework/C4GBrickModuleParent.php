@@ -594,6 +594,7 @@ class C4GBrickModuleParent extends \Module
             $data['initData'] = json_encode($arrAction);
         } else {
             $initData = $this->generateAjax($request);
+
             if ($initData && (is_array(json_decode($initData)) && (count(json_decode($initData)) > 0) ||
                     (json_decode($initData) instanceof \stdClass) && count((array) json_decode($initData)) > 0)) {
                 $data['initData'] = $initData;
@@ -924,7 +925,7 @@ class C4GBrickModuleParent extends \Module
                 $path = C4GBrickConst::PATH_MEMBER_DATA . '/' . $this->User->id;
                 C4GBrickCommon::mkdir($path);
 
-                //Hier wird nur die UserId benötigt und die steht überall zur Verfügung.
+            //Hier wird nur die UserId benötigt und die steht überall zur Verfügung.
             } else {
                 if (($this->group_id == -1) || ($this->group_id == null)) {
 

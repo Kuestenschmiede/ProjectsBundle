@@ -1012,3 +1012,6 @@ label:empty, li:empty, #c4g_description:empty {
     display: none !important;
 }
 
+.ui-datepicker-month, .ui-datepicker-year {
+    display: inline-block;
+}
