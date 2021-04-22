@@ -237,6 +237,9 @@ class C4GDateTimePickerField extends C4GBrickField
                 }
             }
 
+            //ToDo check old version. This won't work because the span isn't printable and sortable.
+            //return "<span style='display:none;'>$value</span>" . '<span>' . date($GLOBALS['TL_CONFIG']['datimFormat'], $value) . '</span>';
+            return date($GLOBALS['TL_CONFIG']['datimFormat'], $value);
         }
 
         return '';
@@ -256,5 +259,37 @@ class C4GDateTimePickerField extends C4GBrickField
     public function setCustomFormat($customFormat)
     {
         $this->customFormat = $customFormat;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDateField(): string
+    {
+        return $this->dateField;
+    }
+
+    /**
+     * @param string $dateField
+     */
+    public function setDateField(string $dateField): void
+    {
+        $this->dateField = $dateField;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTimeField(): string
+    {
+        return $this->timeField;
+    }
+
+    /**
+     * @param string $timeField
+     */
+    public function setTimeField(string $timeField): void
+    {
+        $this->timeField = $timeField;
     }
 }
