@@ -53,19 +53,29 @@ class C4GNotification
 
     public function send(array $notificationIds)
     {
+        $result = false;
+
         foreach ($this->tokens as $key => $token) {
             if ($token === '' && !in_array($key, $this->optionalTokens)) {
                 throw new \Exception("C4GNotification: The token '$key' has not been defined.");
             }
         }
 
+        $sendingResult = true;
         foreach ($notificationIds as $notificationId) {
             $notificationModel = Notification::findByPk($notificationId);
             if ($notificationModel !== null) {
-                $notificationModel->send($this->tokens);
+
+                if (!$notificationModel->send($this->tokens)) {
+                    $sendingResult = false;
+                }
             } else {
                 throw new \Exception("C4GNotification: Could not find notification with id $notificationId.");
             }
         }
+
+        $result = $sendingResult;
+
+        return $result;
     }
 }

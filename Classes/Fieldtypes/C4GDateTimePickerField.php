@@ -44,12 +44,12 @@ class C4GDateTimePickerField extends C4GBrickField
             $date = $data->$dateField;
             if ($date) {
                 //ToDo move to helper classes
-                $hour = date('h',$value);
-                $minute = date('i',$value);
-                $second = date('s',$value);
-                $year = date('Y',$date);
-                $month = date('m',$date);
-                $day = date('d',$date);
+                $hour = date('h', $value);
+                $minute = date('i', $value);
+                $second = date('s', $value);
+                $year = date('Y', $date);
+                $month = date('m', $date);
+                $day = date('d', $date);
 
                 $value = mktime(
                     intval($hour),
@@ -60,17 +60,17 @@ class C4GDateTimePickerField extends C4GBrickField
                     intval($year)
                 );
             }
-        } else if (is_int($value) && $this->timeField) {
+        } elseif (is_int($value) && $this->timeField) {
             $timeField = $this->timeField;
             $time = $data->$timeField;
             if ($time) {
                 //ToDo move to helper classes
-                $hour = date('h',$time);
-                $minute = date('i',$time);
-                $second = date('s',$time);
-                $year = date('Y',$value);
-                $month = date('m',$value);
-                $day = date('d',$value);
+                $hour = date('h', $time);
+                $minute = date('i', $time);
+                $second = date('s', $time);
+                $year = date('Y', $value);
+                $month = date('m', $value);
+                $day = date('d', $value);
 
                 $value = mktime(
                     intval($hour),
@@ -198,12 +198,12 @@ class C4GDateTimePickerField extends C4GBrickField
                 $date = $rowData->$dateField;
                 if ($date) {
                     //ToDo move to helper classes
-                    $hour = date('h',$value);
-                    $minute = date('i',$value);
-                    $second = date('s',$value);
-                    $year = date('Y',$date);
-                    $month = date('m',$date);
-                    $day = date('d',$date);
+                    $hour = date('h', $value);
+                    $minute = date('i', $value);
+                    $second = date('s', $value);
+                    $year = date('Y', $date);
+                    $month = date('m', $date);
+                    $day = date('d', $date);
 
                     $value = mktime(
                         intval($hour),
@@ -214,17 +214,17 @@ class C4GDateTimePickerField extends C4GBrickField
                         intval($year)
                     );
                 }
-            } else if ($this->timeField) {
+            } elseif ($this->timeField) {
                 $timeField = $this->timeField;
                 $time = $rowData->$timeField;
                 if ($time) {
                     //ToDo move to helper classes
-                    $hour = date('h',$time);
-                    $minute = date('i',$time);
-                    $second = date('s',$time);
-                    $year = date('Y',$value);
-                    $month = date('m',$value);
-                    $day = date('d',$value);
+                    $hour = date('h', $time);
+                    $minute = date('i', $time);
+                    $second = date('s', $time);
+                    $year = date('Y', $value);
+                    $month = date('m', $value);
+                    $day = date('d', $value);
 
                     $value = mktime(
                         intval($hour),
