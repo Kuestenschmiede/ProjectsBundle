@@ -51,6 +51,11 @@ class C4GNotification
         $this->optionalTokens[] = $token;
     }
 
+    public function setOptionalTokens(array $token)
+    {
+        $this->optionalTokens = $token;
+    }
+
     public function send(array $notificationIds)
     {
         $result = false;
