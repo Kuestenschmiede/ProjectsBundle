@@ -70,7 +70,6 @@ class C4GNotification
         foreach ($notificationIds as $notificationId) {
             $notificationModel = Notification::findByPk($notificationId);
             if ($notificationModel !== null) {
-
                 if (!$notificationModel->send($this->tokens)) {
                     $sendingResult = false;
                 }
