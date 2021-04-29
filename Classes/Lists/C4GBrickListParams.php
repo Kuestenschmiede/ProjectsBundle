@@ -69,6 +69,7 @@ class C4GBrickListParams
     private $scrollX = false;
     private $autoWidth = false;
     private $responsive = true;
+    private $redirectListPage = 0;
 
     /**
      * C4GBrickListParams constructor.
@@ -995,5 +996,21 @@ class C4GBrickListParams
     public function setResponsive(bool $responsive): void
     {
         $this->responsive = $responsive;
+    }
+
+    /**
+     * @return int
+     */
+    public function getRedirectListPage(): int
+    {
+        return $this->redirectListPage;
+    }
+
+    /**
+     * @param int $redirectListPage
+     */
+    public function setRedirectListPage(int $redirectListPage): void
+    {
+        $this->redirectListPage = $redirectListPage;
     }
 }

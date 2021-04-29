@@ -57,6 +57,13 @@ class C4GShowListAction extends C4GBrickDialogAction
         $modelClass = $brickDatabase->getParams()->getModelClass();
         $viewFormatFunction = $listParams->getViewFormatFunction();
 
+        if ($listParams->getRedirectListPage() !== 0) {
+            $redirectAction = new C4GRedirectAction($dialogParams, $listParams, $fieldList, $putVars, $brickDatabase);
+            $redirectAction->setRedirectWithSaving(false);
+            $redirectAction->setRedirectSite($listParams->getRedirectListPage());
+            return $redirectAction->run();
+        }
+
         // strip fieldlist to avoid iterating irrelevant fields
         if ($listParams->isStripFieldList() === true) {
             $listFieldlist = [];
