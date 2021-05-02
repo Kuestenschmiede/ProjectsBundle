@@ -198,7 +198,7 @@ class C4GDateTimePickerField extends C4GBrickField
                 $date = $rowData->$dateField;
                 if ($date) {
                     //ToDo move to helper classes
-                    $hour = date('h', $value);
+                    $hour = date('H', $value);
                     $minute = date('i', $value);
                     $second = date('s', $value);
                     $year = date('Y', $date);
@@ -219,7 +219,7 @@ class C4GDateTimePickerField extends C4GBrickField
                 $time = $rowData->$timeField;
                 if ($time) {
                     //ToDo move to helper classes
-                    $hour = date('h', $time);
+                    $hour = date('H', $time);
                     $minute = date('i', $time);
                     $second = date('s', $time);
                     $year = date('Y', $value);
