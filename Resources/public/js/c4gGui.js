@@ -791,7 +791,7 @@ this.c4g.projects = this.c4g.projects || {};
               if (value['tableSelection']) {
                 if ((typeof(oDataTable) !== 'undefined') && (oDataTable != null)) {
                   var formdata = {};
-                  oDataTable.jQuery('tr.row_selected').each(function (index, value) {
+                  oDataTable.jquery('tr.row_selected').each(function (index, value) {
                     formdata['action' + index] = value.attributes['data-action'].value;
                   });
                   fnExecAjaxPut(
