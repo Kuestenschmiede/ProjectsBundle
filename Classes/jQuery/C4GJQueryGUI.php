@@ -58,39 +58,39 @@ class C4GJQueryGUI
                 // jQuery is already loaded by Contao, don't load again!
             } else {
                 // Include JQuery JS
-                ResourceLoader::loadJavaScriptResource('assets/jquery/js/jquery.min.js', $location = ResourceLoader::JAVASCRIPT, $key = 'c4g_jquery');
+                ResourceLoader::loadJavaScriptResource('assets/jquery/js/jquery.min.js', $location = ResourceLoader::BODY, $key = 'c4g_jquery');
                 // just until the old plugins are replaced
                 // Set JQuery to noConflict mode immediately after load of jQuery
-                ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/js/c4gjQueryNoConflict.js', $location = ResourceLoader::HEAD, $key = 'c4g_jquery_noconflict');
+                ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/js/c4gjQueryNoConflict.js', $location = ResourceLoader::BODY, $key = 'c4g_jquery_noconflict');
             }
         }
 
         if ($addJQueryUI || $useTree || $useMaps) {
-            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/jQuery/jquery-ui-1.12.1.custom/jquery-ui.min.js', $location = ResourceLoader::HEAD, $key = 'c4g_jquery_ui');
-            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/jQuery/jquery-ui-i18n.min.js', $location = ResourceLoader::HEAD, $key = 'c4g_jquery_ui_i18n');
-            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/jQuery/plugins/jquery.legacy.min.js', $location = ResourceLoader::HEAD, $key = 'c4g_a');
-            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/js/DialogHandler.js', $location = ResourceLoader::HEAD, $key = 'dialog_handler');
-            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/build/AlertHandler.js', $location = ResourceLoader::HEAD, $key = 'alert_handler');
+            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/jQuery/jquery-ui-1.12.1.custom/jquery-ui.min.js', $location = ResourceLoader::BODY, $key = 'c4g_jquery_ui');
+            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/jQuery/jquery-ui-i18n.min.js', $location = ResourceLoader::BODY, $key = 'c4g_jquery_ui_i18n');
+            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/jQuery/plugins/jquery.legacy.min.js', $location = ResourceLoader::BODY, $key = 'c4g_a');
+            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/js/DialogHandler.js|async|static', $location = ResourceLoader::JAVASCRIPT, $key = 'dialog_handler');
+            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/build/AlertHandler.js|async|static', $location = ResourceLoader::JAVASCRIPT, $key = 'alert_handler');
         }
 
         if ($useTable) {
-            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/jQuery/plugins/jquery.scrollTo/jquery.scrollTo.min.js', $location = ResourceLoader::HEAD, $key = 'c4g_jq_scrollTo');
+            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/jQuery/plugins/jquery.scrollTo/jquery.scrollTo.min.js', $location = ResourceLoader::BODY, $key = 'c4g_jq_scrollTo');
 
-            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/jQuery/plugins/datatables/media/js/jquery.dataTables.min.js', $location = ResourceLoader::HEAD, $key = 'c4g_jq_datatables');
-            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/jQuery/plugins/datatables/media/js/dataTables.jqueryui.min.js', $location = ResourceLoader::HEAD, $key = 'c4g_jq_datatables_ui');
+            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/jQuery/plugins/datatables/media/js/jquery.dataTables.min.js', $location = ResourceLoader::BODY, $key = 'c4g_jq_datatables');
+            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/jQuery/plugins/datatables/media/js/dataTables.jqueryui.min.js', $location = ResourceLoader::BODY, $key = 'c4g_jq_datatables_ui');
 
-            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/jQuery/plugins/datatables/extensions/Buttons/js/dataTables.buttons.min.js', $location = ResourceLoader::HEAD, $key = 'c4g_jq_datatables_buttons');
-            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/jQuery/plugins/datatables/extensions/Buttons/js/buttons.print.min.js', $location = ResourceLoader::HEAD, $key = 'c4g_jq_datatables_buttons_print');
-            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/jQuery/plugins/datatables/extensions/Buttons/js/buttons.jqueryui.min.js', $location = ResourceLoader::HEAD, $key = 'c4g_jq_datatables_buttons_jquery');
-            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/jQuery/plugins/datatables/extensions/Buttons/js/pdfmake.min.js', $location = ResourceLoader::HEAD, $key = 'c4g_jq_datatables_buttons_pdf');
-            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/jQuery/plugins/datatables/extensions/Buttons/js/buttons.html5.min.js', $location = ResourceLoader::HEAD, $key = 'c4g_jq_datatables_buttons_html5');
-            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/jQuery/plugins/datatables/extensions/Buttons/js/vfs_fonts.js', $location = ResourceLoader::HEAD, $key = 'c4g_jq_datatables_buttons_font');
-            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/jQuery/plugins/datatables/extensions/Buttons/js/jszip.min.js', $location = ResourceLoader::HEAD, $key = 'c4g_jq_datatables_jszip');
-            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/jQuery/plugins/datatables/extensions/Scroller/js/dataTables.scroller.min.js', $location = ResourceLoader::HEAD, $key = 'c4g_jq_datatables_scroller');
-            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/jQuery/plugins/datatables/extensions/Sorting/date-de.js', $location = ResourceLoader::HEAD, $key = 'c4g_jq_datatables_sort_date_de');
-            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/jQuery/plugins/datatables/extensions/Sorting/text-de.js', $location = ResourceLoader::HEAD, $key = 'c4g_jq_datatables_sort_text_de');
-            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/jQuery/plugins/datatables/extensions/Responsive/js/dataTables.responsive.min.js', $location = ResourceLoader::HEAD, $key = 'c4g_jq_datatables_responsive');
-            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/jQuery/plugins/datatables/extensions/Responsive/js/responsive.jqueryui.min.js', $location = ResourceLoader::HEAD, $key = 'c4g_jq_datatables_responsive_ui');
+            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/jQuery/plugins/datatables/extensions/Buttons/js/dataTables.buttons.min.js', $location = ResourceLoader::BODY, $key = 'c4g_jq_datatables_buttons');
+            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/jQuery/plugins/datatables/extensions/Buttons/js/buttons.print.min.js', $location = ResourceLoader::BODY, $key = 'c4g_jq_datatables_buttons_print');
+            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/jQuery/plugins/datatables/extensions/Buttons/js/buttons.jqueryui.min.js', $location = ResourceLoader::BODY, $key = 'c4g_jq_datatables_buttons_jquery');
+            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/jQuery/plugins/datatables/extensions/Buttons/js/pdfmake.min.js', $location = ResourceLoader::BODY, $key = 'c4g_jq_datatables_buttons_pdf');
+            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/jQuery/plugins/datatables/extensions/Buttons/js/buttons.html5.min.js', $location = ResourceLoader::BODY, $key = 'c4g_jq_datatables_buttons_html5');
+            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/jQuery/plugins/datatables/extensions/Buttons/js/vfs_fonts.js', $location = ResourceLoader::BODY, $key = 'c4g_jq_datatables_buttons_font');
+            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/jQuery/plugins/datatables/extensions/Buttons/js/jszip.min.js', $location = ResourceLoader::BODY, $key = 'c4g_jq_datatables_jszip');
+            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/jQuery/plugins/datatables/extensions/Scroller/js/dataTables.scroller.min.js', $location = ResourceLoader::BODY, $key = 'c4g_jq_datatables_scroller');
+            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/jQuery/plugins/datatables/extensions/Sorting/date-de.js', $location = ResourceLoader::BODY, $key = 'c4g_jq_datatables_sort_date_de');
+            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/jQuery/plugins/datatables/extensions/Sorting/text-de.js', $location = ResourceLoader::BODY, $key = 'c4g_jq_datatables_sort_text_de');
+            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/jQuery/plugins/datatables/extensions/Responsive/js/dataTables.responsive.min.js', $location = ResourceLoader::BODY, $key = 'c4g_jq_datatables_responsive');
+            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/jQuery/plugins/datatables/extensions/Responsive/js/responsive.jqueryui.min.js', $location = ResourceLoader::BODY, $key = 'c4g_jq_datatables_responsive_ui');
 
             // Include DataTables CSS
             ResourceLoader::loadCssResourceDeferred('bundles/con4giscore/vendor/jQuery/plugins/datatables/media/css/jquery.dataTables_themeroller.css');
@@ -106,41 +106,41 @@ class C4GJQueryGUI
         }
 
         if ($useTree || $useMaps) {
-            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/jQuery/plugins/dynatree/jquery.dynatree.min.js', $location = ResourceLoader::HEAD, $key = 'c4g_jq_dynatree');
+            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/jQuery/plugins/dynatree/jquery.dynatree.min.js', $location = ResourceLoader::BODY, $key = 'c4g_jq_dynatree');
             ResourceLoader::loadCssResourceDeferred('bundles/con4giscore/vendor/jQuery/plugins/dynatree/skin/ui.dynatree.css');
         }
 
         if ($useHistory) {
-            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/jQuery/plugins/jquery.history.js', $location = ResourceLoader::HEAD, $key = 'c4g_jq_history');
+            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/jQuery/plugins/jquery.history.js', $location = ResourceLoader::BODY, $key = 'c4g_jq_history');
         }
 
         if ($useTooltip) {
-            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/jQuery/plugins/jquery.tooltip.pack.js', $location = ResourceLoader::HEAD, $key = 'c4g_jq_tooltip_b');
+            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/jQuery/plugins/jquery.tooltip.pack.js', $location = ResourceLoader::BODY, $key = 'c4g_jq_tooltip_b');
         }
 
         if ($useWswgEditor) {
-            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/vendor/wswgEditor/editor.js', $location = ResourceLoader::HEAD, $key = 'c4g_jq_bbc');
+            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/vendor/wswgEditor/editor.js|async|static', $location = ResourceLoader::JAVASCRIPT, $key = 'c4g_jq_bbc');
             ResourceLoader::loadCssResourceDeferred('bundles/con4gisprojects/vendor/wswgEditor/css/editor.css');
             ResourceLoader::loadCssResourceDeferred('bundles/con4gisprojects/vendor/wswgEditor/css/bbcodes.css');
-            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/vendor/fileUpload/upload.js', $location = ResourceLoader::HEAD, $key = 'c4g_jq_fileupload');
+            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/vendor/fileUpload/upload.js|async|static', $location = ResourceLoader::JAVASCRIPT, $key = 'c4g_jq_fileupload');
         }
 
         if ($useScrollpane) {
-            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/jQuery/plugins/jScrollPane/js/jquery.jscrollpane.min.js', $location = ResourceLoader::HEAD, $key = 'c4g_jq_scrollpane');
-            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/jQuery/plugins/jScrollPane/js/jquery.mousewheel.js', $location = ResourceLoader::HEAD, $key = 'c4g_jq_mousewheel');
-            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/jQuery/plugins/jScrollPane/js/mwheelIntent.js', $location = ResourceLoader::HEAD, $key = 'c4g_mwheelintent');
+            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/jQuery/plugins/jScrollPane/js/jquery.jscrollpane.min.js|async|static', $location = ResourceLoader::JAVASCRIPT, $key = 'c4g_jq_scrollpane');
+            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/jQuery/plugins/jScrollPane/js/jquery.mousewheel.js|async|static', $location = ResourceLoader::JAVASCRIPT, $key = 'c4g_jq_mousewheel');
+            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/jQuery/plugins/jScrollPane/js/mwheelIntent.js|async|static', $location = ResourceLoader::JAVASCRIPT, $key = 'c4g_mwheelintent');
             ResourceLoader::loadCssResourceDeferred('bundles/con4giscore/vendor/jQuery/plugins/jScrollPane/css/jquery.jscrollpane.css');
         }
 
         if ($usePopups || C4GVersionProvider::isInstalled('con4gis/projects')) {
             ResourceLoader::loadCssResourceDeferred('bundles/con4giscore/vendor/magnific-popup/magnific-popup.css');
-            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/magnific-popup/jquery.magnific-popup.min.js', $location = ResourceLoader::HEAD, $key = 'magnific-popup');
+            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/magnific-popup/jquery.magnific-popup.min.js|async|static', $location = ResourceLoader::JAVASCRIPT, $key = 'magnific-popup');
         }
 
         //TODO: add own switch for maps
         if (C4GVersionProvider::isInstalled('con4gis/projects')) {
             ResourceLoader::loadCssResourceDeferred('bundles/con4giscore/vendor/jQuery/plugins/lighbox2/css/lightbox.min.css');
-            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/jQuery/plugins/lighbox2/js/lightbox.min.js', $location = ResourceLoader::HEAD, $key = 'c4g_jq_lighbox2');
+            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/jQuery/plugins/lighbox2/js/lightbox.min.js|async|static', $location = ResourceLoader::JAVASCRIPT, $key = 'c4g_jq_lighbox2');
         }
 
         if ($useMaps && C4GVersionProvider::isInstalled('con4gis/maps')) {
@@ -148,15 +148,15 @@ class C4GJQueryGUI
             MapsResourceLoader::loadResources();
             MapsResourceLoader::loadTheme();
 
-            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/magnific-popup/jquery.magnific-popup.min.js', $location = ResourceLoader::JAVASCRIPT, $key = 'magnific-popup');
+            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/magnific-popup/jquery.magnific-popup.min.js|async|static', $location = ResourceLoader::JAVASCRIPT, $key = 'magnific-popup');
             $GLOBALS['TL_CSS']['magnific-popup'] = 'bundles/con4giscore/vendor/magnific-popup/magnific-popup.css';
 
-            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/clipboard.min.js', $location = ResourceLoader::JAVASCRIPT, $key = 'clipboard');
-            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/jQuery/plugins/jquery-simple-datetimepicker/1.13.0/jquery.simple-dtpicker.js', $location = ResourceLoader::JAVASCRIPT, $key = 'datetimepicker');
+            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/clipboard.min.js|async|static', $location = ResourceLoader::JAVASCRIPT, $key = 'clipboard');
+            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/jQuery/plugins/jquery-simple-datetimepicker/1.13.0/jquery.simple-dtpicker.js|async|static', $location = ResourceLoader::JAVASCRIPT, $key = 'datetimepicker');
         }
 
         if ($addCore) {
-            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/js/c4gGui.js', $location = ResourceLoader::HEAD, $key = 'c4g_jquery_gui');
+            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/js/c4gGui.js', $location = ResourceLoader::BODY, $key = 'c4g_jquery_gui');
             ResourceLoader::loadCssResourceDeferred('bundles/con4gisprojects/css/c4gGui.css');
             ResourceLoader::loadCssResourceDeferred('bundles/con4gisprojects/css/c4gLoader.css');
         }
