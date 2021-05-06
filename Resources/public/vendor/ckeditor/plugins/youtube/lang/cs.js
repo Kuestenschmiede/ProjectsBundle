@@ -1,4 +1,14 @@
-﻿CKEDITOR.plugins.setLang('youtube', 'cs', {
+﻿/*
+ * This file is part of con4gis, the gis-kit for Contao CMS.
+ * @package con4gis
+ * @version 8
+ * @author con4gis contributors (see "authors.txt")
+ * @license LGPL-3.0-or-later
+ * @copyright (c) 2010-2021, by Küstenschmiede GmbH Software & Design
+ * @link https://www.con4gis.org
+ */
+
+CKEDITOR.plugins.setLang('youtube', 'cs', {
 	button : 'Vložit video YouTube',
 	title : 'Vložit video YouTube',
 	txtEmbed : 'Zde vložte kód pro vložení',

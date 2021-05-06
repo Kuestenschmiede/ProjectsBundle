@@ -1,14 +1,12 @@
 <?php
 /*
- * This file is part of con4gis,
- * the gis-kit for Contao CMS.
- *
- * @package    con4gis
- * @version    7
- * @author     con4gis contributors (see "authors.txt")
- * @license    LGPL-3.0-or-later
- * @copyright  Küstenschmiede GmbH Software & Design
- * @link       https://www.con4gis.org
+ * This file is part of con4gis, the gis-kit for Contao CMS.
+ * @package con4gis
+ * @version 8
+ * @author con4gis contributors (see "authors.txt")
+ * @license LGPL-3.0-or-later
+ * @copyright (c) 2010-2021, by Küstenschmiede GmbH Software & Design
+ * @link https://www.con4gis.org
  */
 namespace con4gis\ProjectsBundle\Classes\Framework;
 
@@ -676,25 +674,25 @@ class C4GBrickModuleParent extends \Module
     protected function compileJavaScript()
     {
         if ($this->loadDefaultResources) {
-            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/js/C4GBrickDialog.js');
+            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/js/C4GBrickDialog.js|async|static');
         }
         if ($this->loadConditionalFieldDisplayResources) {
-            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/js/ConditionalFieldDisplay.js');
+            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/js/ConditionalFieldDisplay.js|async|static');
         }
         if ($this->loadMoreButtonResources) {
-            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/js/more-button.js');
+            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/js/more-button.js|async|static');
         }
         if ($this->loadFontAwesomeResources) {
-            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/fontawesome/js/all.js');
+            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/fontawesome/js/all.js|async|static');
         }
         if ($this->brickScript) {
-            ResourceLoader::loadJavaScriptResource($this->brickScript, ResourceLoader::JAVASCRIPT, 'c4g_brick_script_' . $this->name);
+            ResourceLoader::loadJavaScriptResource($this->brickScript . '|async|static', ResourceLoader::JAVASCRIPT, 'c4g_brick_script_' . $this->name);
         }
         if ($this->loadTriggerSearchFromOtherModuleResources) {
-            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/js/datatable-search-trigger.js', ResourceLoader::JAVASCRIPT, 'datatable-search-trigger');
+            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/js/datatable-search-trigger.js|async|static', ResourceLoader::JAVASCRIPT, 'datatable-search-trigger');
         }
         if ($this->loadChosenResources) {
-            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/jQuery/plugins/chosen/chosen.jquery.min.js');
+            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/jQuery/plugins/chosen/chosen.jquery.min.js|async|static');
             ResourceLoader::loadJavaScriptResourceTag('jQuery(document).ready(function () {jQuery(".chzn-select").chosen();})');
         }
         if ($this->loadFileUploadResources) {
@@ -749,7 +747,7 @@ class C4GBrickModuleParent extends \Module
             if (!$foundHeadlement) {
                 ResourceLoader::loadJavaScriptResourceTag("var ckEditorItems = ['" .
                     implode("','", $aToolbarButtons) . "'];");
-                ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/vendor/ckeditor/ckeditor.js');
+                ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/vendor/ckeditor/ckeditor.js|async|static');
             }
         }
 
@@ -760,7 +758,7 @@ class C4GBrickModuleParent extends \Module
         }
 
         if ($this->loadMultiColumnResources === true) {
-            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/js/multicolumn.js');
+            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/js/multicolumn.js|async|static');
         }
 
         if ($this->loadMiniSearchResources === true) {
@@ -771,7 +769,7 @@ class C4GBrickModuleParent extends \Module
         }
 
         if ($this->loadHistoryPushResources === true) {
-            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/js/historyPush.js');
+            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/js/historyPush.js|async|static');
         }
     }
 
