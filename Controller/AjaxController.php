@@ -190,7 +190,7 @@ class AjaxController extends Controller
         );
 
         $pdfManager = new PdfManager();
-        $style = TL_ROOT.'bundles/con4gisprojects/css/c4g_brick_print.css';
+        $style = TL_ROOT.'bundles/con4gisprojects/dist/css/c4g_brick_print.min.css';
         $pdfManager->style = $style;
 
         $pdfData = array();

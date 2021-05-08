@@ -118,12 +118,12 @@ class C4GJQueryGUI
             ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/jQuery/plugins/jquery.tooltip.pack.js', $location = ResourceLoader::BODY, $key = 'c4g_jq_tooltip_b');
         }
 
-        if ($useWswgEditor) {
-            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/vendor/wswgEditor/editor.js|async|static', $location = ResourceLoader::JAVASCRIPT, $key = 'c4g_jq_bbc');
-            ResourceLoader::loadCssResourceDeferred('bundles/con4gisprojects/vendor/wswgEditor/css/editor.css');
-            ResourceLoader::loadCssResourceDeferred('bundles/con4gisprojects/vendor/wswgEditor/css/bbcodes.css');
-            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/vendor/fileUpload/upload.js|async|static', $location = ResourceLoader::JAVASCRIPT, $key = 'c4g_jq_fileupload');
-        }
+//        if ($useWswgEditor) {
+//            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/vendor/wswgEditor/editor.js|async|static', $location = ResourceLoader::JAVASCRIPT, $key = 'c4g_jq_bbc');
+//            ResourceLoader::loadCssResourceDeferred('bundles/con4gisprojects/vendor/wswgEditor/css/editor.css');
+//            ResourceLoader::loadCssResourceDeferred('bundles/con4gisprojects/vendor/wswgEditor/css/bbcodes.css');
+//            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/vendor/fileUpload/upload.js|async|static', $location = ResourceLoader::JAVASCRIPT, $key = 'c4g_jq_fileupload');
+//        }
 
         if ($useScrollpane) {
             ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/jQuery/plugins/jScrollPane/js/jquery.jscrollpane.min.js|async|static', $location = ResourceLoader::JAVASCRIPT, $key = 'c4g_jq_scrollpane');
@@ -132,16 +132,14 @@ class C4GJQueryGUI
             ResourceLoader::loadCssResourceDeferred('bundles/con4giscore/vendor/jQuery/plugins/jScrollPane/css/jquery.jscrollpane.css');
         }
 
-        if ($usePopups || C4GVersionProvider::isInstalled('con4gis/projects')) {
+        if ($usePopups) {
             ResourceLoader::loadCssResourceDeferred('bundles/con4giscore/vendor/magnific-popup/magnific-popup.css');
             ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/magnific-popup/jquery.magnific-popup.min.js|async|static', $location = ResourceLoader::JAVASCRIPT, $key = 'magnific-popup');
         }
 
         //TODO: add own switch for maps
-        if (C4GVersionProvider::isInstalled('con4gis/projects')) {
-            ResourceLoader::loadCssResourceDeferred('bundles/con4giscore/vendor/jQuery/plugins/lighbox2/css/lightbox.min.css');
-            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/jQuery/plugins/lighbox2/js/lightbox.min.js|async|static', $location = ResourceLoader::JAVASCRIPT, $key = 'c4g_jq_lighbox2');
-        }
+        ResourceLoader::loadCssResourceDeferred('bundles/con4giscore/vendor/jQuery/plugins/lighbox2/css/lightbox.min.css');
+        ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/jQuery/plugins/lighbox2/js/lightbox.min.js|async|static', $location = ResourceLoader::JAVASCRIPT, $key = 'c4g_jq_lighbox2');
 
         if ($useMaps && C4GVersionProvider::isInstalled('con4gis/maps')) {
             // TODO: recieve and use profileId
@@ -156,9 +154,9 @@ class C4GJQueryGUI
         }
 
         if ($addCore) {
-            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/js/c4gGui.js', $location = ResourceLoader::BODY, $key = 'c4g_jquery_gui');
-            ResourceLoader::loadCssResourceDeferred('bundles/con4gisprojects/css/c4gGui.css');
-            ResourceLoader::loadCssResourceDeferred('bundles/con4gisprojects/css/c4gLoader.css');
+            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/dist/js/c4gGui.js|async|static', $location = ResourceLoader::JAVASCRIPT, $key = 'c4g_jquery_gui');
+            ResourceLoader::loadCssResourceDeferred('bundles/con4gisprojects/dist/css/c4gGui.min.css');
+            ResourceLoader::loadCssResourceDeferred('bundles/con4gisprojects/dist/css/c4gLoader.min.css');
         }
 
         if ($addJQueryUI || $useTree || $useMaps) {

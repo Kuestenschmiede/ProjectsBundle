@@ -10,11 +10,9 @@
 
 @CHARSET "ISO-8859-1";
 
-@import url("../../../bundles/con4giscore/vendor/fontawesome/css/all.css");
-@font-face {
-    font-family: 'Font Awesome 5 Free';
-    font-weight: 900;
-    font-style: normal;
+h1 {
+    font-size: 18px;
+    font-color: #000000;
 }
 
 .c4gGuiDialogTitle h1
@@ -44,9 +42,9 @@
     margin-right: 4px;
     margin-left: 4px;
 }
-input:invalid {
-    border-right-color: red;
-}
+/*input:invalid {*/
+    /*border-right-color: red;*/
+/*}*/
 .c4gGuiDialogTitle select.c4g_filter {
     float: right;
     margin-top: 4px;
@@ -79,9 +77,7 @@ input:invalid {
 }
 .c4g_brick_dialog input.formdata,
 .c4g_brick_dialog input.formnodata,
-.c4g_brick_dialog textarea.formdata,
-.c4g_brick_dialog .c4g_non_input/*,
-.c4g_brick_dialog div:not(.c4g_non_input) > a*/ {
+.c4g_brick_dialog textarea.formdata {
     display: block;
     margin-bottom: .25em;
     margin-top: .25em;
@@ -89,6 +85,7 @@ input:invalid {
     margin-right: 2.5%;
     width: 95%;
     min-height: 27px;
+    border: none;
 }
 .c4g_brick_dialog input[type='checkbox'] {
     width: 1.0em;
@@ -125,8 +122,6 @@ input:invalid {
     margin-left: 0em;
     margin-right: 1.0em;
     padding: 0;
-    padding-left: 2px;
-    padding-right: 2px;
     vertical-align: middle;
 }
 .c4g_brick_dialog .c4g_brick_radio_group_wrapper{
@@ -136,7 +131,7 @@ input:invalid {
     margin-left: 0px;
 }
 .c4g_brick_dialog label, .c4g_brick_select_dialog label, .c4g_brick_dialog h2 {
-    /*font-weight: bold;*/
+    font-weight: bold;
     margin-left: 2.5%;
 }
 .c4g_brick_dialog label strong {
@@ -247,12 +242,12 @@ input:invalid {
 .c4g_brick_dialog textarea:disabled,
 .c4g_brick_dialog textarea:read-only
 /*.c4g_brick_dialog textarea:-moz-read-only*/,
-.c4g_brick_dialog select:disabled/*,
-.c4g_brick_dialog select:read-only*/ {
+.c4g_brick_dialog select:disabled,
+.c4g_brick_dialog select:read-only {
     background-color: whitesmoke;
     /*border: 0px;*/
     /*cursor: not-allowed;*/
-    border-style: inherit;
+    border: none;
 }
 .c4g_brick_dialog .c4g_textarea_length {
     font-weight: normal;
@@ -280,10 +275,6 @@ input:invalid {
 .c4g_brick_dialog canvas {
     margin-left: 2.5%;
     margin-right: 2.5%;
-}
-.ol-viewport canvas {
-    margin-left: 0px;
-    margin-right: 0px;
 }
 .c4g_brick_dialog .c4g_brick_geopicker_label {
     padding-top: 10px;
@@ -343,9 +334,6 @@ div.cg_block {
 .dataTables_wrapper {
     font-size: inherit;
 }
-.dataTables_wrapper {
-    overflow-y: auto;
-}
 .dataTables_paginate .ui-button {
     padding: 0!important;
 }
@@ -377,19 +365,11 @@ div.cg_block {
     padding: 1px;
     color: red;
     cursor: pointer;
-    font-family: "Font Awesome 5 Free"!important;
+    font-family: 'FontAwesome'!important;
     font-size: inherit;
 }
 .c4g_deleteButton:before {
-    background: #f90;
-    color: #fff;
-    font-family: 'Helvetica', 'Arial', sans-serif;
-    font-size: 2em;
-    font-weight: bold;
-    text-align: center;
-    width: 40px;
-    height: 40px;
-    border-radius: 5px;
+    content: "\f00d";
 }
 #c4g_brick .c4gGuiContentWrapper,
 #c4g_brick .c4gGuiNavigation,
@@ -402,7 +382,7 @@ div.cg_block {
 }
 
 .ol-control button {
-    font-family: 'Font Awesome 5 Free';
+    font-family: 'FontAwesome';
 }
 #c4g_brick .c4g_brick_tiles {
     text-align: center;
@@ -508,7 +488,8 @@ table.dataTable.display tbody, table.dataTable thead th div.DataTables_sort_wrap
 {
     border: 1px solid rgb(226, 226, 226);
     height: auto;
-    width: auto!important;
+    width: 76px;
+    margin-left: 2.5%;
     overflow: hidden;
     display: flex;
 }
@@ -520,7 +501,7 @@ table.dataTable.display tbody, table.dataTable thead th div.DataTables_sort_wrap
     text-align: center;
     height: auto;
     min-height: 27px;
-    width: auto;
+    width: 49px;
     border: 0px inset;
     margin-top: 0px;
     margin-bottom: 0px;
@@ -548,7 +529,7 @@ table.dataTable.display tbody, table.dataTable thead th div.DataTables_sort_wrap
 }
 .c4g_brick_dialog .c4g_timefield:disabled,
 .c4g_brick_dialog .c4g_timefield:read-only {
-    width: auto;
+    width: 57px;
     border-style: inherit;
 }
 .c4g_brick_dialog a input[type='url'] {
@@ -592,12 +573,13 @@ label.c4g_multicheckbox{
 }
 .c4g_brick_dialog input[type='checkbox'] + label {
     display: inline-block;
+    font: FontAwesome;
     font-size: inherit;
     font-weight: 100;
     text-rendering: auto;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    margin-left: 0;
+    /*margin-left: 5px;*/
 }
 .c4g_multicheckbox input[type='checkbox']{
     display: inline-block!important;
@@ -655,11 +637,12 @@ label.c4g_multicheckbox{
     margin: 0;
     padding: 0;
     overflow: hidden;
+    display: none;
 }
 
 .c4gGuiTabLink {
     float: left;
-    display: inline-block;
+    display: none;
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
@@ -668,13 +651,6 @@ label.c4g_multicheckbox{
     font-weight: normal;
     cursor: pointer;
 }
-
-/*
-.c4gGuiTabLinks .ui-state-active {
-    top: 7px!important;
-    position: absolute!important;
-    z-index: 100;
-}*/
 
 .c4gGuiTabContent {
     /*display: none;*/
@@ -746,12 +722,8 @@ label.c4g_multicheckbox{
 }
 .c4g_brick_dialog .c4g_brick_table_rows {
     position: relative;
-    margin-left: 2.5%;
-    margin-bottom: .25em;
+    margin-left: 1.5%;
     width: 98%;
-}
-.c4g_brick_dialog .c4g_brick_table_rows label {
-    margin-left: 0%;
 }
 .c4g_brick_dialog .c4g_brick_stopwatch{
     position:relative;
@@ -835,7 +807,7 @@ a.c4g_tile_button:hover {
     width: 100%;
 }
 .c4g_brick_list ul {
-    display: flex;
+    display: none;
 }
 .c4g_brick_list li {
     padding-right: 8px;
@@ -879,11 +851,6 @@ a.c4g_tile_button:hover {
     margin-bottom: auto;
 }
 
-.c4g_date_field_button_flipped {
-    margin-right: 0% !important;
-    margin-left: 2.5% !important;
-}
-
 .c4g_date_field_button_interactive {
     display: inherit !important;
     cursor: pointer;
@@ -892,25 +859,11 @@ a.c4g_tile_button:hover {
     margin-bottom: auto;
 }
 
-.c4g_date_field_button_interactive_flipped {
-    display: inherit !important;
-    cursor: pointer;
-    margin-left: 2.5% !important;
-    margin-right: 0% !important;
-    margin-top: auto;
-    margin-bottom: auto;
-
-}
-
 .c4g_date_field_input {
     display: inherit !important;
-    margin-right: 1.25%;
+    margin-right: 1.25%
 }
-.c4g_date_field_input_flipped {
-    display: inherit !important;
-    margin-right: 1em !important;
-    margin-left: 1em !important;
-}
+
 .c4g_accordion_icon {
     vertical-align: middle;
     font-size: 30px;
@@ -924,11 +877,16 @@ a.c4g_tile_button:hover {
 
 .c4g_sub_dialog {
     display: block;
-    margin-left: 2.5%;
+    margin-left: 50px;
+    margin-right: 50px;
 }
 
-.c4g_sub_dialog_set {
-    clear: both;
+/*.c4g_sub_dialog_add_button {*/
+    /*margin-left: 10px;*/
+/*}*/
+
+.c4g_sub_dialog_set div {
+    /*width: 90%;*/
 }
 
 .c4g_sub_dialog_set_uneditable .c4g_sub_dialog_add_button {
@@ -957,6 +915,16 @@ a.c4g_tile_button:hover {
     margin-bottom: 20px;
 }
 
+.c4g_sub_dialog_container {
+    margin-bottom: 20px;
+}
+
+.c4g_sub_dialog_container label {
+    font-size: 16px;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
 .ui-button {
     cursor: pointer;
 }
@@ -967,63 +935,4 @@ th.nomouseevents {
 
 th.nomouseevents .DataTables_sort_icon {
     display: none;
-}
-
-.c4g_preview_image {
-    max-width: 100px;
-    max-height: 100px;
-}
-
-.c4g_sub_dialog_remove_button {
-    margin-right: 2.5% !important;
-    float: right;
-}
-
-.c4g_sub_dialog_container {
-    margin-bottom: 20px;
-    clear: both;
-}
-
-.c4g_brick_dialog .ck-editor {
-    display: block  !important;
-    margin-bottom: .25em !important;
-    margin-top: .25em !important;
-    margin-left: 2.5% !important;
-    margin-right: 2.5% !important;
-    width: 95%  !important;
-    min-height: 27px  !important;
-}
-
-.c4g_multicolumn {
-    margin-top: 10px;
-    margin-left: 2.5%;
-}
-
-label:empty, li:empty, #c4g_description:empty {
-    display: none;
-}
-
-.c4g_multicheckbox span:not(.c4g_checkbox) {
-    margin-left: 2.5%;
-    margin-right: 2.5%;
-}
-
-/*.formdata .c4g_multicheckbox label[for='c4g_*'] {
-    display: block!important;
-}*/
-
-.c4gGuiContentWrapper #c4g_list_search {
-    background-color: white !important;
-}
-
-.c4g_list_search_hide {
-    display: none !important;
-}
-
-.c4g_nodisplay {
-    display: none !important;
-}
-
-.ui-datepicker-month, .ui-datepicker-year {
-    display: inline-block;
 }

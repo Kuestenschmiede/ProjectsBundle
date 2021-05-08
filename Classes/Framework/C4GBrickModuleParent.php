@@ -154,7 +154,7 @@ class C4GBrickModuleParent extends \Module
     protected $jQueryUseMapsEditor = false;
     protected $jQueryUseWswgEditor = false;
     protected $jQueryUseScrollPane = true;
-    protected $jQueryUsePopups = true;
+    protected $jQueryUsePopups = false;
 
     //Deprecated Params
     protected $brickStyle = ''; // *DEPRECATED*
@@ -625,7 +625,7 @@ class C4GBrickModuleParent extends \Module
                 $this->jQueryUseMapsEditor,
                 $this->jQueryUseWswgEditor,
                 $this->jQueryUseScrollPane,
-                $this->jQueryUsePopups
+                $this->isPopup
             );
         } else {
             C4GJQueryGUI::initializeLibraries(
@@ -641,7 +641,7 @@ class C4GBrickModuleParent extends \Module
                 $this->jQueryUseMapsEditor,
                 $this->jQueryUseWswgEditor,
                 $this->jQueryUseScrollPane,
-                $this->jQueryUsePopups
+                $this->isPopup
             );
 
             $settings = Database::getInstance()->execute('SELECT * FROM tl_c4g_settings LIMIT 1')->fetchAllAssoc();
@@ -674,22 +674,24 @@ class C4GBrickModuleParent extends \Module
     protected function compileJavaScript()
     {
         if ($this->loadDefaultResources) {
-            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/js/C4GBrickDialog.js|async|static');
+            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/dist/js/C4GBrickDialog.js|async|static');
         }
         if ($this->loadConditionalFieldDisplayResources) {
-            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/js/ConditionalFieldDisplay.js|async|static');
+            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/dist/js/ConditionalFieldDisplay.js|async|static');
         }
         if ($this->loadMoreButtonResources) {
-            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/js/more-button.js|async|static');
+            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/dist/js/more-button.js|async|static');
         }
         if ($this->loadFontAwesomeResources) {
-            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/fontawesome/js/all.js|async|static');
+            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/fontawesome/js/fontawesome.min.js|async|static');
+            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/fontawesome/js/regular.min.js|async|static');
+            //ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/fontawesome/js/solid.min.js|async|static');
         }
         if ($this->brickScript) {
             ResourceLoader::loadJavaScriptResource($this->brickScript . '|async|static', ResourceLoader::JAVASCRIPT, 'c4g_brick_script_' . $this->name);
         }
         if ($this->loadTriggerSearchFromOtherModuleResources) {
-            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/js/datatable-search-trigger.js|async|static', ResourceLoader::JAVASCRIPT, 'datatable-search-trigger');
+            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/dist/js/datatable-search-trigger.js|async|static', ResourceLoader::JAVASCRIPT, 'datatable-search-trigger');
         }
         if ($this->loadChosenResources) {
             ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/jQuery/plugins/chosen/chosen.jquery.min.js|async|static');
@@ -758,34 +760,34 @@ class C4GBrickModuleParent extends \Module
         }
 
         if ($this->loadMultiColumnResources === true) {
-            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/js/multicolumn.js|async|static');
+            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/dist/js/multicolumn.js|async|static');
         }
 
         if ($this->loadMiniSearchResources === true) {
             ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/minisearch/minisearch.js',
                 ResourceLoader::HEAD);
-            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/js/minisearch.js',
+            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/dist/js/minisearch.js',
                 ResourceLoader::HEAD);
         }
 
         if ($this->loadHistoryPushResources === true) {
-            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/js/historyPush.js|async|static');
+            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/dist/js/historyPush.js|async|static');
         }
     }
 
     protected function compileCss()
     {
         if ($this->loadDefaultResources) {
-            ResourceLoader::loadCssResource('bundles/con4gisprojects/css/c4g_brick.css',
+            ResourceLoader::loadCssResource('bundles/con4gisprojects/dist/css/c4g_brick.min.css',
                 'c4g_brick_style');
         }
         if ($this->brickStyle) {
             ResourceLoader::loadCssResource($this->brickStyle, 'c4g_brick_style_' . $this->name);
         }
-        if ($this->loadCkEditorResources) {
-            ResourceLoader::loadCssResource('bundles/con4gisprojects/vendor/wswgEditor/css/editor.css');
-            ResourceLoader::loadCssResource('bundles/con4gisprojects/vendor/wswgEditor/css/bbcodes.css');
-        }
+//        if ($this->loadCkEditorResources) {
+//            ResourceLoader::loadCssResource('bundles/con4gisprojects/vendor/wswgEditor/css/editor.css');
+//            ResourceLoader::loadCssResource('bundles/con4gisprojects/vendor/wswgEditor/css/bbcodes.css');
+//        }
         if ($this->loadDateTimePickerResources) {
             ResourceLoader::loadCssResource(
                 'bundles/con4giscore/vendor/jQuery/plugins/' .

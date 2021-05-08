@@ -1,0 +1,1 @@
+Modernizr.touch&&Modernizr.inputtypes.date||jQuery("input[type=date]").attr("type","text").datepicker({dateFormat:"yy-mm-dd"});var removeButtons="FileUpload,Image";
