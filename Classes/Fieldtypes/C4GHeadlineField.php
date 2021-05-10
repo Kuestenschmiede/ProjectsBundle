@@ -91,7 +91,7 @@ class C4GHeadlineField extends C4GBrickField
             }
 
             $headline =
-                '<h2 class="c4g_brick_headline" ' . $condition['conditionPrepare'] . '>' . $headlineText . '</h2>';
+                '<div class="c4g_brick_headline" ' . $condition['conditionPrepare'] . '>' . $headlineText . '</div>';
             $class = 'class="c4g_condition formdata" ';
 //            $headline = $this->generateC4GFieldHTML($condition, $headline . $this->additionalHeaderText, $class);
             $headline = '<div id="c4g_condition" '
@@ -227,7 +227,7 @@ class C4GHeadlineField extends C4GBrickField
     public function getC4GPopupField($data, $groupId)
     {
         if ($this->getTitle()) {
-            return '<div class="c4g_popup_headline"><h2>' . $this->getTitle() . '</h2></div>';
+            return '<div class="c4g_popup_headline">' . $this->getTitle() . '</div>';
         }
 
         return '';

@@ -20,7 +20,7 @@ $strC4gGui .= "var gui = new c4g.projects.c4gGui({".
   $strC4gGui .= "navPanel: false\n";
   $strC4gGui .= "});\n";
   $strC4gGui .= "gui.setup();\n";
-  $strC4gGui .= "c4g.projects.C4GGui = gui;\n";
+  $strC4gGui .=  c4g && c4g.projects && c4g.projects.C4GGui ? "c4g.projects.C4GGui = gui;\n" : "";
   echo $strC4gGui;
     ?>
 });

@@ -116,10 +116,17 @@ input:invalid {
 .c4g_brick_dialog .c4g_brick_radio_group_wrapper label {
   margin-left: 0
 }
-.c4g_brick_dialog h2,
 .c4g_brick_dialog label,
 .c4g_brick_select_dialog label {
   margin-left: 2.5%
+}
+.c4g_brick_dialog .c4g_brick_headline,
+.c4g_brick_dialog .c4g_popup_headline {
+  font-weight: 700;
+  margin-left: 2.5%;
+  font-size: 1.25em;
+  margin-bottom: 2px;
+  margin-top: 1em
 }
 .c4g_brick_dialog label strong {
   color: red
