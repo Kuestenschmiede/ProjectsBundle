@@ -39,7 +39,7 @@ echo '>';
 }
           echo "});";
         echo "gui.setup();";
-        echo "c4g.projects.C4GGui = gui;";
+        echo c4g && c4g.projects && c4g.projects.C4GGui ? "c4g.projects.C4GGui = gui;" : "";
         ?>
       });
     }
