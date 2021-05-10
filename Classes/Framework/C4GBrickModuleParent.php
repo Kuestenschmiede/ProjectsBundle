@@ -749,12 +749,12 @@ class C4GBrickModuleParent extends \Module
             if (!$foundHeadlement) {
                 ResourceLoader::loadJavaScriptResourceTag("var ckEditorItems = ['" .
                     implode("','", $aToolbarButtons) . "'];");
-                ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/vendor/ckeditor/ckeditor.js|async|static');
+                ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/dist/js/ckeditor4.js|async|static');
             }
         }
 
         if ($this->loadCkEditor5Resources) {
-            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/vendor/ckeditor5/ckeditor.js',
+            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/dist/js/ckeditor5.js',
                 ResourceLoader::HEAD);
             ResourceLoader::loadJavaScriptResourceTag('var ckeditor5instances = {};');
         }
