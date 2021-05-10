@@ -12,10 +12,14 @@ namespace con4gis\ProjectsBundle\Classes\Actions;
 
 class C4GReloadAction extends C4GBrickDialogAction
 {
+    private $jumpTo = '';
+
     public function run()
     {
-        $jumpTo = \Controller::replaceInsertTags('{{link_url::back}}');
-        $return['jump_to_url'] = $jumpTo;
+        if (!$this->jumpTo) {
+            $this->jumpTo = \Controller::replaceInsertTags('{{link_url::back}}');
+        }
+        $return['jump_to_url'] = $this->jumpTo;
 
         return $return;
     }
@@ -23,5 +27,21 @@ class C4GReloadAction extends C4GBrickDialogAction
     public function isReadOnly()
     {
         return true;
+    }
+
+    /**
+     * @return string
+     */
+    public function getJumpTo(): string
+    {
+        return $this->jumpTo;
+    }
+
+    /**
+     * @param string $jumpTo
+     */
+    public function setJumpTo(string $jumpTo): void
+    {
+        $this->jumpTo = $jumpTo;
     }
 }
