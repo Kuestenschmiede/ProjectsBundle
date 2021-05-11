@@ -9,15 +9,6 @@
  * @link https://www.con4gis.org
  */
 
-/**
- * con4gis - the gis-kit
- *
- * @package   con4gis
- * @author    con4gis contributors (see "authors.txt")
- * @license   GNU/LGPL http://opensource.org/licenses/lgpl-3.0.html
- * @copyright Küstenschmiede GmbH Software & Design 2011 - 2018
- * @link      https://www.kuestenschmiede.de
- */
 
 this.c4g = this.c4g || {};
 this.c4g.projects = this.c4g.projects || {};

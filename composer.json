@@ -25,7 +25,8 @@
     "doctrine/data-fixtures": "^1.4.4",
     "doctrine/persistence": "^2.1.0",
     "terminal42/notification_center": "^1.5",
-    "guzzlehttp/guzzle": "^6.2"
+    "guzzlehttp/guzzle": "^6.2",
+    "contao-components/jquery": "^3.0"
   },
   "conflict": {
     "contao/core": "*",

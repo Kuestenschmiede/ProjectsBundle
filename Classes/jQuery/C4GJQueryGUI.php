@@ -61,7 +61,7 @@ class C4GJQueryGUI
                 ResourceLoader::loadJavaScriptResource('assets/jquery/js/jquery.min.js', $location = ResourceLoader::BODY, $key = 'c4g_jquery');
                 // just until the old plugins are replaced
                 // Set JQuery to noConflict mode immediately after load of jQuery
-                ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/js/c4gjQueryNoConflict.js', $location = ResourceLoader::BODY, $key = 'c4g_jquery_noconflict');
+                ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/dist/js/c4gjQueryNoConflict.js', $location = ResourceLoader::BODY, $key = 'c4g_jquery_noconflict');
             }
         }
 
@@ -69,8 +69,8 @@ class C4GJQueryGUI
             ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/jQuery/jquery-ui-1.12.1.custom/jquery-ui.min.js', $location = ResourceLoader::BODY, $key = 'c4g_jquery_ui');
             ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/jQuery/jquery-ui-i18n.min.js', $location = ResourceLoader::BODY, $key = 'c4g_jquery_ui_i18n');
             ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/jQuery/plugins/jquery.legacy.min.js', $location = ResourceLoader::BODY, $key = 'c4g_a');
-            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/js/DialogHandler.js|async|static', $location = ResourceLoader::JAVASCRIPT, $key = 'dialog_handler');
-            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/build/AlertHandler.js|async|static', $location = ResourceLoader::JAVASCRIPT, $key = 'alert_handler');
+            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/dist/js/DialogHandler.js|async|static', $location = ResourceLoader::JAVASCRIPT, $key = 'dialog_handler');
+            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/dist/js/AlertHandler.js|async|static', $location = ResourceLoader::JAVASCRIPT, $key = 'alert_handler');
         }
 
         if ($useTable) {
@@ -133,21 +133,21 @@ class C4GJQueryGUI
         }
 
         if ($usePopups) {
-            ResourceLoader::loadCssResourceDeferred('bundles/con4giscore/vendor/magnific-popup/magnific-popup.css');
-            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/magnific-popup/jquery.magnific-popup.min.js|async|static', $location = ResourceLoader::JAVASCRIPT, $key = 'magnific-popup');
+            //ResourceLoader::loadCssResourceDeferred('bundles/con4gisprojects/vendor/magnific-popup/magnific-popup.css');
+            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/dist/js/c4g-vendor-magnificpopup.js|async|static', $location = ResourceLoader::JAVASCRIPT, $key = 'magnific-popup');
         }
 
         //TODO: add own switch for maps
-        ResourceLoader::loadCssResourceDeferred('bundles/con4giscore/vendor/jQuery/plugins/lighbox2/css/lightbox.min.css');
-        ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/jQuery/plugins/lighbox2/js/lightbox.min.js|async|static', $location = ResourceLoader::JAVASCRIPT, $key = 'c4g_jq_lighbox2');
+        //ResourceLoader::loadCssResourceDeferred('bundles/con4giscore/vendor/jQuery/plugins/lighbox2/css/lightbox.min.css');
+        //ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/jQuery/plugins/lighbox2/js/lightbox.min.js|async|static', $location = ResourceLoader::HEAD, $key = 'c4g_jq_lighbox2');
 
         if ($useMaps && C4GVersionProvider::isInstalled('con4gis/maps')) {
             // TODO: recieve and use profileId
             MapsResourceLoader::loadResources();
             MapsResourceLoader::loadTheme();
 
-            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/magnific-popup/jquery.magnific-popup.min.js|async|static', $location = ResourceLoader::JAVASCRIPT, $key = 'magnific-popup');
-            $GLOBALS['TL_CSS']['magnific-popup'] = 'bundles/con4giscore/vendor/magnific-popup/magnific-popup.css';
+//            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/magnific-popup/jquery.magnific-popup.min.js|async|static', $location = ResourceLoader::JAVASCRIPT, $key = 'magnific-popup');
+//            $GLOBALS['TL_CSS']['magnific-popup'] = 'bundles/con4giscore/vendor/magnific-popup/magnific-popup.css';
 
             ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/clipboard.min.js|async|static', $location = ResourceLoader::JAVASCRIPT, $key = 'clipboard');
             ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/jQuery/plugins/jquery-simple-datetimepicker/1.13.0/jquery.simple-dtpicker.js|async|static', $location = ResourceLoader::JAVASCRIPT, $key = 'datetimepicker');

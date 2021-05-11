@@ -683,9 +683,7 @@ class C4GBrickModuleParent extends \Module
             ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/dist/js/more-button.js|async|static');
         }
         if ($this->loadFontAwesomeResources) {
-            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/fontawesome/js/fontawesome.min.js|async|static');
-            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/fontawesome/js/regular.min.js|async|static');
-            //ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/fontawesome/js/solid.min.js|async|static');
+            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/dist/js/c4g-vendor-fontawesome.js|async|static');
         }
         if ($this->brickScript) {
             ResourceLoader::loadJavaScriptResource($this->brickScript . '|async|static', ResourceLoader::JAVASCRIPT, 'c4g_brick_script_' . $this->name);
@@ -746,16 +744,15 @@ class C4GBrickModuleParent extends \Module
                 }
             }
 
-            if (!$foundHeadlement) {
-                ResourceLoader::loadJavaScriptResourceTag("var ckEditorItems = ['" .
-                    implode("','", $aToolbarButtons) . "'];");
-                ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/dist/js/ckeditor4.js|async|static');
-            }
+//            if (!$foundHeadlement) {
+//                ResourceLoader::loadJavaScriptResourceTag("var ckEditorItems = ['" .
+//                    implode("','", $aToolbarButtons) . "'];");
+//                ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/dist/js/ckeditor4.js|async|static');
+//            }
         }
 
         if ($this->loadCkEditor5Resources) {
-            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/dist/js/ckeditor5.js',
-                ResourceLoader::HEAD);
+            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/dist/js/c4g-vendor-ckeditor.js',ResourceLoader::HEAD);
             ResourceLoader::loadJavaScriptResourceTag('var ckeditor5instances = {};');
         }
 
