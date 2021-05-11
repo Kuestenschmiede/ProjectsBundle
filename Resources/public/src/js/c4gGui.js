@@ -342,10 +342,6 @@ this.c4g.projects = this.c4g.projects || {};
       };
 
       var fnEnableWswgEditor = function () {
-        if (typeof(wswgEditor) !== 'undefined') {
-          if (jQuery('#editor').length > 0) {
-            wswgEditor.initEditor('editor');
-          }
 
           if (jQuery('#ckeditor').length > 0) {
             if (typeof ckEditorItems === "undefined" || ckEditorItems === "" || ckEditorItems.length <= 1) {
@@ -393,11 +389,6 @@ this.c4g.projects = this.c4g.projects || {};
             }, 500);
 
           }
-          jQuery('.BBCode-Area').each(function () {
-            jQuery(this).html(wswgEditor.parseBBCode(jQuery(this).html()));
-          });
-
-        }
       };
 
       var fnAddButton = function (element) {
@@ -994,14 +985,9 @@ this.c4g.projects = this.c4g.projects || {};
             var aAccesskey = (value['accesskey'] ? value['accesskey'] : '');
             dialogoptions.buttons.push({
               cssClass: aClass, accesskey: aAccesskey, text: value.text, click: function () {
-                //todo value['onclick'] == ... dann click auf link für pdf dl
                 if (value.type === 'send') {
                   if ((jQuery('#ckeditor').length > 0) && CKEDITOR && CKEDITOR.instances['ckeditor'] && typeof CKEDITOR.instances['ckeditor'] !== "undefined") {
                     CKEDITOR.instances.ckeditor.updateElement();
-                  } else {
-                    if (typeof(wswgEditor) !== 'undefined') {
-                      wswgEditor.doCheck();
-                    }
                   }
 
                   if ((typeof ckeditor5instances !== 'undefined') && (ckeditor5instances)) {
@@ -1240,9 +1226,6 @@ this.c4g.projects = this.c4g.projects || {};
               } else {
                 if (jQuery(this).hasClass('c4gGuiAction')) {
                   if (typeof(jQuery(this).attr('data-action')) !== 'undefined') {
-                    if (typeof(wswgEditor) !== 'undefined') {
-                      wswgEditor.doCheck();
-                    }
                     fnExecAjaxGet(options.ajaxData + '/' + jQuery(this).attr('data-action'));
                   }
                   return false;
@@ -1276,13 +1259,7 @@ this.c4g.projects = this.c4g.projects || {};
           fnAddAccordion(tmpDialogDiv);
           fnMakeCollapsible(tmpDialogDiv);
 
-          if (content.dialogid !== "previewpost" && content.dialogid !== "previewthread" && content.dialogid.indexOf("postmapentry") !== 0) {
-            fnEnableWswgEditor();
-          } else {
-            jQuery('.BBCode-Area').each(function () {
-              jQuery(this).html(wswgEditor.parseBBCode(jQuery(this).html()));
-            });
-          }
+          fnEnableWswgEditor();
         }
 
       }
