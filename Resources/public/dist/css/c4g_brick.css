@@ -116,10 +116,17 @@ input:invalid {
 .c4g_brick_dialog .c4g_brick_radio_group_wrapper label {
   margin-left: 0
 }
-.c4g_brick_dialog h2,
 .c4g_brick_dialog label,
 .c4g_brick_select_dialog label {
   margin-left: 2.5%
+}
+.c4g_brick_dialog .c4g_brick_headline,
+.c4g_brick_dialog .c4g_popup_headline {
+  font-weight: 700;
+  margin-left: 2.5%;
+  font-size: 1.25em;
+  margin-bottom: 2px;
+  margin-top: 1em
 }
 .c4g_brick_dialog label strong {
   color: red
@@ -129,11 +136,11 @@ input:invalid {
 .c4g_brick_select_dialog .styled_select,
 .c4g_brick_select_dialog select {
   display: block;
-  width: 95.33%;
+  width: 95%;
   min-height: 27px;
   padding-left: 3px;
   padding-right: 3px;
-  margin-left: 2.33%;
+  margin-left: 2.5%;
   margin-bottom: .25em;
   margin-top: .25em;
   overflow: hidden
@@ -798,45 +805,6 @@ a.c4g_tile_button:hover {
 .c4g_more_button_entry_tiles {
   display: inline-block
 }
-.c4g_date_field_container {
-  display: flex;
-  margin-right: 1.25%
-}
-.c4g_date_field_button {
-  display: inherit!important;
-  pointer-events: none;
-  margin-right: 2.5%;
-  margin-top: auto;
-  margin-bottom: auto
-}
-.c4g_date_field_button_flipped {
-  margin-right: 0!important;
-  margin-left: 2.5%!important
-}
-.c4g_date_field_button_interactive {
-  display: inherit!important;
-  cursor: pointer;
-  margin-right: 2.5%;
-  margin-top: auto;
-  margin-bottom: auto
-}
-.c4g_date_field_button_interactive_flipped {
-  display: inherit!important;
-  cursor: pointer;
-  margin-left: 2.5%!important;
-  margin-right: 0!important;
-  margin-top: auto;
-  margin-bottom: auto
-}
-.c4g_date_field_input {
-  display: inherit!important;
-  margin-right: 1.25%
-}
-.c4g_date_field_input_flipped {
-  display: inherit!important;
-  margin-right: 1em!important;
-  margin-left: 1em!important
-}
 .c4g_accordion_icon {
   vertical-align: middle;
   font-size: 30px;
@@ -929,4 +897,48 @@ li:empty {
 .ui-datepicker-month,
 .ui-datepicker-year {
   display: inline-block
+}
+.c4g_date_field_container {
+  display: flex;
+  margin-left: 2.5%;
+  margin-right: 2.5%;
+  width: 95%
+}
+.c4g_date_field_button {
+  display: inherit;
+  pointer-events: none;
+  cursor: pointer;
+  margin-left: 0;
+  margin-top: auto;
+  margin-bottom: auto
+}
+.c4g_date_field_button_flipped {
+  margin-right: 0
+}
+.c4g_date_field_button_interactive {
+  display: inherit;
+  cursor: pointer;
+  margin-left: 0;
+  margin-top: auto;
+  margin-bottom: auto
+}
+.c4g_date_field_button_interactive_flipped {
+  display: inherit;
+  cursor: pointer;
+  margin-right: 0;
+  margin-top: auto;
+  margin-bottom: auto
+}
+input.formdata.c4g_date_field_input {
+  display: inherit;
+  margin-right: 1em;
+  margin-left: 0;
+  width: 100%
+}
+input.formdata.c4g_date_field_input_flipped {
+  display: inherit;
+  margin-left: 1em;
+  margin-right: 0;
+  margin-left: 1em;
+  width: 100%
 }
