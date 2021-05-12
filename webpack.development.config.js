@@ -13,7 +13,6 @@ var path = require('path');
 var config = {
   entry: {
     'c4g-vendor-ckeditor': './Resources/public/vendor/js/c4g-vendor-ckeditor.js',
-    'c4g-vendor-fontawesome': './Resources/public/vendor/js/c4g-vendor-fontawesome.js',
     'c4g-vendor-magnificpopup': './Resources/public/vendor/js/c4g-vendor-magnificpopup.js'
   },
   mode: "development",

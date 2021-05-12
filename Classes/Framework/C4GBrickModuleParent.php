@@ -683,7 +683,7 @@ class C4GBrickModuleParent extends \Module
             ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/dist/js/more-button.js|async|static');
         }
         if ($this->loadFontAwesomeResources) {
-            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/dist/js/c4g-vendor-fontawesome.js|async|static');
+            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/dist/js/c4g-vendor-fontawesome.js|async|static');
         }
         if ($this->brickScript) {
             ResourceLoader::loadJavaScriptResource($this->brickScript . '|async|static', ResourceLoader::JAVASCRIPT, 'c4g_brick_script_' . $this->name);
