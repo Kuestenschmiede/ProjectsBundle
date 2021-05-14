@@ -14,72 +14,8 @@ use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldCompare;
 
-class C4GCKEditor5Field extends C4GBrickField
+class C4GTrixEditorField extends C4GBrickField
 {
-    protected static $instances = 0;
-    protected $removedPlugins = [
-        self::PLUGIN_CK_FINDER_UPLOAD_ADAPTER,
-        self::PLUGIN_CK_FINDER,
-        self::PLUGIN_EASY_IMAGE,
-        self::PLUGIN_HEADING,
-        self::PLUGIN_IMAGE,
-        self::PLUGIN_IMAGE_CAPTION,
-        self::PLUGIN_IMAGE_STYLE,
-        self::PLUGIN_IMAGE_TOOLBAR,
-        self::PLUGIN_IMAGE_UPLOAD,
-        self::PLUGIN_LINK,
-        self::PLUGIN_MEDIA_EMBED,
-        self::PLUGIN_PASTE_FROM_OFFICE,
-        self::PLUGIN_TABLE,
-        self::PLUGIN_TABLE_TOOLBAR,
-    ];
-    protected $tools = [
-        self::TOOL_BOLD,
-        self::TOOL_ITALIC,
-        self::TOOL_UNORDERED_LIST,
-        //self::TOOL_ORDERED_LIST,
-        self::TOOL_REDO,
-        self::TOOL_UNDO,
-    ];
-
-    const PLUGIN_ESSENTIALS = 'Essentials';
-    const PLUGIN_CK_FINDER_UPLOAD_ADAPTER = 'CKFinderUploadAdapter';
-    const PLUGIN_AUTO_FORMAT = 'Autoformat';
-    const PLUGIN_BOLD = 'Bold';
-    const PLUGIN_ITALIC = 'Italic';
-    const PLUGIN_BLOCK_QUOTE = 'BlockQuote';
-    const PLUGIN_CK_FINDER = 'CKFinder';
-    const PLUGIN_EASY_IMAGE = 'EasyImage';
-    const PLUGIN_HEADING = 'Heading';
-    const PLUGIN_IMAGE = 'Image';
-    const PLUGIN_IMAGE_CAPTION = 'ImageCaption';
-    const PLUGIN_IMAGE_STYLE = 'ImageStyle';
-    const PLUGIN_IMAGE_TOOLBAR = 'ImageToolbar';
-    const PLUGIN_IMAGE_UPLOAD = 'ImageUpload';
-    const PLUGIN_LINK = 'Link';
-    const PLUGIN_LIST = 'List';
-    const PLUGIN_MEDIA_EMBED = 'MediaEmbed';
-    const PLUGIN_PARAGRAPH = 'Paragraph';
-    const PLUGIN_PASTE_FROM_OFFICE = 'PasteFromOffice';
-    const PLUGIN_TABLE = 'Table';
-    const PLUGIN_TABLE_TOOLBAR = 'TableToolbar';
-
-    const TOOL_BOLD = 'bold';
-    const TOOL_ITALIC = 'italic';
-    const TOOL_UNORDERED_LIST = 'bulletedList';
-    const TOOL_ORDERED_LIST = 'numberedList';
-    const TOOL_UNDO = 'Undo';
-    const TOOL_REDO = 'Redo';
-    const TOOL_BLOCK_QUOTE = 'blockQuote';
-    const TOOL_LINK = 'link';
-    const TOOL_HEADING = 'heading';
-    const TOOL_IMAGE_UPLOAD = 'imageUpload';
-    const TOOL_MEDIA_EMBED = 'mediaEmbed';
-    const TOOL_INSERT_TABLE = 'insertTable';
-    const TOOL_TABLE_COLUMN = 'tableColumn';
-    const TOOL_TABLE_ROW = 'tableRow';
-
-    const TOOL_TABLE = 'table';
 
     /**
      * @param C4GBrickField[] $fieldList
@@ -90,8 +26,7 @@ class C4GCKEditor5Field extends C4GBrickField
      */
     public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = [])
     {
-        $id = 'c4g_ckeditor_' . self::$instances;
-        self::$instances += 1;
+        $id = 'c4g_' . $this->getFieldName();
         $required = $this->generateRequiredString($data, $dialogParams);
         $value = $this->generateInitialValue($data);
 
@@ -108,13 +43,9 @@ class C4GCKEditor5Field extends C4GBrickField
             $tools = [];
         }
 
-        $script = 'ClassicEditor.create(document.querySelector( \'#' . $id . '\' ), { 
-                removePlugins: [ ' . $this->createJSONStringFromArray($this->removedPlugins) . ' ], 
-                toolbar: [ ' . $this->createJSONStringFromArray($tools) . ' ]
-            }).then( editor => { ckeditor5instances[\'#' . $id . '\'] = editor; editor.isReadOnly = \'' . $isReadOnly . '\';} ).catch( error => {console.error(error);});';
+        $fieldData = '<input id="'.$id.'" class="formdata c4geditor ui-corner-all" name="' . $this->getFieldName() . '" value="'.$value.'" type="hidden" name="content"><trix-editor input="'.$id.'"></trix-editor>';
+
         $condition = $this->createConditionData($fieldList, $data);
-        $fieldData = '<textarea onfocus="' . $script . '" ' . $required . ' ' . $condition['conditionPrepare'] . 'id="' . $id . '"' . ' class="formdata js-ckeditor' . ' ui-corner-all" name="' . $this->getFieldName() . '" cols="80" rows="' . $size . '" >' . $value . ' </textarea>';
-        $fieldData .= '<script>' . $script . '</script>';
 
         $result = $this->addC4GField($condition, $dialogParams, $fieldList, $data, $fieldData);
 

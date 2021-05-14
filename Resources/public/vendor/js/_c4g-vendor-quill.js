@@ -8,4 +8,4 @@
  * @link https://www.con4gis.org
  */
 
-import CKEDITOR from '@ckeditor/ckeditor5-build-classic';
+import Quill from 'quill/dist/quill';

@@ -59,7 +59,7 @@ class C4GBrickModuleParent extends \Module
     //optional and modifiable params
 
     //embedding additional sources
-    protected $strTemplate = 'mod_c4g_brick_list'; //default module template
+    protected $strTemplate = 'mod_c4g_brick'; //default module template
     protected $uiTheme = ''; //loading your own ui theme for your module class (https://jqueryui.com/themeroller/)
 
     //group params
@@ -128,7 +128,8 @@ class C4GBrickModuleParent extends \Module
     //Resource Params
     protected $loadDefaultResources = true;
     protected $loadCkEditorResources = false;
-    protected $loadCkEditor5Resources = false;
+    protected $loadTrixEditorResources = false;
+    protected $loadQuillEditorResources = false;
     protected $loadDateTimePickerResources = false;
     protected $loadChosenResources = false;
     protected $loadClearBrowserUrlResources = false;
@@ -744,22 +745,23 @@ class C4GBrickModuleParent extends \Module
                 }
             }
 
-//            if (!$foundHeadlement) {
-//                ResourceLoader::loadJavaScriptResourceTag("var ckEditorItems = ['" .
-//                    implode("','", $aToolbarButtons) . "'];");
-//                ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/dist/js/ckeditor4.js|async|static');
-//            }
+            if (!$foundHeadlement) {
+                ResourceLoader::loadJavaScriptResourceTag("var ckEditorItems = ['" .
+                    implode("','", $aToolbarButtons) . "'];");
+                ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/vendor/ckeditor/ckeditor.js|async|static');
+            }
         }
-
-        if ($this->loadCkEditor5Resources) {
-            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/dist/js/c4g-vendor-ckeditor.js',ResourceLoader::HEAD);
-            ResourceLoader::loadJavaScriptResourceTag('var ckeditor5instances = {};');
+        if ($this->loadTrixEditorResources) {
+            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/dist/js/trix.js|async|static',ResourceLoader::JAVASCRIPT);
+            ResourceLoader::loadCssResource('bundles/con4gisprojects/dist/css/trix.min.css', 'c4g_trix_editor');
         }
-
+        if ($this->loadQuillEditorResources) {
+            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/dist/js/quill.js|async|static',ResourceLoader::JAVASCRIPT);
+            ResourceLoader::loadCssResource('bundles/con4gisprojects/dist/css/quill.snow.min.css', 'c4g_quill_editor');
+        }
         if ($this->loadMultiColumnResources === true) {
             ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/dist/js/multicolumn.js|async|static');
         }
-
         if ($this->loadMiniSearchResources === true) {
             ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/minisearch/minisearch.js',
                 ResourceLoader::HEAD);
@@ -781,10 +783,6 @@ class C4GBrickModuleParent extends \Module
         if ($this->brickStyle) {
             ResourceLoader::loadCssResource($this->brickStyle, 'c4g_brick_style_' . $this->name);
         }
-//        if ($this->loadCkEditorResources) {
-//            ResourceLoader::loadCssResource('bundles/con4gisprojects/vendor/wswgEditor/css/editor.css');
-//            ResourceLoader::loadCssResource('bundles/con4gisprojects/vendor/wswgEditor/css/bbcodes.css');
-//        }
         if ($this->loadDateTimePickerResources) {
             ResourceLoader::loadCssResource(
                 'bundles/con4giscore/vendor/jQuery/plugins/' .

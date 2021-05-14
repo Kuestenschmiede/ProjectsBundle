@@ -10,8 +10,8 @@
  */
 
 
-this.c4g = this.c4g || {};
-this.c4g.projects = this.c4g.projects || {};
+window.c4g = window.c4g || {};
+window.c4g.projects = window.c4g.projects || {};
 
 // use local namespace with single execution function
 (function(jQuery, c4g) {
@@ -1558,5 +1558,5 @@ this.c4g.projects = this.c4g.projects || {};
     } // end of fnHistoryPush
 
   }); // end of extend
-})(jQuery, this.c4g);  // single execution function
+})(jQuery, window.c4g);  // single execution function
 

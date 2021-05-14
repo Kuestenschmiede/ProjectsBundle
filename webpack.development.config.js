@@ -9,10 +9,11 @@
  */
 
 const webpack = require("webpack");
+
 var path = require('path');
 var config = {
   entry: {
-    'c4g-vendor-ckeditor': './Resources/public/vendor/js/c4g-vendor-ckeditor.js',
+    'c4gGui': './Resources/public/vendor/js/c4gGui.js',
     'c4g-vendor-magnificpopup': './Resources/public/vendor/js/c4g-vendor-magnificpopup.js'
   },
   mode: "development",
@@ -28,7 +29,11 @@ var config = {
       'node_modules',
       'Resources/public/vendor/js'
     ],
-    extensions: ['.js']
+    alias: {
+      'parchment': path.resolve(__dirname, 'node_modules/parchment/src/parchment.ts'),
+      'quill$': path.resolve(__dirname, 'node_modules/quill/quill.js'),
+    },
+    extensions: ['.js', '.ts', '.svg']
   },
   module: {
     rules: [
@@ -37,6 +42,22 @@ var config = {
           path.resolve('.'),
           path.resolve('./Resources/public/vendor/js/')
         ],
+      },
+      {
+        test: /\.css$/i,
+        use: ['style-loader', 'css-loader'],
+      },
+      {
+        test: /\.svg$/,
+        loader: 'svg-inline-loader'
+      },
+      {
+        test: /\.(eot|woff|ttf)/,
+        loader: 'url-loader'
+      },
+      {
+        test: /\.png$/,
+        loader: 'file-loader'
       }
     ]
   }

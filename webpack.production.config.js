@@ -10,12 +10,17 @@
 
 const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 const webpack = require("webpack");
+
 var path = require('path');
 var config = {
   entry: {
-    'c4g-vendor-ckeditor': './Resources/public/vendor/js/c4g-vendor-ckeditor.js',
-    'c4g-vendor-fontawesome': './Resources/public/vendor/js/c4g-vendor-fontawesome.js',
-    'c4g-vendor-magnificpopup': './Resources/public/vendor/js/c4g-vendor-magnificpopup.js'
+    //'c4gGui': './Resources/public/vendor/js/c4gGui.js',
+    'c4g-vendor-magnificpopup': './Resources/public/vendor/js/c4g-vendor-magnificpopup.js',
+    'quill': 'quill/dist/quill.js',
+    'trix': 'trix/dist/trix.js',
+    //'ckeditor4': 'ckeditor4/ckeditor.js',
+    // 'c4g-vendor-quill': './Resources/public/vendor/js/c4g-vendor-quill.js',
+    // 'c4g-vendor-trix': './Resources/public/vendor/js/c4g-vendor-trix.js',
   },
   mode: "production",
   output: {
@@ -26,7 +31,7 @@ var config = {
   },
   resolve: {
     modules: ['node_modules', 'Resources/public/vendor/js'],
-    extensions: ['.js']
+    extensions: ['.js', '.ts', '.svg']
   },
   module: {
     rules: [
@@ -35,6 +40,26 @@ var config = {
           path.resolve('.'),
           path.resolve('./Resources/public/vendor/js/')
         ],
+      },
+      {
+        test: /\.svg$/,
+        loader: 'svg-inline-loader'
+      },
+      {
+        test: /ckeditor5-[^/\\]+[/\\]theme[/\\]icons[/\\][^/\\]+\.svg$/,
+        use: [ 'raw-loader' ]
+      },
+      {
+        test: /\.(eot|woff|ttf)/,
+        loader: 'url-loader'
+      },
+      {
+        test: /\.png$/,
+        loader: 'file-loader'
+      },
+      {
+        test: /\.css$/i,
+        use: ['style-loader', 'css-loader']
       }
     ]
   },
@@ -47,7 +72,9 @@ var config = {
     sideEffects: false,
     chunkIds: "named",
     moduleIds: "named"
-  }
+  }//,
+  // devtool: 'source-map',
+  // performance: { hints: false }
 };
 
 module.exports = config;
