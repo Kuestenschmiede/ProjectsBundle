@@ -7,16 +7,24 @@ trix-editor {
   border: 1px solid #bbb;
   border-radius: 3px;
   margin: 0;
-  padding: 0.4em 0.6em;
+  //padding: 0.4em 0.6em; //modified
   min-height: 5em;
-  outline: none; }
+  outline: none;
+  width: 95%; //modified
+  margin-left: 2.5%; //modified
+  margin-right: 2.5%; //modified
+}
 trix-toolbar * {
   box-sizing: border-box; }
 trix-toolbar .trix-button-row {
   display: flex;
   flex-wrap: nowrap;
   justify-content: space-between;
-  overflow-x: auto; }
+  overflow-x: auto;
+  width: 95%; //modified
+  margin-left: 2.5%; //modified
+  margin-right: 2.5%; //modified
+}
 trix-toolbar .trix-button-group {
   display: flex;
   margin-bottom: 10px;

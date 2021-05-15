@@ -154,7 +154,7 @@ class C4GJQueryGUI
         }
 
         if ($addCore) {
-            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/dist/js/c4gGui.js?v='.time(), $location = ResourceLoader::BODY, $key = 'c4g_jquery_gui');
+            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/dist/js/c4gGui.js?v=' . time(), $location = ResourceLoader::BODY, $key = 'c4g_jquery_gui');
             ResourceLoader::loadCssResourceDeferred('bundles/con4gisprojects/dist/css/c4gGui.min.css');
             ResourceLoader::loadCssResourceDeferred('bundles/con4gisprojects/dist/css/c4gLoader.min.css');
         }

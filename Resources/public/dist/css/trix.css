@@ -3,9 +3,11 @@ trix-editor {
   border: 1px solid #bbb;
   border-radius: 3px;
   margin: 0;
-  padding: .4em .6em;
   min-height: 5em;
-  outline: 0
+  outline: 0;
+  width: 95%;
+  margin-left: 2.5%;
+  margin-right: 2.5%
 }
 trix-toolbar * {
   box-sizing: border-box
@@ -14,7 +16,10 @@ trix-toolbar .trix-button-row {
   display: flex;
   flex-wrap: nowrap;
   justify-content: space-between;
-  overflow-x: auto
+  overflow-x: auto;
+  width: 95%;
+  margin-left: 2.5%;
+  margin-right: 2.5%
 }
 trix-toolbar .trix-button-group {
   display: flex;

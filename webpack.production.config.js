@@ -14,13 +14,8 @@ const webpack = require("webpack");
 var path = require('path');
 var config = {
   entry: {
-    //'c4gGui': './Resources/public/vendor/js/c4gGui.js',
     'c4g-vendor-magnificpopup': './Resources/public/vendor/js/c4g-vendor-magnificpopup.js',
-    'quill': 'quill/dist/quill.js',
-    'trix': 'trix/dist/trix.js',
-    //'ckeditor4': 'ckeditor4/ckeditor.js',
-    // 'c4g-vendor-quill': './Resources/public/vendor/js/c4g-vendor-quill.js',
-    // 'c4g-vendor-trix': './Resources/public/vendor/js/c4g-vendor-trix.js',
+    'c4g-vendor-trix': './Resources/public/vendor/js/c4g-vendor-trix.js'
   },
   mode: "production",
   output: {

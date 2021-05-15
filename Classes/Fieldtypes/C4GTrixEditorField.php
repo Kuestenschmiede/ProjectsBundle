@@ -16,7 +16,6 @@ use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldCompare;
 
 class C4GTrixEditorField extends C4GBrickField
 {
-
     /**
      * @param C4GBrickField[] $fieldList
      * @param $data
@@ -27,27 +26,23 @@ class C4GTrixEditorField extends C4GBrickField
     public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = [])
     {
         $id = 'c4g_' . $this->getFieldName();
-        $required = $this->generateRequiredString($data, $dialogParams);
         $value = $this->generateInitialValue($data);
 
-        if (!($this->getSize())) {
-            $size = 15;
-        } else {
-            $size = $this->getSize();
+        $result = '';
+
+        if ($this->isShowIfEmpty() || !empty(trim($value))) {
+            $condition = $this->createConditionData($fieldList, $data);
+
+            if ($this->isEditable()) {
+                $fieldData = '<input id="' . $id . '" class="formdata c4g-editor-trix ui-corner-all" name="' . $this->getFieldName() . '" value="' . $value . '" type="hidden" name="content"><trix-editor input="' . $id . '"></trix-editor>';
+            } else {
+                $fieldData = '<div disabled readonly' . $condition['conditionPrepare'] . ' id="' . $id . '" class="formdata c4g-editor-disabled ' . $id . ' ui-corner-all" name="' . $this->getFieldName() . '">' . html_entity_decode($value) . ' </div>';
+            }
+
+            $condition = $this->createConditionData($fieldList, $data);
+
+            $result = $this->addC4GField($condition, $dialogParams, $fieldList, $data, $fieldData);
         }
-
-        $isReadOnly = false;
-        $tools = $this->tools;
-        if (!$this->isEditable()) {
-            $isReadOnly = true;
-            $tools = [];
-        }
-
-        $fieldData = '<input id="'.$id.'" class="formdata c4geditor ui-corner-all" name="' . $this->getFieldName() . '" value="'.$value.'" type="hidden" name="content"><trix-editor input="'.$id.'"></trix-editor>';
-
-        $condition = $this->createConditionData($fieldList, $data);
-
-        $result = $this->addC4GField($condition, $dialogParams, $fieldList, $data, $fieldData);
 
         return $result;
     }

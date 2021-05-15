@@ -1,1 +1,0 @@
-../../../../node_modules/ckeditor4/config.js

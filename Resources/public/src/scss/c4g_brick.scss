@@ -269,17 +269,24 @@ input:invalid {
     margin: 0 auto;
     width: 95%;
 }
-//.c4g_brick_dialog .ck-editor {
-//    display: block;
-//    margin: 0 auto;
-//    margin-top: 5px;
-//    width: 95%;
-//    font-size: unset;
-//}
-//.c4g_brick_dialog .ck-editor:disabled .cke_top, .c4g_brick_dialog .ck-editor:read-only .cke_top,
-//.c4g_brick_dialog .ck-editor:disabled .cke_bottom, .c4g_brick_dialog .ck-editor:read-only .cke_bottom{
-//    display: none;
-//}
+.c4g_brick_dialog .ck-editor {
+    display: block;
+    margin: 0 auto;
+    margin-top: 5px;
+    width: 95%;
+    font-size: unset;
+}
+.c4g_brick_dialog .ck-editor:disabled .cke_top, .c4g_brick_dialog .ck-editor:read-only .cke_top,
+.c4g_brick_dialog .ck-editor:disabled .cke_bottom, .c4g_brick_dialog .ck-editor:read-only .cke_bottom{
+    display: none;
+}
+
+.c4g-editor-disabled {
+  width: 95%;
+  margin-left: 2.5%;
+  margin-right: 2.5%;
+}
+
 .c4g_brick_dialog canvas {
     margin-left: 2.5%;
     margin-right: 2.5%;
@@ -941,15 +948,15 @@ th.nomouseevents .DataTables_sort_icon {
     clear: both;
 }
 
-//.c4g_brick_dialog .ck-editor {
-//    display: block  !important;
-//    margin-bottom: .25em !important;
-//    margin-top: .25em !important;
-//    margin-left: 2.5% !important;
-//    margin-right: 2.5% !important;
-//    width: 95%  !important;
-//    min-height: 27px  !important;
-//}
+.c4g_brick_dialog .ck-editor {
+    display: block  !important;
+    margin-bottom: .25em !important;
+    margin-top: .25em !important;
+    margin-left: 2.5% !important;
+    margin-right: 2.5% !important;
+    width: 95%  !important;
+    min-height: 27px  !important;
+}
 
 .c4g_multicolumn {
     margin-top: 10px;
