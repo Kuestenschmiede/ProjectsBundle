@@ -680,7 +680,7 @@ class C4GBrickModuleParent extends \Module
         }
 
         if ($this->loadTrixEditorResources) {
-            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/dist/js/trix.js');
+            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/dist/js/c4g-vendor-trix.js');
             if (!empty($this->trixEditorResourceParams)) {
                 $get = [];
                 foreach ($this->trixEditorResourceParams as $param) {

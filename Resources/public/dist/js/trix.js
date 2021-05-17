@@ -1,1 +1,0 @@
-../../../../node_modules/trix/dist/trix.js
