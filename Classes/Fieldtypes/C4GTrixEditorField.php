@@ -27,6 +27,7 @@ class C4GTrixEditorField extends C4GBrickField
     {
         $id = 'c4g_' . $this->getFieldName();
         $value = $this->generateInitialValue($data);
+        $value = str_replace('"', '&quot;', $value);
 
         $result = '';
 
