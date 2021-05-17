@@ -391,7 +391,7 @@ class C4GBrickModuleParent extends \Module
             $groups = C4GBrickCommon::getGroupListForBrick($this->User->id, $this->brickKey);
             $groupCount = count($groups);
             $this->listParams->setGroupCount($groupCount);
-            $this->listParams->setWithJQueryUI($this->strTemplate != 'mod_c4g_brick_simple');
+            $this->listParams->setWithJQueryUI($this->jQueryAddJqueryUI);
             $this->listParams->setCaptionField($this->captionField);
         }
 
@@ -609,65 +609,45 @@ class C4GBrickModuleParent extends \Module
 
     protected function compileJquery()
     {
-        if ($this->strTemplate == 'mod_c4g_brick_simple') {
-            //Keep for backwards compatibility
-            //Todo Remove
-            C4GJQueryGUI::initializeLibraries(
-                $this->jQueryAddCore,
-                $this->jQueryAddJquery,
-                $this->jQueryAddJqueryUI,
-                $this->jQueryUseTree,
-                $this->jQueryUseTable,
-                $this->jQueryUseHistory,
-                $this->jQueryUseTooltip,
-                $this->jQueryUseMaps,
-                $this->jQueryUseGoogleMaps,
-                $this->jQueryUseMapsEditor,
-                $this->jQueryUseWswgEditor,
-                $this->jQueryUseScrollPane,
-                $this->isPopup
-            );
+        C4GJQueryGUI::initializeLibraries(
+            $this->jQueryAddCore,
+            $this->jQueryAddJquery,
+            $this->jQueryAddJqueryUI,
+            $this->jQueryUseTree,
+            $this->jQueryUseTable,
+            $this->jQueryUseHistory,
+            $this->jQueryUseTooltip,
+            $this->jQueryUseMaps,
+            $this->jQueryUseGoogleMaps,
+            $this->jQueryUseMapsEditor,
+            $this->jQueryUseWswgEditor,
+            $this->jQueryUseScrollPane,
+            $this->isPopup
+        );
+
+        $settings = Database::getInstance()->execute('SELECT * FROM tl_c4g_settings LIMIT 1')->fetchAllAssoc();
+
+        if ($settings) {
+            $this->settings = $settings[0];
+        }
+
+        // load custom themeroller-css if set
+        if ($this->uiTheme) {
+            $GLOBALS['TL_CSS']['c4g_jquery_ui'] = $this->uiTheme;
+        } elseif ($this->c4g_appearance_themeroller_css) {
+            $objFile = \FilesModel::findByUuid($this->c4g_appearance_themeroller_css);
+            $GLOBALS['TL_CSS']['c4g_jquery_ui'] = $objFile->path;
+        } elseif ($this->c4g_uitheme_css_select) {
+            $theme = $this->c4g_uitheme_css_select;
+            $GLOBALS['TL_CSS']['c4g_jquery_ui'] = 'bundles/con4giscore/vendor/jQuery/ui-themes/themes/' . $theme . '/jquery-ui.css';
+        } elseif ($this->settings && $this->settings['c4g_appearance_themeroller_css']) {
+            $objFile = \FilesModel::findByUuid($this->settings['c4g_appearance_themeroller_css']);
+            $GLOBALS['TL_CSS']['c4g_jquery_ui'] = $objFile->path;
+        } elseif ($this->settings && $this->settings['c4g_uitheme_css_select']) {
+            $theme = $this->settings['c4g_uitheme_css_select'];
+            $GLOBALS['TL_CSS']['c4g_jquery_ui'] = 'bundles/con4giscore/vendor/jQuery/ui-themes/themes/' . $theme . '/jquery-ui.css';
         } else {
-            C4GJQueryGUI::initializeLibraries(
-                $this->jQueryAddCore,
-                $this->jQueryAddJquery,
-                $this->jQueryAddJqueryUI,
-                $this->jQueryUseTree,
-                $this->jQueryUseTable,
-                $this->jQueryUseHistory,
-                $this->jQueryUseTooltip,
-                $this->jQueryUseMaps,
-                $this->jQueryUseGoogleMaps,
-                $this->jQueryUseMapsEditor,
-                $this->jQueryUseWswgEditor,
-                $this->jQueryUseScrollPane,
-                $this->isPopup
-            );
-
-            $settings = Database::getInstance()->execute('SELECT * FROM tl_c4g_settings LIMIT 1')->fetchAllAssoc();
-
-            if ($settings) {
-                $this->settings = $settings[0];
-            }
-
-            // load custom themeroller-css if set
-            if ($this->uiTheme) {
-                $GLOBALS['TL_CSS']['c4g_jquery_ui'] = $this->uiTheme;
-            } elseif ($this->c4g_appearance_themeroller_css) {
-                $objFile = \FilesModel::findByUuid($this->c4g_appearance_themeroller_css);
-                $GLOBALS['TL_CSS']['c4g_jquery_ui'] = $objFile->path;
-            } elseif ($this->c4g_uitheme_css_select) {
-                $theme = $this->c4g_uitheme_css_select;
-                $GLOBALS['TL_CSS']['c4g_jquery_ui'] = 'bundles/con4giscore/vendor/jQuery/ui-themes/themes/' . $theme . '/jquery-ui.css';
-            } elseif ($this->settings && $this->settings['c4g_appearance_themeroller_css']) {
-                $objFile = \FilesModel::findByUuid($this->settings['c4g_appearance_themeroller_css']);
-                $GLOBALS['TL_CSS']['c4g_jquery_ui'] = $objFile->path;
-            } elseif ($this->settings && $this->settings['c4g_uitheme_css_select']) {
-                $theme = $this->settings['c4g_uitheme_css_select'];
-                $GLOBALS['TL_CSS']['c4g_jquery_ui'] = 'bundles/con4giscore/vendor/jQuery/ui-themes/themes/' . $theme . '/jquery-ui.css';
-            } else {
-                $GLOBALS['TL_CSS']['c4g_jquery_ui'] = 'bundles/con4giscore/vendor/jQuery/ui-themes/themes/base/jquery-ui.css';
-            }
+            $GLOBALS['TL_CSS']['c4g_jquery_ui'] = 'bundles/con4giscore/vendor/jQuery/ui-themes/themes/base/jquery-ui.css';
         }
     }
 
@@ -683,7 +663,7 @@ class C4GBrickModuleParent extends \Module
             ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/dist/js/more-button.js|async|static');
         }
         if ($this->loadFontAwesomeResources) {
-            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/dist/js/c4g-vendor-fontawesome.js|async|static');
+            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/dist/js/js/c4g-vendor-fontawesome.js|async|static', ResourceLoader::JAVASCRIPT, 'fontawesome');
         }
         if ($this->brickScript) {
             ResourceLoader::loadJavaScriptResource($this->brickScript . '|async|static', ResourceLoader::JAVASCRIPT, 'c4g_brick_script_' . $this->name);
