@@ -128,6 +128,7 @@ class C4GBrickModuleParent extends \Module
     //Resource Params
     protected $loadDefaultResources = true;
     protected $loadTrixEditorResources = false;
+    protected $trixEditorResourceParams = [];
     protected $loadDateTimePickerResources = false;
     protected $loadChosenResources = false;
     protected $loadClearBrowserUrlResources = false;
@@ -699,8 +700,17 @@ class C4GBrickModuleParent extends \Module
         }
 
         if ($this->loadTrixEditorResources) {
-            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/dist/js/c4g-vendor-trix.js|async|static', ResourceLoader::JAVASCRIPT);
-            ResourceLoader::loadCssResource('bundles/con4gisprojects/dist/css/trix.min.css', 'c4g_trix_editor');
+            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/dist/js/trix.js');
+            if (!empty($this->trixEditorResourceParams)) {
+                $get = [];
+                foreach ($this->trixEditorResourceParams as $param) {
+                    $get[] = "$param=1";
+                }
+                $configUrl = 'bundles/con4gisprojects/dist/js/trixconfig.php?'.implode('&', $get);
+            } else {
+                $configUrl = 'bundles/con4gisprojects/dist/js/trixconfig.php';
+            }
+            ResourceLoader::loadJavaScriptResource($configUrl);
         }
         if ($this->loadMultiColumnResources === true) {
             ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/dist/js/multicolumn.js|async|static');
@@ -734,6 +744,10 @@ class C4GBrickModuleParent extends \Module
         }
         if ($this->loadChosenResources) {
             ResourceLoader::loadCssResource('bundles/con4giscore/vendor/jQuery/plugins/chosen/chosen.css');
+        }
+
+        if ($this->loadTrixEditorResources) {
+            ResourceLoader::loadCssResource('bundles/con4gisprojects/dist/css/trix.css');
         }
     }
 
