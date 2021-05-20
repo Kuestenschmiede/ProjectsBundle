@@ -37,6 +37,76 @@ Trix.config.blockAttributes.heading3 = {
 document.addEventListener("trix-file-accept", event => {
     event.preventDefault()
 })
+<?php } else {?>
+    (function() {
+
+    addEventListener('trix-attachment-add', function(event) {
+    if (event.attachment.file) {
+    uploadFileAttachment(event.attachment);
+    }
+    });
+
+    function uploadFileAttachment(attachment) {
+    uploadFile(attachment.file, setProgress, setAttributes);
+
+    function setProgress(progress) {
+    attachment.setUploadProgress(progress);
+    }
+
+    function setAttributes(attributes) {
+    attachment.setAttributes(attributes);
+    }
+    }
+
+    function uploadFile(file, progressCallback, successCallback) {
+    let key = createStorageKey(file);
+    let formData = createFormData(key, file);
+    let xhr = new XMLHttpRequest();
+    console.log(file);
+    let url;
+    if (file.type.includes('image')) {
+    url = '/con4gis/upload/image';
+    } else {
+    url = '/con4gis/upload/file';
+    }
+
+    xhr.open('POST', url, true);
+    xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+
+    xhr.upload.addEventListener('progress', function(event) {
+    let progress = event.loaded / event.total * 100;
+    progressCallback(progress);
+    });
+
+    xhr.addEventListener('load', function(event) {
+    if (xhr.status === 200) {
+    let response = JSON.parse(xhr.response);
+    let attributes = {
+    url: response.url,
+    href: response.url
+    };
+    successCallback(attributes);
+    }
+    });
+
+    xhr.send(formData);
+    }
+
+    function createStorageKey(file) {
+    let date = new Date();
+    let day = date.toISOString().slice(0,10);
+    let name = date.getTime() + '-' + file.name;
+    return ['tmp', day, name ].join('/');
+    }
+
+    function createFormData(key, file) {
+    let data = new FormData();
+    data.append('key', key);
+    data.append('Content-Type', file.type);
+    data.append('upload', file);
+    return data;
+    }
+    })();
 <?php }?>
 
 <?php if ($_GET['href'] !== '1') {?>
