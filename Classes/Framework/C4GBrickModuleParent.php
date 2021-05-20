@@ -681,15 +681,15 @@ class C4GBrickModuleParent extends \Module
 
         if ($this->loadTrixEditorResources) {
             ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/dist/js/c4g-vendor-trix.js');
+            $get = [];
+            global $objPage;
+            $get[] = "lang=".$objPage->language;
             if (!empty($this->trixEditorResourceParams)) {
-                $get = [];
                 foreach ($this->trixEditorResourceParams as $param) {
                     $get[] = "$param=1";
                 }
-                $configUrl = 'bundles/con4gisprojects/dist/js/trixconfig.php?'.implode('&', $get);
-            } else {
-                $configUrl = 'bundles/con4gisprojects/dist/js/trixconfig.php';
             }
+            $configUrl = 'bundles/con4gisprojects/dist/js/trixconfig.php?'.implode('&', $get);
             ResourceLoader::loadJavaScriptResource($configUrl);
         }
         if ($this->loadMultiColumnResources === true) {
