@@ -632,7 +632,7 @@ abstract class C4GBrickField
             }
         }
 
-        return '<div id="c4g_condition" '
+        return '<div '
         . $class
         . $condition['conditionName']
         . $condition['conditionType']

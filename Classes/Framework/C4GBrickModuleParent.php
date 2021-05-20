@@ -117,6 +117,7 @@ class C4GBrickModuleParent extends \Module
     protected $permalink_name = null; //for setting an own get param
     protected $permalinkModelClass = null; //if table filled by modelListFunction
     protected $withPermissionCheck = true; // can be set to false to avoid the table permission check
+    protected $renewInitialValues = false; // The initial values are reset during the reload.
 
     //UUID params
     protected $UUID = 'c4g_brick_uuid'; //Name of the uuid cookie in the browser. Can be overridden in child.
@@ -505,8 +506,8 @@ class C4GBrickModuleParent extends \Module
                 $this->dialogChangeHandler = new C4GDialogChangeHandler();
                 $this->fieldList = $this->dialogChangeHandler->reapplyChanges($this->brickKey, $this->fieldList);
             }
-            if ($this->fieldList && $putVars) {
-//                $this->setInitialValues($putVars);
+            if ($this->fieldList && $putVars && $this->renewInitialValues()) {
+                $this->setInitialValues($putVars);
             }
         }
 
@@ -663,7 +664,7 @@ class C4GBrickModuleParent extends \Module
             ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/dist/js/more-button.js|async|static');
         }
         if ($this->loadFontAwesomeResources) {
-            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/dist/js/c4g-vendor-fontawesome.js|async|static', ResourceLoader::JAVASCRIPT, 'fontawesome');
+            ResourceLoader::loadCssResource('bundles/con4giscore/dist/css/fontawesome.min.css', 'fontawesome');
         }
         if ($this->brickScript) {
             ResourceLoader::loadJavaScriptResource($this->brickScript . '|async|static', ResourceLoader::JAVASCRIPT, 'c4g_brick_script_' . $this->name);
@@ -683,13 +684,13 @@ class C4GBrickModuleParent extends \Module
             ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/dist/js/c4g-vendor-trix.js');
             $get = [];
             global $objPage;
-            $get[] = "lang=".$objPage->language;
+            $get[] = 'lang=' . $objPage->language;
             if (!empty($this->trixEditorResourceParams)) {
                 foreach ($this->trixEditorResourceParams as $param) {
                     $get[] = "$param=1";
                 }
             }
-            $configUrl = 'bundles/con4gisprojects/dist/js/trixconfig.php?'.implode('&', $get);
+            $configUrl = 'bundles/con4gisprojects/dist/js/trixconfig.php?' . implode('&', $get);
             ResourceLoader::loadJavaScriptResource($configUrl);
         }
         if ($this->loadMultiColumnResources === true) {
