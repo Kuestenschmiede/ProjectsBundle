@@ -210,21 +210,7 @@ window.c4g.projects = window.c4g.projects || {};
     }, // end of setup
 
     handlePdfResponse: function(data, id) {
-      // var blob = new Blob([data], {type:"application/pdf"});
-      // //Create a link element, hide it, direct
-      // //it towards the blob, and then 'click' it programatically
-      let a = document.createElement("a");
-      // a.style = "display: none";
-      document.body.appendChild(a);
-      // //Create a DOMString representing the blob
-      // //and point the link element towards it
-      // let url = window.URL.createObjectURL(blob);
-      a.href = data.filePath;
-      a.download = data.fileName;
-      //programatically click the link to trigger the download
-      a.click();
-      //release the reference to the file by revoking the Object URL
-      // window.URL.revokeObjectURL(url);
+      window.open(data.filePath, "_blank");
     },
 
     // -----------------------------------

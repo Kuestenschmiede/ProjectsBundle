@@ -197,6 +197,8 @@ class AjaxController extends Controller
         $pdfData['template'] = 'c4g_pdftemplate';
         $pdfData['filename'] = '{{date::Y_m_d-H_i_s}}_document.pdf';
         $pdfData['filepath'] = C4GBrickConst::PATH_BRICK_DOCUMENTS;
+        $pdfData['Attachment'] = false;
+
         $pdfManager->setData($pdfData);
 
         $captionField = $objModule->getDialogParams()->getCaptionField();
@@ -213,6 +215,7 @@ class AjaxController extends Controller
             "filePath" => $path,
             "fileName" => $pdfManager->getPdfDocument()->getFilename()
         ]);
+
         return $response;
     }
 
