@@ -29,7 +29,3 @@ if ($packages['con4gis/maps']) {
         'sql'                     => "varchar(128) NULL"
     );
 }
-
-//removed because of rare use case
-//$GLOBALS['TL_DCA']['tl_c4g_settings']['fields']['uploadPathImages']['eval']['mandatory'] = true;
-//$GLOBALS['TL_DCA']['tl_c4g_settings']['fields']['uploadPathDocuments']['eval']['mandatory'] = true;
