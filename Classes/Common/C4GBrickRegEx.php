@@ -27,7 +27,7 @@ class C4GBrickRegEx
     const NUMBERS_DOT_SEP = '^[-]?[1-9](\d*)((.)(\d{3}))*$';  //Whole numbers, allowing dots as thousand separators.
     const HEX_DEC_ID = '^[0-9A-Fa-f]*$'; //Hexadecimal IDs, e.g. 00A51B.
     const NUMBERS_COMMA_SEP = '[-]?[1-9](\d*)((,)(\d{3}))*$';  //Whole numbers, allowing commas as thousand separators.
-    const POSTAL = '^[0-9]{5}$';  //Zip Codes
+    const POSTAL = '^[0-9]{4,5}$';  //Zip Codes 4 numbers for swiss
     const EMAIL = '[^ @]*@[^ .@]*\.[^ .@\d]{2,6}$'; //EMail Addresses
     const PHONE = '^\+?[\d\s]{3,}$'; //Phone numbers
     const NAME = '^[\p{L}]{1}[- \p{L}]*[\p{L}]{1}$'; //Names, allows special letters (ä, á, etc.) as well as whitespaces and (-) unless they are at the end or beginning.
