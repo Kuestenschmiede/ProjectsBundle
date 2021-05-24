@@ -158,8 +158,8 @@ class C4GBrickModuleParent extends \Module
     protected $jQueryUsePopups = false;
 
     //Deprecated Params
-    protected $brickStyle = ''; // *DEPRECATED*
-    protected $brickScript = ''; // *DEPRECATED*
+    protected $brickStyle = '';
+    protected $brickScript = '';
 
     /**
      * module class function to get fields
@@ -655,7 +655,7 @@ class C4GBrickModuleParent extends \Module
     protected function compileJavaScript()
     {
         if ($this->loadDefaultResources) {
-            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/dist/js/C4GBrickDialog.js|async|static');
+            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/dist/js/C4GBrickDialog.js', ResourceLoader::BODY, 'c4g_brick_dialog');
         }
         if ($this->loadConditionalFieldDisplayResources) {
             ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/dist/js/ConditionalFieldDisplay.js|async|static');
@@ -667,7 +667,7 @@ class C4GBrickModuleParent extends \Module
             ResourceLoader::loadCssResource('bundles/con4giscore/dist/css/fontawesome.min.css', 'fontawesome');
         }
         if ($this->brickScript) {
-            ResourceLoader::loadJavaScriptResource($this->brickScript . '|async|static', ResourceLoader::JAVASCRIPT, 'c4g_brick_script_' . $this->name);
+            ResourceLoader::loadJavaScriptResource($this->brickScript, ResourceLoader::BODY, 'c4g_brick_script_' . $this->name);
         }
         if ($this->loadTriggerSearchFromOtherModuleResources) {
             ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/dist/js/datatable-search-trigger.js|async|static', ResourceLoader::JAVASCRIPT, 'datatable-search-trigger');

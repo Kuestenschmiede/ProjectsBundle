@@ -19,7 +19,7 @@ $GLOBALS['TL_DCA']['tl_c4g_projects_logbook'] = array
     (
         'closed'            => true, //lässt den Hinzufügen-Button verschwinden.
         'dataContainer'     => 'Table',
-        'enableVersioning'  => 'true',
+        'enableVersioning'  => true,
         'sql'               => array
         (
             'keys' => array

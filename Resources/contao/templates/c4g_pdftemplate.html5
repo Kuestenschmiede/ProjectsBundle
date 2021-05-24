@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <link rel="stylesheet" href="<?php echo $this->style; ?>">
+  <link rel="stylesheet" type="text/css" href="<?php echo $this->style; ?>">
 </head>
 <body>
     <?php if ($this->headline): ?>

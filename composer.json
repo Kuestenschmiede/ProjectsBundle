@@ -18,15 +18,15 @@
     }
   ],
   "require": {
-    "contao/core-bundle": "^4.4",
+    "contao/core-bundle": "^4.9",
     "con4gis/core": "^4.2",
-    "menatwork/contao-multicolumnwizard-bundle": "^3.4",
+    "menatwork/contao-multicolumnwizard-bundle": "^3.4.11",
     "doctrine/orm": "^2.8.1",
     "doctrine/data-fixtures": "^1.4.4",
     "doctrine/persistence": "^2.1.0",
     "terminal42/notification_center": "^1.5",
-    "guzzlehttp/guzzle": "^6.2",
-    "contao-components/jquery": "^3.0"
+    "guzzlehttp/guzzle": "^6.5",
+    "contao-components/jquery": "^3.6"
   },
   "conflict": {
     "contao/core": "*",

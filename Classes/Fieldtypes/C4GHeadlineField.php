@@ -94,7 +94,7 @@ class C4GHeadlineField extends C4GBrickField
                 '<div class="c4g_brick_headline" ' . $condition['conditionPrepare'] . '>' . $headlineText . '</div>';
             $class = 'class="c4g_condition formdata" ';
 //            $headline = $this->generateC4GFieldHTML($condition, $headline . $this->additionalHeaderText, $class);
-            $headline = '<div id="c4g_condition" '
+            $headline = '<div '
                 . $class
                 . $condition['conditionName']
                 . $condition['conditionType']
