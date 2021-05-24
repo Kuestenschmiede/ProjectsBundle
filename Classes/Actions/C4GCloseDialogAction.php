@@ -39,7 +39,7 @@ class C4GCloseDialogAction extends C4GBrickDialogAction
                 $is_frozen = $dbValues->is_frozen;
             }
         } elseif ($project_id) {
-            // TODO projects model fixen
+            // TODO projects model fix
 //            $project = C4gProjectsModel::findByPk($project_id);
 //            if ($project) {
 //                $is_frozen = $project->is_frozen;

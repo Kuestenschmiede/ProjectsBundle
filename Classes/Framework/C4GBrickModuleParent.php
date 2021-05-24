@@ -695,7 +695,7 @@ class C4GBrickModuleParent extends \Module
         }
         if ($this->loadMiniSearchResources === true) {
             //ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/minisearch/minisearch.js',ResourceLoader::HEAD);
-            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/dist/js/minisearch.js',ResourceLoader::HEAD);
+            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/dist/js/minisearch.js', ResourceLoader::HEAD);
         }
 
         if ($this->loadHistoryPushResources === true) {

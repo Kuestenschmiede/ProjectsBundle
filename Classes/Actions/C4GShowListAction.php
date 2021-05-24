@@ -268,7 +268,7 @@ class C4GShowListAction extends C4GBrickDialogAction
                             $database = $brickDatabase->getParams()->getDatabase();
 
                             //ToDo Umbau brickDatabase
-                            $model = $modelClass ? $modelClass : $brickDatabase->getParams()->getModelClass();
+                            $model = $modelClass ?: $brickDatabase->getParams()->getModelClass();
                             $elements = $model::$function($groupId, $database, $listParams, $brickDatabase);
                             if ($elements->headline) {
                                 $list_headline = '<div class="c4g_brick_headtext_highlighted">' . $elements->headline . '</div>';

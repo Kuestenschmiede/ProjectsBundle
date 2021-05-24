@@ -726,7 +726,7 @@ class C4GBrickDialog
                             $dlgValue = $dlgValues[$fieldName];
                             $dbValues = $brickDatabase->findBy($fieldName, $dlgValue);
 
-                            $memberKeyField = $dialogParams->getViewParams->getMemberKeyField();
+                            $memberKeyField = $dialogParams->getViewParams()->getMemberKeyField();
 
                             if ($dbValues !== null) {
                                 foreach ($dbValues as $dbValue) {
