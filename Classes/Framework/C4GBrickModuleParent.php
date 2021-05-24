@@ -658,22 +658,19 @@ class C4GBrickModuleParent extends \Module
             ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/dist/js/C4GBrickDialog.js', ResourceLoader::BODY, 'c4g_brick_dialog');
         }
         if ($this->loadConditionalFieldDisplayResources) {
-            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/dist/js/ConditionalFieldDisplay.js|async|static');
+            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/dist/js/ConditionalFieldDisplay.js', ResourceLoader::BODY);
         }
         if ($this->loadMoreButtonResources) {
-            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/dist/js/more-button.js|async|static');
-        }
-        if ($this->loadFontAwesomeResources) {
-            ResourceLoader::loadCssResource('bundles/con4giscore/dist/css/fontawesome.min.css', 'fontawesome');
+            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/dist/js/more-button.js', ResourceLoader::BODY);
         }
         if ($this->brickScript) {
             ResourceLoader::loadJavaScriptResource($this->brickScript, ResourceLoader::BODY, 'c4g_brick_script_' . $this->name);
         }
         if ($this->loadTriggerSearchFromOtherModuleResources) {
-            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/dist/js/datatable-search-trigger.js|async|static', ResourceLoader::JAVASCRIPT, 'datatable-search-trigger');
+            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/dist/js/datatable-search-trigger.js', ResourceLoader::BODY, 'datatable-search-trigger');
         }
         if ($this->loadChosenResources) {
-            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/jQuery/plugins/chosen/chosen.jquery.min.js|async|static');
+            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/jQuery/plugins/chosen/chosen.jquery.min.js', ResourceLoader::BODY, 'chosen-jquery');
             ResourceLoader::loadJavaScriptResourceTag('jQuery(document).ready(function () {jQuery(".chzn-select").chosen();})');
         }
         if ($this->loadFileUploadResources) {
@@ -681,7 +678,7 @@ class C4GBrickModuleParent extends \Module
         }
 
         if ($this->loadTrixEditorResources) {
-            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/dist/js/c4g-vendor-trix.js');
+            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/dist/js/c4g-vendor-trix.js', ResourceLoader::BODY, 'trix-editor');
             $get = [];
             global $objPage;
             $get[] = 'lang=' . $objPage->language;
@@ -694,22 +691,23 @@ class C4GBrickModuleParent extends \Module
             ResourceLoader::loadJavaScriptResource($configUrl);
         }
         if ($this->loadMultiColumnResources === true) {
-            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/dist/js/multicolumn.js|async|static');
+            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/dist/js/multicolumn.js', ResourceLoader::BODY, 'multicolumn');
         }
         if ($this->loadMiniSearchResources === true) {
-            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/minisearch/minisearch.js',
-                ResourceLoader::HEAD);
-            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/dist/js/minisearch.js',
-                ResourceLoader::HEAD);
+            //ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/minisearch/minisearch.js',ResourceLoader::HEAD);
+            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/dist/js/minisearch.js',ResourceLoader::HEAD);
         }
 
         if ($this->loadHistoryPushResources === true) {
-            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/dist/js/historyPush.js|async|static');
+            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/dist/js/historyPush.js', ResourceLoader::BODY, 'history-push');
         }
     }
 
     protected function compileCss()
     {
+        if ($this->loadFontAwesomeResources) {
+            ResourceLoader::loadCssResource('bundles/con4giscore/dist/css/fontawesome.min.css', 'fontawesome');
+        }
         if ($this->loadDefaultResources) {
             ResourceLoader::loadCssResource('bundles/con4gisprojects/dist/css/c4g_brick.min.css',
                 'c4g_brick_style');

@@ -69,8 +69,8 @@ class C4GJQueryGUI
             ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/jQuery/jquery-ui-1.12.1.custom/jquery-ui.min.js', $location = ResourceLoader::BODY, $key = 'c4g_jquery_ui');
             ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/jQuery/jquery-ui-i18n.min.js', $location = ResourceLoader::BODY, $key = 'c4g_jquery_ui_i18n');
             ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/jQuery/plugins/jquery.legacy.min.js', $location = ResourceLoader::BODY, $key = 'c4g_a');
-            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/dist/js/DialogHandler.js|async|static', $location = ResourceLoader::JAVASCRIPT, $key = 'dialog_handler');
-            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/dist/js/AlertHandler.js|async|static', $location = ResourceLoader::JAVASCRIPT, $key = 'alert_handler');
+            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/dist/js/DialogHandler.js', $location = ResourceLoader::BODY, $key = 'dialog_handler');
+            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/dist/js/AlertHandler.js', $location = ResourceLoader::BODY, $key = 'alert_handler');
         }
 
         if ($useTable) {
@@ -118,39 +118,24 @@ class C4GJQueryGUI
             ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/jQuery/plugins/jquery.tooltip.pack.js', $location = ResourceLoader::BODY, $key = 'c4g_jq_tooltip_b');
         }
 
-//        if ($useWswgEditor) {
-//            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/vendor/wswgEditor/editor.js|async|static', $location = ResourceLoader::JAVASCRIPT, $key = 'c4g_jq_bbc');
-//            ResourceLoader::loadCssResourceDeferred('bundles/con4gisprojects/vendor/wswgEditor/css/editor.css');
-//            ResourceLoader::loadCssResourceDeferred('bundles/con4gisprojects/vendor/wswgEditor/css/bbcodes.css');
-//            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/vendor/fileUpload/upload.js|async|static', $location = ResourceLoader::JAVASCRIPT, $key = 'c4g_jq_fileupload');
-//        }
-
         if ($useScrollpane) {
-            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/jQuery/plugins/jScrollPane/js/jquery.jscrollpane.min.js|async|static', $location = ResourceLoader::JAVASCRIPT, $key = 'c4g_jq_scrollpane');
-            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/jQuery/plugins/jScrollPane/js/jquery.mousewheel.js|async|static', $location = ResourceLoader::JAVASCRIPT, $key = 'c4g_jq_mousewheel');
-            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/jQuery/plugins/jScrollPane/js/mwheelIntent.js|async|static', $location = ResourceLoader::JAVASCRIPT, $key = 'c4g_mwheelintent');
+            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/jQuery/plugins/jScrollPane/js/jquery.jscrollpane.min.js', $location = ResourceLoader::BODY, $key = 'c4g_jq_scrollpane');
+            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/jQuery/plugins/jScrollPane/js/jquery.mousewheel.js', $location = ResourceLoader::BODY, $key = 'c4g_jq_mousewheel');
+            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/jQuery/plugins/jScrollPane/js/mwheelIntent.js', $location = ResourceLoader::BODY, $key = 'c4g_mwheelintent');
             ResourceLoader::loadCssResourceDeferred('bundles/con4giscore/vendor/jQuery/plugins/jScrollPane/css/jquery.jscrollpane.css');
         }
 
         if ($usePopups) {
-            //ResourceLoader::loadCssResourceDeferred('bundles/con4gisprojects/vendor/magnific-popup/magnific-popup.css');
-            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/dist/js/c4g-vendor-magnificpopup.js|async|static', $location = ResourceLoader::JAVASCRIPT, $key = 'magnific-popup');
+            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/dist/js/c4g-vendor-magnificpopup.js', $location = ResourceLoader::BODY, $key = 'magnific-popup');
         }
-
-        //TODO: add own switch for maps
-        //ResourceLoader::loadCssResourceDeferred('bundles/con4giscore/vendor/jQuery/plugins/lighbox2/css/lightbox.min.css');
-        //ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/jQuery/plugins/lighbox2/js/lightbox.min.js|async|static', $location = ResourceLoader::HEAD, $key = 'c4g_jq_lighbox2');
 
         if ($useMaps && C4GVersionProvider::isInstalled('con4gis/maps')) {
             // TODO: recieve and use profileId
             MapsResourceLoader::loadResources();
             MapsResourceLoader::loadTheme();
 
-//            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/magnific-popup/jquery.magnific-popup.min.js|async|static', $location = ResourceLoader::JAVASCRIPT, $key = 'magnific-popup');
-//            $GLOBALS['TL_CSS']['magnific-popup'] = 'bundles/con4giscore/vendor/magnific-popup/magnific-popup.css';
-
-            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/clipboard.min.js|async|static', $location = ResourceLoader::JAVASCRIPT, $key = 'clipboard');
-            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/jQuery/plugins/jquery-simple-datetimepicker/1.13.0/jquery.simple-dtpicker.js|async|static', $location = ResourceLoader::JAVASCRIPT, $key = 'datetimepicker');
+            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/clipboard.min.js', $location = ResourceLoader::BODY, $key = 'clipboard');
+            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/jQuery/plugins/jquery-simple-datetimepicker/1.13.0/jquery.simple-dtpicker.js', $location = ResourceLoader::BODY, $key = 'datetimepicker');
         }
 
         if ($addCore) {
