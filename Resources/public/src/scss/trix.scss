@@ -10,6 +10,8 @@ trix-editor {
   //padding: 0.4em 0.6em; //modified
   min-height: 5em;
   outline: none;
+}
+.c4g_brick_dialog trix-editor {
   width: 95%; //modified
   margin-left: 2.5%; //modified
   margin-right: 2.5%; //modified
@@ -21,6 +23,8 @@ trix-toolbar .trix-button-row {
   flex-wrap: nowrap;
   justify-content: space-between;
   overflow-x: auto;
+}
+.c4g_brick_dialog trix-toolbar .trix-button-row {
   width: 95%; //modified
   margin-left: 2.5%; //modified
   margin-right: 2.5%; //modified

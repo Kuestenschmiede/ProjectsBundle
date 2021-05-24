@@ -687,6 +687,7 @@ class C4GBrickModuleParent extends \Module
                     $get[] = "$param=1";
                 }
             }
+
             $configUrl = 'bundles/con4gisprojects/dist/js/trixconfig.php?' . implode('&', $get);
             ResourceLoader::loadJavaScriptResource($configUrl);
         }
@@ -726,7 +727,7 @@ class C4GBrickModuleParent extends \Module
         }
 
         if ($this->loadTrixEditorResources) {
-            ResourceLoader::loadCssResource('bundles/con4gisprojects/dist/css/trix.css');
+            ResourceLoader::loadCssResource('bundles/con4gisprojects/dist/css/trix.min.css');
         }
     }
 
