@@ -67,9 +67,7 @@ var config = {
     sideEffects: false,
     chunkIds: 'named',
     moduleIds: 'named'
-  }//,
-  // devtool: 'source-map',
-  // performance: { hints: false }
+  }
 };
 
 module.exports = config;
