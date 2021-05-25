@@ -17,12 +17,12 @@ var config = {
     'c4g-vendor-magnificpopup': './Resources/public/vendor/js/c4g-vendor-magnificpopup.js',
     'c4g-vendor-trix': './Resources/public/vendor/js/c4g-vendor-trix.js'
   },
-  mode: "production",
+  mode: 'production',
   output: {
     filename: '[name].js',
     path: path.resolve('./Resources/public/dist/js'),
     chunkFilename: '[name].bundle.[contenthash].js',
-    publicPath: "bundles/con4gismaps/dist/js/"
+    publicPath: 'bundles/con4gismaps/dist/js/'
   },
   resolve: {
     modules: ['node_modules', 'Resources/public/vendor/js'],
@@ -65,8 +65,8 @@ var config = {
     usedExports: true,
     concatenateModules: true,
     sideEffects: false,
-    chunkIds: "named",
-    moduleIds: "named"
+    chunkIds: 'named',
+    moduleIds: 'named'
   }//,
   // devtool: 'source-map',
   // performance: { hints: false }
