@@ -133,7 +133,7 @@ class C4GDateField extends C4GBrickField
                 if (!$this->isIgnoreViewType() && (C4GBrickView::isWithoutEditing($dialogParams->getViewType()) || !$this->isEditable())) {
                     $html .= '<span class="ui-button ui-corner-all c4g_date_field_button c4g_date_field_button_flipped"><i class="far fa-calendar-alt"></i></span>';
                 } else {
-                    $html .= '<span onclick="$(document.getElementById(' . $buttonId . ')) ? $(document.getElementById(' . $buttonId . ')).focus() : false" class="ui-button ui-corner-all c4g_date_field_button_interactive c4g_date_field_button_interactive_flipped"><i class="far fa-calendar-alt"></i></span>';
+                    $html .= '<span onclick="if (document.getElementById(' . $buttonId . ')) {$(document.getElementById(' . $buttonId . ')).show(); $(document.getElementById(' . $buttonId . ')).focus();}" class="ui-button ui-corner-all c4g_date_field_button_interactive c4g_date_field_button_interactive_flipped"><i class="far fa-calendar-alt"></i></span>';
                 }
                 $html .= '<input readonly="true" autocomplete="off" ' . $required . ' type="text" id="' . $id . '" class="formdata c4g_date_field_input c4g_date_field_input_flipped ' . $id . '" ' . $changeAction . ' name="' . $fieldName . '" value="' . $value . '" ' . $condition['conditionPrepare'] . 'pattern="' . $this->pattern . '"' . '>';
             } else {
@@ -141,7 +141,7 @@ class C4GDateField extends C4GBrickField
                 if (!$this->isIgnoreViewType() && (C4GBrickView::isWithoutEditing($dialogParams->getViewType()) || !$this->isEditable())) {
                     $html .= '<span class="ui-button ui-corner-all c4g_date_field_button"><i class="far fa-calendar-alt"></i></span>';
                 } else {
-                    $html .= '<span onclick="$(document.getElementById(' . $buttonId . ')) ? $(document.getElementById(' . $buttonId . ')).focus() : false" class="ui-button ui-corner-all c4g_date_field_button_interactive"><i class="far fa-calendar-alt"></i></span>';
+                    $html .= '<span onclick="if (document.getElementById(' . $buttonId . ')) {$(document.getElementById(' . $buttonId . ')).show(); $(document.getElementById(' . $buttonId . ')).focus();" class="ui-button ui-corner-all c4g_date_field_button_interactive"><i class="far fa-calendar-alt"></i></span>';
                 }
             }
 
