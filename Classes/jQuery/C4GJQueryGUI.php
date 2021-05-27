@@ -58,7 +58,7 @@ class C4GJQueryGUI
                 // jQuery is already loaded by Contao, don't load again!
             } else {
                 // Include JQuery JS
-                ResourceLoader::loadJavaScriptResource('assets/jquery/js/jquery.min.js', $location = ResourceLoader::BODY, $key = 'c4g_jquery');
+                ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/dist/js/c4g-vendor-jquery.js', ResourceLoader::JAVASCRIPT,'c4g_jquery');
                 // just until the old plugins are replaced
                 // Set JQuery to noConflict mode immediately after load of jQuery
                 ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/dist/js/c4gjQueryNoConflict.js', $location = ResourceLoader::BODY, $key = 'c4g_jquery_noconflict');

@@ -16,7 +16,8 @@ var config = {
   entry: {
     'c4g-vendor-magnificpopup': './Resources/public/vendor/js/c4g-vendor-magnificpopup.js',
     'c4g-vendor-trix': './Resources/public/vendor/js/c4g-vendor-trix.js',
-    'minisearch': './Resources/public/vendor/js/minisearch.js'
+    'minisearch': './Resources/public/vendor/js/minisearch.js',
+    'c4g-vendor-jquery': './Resources/public/vendor/js/c4g-vendor-jquery.js'
   },
   mode: 'production',
   output: {
