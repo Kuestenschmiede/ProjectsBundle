@@ -15,14 +15,15 @@ var path = require('path');
 var config = {
   entry: {
     'c4g-vendor-magnificpopup': './Resources/public/vendor/js/c4g-vendor-magnificpopup.js',
-    'c4g-vendor-trix': './Resources/public/vendor/js/c4g-vendor-trix.js'
+    'c4g-vendor-trix': './Resources/public/vendor/js/c4g-vendor-trix.js',
+    'minisearch': './Resources/public/vendor/js/minisearch.js'
   },
   mode: 'production',
   output: {
     filename: '[name].js',
     path: path.resolve('./Resources/public/dist/js'),
     chunkFilename: '[name].bundle.[contenthash].js',
-    publicPath: 'bundles/con4gismaps/dist/js/'
+    publicPath: 'bundles/con4gisprojects/dist/js/'
   },
   resolve: {
     modules: ['node_modules', 'Resources/public/vendor/js'],

@@ -8,12 +8,14 @@
  * @link https://www.con4gis.org
  */
 
-const minisearch = {};
+import MiniSearch from 'minisearch';
+
+const mini = {};
 
 function initSearch(includeSubordinateData) {
     let lists = document.getElementsByClassName('c4g_brick_list');
-    minisearch.documents = [];
-    minisearch.minisearch = new MiniSearch({fields: ['text']});
+    mini.documents = [];
+    mini.minisearch = new MiniSearch({fields: ['text']});
     while (lists.length > 1) {
         lists.item(0).remove();
     }
@@ -30,20 +32,20 @@ function initSearch(includeSubordinateData) {
             }
             c += 1;
         }
-        minisearch.documents.push({'id': r + 1, 'text': text});
+        mini.documents.push({'id': r + 1, 'text': text});
         r += 1;
     }
-    minisearch.minisearch.addAll(minisearch.documents);
+    mini.minisearch.addAll(mini.documents);
 }
 
 function search(input, event) {
     let result;
     if (input.value.length > 2) {
         initSearch(false);
-        result = minisearch.minisearch.search(input.value, {'prefix': true, 'combineWith': 'AND'});
+        result = mini.minisearch.search(input.value, {'prefix': true, 'combineWith': 'AND'});
         if (result.length === 0) {
             initSearch(true);
-            result = minisearch.minisearch.search(input.value, {'prefix': true, 'combineWith': 'AND'});
+            result = mini.minisearch.search(input.value, {'prefix': true, 'combineWith': 'AND'});
         }
     }
     let rows = document.getElementsByClassName('c4g_brick_list_row');
@@ -52,12 +54,12 @@ function search(input, event) {
     if (typeof result !== 'undefined') {
         if (result.length === 0) {
             try {
-                let notice = document.getElementsByClassName('c4g_brick_list_minisearch_no_results_note')[0];
+                let notice = document.getElementsByClassName('c4g_brick_list_mini_no_results_note')[0];
                 notice.style.display = 'block';
             } catch (e) {}
         } else {
             try {
-                let notice = document.getElementsByClassName('c4g_brick_list_minisearch_no_results_note')[0];
+                let notice = document.getElementsByClassName('c4g_brick_list_mini_no_results_note')[0];
                 notice.style.display = 'none';
             } catch (e) {}
         }
@@ -78,7 +80,7 @@ function search(input, event) {
             r += 1;
         }
         try {
-            let notice = document.getElementsByClassName('c4g_brick_list_minisearch_no_results_note')[0];
+            let notice = document.getElementsByClassName('c4g_brick_list_mini_no_results_note')[0];
             notice.style.display = 'none';
         } catch (e) {}
     }
@@ -98,3 +100,5 @@ function getTitles(element) {
         return '';
     }
 }
+
+window.search = search;
