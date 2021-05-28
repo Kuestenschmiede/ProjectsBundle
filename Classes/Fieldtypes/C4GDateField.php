@@ -125,7 +125,7 @@ class C4GDateField extends C4GBrickField
             }
 
             if (!$display) {
-                $html = '<div class="c4g_date_field_container" style="display: none"  onmousedown="C4GDatePicker(\'' . $id . '\', \'date\', \'' . $this->minDate . '\', \'' . $this->maxDate . '\', \'' . $format . '\',\'' . $pickerLanguage . '\',\'' . $this->excludeWeekdays . '\',\'' . $this->excludeDates . '\')" >';
+                $html = '<div class="c4g_date_field_container" style="display: none" onmousedown="C4GDatePicker(\'' . $id . '\', \'date\', \'' . $this->minDate . '\', \'' . $this->maxDate . '\', \'' . $format . '\',\'' . $pickerLanguage . '\',\'' . $this->excludeWeekdays . '\',\'' . $this->excludeDates . '\')" >';
             } else {
                 $html = '<div class="c4g_date_field_container" onmousedown="C4GDatePicker(\'' . $id . '\', \'date\', \'' . $this->minDate . '\', \'' . $this->maxDate . '\', \'' . $format . '\',\'' . $pickerLanguage . '\',\'' . $this->excludeWeekdays . '\',\'' . $this->excludeDates . '\')" >';
             }
