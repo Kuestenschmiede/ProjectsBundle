@@ -695,7 +695,7 @@ class C4GBrickModuleParent extends \Module
             ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/dist/js/multicolumn.js', ResourceLoader::BODY, 'multicolumn');
         }
         if ($this->loadMiniSearchResources === true) {
-            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/dist/js/minisearch.js', ResourceLoader::HEAD);
+            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/dist/js/c4g-vendor-minisearch.js', ResourceLoader::HEAD);
         }
 
         if ($this->loadHistoryPushResources === true) {
