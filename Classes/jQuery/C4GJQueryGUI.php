@@ -51,7 +51,7 @@ class C4GJQueryGUI
 
         if ($addJQueryUI || $useTree || $useMaps) {
             ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/dist/js/jquery-ui.min.js', ResourceLoader::BODY, 'c4g_jquery_ui');
-            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/jQuery/jquery-ui-i18n.min.js', ResourceLoader::BODY, 'c4g_jquery_ui_i18n');
+            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/dist/js/jquery-ui-de.js', ResourceLoader::BODY, 'c4g_jquery_ui_i18n');
             ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/jQuery/plugins/jquery.legacy.min.js', ResourceLoader::BODY, 'c4g_a');
             ResourceLoader::loadJavaScriptResource('bundles/con4giscore/dist/js/DialogHandler.js', ResourceLoader::BODY, 'dialog_handler');
             ResourceLoader::loadJavaScriptResource('bundles/con4giscore/dist/js/AlertHandler.js', ResourceLoader::BODY, 'alert_handler');
