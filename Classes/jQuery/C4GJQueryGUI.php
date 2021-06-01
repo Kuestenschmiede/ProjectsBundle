@@ -58,7 +58,7 @@ class C4GJQueryGUI
         }
 
         if ($useTable) {
-            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/jQuery/plugins/jquery.scrollTo/jquery.scrollTo.min.js', ResourceLoader::BODY, 'c4g_jq_scrollTo');
+            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/dist/js/jquery.scrollTo.min.js', ResourceLoader::BODY, 'c4g_jq_scrollTo');
 
             ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/dist/js/jquery.dataTables.min.js', ResourceLoader::BODY, 'c4g_jq_datatables');
             ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/dist/js/dataTables.jqueryui.min.js', ResourceLoader::BODY, 'c4g_jq_datatables_ui');
