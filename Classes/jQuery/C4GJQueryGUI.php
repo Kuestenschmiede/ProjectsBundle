@@ -63,14 +63,14 @@ class C4GJQueryGUI
             ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/dist/js/jquery.dataTables.min.js', ResourceLoader::BODY, 'c4g_jq_datatables');
             ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/dist/js/dataTables.jqueryui.min.js', ResourceLoader::BODY, 'c4g_jq_datatables_ui');
 
-            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/jQuery/plugins/datatables/extensions/Buttons/js/dataTables.buttons.min.js', ResourceLoader::BODY, 'c4g_jq_datatables_buttons');
-            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/jQuery/plugins/datatables/extensions/Buttons/js/buttons.print.min.js', ResourceLoader::BODY, 'c4g_jq_datatables_buttons_print');
-            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/jQuery/plugins/datatables/extensions/Buttons/js/buttons.jqueryui.min.js', ResourceLoader::BODY, 'c4g_jq_datatables_buttons_jquery');
+            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/dist/js/dataTables.buttons.js', ResourceLoader::BODY, 'c4g_jq_datatables_buttons');
+            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/dist/js/buttons.print.js', ResourceLoader::BODY, 'c4g_jq_datatables_buttons_print');
+            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/dist/js/buttons.jqueryui.js', ResourceLoader::BODY, 'c4g_jq_datatables_buttons_jquery');
             ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/jQuery/plugins/datatables/extensions/Buttons/js/pdfmake.min.js', ResourceLoader::BODY, 'c4g_jq_datatables_buttons_pdf');
-            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/jQuery/plugins/datatables/extensions/Buttons/js/buttons.html5.min.js', ResourceLoader::BODY, 'c4g_jq_datatables_buttons_html5');
+            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/dist/js/buttons.html5.js', ResourceLoader::BODY, 'c4g_jq_datatables_buttons_html5');
             ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/jQuery/plugins/datatables/extensions/Buttons/js/vfs_fonts.js', ResourceLoader::BODY, 'c4g_jq_datatables_buttons_font');
             ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/jQuery/plugins/datatables/extensions/Buttons/js/jszip.min.js', ResourceLoader::BODY, 'c4g_jq_datatables_jszip');
-            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/jQuery/plugins/datatables/extensions/Scroller/js/dataTables.scroller.min.js', ResourceLoader::BODY, 'c4g_jq_datatables_scroller');
+            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/dist/js/dataTables.scroller.min.js', ResourceLoader::BODY, 'c4g_jq_datatables_scroller');
             ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/jQuery/plugins/datatables/extensions/Sorting/date-de.js', ResourceLoader::BODY, 'c4g_jq_datatables_sort_date_de');
             ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/jQuery/plugins/datatables/extensions/Sorting/text-de.js', ResourceLoader::BODY, 'c4g_jq_datatables_sort_text_de');
             ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/jQuery/plugins/datatables/extensions/Responsive/js/dataTables.responsive.min.js', ResourceLoader::BODY, 'c4g_jq_datatables_responsive');

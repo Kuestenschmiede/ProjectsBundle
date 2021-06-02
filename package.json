@@ -35,8 +35,10 @@
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.15.3",
+    "datatables-buttons": "^1.0.3",
     "datatables.net": "^1.10.24",
     "datatables.net-jqui": "^1.10.24",
+    "datatables.net-scroller": "^2.0.3",
     "jquery": "^3.6.0",
     "jquery-ui": "^1.12.1",
     "jquery-ui-dist": "^1.12.1",
