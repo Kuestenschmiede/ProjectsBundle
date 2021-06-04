@@ -369,7 +369,7 @@ abstract class C4GBrickField
                 return $tdo . '<label class="' . $this->getFieldName() . ' ' . $id . '" for="' . $id . '" ' . $condition['conditionPrepare'] . '>' . $star . $additionalLabel . $linebreak . '</label>' . $tdc . $extTitleField;
             }
 
-            return $tdo . '<label class="' . $this->getFieldName() . ' ' . $id . '" for="' . $id . '" ' . $condition['conditionPrepare'] . '>' . $star . $title . $additionalLabel . $linebreak . '</label>' . $tdc . $extTitleField;
+            return $tdo . '<label class="c4g-form-label ' . $this->getFieldName() . ' ' . $id . '" for="' . $id . '" ' . $condition['conditionPrepare'] . '>' . $star . $title . $additionalLabel . $linebreak . '</label>' . $tdc . $extTitleField;
         }
 
         return '';

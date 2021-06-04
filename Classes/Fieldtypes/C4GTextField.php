@@ -53,7 +53,7 @@ class C4GTextField extends C4GBrickFieldText
                 }
 
                 $result = $this->addC4GField($condition, $dialogParams, $fieldList, $data,
-                    '<input ' . $required . ' ' . $condition['conditionPrepare'] . ' type="text" id="' . $id . '" class="formdata ' . $id . '" size="' . $this->size . '"  maxLength="' . $this->maxLength . '" name="' . $this->getFieldName() . '" value="' . $value . '"' . $placeholder . $aria . '>');
+                    '<input ' . $required . ' ' . $condition['conditionPrepare'] . ' type="text" id="' . $id . '" class="formdata c4g-form-text ' . $id . '" size="' . $this->size . '"  maxLength="' . $this->maxLength . '" name="' . $this->getFieldName() . '" value="' . $value . '"' . $placeholder . $aria . '>');
             }
         }
 
