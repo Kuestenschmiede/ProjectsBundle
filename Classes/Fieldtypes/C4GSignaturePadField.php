@@ -47,11 +47,11 @@ class C4GSignaturePadField extends C4GBrickField
         if ($this->isShowIfEmpty() || !empty(trim($value))) {
             $fieldData = '<div class="c4g-signature-pad ui-corner-all">'.
                     '<ul class="sigNav">'.
-                      '<li class="clearButton"><a href="#clear">'.$GLOBALS['TL_LANG']['FE_C4G_DIALOG']['DELETE'].'</a></li>'. //ToDO language
+                      '<li class="clearButton"><a href="#clear">'.$GLOBALS['TL_LANG']['FE_C4G_DIALOG']['DELETE'].'</a></li>'.
                     '</ul>'.
                     '<div class="sig sigWrapper">'.
                       '<div class="typed"></div>'.
-                      '<canvas class="pad" width="198" height="55"></canvas>'.
+                      '<canvas class="pad" width="198" height="55" autofocus></canvas>'.
                       '<input id="' . $id . '" type="hidden" name="' .$this->getFieldName() . '" class="formdata output c4g-signature-pad-output' .
                       $this->getFieldName() . '" value="'.$value.'">'.
                     '</div>'.$script;
