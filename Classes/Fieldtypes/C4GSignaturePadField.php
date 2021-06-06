@@ -51,7 +51,7 @@ class C4GSignaturePadField extends C4GBrickField
                     '</ul>'.
                     '<div class="sig sigWrapper">'.
                       '<div class="typed"></div>'.
-                      '<canvas class="pad" width="198" height="55" autofocus></canvas>'.
+                      '<canvas class="pad" width="396" height="55" autofocus></canvas>'.
                       '<input id="' . $id . '" type="hidden" name="' .$this->getFieldName() . '" class="formdata output c4g-signature-pad-output' .
                       $this->getFieldName() . '" value="'.$value.'">'.
                     '</div>'.$script;
@@ -79,7 +79,7 @@ class C4GSignaturePadField extends C4GBrickField
         if ($data && $data->$fieldName) {
             $value = $data->$fieldName;
             $value = str_replace('&quot;', '"', $value);
-            $img = SignatureToImage::sigJsonToImage($value, array('imageSize'=>array(198, 55)));
+            $img = SignatureToImage::sigJsonToImage($value, array('imageSize'=>array(396, 55)));
             $fileName = tempnam(sys_get_temp_dir(), '/c4g/sig_png_' . rand(0, 543435) . '.png');
             $type = pathinfo($fileName, PATHINFO_EXTENSION);
             imagepng($img, $fileName);
