@@ -197,6 +197,18 @@ abstract class C4GBrickField
     abstract public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = []);
 
     /**
+     * Public method for creating the field specific printing HTML
+     * @param C4GBrickField[] $fieldList
+     * @param $data
+     * @param $dialogParams
+     * @param array $additionalParams
+     * @return array
+     */
+    public function getC4GPrintField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = []) {
+
+    }
+
+    /**
      * Public method for generating the HTML code for fields based on the parameters given by the child class.
      * Used only by the Headline and RadioGroup fields.
      * @param string $class The css class to be used.

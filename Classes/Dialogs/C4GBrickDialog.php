@@ -36,6 +36,7 @@ use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GHeadlineField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GKeyField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GMultiCheckboxField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GSelectField;
+use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GSignaturePadField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GSubDialogField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GTelField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GUrlField;
@@ -275,7 +276,8 @@ class C4GBrickDialog
         $database,
         $dataset,
         $content,
-        C4GBrickDialogParams $dialogParams
+        C4GBrickDialogParams $dialogParams,
+        $print = false
     ) {
         $view = '<div class="' . C4GBrickConst::CLASS_DIALOG .
             ' ui-widget ui-widget-content ui-corner-bottom">' . C4GHTMLFactory::lineBreak();
@@ -370,12 +372,22 @@ class C4GBrickDialog
                             $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['NEXT'] . '</button>';
                     }
                 }
-                $view .= $beforeDiv . $field->getC4GDialogField(
-                    $fieldList,
-                    $dbValues,
-                    $dialogParams,
-                    $additionalParameters
-                ) . $afterDiv;
+
+                if ($field instanceof C4GSignaturePadField && ($print)) {
+                    $view .= $beforeDiv . $field->getC4GPrintField(
+                        $fieldList,
+                        $dbValues,
+                        $dialogParams,
+                        $additionalParameters
+                    ) . $afterDiv;
+                } else {
+                    $view .= $beforeDiv . $field->getC4GDialogField(
+                            $fieldList,
+                            $dbValues,
+                            $dialogParams,
+                            $additionalParameters
+                        ) . $afterDiv;
+                }
                 if ($field instanceof C4GSelectField && $field->isChosen()) {
                     $onLoadScript = $dialogParams->getOnloadScript();
                     $id = 'c4g_' . $field->getFieldName();

@@ -175,6 +175,7 @@ class AjaxController extends Controller
                 $field->setInitialValue($data[$field->getFieldName()]);
                 $field->setTableRow(true);
             }
+
             if ($field->isPrintable() && (trim($data[$field->getFieldName()]) || (($field instanceof C4GSubDialogField) || ($field instanceof C4GForeignArrayField)))) {
                 $this->checkSubFields($field, $data);
                 $printFieldList[] = $field;
@@ -186,7 +187,8 @@ class AjaxController extends Controller
             $objModule->getBrickDatabase(),
             $data,
             null,
-            $objModule->getDialogParams()
+            $objModule->getDialogParams(),
+            true
         );
 
         $pdfManager = new PdfManager();

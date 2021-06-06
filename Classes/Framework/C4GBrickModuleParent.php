@@ -141,6 +141,7 @@ class C4GBrickModuleParent extends \Module
     protected $loadMultiColumnResources = false;
     protected $loadMiniSearchResources = false;
     protected $loadHistoryPushResources = false;
+    protected $loadSignaturePadResources = false;
 
     //JQuery GUI Resource Params
     protected $jQueryAddCore = true;
@@ -701,6 +702,12 @@ class C4GBrickModuleParent extends \Module
         if ($this->loadHistoryPushResources === true) {
             ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/dist/js/historyPush.js', ResourceLoader::BODY, 'history-push');
         }
+
+        if ($this->loadSignaturePadResources === true) {
+            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/vendor/signature-pad/flashcanvas.js', ResourceLoader::BODY, 'flashcanvas');
+            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/vendor/signature-pad/jquery.signaturepad.min.js', ResourceLoader::BODY, 'signature-pad');
+            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/vendor/signature-pad/json2.min.js', ResourceLoader::BODY, 'json2');
+        }
     }
 
     protected function compileCss()
@@ -727,6 +734,10 @@ class C4GBrickModuleParent extends \Module
 
         if ($this->loadTrixEditorResources) {
             ResourceLoader::loadCssResource('bundles/con4gisprojects/dist/css/trix.min.css');
+        }
+
+        if ($this->loadSignaturePadResources === true) {
+            ResourceLoader::loadCssResource('bundles/con4gisprojects/vendor/signature-pad/jquery.signaturepad.css');
         }
     }
 
