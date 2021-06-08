@@ -28,6 +28,7 @@ class C4GSignaturePadField extends C4GBrickField
     {
         $id = 'c4g_' . $this->getFieldName();
         $value = $this->generateInitialValue($data);
+
         if (empty(trim($value))) {
             if ($this->isEditable()) {
                 $script = '<script>jQuery(document).ready(function() {jQuery(".c4g_brick_dialog").signaturePad({drawOnly:true});});</script>';
@@ -85,7 +86,7 @@ class C4GSignaturePadField extends C4GBrickField
             imagedestroy($img);
             $data = file_get_contents($fileName);
             $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
-            $result = '<img src="' . $base64 . '" alt="" width="300" height="110">';
+            $result = '<br><label class="signature ' . $this->getFieldName() .'">'.$this->getTitle().'</label><br><img src="' . $base64 . '" alt="" width="300" height="110">';
         }
 
         return $result;

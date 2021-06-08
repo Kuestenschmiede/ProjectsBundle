@@ -11,6 +11,5 @@
     <?php if ($this->content): ?>
         <?php echo $this->content; ?>
     <?php endif; ?>
-</div>
 </body>
 </html>
