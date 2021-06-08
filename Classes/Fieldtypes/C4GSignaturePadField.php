@@ -17,7 +17,6 @@ use con4gis\ProjectsBundle\Classes\Signature\SignatureToImage;
 
 class C4GSignaturePadField extends C4GBrickField
 {
-
     /**
      * @param C4GBrickField[] $fieldList
      * @param $data
@@ -38,23 +37,23 @@ class C4GSignaturePadField extends C4GBrickField
         } else {
             $value = str_replace('&quot;', '"', $value);
             if ($this->isEditable()) {
-                $script = '<script>jQuery(document).ready(function() {jQuery(".c4g_brick_dialog").signaturePad({drawOnly:true}).regenerate('.$value.');});</script>';
+                $script = '<script>jQuery(document).ready(function() {jQuery(".c4g_brick_dialog").signaturePad({drawOnly:true}).regenerate(' . $value . ');});</script>';
             } else {
-                $script = '<script>jQuery(document).ready(function() {jQuery(".c4g_brick_dialog").signaturePad({displayOnly:true}).regenerate('.$value.');});</script>';
+                $script = '<script>jQuery(document).ready(function() {jQuery(".c4g_brick_dialog").signaturePad({displayOnly:true}).regenerate(' . $value . ');});</script>';
             }
         }
 
         if ($this->isShowIfEmpty() || !empty(trim($value))) {
-            $fieldData = '<div class="c4g-signature-pad ui-corner-all">'.
-                    '<ul class="sigNav">'.
-                      '<li class="clearButton"><a href="#clear">'.$GLOBALS['TL_LANG']['FE_C4G_DIALOG']['DELETE'].'</a></li>'.
-                    '</ul>'.
-                    '<div class="sig sigWrapper">'.
-                      '<div class="typed"></div>'.
-                      '<canvas class="pad" width="396" height="55" autofocus></canvas>'.
-                      '<input id="' . $id . '" type="hidden" name="' .$this->getFieldName() . '" class="formdata output c4g-signature-pad-output' .
-                      $this->getFieldName() . '" value="'.$value.'">'.
-                    '</div>'.$script;
+            $fieldData = '<div class="c4g-signature-pad ui-corner-all">' .
+                    '<ul class="sigNav">' .
+                      '<li class="clearButton"><a href="#clear">' . $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['DELETE'] . '</a></li>' .
+                    '</ul>' .
+                    '<div class="sig sigWrapper">' .
+                      '<div class="typed"></div>' .
+                      '<canvas class="pad" width="396" height="55" autofocus></canvas>' .
+                      '<input id="' . $id . '" type="hidden" name="' . $this->getFieldName() . '" class="formdata output c4g-signature-pad-output' .
+                      $this->getFieldName() . '" value="' . $value . '">' .
+                    '</div>' . $script;
 
             $condition = $this->createConditionData($fieldList, $data);
 
@@ -79,14 +78,14 @@ class C4GSignaturePadField extends C4GBrickField
         if ($data && $data->$fieldName) {
             $value = $data->$fieldName;
             $value = str_replace('&quot;', '"', $value);
-            $img = SignatureToImage::sigJsonToImage($value, array('imageSize'=>array(396, 55)));
+            $img = SignatureToImage::sigJsonToImage($value, ['imageSize' => [396, 55]]);
             $fileName = tempnam(sys_get_temp_dir(), '/c4g/sig_png_' . rand(0, 543435) . '.png');
             $type = pathinfo($fileName, PATHINFO_EXTENSION);
             imagepng($img, $fileName);
             imagedestroy($img);
             $data = file_get_contents($fileName);
             $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
-            $result = '<img src="'.$base64.'" alt="" width="198" height="55">';
+            $result = '<img src="' . $base64 . '" alt="" width="198" height="55">';
         }
 
         return $result;

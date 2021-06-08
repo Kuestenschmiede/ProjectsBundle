@@ -82,6 +82,7 @@ class C4GBrickDialogParams
     private $uniqueTitle = ''; //unique message title
     private $uniqueMessage = ''; //unique message
     private $withPrintButton = false; //activates print button
+    private $savePrintoutToField = ''; //fieldname
     private $filterParams = null; //siehe C4GBrickFilterParams
     private $confirmActivation = false;
     private $notifyOnChanges = false;
@@ -2012,5 +2013,21 @@ class C4GBrickDialogParams
         $this->emptyListMessage = [$title, $message];
 
         return $this->emptyListMessage;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSavePrintoutToField(): string
+    {
+        return $this->savePrintoutToField;
+    }
+
+    /**
+     * @param string $savePrintoutToField
+     */
+    public function setSavePrintoutToField(string $savePrintoutToField): void
+    {
+        $this->savePrintoutToField = $savePrintoutToField;
     }
 }

@@ -204,8 +204,8 @@ abstract class C4GBrickField
      * @param array $additionalParams
      * @return array
      */
-    public function getC4GPrintField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = []) {
-
+    public function getC4GPrintField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = [])
+    {
     }
 
     /**

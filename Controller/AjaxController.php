@@ -10,8 +10,10 @@
  */
 namespace con4gis\ProjectsBundle\Controller;
 
+use con4gis\CoreBundle\Resources\contao\models\C4gLogModel;
 use con4gis\DocumentsBundle\Classes\Stack\PdfManager;
 use con4gis\MapsBundle\Resources\contao\modules\api\ReverseNominatimApi;
+use con4gis\ProjectsBundle\Classes\Common\C4GBrickCommon;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickConst;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialog;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GDateField;
@@ -29,6 +31,7 @@ use con4gis\ProjectsBundle\Classes\Framework\C4GModuleManager;
 use Contao\Database;
 use Contao\Input;
 use Contao\Module;
+use Contao\StringUtil;
 use Contao\System;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Config\Definition\Exception\Exception;
@@ -197,7 +200,7 @@ class AjaxController extends Controller
 
         $pdfData = array();
         $pdfData['template'] = 'c4g_pdftemplate';
-        $pdfData['filename'] = '{{date::Y_m_d-H_i_s}}_document.pdf';
+        $pdfData['filename'] = '{{date::Y_m_d-H_i_s}}-'.rand(100,999).'_document.pdf';
         $pdfData['filepath'] = C4GBrickConst::PATH_BRICK_DOCUMENTS;
         $pdfData['Attachment'] = false;
 
@@ -217,6 +220,22 @@ class AjaxController extends Controller
             "filePath" => $path,
             "fileName" => $pdfManager->getPdfDocument()->getFilename()
         ]);
+
+        $pdfFieldName = $objModule->getDialogParams()->getSavePrintoutToField();
+        if ($pdfFieldName && $path) {
+            $objNew = \Dbafs::addResource($path);
+            $fileUuid = $objNew->uuid;
+            $fileUuid = StringUtil::deserialize($fileUuid);
+            $tableName = $objModule->getC4GTablePermissionTable();
+            if ($id && $tableName) {
+                $database = \Database::getInstance();
+                try {
+                    $database->prepare("UPDATE $tableName SET $pdfFieldName=? WHERE id=?")->execute($fileUuid,$id);
+                } catch (Exception $e) {
+                    C4gLogModel::addLogEntry($objModule->name,'Error on linking printout to database.');
+                }
+            }
+        }
 
         return $response;
     }

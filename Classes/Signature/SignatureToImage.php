@@ -14,8 +14,8 @@ namespace con4gis\ProjectsBundle\Classes\Signature;
  *  @license New BSD License
  *  @version 1.1.0
  */
-
-class SignatureToImage {
+class SignatureToImage
+{
     /**
      *  Accepts a signature created by signature pad in Json format
      *  Converts it to an image resource
@@ -33,14 +33,11 @@ class SignatureToImage {
      *
      *  @return object
      */
-    public static function sigJsonToImage ($json, $options = array()) {
-        $defaultOptions = array(
-            'imageSize' => array(198, 55)
-        ,'bgColour' => array(0xff, 0xff, 0xff)
-        ,'penWidth' => 2
-        ,'penColour' => array(0x14, 0x53, 0x94)
-        ,'drawMultiplier'=> 12
-        );
+    public static function sigJsonToImage($json, $options = [])
+    {
+        $defaultOptions = [
+            'imageSize' => [198, 55],'bgColour' => [0xff, 0xff, 0xff],'penWidth' => 2,'penColour' => [0x14, 0x53, 0x94],'drawMultiplier' => 12,
+        ];
 
         $options = array_merge($defaultOptions, $options);
 
@@ -56,11 +53,13 @@ class SignatureToImage {
         $pen = imagecolorallocate($img, $options['penColour'][0], $options['penColour'][1], $options['penColour'][2]);
         imagefill($img, 0, 0, $bg);
 
-        if (is_string($json))
+        if (is_string($json)) {
             $json = json_decode(stripslashes($json));
+        }
 
-        foreach ($json as $v)
+        foreach ($json as $v) {
             SignatureToImage::drawThickLine($img, $v->lx * $options['drawMultiplier'], $v->ly * $options['drawMultiplier'], $v->mx * $options['drawMultiplier'], $v->my * $options['drawMultiplier'], $pen, $options['penWidth'] * ($options['drawMultiplier'] / 2));
+        }
 
         $imgDest = imagecreatetruecolor($options['imageSize'][0], $options['imageSize'][1]);
 
@@ -89,7 +88,8 @@ class SignatureToImage {
      *
      *  @return void
      */
-    public static function drawThickLine ($img, $startX, $startY, $endX, $endY, $colour, $thickness) {
+    public static function drawThickLine($img, $startX, $startY, $endX, $endY, $colour, $thickness)
+    {
         $angle = (atan2(($startY - $endY), ($endX - $startX)));
 
         $dist_x = $thickness * (sin($angle));
@@ -104,9 +104,7 @@ class SignatureToImage {
         $p4x = ceil(($startX - $dist_x));
         $p4y = ceil(($startY - $dist_y));
 
-        $array = array(0=>$p1x, $p1y, $p2x, $p2y, $p3x, $p3y, $p4x, $p4y);
-        imagefilledpolygon($img, $array, (count($array)/2), $colour);
+        $array = [0 => $p1x, $p1y, $p2x, $p2y, $p3x, $p3y, $p4x, $p4y];
+        imagefilledpolygon($img, $array, (count($array) / 2), $colour);
     }
 }
-
-
