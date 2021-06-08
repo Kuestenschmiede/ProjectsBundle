@@ -1045,8 +1045,37 @@ input.formdata.c4g_date_field_input_flipped {
 .c4g-signature-pad {
     margin-left: 2.5%;
     margin-right: 2.5%;
+    padding-bottom: 1.25%;
+    background-color: lightyellow;
+}
+.sigPad {
+    margin: 0;
+    padding: 0;
+    width: 320px;
+}
+.sigPad input {
+    margin: 0;
+    padding: 0.2em 0;
+    width: 300px;
+    height: 110px;
+    border: 0;
+    font-size: 1em;
+    background-color: lightyellow;
 }
 label.c4g_signature {
     margin-top: 0.8em;
     position: absolute;
+}
+.sigWrapper {
+    border: 0!important;
+    height: 110px!important;
+    background-color: lightyellow;
+    margin-left: 2.5%;
+}
+.sigWrapper canvas {
+    margin-left: 0%;
+    margin-right: 0%;
+}
+.typed {
+    height: 110px;
 }

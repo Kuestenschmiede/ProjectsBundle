@@ -37,9 +37,9 @@ class C4GSignaturePadField extends C4GBrickField
         } else {
             $value = str_replace('&quot;', '"', $value);
             if ($this->isEditable()) {
-                $script = '<script>jQuery(document).ready(function() {jQuery(".c4g_brick_dialog").signaturePad({drawOnly:true}).regenerate(' . $value . ');});</script>';
+                $script = '<script>jQuery(document).ready(function() {jQuery(".c4g_brick_dialog").signaturePad({drawOnly:true,lineWidth:0}).regenerate(' . $value . ');});</script>';
             } else {
-                $script = '<script>jQuery(document).ready(function() {jQuery(".c4g_brick_dialog").signaturePad({displayOnly:true}).regenerate(' . $value . ');});</script>';
+                $script = '<script>jQuery(document).ready(function() {jQuery(".c4g_brick_dialog").signaturePad({displayOnly:true,lineWidth:0}).regenerate(' . $value . ');});</script>';
             }
         }
 
@@ -50,7 +50,7 @@ class C4GSignaturePadField extends C4GBrickField
                     '</ul>' .
                     '<div class="sig sigWrapper">' .
                       '<div class="typed"></div>' .
-                      '<canvas class="pad" width="396" height="55" autofocus></canvas>' .
+                      '<canvas class="pad" width="300" height="110" autofocus></canvas>' .
                       '<input id="' . $id . '" type="hidden" name="' . $this->getFieldName() . '" class="formdata output c4g-signature-pad-output' .
                       $this->getFieldName() . '" value="' . $value . '">' .
                     '</div>' . $script;
@@ -78,14 +78,14 @@ class C4GSignaturePadField extends C4GBrickField
         if ($data && $data->$fieldName) {
             $value = $data->$fieldName;
             $value = str_replace('&quot;', '"', $value);
-            $img = SignatureToImage::sigJsonToImage($value, ['imageSize' => [396, 55]]);
+            $img = SignatureToImage::sigJsonToImage($value, ['imageSize' => [300, 110]]);
             $fileName = tempnam(sys_get_temp_dir(), '/c4g/sig_png_' . rand(0, 543435) . '.png');
             $type = pathinfo($fileName, PATHINFO_EXTENSION);
             imagepng($img, $fileName);
             imagedestroy($img);
             $data = file_get_contents($fileName);
             $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
-            $result = '<img src="' . $base64 . '" alt="" width="198" height="55">';
+            $result = '<img src="' . $base64 . '" alt="" width="300" height="110">';
         }
 
         return $result;
