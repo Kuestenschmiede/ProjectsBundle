@@ -31,9 +31,9 @@ class C4GSignaturePadField extends C4GBrickField
 
         if (empty(trim($value))) {
             if ($this->isEditable()) {
-                $script = '<script>jQuery(document).ready(function() {jQuery(".c4g_brick_dialog").signaturePad({drawOnly:true});});</script>';
+                $script = '<script>jQuery(document).ready(function() {jQuery(".c4g_brick_dialog").signaturePad({drawOnly:true,lineWidth:0});});</script>';
             } else {
-                $script = '<script>jQuery(document).ready(function() {jQuery(".c4g_brick_dialog").signaturePad({displayOnly:true});});</script>';
+                $script = '<script>jQuery(document).ready(function() {jQuery(".c4g_brick_dialog").signaturePad({displayOnly:true,lineWidth:0});});</script>';
             }
         } else {
             $value = str_replace('&quot;', '"', $value);
