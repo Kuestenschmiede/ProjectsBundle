@@ -15,8 +15,12 @@ use con4gis\ProjectsBundle\Classes\Common\C4GBrickCommon;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickConst;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialog;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
+use con4gis\ProjectsBundle\Classes\Documents\C4GPrintoutPDF;
 use con4gis\ProjectsBundle\Classes\Views\C4GBrickView;
 use con4gis\ProjectsBundle\Classes\Views\C4GBrickViewType;
+use con4gis\ProjectsBundle\Controller\AjaxController;
+use Contao\Database;
+use Symfony\Component\HttpFoundation\Request;
 
 class C4GSaveDialogAction extends C4GBrickDialogAction
 {
@@ -92,6 +96,12 @@ class C4GSaveDialogAction extends C4GBrickDialogAction
                 $dlgValues, $brickDatabase, $dbValues, $dialogParams, $memberId);
 
             if ($result['insertId']) {
+                if ($dialogParams->isGeneratePrintoutWithSaving()) {
+                    $database = $this->getBrickDatabase()->getParams()->getDatabase();
+                    $printoutPDF = new C4GPrintoutPDF($database);
+                    $printoutPDF->printAction($module, $dlgValues, $dialogId);
+                }
+
                 if ($this->setSessionIdAfterInsert) {
                     \Session::getInstance()->set($this->setSessionIdAfterInsert, $result['insertId']);
                 }

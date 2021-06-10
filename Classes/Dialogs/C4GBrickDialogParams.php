@@ -83,6 +83,7 @@ class C4GBrickDialogParams
     private $uniqueMessage = ''; //unique message
     private $withPrintButton = false; //activates print button
     private $savePrintoutToField = ''; //fieldname
+    private $generatePrintoutWithSaving = false;
     private $filterParams = null; //siehe C4GBrickFilterParams
     private $confirmActivation = false;
     private $notifyOnChanges = false;
@@ -2029,5 +2030,21 @@ class C4GBrickDialogParams
     public function setSavePrintoutToField(string $savePrintoutToField): void
     {
         $this->savePrintoutToField = $savePrintoutToField;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isGeneratePrintoutWithSaving(): bool
+    {
+        return $this->generatePrintoutWithSaving;
+    }
+
+    /**
+     * @param bool $generatePrintoutWithSaving
+     */
+    public function setGeneratePrintoutWithSaving(bool $generatePrintoutWithSaving): void
+    {
+        $this->generatePrintoutWithSaving = $generatePrintoutWithSaving;
     }
 }
