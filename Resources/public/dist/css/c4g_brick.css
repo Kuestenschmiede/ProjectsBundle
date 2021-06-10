@@ -984,3 +984,9 @@ label.c4g_signature {
 .typed {
   height: 110px
 }
+.dt-buttons .ui-button-text {
+  visibility: hidden
+}
+.dt-buttons .ui-button-text:before {
+  visibility: initial
+}
