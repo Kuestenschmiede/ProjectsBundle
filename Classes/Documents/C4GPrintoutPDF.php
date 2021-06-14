@@ -12,9 +12,7 @@ namespace con4gis\ProjectsBundle\Classes\Documents;
 
 use con4gis\CoreBundle\Resources\contao\models\C4gLogModel;
 use con4gis\DocumentsBundle\Classes\Stack\PdfManager;
-use con4gis\MapsBundle\Resources\contao\modules\api\ReverseNominatimApi;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickConst;
-use con4gis\ProjectsBundle\Classes\Database\C4GBrickDatabase;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialog;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GDateField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GEmailField;
@@ -27,15 +25,12 @@ use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GTextareaField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GTextField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GTimeField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GTimepickerField;
-use Contao\CoreBundle\Framework\ContaoFramework;
-use Contao\Module;
 use Contao\StringUtil;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
 
-class C4GPrintoutPDF {
-
+class C4GPrintoutPDF
+{
     private $framework;
     private $database;
 
@@ -50,10 +45,10 @@ class C4GPrintoutPDF {
     private function checkSubFields(&$field, $data)
     {
         if ($field instanceof C4GSubDialogField) {
-            $subFieldList = array();
+            $subFieldList = [];
             if ($field->getFieldList()) {
                 foreach ($field->getFieldList() as $subField) {
-                    $subField->setDescription("");
+                    $subField->setDescription('');
                     $subField->setEditable(false);
                     $subField->setShowIfEmpty(false);
                     if (($subField instanceof C4GTextField) || ($subField instanceof C4GTextareaField)) {
@@ -81,10 +76,10 @@ class C4GPrintoutPDF {
         }
 
         if ($field instanceof C4GForeignArrayField) {
-            $subFieldList = array();
+            $subFieldList = [];
             if ($field->getForeignFieldList()) {
                 foreach ($field->getForeignFieldList() as $subField) {
-                    $subField->setDescription("");
+                    $subField->setDescription('');
                     $subField->setEditable(false);
                     $subField->setShowIfEmpty(false);
 
@@ -111,7 +106,6 @@ class C4GPrintoutPDF {
                 $field->setForeignFieldList($subFieldList);
             }
         }
-
     }
 
     public function printAction($module, $data, $id)
@@ -125,9 +119,9 @@ class C4GPrintoutPDF {
         $module->getDialogParams()->setAccordion(false);
 
         $fieldList = $module->getFieldList();
-        $printFieldList = array();
+        $printFieldList = [];
         foreach ($fieldList as $field) {
-            $field->setDescription("");
+            $field->setDescription('');
             $field->setEditable(false);
             $field->setShowIfEmpty(false);
             if (
@@ -170,19 +164,19 @@ class C4GPrintoutPDF {
         );
 
         $pdfManager = new PdfManager();
-        $style = TL_ROOT.'bundles/con4gisprojects/dist/css/c4g_brick_print.min.css';
+        $style = TL_ROOT . 'bundles/con4gisprojects/dist/css/c4g_brick_print.min.css';
         $pdfManager->style = $style;
 
-        $pdfData = array();
+        $pdfData = [];
         $pdfData['template'] = 'c4g_pdftemplate';
-        $pdfData['filename'] = '{{date::Y_m_d-H_i_s}}-'.rand(100,999).'_document.pdf';
+        $pdfData['filename'] = '{{date::Y_m_d-H_i_s}}-' . rand(100, 999) . '_document.pdf';
         $pdfData['filepath'] = C4GBrickConst::PATH_BRICK_DOCUMENTS;
         $pdfData['Attachment'] = false;
 
         $pdfManager->setData($pdfData);
 
         $captionField = $module->getDialogParams()->getCaptionField();
-        $pdfManager->headline = $module->getDialogParams()->getBrickCaption().': '.$data[$captionField];
+        $pdfManager->headline = $module->getDialogParams()->getBrickCaption() . ': ' . $data[$captionField];
         $pdfManager->hl = 'h1';
 
         $pdfManager->content = $content;
@@ -190,10 +184,10 @@ class C4GPrintoutPDF {
 
         $path = $pdfManager->getPdfDocument()->getPath() . $pdfManager->getPdfDocument()->getFilename();
         // cut out the local path before "files"
-        $path = substr($path, strpos($path, "files"));
+        $path = substr($path, strpos($path, 'files'));
         $response = new JsonResponse([
-            "filePath" => $path,
-            "fileName" => $pdfManager->getPdfDocument()->getFilename()
+            'filePath' => $path,
+            'fileName' => $pdfManager->getPdfDocument()->getFilename(),
         ]);
 
         $pdfFieldName = $module->getDialogParams()->getSavePrintoutToField();
@@ -204,9 +198,9 @@ class C4GPrintoutPDF {
             $tableName = $module->getC4GTablePermissionTable();
             if ($id && $tableName) {
                 try {
-                    $this->database->prepare("UPDATE $tableName SET $pdfFieldName=? WHERE id=?")->execute($fileUuid,$id);
+                    $this->database->prepare("UPDATE $tableName SET $pdfFieldName=? WHERE id=?")->execute($fileUuid, $id);
                 } catch (Exception $e) {
-                    C4gLogModel::addLogEntry($module->name,'Error on linking printout to database.');
+                    C4gLogModel::addLogEntry($module->name, 'Error on linking printout to database.');
                 }
             }
         }
@@ -214,4 +208,3 @@ class C4GPrintoutPDF {
         return $response;
     }
 }
-
