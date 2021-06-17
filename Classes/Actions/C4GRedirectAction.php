@@ -18,6 +18,7 @@ class C4GRedirectAction extends C4GBrickDialogAction
     private $setSessionIdAfterInsert = '';
     private $redirectSite = '';
     private $redirectWithSaving = true;
+    private $redirectParams = '';
 
     public function run()
     {
@@ -37,6 +38,9 @@ class C4GRedirectAction extends C4GBrickDialogAction
                 }
                 $action->setModule($this->getModule());
                 $return = $action->run();
+            } else if ($this->redirectParams) {
+                $return['jump_to_url'] = $jumpTo->getFrontendUrl() . '?' . $this->redirectParams;
+                return $return;
             }
 
 //            if ($dialogParams->isRedirectWithActivation()) {
@@ -180,4 +184,21 @@ class C4GRedirectAction extends C4GBrickDialogAction
     {
         return true;
     }
+
+    /**
+     * @return string
+     */
+    public function getRedirectParams(): string
+    {
+        return $this->redirectParams;
+    }
+
+    /**
+     * @param string $redirectParams
+     */
+    public function setRedirectParams(string $redirectParams): void
+    {
+        $this->redirectParams = $redirectParams;
+    }
+
 }
