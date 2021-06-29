@@ -38,8 +38,9 @@ class C4GRedirectAction extends C4GBrickDialogAction
                 }
                 $action->setModule($this->getModule());
                 $return = $action->run();
-            } else if ($this->redirectParams) {
+            } elseif ($this->redirectParams) {
                 $return['jump_to_url'] = $jumpTo->getFrontendUrl() . '?' . $this->redirectParams;
+
                 return $return;
             }
 
@@ -200,5 +201,4 @@ class C4GRedirectAction extends C4GBrickDialogAction
     {
         $this->redirectParams = $redirectParams;
     }
-
 }

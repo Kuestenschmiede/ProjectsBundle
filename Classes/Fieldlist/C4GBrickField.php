@@ -377,11 +377,14 @@ abstract class C4GBrickField
             if ($this->getAdditionalLabel()) {
                 $additionalLabel = $this->getAdditionalLabel();
             }
+
+            $conditionPrepare = $condition && is_array($condition) ? $condition['conditionPrepare'] : '';
+
             if ($this->isWithoutLabel() || ($dialogParams->isWithLabels() === false && !($this instanceof C4GMultiCheckboxField || $this instanceof C4GCheckboxField))) {
-                return $tdo . '<label class="' . $this->getFieldName() . ' ' . $id . '" for="' . $id . '" ' . $condition['conditionPrepare'] . '>' . $star . $additionalLabel . $linebreak . '</label>' . $tdc . $extTitleField;
+                return $tdo . '<label class="' . $this->getFieldName() . ' ' . $id . '" for="' . $id . '" ' . $conditionPrepare  . '>' . $star . $additionalLabel . $linebreak . '</label>' . $tdc . $extTitleField;
             }
 
-            return $tdo . '<label class="c4g-form-label ' . $this->getFieldName() . ' ' . $id . '" for="' . $id . '" ' . $condition['conditionPrepare'] . '>' . $star . $title . $additionalLabel . $linebreak . '</label>' . $tdc . $extTitleField;
+            return $tdo . '<label class="c4g-form-label ' . $this->getFieldName() . ' ' . $id . '" for="' . $id . '" ' . $conditionPrepare . '>' . $star . $title . $additionalLabel . $linebreak . '</label>' . $tdc . $extTitleField;
         }
 
         return '';

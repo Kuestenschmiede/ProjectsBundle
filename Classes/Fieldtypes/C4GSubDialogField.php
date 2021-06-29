@@ -53,6 +53,9 @@ class C4GSubDialogField extends C4GBrickField
     private $orderBy = '';
     private $insertBefore = false;
     private $showFirstDataSet = false;
+    private $showDataSetsByCount = 0;
+    private $showDataSetsByCountField = '';
+    private $parentFieldList = [];
 
     public function __construct()
     {
@@ -117,6 +120,8 @@ class C4GSubDialogField extends C4GBrickField
             $removeButtonClass = $this->removeButtonClass;
             $message = $this->removeButtonMessage;
             $fieldsHtml .= "<span class='ui-button ui-corner-all c4g_sub_dialog_remove_button js-sub-dialog-button $removeButtonClass' onclick='removeSubDialog(this,event);' data-message='$message' title='$message'>$removeButton</span>";
+        } else {
+            $fieldsHtml .= "<br>";
         }
 
         /** Generate html for already loaded data sets if there are any */
@@ -232,6 +237,8 @@ class C4GSubDialogField extends C4GBrickField
                                 $deleteButtonHtml = '';
                             }
                             $loadedDataHtml .= "$editButtonHtml$deleteButtonHtml";
+                        } else {
+                            $loadedDataHtml .= '<br>';
                         }
 
                         $loadedDataHtml .= '</div>';
@@ -240,106 +247,126 @@ class C4GSubDialogField extends C4GBrickField
                     break;
                 }
             }
-        } elseif ($this->isShowFirstDataSet()) {
-            $numLoadedDataSets = 1;
-            $propertyName = $name . $this->delimiter . $keyFieldName . $this->delimiter . $numLoadedDataSets;
-            if ($fieldsHtml) {
-                if ($editButton) {
-                    $dataSetClass = 'c4g_sub_dialog_set c4g_sub_dialog_set_uneditable';
-                } else {
-                    $dataSetClass = 'c4g_sub_dialog_set';
+        } else if ($this->showDataSetsByCountField || $this->showDataSetsByCount || $this->showFirstDataSet) {
+
+            $initialCount = $this->showDataSetsByCount ?: 1;
+
+            if ($this->showDataSetsByCountField) {
+                $countField = $this->showDataSetsByCountField;
+                foreach ($this->getParentFieldList() as $fieldListItem) {
+                    if ($fieldListItem->getFieldName() == $countField) {
+                        $initialCount = $fieldListItem->getInitialValue();
+                        break;
+                    }
                 }
-                $loadedDataHtml .= "<div class='$dataSetClass'>";
-                $fieldName = $keyFieldName;
-                $this->keyField->setFieldName($name . $this->delimiter . $fieldName . $this->delimiter . $numLoadedDataSets);
-                $loadedDataHtml .= $this->keyField->getC4GDialogField($this->getFieldList(), $data, $dialogParams, $additionalParams = []);
-                $this->keyField->setFieldName($fieldName);
-                $dataFieldNamesArray = [];
-                foreach ($this->fieldList as $field) {
-                    $fieldName = $field->getFieldName();
-                    if ($field->getAdditionalID()) {
-                        $fieldName .= '_' . $field->getAdditionalId();
+            }
+
+            $numLoadedDataSets = intval($initialCount);
+
+            for ($i = 0; $i < $numLoadedDataSets; $i++) {
+                $propertyName = $name . $this->delimiter . $keyFieldName . $this->delimiter . $i;
+                if ($fieldsHtml) {
+                    if ($editButton) {
+                        $dataSetClass = 'c4g_sub_dialog_set c4g_sub_dialog_set_uneditable';
+                    } else {
+                        $dataSetClass = 'c4g_sub_dialog_set';
                     }
-                    if ($editButton || !$this->isEditable()) {
-                        $editable = $field->isEditable();
-                        $field->setEditable(false);
-                    }
-                    if ($field instanceof C4GFileField) {
-                        $uploadURL = $field->getUploadURL();
-                        $deleteURL = $field->getDeleteURL();
-                        $filenameColumn = $field->getFilenameColumn();
-                        $field->setUploadURL($name . $this->delimiter . $uploadURL . $this->delimiter . $numLoadedDataSets);
-                        $field->setDeleteURL($name . $this->delimiter . $deleteURL . $this->delimiter . $numLoadedDataSets);
-                        $field->setFilenameColumn($name . $this->delimiter . $filenameColumn . $this->delimiter . $numLoadedDataSets);
-                    }
-                    $field->setFieldName($name . $this->delimiter . $fieldName . $this->delimiter . $numLoadedDataSets);
-                    if (!$field instanceof C4GForeignArrayField) {
-                        if ((!$editButton) || ($editable)) {
-                            $dataFieldNamesArray[] = $fieldName;
+                    $loadedDataHtml .= "<div class='$dataSetClass'>";
+                    $fieldName = $keyFieldName;
+                    $this->keyField->setFieldName($name . $this->delimiter . $fieldName . $this->delimiter . $i);
+                    $loadedDataHtml .= $this->keyField->getC4GDialogField($this->getFieldList(), $data, $dialogParams, $additionalParams = []);
+                    $this->keyField->setFieldName($fieldName);
+                    $dataFieldNamesArray = [];
+                    foreach ($this->fieldList as $field) {
+                        $fieldName = $field->getFieldName();
+                        if ($field->getAdditionalID()) {
+                            $fieldName .= '_' . $field->getAdditionalId();
+                        }
+                        if ($editButton || !$this->isEditable()) {
+                            $editable = $field->isEditable();
+                            $field->setEditable(false);
+                        }
+                        if ($field instanceof C4GFileField) {
+                            $uploadURL = $field->getUploadURL();
+                            $deleteURL = $field->getDeleteURL();
+                            $filenameColumn = $field->getFilenameColumn();
+                            $field->setUploadURL($name . $this->delimiter . $uploadURL . $this->delimiter . $i);
+                            $field->setDeleteURL($name . $this->delimiter . $deleteURL . $this->delimiter . $i);
+                            $field->setFilenameColumn($name . $this->delimiter . $filenameColumn . $this->delimiter . $i);
+                        }
+                        $field->setFieldName($name . $this->delimiter . $fieldName . $this->delimiter . $i);
+                        if (!$field instanceof C4GForeignArrayField) {
+                            if ((!$editButton) || ($editable)) {
+                                $dataFieldNamesArray[] = $fieldName;
+                            }
+                        }
+                        if (!$field->hasStyleClass($this->getFieldName())) {
+                            $field->addStyleClass($this->getFieldName());
+                        }
+                        $loadedDataHtml .= $field->getC4GDialogField($this->getFieldList(), $data, $dialogParams, $additionalParams = []);
+                        $field->setFieldName($fieldName);
+                        if ($editButton) {
+                            $field->setEditable($editable);
+                        }
+                        if ($field instanceof C4GFileField) {
+                            $field->setUploadURL($uploadURL);
+                            $field->setDeleteURL($deleteURL);
+                            $field->setFilenameColumn($filenameColumn);
                         }
                     }
-                    if (!$field->hasStyleClass($this->getFieldName())) {
-                        $field->addStyleClass($this->getFieldName());
-                    }
-                    $loadedDataHtml .= $field->getC4GDialogField($this->getFieldList(), $data, $dialogParams, $additionalParams = []);
-                    $field->setFieldName($fieldName);
-                    if ($editButton) {
-                        $field->setEditable($editable);
-                    }
-                    if ($field instanceof C4GFileField) {
-                        $field->setUploadURL($uploadURL);
-                        $field->setDeleteURL($deleteURL);
-                        $field->setFilenameColumn($filenameColumn);
-                    }
-                }
 
-                $dataFieldNames = implode(',', $dataFieldNamesArray);
+                    $dataFieldNames = implode(',', $dataFieldNamesArray);
+                    if ($this->showButtons && !C4GBrickView::isWithoutEditing($dialogParams->getViewType())) {
+                        if ($editButton) {
+                            $captionFinish = $this->finishEditingCaption;
+                            $editButtonHtml = "<span class='ui-button ui-corner-all c4g_sub_dialog_edit_button js-sub-dialog-button' onclick='editSubDialog(this,event);' data-fields='$dataFieldNames'  data-captionFinishEditing='$captionFinish' data-captionBeginEditing='$editButton'>$editButton</span>";
+                        } else {
+                            $editButtonHtml = '';
+                        }
+                        if ($this->allowDelete) {
+                            $deleteButtonClass = $this->removeButtonClass;
+                            $message = $this->removeButtonMessage;
+                            $deleteButtonHtml = "<span class='ui-button ui-corner-all c4g_sub_dialog_remove_button js-sub-dialog-button $deleteButtonClass' onclick='removeSubDialog(this,event)'; data-message='$message' title='$message'>$removeButton</span>";
+                        } else {
+                            $deleteButtonHtml = '';
+                        }
+                        $loadedDataHtml .= "$editButtonHtml$deleteButtonHtml";
+                    } else {
+                        $loadedDataHtml .= "<br>";
+                    }
+
+                    $loadedDataHtml .= '</div>';
+                }
+            }
+
+            if (($this->showButtons && !C4GBrickView::isWithoutEditing($dialogParams->getViewType())) || $loadedDataHtml) {
+                $condition = $this->createConditionData($fieldList, $data);
+                $conditionStart =
+                    '<div id="c4g_condition" '
+                    . 'class="formdata c4g_condition"'
+                    . $condition['conditionName']
+                    . $condition['conditionType']
+                    . $condition['conditionValue']
+                    . $condition['conditionDisable']
+                    . '>';
+
+                $html = $conditionStart . "<div class='c4g_sub_dialog_container formdata' " . $condition['conditionPrepare'] . " id='c4g_$name'>";
+                $html .= "<template id='c4g_$name" . '_template' . "'>$fieldsHtml</template>";
+                $insert = $this->insertBefore === true ? 'before' : 'after';
                 if ($this->showButtons && !C4GBrickView::isWithoutEditing($dialogParams->getViewType())) {
-                    if ($editButton) {
-                        $captionFinish = $this->finishEditingCaption;
-                        $editButtonHtml = "<span class='ui-button ui-corner-all c4g_sub_dialog_edit_button js-sub-dialog-button' onclick='editSubDialog(this,event);' data-fields='$dataFieldNames'  data-captionFinishEditing='$captionFinish' data-captionBeginEditing='$editButton'>$editButton</span>";
-                    } else {
-                        $editButtonHtml = '';
-                    }
-                    if ($this->allowDelete) {
-                        $deleteButtonClass = $this->removeButtonClass;
-                        $message = $this->removeButtonMessage;
-                        $deleteButtonHtml = "<span class='ui-button ui-corner-all c4g_sub_dialog_remove_button js-sub-dialog-button $deleteButtonClass' onclick='removeSubDialog(this,event)'; data-message='$message' title='$message'>$removeButton</span>";
-                    } else {
-                        $deleteButtonHtml = '';
-                    }
-                    $loadedDataHtml .= "$editButtonHtml$deleteButtonHtml";
+                    $max = $this->getMax();
+                    $this->setAdditionalLabel("<span class='ui-button ui-corner-all c4g_sub_dialog_add_button js-sub-dialog-button' onclick='addSubDialog(this,event,$max);' data-template='c4g_$name" . '_template' . "' data-target='c4g_dialog_$name' data-field='$name' data-index='$numLoadedDataSets' data-wildcard='" . $this->wildcard . "' data-insert='$insert'>$addButton</span><span class='c4g_sub_dialog_add_button_label'>$this->addButtonLabel</span>");
                 }
+                $html .= $this->addC4GFieldLabel("c4g_$name", $title, $this->isMandatory(), '', $fieldList, $data, $dialogParams);
+                $html .= "<div class='c4g_sub_dialog formdata' id='c4g_dialog_$name'>";
+                $html .= $loadedDataHtml;
 
-                $loadedDataHtml .= '</div>';
+                $html .= '</div>';
+                $html .= '</div>';
+                $html .= '</div>';
+            } else {
+                $html = '<br>';
             }
-        }
-
-        if (($this->showButtons && !C4GBrickView::isWithoutEditing($dialogParams->getViewType())) || $loadedDataHtml) {
-            $condition = $this->createConditionData($fieldList, $data);
-            $conditionStart =
-                '<div id="c4g_condition" '
-                . 'class="formdata c4g_condition"'
-                . $condition['conditionName']
-                . $condition['conditionType']
-                . $condition['conditionValue']
-                . $condition['conditionDisable']
-                . '>';
-
-            $html = $conditionStart . "<div class='c4g_sub_dialog_container formdata' " . $condition['conditionPrepare'] . " id='c4g_$name'>";
-            $html .= "<template id='c4g_$name" . '_template' . "'>$fieldsHtml</template>";
-            $insert = $this->insertBefore === true ? 'before' : 'after';
-            if ($this->showButtons && !C4GBrickView::isWithoutEditing($dialogParams->getViewType())) {
-                $max = $this->getMax();
-                $this->setAdditionalLabel("<span class='ui-button ui-corner-all c4g_sub_dialog_add_button js-sub-dialog-button' onclick='addSubDialog(this,event,$max);' data-template='c4g_$name" . '_template' . "' data-target='c4g_dialog_$name' data-field='$name' data-index='$numLoadedDataSets' data-wildcard='" . $this->wildcard . "' data-insert='$insert'>$addButton</span><span class='c4g_sub_dialog_add_button_label'>$this->addButtonLabel</span>");
-            }
-            $html .= $this->addC4GFieldLabel("c4g_$name", $title, $this->isMandatory(), '', $fieldList, $data, $dialogParams);
-            $html .= "<div class='c4g_sub_dialog formdata' id='c4g_dialog_$name'>";
-            $html .= $loadedDataHtml;
-
-            $html .= '</div>';
-            $html .= '</div>';
-            $html .= '</div>';
         }
 
         return $html;
@@ -1127,5 +1154,53 @@ class C4GSubDialogField extends C4GBrickField
     public function setShowFirstDataSet(bool $showFirstDataSet): void
     {
         $this->showFirstDataSet = $showFirstDataSet;
+    }
+
+    /**
+     * @return string
+     */
+    public function getShowDataSetsByCountField(): string
+    {
+        return $this->showDataSetsByCountField;
+    }
+
+    /**
+     * @param string $showDataSetsByCountField
+     */
+    public function setShowDataSetsByCountField(string $showDataSetsByCountField): void
+    {
+        $this->showDataSetsByCountField = $showDataSetsByCountField;
+    }
+
+    /**
+     * @return array
+     */
+    public function getParentFieldList(): array
+    {
+        return $this->parentFieldList;
+    }
+
+    /**
+     * @param array $parentFieldList
+     */
+    public function setParentFieldList(array $parentFieldList): void
+    {
+        $this->parentFieldList = $parentFieldList;
+    }
+
+    /**
+     * @return int
+     */
+    public function getShowDataSetsByCount(): int
+    {
+        return $this->showDataSetsByCount;
+    }
+
+    /**
+     * @param int $showDataSetsByCount
+     */
+    public function setShowDataSetsByCount(int $showDataSetsByCount): void
+    {
+        $this->showDataSetsByCount = $showDataSetsByCount;
     }
 }

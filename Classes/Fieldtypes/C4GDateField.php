@@ -398,7 +398,7 @@ class C4GDateField extends C4GBrickField
     /**
      * @param null $customLanguage
      */
-    public function setCustomLanguage($customLanguage): void
+    public function setCustomLanguage($customLanguage)
     {
         $this->customLanguage = $customLanguage;
     }
@@ -422,7 +422,7 @@ class C4GDateField extends C4GBrickField
     /**
      * @return string
      */
-    public function getSortType(): string
+    public function getSortType()
     {
         return $this->sortType;
     }
@@ -430,7 +430,7 @@ class C4GDateField extends C4GBrickField
     /**
      * @param string $sortType
      */
-    public function setSortType(string $sortType): void
+    public function setSortType($sortType)
     {
         $this->sortType = $sortType;
     }
@@ -446,7 +446,7 @@ class C4GDateField extends C4GBrickField
     /**
      * @param bool $flipButtonPosition
      */
-    public function setFlipButtonPosition(bool $flipButtonPosition): void
+    public function setFlipButtonPosition(bool $flipButtonPosition)
     {
         $this->flipButtonPosition = $flipButtonPosition;
     }
