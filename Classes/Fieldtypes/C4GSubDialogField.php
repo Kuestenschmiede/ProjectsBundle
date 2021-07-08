@@ -121,7 +121,7 @@ class C4GSubDialogField extends C4GBrickField
             $message = $this->removeButtonMessage;
             $fieldsHtml .= "<span class='ui-button ui-corner-all c4g_sub_dialog_remove_button js-sub-dialog-button $removeButtonClass' onclick='removeSubDialog(this,event);' data-message='$message' title='$message'>$removeButton</span>";
         } else {
-            $fieldsHtml .= "<br>";
+            $fieldsHtml .= '<br>';
         }
 
         /** Generate html for already loaded data sets if there are any */
@@ -247,8 +247,7 @@ class C4GSubDialogField extends C4GBrickField
                     break;
                 }
             }
-        } else if ($this->showDataSetsByCountField || $this->showDataSetsByCount || $this->showFirstDataSet) {
-
+        } elseif ($this->showDataSetsByCountField || $this->showDataSetsByCount || $this->showFirstDataSet) {
             $initialCount = $this->showDataSetsByCount ?: 1;
 
             if ($this->showDataSetsByCountField) {
@@ -256,6 +255,7 @@ class C4GSubDialogField extends C4GBrickField
                 foreach ($this->getParentFieldList() as $fieldListItem) {
                     if ($fieldListItem->getFieldName() == $countField) {
                         $initialCount = $fieldListItem->getInitialValue();
+
                         break;
                     }
                 }
@@ -332,7 +332,7 @@ class C4GSubDialogField extends C4GBrickField
                         }
                         $loadedDataHtml .= "$editButtonHtml$deleteButtonHtml";
                     } else {
-                        $loadedDataHtml .= "<br>";
+                        $loadedDataHtml .= '<br>';
                     }
 
                     $loadedDataHtml .= '</div>';
