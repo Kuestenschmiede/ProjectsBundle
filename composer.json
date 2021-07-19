@@ -18,7 +18,7 @@
     }
   ],
   "require": {
-    "contao/core-bundle": "^4.9",
+    "contao/core-bundle": "^4.4",
     "con4gis/core": "^5.0",
     "menatwork/contao-multicolumnwizard-bundle": "^3.4.11",
     "doctrine/orm": "^2.8.1",
