@@ -84,6 +84,8 @@ class C4GBrickDialogParams
     private $withPrintButton = false; //activates print button
     private $savePrintoutToField = ''; //fieldname
     private $generatePrintoutWithSaving = false;
+    private $passwordField = ''; //password to encrypt pdf document
+    private $passwordFormat = ''; //useful with dateformat
     private $filterParams = null; //siehe C4GBrickFilterParams
     private $confirmActivation = false;
     private $notifyOnChanges = false;
@@ -2046,5 +2048,37 @@ class C4GBrickDialogParams
     public function setGeneratePrintoutWithSaving(bool $generatePrintoutWithSaving): void
     {
         $this->generatePrintoutWithSaving = $generatePrintoutWithSaving;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPasswordField(): string
+    {
+        return $this->passwordField;
+    }
+
+    /**
+     * @param string $passwordField
+     */
+    public function setPasswordField(string $passwordField): void
+    {
+        $this->passwordField = $passwordField;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPasswordFormat(): string
+    {
+        return $this->passwordFormat;
+    }
+
+    /**
+     * @param string $passwordFormat
+     */
+    public function setPasswordFormat(string $passwordFormat): void
+    {
+        $this->passwordFormat = $passwordFormat;
     }
 }

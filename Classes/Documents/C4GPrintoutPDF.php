@@ -17,6 +17,7 @@ use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialog;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GDateField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GEmailField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GForeignArrayField;
+use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GImageField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GPostalField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GSelectField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GSubDialogField;
@@ -25,6 +26,7 @@ use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GTextareaField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GTextField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GTimeField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GTimepickerField;
+use Contao\Database;
 use Contao\StringUtil;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -110,6 +112,7 @@ class C4GPrintoutPDF
 
     public function printAction($module, $data, $id)
     {
+        $pass = '';
         if (method_exists($module, 'printPdf')) {
             return $module->printPdf($id);
         }
@@ -120,6 +123,21 @@ class C4GPrintoutPDF
 
         $fieldList = $module->getFieldList();
         $printFieldList = [];
+
+        if ($id) {
+            $tableName = $module->getBrickDatabase()->getParams()->getTableName();
+            if ($tableName) {
+                $dataset = $module->getBrickDatabase()->findByPk($id);
+                if ($dataset) {
+                    $passwordfield = $module->getDialogParams()->getPasswordField();
+                    $passwordFormat = $module->getDialogParams()->getPasswordFormat();
+                    if ($passwordfield) {
+                        $pass = $passwordFormat ? date($passwordFormat, $dataset->$passwordfield) : $dataset->$passwordfield;
+                    }
+                }
+            }
+        }
+
         foreach ($fieldList as $field) {
             $field->setDescription('');
             $field->setEditable(false);
@@ -148,7 +166,15 @@ class C4GPrintoutPDF
                 $field->setTableRow(true);
             }
 
-            if ($field->isPrintable() && (trim($data[$field->getFieldName()]) || (($field instanceof C4GSubDialogField) || ($field instanceof C4GForeignArrayField)))) {
+            if ($field instanceof C4GImageField) {
+                $fieldName = $field->getFieldName();
+
+                if ($dataset) {
+                    $field->setInitialValue($dataset->$fieldName);
+                }
+            }
+
+            if ($field->isPrintable() && (trim($data[$field->getFieldName()]) || (($field instanceof C4GSubDialogField) || ($field instanceof C4GForeignArrayField) || ($field instanceof C4GImageField)))) {
                 C4GPrintoutPDF::checkSubFields($field, $data);
                 $printFieldList[] = $field;
             }
@@ -163,7 +189,7 @@ class C4GPrintoutPDF
             true
         );
 
-        $pdfManager = new PdfManager();
+        $pdfManager = new PdfManager(null, null, $pass);
         $style = TL_ROOT . 'bundles/con4gisprojects/dist/css/c4g_brick_print.min.css';
         $pdfManager->style = $style;
 

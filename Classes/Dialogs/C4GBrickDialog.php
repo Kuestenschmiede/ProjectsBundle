@@ -33,6 +33,7 @@ use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GForeignArrayField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GGeopickerField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GGridField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GHeadlineField;
+use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GImageField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GKeyField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GMultiCheckboxField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GSelectField;
@@ -380,6 +381,13 @@ class C4GBrickDialog
                         $dialogParams,
                         $additionalParameters
                     ) . $afterDiv;
+                } else if ($field instanceof C4GImageField && ($print)) {
+                    $view .= $beforeDiv . $field->getC4GPrintField(
+                            $fieldList,
+                            $dbValues,
+                            $dialogParams,
+                            $additionalParameters
+                        ) . $afterDiv;
                 } else {
                     $view .= $beforeDiv . $field->getC4GDialogField(
                             $fieldList,

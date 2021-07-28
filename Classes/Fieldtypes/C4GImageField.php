@@ -61,8 +61,12 @@ class C4GImageField extends C4GBrickField
                 //$path = \Contao\FilesModel::findOneBy('path', $value);
             }
         } else {
-            $pathobj = C4GBrickCommon::loadFile($value);
-            $path = $pathobj->path;
+            if (strpos($value, '/') !== false) {
+                $path = $value;
+            } else {
+                $pathobj = C4GBrickCommon::loadFile($value);
+                $path = $pathobj->path;
+            }
         }
 
         $result = '';
@@ -72,9 +76,6 @@ class C4GImageField extends C4GBrickField
             $description = $this->getC4GDescriptionLabel($this->getDescription(), $condition);
 
             if ($path) {
-//                if ($pathobj->path[0] != '/') {
-//                    $pathobj->path = substr($pathobj->path, 1);
-//                }
                 if ($dialogParams->isWithLabels() === false) {
                     $label = '';
                 } else {
@@ -256,6 +257,38 @@ class C4GImageField extends C4GBrickField
                     return $fieldTitle . '<div class="c4g_tile value">' . '<div class="error"></div>' . '</div>';
             }
         }
+    }
+
+    /**
+     * @param C4GBrickField[] $fieldList
+     * @param $data
+     * @param C4GBrickDialogParams $dialogParams
+     * @param array $additionalParams
+     * @return array|string
+     */
+    public function getC4GPrintField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = [])
+    {
+        $fieldName = $this->getFieldName();
+        $result = '';
+
+        if ($data && $data->$fieldName) {
+            $value = $data->$fieldName;
+        } else if ($this->getInitialValue()) {
+            $value = $this->getInitialValue();
+        }
+
+        if ($value) {
+            $value = str_replace('&quot;', '"', $value);
+            $type = pathinfo($value, PATHINFO_EXTENSION);
+            $data = file_get_contents($value);
+            $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
+
+            $width = $this->getWidth();
+            $height = $this->getHeight();
+            $result = '<br><label class="image ' . $this->getFieldName() . '">' . $this->getTitle() . '</label><br><img src="' . $base64 . '" alt="" width="'.$width.'" height="'.$height.'">';
+        }
+
+        return $result;
     }
 
     /**
