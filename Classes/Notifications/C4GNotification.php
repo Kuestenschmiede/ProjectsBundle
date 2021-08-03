@@ -54,7 +54,7 @@ class C4GNotification
         $this->optionalTokens = $token;
     }
 
-    public function send(array $notificationIds)
+    public function send(array $notificationIds, string $language = '')
     {
         foreach ($this->tokens as $key => $token) {
             if ($token === '' && !in_array($key, $this->optionalTokens)) {
@@ -66,7 +66,7 @@ class C4GNotification
         foreach ($notificationIds as $notificationId) {
             $notificationModel = Notification::findByPk($notificationId);
             if ($notificationModel !== null) {
-                if (!$notificationModel->send($this->tokens)) {
+                if (!$notificationModel->send($this->tokens, $language)) {
                     $sendingResult = false;
                 }
             } else {
