@@ -23,6 +23,7 @@ class C4GRadioGroupField extends C4GBrickField
     private $turnButton = false;
     private $clearGroupText = '';
     private $addNameToId = true;
+    private $withoutScripts = false;
 
     public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = [])
     {
@@ -104,6 +105,8 @@ class C4GRadioGroupField extends C4GBrickField
                 }
             }
             $optionAttributes = $option['attributes'] ? ' ' . $option['attributes'] . ' ': '';
+
+            $onClick = "jQuery('#". $id ."').val(jQuery('input[name=_" . $id ."]:checked').val());";
             if ($this->turnButton) {
                 if ($object_id && $object_id != -1) {
                     $object_class = 'class="radio_object_' . $object_id . '" ';
@@ -111,7 +114,7 @@ class C4GRadioGroupField extends C4GBrickField
                     $object_class = 'class="radio_object_disabled" disabled ';
                 }*/
 
-                $option_results = $option_results . '<div class="radio_element rb_turned"><input type="radio" ' . $object_class . 'id="' . $option_name . '" name="' . $name . '" ' . $optionAttributes . $required . ' ' . $changeAction . ' value="' . $option_id . '" ' . (($value == $option_id) ? 'checked' : '') . ' /><label class="full lbl_turned" for="' . $for . '" >' . $type_caption . '</label></div>';
+                $option_results = $option_results . '<div class="radio_element rb_turned"><input type="radio" ' . $object_class . 'id="' . $option_name . '" name="' . $name . '" ' . $optionAttributes . $required . ' ' . $changeAction . ' onclick="'.$onClick.'" value="' . $option_id . '" ' . (($value == $option_id) ? 'checked' : '') . ' /><label class="full lbl_turned" for="' . $for . '" >' . $type_caption . '</label></div>';
             } else {
                 if ($object_id && $object_id != -1) {
                     $object_class = 'class="radio_object_' . $object_id . '" ';
@@ -119,7 +122,7 @@ class C4GRadioGroupField extends C4GBrickField
                     $object_class = 'class="radio_object_disabled" disabled ';
                 }*/
 
-                $option_results = $option_results . '<div class="radio_element"><label class="full" for="' . $for . '" >' . $type_caption . '</label><input type="radio" ' . $object_class . 'id="' . $option_name . '" name="' . $name . '" ' . $optionAttributes . $required . ' ' . $changeAction . ' value="' . $option_id . '" ' . (($value == $option_id) ? 'checked' : '') . ' /></div>';
+                $option_results = $option_results . '<div class="radio_element"><label class="full" for="' . $for . '" >' . $type_caption . '</label><input type="radio" ' . $object_class . 'id="' . $option_name . '" name="' . $name . '" ' . $optionAttributes . $required . ' ' . $changeAction . ' onclick="'.$onClick.'" value="' . $option_id . '" ' . (($value == $option_id) ? 'checked' : '') . ' /></div>';
             }
         }
 
@@ -131,13 +134,23 @@ class C4GRadioGroupField extends C4GBrickField
 
         $attributes = $this->getAttributes() ? ' ' . $this->getAttributes() . ' ': '';
 
-        $result .= $this->generateC4GFieldHTML($condition, '<div class="c4g_brick_radio_group_wrapper" ' . $condition['conditionPrepare'] . '>' .
-                       '<input type="hidden" name="' . $fieldName . '" value="' . $value . '" id="' . $id . '"  ' . $required . ' ' . $conditionPrepare . ' ' . 'class="formdata ' . $id . $attributes . '">' .
-                       '<label ' . $conditionPrepare . '>' . $this->addC4GField(null, $dialogParams, $fieldList, $data, '</label>' .
-                       '<fieldset' . $addToFieldset . '>' .
-                       $option_results .
-                       '</fieldset><span class="reset_c4g_brick_radio_group"></span><script>function resetRadioGroup(){ jQuery("input[name=\'_' . $id . '\']").removeAttr(\'checked\');jQuery("#' . $id . '").val(0); };jQuery(document).ready(function(){jQuery("input[name=\'_' . $id . '\']").on("click",function(){jQuery("#' . $id . '").val(jQuery("input[name=\'_' . $id . '\']:checked").val())})});</script>' .
-                       '</div>'));
+        if ($this->withoutScripts) {
+            $result .= $this->generateC4GFieldHTML($condition, '<div class="c4g_brick_radio_group_wrapper" ' . $condition['conditionPrepare'] . '>' .
+                '<input type="hidden" name="' . $fieldName . '" value="' . $value . '" id="' . $id . '"  ' . $required . ' ' . $conditionPrepare . ' ' . 'class="formdata ' . $id . $attributes . '">' .
+                '<label ' . $conditionPrepare . '>' . $this->addC4GField(null, $dialogParams, $fieldList, $data, '</label>' .
+                    '<fieldset' . $addToFieldset . '>' .
+                    $option_results .
+                    '</fieldset>' .
+                    '</div>'));
+        } else {
+            $result .= $this->generateC4GFieldHTML($condition, '<div class="c4g_brick_radio_group_wrapper" ' . $condition['conditionPrepare'] . '>' .
+                '<input type="hidden" name="' . $fieldName . '" value="' . $value . '" id="' . $id . '"  ' . $required . ' ' . $conditionPrepare . ' ' . 'class="formdata ' . $id . $attributes . '">' .
+                '<label ' . $conditionPrepare . '>' . $this->addC4GField(null, $dialogParams, $fieldList, $data, '</label>' .
+                    '<fieldset' . $addToFieldset . '>' .
+                    $option_results .
+                    '</fieldset><span class="reset_c4g_brick_radio_group"></span><script>function resetRadioGroup(){ jQuery("input[name=\'_' . $id . '\']").removeAttr(\'checked\');jQuery("#' . $id . '").val(0); };</script>' .
+                    '</div>'));
+        }
 
         return $result;
     }
@@ -362,5 +375,21 @@ class C4GRadioGroupField extends C4GBrickField
     public function setAddNameToId(bool $addNameToId): void
     {
         $this->addNameToId = $addNameToId;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isWithoutScripts(): bool
+    {
+        return $this->withoutScripts;
+    }
+
+    /**
+     * @param bool $withoutScripts
+     */
+    public function setWithoutScripts(bool $withoutScripts): void
+    {
+        $this->withoutScripts = $withoutScripts;
     }
 }
