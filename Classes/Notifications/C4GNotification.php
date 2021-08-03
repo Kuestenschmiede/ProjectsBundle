@@ -56,8 +56,6 @@ class C4GNotification
 
     public function send(array $notificationIds)
     {
-        $result = false;
-
         foreach ($this->tokens as $key => $token) {
             if ($token === '' && !in_array($key, $this->optionalTokens)) {
                 throw new \Exception("C4GNotification: The token '$key' has not been defined.");
@@ -76,8 +74,6 @@ class C4GNotification
             }
         }
 
-        $result = $sendingResult;
-
-        return $result;
+        return $sendingResult;
     }
 }
