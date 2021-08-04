@@ -228,7 +228,7 @@ window.c4g.projects = window.c4g.projects || {};
       var options = this.options;
       var oDataTable;
 
-      var fnExecAjax = function (ajaxMethod, ajaxUrl, ajaxData) {
+      var fnExecAjax = function (ajaxMethod, ajaxUrl, ajaxData, scrollBottom) {
         if (ajaxUrl.indexOf("?") <= 0) {
           ajaxUrl += "?id=0";
         } else {
@@ -247,6 +247,14 @@ window.c4g.projects = window.c4g.projects || {};
             scope.handlePdfResponse(data, this.internalId);
           } else {
             scope.fnHandleAjaxResponse(data, this.internalId);
+            if (scrollBottom) {
+              var length = $('.c4gForumPost').length;
+              if (length > 0) {
+                $('html,body').animate({
+                  scrollTop: $($('.c4gForumPost')[length - 1]).offset().top
+                }, 'slow');
+              }
+            }
           }
         }).fail(function(data) {
           scope.fnInitContentDiv();
@@ -254,8 +262,8 @@ window.c4g.projects = window.c4g.projects || {};
         });
       };
 
-      var fnExecAjaxGet = function (ajaxData) {
-        fnExecAjax("GET", options.ajaxUrl + '/' + ajaxData, null);
+      var fnExecAjaxGet = function (ajaxData, scrollBottom) {
+        fnExecAjax("GET", options.ajaxUrl + '/' + ajaxData, null, scrollBottom);
       };
 
       var fnExecAjaxPut = function (ajaxUrl, ajaxData) {
@@ -1020,7 +1028,12 @@ window.c4g.projects = window.c4g.projects || {};
                 }
                 if (value.type === 'get') {
                   if (typeof(value.action) !== 'undefined') {
-                    fnExecAjaxGet(options.ajaxData + '/' + value.action);
+                    if (value.class === "c4g-reload-content") {
+                      fnExecAjaxGet(options.ajaxData + '/' + value.action, true);
+                    } else {
+                      fnExecAjaxGet(options.ajaxData + '/' + value.action);
+                    }
+
                   }
                 }
                 return false;
