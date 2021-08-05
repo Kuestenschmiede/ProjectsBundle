@@ -254,6 +254,13 @@ window.c4g.projects = window.c4g.projects || {};
                   scrollTop: $($('.c4gForumPost')[length - 1]).offset().top
                 }, 'slow');
               }
+            } else {
+              var forum = $('.mod_c4g_forum');
+              if (forum) {
+                $('html,body').animate({
+                  scrollTop: forum.offset().top
+                }, 'slow');
+              }
             }
           }
         }).fail(function(data) {
