@@ -381,7 +381,7 @@ class C4GBrickDialog
                         $dialogParams,
                         $additionalParameters
                     ) . $afterDiv;
-                } else if ($field instanceof C4GImageField && ($print)) {
+                } elseif ($field instanceof C4GImageField && ($print)) {
                     $view .= $beforeDiv . $field->getC4GPrintField(
                             $fieldList,
                             $dbValues,

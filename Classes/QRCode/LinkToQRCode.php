@@ -17,7 +17,8 @@ class LinkToQRCode
     /**
      * @param $link
      */
-    public static function linkToQRCode($link, $fileName) {
+    public static function linkToQRCode($link, $fileName)
+    {
         try {
             $renderer = new ImageRenderer(
                 new RendererStyle(400),
@@ -27,6 +28,7 @@ class LinkToQRCode
             $writer->writeFile($link, $fileName);
         } catch (\Throwable $exception) {
             C4gLogModel::addLogEntry('projects', $throwable->getMessage());
+
             return false;
         }
 

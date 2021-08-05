@@ -26,7 +26,6 @@ use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GTextareaField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GTextField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GTimeField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GTimepickerField;
-use Contao\Database;
 use Contao\StringUtil;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\JsonResponse;

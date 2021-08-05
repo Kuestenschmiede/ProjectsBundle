@@ -273,7 +273,7 @@ class C4GImageField extends C4GBrickField
 
         if ($data && $data->$fieldName) {
             $value = $data->$fieldName;
-        } else if ($this->getInitialValue()) {
+        } elseif ($this->getInitialValue()) {
             $value = $this->getInitialValue();
         }
 
@@ -285,7 +285,7 @@ class C4GImageField extends C4GBrickField
 
             $width = $this->getWidth();
             $height = $this->getHeight();
-            $result = '<br><label class="image ' . $this->getFieldName() . '">' . $this->getTitle() . '</label><br><img src="' . $base64 . '" alt="" width="'.$width.'" height="'.$height.'">';
+            $result = '<br><label class="image ' . $this->getFieldName() . '">' . $this->getTitle() . '</label><br><img src="' . $base64 . '" alt="" width="' . $width . '" height="' . $height . '">';
         }
 
         return $result;
