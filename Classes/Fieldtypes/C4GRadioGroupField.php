@@ -24,6 +24,7 @@ class C4GRadioGroupField extends C4GBrickField
     private $clearGroupText = '';
     private $addNameToId = true;
     private $withoutScripts = false;
+    private $timeButtonSpecial = false;
 
     public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = [])
     {
@@ -106,7 +107,7 @@ class C4GRadioGroupField extends C4GBrickField
             }
             $optionAttributes = $option['attributes'] ? ' ' . $option['attributes'] . ' ': '';
 
-            $onClick = "jQuery('#". $id ."').val(jQuery('input[name=_" . $id ."]:checked').val());";
+            $onClick = "jQuery('#" . $id . "').val(jQuery('input[name=_" . $id . "]:checked').val());";
             if ($this->turnButton) {
                 if ($object_id && $object_id != -1) {
                     $object_class = 'class="radio_object_' . $object_id . '" ';
@@ -114,7 +115,7 @@ class C4GRadioGroupField extends C4GBrickField
                     $object_class = 'class="radio_object_disabled" disabled ';
                 }*/
 
-                $option_results = $option_results . '<div class="radio_element rb_turned"><input type="radio" ' . $object_class . 'id="' . $option_name . '" name="' . $name . '" ' . $optionAttributes . $required . ' ' . $changeAction . ' onclick="'.$onClick.'" value="' . $option_id . '" ' . (($value == $option_id) ? 'checked' : '') . ' /><label class="full lbl_turned" for="' . $for . '" >' . $type_caption . '</label></div>';
+                $option_results = $option_results . '<div class="radio_element rb_turned"><input type="radio" ' . $object_class . 'id="' . $option_name . '" name="' . $name . '" ' . $optionAttributes . $required . ' ' . $changeAction . ' onclick="' . $onClick . '" value="' . $option_id . '" ' . (($value == $option_id) ? 'checked' : '') . ' /><label class="full lbl_turned" for="' . $for . '" >' . $type_caption . '</label></div>';
             } else {
                 if ($object_id && $object_id != -1) {
                     $object_class = 'class="radio_object_' . $object_id . '" ';
@@ -122,7 +123,7 @@ class C4GRadioGroupField extends C4GBrickField
                     $object_class = 'class="radio_object_disabled" disabled ';
                 }*/
 
-                $option_results = $option_results . '<div class="radio_element"><label class="full" for="' . $for . '" >' . $type_caption . '</label><input type="radio" ' . $object_class . 'id="' . $option_name . '" name="' . $name . '" ' . $optionAttributes . $required . ' ' . $changeAction . ' onclick="'.$onClick.'" value="' . $option_id . '" ' . (($value == $option_id) ? 'checked' : '') . ' /></div>';
+                $option_results = $option_results . '<div class="radio_element"><label class="full" for="' . $for . '" >' . $type_caption . '</label><input type="radio" ' . $object_class . 'id="' . $option_name . '" name="' . $name . '" ' . $optionAttributes . $required . ' ' . $changeAction . ' onclick="' . $onClick . '" value="' . $option_id . '" ' . (($value == $option_id) ? 'checked' : '') . ' /></div>';
             }
         }
 
@@ -188,7 +189,9 @@ class C4GRadioGroupField extends C4GBrickField
                         $conditionModel = $condition->getModel();
 
                         if ($conditionField && $conditionModel && $conditionFunction) {
-                            $conFieldValue = strtotime($dlgValues[$conditionField]);
+                            if ($this->timeButtonSpecial) {
+                                $conFieldValue = strtotime($dlgValues[$conditionField]);
+                            }
                             $found = $conditionModel::$conditionFunction($conFieldValue);
                             if ($found) {
                                 break;
@@ -243,6 +246,12 @@ class C4GRadioGroupField extends C4GBrickField
      */
     public function translateFieldValue($value)
     {
+        if ($this->timeButtonSpecial) {
+            if (is_numeric($value)) {
+                return date('H:i', $value);
+            }
+        }
+
         return C4GBrickCommon::translateSelectOption($value, $this->getOptions());
     }
 
@@ -391,5 +400,21 @@ class C4GRadioGroupField extends C4GBrickField
     public function setWithoutScripts(bool $withoutScripts): void
     {
         $this->withoutScripts = $withoutScripts;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isTimeButtonSpecial(): bool
+    {
+        return $this->timeButtonSpecial;
+    }
+
+    /**
+     * @param bool $timeButtonSpecial
+     */
+    public function setTimeButtonSpecial(bool $timeButtonSpecial): void
+    {
+        $this->timeButtonSpecial = $timeButtonSpecial;
     }
 }
