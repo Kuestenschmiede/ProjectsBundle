@@ -55,7 +55,7 @@ class AjaxController extends Controller
                 $strClass = Module::findClass($objModule->type);
                 $objModule = new $strClass($objModule);
                 $printoutPDF = new C4GPrintoutPDF($database);
-                return $printoutPDF->printAction($objModule, $arrData, $id);
+                return $printoutPDF->printAction($objModule, $arrData, $id, true);
             }
             $returnData = $moduleManager->getC4gFrontendModule($module, $language, $action, $arrData);
         } else {

@@ -109,7 +109,7 @@ class C4GPrintoutPDF
         }
     }
 
-    public function printAction($module, $data, $id)
+    public function printAction($module, $data, $id, $buttonClick=false)
     {
         $pass = '';
         if (method_exists($module, 'printPdf')) {
@@ -130,7 +130,7 @@ class C4GPrintoutPDF
                 if ($dataset) {
                     $passwordfield = $module->getDialogParams()->getPasswordField();
                     $passwordFormat = $module->getDialogParams()->getPasswordFormat();
-                    if ($passwordfield) {
+                    if ($passwordfield && !($buttonClick && $module->getDialogParams()->isNoPasswordOnButtonClick())) {
                         $pass = $passwordFormat ? date($passwordFormat, $dataset->$passwordfield) : $dataset->$passwordfield;
                     }
                 }

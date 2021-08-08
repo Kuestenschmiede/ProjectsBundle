@@ -86,6 +86,7 @@ class C4GBrickDialogParams
     private $generatePrintoutWithSaving = false;
     private $passwordField = ''; //password to encrypt pdf document
     private $passwordFormat = ''; //useful with dateformat
+    private $noPasswordOnButtonClick = false; //encrypt the document only on saving
     private $filterParams = null; //siehe C4GBrickFilterParams
     private $confirmActivation = false;
     private $notifyOnChanges = false;
@@ -2080,5 +2081,21 @@ class C4GBrickDialogParams
     public function setPasswordFormat(string $passwordFormat): void
     {
         $this->passwordFormat = $passwordFormat;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isNoPasswordOnButtonClick(): bool
+    {
+        return $this->noPassordOnButtonClick;
+    }
+
+    /**
+     * @param bool $noPassordOnButtonClick
+     */
+    public function setNoPasswordOnButtonClick(bool $noPassordOnButtonClick): void
+    {
+        $this->noPassordOnButtonClick = $noPassordOnButtonClick;
     }
 }
