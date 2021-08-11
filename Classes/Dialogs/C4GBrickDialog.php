@@ -628,7 +628,11 @@ class C4GBrickDialog
         $type_print = C4GBrickConst::BUTTON_PRINT;
         if ($dialogParams->checkButtonVisibility($type_print)) {
             $button_print = $dialogParams->getButton($type_print);
-            $result[] = static::addButtonArray($button_print, $dbValues->id);
+
+            $printCondition = $dialogParams->getPrintConditionField();
+            if (!$dialogParams->getPrintConditionField() || ($dbValues->$printCondition)) {
+                $result[] = static::addButtonArray($button_print, $dbValues->id);
+            }
         }
 
         //DELETE BUTTON

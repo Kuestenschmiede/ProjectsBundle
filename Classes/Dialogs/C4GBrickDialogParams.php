@@ -82,8 +82,9 @@ class C4GBrickDialogParams
     private $uniqueTitle = ''; //unique message title
     private $uniqueMessage = ''; //unique message
     private $withPrintButton = false; //activates print button
-    private $savePrintoutToField = ''; //fieldname
-    private $generatePrintoutWithSaving = false;
+    private $savePrintoutToField = ''; //fieldname for automaticly document saving
+    private $generatePrintoutWithSaving = false; //see savePrintoutToField
+    private $printConditionField = ''; //only show print button if set
     private $passwordField = ''; //password to encrypt pdf document
     private $passwordFormat = ''; //useful with dateformat
     private $noPasswordOnButtonClick = false; //encrypt the document only on saving
@@ -2098,4 +2099,22 @@ class C4GBrickDialogParams
     {
         $this->noPassordOnButtonClick = $noPassordOnButtonClick;
     }
+
+    /**
+     * @return string
+     */
+    public function getPrintConditionField(): string
+    {
+        return $this->printConditionField;
+    }
+
+    /**
+     * @param string $printConditionField
+     */
+    public function setPrintConditionField(string $printConditionField): void
+    {
+        $this->printConditionField = $printConditionField;
+    }
+
+
 }
