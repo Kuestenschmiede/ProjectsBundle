@@ -248,16 +248,16 @@ window.c4g.projects = window.c4g.projects || {};
           } else {
             scope.fnHandleAjaxResponse(data, this.internalId);
             if (scrollBottom) {
-              var length = $('.c4gForumPost').length;
+              var length = jQuery('.c4gForumPost').length;
               if (length > 0) {
-                $('html,body').animate({
-                  scrollTop: $($('.c4gForumPost')[length - 1]).offset().top
+                jQuery('html,body').animate({
+                  scrollTop: jQuery(jQuery('.c4gForumPost')[length - 1]).offset().top
                 }, 'slow');
               }
             } else {
-              var forum = $('.mod_c4g_forum');
-              if (forum) {
-                $('html,body').animate({
+              var forum = jQuery('.mod_c4g_forum');
+              if (forum && forum.length > 0) {
+                jQuery('html,body').animate({
                   scrollTop: forum.offset().top
                 }, 'slow');
               }
