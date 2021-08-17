@@ -109,7 +109,7 @@ class C4GPrintoutPDF
         }
     }
 
-    public function printAction($module, $data, $id, $buttonClick=false)
+    public function printAction($module, $data, $id, $buttonClick = false)
     {
         $pass = '';
         if (method_exists($module, 'printPdf')) {

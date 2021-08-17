@@ -1282,9 +1282,11 @@ class C4GBrickDialog
             if ($last_user !== null) {
                 $set['last_member_id'] = $user_id;
             }
+
             if ($dialogParams->getBeforeSaveAction()) {
                 $action = $dialogParams->getBeforeSaveAction();
                 $set = $action->call($set);
+                $result['set'] = $set;
             }
 
             $abortSave = false;

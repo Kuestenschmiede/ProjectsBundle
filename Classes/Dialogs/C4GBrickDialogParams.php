@@ -2115,6 +2115,4 @@ class C4GBrickDialogParams
     {
         $this->printConditionField = $printConditionField;
     }
-
-
 }

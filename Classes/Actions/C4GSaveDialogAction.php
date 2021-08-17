@@ -113,9 +113,14 @@ class C4GSaveDialogAction extends C4GBrickDialogAction
         }
 
         if ($dialogParams->isGeneratePrintoutWithSaving()) {
-            $database = $this->getBrickDatabase()->getParams()->getDatabase();
+            $database = $brickDatabase->getParams()->getDatabase();
             $printoutPDF = new C4GPrintoutPDF($database);
-            $printoutPDF->printAction($module, $dlgValues, $dialogId);
+
+            $printValues = $dlgValues;
+            if ($result['set']) {
+                $printValues = $result['set'];
+            }
+            $printoutPDF->printAction($module, $printValues, $dialogId);
         }
 
         if ($withNotification) {
