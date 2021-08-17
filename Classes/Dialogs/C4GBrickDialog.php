@@ -1283,10 +1283,13 @@ class C4GBrickDialog
                 $set['last_member_id'] = $user_id;
             }
 
+            $actionValues = '';
             if ($dialogParams->getBeforeSaveAction()) {
                 $action = $dialogParams->getBeforeSaveAction();
+
                 $set = $action->call($set);
-                $result['set'] = $set;
+                $actionValues = array_merge($set, $dlgValues);
+
             }
 
             $abortSave = false;
@@ -1522,7 +1525,7 @@ class C4GBrickDialog
                     }
                 }
             }
-
+            $result['set'] = $actionValues ?: '';
             return $result;
         }
     }
