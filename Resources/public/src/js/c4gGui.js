@@ -132,14 +132,18 @@ window.c4g.projects = window.c4g.projects || {};
 
         // create DIV for ajax Message
         jQuery(this).append('<div class="c4gLoaderPh"></div>');
-        jQuery(document).ajaxStart(function(){
-          jQuery('.c4gGui,.c4gGuiDialog').addClass('c4gGuiAjaxBusy');
-          jQuery('.c4gLoaderPh').addClass('c4gLoader');
-        });
-        jQuery(document).ajaxStop(function(){
-          jQuery('.c4gGui,.c4gGuiDialog').removeClass('c4gGuiAjaxBusy');
-          jQuery('.c4gLoaderPh').removeClass('c4gLoader');
-        });
+        if (typeof jQuery(document).ajaxStart === 'function') {
+          jQuery(document).ajaxStart(function(){
+            jQuery('.c4gGui,.c4gGuiDialog').addClass('c4gGuiAjaxBusy');
+            jQuery('.c4gLoaderPh').addClass('c4gLoader');
+          });
+        }
+        if (typeof jQuery(document).ajaxStop === 'function') {
+          jQuery(document).ajaxStop(function(){
+            jQuery('.c4gGui,.c4gGuiDialog').removeClass('c4gGuiAjaxBusy');
+            jQuery('.c4gLoaderPh').removeClass('c4gLoader');
+          });
+        }
 
         // create DIV for content
         jQuery('<div />')
@@ -322,9 +326,10 @@ window.c4g.projects = window.c4g.projects || {};
       };
 
       var fnMakeCollapsible = function (element) {
-        element
-          .find('.c4gGuiCollapsible_hide')
-          .slideUp(0);
+        let slide = element.find('.c4gGuiCollapsible_hide');
+        if (typeof slide.slideUp === 'function') {
+          slide.slideUp(0);
+        }
         element
           .find('.c4gGuiCollapsible_trigger')
           .click(function () {
