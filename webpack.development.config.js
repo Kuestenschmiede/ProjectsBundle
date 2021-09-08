@@ -13,7 +13,6 @@ const webpack = require("webpack");
 var path = require('path');
 var config = {
   entry: {
-    'c4gGui': './Resources/public/vendor/js/c4gGui.js',
     'c4g-vendor-magnificpopup': './Resources/public/vendor/js/c4g-vendor-magnificpopup.js'
   },
   mode: "development",
