@@ -1289,7 +1289,6 @@ class C4GBrickDialog
 
                 $set = $action->call($set);
                 $actionValues = array_merge($set, $dlgValues);
-
             }
 
             $abortSave = false;
@@ -1526,6 +1525,7 @@ class C4GBrickDialog
                 }
             }
             $result['set'] = $actionValues ?: '';
+
             return $result;
         }
     }
