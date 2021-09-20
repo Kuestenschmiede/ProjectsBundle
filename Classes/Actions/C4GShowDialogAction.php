@@ -48,7 +48,6 @@ class C4GShowDialogAction extends C4GBrickDialogAction
             $dialogParams->setId($id);
         }
 
-        //WURDE EINE ID ÜBERGEBEN?
         if ((!$modelListFunction) &&
             ($viewType != C4GBrickViewType::PROJECTPARENTFORMCOPY) &&
             ($viewType != C4GBrickViewType::PROJECTFORMCOPY)) {
@@ -85,9 +84,7 @@ class C4GShowDialogAction extends C4GBrickDialogAction
         }
 
         \Session::getInstance()->set('c4g_brick_dialog_id', $id);
-        //$parent_id = $parentId;
 
-        //ToDo überarbeiten brickDatabase
         $parentModel = $dialogParams->getParentModel();
         if ($parentId && $parentModel) {
             $parent = $parentModel::findByPk($parentId);
