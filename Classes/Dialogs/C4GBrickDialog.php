@@ -449,9 +449,11 @@ class C4GBrickDialog
             $titleStr = $headline;
         } else {
             if (C4GBrickView::isWithoutEditing($viewType)) {
-                $titleStr = $brickCaption . ' ' . $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['HEADLINES_SHOW'];
+                $titleStr = $brickCaption . '<span class="state-text state-show"> ' .
+                    $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['HEADLINES_SHOW'] . '</span>';
             } else {
-                $titleStr = $brickCaption . ' ' . $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['HEADLINES_EDIT'];
+                $titleStr = $brickCaption . '<span class="state-text state-edit"> ' .
+                    $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['HEADLINES_EDIT'] . '</span>';
             }
         }
 
