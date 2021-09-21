@@ -264,7 +264,6 @@ class C4GSubDialogField extends C4GBrickField
             $numLoadedDataSets = intval($initialCount);
 
             for ($i = 0; $i < $numLoadedDataSets; $i++) {
-                $propertyName = $name . $this->delimiter . $keyFieldName . $this->delimiter . $i;
                 if ($fieldsHtml) {
                     if ($editButton) {
                         $dataSetClass = 'c4g_sub_dialog_set c4g_sub_dialog_set_uneditable';
