@@ -145,6 +145,9 @@ input:invalid {
 .c4g_brick_dialog label strong {
     color: red;
 }
+.c4g_brick_dialog .c4g_mandatory_class {
+    margin-left: 2px;
+}
 .c4g_brick_dialog select,.c4g_brick_dialog .styled_select,
 .c4g_brick_select_dialog select,.c4g_brick_select_dialog .styled_select {
     display: block;

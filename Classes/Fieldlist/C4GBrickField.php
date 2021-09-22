@@ -384,7 +384,7 @@ abstract class C4GBrickField
                 return $tdo . '<label class="' . $this->getFieldName() . ' ' . $id . '" for="' . $id . '" ' . $conditionPrepare . '>' . $star . $additionalLabel . $linebreak . '</label>' . $tdc . $extTitleField;
             }
 
-            return $tdo . '<label class="c4g-form-label ' . $this->getFieldName() . ' ' . $id . '" for="' . $id . '" ' . $conditionPrepare . '>' . $star . $title . $additionalLabel . $linebreak . '</label>' . $tdc . $extTitleField;
+            return $tdo . '<label class="c4g-form-label ' . $this->getFieldName() . ' ' . $id . '" for="' . $id . '" ' . $conditionPrepare . '>' . $title . $additionalLabel . $star . $linebreak . '</label>' . $tdc . $extTitleField;
         }
 
         return '';
