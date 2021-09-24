@@ -10,6 +10,7 @@
  */
 namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
 
+use con4gis\CoreBundle\Classes\C4GUtils;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldCompare;
@@ -17,6 +18,7 @@ use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldCompare;
 class C4GUrlField extends C4GBrickField
 {
     private $withLink = true;
+    private $addProtocol = true;
 
     /**
      * @param $field
@@ -36,6 +38,9 @@ class C4GUrlField extends C4GBrickField
             $fieldDataAfter = '';
 
             if ($this->withLink && !$this->isEditable()) {
+                if ($this->addProtocol && !C4GUtils::startsWith($value, 'http')) {
+                    $value = 'https://'.$value;
+                }
                 $fieldDataBefore = '<a href="' . $value . '" target="_blank" rel="noopener">';
                 $fieldDataAfter = '</a>';
             };
@@ -86,5 +91,21 @@ class C4GUrlField extends C4GBrickField
         $this->withLink = $withLink;
 
         return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isAddProtocol(): bool
+    {
+        return $this->addProtocol;
+    }
+
+    /**
+     * @param bool $addProtocol
+     */
+    public function setAddProtocol(bool $addProtocol): void
+    {
+        $this->addProtocol = $addProtocol;
     }
 }
