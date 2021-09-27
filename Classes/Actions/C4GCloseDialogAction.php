@@ -38,12 +38,6 @@ class C4GCloseDialogAction extends C4GBrickDialogAction
             if ($dbValues) {
                 $is_frozen = $dbValues->is_frozen;
             }
-        } elseif ($project_id) {
-            // TODO projects model fix
-//            $project = C4gProjectsModel::findByPk($project_id);
-//            if ($project) {
-//                $is_frozen = $project->is_frozen;
-//            }
         }
 
         if ($viewType == C4GBrickViewType::GROUPPROJECT) {
@@ -54,10 +48,7 @@ class C4GCloseDialogAction extends C4GBrickDialogAction
 
         $fieldList = $this->makeRegularFieldList($this->getFieldList());
 
-        //$changes = array();
-        //if ($dbValues) {
         $changes = C4GBrickDialog::compareWithDB($fieldList, $dlgValues, $dbValues, $viewType, $is_frozen);
-        //}
 
         if (count($changes) > 0 && $this->ignoreChanges == false) {
             $action = new C4GShowMessageChangesDialogAction($dialogParams, $this->getListParams(), $this->getFieldList(), $this->getPutVars(), $this->getBrickDatabase());
