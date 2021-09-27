@@ -31,8 +31,7 @@ class C4GCloseDialogAction extends C4GBrickDialogAction
         if ($brickDatabase && ($id > 0)) {
             $dbValues = $brickDatabase->findByPk($id);
         }
-
-        $project_id = $dialogParams->getProjectId();
+        
         $is_frozen = $dialogParams->isFrozen();
         if ($viewType == C4GBrickViewType::GROUPPROJECT) {
             if ($dbValues) {
