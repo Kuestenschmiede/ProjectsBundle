@@ -39,7 +39,7 @@ class C4GUrlField extends C4GBrickField
 
             if ($this->withLink && !$this->isEditable()) {
                 if ($this->addProtocol && !C4GUtils::startsWith($value, 'http')) {
-                    $value = 'https://'.$value;
+                    $value = 'https://' . $value;
                 }
                 $fieldDataBefore = '<a href="' . $value . '" target="_blank" rel="noopener">';
                 $fieldDataAfter = '</a>';

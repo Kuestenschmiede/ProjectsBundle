@@ -11,7 +11,6 @@
 namespace con4gis\ProjectsBundle\Classes\Actions;
 
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialog;
-use con4gis\ProjectsBundle\Classes\Models\C4gProjectsModel;
 use con4gis\ProjectsBundle\Classes\Views\C4GBrickViewType;
 
 class C4GCloseDialogAction extends C4GBrickDialogAction
@@ -31,7 +30,7 @@ class C4GCloseDialogAction extends C4GBrickDialogAction
         if ($brickDatabase && ($id > 0)) {
             $dbValues = $brickDatabase->findByPk($id);
         }
-        
+
         $is_frozen = $dialogParams->isFrozen();
         if ($viewType == C4GBrickViewType::GROUPPROJECT) {
             if ($dbValues) {

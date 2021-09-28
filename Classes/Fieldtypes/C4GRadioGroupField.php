@@ -249,6 +249,7 @@ class C4GRadioGroupField extends C4GBrickField
         if ($this->timeButtonSpecial) {
             if (is_numeric($value)) {
                 $timeFormat = $GLOBALS['TL_CONFIG']['timeFormat'];
+
                 return date($timeFormat, $value);
             }
         }
