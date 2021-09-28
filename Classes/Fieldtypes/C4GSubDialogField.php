@@ -367,7 +367,7 @@ class C4GSubDialogField extends C4GBrickField
         } else {
             $html = '<br>';
         }
-        
+
         return $html;
     }
 
