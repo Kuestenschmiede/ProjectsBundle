@@ -118,6 +118,7 @@ class C4GBrickDialogParams
     private $customDialogCallback = null;
     private $confirmActivationActionCallback = [];
     private $emptyListMessage = [];
+    private $showCloseDialogPrompt = false; // Always show a confirmation dialog on close, even if nothing has been changed
 
     /**
      * C4GBrickDialogParams constructor.
@@ -2114,5 +2115,21 @@ class C4GBrickDialogParams
     public function setPrintConditionField(string $printConditionField): void
     {
         $this->printConditionField = $printConditionField;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isShowCloseDialogPrompt(): bool
+    {
+        return $this->showCloseDialogPrompt;
+    }
+
+    /**
+     * @param bool $showCloseDialogPrompt
+     */
+    public function setShowCloseDialogPrompt(bool $showCloseDialogPrompt = true): void
+    {
+        $this->showCloseDialogPrompt = $showCloseDialogPrompt;
     }
 }

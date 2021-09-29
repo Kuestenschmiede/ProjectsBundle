@@ -33,8 +33,7 @@ class C4GShowMessageChangesDialogAction extends C4GBrickDialogAction
             $changes = C4GBrickDialog::compareWithDB($this->makeRegularFieldList($this->getFieldList(), $dlgValues, $dbValues, $this->viewType, $dialogParams->isFrozen()));
         }
 
-        if ($changes) {
-            //$fields = array();
+        if ($changes && !$dialogParams->isShowCloseDialogPrompt()) {
             $fields = '<ul>';
             $message_cnt = 0;
             foreach ($changes as $changedField) {
