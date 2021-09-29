@@ -30,7 +30,7 @@ class C4GShowMessageChangesDialogAction extends C4GBrickDialogAction
         if ($this->changes) {
             $changes = $this->changes;
         } else {
-            $changes = C4GBrickDialog::compareWithDB($this->makeRegularFieldList($this->getFieldList()), $dlgValues, $dbValues, $this->viewType, $dialogParams->isFrozen());
+            $changes = C4GBrickDialog::compareWithDB($this->makeRegularFieldList($this->getFieldList(), $dlgValues, $dbValues, $this->viewType, $dialogParams->isFrozen()));
         }
 
         if ($changes && !$dialogParams->isShowCloseDialogPrompt()) {
@@ -84,13 +84,6 @@ class C4GShowMessageChangesDialogAction extends C4GBrickDialogAction
                     $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['MESSAGE_DIALOG_CLOSE_DIALOG_NO'],
                     $dlgValues);
         } else {
-            if ($dialogParams->isHideChangesMessage()) {
-                $dialogParams->setId(-1);
-                $action = new C4GShowListAction($dialogParams, $this->getListParams(), $this->getFieldList(), $this->getPutVars(), $this->getBrickDatabase());
-
-                return $action->run();
-            }
-
             $result = C4GBrickDialog::showC4GMessageDialog(
                 $id,
                 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['MESSAGE_DIALOG_CLOSE_DIALOG_QUESTION'],

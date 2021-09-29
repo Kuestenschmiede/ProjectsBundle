@@ -19,7 +19,6 @@ class C4GNumberField extends C4GBrickFieldNumeric
 {
     protected $pattern = C4GBrickRegEx::DIGITS_NEG;
     protected $initialValue = 0;
-    protected $initialCallOnchange = false;
 
     public function __construct()
     {
@@ -71,20 +70,6 @@ class C4GNumberField extends C4GBrickFieldNumeric
                     $changeAction = 'onchange="C4GCallOnChange(this)"';
                 }
             }
-
-            /*
-            if ($this->isCallOnChange() && $this->isInitialCallOnChange()) {
-                if ($this->getCallOnChangeFunction()) {
-                    $onLoadScript = $dialogParams->getOnloadScript();
-                    $onLoadScript .= $this->getCallOnChangeFunction() . 'C4GCallOnChange(document.getElementById('.$id.'));';
-                    $dialogParams->setOnloadScript($onLoadScript);
-                } else {
-                    $onLoadScript = $dialogParams->getOnloadScript();
-                    $onLoadScript .= ' C4GCallOnChange(document.getElementById('.$id.'));';
-                    $dialogParams->setOnloadScript($onLoadScript);
-                }
-
-            }*/
 
             $result =
                 $this->addC4GField($condition,$dialogParams,$fieldList,$data,
@@ -190,21 +175,5 @@ class C4GNumberField extends C4GBrickFieldNumeric
         }
 
         return false;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isInitialCallOnchange(): bool
-    {
-        return $this->initialCallOnchange;
-    }
-
-    /**
-     * @param bool $initialCallOnchange
-     */
-    public function setInitialCallOnchange(bool $initialCallOnchange): void
-    {
-        $this->initialCallOnchange = $initialCallOnchange;
     }
 }

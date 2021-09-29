@@ -22,7 +22,6 @@ class C4GSendEmailNotificationAction extends C4GBrickDialogAction
         $result = false;
         $dialogParams = $this->getDialogParams();
         $putVars = $this->getPutVars();
-        $fieldList = $this->getFieldList();
         $id = $dialogParams->getId();
 //        $database = $this->getBrickDatabase();
 
@@ -50,7 +49,7 @@ class C4GSendEmailNotificationAction extends C4GBrickDialogAction
             if (sizeof($notification_array) == 1) {
                 $objNotification = \NotificationCenter\Model\Notification::findByPk($notification_array);
                 if ($objNotification !== null) {
-                    $arrTokens = C4GBrickNotification::getArrayTokens($dlgValues, $fieldList, true);
+                    $arrTokens = C4GBrickNotification::getArrayTokens($dlgValues, $this->getFieldList(), true);
                     $email_text = $putVars['email_text'];
                     if ($email_text !== ' ') {
                         $arrTokens['email_text'] = $email_text;
@@ -61,7 +60,7 @@ class C4GSendEmailNotificationAction extends C4GBrickDialogAction
                 foreach ($notification_array as $notification) {
                     $objNotification = \NotificationCenter\Model\Notification::findByPk($notification);
                     if ($objNotification !== null) {
-                        $arrTokens = C4GBrickNotification::getArrayTokens($dlgValues, $fieldList, true);
+                        $arrTokens = C4GBrickNotification::getArrayTokens($dlgValues, $this->getFieldList(), true);
                         $email_text = $putVars['email_text'];
                         if ($email_text !== ' ') {
                             $arrTokens['email_text'] = $email_text;
@@ -74,7 +73,7 @@ class C4GSendEmailNotificationAction extends C4GBrickDialogAction
 
         if ($this->closeDialog) {
             $dialogParams->setId(-1);
-            $action = new C4GCloseDialogAction($dialogParams, $this->getListParams(), $fieldList, $this->getPutVars(), $this->getBrickDatabase());
+            $action = new C4GCloseDialogAction($dialogParams, $this->getListParams(), $this->getFieldList(), $this->getPutVars(), $this->getBrickDatabase());
 
             return $action->run();
         }
