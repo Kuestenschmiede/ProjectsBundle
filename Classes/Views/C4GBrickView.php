@@ -21,8 +21,6 @@ class C4GBrickView
             case C4GBrickViewType::PUBLICVIEW:
             case C4GBrickViewType::PUBLICBASED:
             case C4GBrickViewType::PUBLICFORM:
-//            case C4GBrickViewType::PUBLICPARENTBASED:
-//            case C4GBrickViewType::PUBLICPARENTVIEW:
                 return true;
         }
 
@@ -224,8 +222,7 @@ class C4GBrickView
     public static function isWithParent($viewType)
     {
         if (C4GBrickView::isProjectParentBased($viewType) ||
-            C4GBrickView::isGroupParentBased($viewType) /*||
-            C4GBrickView::isPublicParentBased($viewType)*/) {
+            C4GBrickView::isGroupParentBased($viewType)) {
             return true;
         }
 
