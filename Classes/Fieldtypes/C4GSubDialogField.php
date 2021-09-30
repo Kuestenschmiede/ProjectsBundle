@@ -352,12 +352,12 @@ class C4GSubDialogField extends C4GBrickField
 
             $html = $conditionStart . "<div class='c4g_sub_dialog_container formdata' " . $condition['conditionPrepare'] . " id='c4g_$name'>";
             $html .= "<template id='c4g_$name" . '_template' . "'>$fieldsHtml</template>";
-            $insert = $this->insertBefore === true ? 'before' : 'after';
-            if ($this->showButtons && !C4GBrickView::isWithoutEditing($dialogParams->getViewType())) {
-                $max = $this->getMax();
-                $this->setAdditionalLabel("<span class='ui-button ui-corner-all c4g_sub_dialog_add_button js-sub-dialog-button' onclick='addSubDialog(this,event,$max);' data-template='c4g_$name" . '_template' . "' data-target='c4g_dialog_$name' data-field='$name' data-index='$numLoadedDataSets' data-wildcard='" . $this->wildcard . "' data-insert='$insert'>$addButton</span><span class='c4g_sub_dialog_add_button_label'>$this->addButtonLabel</span>");
-            }
             $html .= $this->addC4GFieldLabel("c4g_$name", $title, $this->isMandatory(), '', $fieldList, $data, $dialogParams);
+            if ($this->showButtons && !C4GBrickView::isWithoutEditing($dialogParams->getViewType())) {
+                $insert = $this->insertBefore === true ? 'before' : 'after';
+                $max = $this->getMax();
+                $html .= "<span class='ui-button ui-corner-all c4g_sub_dialog_add_button js-sub-dialog-button' onclick='addSubDialog(this,event,$max);' data-template='c4g_$name" . '_template' . "' data-target='c4g_dialog_$name' data-field='$name' data-index='$numLoadedDataSets' data-wildcard='" . $this->wildcard . "' data-insert='$insert'>$addButton</span><span class='c4g_sub_dialog_add_button_label'>$this->addButtonLabel</span>";
+            }
             $html .= "<div class='c4g_sub_dialog formdata' id='c4g_dialog_$name'>";
             $html .= $loadedDataHtml;
 
