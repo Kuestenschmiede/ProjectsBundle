@@ -176,6 +176,35 @@ class C4GBrickView
         return false;
     }
 
+    /**
+     * @return boolean
+     */
+    public static function requiresLoginForEditing($viewType)
+    {
+        switch ($viewType) {
+            case C4GBrickViewType::PUBLICPARENTBASED:
+            case C4GBrickViewType::MEMBERBASED:
+            case C4GBrickViewType::MEMBERBOOKING:
+            case C4GBrickViewType::MEMBERFORM:
+            case C4GBrickViewType::ADMINBASED:
+            case C4GBrickViewType::GROUPPROJECT:
+            case C4GBrickViewType::GROUPPARENTVIEW:
+            case C4GBrickViewType::GROUPPARENTBASED:
+            case C4GBrickViewType::GROUPBASED:
+            case C4GBrickViewType::GROUPFORM:
+            case C4GBrickViewType::GROUPFORMCOPY:
+            case C4GBrickViewType::PROJECTBASED:
+            case C4GBrickViewType::PROJECTFORM:
+            case C4GBrickViewType::PROJECTFORMCOPY:
+            case C4GBrickViewType::PROJECTPARENTBASED:
+            case C4GBrickViewType::PROJECTPARENTFORM:
+            case C4GBrickViewType::PROJECTPARENTFORMCOPY:
+                return true;
+        }
+
+        return false;
+    }
+
     public static function isWithMember($viewType)
     {
         if (C4GBrickView::isMemberBased($viewType)) {

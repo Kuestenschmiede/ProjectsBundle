@@ -11,6 +11,7 @@
 namespace con4gis\ProjectsBundle\Classes\Actions;
 
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialog;
+use con4gis\ProjectsBundle\Classes\Views\C4GBrickView;
 
 class C4GShowMessageChangesDialogAction extends C4GBrickDialogAction
 {
@@ -20,6 +21,18 @@ class C4GShowMessageChangesDialogAction extends C4GBrickDialogAction
     {
         $dlgValues = $this->getPutVars();
         $dialogParams = $this->getDialogParams();
+        
+        $viewType = $dialogParams->getViewType();
+        $memberId = $dialogParams->getMemberId();
+        if (
+            C4GBrickView::isWithoutEditing($viewType) ||
+            (C4GBrickView::requiresLoginForEditing($viewType) && $memberId < 1)
+        ) {
+            $dialogParams->setId(-1);
+            $action = new C4GShowListAction($dialogParams, $this->getListParams(), $this->getFieldList(), $this->getPutVars(), $this->getBrickDatabase());
+            return $action->run();
+        }
+
         $id = $dialogParams->getId();
 
         $brickDatabase = $this->getBrickDatabase();
@@ -34,7 +47,7 @@ class C4GShowMessageChangesDialogAction extends C4GBrickDialogAction
                 $this->makeRegularFieldList($this->getFieldList()),
                 $dlgValues,
                 $dbValues,
-                $dialogParams->getViewType(),
+                $viewType,
                 $dialogParams->isFrozen()
             );
         }
