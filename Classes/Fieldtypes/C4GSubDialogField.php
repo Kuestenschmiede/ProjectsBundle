@@ -388,7 +388,6 @@ class C4GSubDialogField extends C4GBrickField
             if ($keyArray && $keyArray[0] == $fieldName) {
                 $subDlgValues[$keyArray[0] . $this->delimiter . $keyArray[2]][$keyArray[1]] = $value;
                 $indexList[] = $keyArray[0] . $this->delimiter . $keyArray[2];
-                array_unique($indexList);
             } else {
                 foreach ($this->fieldList as $field) {
                     if ($field instanceof C4GSubDialogField) {
