@@ -23,15 +23,6 @@ class C4GSendEmailNotificationAction extends C4GBrickDialogAction
         $dialogParams = $this->getDialogParams();
         $putVars = $this->getPutVars();
         $id = $dialogParams->getId();
-//        $database = $this->getBrickDatabase();
-
-//        //Todo find a better solution
-//        $memberId = -1;
-//        $modelClass = $database->getParams()->getModelClass();
-//        if ($modelClass && $putVars) {
-//          $function = 'getId';
-//          $memberId = $modelClass::$function($putVars);
-//        }
 
         $dlgValues = $this->getPutVars();
         $notification_array = unserialize($dialogParams->getNotificationTypeContactRequest());
