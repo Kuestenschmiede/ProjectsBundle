@@ -80,8 +80,6 @@ class C4GBrickDatabase
         $entiy->setData($dataset);
 
         return $entiy;
-
-        #return $serializer->unserialize($dataset, $entityObject);
     }
 
     /**
@@ -93,7 +91,6 @@ class C4GBrickDatabase
     public function findBy($fieldname, $value, $arrOptions = [])
     {
         if ($this->params->getType() == C4GBrickDatabaseType::DOCTRINE) {
-            //ToDo arrOptions abbilden
             $entityClass = $this->params->getEntityNamespace() . '\\' . $this->params->getEntityClass();
 
             return $this->entitiesToContao($this->entityManager->getRepository($entityClass)->findBy([$fieldname => $value]));
