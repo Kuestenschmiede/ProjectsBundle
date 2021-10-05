@@ -16,6 +16,10 @@ use Contao\StringUtil;
 
 class C4GMultiLinkField extends C4GBrickField
 {
+    private $linkClass = '';
+    private $wrapper = false;
+    private $wrapperClass = 'c4g_condition__wrapper';
+
     public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = [])
     {
         $id = 'c4g_' . $this->getFieldName();
@@ -37,12 +41,22 @@ class C4GMultiLinkField extends C4GBrickField
                 } else {
                     $rel = '';
                 }
-                $tags[] = '<a href="' . $link['linkHref'] . "\" $rel>" . $link['linkTitle'] . '</a>';
+                $tags[] = '<a class="'.$this->linkClass.'" href="' . $link['linkHref'] . "\" $rel>" . $link['linkTitle'] . '</a>';
             }
 
-            $result =
-                $this->addC4GField($condition,$dialogParams,$fieldList,$data,
-                implode('', $tags));
+            if ($this->wrapper) {
+                $fieldData = '<div class="'.$this->wrapperClass.'">'.implode('', $tags).'</div>';
+            } else {
+                $fieldData = implode('', $tags);
+            }
+
+            $result = $this->addC4GField(
+                $condition,
+                $dialogParams,
+                $fieldList,
+                $data,
+                $fieldData
+            );
         }
 
         return $result;
@@ -90,5 +104,53 @@ class C4GMultiLinkField extends C4GBrickField
     public function compareWithDB($dbValue, $dlgvalue)
     {
         return [];
+    }
+
+    /**
+     * @return string
+     */
+    public function getLinkClass(): string
+    {
+        return $this->linkClass;
+    }
+
+    /**
+     * @param string $linkClass
+     */
+    public function setLinkClass(string $linkClass): void
+    {
+        $this->linkClass = $linkClass;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isWrapper(): bool
+    {
+        return $this->wrapper;
+    }
+
+    /**
+     * @param bool $wrapper
+     */
+    public function setWrapper(bool $wrapper = true): void
+    {
+        $this->wrapper = $wrapper;
+    }
+
+    /**
+     * @return string
+     */
+    public function getWrapperClass(): string
+    {
+        return $this->wrapperClass;
+    }
+
+    /**
+     * @param string $wrapperClass
+     */
+    public function setWrapperClass(string $wrapperClass): void
+    {
+        $this->wrapperClass = $wrapperClass;
     }
 }
