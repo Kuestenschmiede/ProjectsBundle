@@ -513,11 +513,7 @@ class C4GShowDialogAction extends C4GBrickDialogAction
     {
         foreach ($fieldList as $field) {
             if ($field instanceof C4GForeignArrayField) {
-                /*if ($subDialogField instanceof C4GSubDialogField) {
-                    $index = $subDialogField->getFieldName().$subDialogField->getDelimiter().$field->getFieldName().$subDialogField->getDelimiter().strval(1);
-                } else {*/
                 $index = $field->getFieldName();
-//                }
                 if ($subDialogField instanceof C4GSubDialogField) {
                     $delimiter = $subDialogField->getDelimiter();
                 } else {
