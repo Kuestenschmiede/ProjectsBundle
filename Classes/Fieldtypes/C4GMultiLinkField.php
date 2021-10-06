@@ -50,13 +50,17 @@ class C4GMultiLinkField extends C4GBrickField
                 $fieldData = implode('', $tags);
             }
 
-            $result = $this->addC4GField(
-                $condition,
-                $dialogParams,
-                $fieldList,
-                $data,
-                $fieldData
-            );
+            if (!empty($tags)) {
+                $result = $this->addC4GField(
+                    $condition,
+                    $dialogParams,
+                    $fieldList,
+                    $data,
+                    $fieldData
+                );
+            } else {
+                $result = '';
+            }
         }
 
         return $result;
