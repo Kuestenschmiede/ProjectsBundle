@@ -21,7 +21,7 @@ class C4GShowMessageChangesDialogAction extends C4GBrickDialogAction
     {
         $dlgValues = $this->getPutVars();
         $dialogParams = $this->getDialogParams();
-        
+
         $viewType = $dialogParams->getViewType();
         $memberId = $dialogParams->getMemberId();
         if (
@@ -30,6 +30,7 @@ class C4GShowMessageChangesDialogAction extends C4GBrickDialogAction
         ) {
             $dialogParams->setId(-1);
             $action = new C4GShowListAction($dialogParams, $this->getListParams(), $this->getFieldList(), $this->getPutVars(), $this->getBrickDatabase());
+
             return $action->run();
         }
 
