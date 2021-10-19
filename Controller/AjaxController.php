@@ -28,6 +28,7 @@ use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GTextField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GTimeField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GTimepickerField;
 use con4gis\ProjectsBundle\Classes\Framework\C4GModuleManager;
+use Contao\CoreBundle\Controller\AbstractController;
 use Contao\Database;
 use Contao\Input;
 use Contao\Module;
@@ -38,7 +39,7 @@ use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
-class AjaxController extends Controller
+class AjaxController extends AbstractController
 {
     public function ajaxAction(Request $request, $language, $module, $action)
     {

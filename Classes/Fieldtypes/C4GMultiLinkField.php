@@ -41,11 +41,11 @@ class C4GMultiLinkField extends C4GBrickField
                 } else {
                     $rel = '';
                 }
-                $tags[] = '<a class="'.$this->linkClass.'" href="' . $link['linkHref'] . "\" $rel>" . $link['linkTitle'] . '</a>';
+                $tags[] = '<a class="' . $this->linkClass . '" href="' . $link['linkHref'] . "\" $rel>" . $link['linkTitle'] . '</a>';
             }
 
             if ($this->wrapper) {
-                $fieldData = '<div class="'.$this->wrapperClass.'">'.implode('', $tags).'</div>';
+                $fieldData = '<div class="' . $this->wrapperClass . '">' . implode('', $tags) . '</div>';
             } else {
                 $fieldData = implode('', $tags);
             }
