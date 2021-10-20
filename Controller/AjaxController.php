@@ -10,37 +10,25 @@
  */
 namespace con4gis\ProjectsBundle\Controller;
 
-use con4gis\CoreBundle\Resources\contao\models\C4gLogModel;
-use con4gis\DocumentsBundle\Classes\Stack\PdfManager;
 use con4gis\MapsBundle\Resources\contao\modules\api\ReverseNominatimApi;
-use con4gis\ProjectsBundle\Classes\Common\C4GBrickConst;
-use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialog;
 use con4gis\ProjectsBundle\Classes\Documents\C4GPrintoutPDF;
-use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GDateField;
-use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GEmailField;
-use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GForeignArrayField;
-use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GPostalField;
-use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GSelectField;
-use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GSubDialogField;
-use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GTelField;
-use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GTextareaField;
-use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GTextField;
-use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GTimeField;
-use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GTimepickerField;
 use con4gis\ProjectsBundle\Classes\Framework\C4GModuleManager;
-use Contao\CoreBundle\Controller\AbstractController;
+use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\Database;
 use Contao\Input;
 use Contao\Module;
-use Contao\StringUtil;
 use Contao\System;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
-class AjaxController extends AbstractController
+class AjaxController
 {
+    public function __construct(ContaoFramework $framework)
+    {
+        $framework->initialize();
+    }
+
     public function ajaxAction(Request $request, $language, $module, $action)
     {
         $moduleManager = new C4GModuleManager();

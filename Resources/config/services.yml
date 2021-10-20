@@ -1,0 +1,8 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    con4gis\ProjectsBundle\Controller\AjaxController:
+        public: true
+        class: con4gis\ProjectsBundle\Controller\AjaxController
