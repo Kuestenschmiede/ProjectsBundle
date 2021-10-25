@@ -49,19 +49,11 @@ class C4GBrickButton
                                 $condition = null,
                                 string $additionalClass = ''
     ) {
-        if ($caption === '') {
-            $caption = $this->getTypeCaption();
-        }
-
-        if ($action === '') {
-            $action = $this->getTypeAction();
-        }
-
-        $this->caption = $caption;
         $this->type = $type;
-        $this->visible = $visible && $caption;
+        $this->caption = $caption ?: $this->getTypeCaption();
+        $this->visible = $visible && $this->caption;
         $this->enabled = $enabled;
-        $this->action = $action;
+        $this->action = $action ?: $this->getTypeAction();
         $this->accesskey = $accesskey;
         $this->defaultByEnter = $defaultByEnter;
         $this->notification = $notification;
@@ -70,14 +62,11 @@ class C4GBrickButton
     }
 
     /**
-     * @param $type
      * @return string
      */
-    public function getTypeCaption($type)
+    public function getTypeCaption()
     {
-        $caption = '';
-
-        switch ($type) {
+        switch ($this->type) {
             case C4GBrickConst::BUTTON_ADD:
                 $caption = $GLOBALS['TL_LANG']['FE_C4G_LIST']['CREATEELEMENT'];
 
@@ -174,7 +163,6 @@ class C4GBrickButton
                 $caption = $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['PRINT'];
 
                 break;
-            //not ready
             case C4GBrickConst::BUTTON_POPUP:
                 $caption = $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['POPUP'];
 
@@ -201,13 +189,11 @@ class C4GBrickButton
     }
 
     /**
-     * @param $type
      * @return string
      */
-    public function getTypeAction($type)
+    public function getTypeAction()
     {
-        $action = '';
-        switch ($type) {
+        switch ($this->type) {
             case C4GBrickConst::BUTTON_ADD:
                 $action = C4GBrickActionType::ACTION_SHOWDIALOG;
 
@@ -322,6 +308,8 @@ class C4GBrickButton
                 $action = C4GBrickActionType::ACTION_BUTTONCLICK;
 
                 break;
+            default:
+                $action = '';
         }
 
         return $action;
