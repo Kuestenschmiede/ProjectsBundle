@@ -302,7 +302,6 @@ class C4GBrickButton
                 $action = C4GBrickActionType::ACTION_PRINT;
 
                 break;
-            //not ready
             case C4GBrickConst::BUTTON_POPUP:
                 $action = C4GBrickActionType::ACTION_POPUP;
 
