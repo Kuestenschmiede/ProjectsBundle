@@ -239,6 +239,8 @@ class C4GBrickButton
 
                 break;
             case C4GBrickConst::BUTTON_SAVE:
+            case C4GBrickConst::BUTTON_BOOKING_SAVE:
+            case C4GBrickConst::BUTTON_BOOKING_CHANGE:
                 $action = C4GBrickActionType::ACTION_SAVEDIALOG;
 
                 break;
@@ -252,14 +254,6 @@ class C4GBrickButton
                 break;
             case C4GBrickConst::BUTTON_SAVE_AND_REDIRECT:
                 $action = C4GBrickActionType::ACTION_SAVEANDREDIRECTDIALOG;
-
-                break;
-            case C4GBrickConst::BUTTON_BOOKING_SAVE:
-                $action = C4GBrickActionType::ACTION_SAVEDIALOG;
-
-                break;
-            case C4GBrickConst::BUTTON_BOOKING_CHANGE:
-                $action = C4GBrickActionType::ACTION_SAVEDIALOG;
 
                 break;
             case C4GBrickConst::BUTTON_ARCHIVE:
