@@ -27,20 +27,34 @@ class C4GBrickButton
     private $additionalCssClass = '';
 
     /**
-     * C4GBrickButton constructor.
+     * @param string $type
      * @param string $caption
-     * @param null $type
      * @param bool $visible
      * @param bool $enabled
+     * @param string $action
+     * @param string $accesskey
+     * @param bool $defaultByEnter
+     * @param null $notification
+     * @param null $condition
+     * @param string $additionalClass
      */
-    public function __construct($type, $caption = '', $visible = true, $enabled = true, $action = '', $accesskey = '', $defaultByEnter = false, $notification = null, $condition = null, $additionalClass = '')
-    {
-        if ($caption == '') {
-            $caption = $this->getTypeCaption($type);
+    public function __construct(string $type,
+                                string $caption = '',
+                                bool $visible = true,
+                                bool $enabled = true,
+                                string $action = '',
+                                string $accesskey = '',
+                                bool $defaultByEnter = false,
+                                $notification = null,
+                                $condition = null,
+                                string $additionalClass = ''
+    ) {
+        if ($caption === '') {
+            $caption = $this->getTypeCaption();
         }
 
-        if ($action == '') {
-            $action = $this->getTypeAction($type);
+        if ($action === '') {
+            $action = $this->getTypeAction();
         }
 
         $this->caption = $caption;
