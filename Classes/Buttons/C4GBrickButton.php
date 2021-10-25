@@ -15,16 +15,16 @@ use con4gis\ProjectsBundle\Classes\Common\C4GBrickConst;
 
 class C4GBrickButton
 {
-    private $caption = '';
-    private $type = null;
-    private $enabled = true;
-    private $visible = true;
-    private $action = '';
-    private $accesskey = '';
-    private $defaultByEnter = false;
-    private $notification = null;
-    private $condition = null; //see BrickCondition boolSwitch
-    private $additionalCssClass = '';
+    private $caption;
+    private $type;
+    private $enabled;
+    private $visible;
+    private $action;
+    private $accesskey;
+    private $defaultByEnter;
+    private $notification;
+    private $condition;
+    private $additionalCssClass;
 
     /**
      * @param string $type
