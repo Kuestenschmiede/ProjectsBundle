@@ -114,14 +114,6 @@ class C4GBrickListParams
     {
         $exists = false;
 
-        if ($caption == '') {
-            $caption = C4GBrickButton::getTypeCaption($type);
-        }
-
-        if ($action == '') {
-            $action = C4GBrickButton::getTypeAction($type);
-        }
-
         if ($type && ($type != C4GBrickConst::BUTTON_CLICK)) {
             foreach ($this->buttons as $btn) {
                 if ($btn->getType() === $type) {

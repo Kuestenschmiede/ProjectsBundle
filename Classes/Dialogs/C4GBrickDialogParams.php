@@ -409,13 +409,6 @@ class C4GBrickDialogParams
         $additionalClass = ''
     ) {
         $exists = false;
-        if ($caption == '') {
-            $caption = C4GBrickButton::getTypeCaption($type);
-        }
-
-        if ($action == '') {
-            $action = C4GBrickButton::getTypeAction($type);
-        }
 
         $button = null;
         if ($type && ($type != C4GBrickConst::BUTTON_CLICK)) {
