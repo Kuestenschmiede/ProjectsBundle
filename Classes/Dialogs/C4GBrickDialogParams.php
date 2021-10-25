@@ -396,8 +396,18 @@ class C4GBrickDialogParams
         return $this;
     }
 
-    public function addButton($type, $caption = '', $visible = true, $enabled = true, $action = '', $accesskey = '', $defaultByEnter = false, $notification = null, $condition = null, $additionalClass = '')
-    {
+    public function addButton(
+        $type,
+        $caption = '',
+        $visible = true,
+        $enabled = true,
+        $action = '',
+        $accesskey = '',
+        $defaultByEnter = false,
+        $notification = null,
+        $condition = null,
+        $additionalClass = ''
+    ) {
         $exists = false;
         if ($caption == '') {
             $caption = C4GBrickButton::getTypeCaption($type);
@@ -410,7 +420,7 @@ class C4GBrickDialogParams
         $button = null;
         if ($type && ($type != C4GBrickConst::BUTTON_CLICK)) {
             foreach ($this->buttons as $btn) {
-                if ($btn->getType() == $type) {
+                if ($btn->getType() === $type) {
                     $btn->setCaption($caption);
                     $btn->setVisible($visible);
                     $btn->setEnabled($enabled);
@@ -430,7 +440,17 @@ class C4GBrickDialogParams
 
         if (!$exists) {
             $button = new C4GBrickButton(
-                $type, $caption, $visible, $enabled, $action, $accesskey, $defaultByEnter, $notification, $condition, $additionalClass);
+                $type,
+                $caption,
+                $visible,
+                $enabled,
+                $action,
+                $accesskey,
+                $defaultByEnter,
+                $notification,
+                $condition,
+                $additionalClass
+            );
             $this->buttons[] = $button;
         }
 
