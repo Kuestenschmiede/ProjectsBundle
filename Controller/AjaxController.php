@@ -10,12 +10,9 @@
  */
 namespace con4gis\ProjectsBundle\Controller;
 
-use con4gis\CoreBundle\Controller\ApiController;
-use con4gis\CoreBundle\Controller\BaseController;
 use con4gis\MapsBundle\Resources\contao\modules\api\ReverseNominatimApi;
 use con4gis\ProjectsBundle\Classes\Documents\C4GPrintoutPDF;
 use con4gis\ProjectsBundle\Classes\Framework\C4GModuleManager;
-use Contao\CoreBundle\Controller\AbstractController;
 use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\Database;
 use Contao\Input;
@@ -25,7 +22,7 @@ use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
-class AjaxController extends ApiController
+class AjaxController
 {
     public function __construct(ContaoFramework $framework)
     {
