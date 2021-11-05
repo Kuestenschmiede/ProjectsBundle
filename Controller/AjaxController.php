@@ -75,16 +75,11 @@ class AjaxController
             $xml = simplexml_load_string($xmlOutput);
 
             if ($xml && $xml->addressparts[0]) {
-                $housenumber  = $xml->addressparts[0]->house_number; //Hausnummer
-                $road         = $xml->addressparts[0]->road; //Straße
-                $pedestrian   = $xml->addressparts[0]->pedestrian; //Fussweg
-                $suburb       = $xml->addressparts[0]->suburb; //Ortsteil
-                $town         = $xml->addressparts[0]->town; //Ort
-                $county       = $xml->addressparts[0]->county; //Landkreis
-                $state        = $xml->addressparts[0]->state; //Bundesland
-                $postcode     = $xml->addressparts[0]->postcode; //Postleitzahl
-                $country      = $xml->addressparts[0]->country; //Land
-                $country_code = $xml->addressparts[0]->country_code; //Länderschlüssel
+                $housenumber  = $xml->addressparts[0]->house_number;
+                $road         = $xml->addressparts[0]->road;
+                $pedestrian   = $xml->addressparts[0]->pedestrian;
+                $town         = $xml->addressparts[0]->town;
+                $postcode     = $xml->addressparts[0]->postcode;
 
                 $return = $road;
                 if (!$return) {
@@ -109,7 +104,7 @@ class AjaxController
             }
 
         } catch(Exception $e) {
-            $return = 'Umwandlungsfehler'; //ToDo Language
+            $return = 'Umwandlungsfehler';
         }
         $response = new JsonResponse();
         $response->setData($return);
@@ -156,12 +151,10 @@ class AjaxController
             $response->setStatusCode(400);
             return $response;
         }
-        // User not logged in...
         if (!FE_USER_LOGGED_IN) {
             $response->setStatusCode(401);
             return $response;
         }
-        // xss cleanup
         $_FILES = Input::xssClean($_FILES);
         $sTempname        = $_FILES['File']['tmp_name'];
         $sFileName        = $_FILES['File']['name'];
@@ -169,7 +162,6 @@ class AjaxController
             $sFileName = Input::post('name');
         }
         $sFileType        = $_FILES['File']['type'];
-        //$sDestinationFile = \Contao\Input::post('File');
         $sDestinationPath = Input::post('Path');
         $file = explode('.', $sFileName);
         $sFileExt = strtolower($file[count($file)-1]);
@@ -188,12 +180,6 @@ class AjaxController
         $sUniqID   = uniqid();
         $sFileName = $sUniqID . "." . $sFileExt;
 
-//        $contaoPath = substr($_SERVER['SCRIPT_NAME'], 0, strpos($_SERVER['SCRIPT_NAME'],'system', false) -1);
-//        if($contaoPath == false)
-//        {
-//            $contaoPath = '';
-//        }
-
         $rootDir = System::getContainer()->getParameter('kernel.project_dir');
         $sSystemPath = str_replace('\\','/',$rootDir) . "/" . trim($sDestinationPath,'/');
         $sDestination = $sSystemPath . "/" . $sFileName;
@@ -204,8 +190,6 @@ class AjaxController
 
         if (move_uploaded_file($sTempname, $sDestination)) {
             $response->setData([trim($sDestinationPath,'/') . "/" . $sFileName]);
-//            $response->setData([$contaoPath . '/' . trim($sDestinationPath,'/') . "/" . $sFileName]);
-//                echo $contaoPath . '/' . trim($sDestinationPath,'/') . "/" . $sFileName;
         } else {
             $response->setData([]);
         }
