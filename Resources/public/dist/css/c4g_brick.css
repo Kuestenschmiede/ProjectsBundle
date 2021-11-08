@@ -786,8 +786,7 @@ a.c4g_tile_button:hover {
   cursor: default
 }
 .ui-button {
-  cursor: default;
-  z-index: 60;
+  cursor: default
 }
 .c4g_brick_headtext {
   display: block;
