@@ -544,8 +544,8 @@ class C4GBrickCommon
     {
         $result = '';
         if ($link) {
-            $result = 'jQuery.magnificPopup.open({ items: { src: ' .
-                '\'' . $link . '\' }, type: \'iframe\' }, 0)';
+            $result = '{jQuery(\'.ol-full-screen-true\').trigger(\'click\');jQuery.magnificPopup.open({ items: { src: ' .
+                '\'' . $link . '\' }, type: \'iframe\' }, 0)}';
         }
 
         return $result;
