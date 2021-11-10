@@ -109,7 +109,7 @@ class C4GSelectField extends C4GBrickField
                     $min = $fieldOptions['min'];
                     $max = $fieldOptions['max'];
                     array_unshift($fieldOptions, ['id' => '-1', 'name' => $this->emptyOptionLabel, 'min' => $min, 'max' => $max]);
-                } else if ($this->getOptionType()) {
+                } elseif ($this->getOptionType()) {
                     $type = $fieldOptions['type'];
                     array_unshift($fieldOptions, ['id' => '-1', 'name' => $this->emptyOptionLabel, 'type => $type']);
                 } else {
@@ -165,7 +165,7 @@ class C4GSelectField extends C4GBrickField
                         if ((!$option['id']) && (!$option['name'])) {
                             $option[] = ['id' => $value, 'name' => $value, 'min' => $option['min'], 'max' => $option['max']];
                         }
-                    } else if ($this->isWithOptionType()) {
+                    } elseif ($this->isWithOptionType()) {
                         if ((!$option['id']) && (!$option['name'])) {
                             $option[] = ['id' => $value, 'name' => $value, 'type' => $option['type']];
                         }
@@ -193,7 +193,7 @@ class C4GSelectField extends C4GBrickField
                             $min = $option['min'];
                             $max = $option['max'];
                             $options = $options . '<option' . $selected . $optionAttributes . ' min="' . $min . '" max="' . $max . '" value="' . $option_id . '">' . $option_name . '</option>';
-                        } else if ($this->isWithOptionType()) {
+                        } elseif ($this->isWithOptionType()) {
                             $type = $option['type'];
                             $options = $options . '<option' . $selected . $optionAttributes . ' type="' . $type . '" value="' . $option_id . '">' . $option_name . '</option>';
                         } else {

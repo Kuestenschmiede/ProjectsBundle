@@ -789,9 +789,11 @@ window.c4g.projects = window.c4g.projects || {};
               if (value['tableSelection']) {
                 if ((typeof(oDataTable) !== 'undefined') && (oDataTable != null)) {
                   var formdata = {};
-                  oDataTable.jquery('tr.row_selected').each(function (index, value) {
-                    formdata['action' + index] = value.attributes['data-action'].value;
-                  });
+                  var tableData = oDataTable.rows('.row_selected').nodes(); //'.row_selected'
+                  var newarray=[];
+                  for (var i=0; i < tableData.length ;i++){
+                    formdata['action' + index] = jQuery(tableData[i]).attr('data-action');
+                  }
                   fnExecAjaxPut(
                     options.ajaxUrl + '/' + options.ajaxData + '/' + value['id'],
                     formdata);
