@@ -789,11 +789,12 @@ window.c4g.projects = window.c4g.projects || {};
               if (value['tableSelection']) {
                 if ((typeof(oDataTable) !== 'undefined') && (oDataTable != null)) {
                   var formdata = {};
-                  var tableData = oDataTable.rows('.row_selected').nodes(); //'.row_selected'
+                  var tableData = oDataTable.rows('.row_selected').nodes();
                   var newarray=[];
                   for (var i=0; i < tableData.length ;i++){
                     formdata['action' + index] = jQuery(tableData[i]).attr('data-action');
                   }
+
                   fnExecAjaxPut(
                     options.ajaxUrl + '/' + options.ajaxData + '/' + value['id'],
                     formdata);
