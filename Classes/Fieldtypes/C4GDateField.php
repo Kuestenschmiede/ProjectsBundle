@@ -28,9 +28,10 @@ class C4GDateField extends C4GBrickField
     protected $customFormat = null;
     protected $customLanguage = null;
     protected $sortType = 'de_date';
-    protected $pattern = C4GBrickRegEx::DATE_D_M_Y;
+    protected $pattern = C4GBrickRegEx::DATE_D_M_Y; //ToDo
 
     protected $flipButtonPosition = true;
+    protected $datePickerByBrowser = false;
 
     /**
      * @param C4GBrickField[] $fieldList
@@ -124,24 +125,52 @@ class C4GDateField extends C4GBrickField
                 }
             }
 
-            if (!$display) {
-                $html = '<div class="c4g_date_field_container" style="display: none" onmousedown="C4GDatePicker(\'' . $id . '\', \'date\', \'' . $this->minDate . '\', \'' . $this->maxDate . '\', \'' . $format . '\',\'' . $pickerLanguage . '\',\'' . $this->excludeWeekdays . '\',\'' . $this->excludeDates . '\')" >';
+            if ($this->isDatePickerByBrowser()) {
+                $this->pattern = C4GBrickRegEx::DATE_Y_M_D; //ToDo
+                if (!$display) {
+                    $html = '<div class="c4g_date_field_container" style="display: none">';
+                } else {
+                    $html = '<div class="c4g_date_field_container" >';
+                }
             } else {
-                $html = '<div class="c4g_date_field_container" onmousedown="C4GDatePicker(\'' . $id . '\', \'date\', \'' . $this->minDate . '\', \'' . $this->maxDate . '\', \'' . $format . '\',\'' . $pickerLanguage . '\',\'' . $this->excludeWeekdays . '\',\'' . $this->excludeDates . '\')" >';
+                if (!$display) {
+                    $html = '<div class="c4g_date_field_container" style="display: none" onmousedown="C4GDatePicker(\'' . $id . '\', \'date\', \'' . $this->minDate . '\', \'' . $this->maxDate . '\', \'' . $format . '\',\'' . $pickerLanguage . '\',\'' . $this->excludeWeekdays . '\',\'' . $this->excludeDates . '\')" >';
+                } else {
+                    $html = '<div class="c4g_date_field_container" onmousedown="C4GDatePicker(\'' . $id . '\', \'date\', \'' . $this->minDate . '\', \'' . $this->maxDate . '\', \'' . $format . '\',\'' . $pickerLanguage . '\',\'' . $this->excludeWeekdays . '\',\'' . $this->excludeDates . '\')" >';
+                }
             }
             if ($this->isFlipButtonPosition()) {
                 if (!$this->isIgnoreViewType() && (C4GBrickView::isWithoutEditing($dialogParams->getViewType()) || !$this->isEditable())) {
-                    $html .= '<span class="ui-button ui-corner-all c4g_date_field_button c4g_date_field_button_flipped"><i class="far fa-calendar-alt"></i></span>';
+                    if (!$this->isDatePickerByBrowser()) {
+                        $html .= '<span class="ui-button ui-corner-all c4g_date_field_button c4g_date_field_button_flipped"><i class="far fa-calendar-alt"></i></span>';
+                        $html .= '<input readonly="false" autocomplete="off" ' . $required . ' type="text" id="' . $id . '" class="formdata c4g_date_field_input c4g_date_field_input_flipped ' . $id . '" ' . $changeAction . ' name="' . $fieldName . '" value="' . $value . '" ' . $condition['conditionPrepare'] . 'pattern="' . $this->pattern . '"' . '>';
+                    } else {
+                        $html .= '<input readonly="true" autocomplete="off" ' . $required . ' type="text" id="' . $id . '" class="formdata c4g_date_field_input c4g_date_field_input_flipped c4g_date_field_input_browser ' . $id . '" ' . $changeAction . ' name="' . $fieldName . '" value="' . $value . '" ' . $condition['conditionPrepare'] . 'pattern="' . $this->pattern . '"' . '>';
+                    }
                 } else {
-                    $html .= '<span onclick="if (document.getElementById(' . $buttonId . ')) {$(document.getElementById(' . $buttonId . ')).show(); $(document.getElementById(' . $buttonId . ')).focus();}" class="ui-button ui-corner-all c4g_date_field_button_interactive c4g_date_field_button_interactive_flipped"><i class="far fa-calendar-alt"></i></span>';
+                    if (!$this->isDatePickerByBrowser()) {
+                        $html .= '<span onclick="if (document.getElementById(' . $buttonId . ')) {$(document.getElementById(' . $buttonId . ')).show(); $(document.getElementById(' . $buttonId . ')).focus();}" class="ui-button ui-corner-all c4g_date_field_button_interactive c4g_date_field_button_interactive_flipped"><i class="far fa-calendar-alt"></i></span>';
+                        $html .= '<input autocomplete="off" ' . $required . ' type="text" id="' . $id . '" class="formdata c4g_date_field_input c4g_date_field_input_flipped ' . $id . '" ' . $changeAction . ' name="' . $fieldName . '" value="' . $value . '" ' . $condition['conditionPrepare'] . 'pattern="' . $this->pattern . '"' . '>';
+                    } else {
+                        $html .= '<input autocomplete="on" ' . $required . ' type="date" id="' . $id . '" class="formdata c4g_date_field_input c4g_date_field_input_flipped c4g_date_field_input_browser ' . $id . '" ' . $changeAction . ' name="' . $fieldName . '" value="' . $value . '" ' . $condition['conditionPrepare'] . 'pattern="' . $this->pattern . '"' . '>';
+                    }
                 }
-                $html .= '<input readonly="true" autocomplete="off" ' . $required . ' type="text" id="' . $id . '" class="formdata c4g_date_field_input c4g_date_field_input_flipped ' . $id . '" ' . $changeAction . ' name="' . $fieldName . '" value="' . $value . '" ' . $condition['conditionPrepare'] . 'pattern="' . $this->pattern . '"' . '>';
             } else {
-                $html .= '<input readonly="true" autocomplete="off" ' . $required . ' type="text" id="' . $id . '" class="formdata c4g_date_field_input ' . $id . '" ' . $changeAction . ' name="' . $fieldName . '" value="' . $value . '" ' . $condition['conditionPrepare'] . 'pattern="' . $this->pattern . '"' . '>';
+                $html .= '<input readonly="false" autocomplete="on" ' . $required . ' type="date" id="' . $id . '" class="formdata c4g_date_field_input ' . $id . '" ' . $changeAction . ' name="' . $fieldName . '" value="' . $value . '" ' . $condition['conditionPrepare'] . 'pattern="' . $this->pattern . '"' . '>';
                 if (!$this->isIgnoreViewType() && (C4GBrickView::isWithoutEditing($dialogParams->getViewType()) || !$this->isEditable())) {
-                    $html .= '<span class="ui-button ui-corner-all c4g_date_field_button"><i class="far fa-calendar-alt"></i></span>';
+                    if (!$this->isDatePickerByBrowser()) {
+                        $html .= '<input readonly="false" autocomplete="off" ' . $required . ' type="text" id="' . $id . '" class="formdata c4g_date_field_input ' . $id . '" ' . $changeAction . ' name="' . $fieldName . '" value="' . $value . '" ' . $condition['conditionPrepare'] . 'pattern="' . $this->pattern . '"' . '>';
+                        $html .= '<span class="ui-button ui-corner-all c4g_date_field_button"><i class="far fa-calendar-alt"></i></span>';
+                    } else {
+                        $html .= '<input readonly="false" autocomplete="off" ' . $required . ' type="text" id="' . $id . '" class="formdata c4g_date_field_input c4g_date_field_input_browser ' . $id . '" ' . $changeAction . ' name="' . $fieldName . '" value="' . $value . '" ' . $condition['conditionPrepare'] . 'pattern="' . $this->pattern . '"' . '>';
+                    }
                 } else {
-                    $html .= '<span onclick="if (document.getElementById(' . $buttonId . ')) {$(document.getElementById(' . $buttonId . ')).show(); $(document.getElementById(' . $buttonId . ')).focus();" class="ui-button ui-corner-all c4g_date_field_button_interactive"><i class="far fa-calendar-alt"></i></span>';
+                    if (!$this->isDatePickerByBrowser()) {
+                        $html .= '<input readonly="false" autocomplete="off" ' . $required . ' type="text" id="' . $id . '" class="formdata c4g_date_field_input ' . $id . '" ' . $changeAction . ' name="' . $fieldName . '" value="' . $value . '" ' . $condition['conditionPrepare'] . 'pattern="' . $this->pattern . '"' . '>';         $html .= '<span onclick="if (document.getElementById(' . $buttonId . ')) {$(document.getElementById(' . $buttonId . ')).show(); $(document.getElementById(' . $buttonId . ')).focus();" class="ui-button ui-corner-all c4g_date_field_button_interactive"><i class="far fa-calendar-alt"></i></span>';
+                        $html .= '<span onclick="if (document.getElementById(' . $buttonId . ')) {$(document.getElementById(' . $buttonId . ')).show(); $(document.getElementById(' . $buttonId . ')).focus();" class="ui-button ui-corner-all c4g_date_field_button_interactive"><i class="far fa-calendar-alt"></i></span>';
+                    } else {
+                        $html .= '<input autocomplete="on" ' . $required . ' type="date" id="' . $id . '" class="formdata c4g_date_field_input c4g_date_field_input_browser ' . $id . '" ' . $changeAction . ' name="' . $fieldName . '" value="' . $value . '" ' . $condition['conditionPrepare'] . 'pattern="' . $this->pattern . '"' . '>';         $html .= '<span onclick="if (document.getElementById(' . $buttonId . ')) {$(document.getElementById(' . $buttonId . ')).show(); $(document.getElementById(' . $buttonId . ')).focus();" class="ui-button ui-corner-all c4g_date_field_button_interactive"><i class="far fa-calendar-alt"></i></span>';
+                    }
                 }
             }
 
@@ -449,5 +478,22 @@ class C4GDateField extends C4GBrickField
     public function setFlipButtonPosition(bool $flipButtonPosition)
     {
         $this->flipButtonPosition = $flipButtonPosition;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isDatePickerByBrowser(): bool
+    {
+        return $this->datePickerByBrowser;
+    }
+
+    /**
+     * @param bool $datePickerByBrowser
+     */
+    public function setDatePickerByBrowser(bool $datePickerByBrowser): void
+    {
+        $this->datePickerByBrowser = $datePickerByBrowser;
+        $this->pattern = C4GBrickRegEx::DATE_Y_M_D; //ToDo
     }
 }
