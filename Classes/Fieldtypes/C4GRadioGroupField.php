@@ -272,7 +272,7 @@ class C4GRadioGroupField extends C4GBrickField
         $conditions = $this->getCondition();
         if (($conditions) && ($this->getConditionType() != C4GBrickConditionType::BOOLSWITCH)) {
             $found = false;
-            
+
             foreach ($conditions as $condition) {
                 if ($condition->getType() == C4GBrickConditionType::METHODSWITCH) {
                     $conditionField = $condition->getFieldName();
@@ -286,7 +286,7 @@ class C4GRadioGroupField extends C4GBrickField
                             break;
                         }
                     }
-                } else if ($condition->getType() == C4GBrickConditionType::VALUESWITCH) {
+                } elseif ($condition->getType() == C4GBrickConditionType::VALUESWITCH) {
                     $conditionField = $condition->getFieldName();
                     $conditionValue = $condition->getValue();
                     if ($conditionField) {
@@ -297,7 +297,6 @@ class C4GRadioGroupField extends C4GBrickField
                         }
                     }
                 }
-
             }
 
             if (!$found) {
