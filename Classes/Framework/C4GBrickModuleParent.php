@@ -33,6 +33,7 @@ use con4gis\ProjectsBundle\Classes\Views\C4GBrickView;
 use con4gis\ProjectsBundle\Classes\Views\C4GBrickViewParams;
 use con4gis\ProjectsBundle\Classes\Views\C4GBrickViewType;
 use Contao\Database;
+use Contao\FrontendUser;
 use NotificationCenter\Model\Notification;
 use Symfony\Component\Config\Definition\Exception\Exception;
 
@@ -243,7 +244,7 @@ class C4GBrickModuleParent extends \Module
 
     private function groupCheck()
     {
-
+        $user = FrontendUser::getInstance();
         //memberBased and groups
         if ($this->ignoreCon4GisRights) {
             return false;
@@ -251,7 +252,7 @@ class C4GBrickModuleParent extends \Module
         if ($this->brickKey && C4GVersionProvider::isInstalled('con4gis/groups') &&
             (C4GBrickView::isMemberBased($this->viewType) ||
              C4GBrickView::isGroupBased($this->viewType))) {
-            if (!MemberModel::hasRightInAnyGroup($this->User->id, $this->brickKey)) {
+            if (!MemberModel::hasRightInAnyGroup($user->id, $this->brickKey)) {
                 $this->loadLanguageFiles();
                 $return = [
                     'usermessage' => $GLOBALS['TL_LANG']['FE_C4G_LIST']['USERMESSAGE_PERMISSION_DENIED'],
@@ -267,17 +268,20 @@ class C4GBrickModuleParent extends \Module
 
     private function memberCheck($init = false)
     {
-        if (FE_USER_LOGGED_IN) {
-            \System::import('FrontendUser', 'User');
-            $authenticated = $this->User->authenticate();
-
-            if (!$authenticated && ($this->publicViewType) && (
-                    ($this->viewType == C4GBrickViewType::PUBLICBASED) ||
-                    ($this->viewType == C4GBrickViewType::PUBLICPARENTBASED)
-                )) {
+        $user = FrontendUser::getInstance();
+        if ($user->id) {
+            if ($this->publicViewType &&
+                ($this->viewType === C4GBrickViewType::PUBLICBASED ||
+                $this->viewType === C4GBrickViewType::PUBLICPARENTBASED)
+            ) {
                 $this->viewType = $this->publicViewType;
             }
-        } elseif (!C4GBrickView::isPublicBased($this->viewType) && !C4GBrickView::isPublicParentBased($this->viewType) && !C4GBrickView::isPublicUUIDBased($this->viewType) && C4GVersionProvider::isInstalled('con4gis/groups')) {
+        } elseif (
+            !C4GBrickView::isPublicBased($this->viewType) &&
+            !C4GBrickView::isPublicParentBased($this->viewType) &&
+            !C4GBrickView::isPublicUUIDBased($this->viewType) &&
+            C4GVersionProvider::isInstalled('con4gis/groups')
+        ) {
             $this->loadLanguageFiles();
 
             if ($init) {
@@ -412,7 +416,8 @@ class C4GBrickModuleParent extends \Module
             $this->dialogParams->setProjectId($this->project_id);
             $this->dialogParams->setProjectUuid($this->project_uuid);
             $this->dialogParams->setParentId($this->parent_id);
-            $this->dialogParams->setMemberId($this->User->id);
+            $user = FrontendUser::getInstance();
+            $this->dialogParams->setMemberId($user->id);
             $this->dialogParams->setProjectKey($this->projectKey);
             $this->dialogParams->setParentModel($this->parentModel);
             $this->dialogParams->setParentCaption($this->parentCaption);
