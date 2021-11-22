@@ -1017,11 +1017,12 @@ class C4GBrickModuleParent extends \Module
                             $r = $this->performAction($action);
                             if (is_array($r)) {
                                 $result = array_merge($result, $r);
-                            }/* else {
-                                if (strpos($action, 'savedialog:') !== false) {
-                                    $this->initBrickModule(\Session::getInstance()->get("c4g_brick_dialog_id"));
+                            } else {
+                                $r = json_decode($r, true);
+                                if (is_array($r)) {
+                                    $result = array_merge($result, $r);
                                 }
-                            }*/
+                            }
                         }
                 }
             }
