@@ -31,7 +31,6 @@ class C4GConfirmGroupSelectAction extends C4GBrickDialogAction
         \Session::getInstance()->set('c4g_brick_parent_id', '');
 
         $this->setPutVars(null);
-        //$this->setFieldList(null);
 
         $action = new C4GShowListAction($dialogParams, $this->getListParams(), $this->getFieldList(), $this->getPutVars(), $this->getBrickDatabase());
 
