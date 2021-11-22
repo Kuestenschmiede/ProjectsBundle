@@ -786,8 +786,7 @@ a.c4g_tile_button:hover {
   cursor: default
 }
 .ui-button {
-  cursor: default;
-  z-index: 60;
+  cursor: default
 }
 .c4g_brick_headtext {
   display: block;
@@ -950,6 +949,10 @@ input.formdata.c4g_date_field_input_flipped {
   margin-right: 0;
   margin-left: 1em;
   width: 100%
+}
+input.formdata.c4g_date_field_input_browser {
+  margin-right: 0;
+  margin-left: 0
 }
 .c4g-signature-pad {
   margin-left: 2.5%;
