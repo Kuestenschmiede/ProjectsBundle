@@ -109,7 +109,7 @@ class C4GSelectField extends C4GBrickField
                     $min = $fieldOptions['min'];
                     $max = $fieldOptions['max'];
                     array_unshift($fieldOptions, ['id' => '-1', 'name' => $this->emptyOptionLabel, 'min' => $min, 'max' => $max]);
-                } elseif ($this->getOptionType()) {
+                } elseif ($this->isWithOptionType()) {
                     $type = $fieldOptions['type'];
                     array_unshift($fieldOptions, ['id' => '-1', 'name' => $this->emptyOptionLabel, 'type => $type']);
                 } else {
