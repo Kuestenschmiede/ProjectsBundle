@@ -77,9 +77,13 @@ class C4GDateField extends C4GBrickField
 
         //ToDo hotfix 0 is saved by default and is the 01.01.1970.
         if (is_numeric($value) && intval($value) != 0) {
-            $date = new \DateTime();
-            $date->setTimestamp($value);
-            $value = $date->format($dateFormat);
+            if ($this->isDatePickerByBrowser()) {
+                $value = date('Y-m-d', $value);
+            } else {
+                $date = new \DateTime();
+                $date->setTimestamp($value);
+                $value = $date->format($dateFormat);
+            }
         } else {
             $value = '';
         }

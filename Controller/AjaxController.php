@@ -19,6 +19,7 @@ use Contao\Database;
 use Contao\Input;
 use Contao\Module;
 use Contao\System;
+use Psr\Container\ContainerInterface;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
