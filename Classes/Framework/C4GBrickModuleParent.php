@@ -516,12 +516,6 @@ class C4GBrickModuleParent extends \Module
                 $this->setInitialValues($putVars);
             }
         }
-
-//        if (!$this->User && ($this->viewType == C4GBrickViewType::PUBLICVIEW) || ($this->viewType == C4GBrickViewType::PUBLICPARENTVIEW)) {
-//            foreach ($this->fieldList as $key=>$field) {
-//                $this->fieldList[$key]->setEditable(false);
-//            }
-//        }
     }
 
     /**
@@ -786,11 +780,6 @@ class C4GBrickModuleParent extends \Module
             }
 
             $session = $this->Session->getData();
-
-            if (FE_USER_LOGGED_IN) {
-                \System::import('FrontendUser', 'User');
-                $authenticated = $this->User->authenticate();
-            }
 
             if (C4GBrickView::isGroupBased($this->viewType)) {
                 if (($this->group_id == -1) || ($this->group_id == null)) {
