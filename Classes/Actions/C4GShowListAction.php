@@ -74,11 +74,6 @@ class C4GShowListAction extends C4GBrickDialogAction
             $fieldList = $listFieldlist;
         }
 
-        $groupCount = -1;
-        if (C4GVersionProvider::isInstalled('con4gis/groups')) {
-            $groupCount = count(C4GBrickCommon::getGroupListForBrick($memberId, $brickKey));
-        }
-
         if ($this->module) {
             $this->module->onShowListAction();
         }
