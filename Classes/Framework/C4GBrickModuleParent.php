@@ -769,6 +769,8 @@ class C4GBrickModuleParent extends \Module
 
         //ToDo prüfen ob der Try/Catch Block hier immer noch hilfreich ist.
         try {
+            $user = FrontendUser::getInstance();
+
             $result = $this->memberCheck(true);
             if ($result) {
                 return $result;
@@ -784,8 +786,8 @@ class C4GBrickModuleParent extends \Module
             if (C4GBrickView::isGroupBased($this->viewType)) {
                 if (($this->group_id == -1) || ($this->group_id == null)) {
                     $groupId = \Session::getInstance()->get('c4g_brick_group_id');
-                    if ($groupId && MemberGroupModel::isMemberOfGroup($groupId, $this->User->id)) {
-                        if (MemberModel::hasRightInGroup($this->User->id, $groupId, $this->brickKey)) {
+                    if ($groupId && MemberGroupModel::isMemberOfGroup($groupId, $user->id)) {
+                        if (MemberModel::hasRightInGroup($user->id, $groupId, $this->brickKey)) {
                             $this->group_id = $groupId;
                         }
                     }
@@ -799,7 +801,7 @@ class C4GBrickModuleParent extends \Module
             } elseif (C4GBrickView::isProjectBased($this->viewType)) {
                 if (($this->group_id == -1) || ($this->group_id == null)) {
                     $groupId = \Session::getInstance()->get('c4g_brick_group_id');
-                    if (C4GBrickAction::checkGroupId($groupId, $this->User->id, $this->brickKey)) {
+                    if (C4GBrickAction::checkGroupId($groupId, $user->id, $this->brickKey)) {
                         $this->group_id = $groupId;
                     }
 
@@ -811,7 +813,7 @@ class C4GBrickModuleParent extends \Module
                 }
 
                 if (($this->projectCount == -1) || ($this->projectCount == null)) {
-                    $this->projectCount = count(C4gProjectsModel::getProjectListForBrick($this->User->id, $this->group_id, $this->projectKey));
+                    $this->projectCount = count(C4gProjectsModel::getProjectListForBrick($user->id, $this->group_id, $this->projectKey));
                 }
 
                 if (($this->project_id == -1) || ($this->project_id == null)) {
@@ -826,7 +828,7 @@ class C4GBrickModuleParent extends \Module
             } elseif (C4GBrickView::isProjectParentBased($this->viewType)) {
                 if (($this->group_id == -1) || ($this->group_id == null)) {
                     $groupId = \Session::getInstance()->get('c4g_brick_group_id');
-                    if (C4GBrickAction::checkGroupId($groupId, $this->User->id, $this->brickKey)) {
+                    if (C4GBrickAction::checkGroupId($groupId, $user->id, $this->brickKey)) {
                         $this->group_id = $groupId;
                     }
 
@@ -838,7 +840,7 @@ class C4GBrickModuleParent extends \Module
                 }
 
                 if (($this->projectCount == -1) || ($this->projectCount == null)) {
-                    $this->projectCount = count(C4gProjectsModel::getProjectListForBrick($this->User->id, $this->group_id, $this->projectKey));
+                    $this->projectCount = count(C4gProjectsModel::getProjectListForBrick($user->id, $this->group_id, $this->projectKey));
                 }
 
                 if (($this->project_id == -1) || ($this->project_id == null)) {
@@ -858,7 +860,7 @@ class C4GBrickModuleParent extends \Module
                 C4GBrickCommon::mkdir(C4GBrickConst::PATH_BRICK_DATA);
                 C4GBrickCommon::mkdir(C4GBrickConst::PATH_MEMBER_DATA);
 
-                $path = C4GBrickConst::PATH_MEMBER_DATA . '/' . $this->User->id;
+                $path = C4GBrickConst::PATH_MEMBER_DATA . '/' . $user->id;
                 C4GBrickCommon::mkdir($path);
 
             //Hier wird nur die UserId benötigt und die steht überall zur Verfügung.
@@ -867,8 +869,8 @@ class C4GBrickModuleParent extends \Module
 
                     //falls die group_id über die Liste vorhanden ist, soll diese auch hier für Module geladen werden, die den viewType wechseln können.
                     $groupId = \Session::getInstance()->get('c4g_brick_group_id');
-                    if ($groupId && MemberGroupModel::isMemberOfGroup($groupId, $this->User->id)) {
-                        if (MemberModel::hasRightInGroup($this->User->id, $groupId, $this->brickKey)) {
+                    if ($groupId && MemberGroupModel::isMemberOfGroup($groupId, $user->id)) {
+                        if (MemberModel::hasRightInGroup($user->id, $groupId, $this->brickKey)) {
                             $this->group_id = $groupId;
                         }
                     }
