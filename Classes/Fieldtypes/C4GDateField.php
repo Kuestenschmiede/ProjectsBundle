@@ -153,7 +153,7 @@ class C4GDateField extends C4GBrickField
                     }
                 } else {
                     if (!$this->isDatePickerByBrowser()) {
-                        $html .= '<span onclick="if (document.getElementById(' . $buttonId . ')) {$(document.getElementById(' . $buttonId . ')).show(); $(document.getElementById(' . $buttonId . ')).focus();}" class="ui-button ui-corner-all c4g_date_field_button_interactive c4g_date_field_button_interactive_flipped"><i class="far fa-calendar-alt"></i></span>';
+                        $html .= '<span onclick="if (document.getElementById(' . $buttonId . ')) {jQuery(document.getElementById(' . $buttonId . ')).show(); jQuery(document.getElementById(' . $buttonId . ')).focus();}" class="ui-button ui-corner-all c4g_date_field_button_interactive c4g_date_field_button_interactive_flipped"><i class="far fa-calendar-alt"></i></span>';
                         $html .= '<input autocomplete="off" ' . $required . ' type="text" id="' . $id . '" class="formdata c4g_date_field_input c4g_date_field_input_flipped ' . $id . '" ' . $changeAction . ' name="' . $fieldName . '" value="' . $value . '" ' . $condition['conditionPrepare'] . 'pattern="' . $this->pattern . '"' . '>';
                     } else {
                         $html .= '<input autocomplete="on" ' . $required . ' type="date" id="' . $id . '" class="formdata c4g_date_field_input c4g_date_field_input_flipped c4g_date_field_input_browser ' . $id . '" ' . $changeAction . ' name="' . $fieldName . '" value="' . $value . '" ' . $condition['conditionPrepare'] . 'pattern="' . $this->pattern . '"' . '>';
@@ -171,11 +171,11 @@ class C4GDateField extends C4GBrickField
                 } else {
                     if (!$this->isDatePickerByBrowser()) {
                         $html .= '<input readonly="false" autocomplete="off" ' . $required . ' type="text" id="' . $id . '" class="formdata c4g_date_field_input ' . $id . '" ' . $changeAction . ' name="' . $fieldName . '" value="' . $value . '" ' . $condition['conditionPrepare'] . 'pattern="' . $this->pattern . '"' . '>';
-                        $html .= '<span onclick="if (document.getElementById(' . $buttonId . ')) {$(document.getElementById(' . $buttonId . ')).show(); $(document.getElementById(' . $buttonId . ')).focus();" class="ui-button ui-corner-all c4g_date_field_button_interactive"><i class="far fa-calendar-alt"></i></span>';
-                        $html .= '<span onclick="if (document.getElementById(' . $buttonId . ')) {$(document.getElementById(' . $buttonId . ')).show(); $(document.getElementById(' . $buttonId . ')).focus();" class="ui-button ui-corner-all c4g_date_field_button_interactive"><i class="far fa-calendar-alt"></i></span>';
+                        $html .= '<span onclick="if (document.getElementById(' . $buttonId . ')) {jQuery(document.getElementById(' . $buttonId . ')).show(); jQuery(document.getElementById(' . $buttonId . ')).focus();" class="ui-button ui-corner-all c4g_date_field_button_interactive"><i class="far fa-calendar-alt"></i></span>';
+                        $html .= '<span onclick="if (document.getElementById(' . $buttonId . ')) {jQuery(document.getElementById(' . $buttonId . ')).show(); jQuery(document.getElementById(' . $buttonId . ')).focus();" class="ui-button ui-corner-all c4g_date_field_button_interactive"><i class="far fa-calendar-alt"></i></span>';
                     } else {
                         $html .= '<input autocomplete="on" ' . $required . ' type="date" id="' . $id . '" class="formdata c4g_date_field_input c4g_date_field_input_browser ' . $id . '" ' . $changeAction . ' name="' . $fieldName . '" value="' . $value . '" ' . $condition['conditionPrepare'] . 'pattern="' . $this->pattern . '"' . '>';
-                        $html .= '<span onclick="if (document.getElementById(' . $buttonId . ')) {$(document.getElementById(' . $buttonId . ')).show(); $(document.getElementById(' . $buttonId . ')).focus();" class="ui-button ui-corner-all c4g_date_field_button_interactive"><i class="far fa-calendar-alt"></i></span>';
+                        $html .= '<span onclick="if (document.getElementById(' . $buttonId . ')) {jQuery(document.getElementById(' . $buttonId . ')).show(); jQuery(document.getElementById(' . $buttonId . ')).focus();" class="ui-button ui-corner-all c4g_date_field_button_interactive"><i class="far fa-calendar-alt"></i></span>';
                     }
                 }
             }
