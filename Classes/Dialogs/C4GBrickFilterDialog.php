@@ -120,6 +120,7 @@ class C4GBrickFilterDialog extends C4GBrickDialog
             $fromFilterField->setTableColumn(false);
             $fromFilterField->setMandatory(true);
             $fromFilterField->setEditable(true);
+            $fromFilterField->setIgnoreViewType(true);
 
             if ($rangeFrom) {
                 $fromFilterField->setInitialValue($rangeFrom);
@@ -142,6 +143,7 @@ class C4GBrickFilterDialog extends C4GBrickDialog
             $toFilterField->setTableColumn(false);
             $toFilterField->setMandatory(true);
             $toFilterField->setEditable(true);
+            $toFilterField->setIgnoreViewType(true);
 
             if ($rangeTo) {
                 $toFilterField->setInitialValue($rangeTo);
