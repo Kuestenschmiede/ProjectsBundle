@@ -110,7 +110,7 @@ class C4GJQueryGUI
         }
 
         if ($usePopups) {
-            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/dist/js/c4g-vendor-magnificpopup.js', ResourceLoader::BODY, 'magnific-popup');
+            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/dist/js/vendor-magnific-popup.js', ResourceLoader::BODY, 'magnific-popup');
         }
 
         if ($useMaps && C4GVersionProvider::isInstalled('con4gis/maps')) {
