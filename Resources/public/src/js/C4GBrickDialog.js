@@ -83,8 +83,19 @@ function C4GDatePicker(id,
                     ed = exclude.split(",");
                     for(var i = 0; i < ed.length; i++) {
                         //var iDate = new Date(ed[i] * 1000);
-                        if ((Date.parse(date)/1000) == ed[i]) {
-                            return [false,""];
+                        var range = ed[i].split("-");
+                        if (range) {
+                            var begin = range[0];
+                            var end   = range[1] ? range[1] : range[0];
+                            for (var d = begin; d <= end; d = d + 86400000) {
+                                if ((Date.parse(date)/1000) == d) {
+                                    return [false,""];
+                                }
+                            }
+                        } else {
+                            if ((Date.parse(date)/1000) == ed[i]) {
+                                return [false,""];
+                            }
                         }
                     }
                 }
