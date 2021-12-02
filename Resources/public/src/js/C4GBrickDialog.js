@@ -1376,7 +1376,7 @@ function editSubDialog(button, event) {
                 k += 1;
             }
             var butts = elements[i].getElementsByTagName('button');
-            console.log(butts);
+            //console.log(butts);
             var l = 0;
             while (l < butts.length) {
                 if (typeof(butts[l]) !== 'undefined') {
