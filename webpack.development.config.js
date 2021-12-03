@@ -13,7 +13,9 @@ const webpack = require("webpack");
 var path = require('path');
 var config = {
   entry: {
-    'c4g-vendor-magnificpopup': './Resources/public/dist/js/c4g-vendor-magnificpopup.js'
+    'c4g-vendor-trix': './Resources/public/vendor/js/c4g-vendor-trix.js',
+    'c4g-vendor-minisearch': './Resources/public/vendor/js/c4g-vendor-minisearch.js',
+    'c4g-vendor-jquery': './Resources/public/vendor/js/c4g-vendor-jquery.js'
   },
   mode: "development",
   output: {
