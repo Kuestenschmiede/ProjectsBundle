@@ -1,7 +1,8 @@
 con4gisProjectsBundle:
     path: /con4gis/brick_ajax_api/{language}/{module}/{action}
-    controller: con4gis\ProjectsBundle\Controller\AjaxController::ajaxAction
-    methods: [GET, PUT]
+    defaults:
+        _scope: frontend
+        _controller: "con4gisProjectsBundle:Ajax:ajax"
     requirements:
         module: '\d+'
         action: '.*'
