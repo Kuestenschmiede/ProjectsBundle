@@ -995,6 +995,14 @@ label:empty, li:empty, #c4g_description:empty {
     display: inline-block;
 }
 
+.datepicker_inner_container {
+    width: max-content;
+}
+
+table.datepicker_table {
+    width: inherit;
+}
+
 .c4g_date_field_container {
     display: flex;
     margin-left: 2.5%;
