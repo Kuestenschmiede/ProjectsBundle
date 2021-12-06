@@ -620,7 +620,8 @@ class C4GBrickModuleParent extends \Module
             $this->jQueryUseTooltip,
             $this->jQueryUseMaps,
             $this->jQueryUseScrollPane,
-            $this->isPopup
+            $this->isPopup,
+            $this->loadDateTimePickerResources
         );
 
         $settings = Database::getInstance()->execute('SELECT * FROM tl_c4g_settings LIMIT 1')->fetchAllAssoc();

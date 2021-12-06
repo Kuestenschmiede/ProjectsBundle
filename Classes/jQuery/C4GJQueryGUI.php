@@ -31,7 +31,8 @@ class C4GJQueryGUI
         $useTooltip = true,
         $useMaps = false,
         $useScrollpane = false,
-        $usePopups = false
+        $usePopups = false,
+        $loadDateTimePicker = false
     ) {
         if ($addJQuery) {
             global $objPage;
@@ -123,7 +124,6 @@ class C4GJQueryGUI
             MapsResourceLoader::loadTheme();
 
             ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/clipboard.min.js', ResourceLoader::BODY, 'clipboard');
-            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/jQuery/plugins/jquery-simple-datetimepicker/1.13.0/jquery.simple-dtpicker.js', ResourceLoader::BODY, 'datetimepicker');
         }
 
         if ($addCore) {
@@ -140,6 +140,15 @@ class C4GJQueryGUI
             if (empty($GLOBALS['TL_CSS']['c4g_jquery_ui'])) {
                 ResourceLoader::loadCssResourceDeferred('bundles/con4giscore/vendor/jQuery/jquery-ui-1.12.1.custom/jquery-ui.theme.min.css');
             }
+        }
+
+        if ($loadDateTimePicker || ($useMaps && C4GVersionProvider::isInstalled('con4gis/maps'))) {
+            ResourceLoader::loadJavaScriptResource(
+                'bundles/con4giscore/vendor/jQuery/plugins'.
+                '/jquery-simple-datetimepicker/1.13.0/jquery.simple-dtpicker.js',
+                ResourceLoader::BODY,
+                'datetimepicker'
+            );
         }
     }
 }
