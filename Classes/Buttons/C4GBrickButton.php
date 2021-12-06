@@ -405,7 +405,9 @@ class C4GBrickButton
      */
     public function setAction($action)
     {
-        $this->action = $action;
+        if ($action !== '') {
+            $this->action = $action;
+        }
 
         return $this;
     }
