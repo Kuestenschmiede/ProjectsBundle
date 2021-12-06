@@ -21,14 +21,18 @@ use con4gis\CoreBundle\Classes\C4GVersionProvider;
  */
 class C4GJQueryGUI
 {
-    public static function initializeTree($addCore = false, $addJQuery = true, $addJQueryUI = true)
-    {
-        C4GJQueryGUI::initializeLibraries($addCore, $addJQuery, $addJQueryUI, true, false, false, false, false, false, false, false, true, false);
-    }
-
-    public static function initializeLibraries($addCore = true, $addJQuery = true, $addJQueryUI = true, $useTree = true, $useTable = true, $useHistory = true, $useTooltip = true,
-                                                    $useMaps = false, $useGoogleMaps = false, $useMapsEditor = false, $useWswgEditor = false, $useScrollpane = false, $usePopups = false)
-    {
+    public static function initializeLibraries(
+        $addCore = true,
+        $addJQuery = true,
+        $addJQueryUI = true,
+        $useTree = true,
+        $useTable = true,
+        $useHistory = true,
+        $useTooltip = true,
+        $useMaps = false,
+        $useScrollpane = false,
+        $usePopups = false
+    ) {
         if ($addJQuery) {
             global $objPage;
 

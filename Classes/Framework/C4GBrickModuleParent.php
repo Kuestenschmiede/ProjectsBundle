@@ -619,9 +619,6 @@ class C4GBrickModuleParent extends \Module
             $this->jQueryUseHistory,
             $this->jQueryUseTooltip,
             $this->jQueryUseMaps,
-            $this->jQueryUseGoogleMaps,
-            $this->jQueryUseMapsEditor,
-            $this->jQueryUseWswgEditor,
             $this->jQueryUseScrollPane,
             $this->isPopup
         );
