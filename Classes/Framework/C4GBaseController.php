@@ -32,21 +32,30 @@ use con4gis\ProjectsBundle\Classes\Permission\C4GTablePermission;
 use con4gis\ProjectsBundle\Classes\Views\C4GBrickView;
 use con4gis\ProjectsBundle\Classes\Views\C4GBrickViewParams;
 use con4gis\ProjectsBundle\Classes\Views\C4GBrickViewType;
+use Contao\BackendTemplate;
+use Contao\CoreBundle\Controller\FrontendModule\AbstractFrontendModuleController;
+use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\Database;
 use Contao\FrontendUser;
+use Contao\ModuleModel;
+use Contao\System;
+use Contao\Template;
 use NotificationCenter\Model\Notification;
 use Symfony\Component\Config\Definition\Exception\Exception;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * Class C4GBrickModuleParent
+ * Class C4GBaseController
  *
  * The brick module parent is needed by all con4gis-Projects based fe modules.
  *
  * @package c4g\projects
- *
- * @deprecated deprecated with Contao 4.13, use C4GBaseController instead
  */
-class C4GBrickModuleParent extends \Module
+class C4GBaseController extends AbstractFrontendModuleController
 {
     //mandatory params
     protected $brickKey = ''; //unique string key for module request and con4gis-Groups rights.
@@ -165,6 +174,80 @@ class C4GBrickModuleParent extends \Module
     protected $brickStyle = '';
     protected $brickScript = '';
 
+    protected $rootDir;
+    protected $session;
+    protected $framework;
+
+    public function __construct(string $rootDir, Session $session, ContaoFramework $framework)
+    {
+        $this->rootDir      = $rootDir;
+        $this->session      = $session;
+        $this->framework    = $framework;
+    }
+
+    /**
+     * @param Template $template
+     * @param ModuleModel $model
+     * @param Request $request
+     * @return Response|null
+     */
+    protected function getResponse(Template $template, ModuleModel $model, Request $request): ?Response
+    {
+        global $objPage;
+        $this->model = $model;
+        $this->id = $model->id;
+
+        $this->compileJquery();
+
+        $this->compileJavaScript();
+        $this->compileCss();
+
+        $data['id'] = $model->id;
+        $data['ajaxUrl'] = 'con4gis/brick_ajax_api/' . $GLOBALS['TL_LANGUAGE'];
+        $data['ajaxData'] = $this->id;
+        $data['height'] = 'auto';
+        $data['width'] = '100%';
+        $data['embedDialogs'] = true;
+        $data['jquiEmbeddedDialogs'] = true;
+
+        if (($_SERVER['REQUEST_METHOD']) == 'PUT') {
+            parse_str(file_get_contents('php://input'), $this->putVars);
+        }
+
+        //ToDo Wird der state hier wirklich gebraucht?
+        if ($_GET['state']) {
+            $request = $_GET['state'];
+        } else {
+            $request = 'initnav';
+        }
+
+        if ($request == 'undefined') {
+            $request = C4GBrickActionType::IDENTIFIER_LIST . ':-1';
+        }
+        if ($this->asnycList && $request == 'initnav') {
+            $arrAction = [];
+            $arrAction['initAction'] = 'C4GShowListAction:-1';
+            $data['initData'] = json_encode($arrAction);
+        } else {
+            $initData = $this->generateAjax($request);
+
+            if ($initData && (is_array(json_decode($initData)) && (count(json_decode($initData)) > 0) ||
+                    (json_decode($initData) instanceof \stdClass) && count((array) json_decode($initData)) > 0)) {
+                $data['initData'] = $initData;
+            } else {
+                $initData = $this->generateAjax(C4GBrickActionType::IDENTIFIER_LIST . ':-1');
+                $data['initData'] = $initData;
+            }
+        }
+
+        $data['div'] = 'c4g_brick';
+
+        $template->c4gData = $data;
+
+        return $template->getResponse();
+    }
+
+
     /**
      * module class function to get fields
      */
@@ -205,11 +288,10 @@ class C4GBrickModuleParent extends \Module
         switch ($type) {
             case C4GBrickConst::ID_TYPE_MEMBER:
                 if (FE_USER_LOGGED_IN) {
-                    \System::import('FrontendUser', 'User');
-                    $this->User->authenticate();
+                    $user = FrontendUser::getInstance();
                 }
 
-                return $this->User->id;
+                return $user->id;
 
                 break;
             case C4GBrickConst::ID_TYPE_GROUP:
@@ -348,8 +430,8 @@ class C4GBrickModuleParent extends \Module
         $this->loadLanguageFiles();
 
         if (FE_USER_LOGGED_IN) {
-            \System::import('FrontendUser', 'User');
-            $authenticated = $this->User->authenticate();
+            $user = FrontendUser::getInstance();
+            $authenticated = $user->authenticate();
         }
 
         if (!$authenticated && $this->publicViewType && (($this->viewType == C4GBrickViewType::PUBLICBASED) || ($this->viewType == C4GBrickViewType::PUBLICPARENTBASED))) {
@@ -535,81 +617,6 @@ class C4GBrickModuleParent extends \Module
         }
     }
 
-    /**
-     * Display a wildcard in the back end
-     * @return string
-     */
-    public function generate()
-    {
-        if (TL_MODE == 'BE') {
-            $objTemplate = new \BackendTemplate('be_wildcard');
-
-            $objTemplate->wildcard = '### ' . $this->name . ' ###';
-            $objTemplate->title = $this->headline;
-            $objTemplate->hl = $this->hl;
-            $objTemplate->id = $this->id;
-            $objTemplate->link = $this->name;
-            $objTemplate->href = 'contao/main.php?do=themes&amp;table=tl_module&amp;act=edit&amp;id=' . $this->id;
-
-            return $objTemplate->parse();
-        }
-
-        return parent::generate();
-    }
-
-    /**
-     * Generate the module
-     */
-    protected function compile()
-    {
-        $this->compileJquery();
-
-        $this->compileJavaScript();
-        $this->compileCss();
-
-        $data['id'] = $this->id;
-        $data['ajaxUrl'] = 'con4gis/brick_ajax_api/' . $GLOBALS['TL_LANGUAGE'];
-        $data['ajaxData'] = $this->id;
-        $data['height'] = 'auto';
-        $data['width'] = '100%';
-        $data['embedDialogs'] = true;
-        $data['jquiEmbeddedDialogs'] = true;
-
-        if (($_SERVER['REQUEST_METHOD']) == 'PUT') {
-            parse_str(file_get_contents('php://input'), $this->putVars);
-        }
-
-        //ToDo Wird der state hier wirklich gebraucht?
-        if ($_GET['state']) {
-            $request = $_GET['state'];
-        } else {
-            $request = 'initnav';
-        }
-
-        if ($request == 'undefined') {
-            $request = C4GBrickActionType::IDENTIFIER_LIST . ':-1';
-        }
-        if ($this->asnycList && $request == 'initnav') {
-            $arrAction = [];
-            $arrAction['initAction'] = 'C4GShowListAction:-1';
-            $data['initData'] = json_encode($arrAction);
-        } else {
-            $initData = $this->generateAjax($request);
-
-            if ($initData && (is_array(json_decode($initData)) && (count(json_decode($initData)) > 0) ||
-                    (json_decode($initData) instanceof \stdClass) && count((array) json_decode($initData)) > 0)) {
-                $data['initData'] = $initData;
-            } else {
-                $initData = $this->generateAjax(C4GBrickActionType::IDENTIFIER_LIST . ':-1');
-                $data['initData'] = $initData;
-            }
-        }
-
-        $data['div'] = 'c4g_brick';
-
-        $this->Template->c4gData = $data;
-    }
-
     protected function compileJquery()
     {
         C4GJQueryGUI::initializeLibraries(
@@ -756,14 +763,14 @@ class C4GBrickModuleParent extends \Module
             if ($request != 'undefined') {
                 // replace "state" parameter in Session-Referer to force correct
                 // handling after login with "redirect back" set
-                $session = $this->Session->getData();
+                $session = \Session::getInstance()->getData();
                 $session['referer']['last'] = $session['referer']['current'];
                 // echo '<br>[LAST]' . $session['referer']['last'] . '<br>';
                 $session['referer']['current'] = C4GUtils::addParametersToURL(
                     $session['referer']['last'],
                     ['state' => $request]);
                 // echo '<br>[CURRENT]' . $session['referer']['current'] . '<br>';
-                $this->Session->setData($session);
+                \Session::getInstance()->setData($session);
             }
         }
 
@@ -781,7 +788,7 @@ class C4GBrickModuleParent extends \Module
                 return $result;
             }
 
-            $session = $this->Session->getData();
+            $session = \Session::getInstance()->getData();
 
             if (C4GBrickView::isGroupBased($this->viewType)) {
                 if (($this->group_id == -1) || ($this->group_id == null)) {
@@ -923,7 +930,7 @@ class C4GBrickModuleParent extends \Module
                             $this->initPermissions();
                         }
                         $action = C4GBrickActionType::IDENTIFIER_LIST . ':' . $id;
-                        $result = $this->performAction($action);
+                        $result = $this->getPerformAction($request, $action);
                     }
                 } elseif ($_GET[$this->permalink_field]) {
                     if (!$this->permalinkModelClass) {
@@ -940,7 +947,7 @@ class C4GBrickModuleParent extends \Module
                             $this->initPermissions();
                         }
                         $action = C4GBrickActionType::IDENTIFIER_LIST . ':' . $id;
-                        $result = $this->performAction($action);
+                        $result = $this->getPerformAction($request, $action);
                     }
                 } elseif ($this->permalink_name && $_GET[$this->permalink_name]) {
                     if (!$this->permalinkModelClass) {
@@ -956,7 +963,7 @@ class C4GBrickModuleParent extends \Module
                             $this->initPermissions();
                         }
                         $action = C4GBrickActionType::IDENTIFIER_LIST . ':' . $id;
-                        $result = $this->performAction($action);
+                        $result = $this->getPerformAction($request, $action);
                     }
                 }
                 // History navigation
@@ -971,7 +978,7 @@ class C4GBrickModuleParent extends \Module
                 switch ($request) {
                     case 'initnav':
                         $action = C4GBrickActionType::IDENTIFIER_LIST . ':-1';
-                        $result = $this->performAction($action);
+                        $result = $this->getPerformAction($request, $action);
 
                         break;
                     default:
@@ -1010,7 +1017,7 @@ class C4GBrickModuleParent extends \Module
 
                         $result = [];
                         foreach ($actions as $action) {
-                            $r = $this->performAction($action);
+                            $r = $this->getPerformAction($request, $action);
                             if (is_array($r)) {
                                 $result = array_merge($result, $r);
                             } else {
@@ -1034,8 +1041,9 @@ class C4GBrickModuleParent extends \Module
      *
      * @param $action
      * @return array|mixed
+     * @Route("/projects-api/perform/{action}", methods={"GET"})
      */
-    private function performAction($action, $withMemberCheck = true)
+    public function getPerformAction($request, $action, $withMemberCheck = true)
     {
         $values = explode(':', $action, 5);
         if (is_numeric($values[1])) {
@@ -1230,7 +1238,8 @@ class C4GBrickModuleParent extends \Module
         $values = explode(':', $historyAction);
         $this->action = $values[0];
 
-        $result = $this->performAction($historyAction);
+        $request = null; //ToDO
+        $result = $this->getPerformAction($request, $historyAction);
 
         // close all dialogs that have been open to avoid conflicts
         $result['dialogcloseall'] = true;

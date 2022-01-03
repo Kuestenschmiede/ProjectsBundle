@@ -906,6 +906,14 @@ li:empty {
 .ui-datepicker-year {
   display: inline-block
 }
+.datepicker_inner_container {
+  width: -webkit-max-content;
+  width: -moz-max-content;
+  width: max-content
+}
+table.datepicker_table {
+  width: inherit
+}
 .c4g_date_field_container {
   display: flex;
   margin-left: 2.5%;

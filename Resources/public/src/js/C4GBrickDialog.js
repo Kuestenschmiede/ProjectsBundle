@@ -912,7 +912,7 @@ function C4GPopupHandler(e) {
 };
 
 function showAnimation(id, callFunction) {
-    var brick_api = apiBaseUrl+"/c4g_brick_ajax",
+    var /*brick_api = apiBaseUrl+"/c4g_brick_ajax",*/
         animation_id,
         animation_source,
         animation_type = "video/mp4",
@@ -921,10 +921,14 @@ function showAnimation(id, callFunction) {
         animation_param2,
         animation_param3;
 
-    jQuery.ajax({
-        dataType: "json",
-        url: brick_api + "/"+id+"/" + "buttonclick:" + callFunction + "?id=0",
-        done: function (data) {
+    // jQuery.ajax({
+    //     dataType: "json",
+    //     url: brick_api + "/"+id+"/" + "buttonclick:" + callFunction + "?id=0",
+    //     done: function (data) {
+    let url = "/projects-api/perform/buttonclick:" + callFunction;
+    fetch(url)
+        .then(response => response.json())
+        .then((data) => {
             animation_id = data["animation_name"] + "_animation";
             animation_source = data["animation_source"];
             animation_function = data["animation_function"];
@@ -948,9 +952,7 @@ function showAnimation(id, callFunction) {
                 fn();
               }
             }
-        }
-
-    });
+        });
 }
 
 

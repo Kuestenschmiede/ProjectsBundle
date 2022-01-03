@@ -44,9 +44,17 @@ class AjaxController extends ApiController
                     ->limit(1)
                     ->execute($module);
                 $strClass = Module::findClass($objModule->type);
-                $objModule = new $strClass($objModule);
-                $printoutPDF = new C4GPrintoutPDF($database);
-                return $printoutPDF->printAction($objModule, $arrData, $id, true);
+
+                if ($strClass === "Contao\ModuleProxy") {
+                    $strClass = false; //Controller!!!
+                }
+
+                if ($strClass && class_exists($strClass)) {
+                    $objModule = new $strClass($objModule);
+                    $printoutPDF = new C4GPrintoutPDF($database);
+                    return $printoutPDF->printAction($objModule, $arrData, $id, true);
+                }
+
             }
             $returnData = $moduleManager->getC4gFrontendModule($module, $language, $action, $arrData);
         } else {

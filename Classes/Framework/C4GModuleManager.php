@@ -72,16 +72,19 @@ class C4GModuleManager
 
         // Return if the class does not exist
         if (!class_exists($strClass)) {
-            $this->log(
-                'Module class "' . $GLOBALS['FE_MOD'][$objModule->type] .
-                '" (module "' . $objModule->type . '") does not exist',
-                'Ajax getFrontendModule()',
-                TL_ERROR
-            );
+            $strClass = $strClass.'Controller';
+            if (!class_exists($strClass)) {
+                $this->log(
+                    'Module class "' . $GLOBALS['FE_MOD'][$objModule->type] .
+                    '" (module "' . $objModule->type . '") does not exist',
+                    'Ajax getFrontendModule()',
+                    TL_ERROR
+                );
 
-            header('HTTP/1.1 404 Not Found');
+                header('HTTP/1.1 404 Not Found');
 
-            return 'Frontend module class does not exist';
+                return 'Frontend module class does not exist';
+            }
         }
 
         if (!$this->moduleMap[$id]) {
