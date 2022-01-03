@@ -144,7 +144,7 @@ class C4GJQueryGUI
 
         if ($loadDateTimePicker || ($useMaps && C4GVersionProvider::isInstalled('con4gis/maps'))) {
             ResourceLoader::loadJavaScriptResource(
-                'bundles/con4giscore/vendor/jQuery/plugins'.
+                'bundles/con4giscore/vendor/jQuery/plugins' .
                 '/jquery-simple-datetimepicker/1.13.0/jquery.simple-dtpicker.js',
                 ResourceLoader::BODY,
                 'datetimepicker'

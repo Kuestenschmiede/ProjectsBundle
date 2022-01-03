@@ -11,8 +11,6 @@
 namespace con4gis\ProjectsBundle\Classes\Actions;
 
 use con4gis\CoreBundle\Classes\C4GHTMLFactory;
-use con4gis\CoreBundle\Classes\C4GVersionProvider;
-use con4gis\ProjectsBundle\Classes\Common\C4GBrickCommon;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickConst;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldText;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GKeyField;

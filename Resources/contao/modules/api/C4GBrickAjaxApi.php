@@ -8,6 +8,10 @@
  * @copyright (c) 2010-2021, by Küstenschmiede GmbH Software & Design
  * @link https://www.con4gis.org
  */
+
+use Contao\FrontendUser;
+use Contao\Module;
+
 class C4GBrickAjaxApi extends \Frontend
 {
     /**
@@ -17,8 +21,9 @@ class C4GBrickAjaxApi extends \Frontend
      */
     public function generate($arrInput)
     {
-        $this->import('FrontendUser', 'User');
-        $this->User->authenticate();
+        $user = FrontendUser::getInstance();
+//        $this->import('FrontendUser', 'User');
+//        $this->User->authenticate();
 
         $id = $arrInput[0]?:null;
         $req = $arrInput[1]?:null;
@@ -96,22 +101,28 @@ class C4GBrickAjaxApi extends \Frontend
                 return 'Forbidden';
             }
 
-            $this->import('FrontendUser', 'User');
-            $groups = deserialize($objModule->groups);
+            $user = FrontendUser::getInstance();
+            $groups = unserialize($objModule->groups);
 
-            if (!is_array($groups) || count($groups) < 1 || count(array_intersect($groups, $this->User->groups)) < 1)
+            if (!is_array($groups) || count($groups) < 1 || count(array_intersect($groups, $user->groups)) < 1)
             {
                 header('HTTP/1.1 403 Forbidden');
                 return 'Forbidden';
             }
         }
 
-        $strClass = $this->findFrontendModule($objModule->type);
+        //$strClass = $this->findFrontendModule($objModule->type);
+
+        $strClass = Module::findClass($objModule->type);
+
+        if ($strClass === "Contao\ModuleProxy") {
+            $strClass = false; //Controller!!!
+        }
 
         // Return if the class does not exist
-        if (!$this->classFileExists($strClass))
+        if (!$strClass && !class_exists($strClass))
         {
-            $this->log('Module class "'.$GLOBALS['FE_MOD'][$objModule->type].'" (module "'.$objModule->type.'") does not exist', 'Ajax getFrontendModule()', TL_ERROR);
+            $this->log('Module class "' . $GLOBALS['FE_MOD'][$objModule->type] . '" (module "' . $objModule->type . '") does not exist', 'Ajax getFrontendModule()', TL_ERROR);
 
             header('HTTP/1.1 404 Not Found');
             return 'Frontend module class does not exist';
