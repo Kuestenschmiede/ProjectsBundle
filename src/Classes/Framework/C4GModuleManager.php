@@ -87,14 +87,8 @@ class C4GModuleManager
         }
 
         if (!$this->moduleMap[$id]) {
-
             $objModule->typePrefix = 'mod_';
-//            $objModule = new $strClass($objModule);
-//
-//            if ($objModule) {
             $objModule = new $classname($rootDir, $session, $framework);
-//            }
-
             $this->moduleMap[$id] = $objModule;
         } else {
             $objModule = $this->moduleMap[$id];

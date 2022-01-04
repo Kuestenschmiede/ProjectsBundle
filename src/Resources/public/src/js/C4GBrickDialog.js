@@ -912,7 +912,7 @@ function C4GPopupHandler(e) {
 };
 
 function showAnimation(id, callFunction) {
-    var /*brick_api = apiBaseUrl+"/c4g_brick_ajax",*/
+    var brick_api = apiBaseUrl+"/c4g_brick_ajax",
         animation_id,
         animation_source,
         animation_type = "video/mp4",
@@ -921,14 +921,10 @@ function showAnimation(id, callFunction) {
         animation_param2,
         animation_param3;
 
-    // jQuery.ajax({
-    //     dataType: "json",
-    //     url: brick_api + "/"+id+"/" + "buttonclick:" + callFunction + "?id=0",
-    //     done: function (data) {
-    let url = "/projects-api/perform/buttonclick:" + callFunction;
-    fetch(url)
-        .then(response => response.json())
-        .then((data) => {
+    jQuery.ajax({
+        dataType: "json",
+        url: brick_api + "/"+id+"/" + "buttonclick:" + callFunction + "?id=0",
+        done: function (data) {
             animation_id = data["animation_name"] + "_animation";
             animation_source = data["animation_source"];
             animation_function = data["animation_function"];
@@ -936,23 +932,25 @@ function showAnimation(id, callFunction) {
             animation_param2 = data["animation_param2"];
             animation_param3 = data["animation_param3"];
             jQuery.magnificPopup.open({
-                items: { src: "<video id="+animation_id+" autoplay><source src="+animation_source+" type="+animation_type+"></video>" },
-                type: "inline"}, 0);
-            document.getElementById(animation_id).addEventListener("ended",C4GPopupHandler,false);
+                items: {src: "<video id=" + animation_id + " autoplay><source src=" + animation_source + " type=" + animation_type + "></video>"},
+                type: "inline"
+            }, 0);
+            document.getElementById(animation_id).addEventListener("ended", C4GPopupHandler, false);
 
             if (animation_function) {
-              var fn = window[animation_function];
-              if (animation_param1 && animation_param2 && animation_param3) {
-                fn(animation_param1, animation_param2, animation_param3);
-              } else if (animation_param1 && animation_param2) {
-                fn(animation_param1, animation_param2);
-              }else if (animation_param1) {
-                fn(animation_param1);
-              } else {
-                fn();
-              }
+                var fn = window[animation_function];
+                if (animation_param1 && animation_param2 && animation_param3) {
+                    fn(animation_param1, animation_param2, animation_param3);
+                } else if (animation_param1 && animation_param2) {
+                    fn(animation_param1, animation_param2);
+                } else if (animation_param1) {
+                    fn(animation_param1);
+                } else {
+                    fn();
+                }
             }
-        });
+        }
+    });
 }
 
 
