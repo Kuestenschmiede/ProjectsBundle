@@ -13,22 +13,22 @@ const webpack = require("webpack");
 var path = require('path');
 var config = {
   entry: {
-    'c4g-vendor-trix': './Resources/public/vendor/js/c4g-vendor-trix.js',
-    'c4g-vendor-minisearch': './Resources/public/vendor/js/c4g-vendor-minisearch.js',
-    'c4g-vendor-jquery': './Resources/public/vendor/js/c4g-vendor-jquery.js'
+    'c4g-vendor-trix': './src/Resources/public/vendor/js/c4g-vendor-trix.js',
+    'c4g-vendor-minisearch': './src/Resources/public/vendor/js/c4g-vendor-minisearch.js',
+    'c4g-vendor-jquery': './src/Resources/public/vendor/js/c4g-vendor-jquery.js'
   },
   mode: "development",
   output: {
     filename: '[name].js',
-    path: path.resolve('./Resources/public/dist/js/'),
+    path: path.resolve('./src/Resources/public/dist/js/'),
     chunkFilename: '[name].bundle.js',
-    publicPath: "bundles/con4gisprojects/dist/js"
+    publicPath: "bundles/src/con4gisprojects/dist/js"
   },
   devtool: "inline-source-map",
   resolve: {
     modules: [
       'node_modules',
-      'Resources/public/vendor/js'
+      'src/Resources/public/vendor/js'
     ],
     alias: {
       'parchment': path.resolve(__dirname, 'node_modules/parchment/src/parchment.ts'),
@@ -41,7 +41,7 @@ var config = {
       {
         include: [
           path.resolve('.'),
-          path.resolve('./Resources/public/vendor/js/')
+          path.resolve('./src/Resources/public/vendor/js/')
         ],
       },
       {
