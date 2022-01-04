@@ -298,16 +298,15 @@ class C4GBaseController extends AbstractFrontendModuleController
             case C4GBrickConst::ID_TYPE_GROUP:
                 $group_id = $this->dialogParams->getGroupId();
                 if (!$group_id || ($group_id <= 0)) {
-                    $group_id = \Session::getInstance()->get('c4g_brick_group_id');
+                    $group_id = $this->session->get('c4g_brick_group_id');
                 }
 
                 return $group_id;
-
                 break;
             case C4GBrickConst::ID_TYPE_PROJECT:
                 $project_id = $this->dialogParams->getProjectId();
                 if (!$project_id || ($project_id <= 0)) {
-                    $project_id = \Session::getInstance()->get('c4g_brick_project_id');
+                    $project_id = $this->session->get('c4g_brick_project_id');
                 }
 
                 return $project_id;
@@ -316,7 +315,7 @@ class C4GBaseController extends AbstractFrontendModuleController
             case C4GBrickConst::ID_TYPE_PARENT:
                 $parent_id = $this->dialogParams->getParentId();
                 if (!$parent_id || ($parent_id <= 0)) {
-                    $parent_id = \Session::getInstance()->get('c4g_brick_parent_id');
+                    $parent_id = $this->session->get('c4g_brick_parent_id');
                 }
 
                 return $parent_id;
@@ -546,7 +545,7 @@ class C4GBaseController extends AbstractFrontendModuleController
         }
 
         //setting id on every call
-        \Session::getInstance()->set('c4g_brick_dialog_id', $id);
+        $this->session->set('c4g_brick_dialog_id', $id);
         if ($id) {
             $this->dialogParams->setId($id);
         }
@@ -554,17 +553,17 @@ class C4GBaseController extends AbstractFrontendModuleController
         //Setting UUID
         if ($this->useUuidCookie) {
             if (!($_COOKIE[$this->UUID])) {
-                if (!\Session::getInstance()->get($this->UUID)) {
-                    \Session::getInstance()->set($this->UUID, C4GBrickCommon::getGUID());
+                if (!$this->session->get($this->UUID)) {
+                    $this->session->set($this->UUID, C4GBrickCommon::getGUID());
                 }
-                setcookie($this->UUID, \Session::getInstance()->get($this->UUID), time() + 60 * 60 * 24 * 30, '/');
+                setcookie($this->UUID, $this->session->get($this->UUID), time() + 60 * 60 * 24 * 30, '/');
             } else {
-                \Session::getInstance()->set($this->UUID, $_COOKIE[$this->UUID]);
+                $this->session->set($this->UUID, $_COOKIE[$this->UUID]);
                 setcookie($this->UUID, ($_COOKIE[$this->UUID]), time() + 60 * 60 * 24 * 30, '/');
             }
-            if (\Session::getInstance()->get($this->UUID)) {
-                $this->dialogParams->setUuid(\Session::getInstance()->get($this->UUID));
-                $this->listParams->setUuid(\Session::getInstance()->get($this->UUID));
+            if ($this->session->get($this->UUID)) {
+                $this->dialogParams->setUuid($this->session->get($this->UUID));
+                $this->listParams->setUuid($this->session->get($this->UUID));
             }
 
             //Synchronize MemberBased and PublicUuidBased view types
@@ -593,7 +592,7 @@ class C4GBaseController extends AbstractFrontendModuleController
 
         //set fieldList
         if (!$this->fieldList) {
-            $putVars = \Session::getInstance()->get('c4g_brick_dialog_values');
+            $putVars = $this->session->get('c4g_brick_dialog_values');
             $result = $this->addFields();
             if ($result) {
                 $this->fieldList = $result;
@@ -767,14 +766,14 @@ class C4GBaseController extends AbstractFrontendModuleController
             if ($request != 'undefined') {
                 // replace "state" parameter in Session-Referer to force correct
                 // handling after login with "redirect back" set
-                $session = \Session::getInstance()->getData();
+                $session = $this->session->all();
                 $session['referer']['last'] = $session['referer']['current'];
                 // echo '<br>[LAST]' . $session['referer']['last'] . '<br>';
                 $session['referer']['current'] = C4GUtils::addParametersToURL(
                     $session['referer']['last'],
                     ['state' => $request]);
                 // echo '<br>[CURRENT]' . $session['referer']['current'] . '<br>';
-                \Session::getInstance()->setData($session);
+                $this->session->save();
             }
         }
 
@@ -792,11 +791,11 @@ class C4GBaseController extends AbstractFrontendModuleController
                 return $result;
             }
 
-            $session = \Session::getInstance()->getData();
+            $session = $this->session_>all;
 
             if (C4GBrickView::isGroupBased($this->viewType)) {
                 if (($this->group_id == -1) || ($this->group_id == null)) {
-                    $groupId = \Session::getInstance()->get('c4g_brick_group_id');
+                    $groupId = $this->session->get('c4g_brick_group_id');
                     if ($groupId && MemberGroupModel::isMemberOfGroup($groupId, $user->id)) {
                         if (MemberModel::hasRightInGroup($user->id, $groupId, $this->brickKey)) {
                             $this->group_id = $groupId;
@@ -811,7 +810,7 @@ class C4GBaseController extends AbstractFrontendModuleController
                 }
             } elseif (C4GBrickView::isProjectBased($this->viewType)) {
                 if (($this->group_id == -1) || ($this->group_id == null)) {
-                    $groupId = \Session::getInstance()->get('c4g_brick_group_id');
+                    $groupId = $this->session->get('c4g_brick_group_id');
                     if (C4GBrickAction::checkGroupId($groupId, $user->id, $this->brickKey)) {
                         $this->group_id = $groupId;
                     }
@@ -828,17 +827,17 @@ class C4GBaseController extends AbstractFrontendModuleController
                 }
 
                 if (($this->project_id == -1) || ($this->project_id == null)) {
-                    $project_id = \Session::getInstance()->get('c4g_brick_project_id');
+                    $project_id = $this->session->get('c4g_brick_project_id');
                     if (C4gProjectsModel::checkProjectId($project_id, $this->projectKey)) {
                         $this->project_id = $project_id;
-                        $this->project_uuid = \Session::getInstance()->get('c4g_brick_project_uuid');
+                        $this->project_uuid = $this->session->get('c4g_brick_project_uuid');
                         $path = C4GBrickConst::PATH_GROUP_DATA . '/' . $this->group_id . '/' . $this->project_uuid;
                         C4GBrickCommon::mkdir($path);
                     }
                 }
             } elseif (C4GBrickView::isProjectParentBased($this->viewType)) {
                 if (($this->group_id == -1) || ($this->group_id == null)) {
-                    $groupId = \Session::getInstance()->get('c4g_brick_group_id');
+                    $groupId = $this->session->get('c4g_brick_group_id');
                     if (C4GBrickAction::checkGroupId($groupId, $user->id, $this->brickKey)) {
                         $this->group_id = $groupId;
                     }
@@ -855,17 +854,17 @@ class C4GBaseController extends AbstractFrontendModuleController
                 }
 
                 if (($this->project_id == -1) || ($this->project_id == null)) {
-                    $project_id = \Session::getInstance()->get('c4g_brick_project_id');
+                    $project_id = $this->session->get('c4g_brick_project_id');
                     if (C4gProjectsModel::checkProjectId($project_id, $this->projectKey)) {
                         $this->project_id = $project_id;
-                        $this->project_uuid = \Session::getInstance()->get('c4g_brick_project_uuid');
+                        $this->project_uuid = $this->session->get('c4g_brick_project_uuid');
                         $path = C4GBrickConst::PATH_GROUP_DATA . '/' . $this->group_id . '/' . $this->project_uuid;
                         C4GBrickCommon::mkdir($path);
                     }
                 }
 
                 if (($this->parent_id == -1) || ($this->parent_id == null)) {
-                    $this->parent_id = \Session::getInstance()->get('c4g_brick_parent_id');
+                    $this->parent_id = $this->session->get('c4g_brick_parent_id');
                 }
             } elseif (C4GBrickView::isMemberBased($this->viewType)) {
                 C4GBrickCommon::mkdir(C4GBrickConst::PATH_BRICK_DATA);
@@ -879,7 +878,7 @@ class C4GBaseController extends AbstractFrontendModuleController
                 if (($this->group_id == -1) || ($this->group_id == null)) {
 
                     //falls die group_id über die Liste vorhanden ist, soll diese auch hier für Module geladen werden, die den viewType wechseln können.
-                    $groupId = \Session::getInstance()->get('c4g_brick_group_id');
+                    $groupId = $this->session->get('c4g_brick_group_id');
                     if ($groupId && MemberGroupModel::isMemberOfGroup($groupId, $user->id)) {
                         if (MemberModel::hasRightInGroup($user->id, $groupId, $this->brickKey)) {
                             $this->group_id = $groupId;
@@ -1080,7 +1079,7 @@ class C4GBaseController extends AbstractFrontendModuleController
 
             $putVars = $this->putVars;
             if (!$putVars || (count($putVars) <= 0)) {
-                $putVars = \Session::getInstance()->get('c4g_brick_dialog_values');
+                $putVars = $this->session->get('c4g_brick_dialog_values');
             }
 
             foreach ($this->fieldList as $field) {
