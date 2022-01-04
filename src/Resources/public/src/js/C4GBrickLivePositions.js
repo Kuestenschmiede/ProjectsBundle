@@ -114,7 +114,7 @@ function livePositions(map, importLayer, data, setStyleHelper) {
         timeout = window.setTimeout(function(){liveRequest()}, 10000);
     }
 
-    var url = 'src/con4gis/CoreBundle/Resources/api/index.php/'+data.type+'Service?method=getPositions';
+    var url = 'src/con4gis/CoreBundle/src/Resources/api/index.php/'+data.type+'Service?method=getPositions';
 
     var liveRequest = function() {
         OpenLayers.Request.GET({

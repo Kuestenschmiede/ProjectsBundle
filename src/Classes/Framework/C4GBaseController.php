@@ -202,8 +202,10 @@ class C4GBaseController extends AbstractFrontendModuleController
         $this->compileJavaScript();
         $this->compileCss();
 
+        $classname = rawurlencode(get_class($this));
+
         $data['id'] = $model->id;
-        $data['ajaxUrl'] = 'con4gis/brick_ajax_api/' . $GLOBALS['TL_LANGUAGE'];
+        $data['ajaxUrl'] = 'con4gis/brick_ajax_api/' . $GLOBALS['TL_LANGUAGE'] . '/' . $classname;
         $data['ajaxData'] = $this->id;
         $data['height'] = 'auto';
         $data['width'] = '100%';
@@ -246,7 +248,6 @@ class C4GBaseController extends AbstractFrontendModuleController
 
         return $template->getResponse();
     }
-
 
     /**
      * module class function to get fields
@@ -457,7 +458,10 @@ class C4GBaseController extends AbstractFrontendModuleController
 
             $databaseParams->setFindBy($this->findBy);
             $databaseParams->setEntityNamespace($namespace);
-            $databaseParams->setDatabase($this->Database);
+
+            //ToDo
+            $database = \Database::getInstance();
+            $databaseParams->setDatabase($database);
 
             if ($this->databaseType == C4GBrickDatabaseType::DCA_MODEL) {
                 $databaseParams->setModelClass($this->modelClass);
@@ -1540,9 +1544,9 @@ class C4GBaseController extends AbstractFrontendModuleController
 
     /**
      * @param string $language
-     * @return C4GBrickModuleParent
+     * @return C4GBaseController
      */
-    public function setLanguage(string $language): C4GBrickModuleParent
+    public function setLanguage(string $language): C4GBaseController
     {
         $this->language = $language;
 

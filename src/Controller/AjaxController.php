@@ -23,20 +23,31 @@ use Psr\Container\ContainerInterface;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 class AjaxController extends ApiController
 {
-    public function __construct(ContaoFramework $framework)
+    protected $rootDir;
+    protected $session;
+    protected $framework;
+
+    public function __construct(string $rootDir, Session $session, ContaoFramework $framework)
     {
-        $framework->initialize();
+        $this->rootDir      = $rootDir;
+        $this->session      = $session;
+        $this->framework    = $framework;
+
+        $this->framework->initialize(true);
     }
 
-    public function ajaxAction(Request $request, $language, $module, $action)
+    public function ajaxAction(Request $request, $language, $classname, $module, $action)
     {
         $moduleManager = new C4GModuleManager();
         if ($request->getMethod() === "PUT") {
             $arrData = $request->request->all();
             $actionString = explode(":", $action);
+
+            //ToDo Print Service
             if ($actionString[0] === "C4GPrintDialogAction") {
                 $id = $actionString[1];
                 $database = Database::getInstance();
@@ -45,20 +56,32 @@ class AjaxController extends ApiController
                     ->execute($module);
                 $strClass = Module::findClass($objModule->type);
 
-                if ($strClass === "Contao\ModuleProxy") {
-                    $strClass = false; //Controller!!!
+                if ($classname) {
+                    if ($strClass && class_exists($strClass)) {
+                        $objModule = new $classname($this->rootDir, $this->session, $this->framework);
+                        $printoutPDF = new C4GPrintoutPDF($database);
+                        return $printoutPDF->printAction($objModule, $arrData, $id, true);
+                    }
+                } else {
+                    if ($strClass && class_exists($strClass)) {
+                        $objModule = new $strClass($objModule);
+                        $printoutPDF = new C4GPrintoutPDF($database);
+                        return $printoutPDF->printAction($objModule, $arrData, $id, true);
+                    }
                 }
-
-                if ($strClass && class_exists($strClass)) {
-                    $objModule = new $strClass($objModule);
-                    $printoutPDF = new C4GPrintoutPDF($database);
-                    return $printoutPDF->printAction($objModule, $arrData, $id, true);
-                }
-
             }
-            $returnData = $moduleManager->getC4gFrontendModule($module, $language, $action, $arrData);
+
+            if ($classname) {
+                $returnData = $moduleManager->getC4gFrontendController($this->rootDir, $this->session, $this->framework, $module, $language, $classname, $action, $arrData);
+            } else {
+                $returnData = $moduleManager->getC4gFrontendModule($module, $language, $action, $arrData);
+            }
         } else {
-            $returnData = $moduleManager->getC4gFrontendModule($module, $language, $action);
+            if ($classname) {
+                $returnData = $moduleManager->getC4gFrontendController($this->rootDir, $this->session, $this->framework, $module, $language, $classname, $action);
+            } else {
+                $returnData = $moduleManager->getC4gFrontendModule($module, $language, $action);
+            }
         }
         $response = new JsonResponse();
         if ($returnData === null) {

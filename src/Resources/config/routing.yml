@@ -1,5 +1,5 @@
 con4gisProjectsBundle:
-    path: /con4gis/brick_ajax_api/{language}/{module}/{action}
+    path: /con4gis/brick_ajax_api/{language}/{classname}/{module}/{action}
     controller: con4gis\ProjectsBundle\Controller\AjaxController::ajaxAction
     methods: [ GET, PUT ]
     requirements:

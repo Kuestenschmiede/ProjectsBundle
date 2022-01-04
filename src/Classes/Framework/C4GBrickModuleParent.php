@@ -568,7 +568,7 @@ class C4GBrickModuleParent extends \Module
         $this->compileCss();
 
         $data['id'] = $this->id;
-        $data['ajaxUrl'] = 'con4gis/brick_ajax_api/' . $GLOBALS['TL_LANGUAGE'];
+        $data['ajaxUrl'] = 'con4gis/brick_ajax_api/' . $GLOBALS['TL_LANGUAGE'] . '/0';
         $data['ajaxData'] = $this->id;
         $data['height'] = 'auto';
         $data['width'] = '100%';

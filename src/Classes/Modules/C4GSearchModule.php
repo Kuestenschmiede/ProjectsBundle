@@ -15,10 +15,10 @@ use con4gis\ProjectsBundle\Classes\Actions\C4GRedirectAction;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickConst;
 use con4gis\ProjectsBundle\Classes\Database\C4GBrickDatabaseType;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GTextField;
-use con4gis\ProjectsBundle\Classes\Framework\C4GBrickModuleParent;
+use con4gis\ProjectsBundle\Classes\Framework\C4GBaseController;
 use con4gis\ProjectsBundle\Classes\Views\C4GBrickViewType;
 
-class C4GSearchModule extends C4GBrickModuleParent
+class C4GSearchModule extends C4GBaseController
 {
     protected $withPermissionCheck = false;
     protected $databaseType = C4GBrickDatabaseType::NO_DB;

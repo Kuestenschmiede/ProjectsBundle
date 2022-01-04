@@ -4,5 +4,9 @@ services:
         autoconfigure: true
 
     con4gis\ProjectsBundle\Controller\AjaxController:
+        arguments:
+            - '%kernel.project_dir%'
+            - "@session"
+            - "@contao.framework"
         public: true
         class: con4gis\ProjectsBundle\Controller\AjaxController
