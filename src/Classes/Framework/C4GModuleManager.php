@@ -10,6 +10,7 @@
  */
 namespace con4gis\ProjectsBundle\Classes\Framework;
 
+use con4gis\CoreBundle\Classes\Helper\ArrayHelper;
 use con4gis\ProjectsBundle\Classes\Buttons\C4GMoreButton;
 use con4gis\ProjectsBundle\Classes\Buttons\C4GMoreButtonEntry;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GMoreButtonField;
@@ -39,7 +40,9 @@ class C4GModuleManager
             return 'Missing frontend module ID';
         }
 
-        $objModule = ModuleModel::findByPk($id);
+        $objModule = Database::getInstance()->prepare('SELECT * FROM tl_module WHERE id=?')
+            ->limit(1)
+            ->execute($id)->fetchAssoc();
 
         if (!$objModule) {
             header('HTTP/1.1 404 Not Found');
@@ -48,14 +51,14 @@ class C4GModuleManager
         }
 
         // Show to guests only
-        if ($objModule->guests && FE_USER_LOGGED_IN && !BE_USER_LOGGED_IN && !$objModule->protected) {
+        if ($objModule['guests'] && FE_USER_LOGGED_IN && !BE_USER_LOGGED_IN && !$objModule['protected']) {
             header('HTTP/1.1 403 Forbidden');
 
             return 'Forbidden';
         }
 
         // Protected element
-        if (!BE_USER_LOGGED_IN && $objModule->protected) {
+        if (!BE_USER_LOGGED_IN && $objModule['protected']) {
             if (!FE_USER_LOGGED_IN) {
                 header('HTTP/1.1 403 Forbidden');
 
@@ -63,7 +66,7 @@ class C4GModuleManager
             }
 
             $this->import('FrontendUser', 'User');
-            $groups = unserialize($objModule->groups);
+            $groups = unserialize($objModule['groups']);
 
             if (!is_array($groups) || count($groups) < 1 || count(array_intersect($groups, $this->User->groups)) < 1) {
                 header('HTTP/1.1 403 Forbidden');
@@ -71,12 +74,12 @@ class C4GModuleManager
                 return 'Forbidden';
             }
         }
-        $strClass = Module::findClass($objModule->type);
+        $strClass = Module::findClass($objModule['type']);
 
         if (!class_exists($strClass)) {
             $this->log(
-                'Controller class "' . $GLOBALS['FE_MOD'][$objModule->type] .
-                '" (module "' . $objModule->type . '") does not exist',
+                'Controller class "' . $GLOBALS['FE_MOD'][$objModule['type']] .
+                '" (module "' . $objModule['type'] . '") does not exist',
                 'Ajax getFrontendModule()',
                 TL_ERROR
             );
@@ -86,22 +89,27 @@ class C4GModuleManager
             return 'Frontend controller class does not exist';
         }
 
-        if (!$this->moduleMap[$id]) {
-            $objModule->typePrefix = 'mod_';
-            $objModule = new $classname($rootDir, $session, $framework);
-            $this->moduleMap[$id] = $objModule;
+        if ($strClass && !$this->moduleMap[$id]) {
+            $objModule['typePrefix'] = 'mod_';
+
+            $controllerModule = new $classname($rootDir, $session, $framework);
+            foreach ($objModule as $fieldName=>$value) {
+                $controllerModule->$fieldName = $value;
+            }
+
+            $this->moduleMap[$id] = $controllerModule;
         } else {
-            $objModule = $this->moduleMap[$id];
+            $controllerModule = $this->moduleMap[$id];
         }
 
         if (strpos($request, 'morebutton') === 0) {
             $arrRequest = explode(':', $request);
             // 0 is the morebutton string, 1 is the element id and 2 is the index of the more button option
-            $objModule->setLanguage($language);
-            $objModule->initBrickModule($arrRequest[1]);
+            $controllerModule->setLanguage($language);
+            $controllerModule->initBrickModule($arrRequest[1]);
             $arrMorebutton = explode('_', $arrRequest[0]);
             if ($arrMorebutton && count($arrMorebutton) == 2) {
-                $fieldList = $objModule->getFieldList();
+                $fieldList = $controllerModule->getFieldList();
                 $moreButton = null;
                 foreach ($fieldList as $field) {
                     if ($field instanceof C4GMoreButtonField && $field->getFieldName() === $arrMorebutton[1]) {
@@ -127,9 +135,9 @@ class C4GModuleManager
             }
         }
 
-        $objModule->setLanguage($language);
-        $objModule->initBrickModule($arrRequest[1]);
-        return $objModule->generateAjax($request);
+        $controllerModule->setLanguage($language);
+        $controllerModule->initBrickModule($arrRequest[1]);
+        return $controllerModule->generateAjax($request);
     }
 
     public function getC4gFrontendModule($id, $language, $request, $putVars = [])
