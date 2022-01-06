@@ -736,7 +736,7 @@ class C4GBrickDialog
                                     $check = $dbValue->$groupKeyField;
                                     if (($groupId) && ($groupId > 0)) {
                                         $set[$groupKeyField] = $groupId;
-                                        if (($dbValue->id != $dialogParams->getSession()->fetSessionValue('c4g_brick_dialog_id'))
+                                        if (($dbValue->id != $dialogParams->getSession()->getSessionValue('c4g_brick_dialog_id'))
                                             && $check == $groupId) {
                                             return $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['validate_uniqe']
                                                 . ' "' . $caption . '" '
