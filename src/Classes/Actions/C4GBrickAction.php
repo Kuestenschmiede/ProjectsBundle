@@ -167,7 +167,7 @@ abstract class C4GBrickAction
      * @param $module
      * @return null
      */
-    public static function performAction(&$action, C4GBaseController &$module)
+    public static function performAction(&$action, &$module)
     {
         $dialogParams = $module->getDialogParams();
         $brickDatabase = $module->getBrickDatabase();
