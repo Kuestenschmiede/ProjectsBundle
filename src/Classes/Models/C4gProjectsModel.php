@@ -44,12 +44,12 @@ class C4gProjectsModel extends \Model
         return $result;
     }
 
-    public static function checkProjectId($project_id, $brick_key)
+    public static function checkProjectId($project_id, $brick_key, &$session)
     {
         if ($project_id && $brick_key) {
             $project = static::findByPk($project_id);
             if ($project && ($project->brick_key == $brick_key)) {
-                \Session::getInstance()->set('c4g_brick_project_uuid', $project->uuid);
+                $session->setSessionValue('c4g_brick_project_uuid', $project->uuid);
 
                 return true;
             }

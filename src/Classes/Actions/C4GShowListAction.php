@@ -101,7 +101,7 @@ class C4GShowListAction extends C4GBrickDialogAction
                 $this->dialogParams->setGroupId($onlyGroupId);
                 $this->listParams->deleteButton(C4GBrickConst::BUTTON_GROUP);
             }
-            \Session::getInstance()->set('c4g_brick_group_id', $groupId);
+            $this->dialogParams->getSession()->setSessionValue('c4g_brick_group_id', $groupId);
 
             $group = \MemberGroupModel::findByPk($groupId);
             if ($group) {
@@ -117,8 +117,8 @@ class C4GShowListAction extends C4GBrickDialogAction
                 if ($project) {
                     $project_headline = '<div class="c4g_brick_headtext">' . $GLOBALS['TL_LANG']['FE_C4G_LIST']['USERMESSAGE_ACTIVE_PROJECT'] . '<b>' . $project->caption . '</b></div>';
                 } else {
-                    \Session::getInstance()->set('c4g_brick_project_id', '');
-                    \Session::getInstance()->set('c4g_brick_project_uuid', '');
+                    $dialogParams->getSession()->setSessionValue('c4g_brick_project_id', '');
+                    $dialogParams->getSession()->setSessionValue('c4g_brick_project_uuid', '');
 
                     $redirects = $dialogParams->getRedirects();
                     if ($redirects) {
@@ -193,7 +193,7 @@ class C4GShowListAction extends C4GBrickDialogAction
                     }
                     $parent_headline = '<div class="c4g_brick_headtext"> ' . $parentCaption . ': <b>' . $caption . '</b></div>';
                 } elseif (!$dialogParams->isWithCommonParentOption()) {
-                    \Session::getInstance()->set('c4g_brick_parent_id', '');
+                    $dialogParams->getSession()->setSessionValue('c4g_brick_parent_id', '');
 
                     return ['title' => $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_MISSING_PARENT_TITLE'] . $parentCaption,
                         'usermessage' => $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_MISSING_PARENT'] . $parentCaption . '.',

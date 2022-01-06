@@ -46,8 +46,8 @@ class C4GConfirmDeleteAction extends C4GBrickDialogAction
 
         if ($viewType == C4GBrickViewType::PROJECTBASED) {
             if ($projectId == $dialogId) {
-                \Session::getInstance()->set('c4g_brick_project_id', '');
-                \Session::getInstance()->set('c4g_brick_project_uuid', '');
+                $dialogParams->getSession()->setSessionValue('c4g_brick_project_id', '');
+                $dialogParams->getSession()->setSessionValue('c4g_brick_project_uuid', '');
             }
         }
 

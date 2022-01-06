@@ -392,21 +392,6 @@ class C4GBrickCommon
         return $member->firstname . ' ' . $member->lastname;
     }
 
-    public function setSessionValues($group_id, $project_id, $parent_id)
-    {
-        if ($group_id) {
-            \Session::getInstance()->set('c4g_brick_group_id', $group_id);
-        }
-
-        if ($project_id) {
-            \Session::getInstance()->set('c4g_brick_project_id', $project_id);
-        }
-
-        if ($parent_id) {
-            \Session::getInstance()->set('c4g_brick_parent_id', $parent_id);
-        }
-    }
-
     /**
      * @param $loc_geox         x-coordinate
      * @param $loc_geoy         y-coordinate

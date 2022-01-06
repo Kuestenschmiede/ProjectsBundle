@@ -24,10 +24,10 @@ class C4GSetProjectIdAction extends C4GBrickDialogAction
         $project = C4gProjectsModel::findByPk($projectId);
         $dialogParams->setProjectUuid($project->uuid);
 
-        \Session::getInstance()->set('c4g_brick_project_id', $projectId);
-        \Session::getInstance()->set('c4g_brick_project_uuid', $project->uuid);
+        $dialogParams->getSession()->setSessionValue('c4g_brick_project_id', $projectId);
+        $dialogParams->getSession()->setSessionValue('c4g_brick_project_uuid', $project->uuid);
 
-        \Session::getInstance()->set('c4g_brick_parent_id', '');
+        $dialogParams->getSession()->setSessionValue('c4g_brick_parent_id', '');
         $dialogParams->setParentId('');
 
         $this->setPutVars(null);

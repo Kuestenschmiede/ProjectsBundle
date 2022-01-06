@@ -94,7 +94,7 @@ class C4GSaveDialogAction extends C4GBrickDialogAction
 
             if ($result['insertId']) {
                 if ($this->setSessionIdAfterInsert) {
-                    \Session::getInstance()->set($this->setSessionIdAfterInsert, $result['insertId']);
+                    $dialogParams->getSession()->setSessionValue($this->setSessionIdAfterInsert, $result['insertId']);
                 }
                 //if a project was added we have to change the project booking count
                 if ((empty($dbValues)) && ($projectKey != '') && (C4GVersionProvider::isInstalled('con4gis/booking'))) {
@@ -102,11 +102,11 @@ class C4GSaveDialogAction extends C4GBrickDialogAction
                 }
                 if ($this->setParentIdAfterSave) {
                     $dialogParams->setParentId($result['insertId']);
-                    \Session::getInstance()->set('c4g_brick_parent_id', $result['insertId']);
+                    $dialogParams->getSession()->setSessionValue('c4g_brick_parent_id', $result['insertId']);
                 }
                 $dialogId = $result['insertId'];
                 $dbValues = $brickDatabase->findByPk($dialogId);
-                \Session::getInstance()->set('c4g_brick_dialog_id', $dialogId);
+                $dialogParams->getSession()->setSessionValue('c4g_brick_dialog_id', $dialogId);
             } elseif (($dialogId) && (C4GVersionProvider::isInstalled('con4gis/booking'))) {
                 \con4gis\BookingBundle\Resources\contao\models\C4gBookingGroupsModel::log($dbValues);
             }

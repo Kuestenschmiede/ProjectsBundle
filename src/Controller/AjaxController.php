@@ -18,6 +18,7 @@ use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\Database;
 use Contao\Input;
 use Contao\Module;
+use Contao\ModuleModel;
 use Contao\System;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\Config\Definition\Exception\Exception;
@@ -51,14 +52,12 @@ class AjaxController extends ApiController
             if ($actionString[0] === "C4GPrintDialogAction") {
                 $id = $actionString[1];
                 $database = Database::getInstance();
-                $objModule = $database->prepare("SELECT * FROM tl_module WHERE id=?")
-                    ->limit(1)
-                    ->execute($module);
+                $objModule = ModuleModel::findByPk($module);
                 $strClass = Module::findClass($objModule->type);
 
                 if ($classname) {
                     if ($strClass && class_exists($strClass)) {
-                        $objModule = new $classname($this->rootDir, $this->session, $this->framework);
+                        $objModule = new $classname($this->rootDir, $this->session, $this->framework, $objModule);
                         $printoutPDF = new C4GPrintoutPDF($database);
                         return $printoutPDF->printAction($objModule, $arrData, $id, true);
                     }

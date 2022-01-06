@@ -85,7 +85,7 @@ class C4GSearchModule extends C4GBaseController
     public function redirectToList($values, $putVars)
     {
         $page = $this->listModule;
-        \Session::getInstance()->set('c4g_list_searchValue', $putVars['searchValue']);
+        $this->dialogParams->getSession()->setSessionValue('c4g_list_searchValue', $putVars['searchValue']);
         $this->dialogParams->setRedirectSite($page);
         $action = new C4GRedirectAction(
             $this->dialogParams,

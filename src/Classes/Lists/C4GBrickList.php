@@ -581,9 +581,9 @@ class C4GBrickList
             'headline' => $listHeadline,
             'buttons' => $buttons,
         ];
-        if ($searchValue = \Session::getInstance()->get('c4g_list_searchValue')) {
+        if ($searchValue = $listParams->getSession()->getSessionValue('c4g_list_searchValue')) {
             $return['searchValue'] = $searchValue;
-            \Session::getInstance()->remove('c4g_list_searchValue');
+            $listParams->getSession()->remove('c4g_list_searchValue');
         }
 
         if ($listParams->isshowToolTips()) {
@@ -632,9 +632,9 @@ class C4GBrickList
             'dialogbuttons' => $buttons,
         ];
 
-        if ($searchValue = \Session::getInstance()->get('c4g_list_searchValue')) {
+        if ($searchValue = $listParams->getSession()->getSessionValue('c4g_list_searchValue')) {
             $result['searchValue'] = $searchValue;
-            \Session::getInstance()->remove('c4g_list_searchValue');
+            $listParams->getSession()->remove('c4g_list_searchValue');
         }
 
         return $result;

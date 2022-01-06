@@ -736,7 +736,7 @@ class C4GBrickDialog
                                     $check = $dbValue->$groupKeyField;
                                     if (($groupId) && ($groupId > 0)) {
                                         $set[$groupKeyField] = $groupId;
-                                        if (($dbValue->id != \Session::getInstance()->get('c4g_brick_dialog_id'))
+                                        if (($dbValue->id != $dialogParams->getSession()->fetSessionValue('c4g_brick_dialog_id'))
                                             && $check == $groupId) {
                                             return $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['validate_uniqe']
                                                 . ' "' . $caption . '" '
@@ -757,7 +757,7 @@ class C4GBrickDialog
                             if ($dbValues !== null) {
                                 foreach ($dbValues as $dbValue) {
                                     $check = $dbValue->$memberKeyField;
-                                    if (($dbValue->id != \Session::getInstance()->get('c4g_brick_dialog_id'))
+                                    if (($dbValue->id != $dialogParams->getSession()->getSessionValue('c4g_brick_dialog_id'))
                                         && ($memberId) && ($memberId > 0)) {
                                         $set[$memberKeyField] = $memberId;
                                         if ($check == $memberId) {
@@ -779,7 +779,7 @@ class C4GBrickDialog
                                 if ($dbValues !== null) {
                                     foreach ($dbValues as $dbValue) {
                                         $check = $dbValue->$additionalIdField;
-                                        if (($dbValue->id != \Session::getInstance()->get('c4g_brick_dialog_id'))) {
+                                        if (($dbValue->id != $dialogParams->getSession()->getSessionValue('c4g_brick_dialog_id'))) {
                                             if ($check == $additionalId) {
                                                 return $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['validate_uniqe']
                                                     . ' "' . $caption . '" '
@@ -791,7 +791,7 @@ class C4GBrickDialog
                             } else {
                                 if ($dbValues !== null) {
                                     foreach ($dbValues as $dbValue) {
-                                        if (($dbValue->id != \Session::getInstance()->get('c4g_brick_dialog_id'))) {
+                                        if (($dbValue->id != $dialogParams->getSession()->getSessionValue('c4g_brick_dialog_id'))) {
                                             return $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['validate_uniqe']
                                                 . ' "' . $caption . '" '
                                             . $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['validate_uniqe_2'] . $dlgValue;

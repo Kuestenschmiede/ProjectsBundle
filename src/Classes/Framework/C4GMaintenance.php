@@ -11,6 +11,7 @@
 namespace con4gis\ProjectsBundle\Classes\Framework;
 
 use Contao\Database;
+use Contao\System;
 use Contao\User;
 
 /**
@@ -20,13 +21,16 @@ use Contao\User;
  */
 class C4GMaintenance
 {
+    //ToDo with C4gBrickSession (Symfony Session)
+
     /**
      * Clears all brick variables from the session.
      * @param User $user
      */
     public function onLogoutClearSessions(User $user)
     {
-        $session = \Session::getInstance();
+        //ToDo Test
+        $session = System::getContainer()->get('session');
         $session->remove('c4g_brick_project_id');
         $session->remove('c4g_brick_group_id');
         $session->remove('c4g_brick_member_id');
@@ -45,7 +49,8 @@ class C4GMaintenance
      */
     public function onLoginClearSessions(User $user)
     {
-        $session = \Session::getInstance();
+        //ToDo Test
+        $session = System::getContainer()->get('session');
         $session->remove('c4g_brick_project_id');
         $session->remove('c4g_brick_group_id');
         $session->remove('c4g_brick_member_id');

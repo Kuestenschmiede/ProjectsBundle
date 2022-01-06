@@ -11,6 +11,8 @@
 namespace con4gis\ProjectsBundle\Classes\Permission;
 
 use con4gis\CoreBundle\Classes\C4GUtils;
+use con4gis\ProjectsBundle\Classes\Session\C4gBrickSession;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 class C4GTablePermission
 {
@@ -18,16 +20,18 @@ class C4GTablePermission
     private $ids;
     private $level = 1;
     private $action = '';
+    private $session = null;
 
     /**
      * C4GTablePermission constructor.
      * @param $table
      * @param $ids array/int
      */
-    public function __construct($table, $ids)
+    public function __construct($table, $ids, C4gBrickSession &$session)
     {
         $this->table = $table;
         $this->ids = $ids;
+        $this->session = $session;
     }
 
     /**
@@ -38,14 +42,13 @@ class C4GTablePermission
         $table = $this->table;
         $ids = $this->ids;
         if (is_array($ids)) {
-            $session = \Session::getInstance();
             foreach ($ids as $id) {
                 $permission = 'C4GTablePermission:' . $table . ':' . $id;
-                $session->set($permission, $this->level);
+                $this->session->setSessionValue($permission, $this->level);
             }
         } else {
             $permission = 'C4GTablePermission:' . $table . ':' . $ids;
-            \Session::getInstance()->set($permission, $this->level);
+            $this->session->setSessionValue($permission, $this->level);
         }
     }
 
@@ -58,13 +61,12 @@ class C4GTablePermission
         $table = $this->table;
         $ids = $this->ids;
         if (is_array($ids)) {
-            $session = \Session::getInstance();
             foreach ($ids as $id) {
                 if ($id == -1) {
                     continue;
                 }
                 $permission = 'C4GTablePermission:' . $table . ':' . $id;
-                $value = $session->get($permission);
+                $value = $this->session->getSessionValue($permission);
                 if (!($value >= $this->level)) {
                     if ($this->level == 1) {
                         $access = 'read from';
@@ -83,7 +85,7 @@ class C4GTablePermission
                 return;
             }
             $permission = 'C4GTablePermission:' . $table . ':' . $ids;
-            $value = \Session::getInstance()->get($permission);
+            $value = $this->session->getSessionValue($permission);
             if (!($value >= $this->level)) {
                 if ($this->level == 1) {
                     $access = 'read from';
@@ -107,14 +109,13 @@ class C4GTablePermission
         $table = $this->table;
         $ids = $this->ids;
         if (is_array($ids)) {
-            $session = \Session::getInstance();
             foreach ($ids as $id) {
                 $permission = 'C4GTablePermission:' . $table . ':' . $id;
-                $session->remove($permission);
+                $this->session->remove($permission);
             }
         } else {
             $permission = 'C4GTablePermission:' . $table . ':' . $ids;
-            \Session::getInstance()->remove($permission);
+            $this->session->remove($permission);
         }
     }
 
@@ -122,18 +123,21 @@ class C4GTablePermission
      * Clears all permissions from the session.
      * @throws \Exception
      */
-    public static function clearAll()
-    {
-        $sessionData = \Session::getInstance()->getData();
-
-        foreach ($sessionData as $key => $value) {
-            if (C4GUtils::startswith($key, 'C4GTablePermission')) {
-                unset($sessionData[$key]);
-            }
-        }
-
-        \Session::getInstance()->setData($sessionData);
-    }
+//ToDo Wird diese Funktion überhaupt genutzt?
+//    public static function clearAll()
+//    {
+//        //ToDo with symfony session (C4gBrickSession)
+//
+//        $sessionData = \Session::getInstance()->getData();
+//
+//        foreach ($sessionData as $key => $value) {
+//            if (C4GUtils::startswith($key, 'C4GTablePermission')) {
+//                unset($sessionData[$key]);
+//            }
+//        }
+//
+//        \Session::getInstance()->setData($sessionData);
+//    }
 
     /**
      * @param int $level

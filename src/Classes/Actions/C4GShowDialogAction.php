@@ -44,7 +44,7 @@ class C4GShowDialogAction extends C4GBrickDialogAction
 
         if ((!$id || $id == -1 || $id == '-1' || !is_int($id)) && ($dialogParams->isWithInitialSaving())) {
             $id = $this->saveAndGetId($id);
-            \Session::getInstance()->set('c4g_brick_dialog_id', $id);
+            $dialogParams->getSession()->setSessionValue('c4g_brick_dialog_id', $id);
             $dialogParams->setId($id);
         }
 
@@ -79,11 +79,11 @@ class C4GShowDialogAction extends C4GBrickDialogAction
                     }
                 }
             } elseif (!$parentId) {
-                $parentId = \Session::getInstance()->get('c4g_brick_parent_id');
+                $parentId = $dialogParams->getSession()->getSessionValue('c4g_brick_parent_id');
             }
         }
 
-        \Session::getInstance()->set('c4g_brick_dialog_id', $id);
+        $dialogParams->getSession()->setSessionValue('c4g_brick_dialog_id', $id);
 
         $parentModel = $dialogParams->getParentModel();
         if ($parentId && $parentModel) {
@@ -321,13 +321,13 @@ class C4GShowDialogAction extends C4GBrickDialogAction
 //                        $parent = $parentModel::findByPk($element->pid);
 //                        if ($parent) {
 //                            $this->project_id = $parent->project_id;
-//                            \Session::getInstance()->set("c4g_brick_project_id", $this->project_id);
+//                            $dialogParams->getSession()->setSessionValue("c4g_brick_project_id", $this->project_id);
 //
 //                            if ($this->project_id) {
 //                                $project = \C4gProjectsModel::findByPk($this->project_id);
 //                                if ($project) {
 //                                    $this->group_id = $project->group_id;
-//                                    \Session::getInstance()->set("c4g_brick_group_id", $this->group_id);
+//                                    $dialogParams->getSession()->setSessionValue("c4g_brick_group_id", $this->group_id);
 //                                }
 //                            }
 //                        }

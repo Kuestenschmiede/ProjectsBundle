@@ -14,6 +14,7 @@ use con4gis\CoreBundle\Classes\Callback\C4GCallback;
 use con4gis\ProjectsBundle\Classes\Buttons\C4GBrickButton;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickConst;
 use con4gis\ProjectsBundle\Classes\Conditions\C4GBrickCondition;
+use con4gis\ProjectsBundle\Classes\Session\C4gBrickSession;
 use con4gis\ProjectsBundle\Classes\Views\C4GBrickView;
 use con4gis\ProjectsBundle\Classes\Views\C4GBrickViewParams;
 use con4gis\ProjectsBundle\Classes\Views\C4GBrickViewType;
@@ -119,14 +120,16 @@ class C4GBrickDialogParams
     private $confirmActivationActionCallback = [];
     private $emptyListMessage = [];
     private $showCloseDialogPrompt = false; // Always show a confirmation dialog on close, even if nothing has been changed
+    private $session = null;
 
     /**
      * C4GBrickDialogParams constructor.
      */
-    public function __construct($brickKey, $viewType)
+    public function __construct($brickKey, $viewType, C4gBrickSession $session)
     {
         $this->brickKey = $brickKey;
         $this->viewType = $viewType;
+        $this->session  = $session;
 
         if (!$this->viewParams) {
             $this->viewParams = new C4GBrickViewParams($this->viewType);
@@ -486,11 +489,20 @@ class C4GBrickDialogParams
         return false;
     }
 
+    private function checkButton($button) {
+        if (!$button->getCaption()) {
+            $caption = $button->getTypeCaption();
+            $button->setCaption($caption);
+        }
+
+        return $button;
+    }
+
     public function getButton($type)
     {
         foreach ($this->buttons as $button) {
             if ($button->getType() == $type) {
-                return $button;
+                return $this->checkButton($button);
             }
         }
 
@@ -502,7 +514,7 @@ class C4GBrickDialogParams
         $result = [];
         foreach ($this->buttons as $button) {
             if ($button->getType() == $type) {
-                $result[] = $button;
+                $result[] = $this->checkButton($button);
             }
         }
 
@@ -2144,5 +2156,21 @@ class C4GBrickDialogParams
     public function setShowCloseDialogPrompt(bool $showCloseDialogPrompt = true): void
     {
         $this->showCloseDialogPrompt = $showCloseDialogPrompt;
+    }
+
+    /**
+     * @return C4gBrickSession
+     */
+    public function getSession(): C4gBrickSession
+    {
+        return $this->session;
+    }
+
+    /**
+     * @param C4gBrickSession $session
+     */
+    public function setSession(C4gBrickSession $session): void
+    {
+        $this->session = $session;
     }
 }

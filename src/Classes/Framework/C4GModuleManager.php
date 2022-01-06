@@ -40,9 +40,7 @@ class C4GModuleManager
             return 'Missing frontend module ID';
         }
 
-        $objModule = Database::getInstance()->prepare('SELECT * FROM tl_module WHERE id=?')
-            ->limit(1)
-            ->execute($id)->fetchAssoc();
+        $objModule = ModuleModel::findByPk($id);
 
         if (!$objModule) {
             header('HTTP/1.1 404 Not Found');
@@ -51,14 +49,14 @@ class C4GModuleManager
         }
 
         // Show to guests only
-        if ($objModule['guests'] && FE_USER_LOGGED_IN && !BE_USER_LOGGED_IN && !$objModule['protected']) {
+        if ($objModule->guests && FE_USER_LOGGED_IN && !BE_USER_LOGGED_IN && !$objModule->protected) {
             header('HTTP/1.1 403 Forbidden');
 
             return 'Forbidden';
         }
 
         // Protected element
-        if (!BE_USER_LOGGED_IN && $objModule['protected']) {
+        if (!BE_USER_LOGGED_IN && $objModule->protected) {
             if (!FE_USER_LOGGED_IN) {
                 header('HTTP/1.1 403 Forbidden');
 
@@ -66,7 +64,7 @@ class C4GModuleManager
             }
 
             $this->import('FrontendUser', 'User');
-            $groups = unserialize($objModule['groups']);
+            $groups = unserialize($objModule->groups);
 
             if (!is_array($groups) || count($groups) < 1 || count(array_intersect($groups, $this->User->groups)) < 1) {
                 header('HTTP/1.1 403 Forbidden');
@@ -74,12 +72,12 @@ class C4GModuleManager
                 return 'Forbidden';
             }
         }
-        $strClass = Module::findClass($objModule['type']);
+        $strClass = Module::findClass($objModule->type);
 
         if (!class_exists($strClass)) {
             $this->log(
-                'Controller class "' . $GLOBALS['FE_MOD'][$objModule['type']] .
-                '" (module "' . $objModule['type'] . '") does not exist',
+                'Controller class "' . $GLOBALS['FE_MOD'][$objModule->type] .
+                '" (module "' . $objModule->type . '") does not exist',
                 'Ajax getFrontendModule()',
                 TL_ERROR
             );
@@ -90,13 +88,8 @@ class C4GModuleManager
         }
 
         if ($strClass && !$this->moduleMap[$id]) {
-            $objModule['typePrefix'] = 'mod_';
-
-            $controllerModule = new $classname($rootDir, $session, $framework);
-            foreach ($objModule as $fieldName=>$value) {
-                $controllerModule->$fieldName = $value;
-            }
-
+            $objModule->typePrefix = 'mod_';
+            $controllerModule = new $classname($rootDir, $session, $framework, $objModule);
             $this->moduleMap[$id] = $controllerModule;
         } else {
             $controllerModule = $this->moduleMap[$id];

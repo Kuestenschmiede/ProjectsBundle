@@ -11,9 +11,17 @@
 namespace con4gis\ProjectsBundle\Classes\Dialogs;
 
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
+use con4gis\ProjectsBundle\Classes\Session\C4gBrickSession;
 
 class C4GDialogChangeHandler
 {
+    private $session = null;
+
+    public function __construct(C4gBrickSession &$session)
+    {
+        $this->session = $session;
+    }
+
     /**
      * Reads the incoming changes from the changes array and applies them to the correct field from the
      * passed fieldList. The changes are then saved into the session for persisting them through multiple
@@ -53,7 +61,7 @@ class C4GDialogChangeHandler
     private function saveChangesToSession($changes, $moduleKey)
     {
         // load changes from session
-        $oldChanges = \Session::getInstance()->get($moduleKey . '_fieldChanges');
+        $oldChanges = $this->session->getSessionValue($moduleKey . '_fieldChanges');
         // merge with new ones
         if ($oldChanges) {
             foreach ($changes as $key => $arrValue) {
@@ -66,7 +74,7 @@ class C4GDialogChangeHandler
             $changes = array_merge($changes, $oldChanges);
         }
         // store new changes
-        \Session::getInstance()->set($moduleKey . '_fieldChanges', $changes);
+        $this->session->setSessionValue($moduleKey . '_fieldChanges', $changes);
     }
 
     /**
@@ -76,7 +84,7 @@ class C4GDialogChangeHandler
      */
     private function loadChangesFromSession($moduleKey)
     {
-        if ($changes = \Session::getInstance()->get($moduleKey . '_fieldChanges')) {
+        if ($changes = $this->session->getSessionValue($moduleKey . '_fieldChanges')) {
             return $changes;
         }
 
@@ -113,6 +121,6 @@ class C4GDialogChangeHandler
 
     public function clearSession($moduleKey)
     {
-        \Session::getInstance()->remove($moduleKey . '_fieldChanges');
+        $this->session->remove($moduleKey . '_fieldChanges');
     }
 }
