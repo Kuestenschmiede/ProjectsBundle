@@ -346,7 +346,7 @@ abstract class C4GBrickAction
                 if ($module->isWithPermissionCheck()) {
                     $table = $module->getC4GTablePermissionTable();
                     if ($table) {
-                        $permission = new C4GTablePermission($table, [$dialogParams->getId()]);
+                        $permission = new C4GTablePermission($table, [$dialogParams->getId()], $dialogParams->getSession());
                         if ($action->isReadOnly()) {
                             $permission->setLevel(1);
                         } else {

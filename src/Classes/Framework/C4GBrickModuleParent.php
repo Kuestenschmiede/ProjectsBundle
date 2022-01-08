@@ -37,6 +37,7 @@ use Contao\Controller;
 use Contao\Database;
 use Contao\Frontend;
 use Contao\FrontendUser;
+use Contao\Module;
 use Contao\System;
 use NotificationCenter\Model\Notification;
 use Symfony\Component\Config\Definition\Exception\Exception;
@@ -54,7 +55,7 @@ use Symfony\Component\Routing\Annotation\Route;
  *
  * @deprecated deprecated with Contao 4.13, use C4GBaseController instead
  */
-class C4GBrickModuleParent extends \Module
+class C4GBrickModuleParent extends Module
 {
     //mandatory params
     protected $brickKey = ''; //unique string key for module request and con4gis-Groups rights.
