@@ -16,7 +16,7 @@ use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GMultiCheckboxField;
 
 class C4GBrickNotification
 {
-    public function getArrayTokens($dlgValues, $fieldList, $button_email = false, $object = null)
+    public static function getArrayTokens($dlgValues, $fieldList, $button_email = false, $object = null)
     {
         $field_array = [];
         $tokensValues = [];
