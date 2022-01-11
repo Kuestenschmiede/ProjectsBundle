@@ -233,33 +233,26 @@ input:invalid {
 .c4g_brick_dialog select:-moz-read-only {
 }
 
+/*
 .c4g_brick_dialog input[type='text']:disabled,
 .c4g_brick_dialog input[type='text']:read-only,
-/*.c4g_brick_dialog input[type='text']:-moz-read-only,*/
 .c4g_brick_dialog input[type='email']:disabled,
 .c4g_brick_dialog input[type='email']:read-only,
-/*.c4g_brick_dialog input[type='email']:-moz-read-only,*/
 .c4g_brick_dialog input[type='tel']:disabled,
 .c4g_brick_dialog input[type='phone']:read-only,
-/*.c4g_brick_dialog input[type='phone']:-moz-read-only,*/
 .c4g_brick_dialog input[type='number']:disabled,
 .c4g_brick_dialog input[type='number']:read-only,
-/*.c4g_brick_dialog input[type='number']:-moz-read-only,*/
 .c4g_brick_dialog input[type='date']:disabled,
 .c4g_brick_dialog input[type='date']:read-only,
 .c4g_brick_dialog input[type='url']:disabled,
 .c4g_brick_dialog input[type='url']:read-only,
-/*.c4g_brick_dialog input[type='date']:-moz-read-only,*/
 .c4g_brick_dialog textarea:disabled,
 .c4g_brick_dialog textarea:read-only
-/*.c4g_brick_dialog textarea:-moz-read-only*/,
-.c4g_brick_dialog select:disabled/*,
-.c4g_brick_dialog select:read-only*/ {
+.c4g_brick_dialog select:disabled {
     background-color: whitesmoke;
-    /*border: 0px;*/
-    /*cursor: not-allowed;*/
     border-style: inherit;
 }
+*/
 .c4g_brick_dialog .c4g_textarea_length {
     font-weight: normal;
     margin: 0 2.5%;
