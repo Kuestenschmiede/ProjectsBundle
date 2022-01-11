@@ -19,7 +19,7 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['searchFieldCaption'] = array
     'default'                 => &$GLOBALS['TL_LANG']['tl_module']['DEFAULT_FIELD_CAPTION'],
     'inputType'               => 'text',
     'eval'                    => array('tl_class'=>'w50','mandatory'=>true),
-    'sql'                     => "varchar(100) default '".$GLOBALS['TL_LANG']['tl_module']['c4g_projects']['fields']['DEFAULT_FIELD_CAPTION']."'"
+    'sql'                     => "varchar(100) default ''"
 );
 $GLOBALS['TL_DCA']['tl_module']['fields']['hideSearchFieldCaption'] = array
 (
@@ -35,7 +35,7 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['searchFieldPlaceholder'] = array
     'default'                 => &$GLOBALS['TL_LANG']['tl_module']['DEFAULT_FIELD_CAPTION'],
     'inputType'               => 'text',
     'eval'                    => array('tl_class'=>'clr w50','mandatory'=>false),
-    'sql'                     => "varchar(255) default '".$GLOBALS['TL_LANG']['tl_module']['c4g_projects']['fields']['DEFAULT_FIELD_CAPTION']."'"
+    'sql'                     => "varchar(255) default ''"
 );
 $GLOBALS['TL_DCA']['tl_module']['fields']['searchButtonCaption'] = array
 (
@@ -43,7 +43,7 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['searchButtonCaption'] = array
     'default'                 => &$GLOBALS['TL_LANG']['tl_module']['DEFAULT_BUTTON_CAPTION'],
     'inputType'               => 'text',
     'eval'                    => array('tl_class'=>'w50','mandatory'=>false),
-    'sql'                     => "varchar(100) default '".$GLOBALS['TL_LANG']['tl_module']['c4g_projects']['fields']['DEFAULT_BUTTON_CAPTION']."'"
+    'sql'                     => "varchar(100) default ''"
 );
 $GLOBALS['TL_DCA']['tl_module']['fields']['listModule'] = array
 (
