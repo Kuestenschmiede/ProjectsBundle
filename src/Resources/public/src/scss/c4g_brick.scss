@@ -567,21 +567,23 @@ table.dataTable.display tbody, table.dataTable thead th div.DataTables_sort_wrap
 .c4g_brick_dialog a input[type='url'] {
     cursor: pointer;
 }
-.c4gGuiButton .c4g_tile.text
+.c4gGuiButton .c4g_tile_text
 {
     margin-bottom: 5px;
     padding-bottom: 4px;
 }
-.c4gGuiButton .c4g_tile.image
+.c4gGuiButton .c4g_tile_image
 {
     margin-bottom: 5px;
 }
-.c4gGuiButton .c4g_tile.textarea
+.c4gGuiButton .c4g_tile_textarea
 {
     padding-top: 4px;
     padding-bottom: 4px;
 }
-.c4gGuiButton .c4g_tile.value {
+
+//ToDo check class
+.c4gGuiButton .c4g_tile_value {
     font-weight: bold;
 }
 .c4gGuiDialogButtons {

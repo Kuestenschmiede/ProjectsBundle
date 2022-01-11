@@ -78,7 +78,7 @@ class C4GCanvasField extends C4GBrickField
     {
         $fieldName = $this->getFieldName();
 
-        return $fieldTitle . '<div class="c4g_tile value">' . $element->$fieldName . '</div>';
+        return $fieldTitle . '<div class="c4g_tile_value">' . $element->$fieldName . '</div>';
     }
 
     /**
