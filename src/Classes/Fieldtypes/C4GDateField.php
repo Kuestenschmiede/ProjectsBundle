@@ -113,9 +113,20 @@ class C4GDateField extends C4GBrickField
                                 $fieldValue = $data->row()[$conField];
                             }
                         } elseif ($this->getInitialValue()) {
-                            $fieldValue = $this->getInitialValue();
+                            foreach($fieldList as $field) {
+                                $conFieldName = $field->getFieldName();
+                                if ($field->getAdditionalID()) {
+                                    $conFieldName = $conFieldName.'_'.$field->getAdditionalID();
+                                }
+                                if ($conFieldName == $conField) {
+                                    if ($field->getInitialValue()) {
+                                        $fieldValue = $field->getInitialValue();
+                                        break;
+                                    }
+                                }
+                            }
                         }
-                        if (!$con->checkAgainstCondition($fieldValue)) {
+                        if (!$fieldValue || !$con->checkAgainstCondition($fieldValue)) {
                             $display = false;
                         }
                     }
