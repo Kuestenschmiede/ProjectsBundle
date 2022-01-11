@@ -142,7 +142,7 @@ class C4GBrickTiles
     /**
      * @param $fieldList
      */
-    public function getTileClasses($fieldList, $values)
+    public static function getTileClasses($fieldList, $values)
     {
         $result = '';
         foreach ($fieldList as $field) {
@@ -173,7 +173,7 @@ class C4GBrickTiles
      * @param $fieldList
      * @param $tableElements
      */
-    public function deleteElementsPerFlag($fieldList, $tableElements)
+    public static function deleteElementsPerFlag($fieldList, $tableElements)
     {
         $newTableElements = [];
 
