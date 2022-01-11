@@ -8,7 +8,10 @@
  * @copyright (c) 2010-2021, by Küstenschmiede GmbH Software & Design
  * @link https://www.con4gis.org
  */
-$GLOBALS['TL_DCA']['tl_module']['palettes']['C4GSearchModule'] = '{title_legend},name,type,headline,listModule,searchFieldCaption,hideSearchFieldCaption,searchFieldPlaceholder,searchButtonCaption';
+
+$GLOBALS['TL_DCA']['tl_module']['palettes']['C4GSearchModule'] =
+    '{title_legend},name,type,headline,listModule,searchFieldCaption,'.
+    'hideSearchFieldCaption,searchFieldPlaceholder,searchButtonCaption';
 
 $GLOBALS['TL_DCA']['tl_module']['fields']['searchFieldCaption'] = array
 (
