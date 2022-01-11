@@ -1116,14 +1116,16 @@ window.c4g.projects = window.c4g.projects || {};
               .appendTo(scope.contentWrapperDiv);
 
             if (typeof(dialogoptions.title) !== 'undefined') {
-              var titleDiv;
-              if (options.jquiEmbeddedDialogs) {
-                titleDiv = jQuery('<div>').attr('class', 'c4gGuiDialogTitle c4gGuiDialogTitleJqui ui-widget ui-widget-header ui-corner-all');
-                titleDiv.html(dialogoptions.title);
-              } else {
-                titleDiv = jQuery('<div>')
-                  .attr('class', 'c4gGuiDialogTitle c4gGuiDialogTitleNoJqui')
-                  .append(jQuery('<h1>').html(dialogoptions.title));
+              var titleDiv = "";
+              if (dialogoptions.title) {
+                if (options.jquiEmbeddedDialogs) {
+                  titleDiv = jQuery('<div>').attr('class', 'c4gGuiDialogTitle c4gGuiDialogTitleJqui ui-widget ui-widget-header ui-corner-all');
+                  titleDiv.html(dialogoptions.title);
+                } else {
+                  titleDiv = jQuery('<div>')
+                      .attr('class', 'c4gGuiDialogTitle c4gGuiDialogTitleNoJqui')
+                      .append(jQuery('<h1>').html(dialogoptions.title));
+                }
               }
               jQuery(tmpDialogDiv).prepend(titleDiv);
             }
