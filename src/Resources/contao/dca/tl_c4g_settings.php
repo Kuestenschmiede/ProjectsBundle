@@ -12,7 +12,7 @@
 //Palettes
 // only add field if maps is installed
 $packages = \Contao\System::getContainer()->getParameter('kernel.packages');
-if ($packages['con4gis/maps']) {
+if (array_key_exists('con4gis/maps', $packages)) {
     Contao\CoreBundle\DataContainer\PaletteManipulator::create()
         ->addLegend('projects_legend', 'expert_legend', Contao\CoreBundle\DataContainer\PaletteManipulator::POSITION_BEFORE, true)
         ->addField('position_map', 'projects_legend', Contao\CoreBundle\DataContainer\PaletteManipulator::POSITION_APPEND)
