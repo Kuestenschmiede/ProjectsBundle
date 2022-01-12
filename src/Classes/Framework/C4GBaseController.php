@@ -176,6 +176,7 @@ class C4GBaseController extends AbstractFrontendModuleController
     protected $rootDir;
     protected $session;
     protected $framework;
+    protected $model;
 
     public function __construct(string $rootDir, Session $session, ContaoFramework $framework, ModuleModel $model = null)
     {
@@ -188,6 +189,7 @@ class C4GBaseController extends AbstractFrontendModuleController
         $this->session = new C4gBrickSession($session);
 
         if ($model) {
+            $this->model = $model;
             foreach ($model->row() as $fieldName=>$value) {
                 if ($fieldName === 'headline') {
                     $headlineArray = unserialize($value);
@@ -207,7 +209,7 @@ class C4GBaseController extends AbstractFrontendModuleController
     }
 
     /**
-     * @return Session
+     * @return C4gBrickSession
      */
     public function getSession(): C4gBrickSession
     {
@@ -223,7 +225,6 @@ class C4GBaseController extends AbstractFrontendModuleController
      */
     protected function getResponse(Template $template, ModuleModel $model, Request $request): ?Response
     {
-        global $objPage;
         $this->model = $model;
 
         foreach ($model->row() as $fieldName=>$value) {
@@ -297,9 +298,9 @@ class C4GBaseController extends AbstractFrontendModuleController
     }
 
     /**
-     * module class function to get fields
+     * @return array
      */
-    public function addFields()
+    public function addFields() : array
     {
         //to fill $this->fieldList in your module class
     }
