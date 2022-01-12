@@ -98,7 +98,6 @@ class C4GModuleManager
         if (strpos($request, 'morebutton') === 0) {
             $arrRequest = explode(':', $request);
             // 0 is the morebutton string, 1 is the element id and 2 is the index of the more button option
-            $controllerModule->setLanguage($language);
             $controllerModule->initBrickModule($arrRequest[1]);
             $arrMorebutton = explode('_', $arrRequest[0]);
             if ($arrMorebutton && count($arrMorebutton) == 2) {
@@ -129,7 +128,6 @@ class C4GModuleManager
         }
 
         $controllerModule->setLanguage($language);
-        $controllerModule->initBrickModule($arrRequest[1]);
         return $controllerModule->generateAjax($request);
     }
 
