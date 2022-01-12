@@ -550,6 +550,20 @@ class C4GBrickDialogParams
         return false;
     }
 
+    public function changeButtonCaption($type, $caption)
+    {
+        if ($type && $caption) {
+            foreach ($this->buttons as $button) {
+                if ($button->getType() == $type) {
+                    $button->setCaption($caption);
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
     public function removeAccordionIcons()
     {
         $this->addOnLoadScript('removeAccordionIcons();');
