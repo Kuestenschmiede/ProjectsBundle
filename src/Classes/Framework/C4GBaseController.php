@@ -176,6 +176,7 @@ class C4GBaseController extends AbstractFrontendModuleController
     protected $rootDir;
     protected $session;
     protected $framework;
+    protected $model;
 
     public function __construct(string $rootDir, Session $session, ContaoFramework $framework, ModuleModel $model = null)
     {
@@ -188,6 +189,7 @@ class C4GBaseController extends AbstractFrontendModuleController
         $this->session = new C4gBrickSession($session);
 
         if ($model) {
+            $this->model = $model;
             foreach ($model->row() as $fieldName=>$value) {
                 if ($fieldName === 'headline') {
                     $headlineArray = unserialize($value);
