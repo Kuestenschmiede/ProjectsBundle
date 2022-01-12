@@ -1477,6 +1477,11 @@ class C4GBaseController extends AbstractFrontendModuleController
         return null;
     }
 
+    /**
+     * @param $singular
+     * @param $plural
+     * @return void
+     */
     protected function setBrickCaptions($singular, $plural)
     {
         $this->brickCaption = $singular;
@@ -1488,6 +1493,11 @@ class C4GBaseController extends AbstractFrontendModuleController
         }
     }
 
+    /**
+     * @param $singular
+     * @param $plural
+     * @return void
+     */
     protected function setParentCaptions($singular, $plural)
     {
         $this->parentCaption = $singular;

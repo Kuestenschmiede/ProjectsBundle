@@ -19,6 +19,7 @@ class C4GUrlField extends C4GBrickField
 {
     private $withLink = true;
     private $addProtocol = true;
+    private $url = ''; //optional additional to initial value
 
     /**
      * @param $field
@@ -34,20 +35,25 @@ class C4GUrlField extends C4GBrickField
 
         if ($this->isShowIfEmpty() || !empty($value)) {
             $condition = $this->createConditionData($fieldList, $data);
+            $conditionPrepare = ' '. $condition['conditionPrepare'];
             $fieldDataBefore = '';
             $fieldDataAfter = '';
 
             if ($this->withLink && !$this->isEditable()) {
-                if ($this->addProtocol && !C4GUtils::startsWith($value, 'http')) {
-                    $value = 'https://' . $value;
+                $url = $this->url ?: $value;
+
+                if ($this->addProtocol && !C4GUtils::startsWith($url, 'http')) {
+                    $url = 'https://' . $url;
                 }
-                $fieldDataBefore = '<a href="' . $value . '" target="_blank" rel="noopener">';
+                $fieldDataBefore = '<a' . $condition['conditionPrepare'] . ' href="' . $url . '" target="_blank" rel="noopener" class="formdata">';
                 $fieldDataAfter = '</a>';
+
+                $conditionPrepare = '';
             };
 
             $result =
                 $this->addC4GField($condition,$dialogParams,$fieldList,$data,
-                    $fieldDataBefore . '<input type="url" ' . $required . ' ' . $condition['conditionPrepare'] . ' id="' . $id . '" class="formdata" name="' . $this->getFieldName() . '" title="' . $this->getTitle() . '" value="' . $value . '">' . $fieldDataAfter);
+                    $fieldDataBefore . '<input type="url" ' . $required . $conditionPrepare . ' id="' . $id . '" class="formdata" name="' . $this->getFieldName() . '" title="' . $this->getTitle() . '" value="' . $value . '">' . $fieldDataAfter);
         }
 
         return $result;
@@ -108,4 +114,21 @@ class C4GUrlField extends C4GBrickField
     {
         $this->addProtocol = $addProtocol;
     }
+
+    /**
+     * @return string
+     */
+    public function getUrl(): string
+    {
+        return $this->url;
+    }
+
+    /**
+     * @param string $url
+     */
+    public function setUrl(string $url): void
+    {
+        $this->url = $url;
+    }
+
 }
