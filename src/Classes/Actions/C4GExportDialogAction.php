@@ -28,7 +28,7 @@ class C4GExportDialogAction extends C4GBrickDialogAction
 
         //save data
         if (!C4GBrickDialog::checkMandatoryFields($fieldList, $dlgValues)) {
-            return ['usermessage' => $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_MANDATORY']];
+            return ['usermessage' => &$GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_MANDATORY']];
         }
 
         $validate_result = C4GBrickDialog::validateFields($fieldList, $dlgValues);
@@ -45,7 +45,7 @@ class C4GExportDialogAction extends C4GBrickDialogAction
         if (count($changes) > 0) {
             $validate_result = C4GBrickDialog::validateUnique($this->makeRegularFieldList($fieldList), $dlgValues, $brickDatabase, $dialogParams);
             if ($validate_result) {
-                return ['usermessage' => $validate_result, 'title' => $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['validate_title']];
+                return ['usermessage' => $validate_result, 'title' => &$GLOBALS['TL_LANG']['FE_C4G_DIALOG']['validate_title']];
             }
 
             $result = C4GBrickDialog::saveC4GDialog($dialogId, $tableName, $this->makeRegularFieldList($fieldList),

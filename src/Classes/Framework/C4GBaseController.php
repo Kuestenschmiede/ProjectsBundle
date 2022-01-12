@@ -393,8 +393,8 @@ class C4GBaseController extends AbstractFrontendModuleController
             if (!MemberModel::hasRightInAnyGroup($user->id, $this->brickKey)) {
                 $this->loadLanguageFiles();
                 $return = [
-                    'usermessage' => $GLOBALS['TL_LANG']['FE_C4G_LIST']['USERMESSAGE_PERMISSION_DENIED'],
-                    'title' => $GLOBALS['TL_LANG']['FE_C4G_LIST']['USERMESSAGE_PERMISSION_DENIED_TITLE'],
+                    'usermessage' => &$GLOBALS['TL_LANG']['FE_C4G_LIST']['USERMESSAGE_PERMISSION_DENIED'],
+                    'title' => &$GLOBALS['TL_LANG']['FE_C4G_LIST']['USERMESSAGE_PERMISSION_DENIED_TITLE'],
                 ];
 
                 return json_encode($return);
@@ -438,8 +438,8 @@ class C4GBaseController extends AbstractFrontendModuleController
             }
 
             $return = [
-                'usermessage' => $GLOBALS['TL_LANG']['FE_C4G_LIST']['USERMESSAGE_NOT_LOGGED_IN'],
-                'title' => $GLOBALS['TL_LANG']['FE_C4G_LIST']['USERMESSAGE_NOT_LOGGED_IN_TITLE'],
+                'usermessage' => &$GLOBALS['TL_LANG']['FE_C4G_LIST']['USERMESSAGE_NOT_LOGGED_IN'],
+                'title' => &$GLOBALS['TL_LANG']['FE_C4G_LIST']['USERMESSAGE_NOT_LOGGED_IN_TITLE'],
             ];
 
             return json_encode($return);

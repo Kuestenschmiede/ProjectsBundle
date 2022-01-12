@@ -60,7 +60,7 @@ class C4GSaveDialogAction extends C4GBrickDialogAction
         if ((!$dialogParams->isSaveOnMandatory() || ($dialogParams->isMandatoryCheckOnActivate() && ($dlgValues['published'] === 'true' || $dlgValues['published'] === true))) && !$dialogParams->isSaveWithoutMessages()) {
             $validate_result = C4GBrickDialog::validateFields($this->makeRegularFieldList($fieldList), $dlgValues);
             if ($validate_result && !$dialogParams->isSaveWithoutMessages()) {
-                return ['usermessage' => $validate_result, 'title' => $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['INVALID_INPUT']];
+                return ['usermessage' => $validate_result, 'title' => &$GLOBALS['TL_LANG']['FE_C4G_DIALOG']['INVALID_INPUT']];
             }
         }
 
@@ -196,10 +196,10 @@ class C4GSaveDialogAction extends C4GBrickDialogAction
             if (!$dialogParams->isSaveWithoutMessages() && !$dialogParams->isSaveWithoutSavingMessage()) {
                 if ($isPopup) {
                     //return $this->performAction(C4GBrickActionType::ACTION_CLOSEPOPUPDIALOG);
-                    return ['usermessage' => $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_SAVED']];
+                    return ['usermessage' => &$GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_SAVED']];
                 }
 
-                return ['usermessage' => $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_SAVED']];
+                return ['usermessage' => &$GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_SAVED']];
             }
         } else {
             if ($this->isAndNew()) {

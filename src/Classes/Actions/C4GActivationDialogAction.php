@@ -56,7 +56,7 @@ class C4GActivationDialogAction extends C4GBrickDialogAction
         }
 
         if (($viewType == C4GBrickViewType::PUBLICUUIDBASED) && !($this->dialogParams->getUuid())) {
-            return ['usermessage' => $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_MISSING_UUID'], 'title' => $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_MISSING_UUID_TITLE']];
+            return ['usermessage' => &$GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_MISSING_UUID'], 'title' => &$GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_MISSING_UUID_TITLE']];
         }
 
         if ($viewType == C4GBrickViewType::MEMBERBOOKING) {

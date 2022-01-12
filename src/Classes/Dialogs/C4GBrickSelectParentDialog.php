@@ -82,7 +82,7 @@ class C4GBrickSelectParentDialog extends C4GBrickDialog
                 return $action->run();
             }
 
-            return ['usermessage' => $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['SELECT_PARENT_DIALOG_ERROR'] . $parentCaption . '.'];
+            return ['usermessage' => &$GLOBALS['TL_LANG']['FE_C4G_DIALOG']['SELECT_PARENT_DIALOG_ERROR'] . $parentCaption . '.'];
         }
         if ($parentCaptionCallback && is_array($parentCaptionCallback)) {
             // call module function for all items

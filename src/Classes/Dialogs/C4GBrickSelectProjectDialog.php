@@ -60,7 +60,7 @@ class C4GBrickSelectProjectDialog extends C4GBrickDialog
                 return $action->run();
             }
 
-            return ['usermessage' => $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['SELECT_PROJECT_NO_PROJECT']];
+            return ['usermessage' => &$GLOBALS['TL_LANG']['FE_C4G_DIALOG']['SELECT_PROJECT_NO_PROJECT']];
         }
 
         foreach ($projects as $project) {

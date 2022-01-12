@@ -43,8 +43,8 @@ class C4GBrickSelectGroupDialog extends C4GBrickDialog
 
         if (!$groups) {
             return [
-                'usermessage' => $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['SELECT_GROUP_DIALOG_PERMISSION_DENIED'],
-                'title' => $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['SELECT_GROUP_DIALOG_PERMISSION_DENIED_TITLE'],
+                'usermessage' => &$GLOBALS['TL_LANG']['FE_C4G_DIALOG']['SELECT_GROUP_DIALOG_PERMISSION_DENIED'],
+                'title' => &$GLOBALS['TL_LANG']['FE_C4G_DIALOG']['SELECT_GROUP_DIALOG_PERMISSION_DENIED_TITLE'],
             ];
         }
 
