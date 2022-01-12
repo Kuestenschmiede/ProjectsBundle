@@ -296,9 +296,9 @@ class C4GBaseController extends AbstractFrontendModuleController
     }
 
     /**
-     * module class function to get fields
+     * @return array
      */
-    public function addFields()
+    public function addFields() : array
     {
         //to fill $this->fieldList in your module class
     }
