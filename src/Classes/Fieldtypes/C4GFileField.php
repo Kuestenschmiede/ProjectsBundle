@@ -317,10 +317,10 @@ class C4GFileField extends C4GBrickField
                 case C4GBrickFileType::IMAGES_PNG_JPG:
                 case C4GBrickFileType::IMAGES_PNG_JPG_TIFF:
                     if ($fileObject->path[0] == '/') {
-                        return $fieldTitle . '<div class="c4g_tile value">' . '<img src="' . substr($fileObject->path, 1) . '" width="' . $this->getSize() . '" height="' . $this->getSize() . '">' . '</div>';
+                        return $fieldTitle . '<div class="c4g_tile_value">' . '<img src="' . substr($fileObject->path, 1) . '" width="' . $this->getSize() . '" height="' . $this->getSize() . '">' . '</div>';
                     }
 
-                        return $fieldTitle . '<div class="c4g_tile value">' . '<img src="' . $fileObject->path . '" width="' . $this->getSize() . '" height="' . $this->getSize() . '">' . '</div>';
+                        return $fieldTitle . '<div class="c4g_tile_value">' . '<img src="' . $fileObject->path . '" width="' . $this->getSize() . '" height="' . $this->getSize() . '">' . '</div>';
 
             }
         } else {
@@ -330,11 +330,11 @@ class C4GFileField extends C4GBrickField
                 case C4GBrickFileType::IMAGES_PNG:
                 case C4GBrickFileType::IMAGES_PNG_JPG:
                 case C4GBrickFileType::IMAGES_PNG_JPG_TIFF:
-                    return $fieldTitle . '<div class="c4g_tile value">' . '<img src="bundles/con4gisprojects/images/missing.svg">' . '</div>';
+                    return $fieldTitle . '<div class="c4g_tile_value">' . '<img src="bundles/con4gisprojects/images/missing.svg">' . '</div>';
 
                     break;
                 default:
-                    return $fieldTitle . '<div class="c4g_tile value">' . '<div class="error"></div>' . '</div>';
+                    return $fieldTitle . '<div class="c4g_tile_value">' . '<div class="error"></div>' . '</div>';
             }
         }
     }

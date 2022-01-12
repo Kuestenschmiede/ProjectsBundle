@@ -603,7 +603,9 @@ class C4GBrickModuleParent extends Module
         $data['height'] = 'auto';
         $data['width'] = '100%';
         $data['embedDialogs'] = true;
-        $data['jquiEmbeddedDialogs'] = true;
+        $data['jquiEmbeddedDialogs'] = $this->jQueryAddJqueryUI;
+        $data['jquiBreadcrumb'] = $this->jQueryAddJqueryUI;
+        $data['jquiButtons'] = $this->jQueryAddJqueryUI;
 
         if (($_SERVER['REQUEST_METHOD']) == 'PUT') {
             parse_str(file_get_contents('php://input'), $this->putVars);

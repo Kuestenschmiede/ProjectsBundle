@@ -256,18 +256,20 @@ class C4GBaseController extends AbstractFrontendModuleController
         $data['height'] = 'auto';
         $data['width'] = '100%';
         $data['embedDialogs'] = true;
-        $data['jquiEmbeddedDialogs'] = true;
+        $data['jquiEmbeddedDialogs'] = $this->jQueryAddJqueryUI;
+        $data['jquiBreadcrumb'] = $this->jQueryAddJqueryUI;
+        $data['jquiButtons'] = $this->jQueryAddJqueryUI;
 
         if (($_SERVER['REQUEST_METHOD']) == 'PUT') {
             parse_str(file_get_contents('php://input'), $this->putVars);
         }
 
         //ToDo Wird der state hier wirklich gebraucht?
-        if ($_GET['state']) {
-            $request = $_GET['state'];
-        } else {
-            $request = 'initnav';
-        }
+//        if ($_GET['state']) {
+//            $request = $_GET['state'];
+//        } else {
+//            $request = 'initnav';
+//        }
 
         if ($request == 'undefined') {
             $request = C4GBrickActionType::IDENTIFIER_LIST . ':-1';

@@ -1670,6 +1670,12 @@ abstract class C4GBrickField
      */
     public function getType()
     {
+        if (!$this->type) {
+            $classname = $this::class;
+            if ($classname && strpos($classname,'C4G')) {
+              $this->type = strtolower(substr($classname, strpos($classname,'C4G')+3, -5));
+            }
+        }
         return $this->type;
     }
 

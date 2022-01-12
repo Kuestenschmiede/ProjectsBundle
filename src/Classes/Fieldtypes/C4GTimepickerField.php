@@ -119,7 +119,7 @@ class C4GTimepickerField extends C4GBrickField
         $fieldName = $this->getFieldName();
         $date = $element->$fieldName;
 
-        return $fieldTitle . '<div class="c4g_tile value">' . date($GLOBALS['TL_CONFIG']['timeFormat'], $date) . '</div>';
+        return $fieldTitle . '<div class="c4g_tile_value">' . date($GLOBALS['TL_CONFIG']['timeFormat'], $date) . '</div>';
     }
 
     /**

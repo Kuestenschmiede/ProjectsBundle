@@ -112,7 +112,7 @@ class C4GTimestampField extends C4GBrickField
     {
         $fieldName = $this->getFieldName();
 
-        return $fieldTitle . '<div class="c4g_tile value">' . $element->$fieldName . ' (' . date('d.m.Y H:i:s', $element->$fieldName) . ')' . '</div>';
+        return $fieldTitle . '<div class="c4g_tile_value">' . $element->$fieldName . ' (' . date('d.m.Y H:i:s', $element->$fieldName) . ')' . '</div>';
     }
 
     /**

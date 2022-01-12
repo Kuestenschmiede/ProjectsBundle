@@ -126,7 +126,7 @@ class C4GCheckboxField extends C4GBrickField
     {
         $fieldName = $this->getFieldName();
 
-        return $fieldTitle . '<div class="c4g_tile value">' . C4GBrickTiles::translateBool($element->$fieldName) . '</div>';
+        return $fieldTitle . '<div class="c4g_tile_value">' . C4GBrickTiles::translateBool($element->$fieldName) . '</div>';
     }
 
     /**

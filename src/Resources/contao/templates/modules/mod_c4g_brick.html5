@@ -21,9 +21,9 @@
             "ajaxUrl: '" . $this->c4gData['ajaxUrl'] . "', ".
             "ajaxData: '" . $this->c4gData['ajaxData'] ."', ".
             "initData: " . $this->c4gData['initData'] .", ".
-            "jquiBreadcrumb: true, ".
+            "jquiBreadcrumb: '" . $this->c4gData['jquiBreadcrumb'] ."', ".
             "mainDiv: jQuery('div#". $this->c4gData['div']."' ),".
-            "jquiButtons: true, ".
+            "jquiButtons: '" . $this->c4gData['jquiButtons'] ."', ".
             "embedDialogs: '". $this->c4gData['embedDialogs'] ."', ".
             "jquiEmbeddedDialogs: '". $this->c4gData['jquiEmbeddedDialogs'] ."', ";
 
