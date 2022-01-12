@@ -56,7 +56,7 @@ class C4GTicketDialogAction extends C4GBrickDialogAction
             return $redirect->run();
         }
 
-        return ['title' => &$GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_MISSING_TICKET_TITLE'], 'usermessage' => &$GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_MISSING_TICKET']];
+        return ['title' => $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_MISSING_TICKET_TITLE'], 'usermessage' => $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_MISSING_TICKET']];
     }
 
     public function isReadOnly()

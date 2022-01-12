@@ -28,25 +28,25 @@ trait C4GTraitCheckMandatoryFields
         if ($mandatoryCheckResult !== true) {
             if ($mandatoryCheckResult instanceof C4GBrickField) {
                 if ($mandatoryCheckResult->getSpecialMandatoryMessage() != '') {
-                    return ['usermessage' => $mandatoryCheckResult->getSpecialMandatoryMessage(), 'title' => &$GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_MANDATORY_TITLE'],
+                    return ['usermessage' => $mandatoryCheckResult->getSpecialMandatoryMessage(), 'title' => $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_MANDATORY_TITLE'],
                         'callback' => ['function' => 'focusOnElement', 'params' => 'c4g_' . $mandatoryCheckResult->getFieldName()], ];
                 } elseif ($mandatoryCheckResult->getTitle() != '') {
                     if (!$callbackParams) {
                         $callbackParams = 'c4g_' . $mandatoryCheckResult->getFieldName();
                     }
 
-                    return ['usermessage' => &$GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_MANDATORY_FIELD'] . '"' . $mandatoryCheckResult->getTitle() . '".',
-                        'title' => &$GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_MANDATORY_TITLE'],
+                    return ['usermessage' => $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_MANDATORY_FIELD'] . '"' . $mandatoryCheckResult->getTitle() . '".',
+                        'title' => $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_MANDATORY_TITLE'],
                         'callback' => ['function' => $callback, 'params' => $callbackParams], ];
                 }
             }
 
-            return ['usermessage' => &$GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_MANDATORY'], 'title' => &$GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_MANDATORY_TITLE']];
+            return ['usermessage' => $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_MANDATORY'], 'title' => $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_MANDATORY_TITLE']];
         }
 
         $validate_result = C4GBrickDialog::validateFields($this->makeRegularFieldList($fieldList), $dlgValues);
         if ($validate_result) {
-            return ['usermessage' => $validate_result, 'title' => &$GLOBALS['TL_LANG']['FE_C4G_DIALOG']['INVALID_INPUT']];
+            return ['usermessage' => $validate_result, 'title' => $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['INVALID_INPUT']];
         }
 
         return [];

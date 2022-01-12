@@ -137,7 +137,7 @@ class C4GShowListAction extends C4GBrickDialogAction
                         return $action->run();
                     }
 
-                    return ['usermessage' => &$GLOBALS['TL_LANG']['FE_C4G_LIST']['USERMESSAGE_FIRST_CREATE_PROJECT']];
+                    return ['usermessage' => $GLOBALS['TL_LANG']['FE_C4G_LIST']['USERMESSAGE_FIRST_CREATE_PROJECT']];
                 }
             }
 
@@ -195,8 +195,8 @@ class C4GShowListAction extends C4GBrickDialogAction
                 } elseif (!$dialogParams->isWithCommonParentOption()) {
                     $dialogParams->getSession()->setSessionValue('c4g_brick_parent_id', '');
 
-                    return ['title' => &$GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_MISSING_PARENT_TITLE'] . $parentCaption,
-                        'usermessage' => &$GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_MISSING_PARENT'] . $parentCaption . '.',
+                    return ['title' => $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_MISSING_PARENT_TITLE'] . $parentCaption,
+                        'usermessage' => $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_MISSING_PARENT'] . $parentCaption . '.',
                     ];
                 }
             }
