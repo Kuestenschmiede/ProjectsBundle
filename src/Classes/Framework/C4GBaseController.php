@@ -209,7 +209,7 @@ class C4GBaseController extends AbstractFrontendModuleController
     }
 
     /**
-     * @return Session
+     * @return C4gBrickSession
      */
     public function getSession(): C4gBrickSession
     {
