@@ -223,7 +223,6 @@ class C4GBaseController extends AbstractFrontendModuleController
      */
     protected function getResponse(Template $template, ModuleModel $model, Request $request): ?Response
     {
-        global $objPage;
         $this->model = $model;
 
         foreach ($model->row() as $fieldName=>$value) {
