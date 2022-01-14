@@ -13,10 +13,12 @@ namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickCommon;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
+use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldType;
 use Contao\StringUtil;
 
 class C4GGalleryField extends C4GBrickField
 {
+    private $type = C4GBrickFieldType::GALLERY;
     private $imageWidth = '';
     private $imageHeight = '';
     private $withTitle = false;
@@ -130,7 +132,7 @@ class C4GGalleryField extends C4GBrickField
 //     * @param $element
 //     * @return mixed
 //     */
-//    public function getC4GTileField($fieldTitle, $element)
+//    public function getC4GTileField($fieldTitle, $element, $column, $fieldList, C4GBrickDialogParams $dialogParams)
 //    {
 //        $fieldName = $this->getFieldName();
 //        $file = $element->$fieldName;

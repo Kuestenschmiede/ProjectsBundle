@@ -13,9 +13,12 @@ namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
 use con4gis\CoreBundle\Classes\C4GUtils;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
+use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldType;
 
 class C4GLinkField extends C4GBrickField
 {
+    private $type = C4GBrickFieldType::LINK;
+
     protected $linkLabel = '';
     protected $labelField = '';
     protected $linkType = self::LINK_TYPE_DEFAULT;

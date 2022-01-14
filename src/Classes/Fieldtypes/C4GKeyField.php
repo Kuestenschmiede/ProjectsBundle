@@ -11,7 +11,9 @@
 namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
 
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBaseKeyField;
+use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldType;
 
 class C4GKeyField extends C4GBaseKeyField
 {
+    private $type = C4GBrickFieldType::KEY;
 }

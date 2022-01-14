@@ -13,10 +13,13 @@ namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldCompare;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldText;
+use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldType;
 use Contao\Controller;
 
 class C4GTextField extends C4GBrickFieldText
 {
+    private $type = C4GBrickFieldType::TEXT;
+
     protected $size = 255;
     protected $maxLength = 255;
     protected $simpleTextWithoutEditing = false; //Renders HTML tags, never use this to display user-generated data
@@ -53,7 +56,7 @@ class C4GTextField extends C4GBrickFieldText
                 }
 
                 $result = $this->addC4GField($condition, $dialogParams, $fieldList, $data,
-                    '<input ' . $required . ' ' . $condition['conditionPrepare'] . ' type="text" id="' . $id . '" class="formdata c4g-form-text ' . $id . '" size="' . $this->size . '"  maxLength="' . $this->maxLength . '" name="' . $this->getFieldName() . '" value="' . $value . '"' . $placeholder . $aria . '>');
+                    '<input ' . $required . ' ' . $condition['conditionPrepare'] . ' type="text" id="' . $id . '" class="formdata c4g__form-text-input ' . $id . '" size="' . $this->size . '"  maxLength="' . $this->maxLength . '" name="' . $this->getFieldName() . '" value="' . $value . '"' . $placeholder . $aria . '>');
             }
         }
 

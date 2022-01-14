@@ -1,0 +1,63 @@
+.dataTables_scrollHeadInner {
+  padding-left: 0px!important;
+}
+.dataTable tr td {
+  text-align: left; //ToDo überprüfen und einfach konfigurierbar machen
+}
+
+.dataTable tr td.c4g_list_align_center {
+  text-align: center;
+}
+
+.dataTable tr td.c4g_list_align_right {
+  text-align: right;
+}
+
+.dataTable tr td.c4g_list_align_left {
+  text-align: left;
+}
+
+.dataTables_wrapper {
+  font-size: inherit;
+  overflow-y: auto;
+}
+.dataTables_paginate .ui-button {
+  padding: 0!important;
+}
+.c4gGuiDataTable tfoot th {
+  padding-right: 10px!important;
+  font-weight: normal!important;
+  border-top: 1px;
+  border-top-color: darkgrey;
+  border-top-style: solid;
+}
+#c4g_brick table.dataTable.no-footer {
+  border-bottom: 1px;
+  border-bottom-color: darkgrey;
+  border-bottom-style: solid;
+}
+.dataTables_wrapper .dataTables_info {
+  font-size: inherit!important;
+  padding-top: 0px!important;
+}
+table.dataTable.display tbody, table.dataTable thead th div.DataTables_sort_wrapper{
+  text-align: left;
+  font-size: 0.9rem;
+}
+.dataTables_wrapper tr {
+  cursor:pointer!important;
+}
+.dt-buttons {
+  .ui-button-text {
+    visibility: hidden;
+  }
+  .ui-button-text:before {
+    visibility: initial;
+  }
+}
+th.nomouseevents {
+  pointer-events: none;
+}
+th.nomouseevents .DataTables_sort_icon {
+  display: none;
+}

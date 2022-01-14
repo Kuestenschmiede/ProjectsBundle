@@ -1,0 +1,40 @@
+.c4g_brick_dialog .ui-accordion-header {
+  outline: none;
+  margin-left: 0;
+  display: block;
+  cursor: pointer;
+  position: relative;
+  margin: .3em 0 0 0;
+  /*padding: .5em .5em .5em .7em;*/
+  font-size: inherit;
+  /*width: 100%;*/
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
+}
+
+.c4g_brick_dialog .ui-accordion-header a {
+  margin-left: .3em;
+}
+
+.c4gGuiAccordion .ui-icon {
+  display: inline-block;
+  vertical-align: middle;
+  margin-top: .92em;
+  position: absolute;
+  text-indent: -99999px;
+  overflow: hidden;
+  background-repeat: no-repeat;
+}
+
+.c4g_accordion_icon {
+  vertical-align: middle;
+  font-size: 30px;
+  margin-right: 1%;
+  margin-bottom: 0.5%;
+}
+
+.ui-accordion-header-active .c4g_accordion_icon  {
+  transform: rotate(90deg);
+}
+
+

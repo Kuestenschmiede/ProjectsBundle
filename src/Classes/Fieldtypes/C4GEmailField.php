@@ -14,9 +14,11 @@ use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldCompare;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickRegEx;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldText;
+use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldType;
 
 class C4GEmailField extends C4GBrickFieldText
 {
+    private $type = C4GBrickFieldType::EMAIL;
     protected $pattern = C4GBrickRegEx::EMAIL;
 
     public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = [])
@@ -31,7 +33,7 @@ class C4GEmailField extends C4GBrickFieldText
 
             $result =
                 $this->addC4GField($condition,$dialogParams,$fieldList,$data,
-                    '<input type="email"' . $required . ' pattern="' . $this->pattern . '" ' . $condition['conditionPrepare'] . ' id="' . $id . '" class="formdata ' . $id . '" name="' . $this->getFieldName() . '" title="' . $this->getTitle() . '" value="' . $value . '">');
+                    '<input type="email"' . $required . ' pattern="' . $this->pattern . '" ' . $condition['conditionPrepare'] . ' id="' . $id . '" class="formdata c4g__form-email-input ' . $id . '" name="' . $this->getFieldName() . '" title="' . $this->getTitle() . '" value="' . $value . '">');
         }
 
         return $result;

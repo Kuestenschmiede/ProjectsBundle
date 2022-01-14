@@ -14,10 +14,12 @@ use con4gis\ProjectsBundle\Classes\Common\C4GBrickCommon;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldCompare;
+use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldType;
 use Contao\Database;
 
 class C4GGeopickerField extends C4GBrickField
 {
+    private $type = C4GBrickFieldType::GEOPICKER;
     private $withoutAddressReloadButton = true; //do not show the address reload field
     private $withoutAddressRow = false; //do not show address row
     private $locGeoxFieldname = 'loc_geox';

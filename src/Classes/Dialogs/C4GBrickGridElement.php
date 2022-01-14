@@ -14,19 +14,19 @@ use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
 
 class C4GBrickGridElement
 {
-    private $col = 0;
-    private $colspan = 0;
-    private $row = 0;
-    private $rowspan = 0;
-    private $width = '100%';
-    private $horizontal = 'left';
-    private $vertical = 'top';
+    private $col = 0; //not for css grid
+    private $colspan = 0; //not for css grid
+    private $row = 0; //not for css grid
+    private $rowspan = 0; //not for css grid
+    private $width = '100%'; //not for css grid
+    private $horizontal = 'left'; //not for css grid
+    private $vertical = 'top'; //not for css grid
     private $field = null;
 
     /**
      * C4GBrickGridElement constructor.
      */
-    public function __construct(C4GBrickField $field, $col, $row, $horizontal = 'left', $vertical = 'top', $width = 'auto', $colspan = 0, $rowspan = 0)
+    public function __construct(C4GBrickField $field, $col=0, $row=0, $horizontal = 'left', $vertical = 'top', $width = 'auto', $colspan = 0, $rowspan = 0)
     {
         $this->field = $field;
         $this->col = $col;

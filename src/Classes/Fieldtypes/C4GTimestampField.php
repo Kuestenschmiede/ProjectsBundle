@@ -13,9 +13,12 @@ namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldCompare;
+use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldType;
 
 class C4GTimestampField extends C4GBrickField
 {
+    private $type = C4GBrickFieldType::TIMESTAMP;
+
     /**
      * @param C4GBrickField[] $fieldList
      * @param $data
@@ -41,7 +44,7 @@ class C4GTimestampField extends C4GBrickField
 
             $result =
                 $this->addC4GField($condition,$dialogParams,$fieldList,$data,
-                '<input ' . $required . ' type="text" id="' . $id . '" class="formdata ' . $id . '" name="' . $fieldName . '" value="' . $value . '" ' . $condition['conditionPrepare'] . '>');
+                '<input ' . $required . ' type="text" id="' . $id . '" class="formdata c4g__form-text-input ' . $id . '" name="' . $fieldName . '" value="' . $value . '" ' . $condition['conditionPrepare'] . '>');
         }
 
         return $result;
@@ -108,7 +111,7 @@ class C4GTimestampField extends C4GBrickField
      * @param $element
      * @return mixed
      */
-    public function getC4GTileField($fieldTitle, $element)
+    public function getC4GTileField($fieldTitle, $element, $column, $fieldList, C4GBrickDialogParams $dialogParams)
     {
         $fieldName = $this->getFieldName();
 

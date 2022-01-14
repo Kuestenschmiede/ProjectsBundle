@@ -13,9 +13,12 @@ namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldCompare;
+use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldType;
 
 class C4GTelField extends C4GBrickField
 {
+    private $type = C4GBrickFieldType::TEL;
+
     /**
      * @param $field
      * @param $data
@@ -33,7 +36,7 @@ class C4GTelField extends C4GBrickField
 
             $result =
                 $this->addC4GField($condition,$dialogParams,$fieldList,$data,
-                '<input type="tel" ' . $required . ' ' . $condition['conditionPrepare'] . ' id="' . $id . '"' . ' class="formdata ' . $id . '" name="' . $this->getFieldName() . '" title="' . $this->getTitle() . '" value="' . $value . '">');
+                '<input type="tel" ' . $required . ' ' . $condition['conditionPrepare'] . ' id="' . $id . '"' . ' class="formdata c4g__form-tel-input ' . $id . '" name="' . $this->getFieldName() . '" title="' . $this->getTitle() . '" value="' . $value . '">');
         }
 
         return $result;

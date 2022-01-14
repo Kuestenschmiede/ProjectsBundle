@@ -323,7 +323,7 @@ class C4GBrickCommon
         $result = '';
         $s = uniqid('', false);
 
-        if (!empty($s)) {  //fixed warning
+        if (!empty($s)) {
             $hex = substr($s, 0, 13);
             if (!empty($s[13])) {
               $dec = $s[13] . substr($s, 15); // skip the dot

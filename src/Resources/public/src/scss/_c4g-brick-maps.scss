@@ -1,0 +1,39 @@
+.c4g_brick_dialog .c4g_brick_geopicker_label {
+  padding-top: 10px;
+}
+.c4g_brick_dialog #c4g_brick_geopicker {
+  width: 95%!important;
+  margin-top: 5px!important;
+  margin-left: 2.5%!important;
+}
+.c4g_brick_dialog #c4g_brick_geopicker_geox, .c4g_brick_dialog #c4g_brick_geopicker_geoy {
+  display: block;
+  margin: 0 auto;
+  margin-left: 2.5%;
+  width: 95%;
+}
+.c4g_brick_dialog .c4g_reverse_address {
+}
+
+.c4g_brick_dialog #c4g_brick_geopicker_address {
+  float: left;
+  margin-left: 2.5%;
+  width: 75%;
+}
+.c4g_brick_dialog .c4g_brick_geopicker_address_without_reloadbutton {
+  float: left;
+  margin-left: 2.5%;
+  width: 95%!important;
+}
+.c4g_brick_dialog #c4g_addressUpdateButton {
+  width: 20%;
+  cursor: pointer;
+}
+
+#c4g_brick #geopickDiv, #c4g_brick #mapsDiv {
+  z-index: 1000;
+}
+
+.ol-control button {
+  font-family: 'Font Awesome 5 Free';
+}

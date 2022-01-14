@@ -16,6 +16,7 @@ use con4gis\ProjectsBundle\Classes\Common\C4GBrickCommon;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldCompare;
+use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldType;
 use con4gis\ProjectsBundle\Classes\Views\C4GBrickViewType;
 use Contao\StringUtil;
 
@@ -25,6 +26,7 @@ class C4GMultiCheckboxField extends C4GBrickField
     private $serializeResult = true;
     private $showAsCsv = false;
     private $allChecked = false;
+    private $type = C4GBrickFieldType::MULTICHECKBOX;
 
     /**
      * @param $fieldList

@@ -14,9 +14,12 @@ use con4gis\ProjectsBundle\Classes\Common\C4GBrickConst;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldCompare;
+use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldType;
 
 class C4GIncludeField extends C4GBrickField
 {
+    private $type = C4GBrickFieldType::INCLUDE;
+
     protected $includeType = C4GBrickConst::INCLUDE_CONTENT; //see class for all options
     protected $ids = [];
 

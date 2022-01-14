@@ -13,13 +13,15 @@ namespace con4gis\ProjectsBundle\Classes\Dialogs;
 class C4GBrickGrid
 {
     private $elements = [];
+    private $columns = 0; //just css grid
 
     /**
      * C4GBrickGrid
      */
-    public function __construct($elements)
+    public function __construct($elements, $columns = 0)
     {
         $this->elements = $elements;
+        $this->columns = $columns;
     }
 
     /**
@@ -39,5 +41,21 @@ class C4GBrickGrid
         $this->elements = $elements;
 
         return $this;
+    }
+
+    /**
+     * @return int|mixed
+     */
+    public function getColumns()
+    {
+        return $this->columns;
+    }
+
+    /**
+     * @param int|mixed $columns
+     */
+    public function setColumns($columns): void
+    {
+        $this->columns = $columns;
     }
 }

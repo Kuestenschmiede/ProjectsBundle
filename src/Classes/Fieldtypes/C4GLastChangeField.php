@@ -12,9 +12,11 @@ namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
 
 use con4gis\GroupsBundle\Resources\contao\models\MemberModel;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
+use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldType;
 
 class C4GLastChangeField extends C4GMemberField
 {
+    private $type = C4GBrickFieldType::TEXT;
     private $withcolon = false;
     private $titleText = '';
 

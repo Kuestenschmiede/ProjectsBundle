@@ -16,10 +16,12 @@ use con4gis\ProjectsBundle\Classes\Conditions\C4GBrickConditionType;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldCompare;
+use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldType;
 use con4gis\ProjectsBundle\Classes\Views\C4GBrickViewType;
 
 class C4GRadioGroupField extends C4GBrickField
 {
+    private $type = C4GBrickFieldType::RADIOGROUP;
     private $turnButton = false;
     private $clearGroupText = '';
     private $addNameToId = true;

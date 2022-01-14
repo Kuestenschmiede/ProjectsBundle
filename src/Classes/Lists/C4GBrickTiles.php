@@ -17,7 +17,9 @@ use con4gis\ProjectsBundle\Classes\Buttons\C4GBrickButton;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickCommon;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickConst;
 use con4gis\ProjectsBundle\Classes\Conditions\C4GBrickConditionType;
+use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldType;
+use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GGridField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GMoreButtonField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GSelectField;
 use con4gis\ProjectsBundle\Classes\Filter\C4GBrickFilterParams;
@@ -264,6 +266,7 @@ class C4GBrickTiles
         $tableElements,
         $key,
         C4GBrickListParams $listParams,
+        C4GBrickDialogParams $dialogParams,
         $parentCaption,
         $withLabels
     ) {
@@ -342,7 +345,7 @@ class C4GBrickTiles
                             $extModel::$extCallbackFunction($element, $database);
                         }
                     }
-                    if (!$listParams->isWithModelListFunction() && $element->$fieldName) {
+                    if (!$listParams->isWithModelListFunction() && ($element->$fieldName || ($column instanceof C4GGridField))) {
                         $view .= '<div class="c4g_tile c4g_tile_'.$fieldType.' c4g_tile_field_' . $fieldName . '">';
 
                         if ($cnt == 0) {
@@ -355,7 +358,7 @@ class C4GBrickTiles
                                             $element->$fieldName,
                                             C4GBrickTiles::getOptions($fieldList, $element, $column)) . '</div>';
                                 } else {
-                                    $view .= $column->getC4GTileField($fieldTitle, $element);
+                                    $view .= $column->getC4GTileField($fieldTitle, $element, $column, $fieldList, $dialogParams);
                                 }
                                 $cnt++;
                             }
@@ -370,7 +373,7 @@ class C4GBrickTiles
                             } elseif ($column->isShowIfEmpty() && !($column instanceof C4GMoreButtonField)) {
                                 $view .= $fieldTitle . '<div class="c4g_tile_value"></div>';
                             } elseif ($column instanceof C4GMoreButtonField) {
-                                $view .= $column->getC4GTileField($fieldTitle, $element);
+                                $view .= $column->getC4GTileField($fieldTitle, $element,$column, $fieldList, $dialogParams);
                             }
                             $view .= '</div>';
                         }
@@ -421,7 +424,7 @@ class C4GBrickTiles
                                         $element->$fieldName,
                                         C4GBrickTiles::getOptions($fieldList, $element, $column)) . '</div>';
                                 } else {
-                                    $view .= $column->getC4GTileField('', $element);
+                                    $view .= $column->getC4GTileField('', $element, $column, $fieldList, $dialogParams);
                                 }
                                 $cnt++;
                             }

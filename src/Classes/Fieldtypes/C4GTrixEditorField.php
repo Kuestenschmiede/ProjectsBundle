@@ -13,9 +13,12 @@ namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldCompare;
+use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldType;
 
 class C4GTrixEditorField extends C4GBrickField
 {
+    private $type = C4GBrickFieldType::TEXTEDITOR;
+
     /**
      * @param C4GBrickField[] $fieldList
      * @param $data
@@ -35,12 +38,12 @@ class C4GTrixEditorField extends C4GBrickField
             $condition = $this->createConditionData($fieldList, $data);
 
             if ($this->isEditable()) {
-                $fieldData = '<input id="' . $id . '" class="formdata c4g-editor-trix ui-corner-all" name="' .
+                $fieldData = '<input id="' . $id . '" class="formdata c4g__form-editor ui-corner-all" name="' .
                     $this->getFieldName() . '" value="' . $value . '" type="hidden" name="content">' .
                     '<trix-editor class="trix-content ' . $this->getStyleClass() . '" input="' . $id . '"></trix-editor>';
             } else {
                 $fieldData = '<div disabled ' . $condition['conditionPrepare'] . ' id="' . $id .
-                    '" class="formdata c4g-editor-disabled ' . $id . ' ui-corner-all">' .
+                    '" class="formdata c4g__form-editor-disabled ' . $id . ' ui-corner-all">' .
                     html_entity_decode($value) . ' </div>';
             }
 

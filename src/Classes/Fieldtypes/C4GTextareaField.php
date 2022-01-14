@@ -13,9 +13,12 @@ namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldCompare;
+use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldType;
 
 class C4GTextareaField extends C4GBrickField
 {
+    private $type = C4GBrickFieldType::TEXTAREA;
+
     /**
      * @param $field
      * @param $data
@@ -44,7 +47,7 @@ class C4GTextareaField extends C4GBrickField
             }
             $result =
                 $this->addC4GField($condition,$dialogParams,$fieldList,$data,
-                '<textarea ' . $required . ' ' . $condition['conditionPrepare'] . ' id="' . $id . '" class="formdata ' . $id . ' ui-corner-all" name="' . $this->getFieldName() . '" cols="80" rows="' . $size . '"' . $maxlength . '" >' . $value . ' </textarea>');
+                '<textarea ' . $required . ' ' . $condition['conditionPrepare'] . ' id="' . $id . '" class="formdata c4g__form-textarea ' . $id . ' ui-corner-all" name="' . $this->getFieldName() . '" cols="80" rows="' . $size . '"' . $maxlength . '" >' . $value . ' </textarea>');
         }
 
         return $result;
@@ -77,7 +80,7 @@ class C4GTextareaField extends C4GBrickField
      * @param $element
      * @return mixed
      */
-    public function getC4GTileField($fieldTitle, $element)
+    public function getC4GTileField($fieldTitle, $element, $column, $fieldList, C4GBrickDialogParams $dialogParams)
     {
         $fieldName = $this->getFieldName();
 

@@ -12,6 +12,7 @@ namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
 
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
+use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldType;
 
 /**
  * Class C4GHeadlineField
@@ -19,6 +20,8 @@ use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
  */
 class C4GHeadlineField extends C4GBrickField
 {
+    private $type = C4GBrickFieldType::HEADLINE;
+
     protected $additionalHeaderText = '';
     protected $showHeadlineNumber = false;
     protected $showFieldCount = false;
@@ -249,7 +252,7 @@ class C4GHeadlineField extends C4GBrickField
      * @param $element
      * @return mixed
      */
-    public function getC4GTileField($fieldTitle, $element)
+    public function getC4GTileField($fieldTitle, $element, $column, $fieldList, C4GBrickDialogParams $dialogParams)
     {
         return $fieldTitle . '<div class="c4g_tile_value">' . '<h3>' . $this->getTitle() . '</h3>' . '</div>';
     }

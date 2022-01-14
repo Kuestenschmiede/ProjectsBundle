@@ -15,4 +15,7 @@ class C4GBrickRenderMode
     const LISTBASED = 'list';
     const TILEBASED = 'tiles';
     const TABLEBASED = 'table';
+
+    //ToDO for new default
+    //const TMPLBASED = 'template';
 }

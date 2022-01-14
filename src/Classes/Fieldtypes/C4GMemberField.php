@@ -14,9 +14,11 @@ use con4gis\GroupsBundle\Resources\contao\models\MemberModel;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldCompare;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldText;
+use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldType;
 
 class C4GMemberField extends C4GBrickFieldText
 {
+    private $type = C4GBrickFieldType::USER;
     protected $size = 255;
     protected $maxLength = 255;
 

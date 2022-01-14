@@ -14,9 +14,12 @@ use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldNumeric;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldCompare;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickRegEx;
+use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldType;
 
 class C4GPercentField extends C4GBrickFieldNumeric
 {
+    private $type = C4GBrickFieldType::FLOAT;
+
     /**
      * @property string $group Group of PercentFields this belongs to. All percent fields with a non-empty group must
      * have a combined value smaller or equal to 100. //Todo does not work yet
@@ -65,7 +68,7 @@ class C4GPercentField extends C4GBrickFieldNumeric
                 $this->setPattern(C4GBrickRegEx::NUMBERS_NO_SEP);
                 $result =
                     $this->addC4GField($condition, $dialogParams, $fieldList, $data,
-                        '<input ' . $required . ' ' . $condition['conditionPrepare'] . ' type="' . $type . '" ' . $onChange . ' id="' . $id . '" class="formdata ' . $id . '" size="' .
+                        '<input ' . $required . ' ' . $condition['conditionPrepare'] . ' type="' . $type . '" ' . $onChange . ' id="' . $id . '" class="formdata c4g__form-'.$type.'-input ' . $id . '" size="' .
                         $this->getSize() . '" min="' . $this->getMin() . '" max="' . $this->getMax() . '" step="' . $this->getStep() . '" pattern="' . $this->pattern . '" name="' .
                         $this->getFieldName() . '" value="' . $value . '">');
             }
@@ -86,7 +89,7 @@ class C4GPercentField extends C4GBrickFieldNumeric
             $this->setPattern(C4GBrickRegEx::generateNumericRegEx($this->getDecimals(), false, $this->getThousandsSep(), $this->getDecimalPoint()));
             $result =
                     $this->addC4GField($condition,$dialogParams,$fieldList,$data,
-                        '<input pattern="' . $this->pattern . '" ' . $required . ' ' . $condition['conditionPrepare'] . ' type="number" step="any" id="' . $id . '" class="formdata ' . $id . '" size="' . $this->getSize() . '" min="' . $this->getMin() . '" max="' . $this->getMax() . '" name="' . $this->getFieldName() . '" value="' . $value . '" >');
+                        '<input pattern="' . $this->pattern . '" ' . $required . ' ' . $condition['conditionPrepare'] . ' type="number" step="any" id="' . $id . '" class="formdata c4g__form-number-input ' . $id . '" size="' . $this->getSize() . '" min="' . $this->getMin() . '" max="' . $this->getMax() . '" name="' . $this->getFieldName() . '" value="' . $value . '" >');
         }
 
         return $result;

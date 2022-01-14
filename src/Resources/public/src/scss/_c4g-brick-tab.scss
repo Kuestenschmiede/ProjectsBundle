@@ -1,0 +1,65 @@
+.c4gGuiTabLinks {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+.c4gGuiTabLink {
+  float: left;
+  display: inline-block;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  transition: 0.3s;
+  font-size: inherit;
+  font-weight: normal;
+  cursor: pointer;
+}
+
+/*
+.c4gGuiTabLinks .ui-state-active {
+    top: 7px!important;
+    position: absolute!important;
+    z-index: 100;
+}*/
+
+.c4gGuiTabContent {
+  /*display: none;*/
+  visibility: hidden;
+  height: 0;
+  overflow: hidden;
+  max-height:0;
+  top: 0px;
+}
+
+.c4gGuiTabContainer .ui-state-active,.c4gGuiTabContainer .ui-state-default, .c4gGuiTabContainer .current {
+  visibility: inherit;
+  height: inherit;
+  max-height:inherit;
+  font-weight: inherit;
+  font-weight: normal;
+}
+
+
+.c4g_tab_switch_last {
+  margin-bottom: 2em;
+  margin-bottom: 8px;
+}
+
+.c4g_tab_switch_left {
+  margin-left: 2.5%;
+  margin-bottom: 8px;
+  margin-right: 4px;
+}
+
+.c4g_tab_switch_right {
+  margin-right: 2.5%;
+  margin-bottom: 8px;
+}
+
+.c4g_tab_switch_first {
+  margin-left: 2.5%;
+  float: left;
+  margin-bottom: 8px;
+}

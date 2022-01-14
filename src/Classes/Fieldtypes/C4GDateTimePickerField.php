@@ -14,9 +14,12 @@ use con4gis\CoreBundle\Resources\contao\models\C4gLogModel;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldCompare;
+use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldType;
 
 class C4GDateTimePickerField extends C4GBrickField
 {
+    private $type = C4GBrickFieldType::DATETIMEPICKER;
+
     // customize single date fields
     private $customFormat = null;
     private $dateField = ''; //merged with time if necessary

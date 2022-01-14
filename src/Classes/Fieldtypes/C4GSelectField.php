@@ -16,9 +16,12 @@ use con4gis\ProjectsBundle\Classes\Conditions\C4GBrickConditionType;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldCompare;
+use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldType;
 
 class C4GSelectField extends C4GBrickField
 {
+    private $type = C4GBrickFieldType::SELECT;
+
     private $chosen = false;
     private $minChosenCount = 7;
     private $placeholder = ''; // GUI placeholder text
@@ -55,7 +58,7 @@ class C4GSelectField extends C4GBrickField
             $condition = $this->createConditionData($fieldList, $data);
 
             $options = $this->getSelectOptions($data, $value, $condition);
-            $class = 'formdata';
+            $class = 'formdata c4g__form-select ';
             if ($this->isChosen() && (count($this->getOptions()) >= $this->getMinChosenCount())) {
                 if (strpos($required, 'disabled')) {
                     $class = $class . ' chzn-select-disabled';

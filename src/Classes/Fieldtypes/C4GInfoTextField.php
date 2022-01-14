@@ -13,6 +13,7 @@ namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldCompare;
+use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldType;
 
 /**
  * Represents a simple text for information purposes.
@@ -20,6 +21,7 @@ use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldCompare;
  */
 class C4GInfoTextField extends C4GBrickField
 {
+    private $type = C4GBrickFieldType::TEXT;
     private $align = 'left';
 
     /**

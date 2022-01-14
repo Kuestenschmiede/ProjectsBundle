@@ -1,0 +1,315 @@
+
+.c4gGuiDialogTitle h1
+{
+  margin-top: 0px;
+  margin-right: 0px;
+  margin-left: 0px;
+  margin-bottom: 0px;
+  padding-top: 0px;
+  padding-left: 0px;
+  padding-right: 0px;
+  padding-bottom: 0px;
+}
+.c4gGuiDialogTitle button
+{
+  float: right;
+  margin-top: 4px;
+  margin-left: 4px;
+  margin-right: 4px;
+  height: 21px;
+}
+.c4gGuiDialogTitle input
+{
+  float: right;
+  margin-top: 4px;
+  height: 21px;
+  margin-right: 4px;
+  margin-left: 4px;
+}
+input:invalid {
+  border-right-color: red;
+}
+.c4gGuiDialogTitle select.c4g_filter {
+  float: right;
+  margin-top: 4px;
+  height: 21px;
+  margin-right: 4px;
+  margin-left: 4px;
+}
+.c4gGuiDialogTitle label
+{
+  float: right;
+  margin-top: 7px;
+  height: 21px;
+  margin-right: 4px;
+  margin-left: 4px;
+  font-size: inherit;
+}
+.c4g_brick_headtext {
+  font-size: inherit;
+  font-weight: normal;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  margin-left: 0px/*2.5%*/;
+}
+.c4g_brick_headtext_highlighted {
+  font-size: inherit;
+  font-weight: bolder;
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+.c4g_brick_dialog input.formdata,
+.c4g_brick_dialog input.formnodata,
+.c4g_brick_dialog textarea.formdata,
+.c4g_brick_dialog .c4g_non_input {
+  display: block;
+  margin-bottom: .25em;
+  margin-top: .25em;
+  margin-left: 2.5%;
+  margin-right: 2.5%;
+  width: 95%;
+  min-height: 27px;
+}
+.c4g_brick_dialog label, .c4g_brick_select_dialog label {
+  margin-left: 2.5%;
+}
+.c4g_brick_dialog .c4g_brick_headline, .c4g_brick_dialog .c4g_popup_headline {
+  font-weight: bold;
+  margin-left: 2.5%;
+  font-size: 1.25em;
+  margin-bottom: 2px;
+  margin-top: 1.0em;
+}
+.c4g_brick_dialog label strong {
+  color: red;
+}
+.c4g_brick_dialog .c4g_mandatory_class {
+  margin-left: 2px;
+}
+.c4g_brick_dialog select,.c4g_brick_dialog .styled_select,
+.c4g_brick_select_dialog select,.c4g_brick_select_dialog .styled_select {
+  display: block;
+  width: 95.00%;
+  min-height: 27px;
+  padding-left: 3px;
+  padding-right: 3px;
+  margin-left: 2.5%;
+  margin-bottom: .25em;
+  margin-top: .25em;
+  overflow:hidden;
+}
+.c4g_brick_dialog .chosen-container, .c4g_brick_select_dialog .chosen-container {
+  display: block;
+  width: 95.33%!important;
+  margin-left: 2.33%;
+  margin-bottom: 5px;
+  border-radius: 3px;
+  font-size: inherit;
+  text-decoration: none;
+}
+.c4g_brick_dialog .chosen-single, .c4g_brick_select_dialog .chosen-single {
+  text-decoration: none!important;
+  color: inherit!important;
+  border-radius:0px!important;
+}
+.c4g_brick_dialog .chzn-select-disabled, .c4g_brick_select_dialog .chzn-select-disabled{
+  display:none!important;
+}
+.c4g_brick_dialog textarea.formdata {
+  resize: vertical;
+}
+.c4g_dialog label {
+  font-weight: bold;
+  margin-left: 2.5%;
+}
+.c4g_brick_dialog p.c4g_field_description {
+  font-size: 0.9rem;
+  font-weight: lighter;
+  margin: 0 2.5%;
+  color: darkgrey;
+}
+.c4g_brick_dialog p.c4g_field_description a{
+  text-decoration: underline;
+}
+.c4g_brick_dialog .c4g_field_descripton_hole {
+  margin-bottom: 4px;
+}
+.c4g_brick_dialog .c4g_brick_header_text {
+  font-weight: normal;
+  text-align: right;
+  margin: 0 2.5%;
+  font-style: italic;
+  font-size: inherit;
+  color: darkgrey;
+}
+.c4g_brick_dialog .c4g_color.picker {
+  font-weight: bold;
+  margin-left: 2.5%;
+}
+.c4g_brick_dialog .c4g_color.block {
+  width: 16px;
+  height: 16px;
+}
+.c4g_brick_dialog label.cg_checkbox_label {
+  font-weight: normal;
+}
+.c4g_brick_dialog #c4g_select_label {
+  margin-top: 10px;
+}
+.c4g_brick_dialog input:required,
+.c4g_brick_dialog textarea:required,
+.c4g_brick_dialog select:required,
+.c4g_brick_dialog select:-moz-read-only {
+}
+
+.c4g_brick_dialog .c4g_textarea_length {
+  font-weight: normal;
+  margin: 0 2.5%;
+  font-style: italic;
+  font-size: inherit;
+  color: darkgrey;
+}
+.c4g_brick_dialog input[type='file'] {
+  display: block;
+  margin: 0 auto;
+  width: 95%;
+}
+
+.c4g_brick_dialog canvas {
+  margin-left: 2.5%;
+  margin-right: 2.5%;
+}
+.ol-viewport canvas {
+  margin-left: 0px;
+  margin-right: 0px;
+}
+.c4g_brick_message_dialog {
+  padding: 5px;
+}
+.c4g_brick_message_dialog label, .c4g_brick_message_dialog textarea, .c4g_brick_message_dialog .c4g_description {
+  width: 95%;
+}
+div.cg_info_block {
+  margin: 5px 10px;
+  padding: 10px;
+  font-style: italic;
+
+  border: 1px solid rgba(0, 0, 0, .1);
+  background: rgba(255, 255, 255, .3);
+}
+div.cg_block {
+  margin: 5px 10px;
+  padding: 10px;
+}
+#c4g_brick .c4gGuiContentWrapper {
+  width: 100%;
+  height: 100%;
+}
+#c4g_brick .ui-widget,
+.c4gGuiDialogWrapper.ui-widget {
+  font-size: inherit;
+}
+
+#c4g_brick .c4gGuiContentWrapper,
+#c4g_brick .c4gGuiNavigation {
+  padding-top: 10px;
+}
+
+#main .ui-widget-header {
+  margin-top: 0px!important;
+  font-weight: normal;
+}
+.ui-dialog {
+  z-index: 750;
+}
+.c4g_brick_dialog a input[type='url'] {
+  cursor: pointer;
+}
+
+.c4g_brick_dialog h3 {
+  font-weight: bold;
+  margin-left: 2.5%;
+  cursor: pointer;
+}
+.c4g_brick_dialog h3 a {
+  text-decoration: none!important;
+}
+
+.c4g_brick_dialog .c4g_brick_link,.c4g_brick_dialog .c4g_brick_button, .c4g_tab_switch_left {
+  margin-left: 2.5%;
+}
+
+.c4g_brick_dialog .c4g_brick_stopwatch{
+  position:relative;
+  margin-left: 2.5%;
+  height: 22px;
+  font-size:24px;
+}
+.mfp-iframe-holder .mfp-content {
+  width: 100%;
+  height: 100%;
+  max-width: 95%;
+  max-height: 95%;
+}
+.mfp-content video{
+  width:60%;
+  margin-left: 20%;
+  margin-right: 20%;
+}
+.c4g_brick_dialog .c4g_brick_label {
+  border: 0;
+}
+.c4g_dialog_link {
+  margin-left: 2.5%;
+  margin-right: 2.5%;
+}
+
+input.c4g_brick_info_text {
+  background-color: inherit;
+  border: none;
+}
+.ui-widget.ui-widget-content {
+  border: 0;
+}
+
+.ui-button {
+  cursor: default;
+}
+
+.c4g_brick_headtext {
+  display: block;
+  width: 100%;
+}
+
+.c4g_include_fields .teaser {
+  margin-left: 2.5%;
+  margin-right: 2.5%;
+}
+
+.c4g_multicolumn {
+  margin-top: 10px;
+  margin-left: 2.5%;
+}
+
+label:empty, li:empty, #c4g_description:empty {
+  display: none;
+}
+
+.c4gGuiContentWrapper #c4g_list_search {
+  background-color: white !important;
+}
+
+.c4g_list_search_hide {
+  display: none !important;
+}
+
+.c4g_nodisplay {
+  display: none !important;
+}
+
+.typed {
+  height: 110px;
+}
+.c4g_condition__wrapper {
+  margin: 0 2.5%;
+}

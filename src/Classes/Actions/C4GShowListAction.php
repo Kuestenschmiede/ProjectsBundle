@@ -540,7 +540,8 @@ class C4GShowListAction extends C4GBrickDialogAction
                     $elements,
                     $id,
                     $parentCaption,
-                    $listParams
+                    $listParams,
+                    $dialogParams
                 );
 
                 break;
@@ -554,7 +555,8 @@ class C4GShowListAction extends C4GBrickDialogAction
                     $elements,
                     $id,
                     $parentCaption,
-                    $listParams
+                    $listParams,
+                    $dialogParams
                 );
 
                 break;
@@ -568,6 +570,7 @@ class C4GShowListAction extends C4GBrickDialogAction
                     $elements,
                     $id,
                     $listParams,
+                    $dialogParams,
                     $parentCaption,
                     $withLabels
                 );

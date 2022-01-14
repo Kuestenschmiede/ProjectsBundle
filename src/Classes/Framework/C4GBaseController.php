@@ -779,7 +779,7 @@ class C4GBaseController extends AbstractFrontendModuleController
             ResourceLoader::loadCssResource('bundles/con4giscore/dist/css/fontawesome.min.css', 'fontawesome');
         }
         if ($this->loadDefaultResources) {
-            ResourceLoader::loadCssResource('bundles/con4gisprojects/dist/css/c4g_brick.min.css',
+            ResourceLoader::loadCssResource('bundles/con4gisprojects/dist/css/c4g-brick.min.css',
                 'c4g_brick_style');
         }
         if ($this->brickStyle) {

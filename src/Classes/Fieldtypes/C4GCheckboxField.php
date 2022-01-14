@@ -15,11 +15,14 @@ use con4gis\ProjectsBundle\Classes\Conditions\C4GBrickConditionType;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldCompare;
+use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldType;
 use con4gis\ProjectsBundle\Classes\Lists\C4GBrickList;
 use con4gis\ProjectsBundle\Classes\Lists\C4GBrickTiles;
 
 class C4GCheckboxField extends C4GBrickField
 {
+    private $type = C4GBrickFieldType::CHECKBOX;
+
     /**
      * @param $field
      * @param $data
@@ -60,7 +63,7 @@ class C4GCheckboxField extends C4GBrickField
             }
 
             $result = $this->addC4GField($condition, $dialogParams, $fieldList, $data,
-                '<input ' . $required . $boolswitch . $condition['conditionPrepare'] . ' type="checkbox" id="' . $id . '" class="formdata ' . $id . '" name="' . $this->getFieldName() . '" value="' . $this->getFieldName() . '" ' . $checked . '>');
+                '<input ' . $required . $boolswitch . $condition['conditionPrepare'] . ' type="checkbox" id="' . $id . '" class="formdata c4g__form-check ' . $id . '" name="' . $this->getFieldName() . '" value="' . $this->getFieldName() . '" ' . $checked . '>');
         }
 
         return $result;
@@ -122,7 +125,7 @@ class C4GCheckboxField extends C4GBrickField
      * @param $element
      * @return mixed
      */
-    public function getC4GTileField($fieldTitle, $element)
+    public function getC4GTileField($fieldTitle, $element, $column, $fieldList, C4GBrickDialogParams $dialogParams)
     {
         $fieldName = $this->getFieldName();
 

@@ -1,0 +1,47 @@
+.c4g_brick_dialog .c4g_timefield
+{
+  border: 1px solid rgb(226, 226, 226);
+  height: auto;
+  width: auto!important;
+  overflow: hidden;
+  display: flex;
+}
+.c4g_brick_dialog .c4g_timefield .timepicker.input
+{
+  float: left;
+  padding-right: 2px;
+  vertical-align: middle;
+  text-align: center;
+  height: auto;
+  min-height: 27px;
+  width: auto;
+  border: 0px inset;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  font-size: unset;
+}
+.c4g_brick_dialog .c4g_timefield .gettime
+{
+  width: 21px;
+  min-height: 27px;
+  vertical-align: middle;
+  text-align: center;
+  left: 50px;
+  background-image: url("../images/point.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.c4g_brick_dialog .c4g_timefield .gettime
+{
+  cursor: pointer;
+}
+.c4g_brick_dialog .c4g_timefield:disabled .gettime,
+.c4g_brick_dialog .c4g_timefield:read-only .gettime
+{
+  display: none;
+}
+.c4g_brick_dialog .c4g_timefield:disabled,
+.c4g_brick_dialog .c4g_timefield:read-only {
+  width: auto;
+  border-style: inherit;
+}

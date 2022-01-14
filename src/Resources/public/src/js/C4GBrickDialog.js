@@ -53,7 +53,7 @@ function C4GDatePicker(id,
                        exclude)
 {
 
-    if(type == "date")
+    if (type == "date")
     {
         var dMin = '';
         if (minDate) {
@@ -67,7 +67,7 @@ function C4GDatePicker(id,
 
         jQuery.datepicker.setDefaults(jQuery.datepicker.regional[lang || "de"]);
         jQuery("#"+id).datepicker({
-            beforeShowDay: function(date){
+            beforeShowDay: function (date) {
                 if (weekdays) {
                     var wd = new Array();
                     wd = weekdays.split(",");

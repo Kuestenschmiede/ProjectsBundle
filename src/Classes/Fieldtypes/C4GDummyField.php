@@ -12,12 +12,15 @@ namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
 
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
+use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldType;
 
 class C4GDummyField extends C4GBrickField
 {
+    private $type = C4GBrickFieldType::DUMMY;
+
     public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = [])
     {
-        $result = '<div class="c4g_dummy_field"></div>';
+        $result = '<div class=" c4g__form-dummy"></div>';
 
         return $result;
     }

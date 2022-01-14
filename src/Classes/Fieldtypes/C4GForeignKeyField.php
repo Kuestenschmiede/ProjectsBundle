@@ -11,9 +11,12 @@
 namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
 
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBaseKeyField;
+use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldType;
 
 class C4GForeignKeyField extends C4GBaseKeyField
 {
+    private $type = C4GBrickFieldType::FOREIGNKEY;
+
     public function __construct()
     {
         $this->setEditable();

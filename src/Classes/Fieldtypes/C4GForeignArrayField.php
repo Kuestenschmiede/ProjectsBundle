@@ -15,9 +15,11 @@ use con4gis\ProjectsBundle\Classes\Database\C4GBrickDatabase;
 use con4gis\ProjectsBundle\Classes\Database\C4GBrickDatabaseType;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
+use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldType;
 
 class C4GForeignArrayField extends C4GBrickField
 {
+    private $type = C4GBrickFieldType::FOREIGNARRAY;
     private $foreignTable = '';             //Source table for the data (frontend display). May be empty if $foreignFieldList is empty.
     private $foreignKey = '';               //Key by which the data will be matched (foreign key comparison). May be empty if $foreignFieldList is empty.
     private $foreignFieldList = [];    //The fields which display the data. If no fields are give, no frontend output is created.
@@ -47,12 +49,6 @@ class C4GForeignArrayField extends C4GBrickField
         $loadedDataHtml = '';
         $subData = [];
         foreach ($data as $key => $value) {
-            /*$keyArray = explode($this->delimiter,$key);
-            if ($keyArray && $keyArray[0] == $this->getFieldName() && $keyArray[1] && $keyArray[2]) {
-                $subData[$keyArray[0].$this->delimiter.$keyArray[2]][$keyArray[1]] = $value;
-            } elseif ($keyArray && $keyArray[0] == $this->getFieldName()) {
-                $subData[$keyArray[0]] = $value;
-            }*/
             $keyArray = explode($this->delimiter, $key);
             if ($keyArray && $keyArray[0] == $this->identifier && $keyArray[1] && $keyArray[2]) {
                 $subData[$keyArray[0] . $this->delimiter . $keyArray[2]][$keyArray[1]] = $value;
@@ -61,20 +57,6 @@ class C4GForeignArrayField extends C4GBrickField
 
         foreach ($subData as $dbVals) {
             $dbVals = ArrayHelper::arrayToObject($dbVals);
-
-            /* $fieldNames = array();
-             $fieldNamesIndex = 0;
-             foreach ($this->foreignFieldList as $field) {
-                 $fieldNames[] = $field->getFieldName();
-             }
-
-             $dbValsTemp = new \stdClass();
-             foreach ($dbVals as $k => $v) {
-                 $name = $fieldNames[$fieldNamesIndex];
-                 $dbValsTemp->$name = $v;
-                 $fieldNamesIndex += 1;
-             }
-             $dbVals = $dbValsTemp;*/
 
             foreach ($this->foreignFieldList as $field) {
                 $loadedDataHtml .= $field->getC4GDialogField($this->foreignFieldList, $dbVals, $dialogParams, $additionalParams);

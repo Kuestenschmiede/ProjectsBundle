@@ -24,9 +24,12 @@ namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldCompare;
+use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldType;
 
 class C4GTimeSelectTableField extends C4GBrickField
 {
+    private $type = C4GBrickFieldType::TIME;
+
     protected $begin = 0;
     protected $end = 0;
     protected $interval = 0;
@@ -53,8 +56,8 @@ class C4GTimeSelectTableField extends C4GBrickField
             $style = '';
         }
 
-        $fieldData = '<input ' . $required . ' ' . $condition['conditionPrepare'] . ' type="hidden" id="' . $id . '" class="formdata ' . $id . '" name="' . $this->getFieldName() . '" value="' . $value . '">';
-        $fieldData .= '<div class="c4g_time_select_table ' . $this->getStyleClass() . '" ' . $style . '>';
+        $fieldData = '<input ' . $required . ' ' . $condition['conditionPrepare'] . ' type="hidden" id="' . $id . '" class="formdata c4g__form-time-select ' . $id . '" name="' . $this->getFieldName() . '" value="' . $value . '">';
+        $fieldData .= '<div class="c4g__form-time-select-table ' . $this->getStyleClass() . '" ' . $style . '>';
 
         $index = 0;
         while (($this->begin + ($index * $this->interval)) <= $this->end) {

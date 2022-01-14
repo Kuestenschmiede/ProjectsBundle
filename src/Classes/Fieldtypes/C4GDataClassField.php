@@ -12,12 +12,14 @@ namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
 
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
+use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldType;
 
 class C4GDataClassField extends C4GBrickField
 {
     protected $classPrefix = '';
     protected $classSuffix = '';
     protected $splitBy = ', ';
+    protected $type = C4GBrickFieldType::DATACLASS;
 
     public function __construct()
     {

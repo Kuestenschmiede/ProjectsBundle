@@ -15,11 +15,14 @@ use con4gis\ProjectsBundle\Classes\Common\C4GBrickCommon;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldSourceType;
+use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldType;
 use con4gis\ProjectsBundle\Classes\Files\C4GBrickFileType;
 use Contao\StringUtil;
 
 class C4GImageField extends C4GBrickField
 {
+    private $type = C4GBrickFieldType::IMAGE;
+
     private $width = '256px';
     private $height = '256px';
     private $deserialize = false;
@@ -223,7 +226,7 @@ class C4GImageField extends C4GBrickField
      * @param $element
      * @return mixed
      */
-    public function getC4GTileField($fieldTitle, $element)
+    public function getC4GTileField($fieldTitle, $element, $column, $fieldList, C4GBrickDialogParams $dialogParams)
     {
         $fieldName = $this->getFieldName();
         $file = $element->$fieldName;

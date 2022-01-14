@@ -13,9 +13,11 @@ namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldCompare;
+use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldType;
 
 class C4GMultiColumnField extends C4GBrickField
 {
+    protected $type = C4GBrickFieldType::MULTICOLUMN;
     protected $fields = [];
     protected $addButtonLabel = 'Hinzufügen';
     protected $removeButtonLabel = 'Entfernen';

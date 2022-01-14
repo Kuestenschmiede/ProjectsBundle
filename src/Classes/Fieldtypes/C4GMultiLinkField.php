@@ -12,10 +12,12 @@ namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
 
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
+use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldType;
 use Contao\StringUtil;
 
 class C4GMultiLinkField extends C4GBrickField
 {
+    private $type = C4GBrickFieldType::MULTILINK;
     private $linkClass = '';
     private $wrapper = false;
     private $wrapperClass = 'c4g_condition__wrapper';

@@ -15,11 +15,13 @@ use con4gis\ProjectsBundle\Classes\Common\C4GBrickCommon;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldCompare;
+use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldType;
 use con4gis\ProjectsBundle\Classes\Files\C4GBrickFileType;
 use con4gis\ProjectsBundle\Classes\Views\C4GBrickViewType;
 
 class C4GFileField extends C4GBrickField
 {
+    private $type = C4GBrickFieldType::FILE;
     private $maxFileSize = '4194304';
     private $nameFormat = ''; //standardmäßig wird eine eindeutiger Name generiert (uuid)
     private $withDate = false;
@@ -301,7 +303,7 @@ class C4GFileField extends C4GBrickField
      * @param $element
      * @return mixed
      */
-    public function getC4GTileField($fieldTitle, $element)
+    public function getC4GTileField($fieldTitle, $element, $column, $fieldList, C4GBrickDialogParams $dialogParams)
     {
         $fieldName = $this->getFieldName();
         $file = $element->$fieldName;

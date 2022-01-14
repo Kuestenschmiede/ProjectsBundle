@@ -14,9 +14,12 @@ use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldNumeric;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldCompare;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickRegEx;
+use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldType;
 
 class C4GNumberField extends C4GBrickFieldNumeric
 {
+    private $type = C4GBrickFieldType::INT;
+
     protected $pattern = C4GBrickRegEx::DIGITS_NEG;
     protected $initialValue = 0;
 
@@ -73,7 +76,7 @@ class C4GNumberField extends C4GBrickFieldNumeric
 
             $result =
                 $this->addC4GField($condition,$dialogParams,$fieldList,$data,
-                    '<input ' . $required . ' ' . $condition['conditionPrepare'] . ' type="' . $type . '" ' . $changeAction . ' id="' . $id . '" class="formdata ' . $id . '" size="' .
+                    '<input ' . $required . ' ' . $condition['conditionPrepare'] . ' type="' . $type . '" ' . $changeAction . ' id="' . $id . '" class="formdata c4g__form-'.$type.'-input ' . $id . '" size="' .
                     $this->getSize() . '" min="' . $this->getMin() . '" max="' . $this->getMax() . '" step="' . $this->getStep() . '" pattern="' . $this->pattern . '" name="' .
                     $fieldName . '" value="' . $value . '">');
         }

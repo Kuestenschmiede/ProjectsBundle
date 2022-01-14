@@ -18,6 +18,7 @@ use con4gis\ProjectsBundle\Classes\Buttons\C4GBrickButton;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickCommon;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickConst;
 use con4gis\ProjectsBundle\Classes\Conditions\C4GBrickConditionType;
+use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GClassField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GDataClassField;
@@ -279,7 +280,7 @@ class C4GBrickList
      */
     public static function showC4GTableList(
         $listCaption, $database, $content, $listHeadline, $fieldList, $tableElements, $key,
-        $parentCaption, $listParams)
+        $parentCaption, C4GBrickListParams $listParams, C4GBrickDialogParams $dialogParams)
     {
         if (!$tableElements) {
             $tableElements = [];
@@ -337,16 +338,16 @@ class C4GBrickList
         }
 
         $data['oLanguage'] = [
-            'oPaginate' => &$GLOBALS['TL_LANG']['FE_C4G_LIST']['DATATABLE_CAPTION_PAGINATION'],
-            'sEmptyTable' => &$GLOBALS['TL_LANG']['FE_C4G_LIST']['DATATABLE_CAPTION_NONE'] . $listCaption . $GLOBALS['TL_LANG']['FE_C4G_LIST']['DATATABLE_CAPTION_EXISTS'],
+            'oPaginate' => $GLOBALS['TL_LANG']['FE_C4G_LIST']['DATATABLE_CAPTION_PAGINATION'],
+            'sEmptyTable' => $GLOBALS['TL_LANG']['FE_C4G_LIST']['DATATABLE_CAPTION_NONE'] . $listCaption . $GLOBALS['TL_LANG']['FE_C4G_LIST']['DATATABLE_CAPTION_EXISTS'],
             'sInfo' => '_TOTAL_ ' . $listCaption . ' (_START_' . $GLOBALS['TL_LANG']['FE_C4G_LIST']['DATATABLE_CAPTION_TO'] . '_END_' . ')',
             'sInfoEmpty' => '_TOTAL_ ',
             'sInfoFiltered' => ' ' . $GLOBALS['TL_LANG']['FE_C4G_LIST']['DATATABLE_CAPTION_FROM'] . '_MAX_ ' . $listCaption2,
-            'sInfoThousands' => &$GLOBALS['TL_LANG']['FE_C4G_LIST']['DATATABLE_CAPTION_INFO_THOUSANDS'],
-            'sLengthMenu' => &$GLOBALS['TL_LANG']['FE_C4G_LIST']['DATATABLE_CAPTION_SHOW'] . '_MENU_ ' . $listCaption,
-            'sProcessing' => &$GLOBALS['TL_LANG']['FE_C4G_LIST']['DATATABLE_CAPTION_PROCESSING'],
-            'sSearch' => &$GLOBALS['TL_LANG']['FE_C4G_LIST']['DATATABLE_CAPTION_SEARCH'],
-            'sZeroRecords' => &$GLOBALS['TL_LANG']['FE_C4G_LIST']['DATATABLE_CAPTION_NONE'] . $listCaption . $GLOBALS['TL_LANG']['FE_C4G_LIST']['DATATABLE_CAPTION_FOUND'],
+            'sInfoThousands' => $GLOBALS['TL_LANG']['FE_C4G_LIST']['DATATABLE_CAPTION_INFO_THOUSANDS'],
+            'sLengthMenu' => $GLOBALS['TL_LANG']['FE_C4G_LIST']['DATATABLE_CAPTION_SHOW'] . '_MENU_ ' . $listCaption,
+            'sProcessing' => $GLOBALS['TL_LANG']['FE_C4G_LIST']['DATATABLE_CAPTION_PROCESSING'],
+            'sSearch' => $GLOBALS['TL_LANG']['FE_C4G_LIST']['DATATABLE_CAPTION_SEARCH'],
+            'sZeroRecords' => $GLOBALS['TL_LANG']['FE_C4G_LIST']['DATATABLE_CAPTION_NONE'] . $listCaption . $GLOBALS['TL_LANG']['FE_C4G_LIST']['DATATABLE_CAPTION_FOUND'],
         ];
 
         $cnt = 0;
@@ -593,7 +594,9 @@ class C4GBrickList
         return $return;
     }
 
-    public static function showC4GList($listCaption, $database, $content, $listHeadline, $fieldList, $tableElements, $key, $parentCaption, C4GBrickListParams $listParams)
+    public static function showC4GList(
+        $listCaption, $database, $content, $listHeadline, $fieldList, $tableElements, $key, $parentCaption,
+        C4GBrickListParams $listParams, C4GBrickDialogParams $dialogParams)
     {
         $customListViewFunction = $listParams->getCustomListViewFunction();
         if (empty($customListViewFunction)) {

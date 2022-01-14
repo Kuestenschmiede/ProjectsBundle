@@ -14,9 +14,12 @@ use con4gis\ProjectsBundle\Classes\Common\C4GBrickCommon;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldCompare;
+use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldType;
 
 class C4GColorField extends C4GBrickField
 {
+    private $type = C4GBrickFieldType::COLOR;
+
     /**
      * @param C4GBrickField[] $fieldList
      * @param $data
@@ -61,7 +64,7 @@ class C4GColorField extends C4GBrickField
 
             $result =
                 $this->addC4GField($prepareCondition,$dialogParams,$fieldList,$data,
-                '<input ' . $required . ' type="color" id="' . $id . '" class="formdata ' . $id . '" name="' . $fieldName . '" value="' . $value . '" ' . $conditionPrepare[1] . '>' .
+                '<input ' . $required . ' type="color" id="' . $id . '" class="formdata c4g__form-color ' . $id . '" name="' . $fieldName . '" value="' . $value . '" ' . $conditionPrepare[1] . '>' .
                 $description);
         }
 

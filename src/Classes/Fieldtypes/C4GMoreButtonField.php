@@ -14,10 +14,13 @@ use con4gis\ProjectsBundle\Classes\Buttons\C4GMoreButton;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldCompare;
+use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldType;
 use con4gis\ProjectsBundle\Classes\Lists\C4GBrickRenderMode;
 
 class C4GMoreButtonField extends C4GBrickField
 {
+    private $type = C4GBrickFieldType::BUTTON;
+
     // override parent fields
     protected $databaseField = false;
 
@@ -136,7 +139,7 @@ class C4GMoreButtonField extends C4GBrickField
         return $value;
     }
 
-    public function getC4GTileField($fieldTitle, $element)
+    public function getC4GTileField($fieldTitle, $element, $column, $fieldList, C4GBrickDialogParams $dialogParams)
     {
         if ($this->moreButton) {
             return $this->moreButton->renderButton(

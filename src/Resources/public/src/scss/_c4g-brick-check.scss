@@ -1,0 +1,49 @@
+.c4g_brick_dialog input[type='checkbox'] {
+  width: 1.0em;
+  vertical-align: middle;
+  border-radius: 5px;
+}
+.c4g_checkbox {
+  display: block;
+  padding-bottom: 2px;
+}
+.c4g_checkbox label{
+  margin-left: 2px;
+  white-space: nowrap;
+}
+label.c4g_multicheckbox{
+  margin-left: 2.5%;
+}
+.c4g_multicheckbox_modern{
+  font-weight: bold;
+}
+.c4g_brick_dialog input[type='checkbox'] + label {
+  display: inline-block;
+  font-size: inherit;
+  font-weight: 100;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  margin-left: 0;
+}
+.c4g_multicheckbox input[type='checkbox']{
+  display: inline-block!important;
+}
+.c4g_multicheckbox input[type='checkbox'] + label:before{
+  display: none !important;
+}
+.c4g_multicheckbox_modern input[type="checkbox"]{
+  display: none !important;
+}
+.c4g_multicheckbox_modern input[type='checkbox'] + label:before {
+  content: "\f204";
+  margin-right: 5px;
+}
+.c4g_multicheckbox_modern input[type='checkbox']:checked + label:before {
+  content: "\f205";
+  margin-right: 5px;
+}
+.c4g_multicheckbox span:not(.c4g_checkbox) {
+  margin-left: 2.5%;
+  margin-right: 2.5%;
+}

@@ -45,6 +45,24 @@ class C4GBrickFieldType
     const FLAG_PUBLISHED = 'publishedflag'; //Achtung! wird noch nicht unterstützt
     const DATATABLE = 'datatable';
     const HEADLINE = 'headline';
-
-    //const MOREBUTTON        = 'morebutton';
+    const AUDIO = 'audio';
+    const BUTTON = 'button';
+    const CANVAS = 'canvas';
+    const CHECKBOX = 'check';
+    const DATACLASS = 'dataclass';
+    const DUMMY = 'dummy';
+    const FOREIGNARRAY = 'foreignarray';
+    const FOREIGNKEY = 'foreignkey';
+    const GRID = 'grid';
+    const ICON = 'icon';
+    const INCLUDE = 'include';
+    const LINK = 'link';
+    const USER = 'user';
+    const MULTICOLUMN = 'multicolumn';
+    const MULTILINK = 'multilink';
+    const PERMALINK = 'permalink';
+    const SIGNATURE = 'signature';
+    const STOPWATCH = 'stopwatch';
+    const SUBDIALOG = 'subdialog';
+    const TAB = 'tab';
 }

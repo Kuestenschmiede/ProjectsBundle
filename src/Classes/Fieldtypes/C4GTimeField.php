@@ -13,9 +13,12 @@ namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldCompare;
+use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldType;
 
 class C4GTimeField extends C4GBrickField
 {
+    private $type = C4GBrickFieldType::TIME;
+
     /**
      * @param C4GBrickField[] $fieldList
      * @param $data
@@ -44,7 +47,7 @@ class C4GTimeField extends C4GBrickField
             $result =
                 $this->addC4GField($condition,$dialogParams,$fieldList,$data,
                 '<div class="c4g_timefield" ' . $required . '>' .
-                '<input ' . $required . ' type="text" class="timepicker input formdata" id="' . $id . '" value="' . $value . '" name="' . $fieldName . '" ' . $condition['conditionPrepare'] . ' maxlength="5" size="5" placeholder="__:__">' .
+                '<input ' . $required . ' type="text" class="timepicker input formdata c4g__form-text-input" id="' . $id . '" value="' . $value . '" name="' . $fieldName . '" ' . $condition['conditionPrepare'] . ' maxlength="5" size="5" placeholder="__:__">' .
                 '<a class="gettime" onclick="C4GTimePicker(\'' . $id . '\', \'gettime\', this)"></a>' .
                 '</div>');
         }
@@ -117,7 +120,7 @@ class C4GTimeField extends C4GBrickField
      * @param $element
      * @return mixed
      */
-    public function getC4GTileField($fieldTitle, $element)
+    public function getC4GTileField($fieldTitle, $element, $column, $fieldList, C4GBrickDialogParams $dialogParams)
     {
         $fieldName = $this->getFieldName();
         $date = $element->$fieldName;

@@ -1,0 +1,66 @@
+.ui-datepicker-month, .ui-datepicker-year {
+  display: inline-block;
+}
+
+.datepicker_inner_container {
+  width: max-content;
+}
+
+table.datepicker_table {
+  width: inherit;
+}
+
+.c4g__form-date-container {
+  display: flex;
+  margin-left: 2.5%;
+  margin-right: 2.5%;
+  width: 95%;
+}
+.c4g__form-date-button {
+  display: inherit;
+  pointer-events: none;
+  cursor: pointer;
+  margin-left: 0%;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.c4g__form-date-button-flipped {
+  margin-right: 0%;
+}
+
+.c4g__form-date-button-interactive {
+  display: inherit;
+  cursor: pointer;
+  margin-left: 0%;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.c4g__form-date-button-interactive-flipped {
+  display: inherit;
+  cursor: pointer;
+  margin-right: 0%;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+input.formdata.c4g__form-date-input {
+  display: inherit;
+  margin-right: 1em;
+  margin-left: 0%;
+  width: 100%;
+}
+
+input.formdata.c4g__form-date-input-flipped {
+  display: inherit;
+  margin-left: 1em;
+  margin-right: 0%;
+  margin-left: 1em;
+  width: 100%;
+}
+
+input.formdata.c4g__form-date-input-browser {
+  margin-right: 0%;
+  margin-left: 0%;
+}

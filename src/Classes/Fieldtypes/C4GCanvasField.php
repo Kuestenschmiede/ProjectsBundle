@@ -13,11 +13,13 @@ namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldCompare;
+use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldType;
 
 class C4GCanvasField extends C4GBrickField
 {
     private $width = 256;
     private $height = 192;
+    private $type = C4GBrickFieldType::CANVAS;
 
     /**
      * @param $field
@@ -40,7 +42,7 @@ class C4GCanvasField extends C4GBrickField
             $condition = $this->createConditionData($fieldList, $data);
             $result =
                 $this->addC4GField($condition,$dialogParams,$fieldList,$data,
-                '<canvas ' . $required . ' ' . $condition['conditionPrepare'] . ' id="' . $id . '" class="' . $id . $additionalClasses . ' ui-corner-all" name="' . $this->getFieldName() . '" width="' . $this->getWidth() . '" height="' . $this->getHeight() . '" >' . $value . ' </canvas>');
+                '<canvas ' . $required . ' ' . $condition['conditionPrepare'] . ' id="' . $id . '" class="' . $id . $additionalClasses . ' c4g__form-canvas ui-corner-all" name="' . $this->getFieldName() . '" width="' . $this->getWidth() . '" height="' . $this->getHeight() . '" >' . $value . ' </canvas>');
         }
 
         return $result;
@@ -74,7 +76,7 @@ class C4GCanvasField extends C4GBrickField
      * @param $element
      * @return mixed
      */
-    public function getC4GTileField($fieldTitle, $element)
+    public function getC4GTileField($fieldTitle, $element, $column, $fieldList, C4GBrickDialogParams $dialogParams)
     {
         $fieldName = $this->getFieldName();
 

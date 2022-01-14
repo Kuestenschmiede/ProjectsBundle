@@ -14,12 +14,11 @@ use con4gis\ProjectsBundle\Classes\Buttons\C4GBrickButton;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickConst;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
+use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldType;
 
 class C4GTabButtonPanelField extends C4GBrickField
 {
-    //ToDo's
-    //
-
+    private $type = C4GBrickFieldType::TAB;
     private $button = null; //siehe C4GBrickButton
     private $circleButton = false;
     private $onClick = '';

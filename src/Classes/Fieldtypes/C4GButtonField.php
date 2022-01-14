@@ -14,6 +14,7 @@ use con4gis\ProjectsBundle\Classes\Buttons\C4GBrickButton;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickConst;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
+use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldType;
 
 class C4GButtonField extends C4GBrickField
 {
@@ -23,6 +24,7 @@ class C4GButtonField extends C4GBrickField
     private $onClickType = C4GBrickConst::ONCLICK_TYPE_SERVER;
     private $overlay = null;
     private $color = ''; //standardmäßig greift das CSS
+    private $type = C4GBrickFieldType::BUTTON;
 
     /**
      * C4GButtonField constructor.
@@ -55,7 +57,7 @@ class C4GButtonField extends C4GBrickField
             $function = $this->getOnClick();
             $divBefore = '<div class="c4gGuiDialogButtonsJqui ">';
             $divAfter = '</div>';
-            $class = 'c4gGuiAction c4gGuiButton c4g_brick_button c4gGuiSend';
+            $class = 'c4gGuiAction c4gGuiButton c4g__form-button  c4gGuiSend';
 
             if ($this->getOnClickType() == C4GBrickConst::ONCLICK_TYPE_SERVER) {
                 $dataAction = 'href="#" data-action="' . $button->getAction() . ':' . $function . ':' . $dialogParams->getId() . '" role="button"';
@@ -65,7 +67,7 @@ class C4GButtonField extends C4GBrickField
         } elseif ($button->getAction()) {
             $divBefore = '<div class="c4gGuiDialogButtonsJqui ">';
             $divAfter = '</div>';
-            $class = 'c4gGuiAction c4gGuiButton c4g_brick_button c4gGuiSend';
+            $class = 'c4gGuiAction c4gGuiButton c4g__form-button c4gGuiSend';
 
             $dataAction = 'href="#" data-action="' . $button->getAction() . ':' . $dialogParams->getId() . '" role="button"';
         } else {

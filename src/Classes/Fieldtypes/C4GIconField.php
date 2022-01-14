@@ -12,9 +12,11 @@ namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
 
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
+use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldType;
 
 class C4GIconField extends C4GBrickField
 {
+    private $type = C4GBrickFieldType::ICON;
     protected $icon = '';
     protected $iconText = '';
     protected $conditional = false;     //true = the icon is only shown if the field value is '1'

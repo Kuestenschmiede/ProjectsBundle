@@ -19,10 +19,13 @@ use con4gis\ProjectsBundle\Classes\Database\C4GBrickDatabaseType;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldCompare;
+use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldType;
 use con4gis\ProjectsBundle\Classes\Views\C4GBrickView;
 
 class C4GSubDialogField extends C4GBrickField
 {
+    private $type = C4GBrickFieldType::SUBDIALOG;
+
     private $table = '';
     private $fieldList = [];
     private $keyField = null;

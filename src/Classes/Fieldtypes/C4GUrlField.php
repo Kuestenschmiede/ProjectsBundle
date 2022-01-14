@@ -14,9 +14,12 @@ use con4gis\CoreBundle\Classes\C4GUtils;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldCompare;
+use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldType;
 
 class C4GUrlField extends C4GBrickField
 {
+    private $type = C4GBrickFieldType::URL;
+
     private $withLink = true;
     private $addProtocol = true;
     private $url = ''; //optional additional to initial value
@@ -53,7 +56,7 @@ class C4GUrlField extends C4GBrickField
 
             $result =
                 $this->addC4GField($condition,$dialogParams,$fieldList,$data,
-                    $fieldDataBefore . '<input type="url" ' . $required . $conditionPrepare . ' id="' . $id . '" class="formdata" name="' . $this->getFieldName() . '" title="' . $this->getTitle() . '" value="' . $value . '">' . $fieldDataAfter);
+                    $fieldDataBefore . '<input type="url" ' . $required . $conditionPrepare . ' id="' . $id . '" class="formdata c4g__form-url-input" name="' . $this->getFieldName() . '" title="' . $this->getTitle() . '" value="' . $value . '">' . $fieldDataAfter);
         }
 
         return $result;

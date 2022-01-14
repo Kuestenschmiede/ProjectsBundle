@@ -221,9 +221,11 @@ abstract class C4GBrickField
         $display = '';
 
         if ($class == '') {
-            $class = 'class="c4g_condition ' . $this->styleClass . '"';
+            $styleClass = 'c4g__form-'.$this->getType().' '.'c4g__form-'.$this->getType().'--'.$this->getFieldName().' '.$this->StyleClass;
+            $class = 'class="c4g__form-group c4g_condition ' . $this->styleClass . '"';
         } else {
-            $class = 'class="c4g_condition ' . $class . '"';
+            $class = 'c4g__form-'.$this->getType().' '.'c4g__form-'.$this->getType().'--'.$this->getFieldName().' '.$class;
+            $class = 'class="c4g__form-group c4g_condition ' . $class . '"';
         }
 
         if ($this->initInvisible) {
@@ -267,9 +269,10 @@ abstract class C4GBrickField
      * Public method for creating the field specific tile HTML
      * @param $fieldTitle
      * @param $element
+     * @param $column
      * @return mixed
      */
-    public function getC4GTileField($fieldTitle, $element)
+    public function getC4GTileField($fieldTitle, $element, $column, $fieldList, C4GBrickDialogParams $dialogParams)
     {
         $fieldName = $this->getFieldName();
 
@@ -362,12 +365,8 @@ abstract class C4GBrickField
             if (!$withoutLineBreak && $dialogParams->isWithLabels() === true) {
                 $linebreak = C4GHTMLFactory::lineBreak();
             }
-            $tdo = '';
-            $tdc = '';
             if (($dialogParams && $dialogParams->isTableRows()) || $this->isTableRow()) {
                 $linebreak = '';
-                $tdo = '<td style="width:' . $this->getTableRowLabelWidth() . '">';
-                $tdc = '</td>';
             }
 
             if ($showExtTitleField && $this->getExtTitleField()) {
@@ -381,10 +380,10 @@ abstract class C4GBrickField
             $conditionPrepare = $condition && is_array($condition) ? $condition['conditionPrepare'] : '';
 
             if ($this->isWithoutLabel() || ($dialogParams->isWithLabels() === false && !($this instanceof C4GMultiCheckboxField || $this instanceof C4GCheckboxField))) {
-                return $tdo . '<label class="' . $this->getFieldName() . ' ' . $id . '" for="' . $id . '" ' . $conditionPrepare . '>' . $star . $additionalLabel . $linebreak . '</label>' . $tdc . $extTitleField;
+                return '<label class="' . $this->getFieldName() . ' ' . $id . '" for="' . $id . '" ' . $conditionPrepare . '>' . $star . $additionalLabel . $linebreak . '</label>' . $extTitleField;
             }
 
-            return $tdo . '<label class="c4g-form-label ' . $this->getFieldName() . ' ' . $id . '" for="' . $id . '" ' . $conditionPrepare . '>' . $title . $additionalLabel . $star . $linebreak . '</label>' . $tdc . $extTitleField;
+            return '<label class="c4g__form-label c4g__form-label-'.$this->getType().' c4g-form-label ' . $this->getFieldName() . ' ' . $id . '" for="' . $id . '" ' . $conditionPrepare . '>' . $title . $additionalLabel . $star . $linebreak . '</label>' . $extTitleField;
         }
 
         return '';
@@ -508,17 +507,17 @@ abstract class C4GBrickField
 
         $result = '';
         if ($description && ($description != '') && $withLinkDescription && $withoutLineBreak) {
-            $result = '<p class="c4g_field_description" ' . $condition['conditionPrepare'] . '><a href="' . $description . '" target="_blank">Link</a>' . '</p>';
+            $result = '<p class="c4g__form-description c4g_field_description" ' . $condition['conditionPrepare'] . '><a href="' . $description . '" target="_blank">Link</a>' . '</p>';
         } elseif ($description && ($description != '') && $withLinkDescription) {
-            $result = '<p class="c4g_field_description" ' . $condition['conditionPrepare'] . '><a href="' . $description . '" target="_blank">Link</a>' . C4GHTMLFactory::lineBreak() . C4GHTMLFactory::lineBreak() . '</p>';
+            $result = '<p class="c4g__form-description c4g_field_description" ' . $condition['conditionPrepare'] . '><a href="' . $description . '" target="_blank">Link</a>' . C4GHTMLFactory::lineBreak() . C4GHTMLFactory::lineBreak() . '</p>';
         } elseif ($description && ($description != '') && $withoutLineBreak) {
-            $result = '<p class="c4g_field_description" ' . $condition['conditionPrepare'] . '>' . $description . '</p>';
+            $result = '<p class="c4g__form-description c4g_field_description" ' . $condition['conditionPrepare'] . '>' . $description . '</p>';
         } elseif ($description && ($description != '')) {
-            $result = '<p class="c4g_field_description" ' . $condition['conditionPrepare'] . '>' . $description . C4GHTMLFactory::lineBreak() . C4GHTMLFactory::lineBreak() . '</p>';
+            $result = '<p class="c4g__form-description c4g_field_description" ' . $condition['conditionPrepare'] . '>' . $description . C4GHTMLFactory::lineBreak() . C4GHTMLFactory::lineBreak() . '</p>';
         } elseif (!$withoutLineBreak) {
             $result = '<p ' . $condition['conditionPrepare'] . '>' . '</p>';
         } else /*if ($description && ($description != ''))*/ {
-            $result = '<div class="c4g_field_descripton_hole"></div>';
+            $result = '<div class="c4g__form-description c4g__form-description-empty c4g_field_descripton_hole"></div>';
         }
 
         return $result;
@@ -616,18 +615,16 @@ abstract class C4GBrickField
 
         if (($dialogParams && $dialogParams->isTableRows()) || $this->isTableRow()) {
             //$linebreak = '';
-            $tableo = '<table class="c4g_brick_table_rows" style="width:' . $this->getTableRowWidth() . '">';
-            $tro = '<tr>';
-            $trc = '</tr>';
-            $tdo = '<td>';
-            $tdc = '</td>';
-            $tablec = '</table>';
+            $widthLabel =  $this->getTableRowLabelWidth() ?: auto;
+            $widthField = $this->getTableRowWidth() && $this->getTableRowLabelWidth() ? (intval($this->getTableRowWidth()) - intval($this->getTableRowLabelWidth())).'%' : 'auto';
+            $tableo = '<div class="c4g__form-grid-2 c4g__form-grid-table-row" style="grid-template-columns: '.$widthLabel. ' '.$widthField.';">';
+            $tablec = '</div>';
         }
 
         $class = 'class="c4g_condition" ';
-        if ($this->getStyleClass()) {
-            $class = 'class="c4g_condition ' . $this->getStyleClass() . '" ';
-        }
+
+        $styleClass = 'c4g__form-'.$this->getType().' '.'c4g__form-'.$this->getType().'--'.$this->getFieldName().' '.$this->StyleClass;
+        $class = 'class="c4g__form-group c4g_condition ' . $styleClass . '" ';
 
         $fieldLabel = $this->addC4GFieldLabel($id, $this->getTitle(), $this->isMandatory(), $condition, $fieldList, $data, $dialogParams, true, $this->switchTitleLabel);
 
@@ -654,8 +651,7 @@ abstract class C4GBrickField
         . $condition['conditionValue']
         . $condition['conditionFunction']
         . $condition['conditionDisable'] . '>' .
-        $tableo . $tro . $fieldLabel .
-        $tdo . $fieldData . $tdc . $trc . $tablec .
+        $tableo . $fieldLabel . $fieldData . $tablec .
         $description . '</div>';
     }
 
