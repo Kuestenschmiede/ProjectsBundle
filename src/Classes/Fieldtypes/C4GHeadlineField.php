@@ -5,7 +5,7 @@
  * @version 8
  * @author con4gis contributors (see "authors.txt")
  * @license LGPL-3.0-or-later
- * @copyright (c) 2010-2021, by Küstenschmiede GmbH Software & Design
+ * @copyright (c) 2010-2022, by Küstenschmiede GmbH Software & Design
  * @link https://www.con4gis.org
  */
 namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
@@ -20,8 +20,6 @@ use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldType;
  */
 class C4GHeadlineField extends C4GBrickField
 {
-    private $type = C4GBrickFieldType::HEADLINE;
-
     protected $additionalHeaderText = '';
     protected $showHeadlineNumber = false;
     protected $showFieldCount = false;
@@ -35,6 +33,14 @@ class C4GHeadlineField extends C4GBrickField
     const ACCORDION_TARGET_CLASS = 'c4g_accordion_target';
     const ACCORDION_HEADLINE_STATE_ACTIVE = 'c4g_accordion_headline_active';
     const ACCORDION_TARGET_STATE_ACTIVE = 'c4g_accordion_target_active';
+
+    /**
+     * @param string $type
+     */
+    public function __construct(string $type = C4GBrickFieldType::HEADLINE)
+    {
+        parent::__construct($type);
+    }
 
     /**
      * @param $fieldList
@@ -93,10 +99,10 @@ class C4GHeadlineField extends C4GBrickField
                 $headlineText = $headline_count . '. ' . $headlineText;
             }
 
+            $styleClass = 'c4g__form-'.$this->getType().' '.'c4g__form-'.$this->getType().'--'.$this->getFieldName();
             $headline =
                 '<div class="c4g_brick_headline" ' . $condition['conditionPrepare'] . '>' . $headlineText . '</div>';
-            $class = 'class="c4g_condition formdata" ';
-//            $headline = $this->generateC4GFieldHTML($condition, $headline . $this->additionalHeaderText, $class);
+            $class = 'class="c4g__form-group formdata '.$styleClass.'"';
             $headline = '<div '
                 . $class
                 . $condition['conditionName']
@@ -129,7 +135,8 @@ class C4GHeadlineField extends C4GBrickField
 
                 $dialogParams->setAccordionCounter($dialogParams->getAccordionCounter() + 1);
                 $headline = '<h3 class="c4g_brick_headline ui-accordion-header ui-corner-top ui-accordion-icons c4gGuiCollapsible_trigger_target"><a href="#">' . $icon . $this->getTitle() . '</a></h3>';
-                $class = 'class="c4g_condition formdata" ';
+                $styleClass = 'c4g__form-'.$this->getType().' '.'c4g__form-'.$this->getType().'--'.$this->getFieldName();
+                $class = 'class="c4g__form-group formdata '.$styleClass.'"';
                 $headline = '<div '
                     . $class
                     . $condition['conditionName']

@@ -5,7 +5,7 @@
  * @version 8
  * @author con4gis contributors (see "authors.txt")
  * @license LGPL-3.0-or-later
- * @copyright (c) 2010-2021, by Küstenschmiede GmbH Software & Design
+ * @copyright (c) 2010-2022, by Küstenschmiede GmbH Software & Design
  * @link https://www.con4gis.org
  */
 namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
@@ -24,8 +24,6 @@ use con4gis\ProjectsBundle\Classes\Views\C4GBrickView;
 
 class C4GSubDialogField extends C4GBrickField
 {
-    private $type = C4GBrickFieldType::SUBDIALOG;
-
     private $table = '';
     private $fieldList = [];
     private $keyField = null;
@@ -60,8 +58,12 @@ class C4GSubDialogField extends C4GBrickField
     private $showDataSetsByCountField = '';
     private $parentFieldList = [];
 
-    public function __construct()
+    /**
+     * @param string $type
+     */
+    public function __construct(string $type = C4GBrickFieldType::SUBDIALOG)
     {
+        parent::__construct($type);
         $this->database = \Database::getInstance();
         $this->setTableColumn(false);
         $this->setFormField(true);
@@ -344,9 +346,12 @@ class C4GSubDialogField extends C4GBrickField
 
         if (($this->showButtons && !C4GBrickView::isWithoutEditing($dialogParams->getViewType())) || $loadedDataHtml) {
             $condition = $this->createConditionData($fieldList, $data);
+            $styleClass = 'c4g__form-'.$this->getType().' '.'c4g__form-'.$this->getType().'--'.$this->getFieldName();
+            $class = 'class="c4g__form-group formdata '.$styleClass.'"';
+
             $conditionStart =
-                '<div id="c4g_condition" '
-                . 'class="formdata c4g_condition"'
+                '<div '
+                . $class
                 . $condition['conditionName']
                 . $condition['conditionType']
                 . $condition['conditionValue']

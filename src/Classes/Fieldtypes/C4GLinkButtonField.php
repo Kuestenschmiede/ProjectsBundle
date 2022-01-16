@@ -5,7 +5,7 @@
  * @version 8
  * @author con4gis contributors (see "authors.txt")
  * @license LGPL-3.0-or-later
- * @copyright (c) 2010-2021, by Küstenschmiede GmbH Software & Design
+ * @copyright (c) 2010-2022, by Küstenschmiede GmbH Software & Design
  * @link https://www.con4gis.org
  */
 namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
@@ -17,8 +17,6 @@ use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldType;
 
 class C4GLinkButtonField extends C4GBrickField
 {
-    private $type = C4GBrickFieldType::BUTTON;
-
     protected $targetMode = self::TARGET_MODE_PAGE;
     protected $targetPageId = 0;        //target page ID
     protected $targetPageUrl = '';      //target URL
@@ -29,9 +27,12 @@ class C4GLinkButtonField extends C4GBrickField
     const TARGET_MODE_PAGE = 'page';    //Links to an internal page with a given page ID
     const TARGET_MODE_URL = 'url';      //Links to a page or route with a given url string
 
-    public function __construct()
+    /**
+     * @param string $type
+     */
+    public function __construct(string $type = C4GBrickFieldType::BUTTON)
     {
-        parent::__construct();
+        parent::__construct($type);
         $this->setDatabaseField(false)
             ->setFormField(false)
             ->setTableColumn();

@@ -5,7 +5,7 @@
  * @version 8
  * @author con4gis contributors (see "authors.txt")
  * @license LGPL-3.0-or-later
- * @copyright (c) 2010-2021, by Küstenschmiede GmbH Software & Design
+ * @copyright (c) 2010-2022, by Küstenschmiede GmbH Software & Design
  * @link https://www.con4gis.org
  */
 namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
@@ -19,7 +19,6 @@ use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldType;
 
 class C4GForeignArrayField extends C4GBrickField
 {
-    private $type = C4GBrickFieldType::FOREIGNARRAY;
     private $foreignTable = '';             //Source table for the data (frontend display). May be empty if $foreignFieldList is empty.
     private $foreignKey = '';               //Key by which the data will be matched (foreign key comparison). May be empty if $foreignFieldList is empty.
     private $foreignFieldList = [];    //The fields which display the data. If no fields are give, no frontend output is created.
@@ -36,9 +35,13 @@ class C4GForeignArrayField extends C4GBrickField
     private $autoAdd = false;   //Automatically add a value to the array in the database if it does not exist yet.
     private $autoAddData = '';  //The data to add automatically. "member" = The current member id.
 
-    public function __construct()
+    /**
+     * @param string $type
+     */
+    public function __construct(string $type = C4GBrickFieldType::FOREIGNARRAY)
     {
         $this->setComparable(false);
+        parent::__construct($type);
     }
 
     public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = [])

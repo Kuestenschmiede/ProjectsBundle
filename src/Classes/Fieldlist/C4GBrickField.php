@@ -5,7 +5,7 @@
  * @version 8
  * @author con4gis contributors (see "authors.txt")
  * @license LGPL-3.0-or-later
- * @copyright (c) 2010-2021, by Küstenschmiede GmbH Software & Design
+ * @copyright (c) 2010-2022, by Küstenschmiede GmbH Software & Design
  * @link https://www.con4gis.org
  */
 namespace con4gis\ProjectsBundle\Classes\Fieldlist;
@@ -149,12 +149,13 @@ abstract class C4GBrickField
     private $defaultValue = '';
 
     /**
-     * C4GBrickField constructor.
+     * @param string $type
      */
-    public function __construct()
+    public function __construct(string $type = 'default')
     {
+        $this->type = $type;
     }
-
+    
     public static function create(string $fieldName,
                                   string $title = '',
                                   string $description = '',
@@ -221,18 +222,18 @@ abstract class C4GBrickField
         $display = '';
 
         if ($class == '') {
-            $styleClass = 'c4g__form-'.$this->getType().' '.'c4g__form-'.$this->getType().'--'.$this->getFieldName().' '.$this->StyleClass;
-            $class = 'class="c4g__form-group c4g_condition ' . $this->styleClass . '"';
+            $styleClass = 'c4g__form-'.$this->type.' '.'c4g__form-'.$this->type.'--'.$this->getFieldName().' '.$this->StyleClass;
+            $class = 'class="c4g__form-group ' . $this->styleClass . '"';
         } else {
-            $class = 'c4g__form-'.$this->getType().' '.'c4g__form-'.$this->getType().'--'.$this->getFieldName().' '.$class;
-            $class = 'class="c4g__form-group c4g_condition ' . $class . '"';
+            $class = 'c4g__form-'.$this->type.' '.'c4g__form-'.$this->type.'--'.$this->getFieldName().' '.$class;
+            $class = 'class="c4g__form-group ' . $class . '"';
         }
 
         if ($this->initInvisible) {
             $display = ' style="display: none"';
         }
 
-        return '<div id="c4g_condition" '
+        return '<div '
         . $class
         . $condition['conditionName']
         . $condition['conditionType']
@@ -287,7 +288,7 @@ abstract class C4GBrickField
                 return '<div class=' . $styleClass . '>' . $data[$this->getFieldName()] . '</div>';
             }
 
-            return '<p class=' . $styleClass . '><b>' . $this->getTitle() . '</b>: ' . $data[$this->getFieldName()] . '</p>';
+            return '<div class=' . $styleClass . '><b>' . $this->getTitle() . '</b>: ' . $data[$this->getFieldName()] . '</div>';
         }
 
         return '';
@@ -383,7 +384,7 @@ abstract class C4GBrickField
                 return '<label class="' . $this->getFieldName() . ' ' . $id . '" for="' . $id . '" ' . $conditionPrepare . '>' . $star . $additionalLabel . $linebreak . '</label>' . $extTitleField;
             }
 
-            return '<label class="c4g__form-label c4g__form-label-'.$this->getType().' c4g-form-label ' . $this->getFieldName() . ' ' . $id . '" for="' . $id . '" ' . $conditionPrepare . '>' . $title . $additionalLabel . $star . $linebreak . '</label>' . $extTitleField;
+            return '<label class="c4g__form-label c4g__form-label-'.$this->type.' c4g-form-label ' . $this->getFieldName() . ' ' . $id . '" for="' . $id . '" ' . $conditionPrepare . '>' . $title . $additionalLabel . $star . $linebreak . '</label>' . $extTitleField;
         }
 
         return '';
@@ -507,15 +508,15 @@ abstract class C4GBrickField
 
         $result = '';
         if ($description && ($description != '') && $withLinkDescription && $withoutLineBreak) {
-            $result = '<p class="c4g__form-description c4g_field_description" ' . $condition['conditionPrepare'] . '><a href="' . $description . '" target="_blank">Link</a>' . '</p>';
+            $result = '<div class="c4g__form-description c4g_field_description" ' . $condition['conditionPrepare'] . '><a href="' . $description . '" target="_blank">Link</a>' . '</div>';
         } elseif ($description && ($description != '') && $withLinkDescription) {
-            $result = '<p class="c4g__form-description c4g_field_description" ' . $condition['conditionPrepare'] . '><a href="' . $description . '" target="_blank">Link</a>' . C4GHTMLFactory::lineBreak() . C4GHTMLFactory::lineBreak() . '</p>';
+            $result = '<div class="c4g__form-description c4g_field_description" ' . $condition['conditionPrepare'] . '><a href="' . $description . '" target="_blank">Link</a>' . C4GHTMLFactory::lineBreak() . C4GHTMLFactory::lineBreak() . '</div>';
         } elseif ($description && ($description != '') && $withoutLineBreak) {
-            $result = '<p class="c4g__form-description c4g_field_description" ' . $condition['conditionPrepare'] . '>' . $description . '</p>';
+            $result = '<div class="c4g__form-description c4g_field_description" ' . $condition['conditionPrepare'] . '>' . $description . '</div>';
         } elseif ($description && ($description != '')) {
-            $result = '<p class="c4g__form-description c4g_field_description" ' . $condition['conditionPrepare'] . '>' . $description . C4GHTMLFactory::lineBreak() . C4GHTMLFactory::lineBreak() . '</p>';
+            $result = '<div class="c4g__form-description c4g_field_description" ' . $condition['conditionPrepare'] . '>' . $description . C4GHTMLFactory::lineBreak() . C4GHTMLFactory::lineBreak() . '</div>';
         } elseif (!$withoutLineBreak) {
-            $result = '<p ' . $condition['conditionPrepare'] . '>' . '</p>';
+            $result = '<div ' . $condition['conditionPrepare'] . '>' . '</div>';
         } else /*if ($description && ($description != ''))*/ {
             $result = '<div class="c4g__form-description c4g__form-description-empty c4g_field_descripton_hole"></div>';
         }
@@ -621,12 +622,10 @@ abstract class C4GBrickField
             $tablec = '</div>';
         }
 
-        $class = 'class="c4g_condition" ';
+        $styleClass = 'c4g__form-'.$this->type.' '.'c4g__form-'.$this->type.'--'.$this->getFieldName().' '.$this->StyleClass;
+        $class = 'class="c4g__form-group ' . $styleClass . '" ';
 
-        $styleClass = 'c4g__form-'.$this->getType().' '.'c4g__form-'.$this->getType().'--'.$this->getFieldName().' '.$this->StyleClass;
-        $class = 'class="c4g__form-group c4g_condition ' . $styleClass . '" ';
-
-        $fieldLabel = $this->addC4GFieldLabel($id, $this->getTitle(), $this->isMandatory(), $condition, $fieldList, $data, $dialogParams, true, $this->switchTitleLabel);
+        $fieldLabel = $this->addC4GFieldLabel($id, $this->getTitle(), $this->isMandatory(), $condition, $fieldList, $data, $dialogParams, true, $this->isSwitchTitleLabel());
 
         if ($this->switchTitleLabel) {
             $label = $fieldLabel;
@@ -1666,12 +1665,13 @@ abstract class C4GBrickField
      */
     public function getType()
     {
-        if (!$this->type) {
-            $classname = $this::class;
-            if ($classname && strpos($classname,'C4G')) {
-              $this->type = strtolower(substr($classname, strpos($classname,'C4G')+3, -5));
-            }
-        }
+//        if (!$this->type) {
+//            $classname = $this::class;
+//            if ($classname && strpos($classname,'C4G')) {
+//              $type = strtolower(substr($classname, strpos($classname,'C4G')+3, -5));
+//              C4GBrickFieldType::
+//            }
+//        }
         return $this->type;
     }
 

@@ -5,7 +5,7 @@
  * @version 8
  * @author con4gis contributors (see "authors.txt")
  * @license LGPL-3.0-or-later
- * @copyright (c) 2010-2021, by Küstenschmiede GmbH Software & Design
+ * @copyright (c) 2010-2022, by Küstenschmiede GmbH Software & Design
  * @link https://www.con4gis.org
  */
 namespace con4gis\ProjectsBundle\Classes\Common;
@@ -327,9 +327,11 @@ class C4GBrickCommon
             $hex = substr($s, 0, 13);
             if (!empty($s[13])) {
               $dec = $s[13] . substr($s, 15); // skip the dot
+              $result = base_convert($hex, 16, 36) . base_convert($dec, 10, 36);
+            } else {
+              $result = base_convert($hex, 16, 36);
             }
 
-            $result = base_convert($hex, 16, 36) . base_convert($dec, 10, 36);
         }
 
         return $result;

@@ -5,7 +5,7 @@
  * @version 8
  * @author con4gis contributors (see "authors.txt")
  * @license LGPL-3.0-or-later
- * @copyright (c) 2010-2021, by Küstenschmiede GmbH Software & Design
+ * @copyright (c) 2010-2022, by Küstenschmiede GmbH Software & Design
  * @link https://www.con4gis.org
  */
 namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
@@ -26,7 +26,14 @@ class C4GMultiCheckboxField extends C4GBrickField
     private $serializeResult = true;
     private $showAsCsv = false;
     private $allChecked = false;
-    private $type = C4GBrickFieldType::MULTICHECKBOX;
+
+    /**
+     * @param string $type
+     */
+    public function __construct(string $type = C4GBrickFieldType::MULTICHECKBOX)
+    {
+        parent::__construct($type);
+    }
 
     /**
      * @param $fieldList
@@ -80,24 +87,32 @@ class C4GMultiCheckboxField extends C4GBrickField
 
             $spanStart = '';
             $spanEnd = '';
+
+            $styleClass = 'c4g__form-'.$this->getType().' '.'c4g__form-'.$this->getType().'--'.$this->getFieldName();
+            $class = 'class="c4g__form-group formdata '.$styleClass.'"';
             $conditionStart =
-                '<div id="c4g_condition" '
-                . 'class="formdata c4g_condition"'
+                '<div '
+                . $class
                 . $condition['conditionName']
                 . $condition['conditionType']
                 . $condition['conditionValue']
                 . $condition['conditionDisable']
                 . '>';
+
+            $switch = '';
             if ($this->isModernStyle() == false) {
-                $div = $conditionStart . '<div class="c4g_multicheckbox formdata" ' . $condition['conditionPrepare'];
-                $spanStart = '<span class="c4g_checkbox">';
-                $spanEnd = '</span>';
+                $div = $conditionStart;// . '<div class="c4g__form-multicheckbox formdata" ' . $condition['conditionPrepare'];
+                $spanStart = '<div class="c4g__form-check">';
+                $spanEnd = '</div>';
             } else {
-                $div = $conditionStart . '<div class="c4g_multicheckbox_modern formdata" ' . $condition['conditionPrepare'];
+                $switch = ' role="switch"';
+                $div = $conditionStart;// . '<div class="c4g__form-multicheckbox c4g_form-multicheckbox-switch formdata" ' . $condition['conditionPrepare'];
+                $spanStart = '<div class="c4g__form-check c4g__form-switch">';
+                $spanEnd = '</div>';
             }
 
             $label = $this->addC4GFieldLabel($id, $title, $this->isMandatory(), $condition, $fieldList, $data, $dialogParams);
-            $result = $div . '>' . $label;
+            $result = $div/* . '>'*/ . $label;
 
             $viewType = $dialogParams->getViewType();
             if ($viewType && (
@@ -141,12 +156,12 @@ class C4GMultiCheckboxField extends C4GBrickField
                     $optionId = $fieldName . '|' . $option_id;
                     $condition['conditionPrepare'] = '';
                     $result .= $spanStart .
-                        '<input type="checkbox" id="c4g_' . $optionId . '" ' . $required . ' class="formdata c4g_display_none" size="' . $size . '" name="' . $optionId . '" value="' . $optionId . '"' .
+                        '<input type="checkbox" id="c4g_' . $optionId . '" ' . $required . ' class="formdata c4g__form-check-input c4g_display_none"'.$switch.' size="' . $size . '" name="' . $optionId . '" value="' . $optionId . '"' .
                         ($values && isset($values[$option_id]) ? ' checked="checked"' : '') . '">' . $this->addC4GFieldLabel('c4g_' . $optionId, $type_caption, false, $condition, $fieldList, $data, $dialogParams, false, true)
                         . $spanEnd;
                 }
                 $result .= $description;
-                $result .= '</div></div>';
+                $result .= '</div>';
             } else {
                 $csv = [];
                 foreach ($options as $option) {
@@ -156,7 +171,7 @@ class C4GMultiCheckboxField extends C4GBrickField
                     $csv[] = $option['name'];
                 }
                 $result .= '<span>' . implode(', ', $csv) . '</span>';
-                $result .= '</div></div>';
+                $result .= '</div>';
             }
         }
 

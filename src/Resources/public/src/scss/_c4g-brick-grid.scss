@@ -31,17 +31,15 @@
 .c4g_brick_dialog .c4g__form-grid-table-row select,.c4g_brick_dialog .c4g__form-grid-table-row .styled_select,
 .c4g_brick_select_dialog .c4g__form-grid-table-row select,.c4g_brick_select_dialog .c4g__form-grid-table-row .styled_select {
   display: block;
-  width: 95.5%;
-  margin-left: 2.5%;
+  width: 100%;
   margin-bottom: 5px;
   overflow:hidden;
   border-radius: 3px;
 }
 .c4g_brick_dialog .c4g__form-grid-table-row {
   position: relative;
-  margin-left: 2.5%;
   margin-bottom: .25em;
-  width: 98%;
+  width: 100%;
 }
 
 .c4g_brick_dialog .c4g__form-grid-table-row label {

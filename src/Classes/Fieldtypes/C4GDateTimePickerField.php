@@ -5,7 +5,7 @@
  * @version 8
  * @author con4gis contributors (see "authors.txt")
  * @license LGPL-3.0-or-later
- * @copyright (c) 2010-2021, by Küstenschmiede GmbH Software & Design
+ * @copyright (c) 2010-2022, by Küstenschmiede GmbH Software & Design
  * @link https://www.con4gis.org
  */
 namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
@@ -18,12 +18,18 @@ use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldType;
 
 class C4GDateTimePickerField extends C4GBrickField
 {
-    private $type = C4GBrickFieldType::DATETIMEPICKER;
-
     // customize single date fields
     private $customFormat = null;
     private $dateField = ''; //merged with time if necessary
     private $timeField = ''; //merged with date if necessary
+
+    /**
+     * @param string $type
+     */
+    public function __construct(string $type = C4GBrickFieldType::DATETIMEPICKER)
+    {
+        parent::__construct($type);
+    }
 
     /**
      * @param C4GBrickField[] $fieldList

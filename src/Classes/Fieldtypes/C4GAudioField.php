@@ -5,7 +5,7 @@
  * @version 8
  * @author con4gis contributors (see "authors.txt")
  * @license LGPL-3.0-or-later
- * @copyright (c) 2010-2021, by Küstenschmiede GmbH Software & Design
+ * @copyright (c) 2010-2022, by Küstenschmiede GmbH Software & Design
  * @link https://www.con4gis.org
  */
 namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
@@ -17,14 +17,14 @@ use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldType;
 class C4GAudioField extends C4GBrickField
 {
     private $sound;
-    private $type = C4GBrickFieldType::AUDIO;
 
     /**
      * C4GAudioField constructor.
      */
-    public function __construct($sound)
+    public function __construct($sound,string $type = C4GBrickFieldType::AUDIO)
     {
         $this->sound = $sound;
+        parent::__construct($type);
     }
 
     /**

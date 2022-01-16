@@ -5,7 +5,7 @@
  * @version 8
  * @author con4gis contributors (see "authors.txt")
  * @license LGPL-3.0-or-later
- * @copyright (c) 2010-2021, by Küstenschmiede GmbH Software & Design
+ * @copyright (c) 2010-2022, by Küstenschmiede GmbH Software & Design
  * @link https://www.con4gis.org
  */
 namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
@@ -18,8 +18,6 @@ use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldType;
 
 class C4GPercentField extends C4GBrickFieldNumeric
 {
-    private $type = C4GBrickFieldType::FLOAT;
-
     /**
      * @property string $group Group of PercentFields this belongs to. All percent fields with a non-empty group must
      * have a combined value smaller or equal to 100. //Todo does not work yet
@@ -27,11 +25,11 @@ class C4GPercentField extends C4GBrickFieldNumeric
     protected $percentGroup = '';
 
     /**
-     * C4GPercentField constructor.
+     * @param string $type
      */
-    public function __construct()
+    public function __construct(string $type = C4GBrickFieldType::FLOAT)
     {
-        parent::__construct();
+        parent::__construct($type);
         $this->setMax(100);
     }
 

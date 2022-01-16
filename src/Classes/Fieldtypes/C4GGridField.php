@@ -5,7 +5,7 @@
  * @version 8
  * @author con4gis contributors (see "authors.txt")
  * @license LGPL-3.0-or-later
- * @copyright (c) 2010-2021, by Küstenschmiede GmbH Software & Design
+ * @copyright (c) 2010-2022, by Küstenschmiede GmbH Software & Design
  * @link https://www.con4gis.org
  */
 namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
@@ -17,20 +17,20 @@ use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldType;
 
 class C4GGridField extends C4GBrickField
 {
-    private $type = C4GBrickFieldType::GRID;
     private $grid = null; //siehe C4GBrickGrid
 
     /**
-     * C4GButtonField constructor.
+     * @param string $type
      */
-    public function __construct(C4GBrickGrid $grid)
+    public function __construct(C4GBrickGrid $grid, string $type = C4GBrickFieldType::GRID)
     {
+        parent::__construct($type);
         $this->setDatabaseField(false);
         $this->setComparable(false);
 
         $this->grid = $grid;
     }
-
+    
     /**
      * @param C4GBrickField[] $fieldList
      * @param $data

@@ -5,7 +5,7 @@
  * @version 8
  * @author con4gis contributors (see "authors.txt")
  * @license LGPL-3.0-or-later
- * @copyright (c) 2010-2021, by Küstenschmiede GmbH Software & Design
+ * @copyright (c) 2010-2022, by Küstenschmiede GmbH Software & Design
  * @link https://www.con4gis.org
  */
 namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
@@ -19,8 +19,6 @@ use con4gis\ProjectsBundle\Classes\Lists\C4GBrickRenderMode;
 
 class C4GMoreButtonField extends C4GBrickField
 {
-    private $type = C4GBrickFieldType::BUTTON;
-
     // override parent fields
     protected $databaseField = false;
 
@@ -43,10 +41,11 @@ class C4GMoreButtonField extends C4GBrickField
     protected $buttonTitle = '...';
 
     /**
-     * C4GMoreButtonField constructor.
+     * @param string $type
      */
-    public function __construct()
+    public function __construct(string $type = C4GBrickFieldType::BUTTONŝ)
     {
+        parent::__construct($type);
         $this->setSortColumn(false);
         $this->setSort(false);
         $this->setTableColumnPriority(1);
@@ -103,12 +102,12 @@ class C4GMoreButtonField extends C4GBrickField
             $tdc = '</td>';
             $tablec = '</table>';
         }
-        $id = 'c4g_condition';
+        $id = '';
         if ($dialogParams->getId() != -1) {
-            $id .= '_' . $dialogParams->getId();
+            $id = 'c4g_condition_' . $dialogParams->getId() . ' ';
         }
 
-        return '<div id=' . $id . ' '
+        return '<div '.$id
             . $class
             . '>' .
             $tableo . $tro .

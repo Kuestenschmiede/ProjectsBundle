@@ -5,7 +5,7 @@
  * @version 8
  * @author con4gis contributors (see "authors.txt")
  * @license LGPL-3.0-or-later
- * @copyright (c) 2010-2021, by Küstenschmiede GmbH Software & Design
+ * @copyright (c) 2010-2022, by Küstenschmiede GmbH Software & Design
  * @link https://www.con4gis.org
  */
 namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
@@ -18,12 +18,18 @@ use Contao\Controller;
 
 class C4GTextField extends C4GBrickFieldText
 {
-    private $type = C4GBrickFieldType::TEXT;
-
     protected $size = 255;
     protected $maxLength = 255;
     protected $simpleTextWithoutEditing = false; //Renders HTML tags, never use this to display user-generated data
     protected $ariaLabel = '';
+
+    /**
+     * @param string $type
+     */
+    public function __construct(string $type = C4GBrickFieldType::TEXT)
+    {
+        parent::__construct($type);
+    }
 
     public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = [])
     {

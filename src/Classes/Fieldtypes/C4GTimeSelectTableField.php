@@ -5,7 +5,7 @@
  * @version 8
  * @author con4gis contributors (see "authors.txt")
  * @license LGPL-3.0-or-later
- * @copyright (c) 2010-2021, by Küstenschmiede GmbH Software & Design
+ * @copyright (c) 2010-2022, by Küstenschmiede GmbH Software & Design
  * @link https://www.con4gis.org
  */
 
@@ -28,13 +28,19 @@ use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldType;
 
 class C4GTimeSelectTableField extends C4GBrickField
 {
-    private $type = C4GBrickFieldType::TIME;
-
     protected $begin = 0;
     protected $end = 0;
     protected $interval = 0;
     protected $dateFormat = '';
     protected $jsCallback = '';
+
+    /**
+     * @param string $type
+     */
+    public function __construct(string $type = C4GBrickFieldType::TIME)
+    {
+        parent::__construct($type);
+    }
 
     /**
      * @param C4GBrickField[] $fieldList

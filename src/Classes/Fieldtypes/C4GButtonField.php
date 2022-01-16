@@ -5,7 +5,7 @@
  * @version 8
  * @author con4gis contributors (see "authors.txt")
  * @license LGPL-3.0-or-later
- * @copyright (c) 2010-2021, by Küstenschmiede GmbH Software & Design
+ * @copyright (c) 2010-2022, by Küstenschmiede GmbH Software & Design
  * @link https://www.con4gis.org
  */
 namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
@@ -24,18 +24,19 @@ class C4GButtonField extends C4GBrickField
     private $onClickType = C4GBrickConst::ONCLICK_TYPE_SERVER;
     private $overlay = null;
     private $color = ''; //standardmäßig greift das CSS
-    private $type = C4GBrickFieldType::BUTTON;
 
     /**
      * C4GButtonField constructor.
      */
-    public function __construct(C4GBrickButton $button)
+    public function __construct(C4GBrickButton $button, string $type = C4GBrickFieldType::BUTTON)
     {
         $this->setDatabaseField(false);
         $this->setComparable(false);
         $this->setTitle($button->getCaption());
 
         $this->button = $button;
+
+        parent::__construct($type);
     }
 
     /**

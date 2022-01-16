@@ -26,9 +26,9 @@
   margin-right: 4px;
   margin-left: 4px;
 }
-input:invalid {
-  border-right-color: red;
-}
+//input:invalid {
+//  border-right-color: red;
+//}
 .c4gGuiDialogTitle select.c4g_filter {
   float: right;
   margin-top: 4px;
@@ -50,7 +50,7 @@ input:invalid {
   font-weight: normal;
   margin-top: 0px;
   margin-bottom: 0px;
-  margin-left: 0px/*2.5%*/;
+  margin-left: 0px;
 }
 .c4g_brick_headtext_highlighted {
   font-size: inherit;
@@ -58,50 +58,46 @@ input:invalid {
   margin-top: 0px;
   margin-bottom: 0px;
 }
-.c4g_brick_dialog input.formdata,
-.c4g_brick_dialog input.formnodata,
+.c4g_brick_dialog input[type='text'].formdata,
+.c4g_brick_dialog input[type='text'].formnodata,
+.c4g_brick_dialog input[type='date'].formdata,
+.c4g_brick_dialog input[type='date'].formnodata,
+.c4g_brick_dialog input[type='url'].formdata,
+.c4g_brick_dialog input[type='url'].formnodata,
+.c4g_brick_dialog input[type='email'].formdata,
+.c4g_brick_dialog input[type='email'].formnodata,
+.c4g_brick_dialog input[type='tel'].formdata,
+.c4g_brick_dialog input[type='tel'].formnodata,
 .c4g_brick_dialog textarea.formdata,
 .c4g_brick_dialog .c4g_non_input {
-  display: block;
-  margin-bottom: .25em;
-  margin-top: .25em;
-  margin-left: 2.5%;
-  margin-right: 2.5%;
-  width: 95%;
-  min-height: 27px;
-}
-.c4g_brick_dialog label, .c4g_brick_select_dialog label {
-  margin-left: 2.5%;
+  @extend .form-control;
+  //display: block;
+  //width: 100%;
 }
 .c4g_brick_dialog .c4g_brick_headline, .c4g_brick_dialog .c4g_popup_headline {
   font-weight: bold;
-  margin-left: 2.5%;
   font-size: 1.25em;
   margin-bottom: 2px;
   margin-top: 1.0em;
 }
-.c4g_brick_dialog label strong {
-  color: red;
-}
-.c4g_brick_dialog .c4g_mandatory_class {
-  margin-left: 2px;
-}
+//.c4g_brick_dialog label strong {
+//  color: red;
+//}
+//.c4g_brick_dialog .c4g_mandatory_class {
+//  margin-left: 2px;
+//}
 .c4g_brick_dialog select,.c4g_brick_dialog .styled_select,
 .c4g_brick_select_dialog select,.c4g_brick_select_dialog .styled_select {
-  display: block;
-  width: 95.00%;
-  min-height: 27px;
-  padding-left: 3px;
-  padding-right: 3px;
-  margin-left: 2.5%;
-  margin-bottom: .25em;
-  margin-top: .25em;
+  @extend .form-select;
+  //display: block;
+  //width: 100%;
+  //padding-left: 3px;
+  //padding-right: 3px;
   overflow:hidden;
 }
 .c4g_brick_dialog .chosen-container, .c4g_brick_select_dialog .chosen-container {
   display: block;
-  width: 95.33%!important;
-  margin-left: 2.33%;
+  width: 100%;
   margin-bottom: 5px;
   border-radius: 3px;
   font-size: inherit;
@@ -120,12 +116,11 @@ input:invalid {
 }
 .c4g_dialog label {
   font-weight: bold;
-  margin-left: 2.5%;
 }
 .c4g_brick_dialog p.c4g_field_description {
   font-size: 0.9rem;
   font-weight: lighter;
-  margin: 0 2.5%;
+  margin: 0 0;
   color: darkgrey;
 }
 .c4g_brick_dialog p.c4g_field_description a{
@@ -137,14 +132,14 @@ input:invalid {
 .c4g_brick_dialog .c4g_brick_header_text {
   font-weight: normal;
   text-align: right;
-  margin: 0 2.5%;
+  margin: 0 0;
   font-style: italic;
   font-size: inherit;
   color: darkgrey;
 }
 .c4g_brick_dialog .c4g_color.picker {
   font-weight: bold;
-  margin-left: 2.5%;
+  margin-left: 0;
 }
 .c4g_brick_dialog .c4g_color.block {
   width: 16px;
@@ -153,18 +148,12 @@ input:invalid {
 .c4g_brick_dialog label.cg_checkbox_label {
   font-weight: normal;
 }
-.c4g_brick_dialog #c4g_select_label {
-  margin-top: 10px;
-}
-.c4g_brick_dialog input:required,
-.c4g_brick_dialog textarea:required,
-.c4g_brick_dialog select:required,
-.c4g_brick_dialog select:-moz-read-only {
-}
-
+//.c4g_brick_dialog #c4g_select_label {
+//  margin-top: 10px;
+//}
 .c4g_brick_dialog .c4g_textarea_length {
   font-weight: normal;
-  margin: 0 2.5%;
+  margin: 0 0;
   font-style: italic;
   font-size: inherit;
   color: darkgrey;
@@ -172,13 +161,9 @@ input:invalid {
 .c4g_brick_dialog input[type='file'] {
   display: block;
   margin: 0 auto;
-  width: 95%;
+  width: 100%;
 }
 
-.c4g_brick_dialog canvas {
-  margin-left: 2.5%;
-  margin-right: 2.5%;
-}
 .ol-viewport canvas {
   margin-left: 0px;
   margin-right: 0px;
@@ -187,7 +172,7 @@ input:invalid {
   padding: 5px;
 }
 .c4g_brick_message_dialog label, .c4g_brick_message_dialog textarea, .c4g_brick_message_dialog .c4g_description {
-  width: 95%;
+  width: 100%;
 }
 div.cg_info_block {
   margin: 5px 10px;
@@ -228,28 +213,20 @@ div.cg_block {
 
 .c4g_brick_dialog h3 {
   font-weight: bold;
-  margin-left: 2.5%;
   cursor: pointer;
 }
 .c4g_brick_dialog h3 a {
   text-decoration: none!important;
 }
 
-.c4g_brick_dialog .c4g_brick_link,.c4g_brick_dialog .c4g_brick_button, .c4g_tab_switch_left {
-  margin-left: 2.5%;
-}
-
 .c4g_brick_dialog .c4g_brick_stopwatch{
   position:relative;
-  margin-left: 2.5%;
   height: 22px;
   font-size:24px;
 }
 .mfp-iframe-holder .mfp-content {
   width: 100%;
   height: 100%;
-  max-width: 95%;
-  max-height: 95%;
 }
 .mfp-content video{
   width:60%;
@@ -259,11 +236,6 @@ div.cg_block {
 .c4g_brick_dialog .c4g_brick_label {
   border: 0;
 }
-.c4g_dialog_link {
-  margin-left: 2.5%;
-  margin-right: 2.5%;
-}
-
 input.c4g_brick_info_text {
   background-color: inherit;
   border: none;
@@ -281,14 +253,8 @@ input.c4g_brick_info_text {
   width: 100%;
 }
 
-.c4g_include_fields .teaser {
-  margin-left: 2.5%;
-  margin-right: 2.5%;
-}
-
 .c4g_multicolumn {
   margin-top: 10px;
-  margin-left: 2.5%;
 }
 
 label:empty, li:empty, #c4g_description:empty {
@@ -311,5 +277,15 @@ label:empty, li:empty, #c4g_description:empty {
   height: 110px;
 }
 .c4g_condition__wrapper {
-  margin: 0 2.5%;
+  margin: 0 0;
+}
+.c4g__form-description-text {
+  display: inline-block;
+}
+.c4g__form-description a {
+  display: inline-block;
+}
+
+#c4g_brick .ui-widget {
+  background: transparent;
 }

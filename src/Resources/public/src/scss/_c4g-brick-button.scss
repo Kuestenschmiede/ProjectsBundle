@@ -1,5 +1,4 @@
 .c4g_uploadButton {
-  margin-left: 2.5%;
   margin-bottom: 4px;
   cursor: pointer;
 }
@@ -38,11 +37,6 @@
   padding-bottom: 25px;
 }
 
-#c4g_brick .c4gGuiDialogButtonsNoJqui a {
-  margin-left: 2.5%;
-  margin-right: 2.5%;
-}
-
 #c4g_brick .c4g_brick_dialog .c4gCircleButton {
   display: block;
   padding: 0;
@@ -79,8 +73,7 @@
   position: relative;
 }
 .c4g_more_button_entry {
-  display:block;  /*margin-left: 2.5%;*/
-  /*margin-right: 2.5%;*/
+  display:block;
 }
 
 .c4g_more_button_entry_tiles {

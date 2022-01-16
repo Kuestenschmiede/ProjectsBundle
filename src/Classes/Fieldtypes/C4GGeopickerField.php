@@ -5,7 +5,7 @@
  * @version 8
  * @author con4gis contributors (see "authors.txt")
  * @license LGPL-3.0-or-later
- * @copyright (c) 2010-2021, by Küstenschmiede GmbH Software & Design
+ * @copyright (c) 2010-2022, by Küstenschmiede GmbH Software & Design
  * @link https://www.con4gis.org
  */
 namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
@@ -19,11 +19,19 @@ use Contao\Database;
 
 class C4GGeopickerField extends C4GBrickField
 {
-    private $type = C4GBrickFieldType::GEOPICKER;
     private $withoutAddressReloadButton = true; //do not show the address reload field
     private $withoutAddressRow = false; //do not show address row
     private $locGeoxFieldname = 'loc_geox';
     private $locGeoyFieldname = 'loc_geoy';
+
+    /**
+     * @param string $type
+     */
+    public function __construct(string $type = C4GBrickFieldType::GEOPICKER)
+    {
+        parent::__construct($type);
+    }
+
 
     /**
      * @param C4GBrickField[] $fieldList

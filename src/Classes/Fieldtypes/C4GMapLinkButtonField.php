@@ -5,7 +5,7 @@
  * @version 8
  * @author con4gis contributors (see "authors.txt")
  * @license LGPL-3.0-or-later
- * @copyright (c) 2010-2021, by Küstenschmiede GmbH Software & Design
+ * @copyright (c) 2010-2022, by Küstenschmiede GmbH Software & Design
  * @link https://www.con4gis.org
  */
 namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
@@ -14,12 +14,18 @@ use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldType;
 
 class C4GMapLinkButtonField extends C4GLinkButtonField
 {
-    private $type = C4GBrickFieldType::LINK;
-
     private $latitudeColumn = '';       //Database column that has the latitude value.
     private $longitudeColumn = '';      //Database column that has the longitude value
     private $zoom = 16;                 //Map zoom level
     private $baseLayer = 0;             //Map base layer
+
+    /**
+     * @param string $type
+     */
+    public function __construct(string $type = C4GBrickFieldType::LINK)
+    {
+        parent::__construct($type);
+    }
 
     /**
      * @param $dbValue

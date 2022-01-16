@@ -5,7 +5,7 @@
  * @version 8
  * @author con4gis contributors (see "authors.txt")
  * @license LGPL-3.0-or-later
- * @copyright (c) 2010-2021, by Küstenschmiede GmbH Software & Design
+ * @copyright (c) 2010-2022, by Küstenschmiede GmbH Software & Design
  * @link https://www.con4gis.org
  */
 namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
@@ -17,8 +17,6 @@ use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldType;
 
 class C4GStopwatchField extends C4GBrickField
 {
-    private $type = C4GBrickFieldType::STOPWATCH;
-
     private $seconds = 60;
     private $runningOutAction = null;
     private $runningOutId = '';
@@ -26,10 +24,11 @@ class C4GStopwatchField extends C4GBrickField
     private $overlay = null; //C4GBrickOverlay
 
     /**
-     * C4GStopwatchField constructor.
+     * @param string $type
      */
-    public function __construct($seconds = 60)
+    public function __construct($seconds = 60, string $type = C4GBrickFieldType::STOPWATCH)
     {
+        parent::__construct($type);
         $this->seconds = $seconds;
     }
 

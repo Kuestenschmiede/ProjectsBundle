@@ -4,7 +4,7 @@
  * @version 8
  * @author con4gis contributors (see "authors.txt")
  * @license LGPL-3.0-or-later
- * @copyright (c) 2010-2021, by Küstenschmiede GmbH Software & Design
+ * @copyright (c) 2010-2022, by Küstenschmiede GmbH Software & Design
  * @link https://www.con4gis.org
  */
 
@@ -1018,7 +1018,7 @@ function checkC4GTab() {
                             childOfChildElement = jQuery(childElement.children[k]);
                             if (jQuery(childOfChildElement).hasClass("formdata") || jQuery(childOfChildElement).attr("for")) {
                                 if (childOfChildElement && (jQuery(childOfChildElement).css("display") !== "none") &&
-                                    !jQuery(childOfChildElement).hasClass("c4g_condition")) {
+                                    !jQuery(childOfChildElement).hasClass("c4g__form-group")) {
                                     isVisible++;
                                 }
                             }
@@ -1193,6 +1193,8 @@ function removeSubDialog(button, event) {
     if (typeof(event) !== 'undefined') {
         event.stopPropagation();
     }
+
+    //ToDo language
     showConfirmationDialog(button.dataset.message, 'Bestätigung', 'Ja', 'Nein',  function() {
         while ((button) && (button.parentNode) && (button.parentNode.firstChild)) {
             button.parentNode.removeChild(button.parentNode.firstChild);
