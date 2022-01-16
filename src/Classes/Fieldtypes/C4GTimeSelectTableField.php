@@ -74,7 +74,7 @@ class C4GTimeSelectTableField extends C4GBrickField
                 $javascript .= $this->jsCallback;
             }
 
-            $fieldData .= "<button id=\"$id\" class=\"ui-button ui-corner-all ui-widget\" onclick=\"$javascript\">" . date($this->dateFormat, $begin) . '</button>';
+            $fieldData .= "<button id=\"$id\" class=\"c4g__btn c4g__btn-time\" onclick=\"$javascript\">" . date($this->dateFormat, $begin) . '</button>';
             $index += 1;
         }
 

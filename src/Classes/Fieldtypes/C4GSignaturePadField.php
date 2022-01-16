@@ -54,7 +54,7 @@ class C4GSignaturePadField extends C4GBrickField
         }
 
         if ($this->isShowIfEmpty() || !empty(trim($value))) {
-            $fieldData = '<div class="c4g__form-signature-pad ui-corner-all">' .
+            $fieldData = '<div class="c4g__form-signature-pad">' .
                     '<ul class="sigNav">' .
                       '<li class="clearButton"><a href="#clear">' . $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['DELETE'] . '</a></li>' .
                     '</ul>' .

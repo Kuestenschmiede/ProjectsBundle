@@ -955,12 +955,11 @@ function showAnimation(id, callFunction) {
 
 
 function clickC4GTab(tab_id){
-    jQuery(document.getElementsByClassName('c4gGuiTabLink')).removeClass("ui-state-active");
-    // jQuery(document.getElementsByClassName('c4gGuiTabLink')).removeClass("ui-state-focus");
-    jQuery(document.getElementsByClassName('c4gGuiTabLink')).addClass("ui-state-default");
+    jQuery(document.getElementsByClassName('c4gGuiTabLink')).removeClass("c4g__state-active");
+    jQuery(document.getElementsByClassName('c4gGuiTabLink')).addClass("c4g__state-default");
     jQuery(document.getElementsByClassName('c4gGuiTabContent')).removeClass('current');
-    jQuery(document.getElementsByClassName(tab_id)).removeClass("ui-state-default");
-    jQuery(document.getElementsByClassName(tab_id)).addClass("ui-state-active");
+    jQuery(document.getElementsByClassName(tab_id)).removeClass("c4g__state-default");
+    jQuery(document.getElementsByClassName(tab_id)).addClass("c4g__state-active");
     jQuery(document.getElementsByClassName(tab_id+"_content")).addClass("current");
 }
 
@@ -973,7 +972,7 @@ function clickPreviousTab() {
 }
 
 function switchTab(mode) {
-  var button = document.getElementsByClassName('ui-state-active')[0];
+  var button = document.getElementsByClassName('c4g__state-active')[0];
   var tabId = button.getAttribute('data-tab');
   var number = parseInt(tabId.substring(tabId.length - 1, tabId.length), 10);
   if (mode === '+') {
@@ -1134,7 +1133,7 @@ function callActionViaAjax(action) {
  */
 
 function removeAccordionIcons() {
-    var icons = document.getElementsByClassName('ui-accordion-header-icon');
+    var icons = document.getElementsByClassName('c4g__accordion-header-icon');
     if (icons.length > 0) {
         var index = icons.length;
         while (index > 0) {
@@ -1155,7 +1154,7 @@ function removeAccordionIcons() {
 function openAccordion(index) {
     if (index === 'all') {
         setTimeout(function () {
-            var accordions = document.getElementsByClassName('c4g_brick_headline');
+            var accordions = document.getElementsByClassName('c4g__form-headline');
             var event = new MouseEvent('click', {
                 view: window,
                 bubbles: true,
@@ -1170,7 +1169,7 @@ function openAccordion(index) {
         }, 100);
     } else {
         setTimeout(function () {
-            var accordions = document.getElementsByClassName('c4g_brick_headline');
+            var accordions = document.getElementsByClassName('c4g__form-headline');
             var target = accordions[index];
             var event = new MouseEvent('click', {
                 view: window,
@@ -1186,6 +1185,7 @@ function openAccordion(index) {
 /**
  * Method to remove data sets from the sub dialog (C4GSubDialogField)
  * @param button
+ * @param event
  * @param event
  */
 

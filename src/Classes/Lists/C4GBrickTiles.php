@@ -277,7 +277,7 @@ class C4GBrickTiles
                 $tableElements = C4GBrickTiles::deleteElementsPerFlag($fieldList, $tableElements);
             }
 
-            $view = '<div class="' . C4GBrickConst::CLASS_TILES . ' ui-widget ui-widget-content ui-corner-bottom" style="display: inline-flex; justify-content: center; flex-wrap: wrap; flex-flow: row wrap;">' . C4GHTMLFactory::lineBreak();
+            $view = '<div class="' . C4GBrickConst::CLASS_TILES . ' c4g__content" style="display: inline-flex; justify-content: center; flex-wrap: wrap; flex-flow: row wrap;">' . C4GHTMLFactory::lineBreak();
 
             $elementTimer = 1;
 
@@ -390,7 +390,7 @@ class C4GBrickTiles
                 $tableElements = C4GBrickTiles::deleteElementsPerFlag($fieldList, $tableElements);
             }
 
-            $view = '<div class="' . C4GBrickConst::CLASS_TILES . ' ui-widget ui-widget-content ui-corner-bottom" style="display: flex; justify-content: center; flex-wrap: wrap; flex-flow: row wrap;">' . C4GHTMLFactory::lineBreak();
+            $view = '<div class="' . C4GBrickConst::CLASS_TILES . ' c4g__content" style="display: flex; justify-content: center; flex-wrap: wrap; flex-flow: row wrap;">' . C4GHTMLFactory::lineBreak();
 
             $elementTimer = 1;
 

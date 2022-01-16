@@ -49,7 +49,7 @@
   /*background: #4679BD;*/
   box-shadow: 0 0 3px gray;
 }
-#c4g_brick .c4g_brick_dialog .c4gCircleButton .ui-button-text {
+#c4g_brick .c4g_brick_dialog .c4gCircleButton .c4g-button-text {
   text-align: center;
   vertical-align: middle;
   font-size: 20px;
@@ -80,7 +80,41 @@
   display:inline-block;
 }
 
-.ui-button {
-  cursor: pointer;
+.c4g__btn {
+  @extend .btn;
 }
+
+.c4g__btn-primary {
+  @extend .btn-primary;
+}
+
+.c4g__btn-secondary {
+  @extend .btn-secondary;
+}
+
+.c4g__btn-filter {
+  @extend .btn-secondary;
+}
+
+.c4g__btn-more {
+  @extend .btn-secondary;
+}
+
+.c4g__btn-date {
+  @extend .btn-secondary;
+}
+
+.c4g__btn-time {
+  @extend .btn-secondary;
+}
+
+.c4g__btn-accordion {
+  @extend .btn-secondary;
+}
+
+.c4g__btn-link {
+  @extend .btn-link;
+}
+
+
 

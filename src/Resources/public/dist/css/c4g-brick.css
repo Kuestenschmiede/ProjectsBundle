@@ -996,7 +996,9 @@ textarea.form-control-lg {
   pointer-events: none
 }
 .btn-check:disabled + .btn,
-.btn-check[disabled] + .btn {
+.btn-check:disabled + .c4g__btn,
+.btn-check[disabled] + .btn,
+.btn-check[disabled] + .c4g__btn {
   pointer-events: none;
   filter: none;
   opacity: .65
@@ -1407,11 +1409,13 @@ textarea.form-control-lg {
 .input-group > .form-select:focus {
   z-index: 3
 }
-.input-group .btn {
+.input-group .btn,
+.input-group .c4g__btn {
   position: relative;
   z-index: 2
 }
-.input-group .btn:focus {
+.input-group .btn:focus,
+.input-group .c4g__btn:focus {
   z-index: 3
 }
 .input-group-text {
@@ -1445,6 +1449,7 @@ textarea.form-control-lg {
 .c4g_brick_select_dialog .input-group-lg > .styled_select,
 .c4g_brick_select_dialog .input-group-lg > select,
 .input-group-lg > .btn,
+.input-group-lg > .c4g__btn,
 .input-group-lg > .form-control,
 .input-group-lg > .form-select,
 .input-group-lg > .input-group-text {
@@ -1469,6 +1474,7 @@ textarea.form-control-lg {
 .c4g_brick_select_dialog .input-group-sm > .styled_select,
 .c4g_brick_select_dialog .input-group-sm > select,
 .input-group-sm > .btn,
+.input-group-sm > .c4g__btn,
 .input-group-sm > .form-control,
 .input-group-sm > .form-select,
 .input-group-sm > .input-group-text {
@@ -3349,7 +3355,8 @@ textarea.form-control.is-invalid {
     --bs-gutter-y: 3rem
   }
 }
-.btn {
+.btn,
+.c4g__btn {
   display: inline-block;
   font-weight: 400;
   line-height: 1.5;
@@ -3370,98 +3377,217 @@ textarea.form-control.is-invalid {
   transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out
 }
 @media (prefers-reduced-motion:reduce) {
-  .btn {
+  .btn,
+  .c4g__btn {
     transition: none
   }
 }
-.btn:hover {
+.btn:hover,
+.c4g__btn:hover {
   color: #212529
 }
 .btn-check:focus + .btn,
-.btn:focus {
+.btn-check:focus + .c4g__btn,
+.btn:focus,
+.c4g__btn:focus {
   outline: 0;
   box-shadow: 0 0 0 .25rem rgba(13,110,253,.25)
 }
 .btn.disabled,
 .btn:disabled,
-fieldset:disabled .btn {
+.c4g__btn:disabled,
+.disabled.c4g__btn,
+fieldset:disabled .btn,
+fieldset:disabled .c4g__btn {
   pointer-events: none;
   opacity: .65
 }
-.btn-primary {
+.btn-primary,
+.c4g__btn-primary {
   color: #fff;
   background-color: #0d6efd;
   border-color: #0d6efd
 }
-.btn-primary:hover {
+.btn-primary:hover,
+.c4g__btn-primary:hover {
   color: #fff;
   background-color: #0b5ed7;
   border-color: #0a58ca
 }
 .btn-check:focus + .btn-primary,
-.btn-primary:focus {
+.btn-check:focus + .c4g__btn-primary,
+.btn-primary:focus,
+.c4g__btn-primary:focus {
   color: #fff;
   background-color: #0b5ed7;
   border-color: #0a58ca;
   box-shadow: 0 0 0 .25rem rgba(49,132,253,.5)
 }
+.active.c4g__btn-primary,
 .btn-check:active + .btn-primary,
+.btn-check:active + .c4g__btn-primary,
 .btn-check:checked + .btn-primary,
+.btn-check:checked + .c4g__btn-primary,
 .btn-primary.active,
 .btn-primary:active,
-.show > .btn-primary.dropdown-toggle {
+.c4g__btn-primary:active,
+.show > .btn-primary.dropdown-toggle,
+.show > .dropdown-toggle.c4g__btn-primary {
   color: #fff;
   background-color: #0a58ca;
   border-color: #0a53be
 }
+.active.c4g__btn-primary:focus,
 .btn-check:active + .btn-primary:focus,
+.btn-check:active + .c4g__btn-primary:focus,
 .btn-check:checked + .btn-primary:focus,
+.btn-check:checked + .c4g__btn-primary:focus,
 .btn-primary.active:focus,
 .btn-primary:active:focus,
-.show > .btn-primary.dropdown-toggle:focus {
+.c4g__btn-primary:active:focus,
+.show > .btn-primary.dropdown-toggle:focus,
+.show > .dropdown-toggle.c4g__btn-primary:focus {
   box-shadow: 0 0 0 .25rem rgba(49,132,253,.5)
 }
 .btn-primary.disabled,
-.btn-primary:disabled {
+.btn-primary:disabled,
+.c4g__btn-primary:disabled,
+.disabled.c4g__btn-primary {
   color: #fff;
   background-color: #0d6efd;
   border-color: #0d6efd
 }
-.btn-secondary {
+.btn-secondary,
+.c4g__btn-accordion,
+.c4g__btn-date,
+.c4g__btn-filter,
+.c4g__btn-more,
+.c4g__btn-secondary,
+.c4g__btn-time {
   color: #fff;
   background-color: #6c757d;
   border-color: #6c757d
 }
-.btn-secondary:hover {
+.btn-secondary:hover,
+.c4g__btn-accordion:hover,
+.c4g__btn-date:hover,
+.c4g__btn-filter:hover,
+.c4g__btn-more:hover,
+.c4g__btn-secondary:hover,
+.c4g__btn-time:hover {
   color: #fff;
   background-color: #5c636a;
   border-color: #565e64
 }
 .btn-check:focus + .btn-secondary,
-.btn-secondary:focus {
+.btn-check:focus + .c4g__btn-accordion,
+.btn-check:focus + .c4g__btn-date,
+.btn-check:focus + .c4g__btn-filter,
+.btn-check:focus + .c4g__btn-more,
+.btn-check:focus + .c4g__btn-secondary,
+.btn-check:focus + .c4g__btn-time,
+.btn-secondary:focus,
+.c4g__btn-accordion:focus,
+.c4g__btn-date:focus,
+.c4g__btn-filter:focus,
+.c4g__btn-more:focus,
+.c4g__btn-secondary:focus,
+.c4g__btn-time:focus {
   color: #fff;
   background-color: #5c636a;
   border-color: #565e64;
   box-shadow: 0 0 0 .25rem rgba(130,138,145,.5)
 }
+.active.c4g__btn-accordion,
+.active.c4g__btn-date,
+.active.c4g__btn-filter,
+.active.c4g__btn-more,
+.active.c4g__btn-secondary,
+.active.c4g__btn-time,
 .btn-check:active + .btn-secondary,
+.btn-check:active + .c4g__btn-accordion,
+.btn-check:active + .c4g__btn-date,
+.btn-check:active + .c4g__btn-filter,
+.btn-check:active + .c4g__btn-more,
+.btn-check:active + .c4g__btn-secondary,
+.btn-check:active + .c4g__btn-time,
 .btn-check:checked + .btn-secondary,
+.btn-check:checked + .c4g__btn-accordion,
+.btn-check:checked + .c4g__btn-date,
+.btn-check:checked + .c4g__btn-filter,
+.btn-check:checked + .c4g__btn-more,
+.btn-check:checked + .c4g__btn-secondary,
+.btn-check:checked + .c4g__btn-time,
 .btn-secondary.active,
 .btn-secondary:active,
-.show > .btn-secondary.dropdown-toggle {
+.c4g__btn-accordion:active,
+.c4g__btn-date:active,
+.c4g__btn-filter:active,
+.c4g__btn-more:active,
+.c4g__btn-secondary:active,
+.c4g__btn-time:active,
+.show > .btn-secondary.dropdown-toggle,
+.show > .dropdown-toggle.c4g__btn-accordion,
+.show > .dropdown-toggle.c4g__btn-date,
+.show > .dropdown-toggle.c4g__btn-filter,
+.show > .dropdown-toggle.c4g__btn-more,
+.show > .dropdown-toggle.c4g__btn-secondary,
+.show > .dropdown-toggle.c4g__btn-time {
   color: #fff;
   background-color: #565e64;
   border-color: #51585e
 }
+.active.c4g__btn-accordion:focus,
+.active.c4g__btn-date:focus,
+.active.c4g__btn-filter:focus,
+.active.c4g__btn-more:focus,
+.active.c4g__btn-secondary:focus,
+.active.c4g__btn-time:focus,
 .btn-check:active + .btn-secondary:focus,
+.btn-check:active + .c4g__btn-accordion:focus,
+.btn-check:active + .c4g__btn-date:focus,
+.btn-check:active + .c4g__btn-filter:focus,
+.btn-check:active + .c4g__btn-more:focus,
+.btn-check:active + .c4g__btn-secondary:focus,
+.btn-check:active + .c4g__btn-time:focus,
 .btn-check:checked + .btn-secondary:focus,
+.btn-check:checked + .c4g__btn-accordion:focus,
+.btn-check:checked + .c4g__btn-date:focus,
+.btn-check:checked + .c4g__btn-filter:focus,
+.btn-check:checked + .c4g__btn-more:focus,
+.btn-check:checked + .c4g__btn-secondary:focus,
+.btn-check:checked + .c4g__btn-time:focus,
 .btn-secondary.active:focus,
 .btn-secondary:active:focus,
-.show > .btn-secondary.dropdown-toggle:focus {
+.c4g__btn-accordion:active:focus,
+.c4g__btn-date:active:focus,
+.c4g__btn-filter:active:focus,
+.c4g__btn-more:active:focus,
+.c4g__btn-secondary:active:focus,
+.c4g__btn-time:active:focus,
+.show > .btn-secondary.dropdown-toggle:focus,
+.show > .dropdown-toggle.c4g__btn-accordion:focus,
+.show > .dropdown-toggle.c4g__btn-date:focus,
+.show > .dropdown-toggle.c4g__btn-filter:focus,
+.show > .dropdown-toggle.c4g__btn-more:focus,
+.show > .dropdown-toggle.c4g__btn-secondary:focus,
+.show > .dropdown-toggle.c4g__btn-time:focus {
   box-shadow: 0 0 0 .25rem rgba(130,138,145,.5)
 }
 .btn-secondary.disabled,
-.btn-secondary:disabled {
+.btn-secondary:disabled,
+.c4g__btn-accordion:disabled,
+.c4g__btn-date:disabled,
+.c4g__btn-filter:disabled,
+.c4g__btn-more:disabled,
+.c4g__btn-secondary:disabled,
+.c4g__btn-time:disabled,
+.disabled.c4g__btn-accordion,
+.disabled.c4g__btn-date,
+.disabled.c4g__btn-filter,
+.disabled.c4g__btn-more,
+.disabled.c4g__btn-secondary,
+.disabled.c4g__btn-time {
   color: #fff;
   background-color: #6c757d;
   border-color: #6c757d
@@ -3972,16 +4098,20 @@ fieldset:disabled .btn {
   color: #212529;
   background-color: transparent
 }
-.btn-link {
+.btn-link,
+.c4g__btn-link {
   font-weight: 400;
   color: #0d6efd;
   text-decoration: underline
 }
-.btn-link:hover {
+.btn-link:hover,
+.c4g__btn-link:hover {
   color: #0a58ca
 }
 .btn-link.disabled,
-.btn-link:disabled {
+.btn-link:disabled,
+.c4g__btn-link:disabled,
+.disabled.c4g__btn-link {
   color: #6c757d
 }
 .btn-lg {
@@ -4032,7 +4162,8 @@ fieldset:disabled .btn {
 .badge:empty {
   display: none
 }
-.btn .badge {
+.btn .badge,
+.c4g__btn .badge {
   position: relative;
   top: -1px
 }
@@ -4985,7 +5116,7 @@ label.c4g_signature {
   vertical-align: middle;
   box-shadow: 0 0 3px gray
 }
-#c4g_brick .c4g_brick_dialog .c4gCircleButton .ui-button-text {
+#c4g_brick .c4g_brick_dialog .c4gCircleButton .c4g-button-text {
   text-align: center;
   vertical-align: middle;
   font-size: 20px;
@@ -5006,9 +5137,6 @@ label.c4g_signature {
 }
 .c4g_more_button_entry_tiles {
   display: inline-block
-}
-.ui-button {
-  cursor: pointer
 }
 .c4g_sub_dialog {
   display: block
@@ -5040,7 +5168,7 @@ label.c4g_signature {
   margin-bottom: 20px;
   clear: both
 }
-.c4g_brick_dialog .ui-accordion-header {
+.c4g_brick_dialog .c4g__accordion-header {
   outline: 0;
   margin-left: 0;
   display: block;
@@ -5051,10 +5179,10 @@ label.c4g_signature {
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0
 }
-.c4g_brick_dialog .ui-accordion-header a {
+.c4g_brick_dialog .c4g__accordion-header a {
   margin-left: .3em
 }
-.c4gGuiAccordion .ui-icon {
+.c4gGuiAccordion .c4g__accordion-icon {
   display: inline-block;
   vertical-align: middle;
   margin-top: .92em;
@@ -5069,7 +5197,7 @@ label.c4g_signature {
   margin-right: 1%;
   margin-bottom: .5%
 }
-.ui-accordion-header-active .c4g_accordion_icon {
+.c4g__accordion-header-active .c4g__accordion-icon {
   transform: rotate(90deg)
 }
 .c4gGuiTabLinks {
@@ -5096,9 +5224,9 @@ label.c4g_signature {
   max-height: 0;
   top: 0
 }
-.c4gGuiTabContainer .current,
-.c4gGuiTabContainer .ui-state-active,
-.c4gGuiTabContainer .ui-state-default {
+.c4gGuiTabContainer .c4g__state-active,
+.c4gGuiTabContainer .c4g__state-default,
+.c4gGuiTabContainer .current {
   visibility: inherit;
   height: inherit;
   max-height: inherit;

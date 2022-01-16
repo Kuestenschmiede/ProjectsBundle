@@ -174,7 +174,7 @@ class C4GBrickDialog
     ) {
         $dialogId = $dialogParams->getMemberId();
 
-        $view = '<div class="' . C4GBrickConst::CLASS_SELECT_DIALOG . ' ui-widget ui-widget-content ui-corner-bottom">';
+        $view = '<div class="' . C4GBrickConst::CLASS_SELECT_DIALOG . ' c4g__content">';
 
         $field->setIgnoreViewType(true); //no editable checking
         $view .= C4GHTMLFactory::lineBreak() .
@@ -237,7 +237,7 @@ class C4GBrickDialog
         $c4g_uploadURL = $dlgValues['c4g_uploadURL'];
 
         $view = '<div class="' . C4GBrickConst::CLASS_MESSAGE_DIALOG .
-            ' ui-widget ui-widget-content ui-corner-bottom">';
+            ' c4g__content">';
         $view .= '<input type="hidden" id="c4g_uploadURL" name="c4g_uploadURL" class="formdata" value="'
             . $c4g_uploadURL . '">';
         $view .= C4GBrickDialog::addC4GLabel($messageText);
@@ -281,7 +281,7 @@ class C4GBrickDialog
         $print = false
     ) {
         $view = '<div class="' . C4GBrickConst::CLASS_DIALOG .
-            ' ui-widget ui-widget-content ui-corner-bottom">' . C4GHTMLFactory::lineBreak();
+            ' c4g__content">' . C4GHTMLFactory::lineBreak();
 
         $GLOBALS['c4g']['brickdialog']['include']['js'][] = 'replaceC4GDialog(' . $dialogParams->getId() . ');';
         if ($dialogParams->isWithTabContentCheck()) {

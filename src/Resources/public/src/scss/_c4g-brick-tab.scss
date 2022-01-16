@@ -17,13 +17,6 @@
   cursor: pointer;
 }
 
-/*
-.c4gGuiTabLinks .ui-state-active {
-    top: 7px!important;
-    position: absolute!important;
-    z-index: 100;
-}*/
-
 .c4gGuiTabContent {
   /*display: none;*/
   visibility: hidden;
@@ -33,7 +26,7 @@
   top: 0px;
 }
 
-.c4gGuiTabContainer .ui-state-active,.c4gGuiTabContainer .ui-state-default, .c4gGuiTabContainer .current {
+.c4gGuiTabContainer .c4g__state-active,.c4gGuiTabContainer .c4g__state-default, .c4gGuiTabContainer .current {
   visibility: inherit;
   height: inherit;
   max-height:inherit;

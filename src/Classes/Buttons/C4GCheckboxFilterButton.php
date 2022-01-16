@@ -41,7 +41,7 @@ class C4GCheckboxFilterButton implements C4GFilterButtonInterface
 
                 break;
             case 'button':
-                return '<span class="c4g_list_filter ui-button ui-corner-all" title="' . $this->description .
+                return '<span class="c4g_list_filter c4g__btn c4g__btn-filter" title="' . $this->description .
                     '" onclick="let element = document.getElementsByClassName(\'c4g_brick_list\');' .
                     'element = element.item(element.length - 1);' .
                     'element.classList.toggle(\'filter_' . $this->class . '_parent\');' .

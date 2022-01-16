@@ -53,10 +53,10 @@ class C4GMultiColumnField extends C4GBrickField
                     'oninput="onMultiColumnInput(this, event);"></td>';
             }
             $head .= '</tr>';
-            $row .= '<td><button class="ui-button ui-corner-all ui-widget" ' .
+            $row .= '<td><button class="c4g__btn c4g__btn-secondary" ' .
                 'onclick="onAddRowButtonClick(this, event);">'
                 . $this->addButtonLabel . '</button></td>';
-            $row .= '<td><button class="ui-button ui-corner-all ui-widget"' .
+            $row .= '<td><button class="c4g__btn c4g__btn-secondary"' .
                 ' onclick="onRemoveRowButtonClick(this, event);">' .
                 $this->removeButtonLabel . '</button></td>';
             $row .= '</tr>';

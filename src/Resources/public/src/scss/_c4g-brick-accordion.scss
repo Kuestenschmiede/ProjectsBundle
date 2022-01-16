@@ -1,4 +1,4 @@
-.c4g_brick_dialog .ui-accordion-header {
+.c4g_brick_dialog .c4g__accordion-header {
   outline: none;
   margin-left: 0;
   display: block;
@@ -12,11 +12,11 @@
   border-bottom-right-radius: 0px;
 }
 
-.c4g_brick_dialog .ui-accordion-header a {
+.c4g_brick_dialog .c4g__accordion-header a {
   margin-left: .3em;
 }
 
-.c4gGuiAccordion .ui-icon {
+.c4gGuiAccordion .c4g__accordion-icon {
   display: inline-block;
   vertical-align: middle;
   margin-top: .92em;
@@ -33,7 +33,7 @@
   margin-bottom: 0.5%;
 }
 
-.ui-accordion-header-active .c4g_accordion_icon  {
+.c4g__accordion-header-active .c4g__accordion-icon  {
   transform: rotate(90deg);
 }
 

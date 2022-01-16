@@ -157,7 +157,7 @@ class C4GBrickFilterDialog extends C4GBrickDialog
         if ($fromFilterField && $toFilterField) {
             //ToDo verschiedene Filter unterstützen
 
-            $view = '<div class="' . C4GBrickConst::CLASS_DIALOG . ' ' . C4GBrickConst::CLASS_FILTER_DIALOG . ' ui-widget ui-widget-content ui-corner-bottom">';
+            $view = '<div class="' . C4GBrickConst::CLASS_DIALOG . ' ' . C4GBrickConst::CLASS_FILTER_DIALOG . ' c4g__content">';
             $view .= C4GHTMLFactory::lineBreak() . $fromFilterField->getC4GDialogField(null, null, $dialogParams);
             $view .= C4GHTMLFactory::lineBreak() . $toFilterField->getC4GDialogField(null, null, $dialogParams);
 
@@ -189,7 +189,7 @@ class C4GBrickFilterDialog extends C4GBrickDialog
             ];
         } elseif ($filterParams->isWithGeoFilter()) {
             $content = $firstPosition->getContentId();
-            $view = '<div class="' . C4GBrickConst::CLASS_DIALOG . ' ' . C4GBrickConst::CLASS_FILTER_DIALOG . ' ui-widget ui-widget-content ui-corner-bottom">';
+            $view = '<div class="' . C4GBrickConst::CLASS_DIALOG . ' ' . C4GBrickConst::CLASS_FILTER_DIALOG . ' c4g__content">';
             $view .= C4GHTMLFactory::lineBreak() . $firstPosition->getC4GDialogField(null, null, $dialogParams, ['content' => $content]);
 
             $messageTitle = $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['HEADLINE_TEXT'];

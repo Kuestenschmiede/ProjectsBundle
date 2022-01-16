@@ -44,12 +44,12 @@ class C4GTrixEditorField extends C4GBrickField
             $condition = $this->createConditionData($fieldList, $data);
 
             if ($this->isEditable()) {
-                $fieldData = '<input id="' . $id . '" class="formdata c4g__form-editor ui-corner-all" name="' .
+                $fieldData = '<input id="' . $id . '" class="formdata c4g__form-editor" name="' .
                     $this->getFieldName() . '" value="' . $value . '" type="hidden" name="content">' .
                     '<trix-editor class="trix-content ' . $this->getStyleClass() . '" input="' . $id . '"></trix-editor>';
             } else {
                 $fieldData = '<div disabled ' . $condition['conditionPrepare'] . ' id="' . $id .
-                    '" class="formdata c4g__form-editor-disabled ' . $id . ' ui-corner-all">' .
+                    '" class="formdata c4g__form-editor-disabled ' . $id . '">' .
                     html_entity_decode($value) . ' </div>';
             }
 

@@ -48,7 +48,7 @@ class C4GMoreButton extends C4GAbstractList
         if ($this->getRenderModeOverride() !== '') {
             $renderMode = $this->getRenderModeOverride();
         }
-        $class .= ' ui-button ui-corner-all';
+        $class .= ' c4g__btn c4g__btn-more';
         $view = '';
         foreach ($this->entries as $key => $entry) {
             if ($entry instanceof C4GMoreButtonEntry) {
@@ -112,7 +112,7 @@ class C4GMoreButton extends C4GAbstractList
                 break;
             case C4GBrickRenderMode::TILEBASED:
                 // we do not need the outer div in this rendermode
-                $view = "<div class='c4g_more_button_container c4g_more_button_mode_$renderMode ui-widget-content ui-corner-all' id='c4g_more_button_" . $fieldName . '_' .
+                $view = "<div class='c4g_more_button_container c4g_more_button_mode_$renderMode c4g__content c4g__btn c4g__btn-more' id='c4g_more_button_" . $fieldName . '_' .
                     $dataId . "_container' style='display: none;'>";
 
                 break;
@@ -122,7 +122,7 @@ class C4GMoreButton extends C4GAbstractList
 
                 break;
             default:
-                $view = "<div><div class='c4g_more_button_container c4g_more_button_mode_$renderMode ui-widget-content ui-corner-all' id='c4g_more_button_" . $fieldName . '_' .
+                $view = "<div><div class='c4g_more_button_container c4g_more_button_mode_$renderMode c4g__content c4g__btn c4g__btn-more' id='c4g_more_button_" . $fieldName . '_' .
                     $dataId . "_container' style='display: none;'>";
 
                 break;
@@ -153,10 +153,10 @@ class C4GMoreButton extends C4GAbstractList
 
             if ($renderMode == self::RENDER_MODE_ENTRY || $renderMode == self::RENDER_MODE_ENTRY_TILES) {
                 $tooltip = 'title="' . $entry->getToolTip() . '"';
-                $element = "<span class='c4g_more_button_" . $renderMode . " ui-button ui-corner-all'  href='morebutton_" . $fieldName . ':' . $dataId . ':' .
+                $element = "<span class='c4g_more_button_" . $renderMode . " c4g__btn c4g__btn-more'  href='morebutton_" . $fieldName . ':' . $dataId . ':' .
                     $key . "' onclick='" . $onclick . "' $tooltip>";
             } else {
-                $element = "<span class='c4g_more_button_entry ui-button'  href='morebutton_" . $fieldName . ':' . $dataId . ':' .
+                $element = "<span class='c4g_more_button_entry c4g__btn c4g__btn-more'  href='morebutton_" . $fieldName . ':' . $dataId . ':' .
                     $key . "' onclick='" . $onclick . "'>";
             }
             $element .= $entry->getTitle();

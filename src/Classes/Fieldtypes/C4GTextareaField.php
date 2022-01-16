@@ -54,7 +54,7 @@ class C4GTextareaField extends C4GBrickField
             }
             $result =
                 $this->addC4GField($condition,$dialogParams,$fieldList,$data,
-                '<textarea ' . $required . ' ' . $condition['conditionPrepare'] . ' id="' . $id . '" class="formdata c4g__form-textarea ' . $id . ' ui-corner-all" name="' . $this->getFieldName() . '" cols="80" rows="' . $size . '"' . $maxlength . '" >' . $value . ' </textarea>');
+                '<textarea ' . $required . ' ' . $condition['conditionPrepare'] . ' id="' . $id . '" class="formdata c4g__form-textarea ' . $id . '" name="' . $this->getFieldName() . '" cols="80" rows="' . $size . '"' . $maxlength . '" >' . $value . ' </textarea>');
         }
 
         return $result;

@@ -58,7 +58,7 @@ class C4GButtonField extends C4GBrickField
             $function = $this->getOnClick();
             $divBefore = '<div class="c4gGuiDialogButtonsJqui ">';
             $divAfter = '</div>';
-            $class = 'c4gGuiAction c4gGuiButton c4g__form-button  c4gGuiSend';
+            $class = 'c4gGuiAction c4gGuiButton c4g__btn c4g__btn-primary c4gGuiSend';
 
             if ($this->getOnClickType() == C4GBrickConst::ONCLICK_TYPE_SERVER) {
                 $dataAction = 'href="#" data-action="' . $button->getAction() . ':' . $function . ':' . $dialogParams->getId() . '" role="button"';
@@ -68,7 +68,7 @@ class C4GButtonField extends C4GBrickField
         } elseif ($button->getAction()) {
             $divBefore = '<div class="c4gGuiDialogButtonsJqui ">';
             $divAfter = '</div>';
-            $class = 'c4gGuiAction c4gGuiButton c4g__form-button c4gGuiSend';
+            $class = 'c4gGuiAction c4gGuiButton c4g__btn c4g__btn-primary c4gGuiSend';
 
             $dataAction = 'href="#" data-action="' . $button->getAction() . ':' . $dialogParams->getId() . '" role="button"';
         } else {

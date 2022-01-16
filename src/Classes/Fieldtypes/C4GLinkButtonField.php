@@ -57,7 +57,7 @@ class C4GLinkButtonField extends C4GBrickField
     {
         $fieldName = $this->getFieldName();
         if (!$this->conditional || ($rowData->$fieldName === '1')) {
-            $class = 'ui-button ui-corner-all';
+            $class = 'c4g__btn c4g__btn-link';
             if ($this->getStyleClass()) {
                 $class .= $this->getStyleClass();
             }
