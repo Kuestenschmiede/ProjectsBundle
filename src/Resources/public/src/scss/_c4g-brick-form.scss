@@ -74,12 +74,16 @@
   //display: block;
   //width: 100%;
 }
-.c4g_brick_dialog .c4g_brick_headline, .c4g_brick_dialog .c4g_popup_headline {
+.c4g__form-label {
+  @extend .form-label
+}
+.c4g_brick_dialog .c4g__form-headline, .c4g_brick_dialog .c4g_popup_headline {
   font-weight: bold;
   font-size: 1.25em;
   margin-bottom: 2px;
   margin-top: 1.0em;
 }
+
 //.c4g_brick_dialog label strong {
 //  color: red;
 //}

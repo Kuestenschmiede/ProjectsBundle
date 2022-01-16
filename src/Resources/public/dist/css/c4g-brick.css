@@ -370,6 +370,7 @@ progress {
 [hidden] {
   display: none!important
 }
+.c4g__form-label,
 .form-label {
   margin-bottom: .5rem
 }
@@ -4525,6 +4526,111 @@ fieldset:disabled .c4g__btn {
     border-radius: 0
   }
 }
+.accordion-button {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 1rem 1.25rem;
+  font-size: 1rem;
+  color: #212529;
+  text-align: left;
+  background-color: #fff;
+  border: 0;
+  border-radius: 0;
+  overflow-anchor: none;
+  transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out,border-radius .15s ease
+}
+@media (prefers-reduced-motion:reduce) {
+  .accordion-button {
+    transition: none
+  }
+}
+.accordion-button:not(.collapsed) {
+  color: #0c63e4;
+  background-color: #e7f1ff;
+  box-shadow: inset 0 -1px 0 rgba(0,0,0,.125)
+}
+.accordion-button:not(.collapsed)::after {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%230c63e4'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+  transform: rotate(-180deg)
+}
+.accordion-button::after {
+  flex-shrink: 0;
+  width: 1.25rem;
+  height: 1.25rem;
+  margin-left: auto;
+  content: "";
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23212529'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-size: 1.25rem;
+  transition: transform .2s ease-in-out
+}
+@media (prefers-reduced-motion:reduce) {
+  .accordion-button::after {
+    transition: none
+  }
+}
+.accordion-button:hover {
+  z-index: 2
+}
+.accordion-button:focus {
+  z-index: 3;
+  border-color: #86b7fe;
+  outline: 0;
+  box-shadow: 0 0 0 .25rem rgba(13,110,253,.25)
+}
+.accordion-header,
+.c4g_brick_dialog .c4g__accordion-header {
+  margin-bottom: 0
+}
+.accordion-item {
+  background-color: #fff;
+  border: 1px solid rgba(0,0,0,.125)
+}
+.accordion-item:first-of-type {
+  border-top-left-radius: .25rem;
+  border-top-right-radius: .25rem
+}
+.accordion-item:first-of-type .accordion-button {
+  border-top-left-radius: calc(.25rem - 1px);
+  border-top-right-radius: calc(.25rem - 1px)
+}
+.accordion-item:not(:first-of-type) {
+  border-top: 0
+}
+.accordion-item:last-of-type {
+  border-bottom-right-radius: .25rem;
+  border-bottom-left-radius: .25rem
+}
+.accordion-item:last-of-type .accordion-button.collapsed {
+  border-bottom-right-radius: calc(.25rem - 1px);
+  border-bottom-left-radius: calc(.25rem - 1px)
+}
+.accordion-item:last-of-type .accordion-collapse {
+  border-bottom-right-radius: .25rem;
+  border-bottom-left-radius: .25rem
+}
+.accordion-body {
+  padding: 1rem 1.25rem
+}
+.accordion-flush .accordion-collapse {
+  border-width: 0
+}
+.accordion-flush .accordion-item {
+  border-right: 0;
+  border-left: 0;
+  border-radius: 0
+}
+.accordion-flush .accordion-item:first-child {
+  border-top: 0
+}
+.accordion-flush .accordion-item:last-child {
+  border-bottom: 0
+}
+.accordion-flush .accordion-item .accordion-button {
+  border-radius: 0
+}
 @font-face {
   font-family: 'Font Awesome 5 Free';
   font-weight: 900;
@@ -4583,7 +4689,7 @@ fieldset:disabled .c4g__btn {
   margin-top: 0;
   margin-bottom: 0
 }
-.c4g_brick_dialog .c4g_brick_headline,
+.c4g_brick_dialog .c4g__form-headline,
 .c4g_brick_dialog .c4g_popup_headline {
   font-weight: 700;
   font-size: 1.25em;
@@ -5168,17 +5274,6 @@ label.c4g_signature {
   margin-bottom: 20px;
   clear: both
 }
-.c4g_brick_dialog .c4g__accordion-header {
-  outline: 0;
-  margin-left: 0;
-  display: block;
-  cursor: pointer;
-  position: relative;
-  margin: .3em 0 0 0;
-  font-size: inherit;
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0
-}
 .c4g_brick_dialog .c4g__accordion-header a {
   margin-left: .3em
 }
@@ -5189,9 +5284,7 @@ label.c4g_signature {
   position: absolute;
   text-indent: -99999px;
   overflow: hidden;
-  background-repeat: no-repeat
-}
-.c4g_accordion_icon {
+  background-repeat: no-repeat;
   vertical-align: middle;
   font-size: 30px;
   margin-right: 1%;

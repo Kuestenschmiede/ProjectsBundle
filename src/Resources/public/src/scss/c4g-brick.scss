@@ -15,6 +15,7 @@
 @import "node_modules/bootstrap/scss/utilities";
 @import "node_modules/bootstrap/scss/nav";
 @import "node_modules/bootstrap/scss/modal";
+@import "node_modules/bootstrap/scss/accordion";
 
 
 @import "c4g-brick-core";
@@ -44,3 +45,7 @@
 //- strikte Trennung ui -> c4gGui.scss vs. c4g-brick-ui
 //- die print css muss noch angeglichen werden (Duplikat)
 //- ui-Klassen entfernen und ersetzen (z.B. für alle Button)
+//- accordion Komponente umbauen
+//- tabs Komponente umbauen
+//- Radiogroup umbauen
+//- ui dialog durch SimpleModal ersetzen
