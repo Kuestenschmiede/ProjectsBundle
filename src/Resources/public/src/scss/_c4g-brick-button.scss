@@ -80,6 +80,7 @@
   display:inline-block;
 }
 
+
 .c4g__btn {
   @extend .btn;
 }
@@ -100,9 +101,9 @@
   @extend .btn-secondary;
 }
 
-.c4g__btn-date {
-  @extend .btn-secondary;
-}
+//.c4g__btn-date {
+//  @extend .btn-secondary;
+//}
 
 .c4g__btn-time {
   @extend .btn-secondary;

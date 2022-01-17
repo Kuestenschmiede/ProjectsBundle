@@ -370,7 +370,7 @@ progress {
 [hidden] {
   display: none!important
 }
-.c4g__form-label,
+.c4g_brick_dialog .c4g__form-label,
 .form-label {
   margin-bottom: .5rem
 }
@@ -391,23 +391,13 @@ progress {
   padding-bottom: calc(.25rem + 1px);
   font-size: .875rem
 }
+.c4g_brick_dialog .c4g__form-description,
 .form-text {
   margin-top: .25rem;
   font-size: .875em;
   color: #6c757d
 }
-.c4g_brick_dialog .c4g_non_input,
-.c4g_brick_dialog input.formdata[type=date],
-.c4g_brick_dialog input.formdata[type=email],
-.c4g_brick_dialog input.formdata[type=tel],
-.c4g_brick_dialog input.formdata[type=text],
-.c4g_brick_dialog input.formdata[type=url],
-.c4g_brick_dialog input.formnodata[type=date],
-.c4g_brick_dialog input.formnodata[type=email],
-.c4g_brick_dialog input.formnodata[type=tel],
-.c4g_brick_dialog input.formnodata[type=text],
-.c4g_brick_dialog input.formnodata[type=url],
-.c4g_brick_dialog textarea.formdata,
+.c4g_brick_dialog .c4g__form-control,
 .form-control {
   display: block;
   width: 100%;
@@ -426,64 +416,20 @@ progress {
   transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out
 }
 @media (prefers-reduced-motion:reduce) {
-  .c4g_brick_dialog .c4g_non_input,
-  .c4g_brick_dialog input.formdata[type=date],
-  .c4g_brick_dialog input.formdata[type=email],
-  .c4g_brick_dialog input.formdata[type=tel],
-  .c4g_brick_dialog input.formdata[type=text],
-  .c4g_brick_dialog input.formdata[type=url],
-  .c4g_brick_dialog input.formnodata[type=date],
-  .c4g_brick_dialog input.formnodata[type=email],
-  .c4g_brick_dialog input.formnodata[type=tel],
-  .c4g_brick_dialog input.formnodata[type=text],
-  .c4g_brick_dialog input.formnodata[type=url],
-  .c4g_brick_dialog textarea.formdata,
+  .c4g_brick_dialog .c4g__form-control,
   .form-control {
     transition: none
   }
 }
-.c4g_brick_dialog .c4g_non_input[type=file],
-.c4g_brick_dialog input.formdata[type=file][type=date],
-.c4g_brick_dialog input.formdata[type=file][type=email],
-.c4g_brick_dialog input.formdata[type=file][type=tel],
-.c4g_brick_dialog input.formdata[type=file][type=text],
-.c4g_brick_dialog input.formdata[type=file][type=url],
-.c4g_brick_dialog input.formnodata[type=file][type=date],
-.c4g_brick_dialog input.formnodata[type=file][type=email],
-.c4g_brick_dialog input.formnodata[type=file][type=tel],
-.c4g_brick_dialog input.formnodata[type=file][type=text],
-.c4g_brick_dialog input.formnodata[type=file][type=url],
-.c4g_brick_dialog textarea.formdata[type=file],
+.c4g_brick_dialog .c4g__form-control[type=file],
 .form-control[type=file] {
   overflow: hidden
 }
-.c4g_brick_dialog .c4g_non_input[type=file]:not(:disabled):not([readonly]),
-.c4g_brick_dialog input.formdata[type=file]:not(:disabled):not([readonly])[type=date],
-.c4g_brick_dialog input.formdata[type=file]:not(:disabled):not([readonly])[type=email],
-.c4g_brick_dialog input.formdata[type=file]:not(:disabled):not([readonly])[type=tel],
-.c4g_brick_dialog input.formdata[type=file]:not(:disabled):not([readonly])[type=text],
-.c4g_brick_dialog input.formdata[type=file]:not(:disabled):not([readonly])[type=url],
-.c4g_brick_dialog input.formnodata[type=file]:not(:disabled):not([readonly])[type=date],
-.c4g_brick_dialog input.formnodata[type=file]:not(:disabled):not([readonly])[type=email],
-.c4g_brick_dialog input.formnodata[type=file]:not(:disabled):not([readonly])[type=tel],
-.c4g_brick_dialog input.formnodata[type=file]:not(:disabled):not([readonly])[type=text],
-.c4g_brick_dialog input.formnodata[type=file]:not(:disabled):not([readonly])[type=url],
-.c4g_brick_dialog textarea.formdata[type=file]:not(:disabled):not([readonly]),
+.c4g_brick_dialog .c4g__form-control[type=file]:not(:disabled):not([readonly]),
 .form-control[type=file]:not(:disabled):not([readonly]) {
   cursor: pointer
 }
-.c4g_brick_dialog .c4g_non_input:focus,
-.c4g_brick_dialog input.formdata:focus[type=date],
-.c4g_brick_dialog input.formdata:focus[type=email],
-.c4g_brick_dialog input.formdata:focus[type=tel],
-.c4g_brick_dialog input.formdata:focus[type=text],
-.c4g_brick_dialog input.formdata:focus[type=url],
-.c4g_brick_dialog input.formnodata:focus[type=date],
-.c4g_brick_dialog input.formnodata:focus[type=email],
-.c4g_brick_dialog input.formnodata:focus[type=tel],
-.c4g_brick_dialog input.formnodata:focus[type=text],
-.c4g_brick_dialog input.formnodata:focus[type=url],
-.c4g_brick_dialog textarea.formdata:focus,
+.c4g_brick_dialog .c4g__form-control:focus,
 .form-control:focus {
   color: #212529;
   background-color: #fff;
@@ -491,110 +437,33 @@ progress {
   outline: 0;
   box-shadow: 0 0 0 .25rem rgba(13,110,253,.25)
 }
-.c4g_brick_dialog .c4g_non_input::-webkit-date-and-time-value,
-.c4g_brick_dialog input.formdata[type=date]::-webkit-date-and-time-value,
-.c4g_brick_dialog input.formdata[type=email]::-webkit-date-and-time-value,
-.c4g_brick_dialog input.formdata[type=tel]::-webkit-date-and-time-value,
-.c4g_brick_dialog input.formdata[type=text]::-webkit-date-and-time-value,
-.c4g_brick_dialog input.formdata[type=url]::-webkit-date-and-time-value,
-.c4g_brick_dialog input.formnodata[type=date]::-webkit-date-and-time-value,
-.c4g_brick_dialog input.formnodata[type=email]::-webkit-date-and-time-value,
-.c4g_brick_dialog input.formnodata[type=tel]::-webkit-date-and-time-value,
-.c4g_brick_dialog input.formnodata[type=text]::-webkit-date-and-time-value,
-.c4g_brick_dialog input.formnodata[type=url]::-webkit-date-and-time-value,
-.c4g_brick_dialog textarea.formdata::-webkit-date-and-time-value,
+.c4g_brick_dialog .c4g__form-control::-webkit-date-and-time-value,
 .form-control::-webkit-date-and-time-value {
   height: 1.5em
 }
-.c4g_brick_dialog .c4g_non_input::-moz-placeholder,
-.c4g_brick_dialog input.formdata[type=date]::-moz-placeholder,
-.c4g_brick_dialog input.formdata[type=email]::-moz-placeholder,
-.c4g_brick_dialog input.formdata[type=tel]::-moz-placeholder,
-.c4g_brick_dialog input.formdata[type=text]::-moz-placeholder,
-.c4g_brick_dialog input.formdata[type=url]::-moz-placeholder,
-.c4g_brick_dialog input.formnodata[type=date]::-moz-placeholder,
-.c4g_brick_dialog input.formnodata[type=email]::-moz-placeholder,
-.c4g_brick_dialog input.formnodata[type=tel]::-moz-placeholder,
-.c4g_brick_dialog input.formnodata[type=text]::-moz-placeholder,
-.c4g_brick_dialog input.formnodata[type=url]::-moz-placeholder,
-.c4g_brick_dialog textarea.formdata::-moz-placeholder,
+.c4g_brick_dialog .c4g__form-control::-moz-placeholder,
 .form-control::-moz-placeholder {
   color: #6c757d;
   opacity: 1
 }
-.c4g_brick_dialog .c4g_non_input:-ms-input-placeholder,
-.c4g_brick_dialog input.formdata[type=date]:-ms-input-placeholder,
-.c4g_brick_dialog input.formdata[type=email]:-ms-input-placeholder,
-.c4g_brick_dialog input.formdata[type=tel]:-ms-input-placeholder,
-.c4g_brick_dialog input.formdata[type=text]:-ms-input-placeholder,
-.c4g_brick_dialog input.formdata[type=url]:-ms-input-placeholder,
-.c4g_brick_dialog input.formnodata[type=date]:-ms-input-placeholder,
-.c4g_brick_dialog input.formnodata[type=email]:-ms-input-placeholder,
-.c4g_brick_dialog input.formnodata[type=tel]:-ms-input-placeholder,
-.c4g_brick_dialog input.formnodata[type=text]:-ms-input-placeholder,
-.c4g_brick_dialog input.formnodata[type=url]:-ms-input-placeholder,
-.c4g_brick_dialog textarea.formdata:-ms-input-placeholder,
+.c4g_brick_dialog .c4g__form-control:-ms-input-placeholder,
 .form-control:-ms-input-placeholder {
   color: #6c757d;
   opacity: 1
 }
-.c4g_brick_dialog .c4g_non_input::placeholder,
-.c4g_brick_dialog input.formdata[type=date]::placeholder,
-.c4g_brick_dialog input.formdata[type=email]::placeholder,
-.c4g_brick_dialog input.formdata[type=tel]::placeholder,
-.c4g_brick_dialog input.formdata[type=text]::placeholder,
-.c4g_brick_dialog input.formdata[type=url]::placeholder,
-.c4g_brick_dialog input.formnodata[type=date]::placeholder,
-.c4g_brick_dialog input.formnodata[type=email]::placeholder,
-.c4g_brick_dialog input.formnodata[type=tel]::placeholder,
-.c4g_brick_dialog input.formnodata[type=text]::placeholder,
-.c4g_brick_dialog input.formnodata[type=url]::placeholder,
-.c4g_brick_dialog textarea.formdata::placeholder,
+.c4g_brick_dialog .c4g__form-control::placeholder,
 .form-control::placeholder {
   color: #6c757d;
   opacity: 1
 }
-.c4g_brick_dialog .c4g_non_input:disabled,
-.c4g_brick_dialog .c4g_non_input[readonly],
-.c4g_brick_dialog input.formdata:disabled[type=date],
-.c4g_brick_dialog input.formdata:disabled[type=email],
-.c4g_brick_dialog input.formdata:disabled[type=tel],
-.c4g_brick_dialog input.formdata:disabled[type=text],
-.c4g_brick_dialog input.formdata:disabled[type=url],
-.c4g_brick_dialog input.formdata[readonly][type=date],
-.c4g_brick_dialog input.formdata[readonly][type=email],
-.c4g_brick_dialog input.formdata[readonly][type=tel],
-.c4g_brick_dialog input.formdata[readonly][type=text],
-.c4g_brick_dialog input.formdata[readonly][type=url],
-.c4g_brick_dialog input.formnodata:disabled[type=date],
-.c4g_brick_dialog input.formnodata:disabled[type=email],
-.c4g_brick_dialog input.formnodata:disabled[type=tel],
-.c4g_brick_dialog input.formnodata:disabled[type=text],
-.c4g_brick_dialog input.formnodata:disabled[type=url],
-.c4g_brick_dialog input.formnodata[readonly][type=date],
-.c4g_brick_dialog input.formnodata[readonly][type=email],
-.c4g_brick_dialog input.formnodata[readonly][type=tel],
-.c4g_brick_dialog input.formnodata[readonly][type=text],
-.c4g_brick_dialog input.formnodata[readonly][type=url],
-.c4g_brick_dialog textarea.formdata:disabled,
-.c4g_brick_dialog textarea.formdata[readonly],
+.c4g_brick_dialog .c4g__form-control:disabled,
+.c4g_brick_dialog .c4g__form-control[readonly],
 .form-control:disabled,
 .form-control[readonly] {
   background-color: #e9ecef;
   opacity: 1
 }
-.c4g_brick_dialog .c4g_non_input::file-selector-button,
-.c4g_brick_dialog input.formdata[type=date]::file-selector-button,
-.c4g_brick_dialog input.formdata[type=email]::file-selector-button,
-.c4g_brick_dialog input.formdata[type=tel]::file-selector-button,
-.c4g_brick_dialog input.formdata[type=text]::file-selector-button,
-.c4g_brick_dialog input.formdata[type=url]::file-selector-button,
-.c4g_brick_dialog input.formnodata[type=date]::file-selector-button,
-.c4g_brick_dialog input.formnodata[type=email]::file-selector-button,
-.c4g_brick_dialog input.formnodata[type=tel]::file-selector-button,
-.c4g_brick_dialog input.formnodata[type=text]::file-selector-button,
-.c4g_brick_dialog input.formnodata[type=url]::file-selector-button,
-.c4g_brick_dialog textarea.formdata::file-selector-button,
+.c4g_brick_dialog .c4g__form-control::file-selector-button,
 .form-control::file-selector-button {
   padding: .375rem .75rem;
   margin: -.375rem -.75rem;
@@ -611,49 +480,16 @@ progress {
   transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out
 }
 @media (prefers-reduced-motion:reduce) {
-  .c4g_brick_dialog .c4g_non_input::file-selector-button,
-  .c4g_brick_dialog input.formdata[type=date]::file-selector-button,
-  .c4g_brick_dialog input.formdata[type=email]::file-selector-button,
-  .c4g_brick_dialog input.formdata[type=tel]::file-selector-button,
-  .c4g_brick_dialog input.formdata[type=text]::file-selector-button,
-  .c4g_brick_dialog input.formdata[type=url]::file-selector-button,
-  .c4g_brick_dialog input.formnodata[type=date]::file-selector-button,
-  .c4g_brick_dialog input.formnodata[type=email]::file-selector-button,
-  .c4g_brick_dialog input.formnodata[type=tel]::file-selector-button,
-  .c4g_brick_dialog input.formnodata[type=text]::file-selector-button,
-  .c4g_brick_dialog input.formnodata[type=url]::file-selector-button,
-  .c4g_brick_dialog textarea.formdata::file-selector-button,
+  .c4g_brick_dialog .c4g__form-control::file-selector-button,
   .form-control::file-selector-button {
     transition: none
   }
 }
-.c4g_brick_dialog .c4g_non_input:hover:not(:disabled):not([readonly])::file-selector-button,
-.c4g_brick_dialog input.formdata[type=date]:hover:not(:disabled):not([readonly])::file-selector-button,
-.c4g_brick_dialog input.formdata[type=email]:hover:not(:disabled):not([readonly])::file-selector-button,
-.c4g_brick_dialog input.formdata[type=tel]:hover:not(:disabled):not([readonly])::file-selector-button,
-.c4g_brick_dialog input.formdata[type=text]:hover:not(:disabled):not([readonly])::file-selector-button,
-.c4g_brick_dialog input.formdata[type=url]:hover:not(:disabled):not([readonly])::file-selector-button,
-.c4g_brick_dialog input.formnodata[type=date]:hover:not(:disabled):not([readonly])::file-selector-button,
-.c4g_brick_dialog input.formnodata[type=email]:hover:not(:disabled):not([readonly])::file-selector-button,
-.c4g_brick_dialog input.formnodata[type=tel]:hover:not(:disabled):not([readonly])::file-selector-button,
-.c4g_brick_dialog input.formnodata[type=text]:hover:not(:disabled):not([readonly])::file-selector-button,
-.c4g_brick_dialog input.formnodata[type=url]:hover:not(:disabled):not([readonly])::file-selector-button,
-.c4g_brick_dialog textarea.formdata:hover:not(:disabled):not([readonly])::file-selector-button,
+.c4g_brick_dialog .c4g__form-control:hover:not(:disabled):not([readonly])::file-selector-button,
 .form-control:hover:not(:disabled):not([readonly])::file-selector-button {
   background-color: #dde0e3
 }
-.c4g_brick_dialog .c4g_non_input::-webkit-file-upload-button,
-.c4g_brick_dialog input.formdata[type=date]::-webkit-file-upload-button,
-.c4g_brick_dialog input.formdata[type=email]::-webkit-file-upload-button,
-.c4g_brick_dialog input.formdata[type=tel]::-webkit-file-upload-button,
-.c4g_brick_dialog input.formdata[type=text]::-webkit-file-upload-button,
-.c4g_brick_dialog input.formdata[type=url]::-webkit-file-upload-button,
-.c4g_brick_dialog input.formnodata[type=date]::-webkit-file-upload-button,
-.c4g_brick_dialog input.formnodata[type=email]::-webkit-file-upload-button,
-.c4g_brick_dialog input.formnodata[type=tel]::-webkit-file-upload-button,
-.c4g_brick_dialog input.formnodata[type=text]::-webkit-file-upload-button,
-.c4g_brick_dialog input.formnodata[type=url]::-webkit-file-upload-button,
-.c4g_brick_dialog textarea.formdata::-webkit-file-upload-button,
+.c4g_brick_dialog .c4g__form-control::-webkit-file-upload-button,
 .form-control::-webkit-file-upload-button {
   padding: .375rem .75rem;
   margin: -.375rem -.75rem;
@@ -671,35 +507,13 @@ progress {
   transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out
 }
 @media (prefers-reduced-motion:reduce) {
-  .c4g_brick_dialog .c4g_non_input::-webkit-file-upload-button,
-  .c4g_brick_dialog input.formdata[type=date]::-webkit-file-upload-button,
-  .c4g_brick_dialog input.formdata[type=email]::-webkit-file-upload-button,
-  .c4g_brick_dialog input.formdata[type=tel]::-webkit-file-upload-button,
-  .c4g_brick_dialog input.formdata[type=text]::-webkit-file-upload-button,
-  .c4g_brick_dialog input.formdata[type=url]::-webkit-file-upload-button,
-  .c4g_brick_dialog input.formnodata[type=date]::-webkit-file-upload-button,
-  .c4g_brick_dialog input.formnodata[type=email]::-webkit-file-upload-button,
-  .c4g_brick_dialog input.formnodata[type=tel]::-webkit-file-upload-button,
-  .c4g_brick_dialog input.formnodata[type=text]::-webkit-file-upload-button,
-  .c4g_brick_dialog input.formnodata[type=url]::-webkit-file-upload-button,
-  .c4g_brick_dialog textarea.formdata::-webkit-file-upload-button,
+  .c4g_brick_dialog .c4g__form-control::-webkit-file-upload-button,
   .form-control::-webkit-file-upload-button {
     -webkit-transition: none;
     transition: none
   }
 }
-.c4g_brick_dialog .c4g_non_input:hover:not(:disabled):not([readonly])::-webkit-file-upload-button,
-.c4g_brick_dialog input.formdata[type=date]:hover:not(:disabled):not([readonly])::-webkit-file-upload-button,
-.c4g_brick_dialog input.formdata[type=email]:hover:not(:disabled):not([readonly])::-webkit-file-upload-button,
-.c4g_brick_dialog input.formdata[type=tel]:hover:not(:disabled):not([readonly])::-webkit-file-upload-button,
-.c4g_brick_dialog input.formdata[type=text]:hover:not(:disabled):not([readonly])::-webkit-file-upload-button,
-.c4g_brick_dialog input.formdata[type=url]:hover:not(:disabled):not([readonly])::-webkit-file-upload-button,
-.c4g_brick_dialog input.formnodata[type=date]:hover:not(:disabled):not([readonly])::-webkit-file-upload-button,
-.c4g_brick_dialog input.formnodata[type=email]:hover:not(:disabled):not([readonly])::-webkit-file-upload-button,
-.c4g_brick_dialog input.formnodata[type=tel]:hover:not(:disabled):not([readonly])::-webkit-file-upload-button,
-.c4g_brick_dialog input.formnodata[type=text]:hover:not(:disabled):not([readonly])::-webkit-file-upload-button,
-.c4g_brick_dialog input.formnodata[type=url]:hover:not(:disabled):not([readonly])::-webkit-file-upload-button,
-.c4g_brick_dialog textarea.formdata:hover:not(:disabled):not([readonly])::-webkit-file-upload-button,
+.c4g_brick_dialog .c4g__form-control:hover:not(:disabled):not([readonly])::-webkit-file-upload-button,
 .form-control:hover:not(:disabled):not([readonly])::-webkit-file-upload-button {
   background-color: #dde0e3
 }
@@ -755,8 +569,7 @@ progress {
   -webkit-margin-end: 1rem;
   margin-inline-end: 1rem
 }
-.c4g_brick_dialog textarea.c4g_non_input,
-.c4g_brick_dialog textarea.formdata,
+.c4g_brick_dialog textarea.c4g__form-control,
 textarea.form-control {
   min-height: calc(1.5em + .75rem + 2px)
 }
@@ -782,10 +595,7 @@ textarea.form-control-lg {
   height: 1.5em;
   border-radius: .25rem
 }
-.c4g_brick_dialog .styled_select,
-.c4g_brick_dialog select,
-.c4g_brick_select_dialog .styled_select,
-.c4g_brick_select_dialog select,
+.c4g_brick_dialog select.c4g__form-select,
 .form-select {
   display: block;
   width: 100%;
@@ -808,47 +618,29 @@ textarea.form-control-lg {
   appearance: none
 }
 @media (prefers-reduced-motion:reduce) {
-  .c4g_brick_dialog .styled_select,
-  .c4g_brick_dialog select,
-  .c4g_brick_select_dialog .styled_select,
-  .c4g_brick_select_dialog select,
+  .c4g_brick_dialog select.c4g__form-select,
   .form-select {
     transition: none
   }
 }
-.c4g_brick_dialog .styled_select:focus,
-.c4g_brick_dialog select:focus,
-.c4g_brick_select_dialog .styled_select:focus,
-.c4g_brick_select_dialog select:focus,
+.c4g_brick_dialog select.c4g__form-select:focus,
 .form-select:focus {
   border-color: #86b7fe;
   outline: 0;
   box-shadow: 0 0 0 .25rem rgba(13,110,253,.25)
 }
-.c4g_brick_dialog .styled_select[multiple],
-.c4g_brick_dialog .styled_select[size]:not([size="1"]),
-.c4g_brick_dialog select[multiple],
-.c4g_brick_dialog select[size]:not([size="1"]),
-.c4g_brick_select_dialog .styled_select[multiple],
-.c4g_brick_select_dialog .styled_select[size]:not([size="1"]),
-.c4g_brick_select_dialog select[multiple],
-.c4g_brick_select_dialog select[size]:not([size="1"]),
+.c4g_brick_dialog select.c4g__form-select[multiple],
+.c4g_brick_dialog select.c4g__form-select[size]:not([size="1"]),
 .form-select[multiple],
 .form-select[size]:not([size="1"]) {
   padding-right: .75rem;
   background-image: none
 }
-.c4g_brick_dialog .styled_select:disabled,
-.c4g_brick_dialog select:disabled,
-.c4g_brick_select_dialog .styled_select:disabled,
-.c4g_brick_select_dialog select:disabled,
+.c4g_brick_dialog select.c4g__form-select:disabled,
 .form-select:disabled {
   background-color: #e9ecef
 }
-.c4g_brick_dialog .styled_select:-moz-focusring,
-.c4g_brick_dialog select:-moz-focusring,
-.c4g_brick_select_dialog .styled_select:-moz-focusring,
-.c4g_brick_select_dialog select:-moz-focusring,
+.c4g_brick_dialog select.c4g__form-select:-moz-focusring,
 .form-select:-moz-focusring {
   color: transparent;
   text-shadow: 0 0 0 #212529
@@ -942,12 +734,16 @@ textarea.form-control-lg {
   opacity: .5
 }
 .c4g__form-check-input:disabled ~ .c4g__form-check-label,
+.c4g__form-check-input:disabled ~ .c4g__form-label-multicheckbox,
 .c4g__form-check-input:disabled ~ .form-check-label,
 .c4g__form-check-input[disabled] ~ .c4g__form-check-label,
+.c4g__form-check-input[disabled] ~ .c4g__form-label-multicheckbox,
 .c4g__form-check-input[disabled] ~ .form-check-label,
 .form-check-input:disabled ~ .c4g__form-check-label,
+.form-check-input:disabled ~ .c4g__form-label-multicheckbox,
 .form-check-input:disabled ~ .form-check-label,
 .form-check-input[disabled] ~ .c4g__form-check-label,
+.form-check-input[disabled] ~ .c4g__form-label-multicheckbox,
 .form-check-input[disabled] ~ .form-check-label {
   opacity: .5
 }
@@ -1096,22 +892,8 @@ textarea.form-control-lg {
 .form-floating {
   position: relative
 }
-.c4g_brick_dialog .form-floating > .c4g_non_input,
-.c4g_brick_dialog .form-floating > .styled_select,
-.c4g_brick_dialog .form-floating > input.formdata[type=date],
-.c4g_brick_dialog .form-floating > input.formdata[type=email],
-.c4g_brick_dialog .form-floating > input.formdata[type=tel],
-.c4g_brick_dialog .form-floating > input.formdata[type=text],
-.c4g_brick_dialog .form-floating > input.formdata[type=url],
-.c4g_brick_dialog .form-floating > input.formnodata[type=date],
-.c4g_brick_dialog .form-floating > input.formnodata[type=email],
-.c4g_brick_dialog .form-floating > input.formnodata[type=tel],
-.c4g_brick_dialog .form-floating > input.formnodata[type=text],
-.c4g_brick_dialog .form-floating > input.formnodata[type=url],
-.c4g_brick_dialog .form-floating > select,
-.c4g_brick_dialog .form-floating > textarea.formdata,
-.c4g_brick_select_dialog .form-floating > .styled_select,
-.c4g_brick_select_dialog .form-floating > select,
+.c4g_brick_dialog .form-floating > .c4g__form-control,
+.c4g_brick_dialog .form-floating > select.c4g__form-select,
 .form-floating > .form-control,
 .form-floating > .form-select {
   height: calc(3.5rem + 2px);
@@ -1133,229 +915,69 @@ textarea.form-control-lg {
     transition: none
   }
 }
-.c4g_brick_dialog .form-floating > .c4g_non_input,
-.c4g_brick_dialog .form-floating > input.formdata[type=date],
-.c4g_brick_dialog .form-floating > input.formdata[type=email],
-.c4g_brick_dialog .form-floating > input.formdata[type=tel],
-.c4g_brick_dialog .form-floating > input.formdata[type=text],
-.c4g_brick_dialog .form-floating > input.formdata[type=url],
-.c4g_brick_dialog .form-floating > input.formnodata[type=date],
-.c4g_brick_dialog .form-floating > input.formnodata[type=email],
-.c4g_brick_dialog .form-floating > input.formnodata[type=tel],
-.c4g_brick_dialog .form-floating > input.formnodata[type=text],
-.c4g_brick_dialog .form-floating > input.formnodata[type=url],
-.c4g_brick_dialog .form-floating > textarea.formdata,
+.c4g_brick_dialog .form-floating > .c4g__form-control,
 .form-floating > .form-control {
   padding: 1rem .75rem
 }
-.c4g_brick_dialog .form-floating > .c4g_non_input::-moz-placeholder,
-.c4g_brick_dialog .form-floating > input.formdata[type=date]::-moz-placeholder,
-.c4g_brick_dialog .form-floating > input.formdata[type=email]::-moz-placeholder,
-.c4g_brick_dialog .form-floating > input.formdata[type=tel]::-moz-placeholder,
-.c4g_brick_dialog .form-floating > input.formdata[type=text]::-moz-placeholder,
-.c4g_brick_dialog .form-floating > input.formdata[type=url]::-moz-placeholder,
-.c4g_brick_dialog .form-floating > input.formnodata[type=date]::-moz-placeholder,
-.c4g_brick_dialog .form-floating > input.formnodata[type=email]::-moz-placeholder,
-.c4g_brick_dialog .form-floating > input.formnodata[type=tel]::-moz-placeholder,
-.c4g_brick_dialog .form-floating > input.formnodata[type=text]::-moz-placeholder,
-.c4g_brick_dialog .form-floating > input.formnodata[type=url]::-moz-placeholder,
-.c4g_brick_dialog .form-floating > textarea.formdata::-moz-placeholder,
+.c4g_brick_dialog .form-floating > .c4g__form-control::-moz-placeholder,
 .form-floating > .form-control::-moz-placeholder {
   color: transparent
 }
-.c4g_brick_dialog .form-floating > .c4g_non_input:-ms-input-placeholder,
-.c4g_brick_dialog .form-floating > input.formdata[type=date]:-ms-input-placeholder,
-.c4g_brick_dialog .form-floating > input.formdata[type=email]:-ms-input-placeholder,
-.c4g_brick_dialog .form-floating > input.formdata[type=tel]:-ms-input-placeholder,
-.c4g_brick_dialog .form-floating > input.formdata[type=text]:-ms-input-placeholder,
-.c4g_brick_dialog .form-floating > input.formdata[type=url]:-ms-input-placeholder,
-.c4g_brick_dialog .form-floating > input.formnodata[type=date]:-ms-input-placeholder,
-.c4g_brick_dialog .form-floating > input.formnodata[type=email]:-ms-input-placeholder,
-.c4g_brick_dialog .form-floating > input.formnodata[type=tel]:-ms-input-placeholder,
-.c4g_brick_dialog .form-floating > input.formnodata[type=text]:-ms-input-placeholder,
-.c4g_brick_dialog .form-floating > input.formnodata[type=url]:-ms-input-placeholder,
-.c4g_brick_dialog .form-floating > textarea.formdata:-ms-input-placeholder,
+.c4g_brick_dialog .form-floating > .c4g__form-control:-ms-input-placeholder,
 .form-floating > .form-control:-ms-input-placeholder {
   color: transparent
 }
-.c4g_brick_dialog .form-floating > .c4g_non_input::placeholder,
-.c4g_brick_dialog .form-floating > input.formdata[type=date]::placeholder,
-.c4g_brick_dialog .form-floating > input.formdata[type=email]::placeholder,
-.c4g_brick_dialog .form-floating > input.formdata[type=tel]::placeholder,
-.c4g_brick_dialog .form-floating > input.formdata[type=text]::placeholder,
-.c4g_brick_dialog .form-floating > input.formdata[type=url]::placeholder,
-.c4g_brick_dialog .form-floating > input.formnodata[type=date]::placeholder,
-.c4g_brick_dialog .form-floating > input.formnodata[type=email]::placeholder,
-.c4g_brick_dialog .form-floating > input.formnodata[type=tel]::placeholder,
-.c4g_brick_dialog .form-floating > input.formnodata[type=text]::placeholder,
-.c4g_brick_dialog .form-floating > input.formnodata[type=url]::placeholder,
-.c4g_brick_dialog .form-floating > textarea.formdata::placeholder,
+.c4g_brick_dialog .form-floating > .c4g__form-control::placeholder,
 .form-floating > .form-control::placeholder {
   color: transparent
 }
-.c4g_brick_dialog .form-floating > .c4g_non_input:not(:-moz-placeholder-shown),
-.c4g_brick_dialog .form-floating > input.formdata:not(:-moz-placeholder-shown)[type=date],
-.c4g_brick_dialog .form-floating > input.formdata:not(:-moz-placeholder-shown)[type=email],
-.c4g_brick_dialog .form-floating > input.formdata:not(:-moz-placeholder-shown)[type=tel],
-.c4g_brick_dialog .form-floating > input.formdata:not(:-moz-placeholder-shown)[type=text],
-.c4g_brick_dialog .form-floating > input.formdata:not(:-moz-placeholder-shown)[type=url],
-.c4g_brick_dialog .form-floating > input.formnodata:not(:-moz-placeholder-shown)[type=date],
-.c4g_brick_dialog .form-floating > input.formnodata:not(:-moz-placeholder-shown)[type=email],
-.c4g_brick_dialog .form-floating > input.formnodata:not(:-moz-placeholder-shown)[type=tel],
-.c4g_brick_dialog .form-floating > input.formnodata:not(:-moz-placeholder-shown)[type=text],
-.c4g_brick_dialog .form-floating > input.formnodata:not(:-moz-placeholder-shown)[type=url],
-.c4g_brick_dialog .form-floating > textarea.formdata:not(:-moz-placeholder-shown),
+.c4g_brick_dialog .form-floating > .c4g__form-control:not(:-moz-placeholder-shown),
 .form-floating > .form-control:not(:-moz-placeholder-shown) {
   padding-top: 1.625rem;
   padding-bottom: .625rem
 }
-.c4g_brick_dialog .form-floating > .c4g_non_input:not(:-ms-input-placeholder),
-.c4g_brick_dialog .form-floating > input.formdata:not(:-ms-input-placeholder)[type=date],
-.c4g_brick_dialog .form-floating > input.formdata:not(:-ms-input-placeholder)[type=email],
-.c4g_brick_dialog .form-floating > input.formdata:not(:-ms-input-placeholder)[type=tel],
-.c4g_brick_dialog .form-floating > input.formdata:not(:-ms-input-placeholder)[type=text],
-.c4g_brick_dialog .form-floating > input.formdata:not(:-ms-input-placeholder)[type=url],
-.c4g_brick_dialog .form-floating > input.formnodata:not(:-ms-input-placeholder)[type=date],
-.c4g_brick_dialog .form-floating > input.formnodata:not(:-ms-input-placeholder)[type=email],
-.c4g_brick_dialog .form-floating > input.formnodata:not(:-ms-input-placeholder)[type=tel],
-.c4g_brick_dialog .form-floating > input.formnodata:not(:-ms-input-placeholder)[type=text],
-.c4g_brick_dialog .form-floating > input.formnodata:not(:-ms-input-placeholder)[type=url],
-.c4g_brick_dialog .form-floating > textarea.formdata:not(:-ms-input-placeholder),
+.c4g_brick_dialog .form-floating > .c4g__form-control:not(:-ms-input-placeholder),
 .form-floating > .form-control:not(:-ms-input-placeholder) {
   padding-top: 1.625rem;
   padding-bottom: .625rem
 }
-.c4g_brick_dialog .form-floating > .c4g_non_input:focus,
-.c4g_brick_dialog .form-floating > .c4g_non_input:not(:placeholder-shown),
-.c4g_brick_dialog .form-floating > input.formdata:focus[type=date],
-.c4g_brick_dialog .form-floating > input.formdata:focus[type=email],
-.c4g_brick_dialog .form-floating > input.formdata:focus[type=tel],
-.c4g_brick_dialog .form-floating > input.formdata:focus[type=text],
-.c4g_brick_dialog .form-floating > input.formdata:focus[type=url],
-.c4g_brick_dialog .form-floating > input.formdata:not(:placeholder-shown)[type=date],
-.c4g_brick_dialog .form-floating > input.formdata:not(:placeholder-shown)[type=email],
-.c4g_brick_dialog .form-floating > input.formdata:not(:placeholder-shown)[type=tel],
-.c4g_brick_dialog .form-floating > input.formdata:not(:placeholder-shown)[type=text],
-.c4g_brick_dialog .form-floating > input.formdata:not(:placeholder-shown)[type=url],
-.c4g_brick_dialog .form-floating > input.formnodata:focus[type=date],
-.c4g_brick_dialog .form-floating > input.formnodata:focus[type=email],
-.c4g_brick_dialog .form-floating > input.formnodata:focus[type=tel],
-.c4g_brick_dialog .form-floating > input.formnodata:focus[type=text],
-.c4g_brick_dialog .form-floating > input.formnodata:focus[type=url],
-.c4g_brick_dialog .form-floating > input.formnodata:not(:placeholder-shown)[type=date],
-.c4g_brick_dialog .form-floating > input.formnodata:not(:placeholder-shown)[type=email],
-.c4g_brick_dialog .form-floating > input.formnodata:not(:placeholder-shown)[type=tel],
-.c4g_brick_dialog .form-floating > input.formnodata:not(:placeholder-shown)[type=text],
-.c4g_brick_dialog .form-floating > input.formnodata:not(:placeholder-shown)[type=url],
-.c4g_brick_dialog .form-floating > textarea.formdata:focus,
-.c4g_brick_dialog .form-floating > textarea.formdata:not(:placeholder-shown),
+.c4g_brick_dialog .form-floating > .c4g__form-control:focus,
+.c4g_brick_dialog .form-floating > .c4g__form-control:not(:placeholder-shown),
 .form-floating > .form-control:focus,
 .form-floating > .form-control:not(:placeholder-shown) {
   padding-top: 1.625rem;
   padding-bottom: .625rem
 }
-.c4g_brick_dialog .form-floating > .c4g_non_input:-webkit-autofill,
-.c4g_brick_dialog .form-floating > input.formdata:-webkit-autofill[type=date],
-.c4g_brick_dialog .form-floating > input.formdata:-webkit-autofill[type=email],
-.c4g_brick_dialog .form-floating > input.formdata:-webkit-autofill[type=tel],
-.c4g_brick_dialog .form-floating > input.formdata:-webkit-autofill[type=text],
-.c4g_brick_dialog .form-floating > input.formdata:-webkit-autofill[type=url],
-.c4g_brick_dialog .form-floating > input.formnodata:-webkit-autofill[type=date],
-.c4g_brick_dialog .form-floating > input.formnodata:-webkit-autofill[type=email],
-.c4g_brick_dialog .form-floating > input.formnodata:-webkit-autofill[type=tel],
-.c4g_brick_dialog .form-floating > input.formnodata:-webkit-autofill[type=text],
-.c4g_brick_dialog .form-floating > input.formnodata:-webkit-autofill[type=url],
-.c4g_brick_dialog .form-floating > textarea.formdata:-webkit-autofill,
+.c4g_brick_dialog .form-floating > .c4g__form-control:-webkit-autofill,
 .form-floating > .form-control:-webkit-autofill {
   padding-top: 1.625rem;
   padding-bottom: .625rem
 }
-.c4g_brick_dialog .form-floating > .styled_select,
-.c4g_brick_dialog .form-floating > select,
-.c4g_brick_select_dialog .form-floating > .styled_select,
-.c4g_brick_select_dialog .form-floating > select,
+.c4g_brick_dialog .form-floating > select.c4g__form-select,
 .form-floating > .form-select {
   padding-top: 1.625rem;
   padding-bottom: .625rem
 }
-.c4g_brick_dialog .form-floating > .c4g_non_input:not(:-moz-placeholder-shown) ~ label,
-.c4g_brick_dialog .form-floating > input.formdata:not(:-moz-placeholder-shown)[type=date] ~ label,
-.c4g_brick_dialog .form-floating > input.formdata:not(:-moz-placeholder-shown)[type=email] ~ label,
-.c4g_brick_dialog .form-floating > input.formdata:not(:-moz-placeholder-shown)[type=tel] ~ label,
-.c4g_brick_dialog .form-floating > input.formdata:not(:-moz-placeholder-shown)[type=text] ~ label,
-.c4g_brick_dialog .form-floating > input.formdata:not(:-moz-placeholder-shown)[type=url] ~ label,
-.c4g_brick_dialog .form-floating > input.formnodata:not(:-moz-placeholder-shown)[type=date] ~ label,
-.c4g_brick_dialog .form-floating > input.formnodata:not(:-moz-placeholder-shown)[type=email] ~ label,
-.c4g_brick_dialog .form-floating > input.formnodata:not(:-moz-placeholder-shown)[type=tel] ~ label,
-.c4g_brick_dialog .form-floating > input.formnodata:not(:-moz-placeholder-shown)[type=text] ~ label,
-.c4g_brick_dialog .form-floating > input.formnodata:not(:-moz-placeholder-shown)[type=url] ~ label,
-.c4g_brick_dialog .form-floating > textarea.formdata:not(:-moz-placeholder-shown) ~ label,
+.c4g_brick_dialog .form-floating > .c4g__form-control:not(:-moz-placeholder-shown) ~ label,
 .form-floating > .form-control:not(:-moz-placeholder-shown) ~ label {
   opacity: .65;
   transform: scale(.85) translateY(-.5rem) translateX(.15rem)
 }
-.c4g_brick_dialog .form-floating > .c4g_non_input:not(:-ms-input-placeholder) ~ label,
-.c4g_brick_dialog .form-floating > input.formdata:not(:-ms-input-placeholder)[type=date] ~ label,
-.c4g_brick_dialog .form-floating > input.formdata:not(:-ms-input-placeholder)[type=email] ~ label,
-.c4g_brick_dialog .form-floating > input.formdata:not(:-ms-input-placeholder)[type=tel] ~ label,
-.c4g_brick_dialog .form-floating > input.formdata:not(:-ms-input-placeholder)[type=text] ~ label,
-.c4g_brick_dialog .form-floating > input.formdata:not(:-ms-input-placeholder)[type=url] ~ label,
-.c4g_brick_dialog .form-floating > input.formnodata:not(:-ms-input-placeholder)[type=date] ~ label,
-.c4g_brick_dialog .form-floating > input.formnodata:not(:-ms-input-placeholder)[type=email] ~ label,
-.c4g_brick_dialog .form-floating > input.formnodata:not(:-ms-input-placeholder)[type=tel] ~ label,
-.c4g_brick_dialog .form-floating > input.formnodata:not(:-ms-input-placeholder)[type=text] ~ label,
-.c4g_brick_dialog .form-floating > input.formnodata:not(:-ms-input-placeholder)[type=url] ~ label,
-.c4g_brick_dialog .form-floating > textarea.formdata:not(:-ms-input-placeholder) ~ label,
+.c4g_brick_dialog .form-floating > .c4g__form-control:not(:-ms-input-placeholder) ~ label,
 .form-floating > .form-control:not(:-ms-input-placeholder) ~ label {
   opacity: .65;
   transform: scale(.85) translateY(-.5rem) translateX(.15rem)
 }
-.c4g_brick_dialog .form-floating > .c4g_non_input:focus ~ label,
-.c4g_brick_dialog .form-floating > .c4g_non_input:not(:placeholder-shown) ~ label,
-.c4g_brick_dialog .form-floating > .styled_select ~ label,
-.c4g_brick_dialog .form-floating > input.formdata:focus[type=date] ~ label,
-.c4g_brick_dialog .form-floating > input.formdata:focus[type=email] ~ label,
-.c4g_brick_dialog .form-floating > input.formdata:focus[type=tel] ~ label,
-.c4g_brick_dialog .form-floating > input.formdata:focus[type=text] ~ label,
-.c4g_brick_dialog .form-floating > input.formdata:focus[type=url] ~ label,
-.c4g_brick_dialog .form-floating > input.formdata:not(:placeholder-shown)[type=date] ~ label,
-.c4g_brick_dialog .form-floating > input.formdata:not(:placeholder-shown)[type=email] ~ label,
-.c4g_brick_dialog .form-floating > input.formdata:not(:placeholder-shown)[type=tel] ~ label,
-.c4g_brick_dialog .form-floating > input.formdata:not(:placeholder-shown)[type=text] ~ label,
-.c4g_brick_dialog .form-floating > input.formdata:not(:placeholder-shown)[type=url] ~ label,
-.c4g_brick_dialog .form-floating > input.formnodata:focus[type=date] ~ label,
-.c4g_brick_dialog .form-floating > input.formnodata:focus[type=email] ~ label,
-.c4g_brick_dialog .form-floating > input.formnodata:focus[type=tel] ~ label,
-.c4g_brick_dialog .form-floating > input.formnodata:focus[type=text] ~ label,
-.c4g_brick_dialog .form-floating > input.formnodata:focus[type=url] ~ label,
-.c4g_brick_dialog .form-floating > input.formnodata:not(:placeholder-shown)[type=date] ~ label,
-.c4g_brick_dialog .form-floating > input.formnodata:not(:placeholder-shown)[type=email] ~ label,
-.c4g_brick_dialog .form-floating > input.formnodata:not(:placeholder-shown)[type=tel] ~ label,
-.c4g_brick_dialog .form-floating > input.formnodata:not(:placeholder-shown)[type=text] ~ label,
-.c4g_brick_dialog .form-floating > input.formnodata:not(:placeholder-shown)[type=url] ~ label,
-.c4g_brick_dialog .form-floating > select ~ label,
-.c4g_brick_dialog .form-floating > textarea.formdata:focus ~ label,
-.c4g_brick_dialog .form-floating > textarea.formdata:not(:placeholder-shown) ~ label,
-.c4g_brick_select_dialog .form-floating > .styled_select ~ label,
-.c4g_brick_select_dialog .form-floating > select ~ label,
+.c4g_brick_dialog .form-floating > .c4g__form-control:focus ~ label,
+.c4g_brick_dialog .form-floating > .c4g__form-control:not(:placeholder-shown) ~ label,
+.c4g_brick_dialog .form-floating > select.c4g__form-select ~ label,
 .form-floating > .form-control:focus ~ label,
 .form-floating > .form-control:not(:placeholder-shown) ~ label,
 .form-floating > .form-select ~ label {
   opacity: .65;
   transform: scale(.85) translateY(-.5rem) translateX(.15rem)
 }
-.c4g_brick_dialog .form-floating > .c4g_non_input:-webkit-autofill ~ label,
-.c4g_brick_dialog .form-floating > input.formdata:-webkit-autofill[type=date] ~ label,
-.c4g_brick_dialog .form-floating > input.formdata:-webkit-autofill[type=email] ~ label,
-.c4g_brick_dialog .form-floating > input.formdata:-webkit-autofill[type=tel] ~ label,
-.c4g_brick_dialog .form-floating > input.formdata:-webkit-autofill[type=text] ~ label,
-.c4g_brick_dialog .form-floating > input.formdata:-webkit-autofill[type=url] ~ label,
-.c4g_brick_dialog .form-floating > input.formnodata:-webkit-autofill[type=date] ~ label,
-.c4g_brick_dialog .form-floating > input.formnodata:-webkit-autofill[type=email] ~ label,
-.c4g_brick_dialog .form-floating > input.formnodata:-webkit-autofill[type=tel] ~ label,
-.c4g_brick_dialog .form-floating > input.formnodata:-webkit-autofill[type=text] ~ label,
-.c4g_brick_dialog .form-floating > input.formnodata:-webkit-autofill[type=url] ~ label,
-.c4g_brick_dialog .form-floating > textarea.formdata:-webkit-autofill ~ label,
+.c4g_brick_dialog .form-floating > .c4g__form-control:-webkit-autofill ~ label,
 .form-floating > .form-control:-webkit-autofill ~ label {
   opacity: .65;
   transform: scale(.85) translateY(-.5rem) translateX(.15rem)
@@ -1367,22 +989,8 @@ textarea.form-control-lg {
   align-items: stretch;
   width: 100%
 }
-.c4g_brick_dialog .input-group > .c4g_non_input,
-.c4g_brick_dialog .input-group > .styled_select,
-.c4g_brick_dialog .input-group > input.formdata[type=date],
-.c4g_brick_dialog .input-group > input.formdata[type=email],
-.c4g_brick_dialog .input-group > input.formdata[type=tel],
-.c4g_brick_dialog .input-group > input.formdata[type=text],
-.c4g_brick_dialog .input-group > input.formdata[type=url],
-.c4g_brick_dialog .input-group > input.formnodata[type=date],
-.c4g_brick_dialog .input-group > input.formnodata[type=email],
-.c4g_brick_dialog .input-group > input.formnodata[type=tel],
-.c4g_brick_dialog .input-group > input.formnodata[type=text],
-.c4g_brick_dialog .input-group > input.formnodata[type=url],
-.c4g_brick_dialog .input-group > select,
-.c4g_brick_dialog .input-group > textarea.formdata,
-.c4g_brick_select_dialog .input-group > .styled_select,
-.c4g_brick_select_dialog .input-group > select,
+.c4g_brick_dialog .input-group > .c4g__form-control,
+.c4g_brick_dialog .input-group > select.c4g__form-select,
 .input-group > .form-control,
 .input-group > .form-select {
   position: relative;
@@ -1390,22 +998,8 @@ textarea.form-control-lg {
   width: 1%;
   min-width: 0
 }
-.c4g_brick_dialog .input-group > .c4g_non_input:focus,
-.c4g_brick_dialog .input-group > .styled_select:focus,
-.c4g_brick_dialog .input-group > input.formdata:focus[type=date],
-.c4g_brick_dialog .input-group > input.formdata:focus[type=email],
-.c4g_brick_dialog .input-group > input.formdata:focus[type=tel],
-.c4g_brick_dialog .input-group > input.formdata:focus[type=text],
-.c4g_brick_dialog .input-group > input.formdata:focus[type=url],
-.c4g_brick_dialog .input-group > input.formnodata:focus[type=date],
-.c4g_brick_dialog .input-group > input.formnodata:focus[type=email],
-.c4g_brick_dialog .input-group > input.formnodata:focus[type=tel],
-.c4g_brick_dialog .input-group > input.formnodata:focus[type=text],
-.c4g_brick_dialog .input-group > input.formnodata:focus[type=url],
-.c4g_brick_dialog .input-group > select:focus,
-.c4g_brick_dialog .input-group > textarea.formdata:focus,
-.c4g_brick_select_dialog .input-group > .styled_select:focus,
-.c4g_brick_select_dialog .input-group > select:focus,
+.c4g_brick_dialog .input-group > .c4g__form-control:focus,
+.c4g_brick_dialog .input-group > select.c4g__form-select:focus,
 .input-group > .form-control:focus,
 .input-group > .form-select:focus {
   z-index: 3
@@ -1433,22 +1027,8 @@ textarea.form-control-lg {
   border: 1px solid #ced4da;
   border-radius: .25rem
 }
-.c4g_brick_dialog .input-group-lg > .c4g_non_input,
-.c4g_brick_dialog .input-group-lg > .styled_select,
-.c4g_brick_dialog .input-group-lg > input.formdata[type=date],
-.c4g_brick_dialog .input-group-lg > input.formdata[type=email],
-.c4g_brick_dialog .input-group-lg > input.formdata[type=tel],
-.c4g_brick_dialog .input-group-lg > input.formdata[type=text],
-.c4g_brick_dialog .input-group-lg > input.formdata[type=url],
-.c4g_brick_dialog .input-group-lg > input.formnodata[type=date],
-.c4g_brick_dialog .input-group-lg > input.formnodata[type=email],
-.c4g_brick_dialog .input-group-lg > input.formnodata[type=tel],
-.c4g_brick_dialog .input-group-lg > input.formnodata[type=text],
-.c4g_brick_dialog .input-group-lg > input.formnodata[type=url],
-.c4g_brick_dialog .input-group-lg > select,
-.c4g_brick_dialog .input-group-lg > textarea.formdata,
-.c4g_brick_select_dialog .input-group-lg > .styled_select,
-.c4g_brick_select_dialog .input-group-lg > select,
+.c4g_brick_dialog .input-group-lg > .c4g__form-control,
+.c4g_brick_dialog .input-group-lg > select.c4g__form-select,
 .input-group-lg > .btn,
 .input-group-lg > .c4g__btn,
 .input-group-lg > .form-control,
@@ -1458,22 +1038,8 @@ textarea.form-control-lg {
   font-size: 1.25rem;
   border-radius: .3rem
 }
-.c4g_brick_dialog .input-group-sm > .c4g_non_input,
-.c4g_brick_dialog .input-group-sm > .styled_select,
-.c4g_brick_dialog .input-group-sm > input.formdata[type=date],
-.c4g_brick_dialog .input-group-sm > input.formdata[type=email],
-.c4g_brick_dialog .input-group-sm > input.formdata[type=tel],
-.c4g_brick_dialog .input-group-sm > input.formdata[type=text],
-.c4g_brick_dialog .input-group-sm > input.formdata[type=url],
-.c4g_brick_dialog .input-group-sm > input.formnodata[type=date],
-.c4g_brick_dialog .input-group-sm > input.formnodata[type=email],
-.c4g_brick_dialog .input-group-sm > input.formnodata[type=tel],
-.c4g_brick_dialog .input-group-sm > input.formnodata[type=text],
-.c4g_brick_dialog .input-group-sm > input.formnodata[type=url],
-.c4g_brick_dialog .input-group-sm > select,
-.c4g_brick_dialog .input-group-sm > textarea.formdata,
-.c4g_brick_select_dialog .input-group-sm > .styled_select,
-.c4g_brick_select_dialog .input-group-sm > select,
+.c4g_brick_dialog .input-group-sm > .c4g__form-control,
+.c4g_brick_dialog .input-group-sm > select.c4g__form-select,
 .input-group-sm > .btn,
 .input-group-sm > .c4g__btn,
 .input-group-sm > .form-control,
@@ -1483,14 +1049,8 @@ textarea.form-control-lg {
   font-size: .875rem;
   border-radius: .2rem
 }
-.c4g_brick_dialog .input-group-lg > .styled_select,
-.c4g_brick_dialog .input-group-lg > select,
-.c4g_brick_dialog .input-group-sm > .styled_select,
-.c4g_brick_dialog .input-group-sm > select,
-.c4g_brick_select_dialog .input-group-lg > .styled_select,
-.c4g_brick_select_dialog .input-group-lg > select,
-.c4g_brick_select_dialog .input-group-sm > .styled_select,
-.c4g_brick_select_dialog .input-group-sm > select,
+.c4g_brick_dialog .input-group-lg > select.c4g__form-select,
+.c4g_brick_dialog .input-group-sm > select.c4g__form-select,
 .input-group-lg > .form-select,
 .input-group-sm > .form-select {
   padding-right: 3rem
@@ -1536,43 +1096,10 @@ textarea.form-control-lg {
 .was-validated :valid ~ .valid-tooltip {
   display: block
 }
-.c4g_brick_dialog .is-valid.c4g_non_input,
-.c4g_brick_dialog .was-validated .c4g_non_input:valid,
-.c4g_brick_dialog .was-validated input.formdata:valid[type=date],
-.c4g_brick_dialog .was-validated input.formdata:valid[type=email],
-.c4g_brick_dialog .was-validated input.formdata:valid[type=tel],
-.c4g_brick_dialog .was-validated input.formdata:valid[type=text],
-.c4g_brick_dialog .was-validated input.formdata:valid[type=url],
-.c4g_brick_dialog .was-validated input.formnodata:valid[type=date],
-.c4g_brick_dialog .was-validated input.formnodata:valid[type=email],
-.c4g_brick_dialog .was-validated input.formnodata:valid[type=tel],
-.c4g_brick_dialog .was-validated input.formnodata:valid[type=text],
-.c4g_brick_dialog .was-validated input.formnodata:valid[type=url],
-.c4g_brick_dialog .was-validated textarea.formdata:valid,
-.c4g_brick_dialog input.is-valid.formdata[type=date],
-.c4g_brick_dialog input.is-valid.formdata[type=email],
-.c4g_brick_dialog input.is-valid.formdata[type=tel],
-.c4g_brick_dialog input.is-valid.formdata[type=text],
-.c4g_brick_dialog input.is-valid.formdata[type=url],
-.c4g_brick_dialog input.is-valid.formnodata[type=date],
-.c4g_brick_dialog input.is-valid.formnodata[type=email],
-.c4g_brick_dialog input.is-valid.formnodata[type=tel],
-.c4g_brick_dialog input.is-valid.formnodata[type=text],
-.c4g_brick_dialog input.is-valid.formnodata[type=url],
-.c4g_brick_dialog textarea.is-valid.formdata,
+.c4g_brick_dialog .is-valid.c4g__form-control,
+.c4g_brick_dialog .was-validated .c4g__form-control:valid,
 .form-control.is-valid,
-.was-validated .c4g_brick_dialog .c4g_non_input:valid,
-.was-validated .c4g_brick_dialog input.formdata:valid[type=date],
-.was-validated .c4g_brick_dialog input.formdata:valid[type=email],
-.was-validated .c4g_brick_dialog input.formdata:valid[type=tel],
-.was-validated .c4g_brick_dialog input.formdata:valid[type=text],
-.was-validated .c4g_brick_dialog input.formdata:valid[type=url],
-.was-validated .c4g_brick_dialog input.formnodata:valid[type=date],
-.was-validated .c4g_brick_dialog input.formnodata:valid[type=email],
-.was-validated .c4g_brick_dialog input.formnodata:valid[type=tel],
-.was-validated .c4g_brick_dialog input.formnodata:valid[type=text],
-.was-validated .c4g_brick_dialog input.formnodata:valid[type=url],
-.was-validated .c4g_brick_dialog textarea.formdata:valid,
+.was-validated .c4g_brick_dialog .c4g__form-control:valid,
 .was-validated .form-control:valid {
   border-color: #198754;
   padding-right: calc(1.5em + .75rem);
@@ -1581,100 +1108,37 @@ textarea.form-control-lg {
   background-position: right calc(.375em + .1875rem) center;
   background-size: calc(.75em + .375rem) calc(.75em + .375rem)
 }
-.c4g_brick_dialog .is-valid.c4g_non_input:focus,
-.c4g_brick_dialog .was-validated .c4g_non_input:valid:focus,
-.c4g_brick_dialog .was-validated input.formdata:valid:focus[type=date],
-.c4g_brick_dialog .was-validated input.formdata:valid:focus[type=email],
-.c4g_brick_dialog .was-validated input.formdata:valid:focus[type=tel],
-.c4g_brick_dialog .was-validated input.formdata:valid:focus[type=text],
-.c4g_brick_dialog .was-validated input.formdata:valid:focus[type=url],
-.c4g_brick_dialog .was-validated input.formnodata:valid:focus[type=date],
-.c4g_brick_dialog .was-validated input.formnodata:valid:focus[type=email],
-.c4g_brick_dialog .was-validated input.formnodata:valid:focus[type=tel],
-.c4g_brick_dialog .was-validated input.formnodata:valid:focus[type=text],
-.c4g_brick_dialog .was-validated input.formnodata:valid:focus[type=url],
-.c4g_brick_dialog .was-validated textarea.formdata:valid:focus,
-.c4g_brick_dialog input.is-valid.formdata:focus[type=date],
-.c4g_brick_dialog input.is-valid.formdata:focus[type=email],
-.c4g_brick_dialog input.is-valid.formdata:focus[type=tel],
-.c4g_brick_dialog input.is-valid.formdata:focus[type=text],
-.c4g_brick_dialog input.is-valid.formdata:focus[type=url],
-.c4g_brick_dialog input.is-valid.formnodata:focus[type=date],
-.c4g_brick_dialog input.is-valid.formnodata:focus[type=email],
-.c4g_brick_dialog input.is-valid.formnodata:focus[type=tel],
-.c4g_brick_dialog input.is-valid.formnodata:focus[type=text],
-.c4g_brick_dialog input.is-valid.formnodata:focus[type=url],
-.c4g_brick_dialog textarea.is-valid.formdata:focus,
+.c4g_brick_dialog .is-valid.c4g__form-control:focus,
+.c4g_brick_dialog .was-validated .c4g__form-control:valid:focus,
 .form-control.is-valid:focus,
-.was-validated .c4g_brick_dialog .c4g_non_input:valid:focus,
-.was-validated .c4g_brick_dialog input.formdata:valid:focus[type=date],
-.was-validated .c4g_brick_dialog input.formdata:valid:focus[type=email],
-.was-validated .c4g_brick_dialog input.formdata:valid:focus[type=tel],
-.was-validated .c4g_brick_dialog input.formdata:valid:focus[type=text],
-.was-validated .c4g_brick_dialog input.formdata:valid:focus[type=url],
-.was-validated .c4g_brick_dialog input.formnodata:valid:focus[type=date],
-.was-validated .c4g_brick_dialog input.formnodata:valid:focus[type=email],
-.was-validated .c4g_brick_dialog input.formnodata:valid:focus[type=tel],
-.was-validated .c4g_brick_dialog input.formnodata:valid:focus[type=text],
-.was-validated .c4g_brick_dialog input.formnodata:valid:focus[type=url],
-.was-validated .c4g_brick_dialog textarea.formdata:valid:focus,
+.was-validated .c4g_brick_dialog .c4g__form-control:valid:focus,
 .was-validated .form-control:valid:focus {
   border-color: #198754;
   box-shadow: 0 0 0 .25rem rgba(25,135,84,.25)
 }
-.c4g_brick_dialog .was-validated textarea.c4g_non_input:valid,
-.c4g_brick_dialog .was-validated textarea.formdata:valid,
-.c4g_brick_dialog textarea.is-valid.c4g_non_input,
-.c4g_brick_dialog textarea.is-valid.formdata,
-.was-validated .c4g_brick_dialog textarea.c4g_non_input:valid,
-.was-validated .c4g_brick_dialog textarea.formdata:valid,
+.c4g_brick_dialog .was-validated textarea.c4g__form-control:valid,
+.c4g_brick_dialog textarea.is-valid.c4g__form-control,
+.was-validated .c4g_brick_dialog textarea.c4g__form-control:valid,
 .was-validated textarea.form-control:valid,
 textarea.form-control.is-valid {
   padding-right: calc(1.5em + .75rem);
   background-position: top calc(.375em + .1875rem) right calc(.375em + .1875rem)
 }
-.c4g_brick_dialog .is-valid.styled_select,
-.c4g_brick_dialog .was-validated .styled_select:valid,
-.c4g_brick_dialog .was-validated select:valid,
-.c4g_brick_dialog select.is-valid,
-.c4g_brick_select_dialog .is-valid.styled_select,
-.c4g_brick_select_dialog .was-validated .styled_select:valid,
-.c4g_brick_select_dialog .was-validated select:valid,
-.c4g_brick_select_dialog select.is-valid,
+.c4g_brick_dialog .was-validated select.c4g__form-select:valid,
+.c4g_brick_dialog select.is-valid.c4g__form-select,
 .form-select.is-valid,
-.was-validated .c4g_brick_dialog .styled_select:valid,
-.was-validated .c4g_brick_dialog select:valid,
-.was-validated .c4g_brick_select_dialog .styled_select:valid,
-.was-validated .c4g_brick_select_dialog select:valid,
+.was-validated .c4g_brick_dialog select.c4g__form-select:valid,
 .was-validated .form-select:valid {
   border-color: #198754
 }
-.c4g_brick_dialog .is-valid.styled_select:not([multiple]):not([size]),
-.c4g_brick_dialog .is-valid.styled_select:not([multiple])[size="1"],
-.c4g_brick_dialog .was-validated .styled_select:valid:not([multiple]):not([size]),
-.c4g_brick_dialog .was-validated .styled_select:valid:not([multiple])[size="1"],
-.c4g_brick_dialog .was-validated select:valid:not([multiple]):not([size]),
-.c4g_brick_dialog .was-validated select:valid:not([multiple])[size="1"],
-.c4g_brick_dialog select.is-valid:not([multiple]):not([size]),
-.c4g_brick_dialog select.is-valid:not([multiple])[size="1"],
-.c4g_brick_select_dialog .is-valid.styled_select:not([multiple]):not([size]),
-.c4g_brick_select_dialog .is-valid.styled_select:not([multiple])[size="1"],
-.c4g_brick_select_dialog .was-validated .styled_select:valid:not([multiple]):not([size]),
-.c4g_brick_select_dialog .was-validated .styled_select:valid:not([multiple])[size="1"],
-.c4g_brick_select_dialog .was-validated select:valid:not([multiple]):not([size]),
-.c4g_brick_select_dialog .was-validated select:valid:not([multiple])[size="1"],
-.c4g_brick_select_dialog select.is-valid:not([multiple]):not([size]),
-.c4g_brick_select_dialog select.is-valid:not([multiple])[size="1"],
+.c4g_brick_dialog .was-validated select.c4g__form-select:valid:not([multiple]):not([size]),
+.c4g_brick_dialog .was-validated select.c4g__form-select:valid:not([multiple])[size="1"],
+.c4g_brick_dialog select.is-valid.c4g__form-select:not([multiple]):not([size]),
+.c4g_brick_dialog select.is-valid.c4g__form-select:not([multiple])[size="1"],
 .form-select.is-valid:not([multiple]):not([size]),
 .form-select.is-valid:not([multiple])[size="1"],
-.was-validated .c4g_brick_dialog .styled_select:valid:not([multiple]):not([size]),
-.was-validated .c4g_brick_dialog .styled_select:valid:not([multiple])[size="1"],
-.was-validated .c4g_brick_dialog select:valid:not([multiple]):not([size]),
-.was-validated .c4g_brick_dialog select:valid:not([multiple])[size="1"],
-.was-validated .c4g_brick_select_dialog .styled_select:valid:not([multiple]):not([size]),
-.was-validated .c4g_brick_select_dialog .styled_select:valid:not([multiple])[size="1"],
-.was-validated .c4g_brick_select_dialog select:valid:not([multiple]):not([size]),
-.was-validated .c4g_brick_select_dialog select:valid:not([multiple])[size="1"],
+.was-validated .c4g_brick_dialog select.c4g__form-select:valid:not([multiple]):not([size]),
+.was-validated .c4g_brick_dialog select.c4g__form-select:valid:not([multiple])[size="1"],
 .was-validated .form-select:valid:not([multiple]):not([size]),
 .was-validated .form-select:valid:not([multiple])[size="1"] {
   padding-right: 4.125rem;
@@ -1682,19 +1146,10 @@ textarea.form-control.is-valid {
   background-position: right .75rem center,center right 2.25rem;
   background-size: 16px 12px,calc(.75em + .375rem) calc(.75em + .375rem)
 }
-.c4g_brick_dialog .is-valid.styled_select:focus,
-.c4g_brick_dialog .was-validated .styled_select:valid:focus,
-.c4g_brick_dialog .was-validated select:valid:focus,
-.c4g_brick_dialog select.is-valid:focus,
-.c4g_brick_select_dialog .is-valid.styled_select:focus,
-.c4g_brick_select_dialog .was-validated .styled_select:valid:focus,
-.c4g_brick_select_dialog .was-validated select:valid:focus,
-.c4g_brick_select_dialog select.is-valid:focus,
+.c4g_brick_dialog .was-validated select.c4g__form-select:valid:focus,
+.c4g_brick_dialog select.is-valid.c4g__form-select:focus,
 .form-select.is-valid:focus,
-.was-validated .c4g_brick_dialog .styled_select:valid:focus,
-.was-validated .c4g_brick_dialog select:valid:focus,
-.was-validated .c4g_brick_select_dialog .styled_select:valid:focus,
-.was-validated .c4g_brick_select_dialog select:valid:focus,
+.was-validated .c4g_brick_dialog select.c4g__form-select:valid:focus,
 .was-validated .form-select:valid:focus {
   border-color: #198754;
   box-shadow: 0 0 0 .25rem rgba(25,135,84,.25)
@@ -1718,12 +1173,16 @@ textarea.form-control.is-valid {
   box-shadow: 0 0 0 .25rem rgba(25,135,84,.25)
 }
 .form-check-input.is-valid ~ .c4g__form-check-label,
+.form-check-input.is-valid ~ .c4g__form-label-multicheckbox,
 .form-check-input.is-valid ~ .form-check-label,
 .is-valid.c4g__form-check-input ~ .c4g__form-check-label,
+.is-valid.c4g__form-check-input ~ .c4g__form-label-multicheckbox,
 .is-valid.c4g__form-check-input ~ .form-check-label,
 .was-validated .c4g__form-check-input:valid ~ .c4g__form-check-label,
+.was-validated .c4g__form-check-input:valid ~ .c4g__form-label-multicheckbox,
 .was-validated .c4g__form-check-input:valid ~ .form-check-label,
 .was-validated .form-check-input:valid ~ .c4g__form-check-label,
+.was-validated .form-check-input:valid ~ .c4g__form-label-multicheckbox,
 .was-validated .form-check-input:valid ~ .form-check-label {
   color: #198754
 }
@@ -1731,142 +1190,30 @@ textarea.form-control.is-valid {
 .form-check-inline .form-check-input ~ .valid-feedback {
   margin-left: .5em
 }
-.c4g_brick_dialog .input-group .is-valid.c4g_non_input,
-.c4g_brick_dialog .input-group .is-valid.styled_select,
-.c4g_brick_dialog .input-group input.is-valid.formdata[type=date],
-.c4g_brick_dialog .input-group input.is-valid.formdata[type=email],
-.c4g_brick_dialog .input-group input.is-valid.formdata[type=tel],
-.c4g_brick_dialog .input-group input.is-valid.formdata[type=text],
-.c4g_brick_dialog .input-group input.is-valid.formdata[type=url],
-.c4g_brick_dialog .input-group input.is-valid.formnodata[type=date],
-.c4g_brick_dialog .input-group input.is-valid.formnodata[type=email],
-.c4g_brick_dialog .input-group input.is-valid.formnodata[type=tel],
-.c4g_brick_dialog .input-group input.is-valid.formnodata[type=text],
-.c4g_brick_dialog .input-group input.is-valid.formnodata[type=url],
-.c4g_brick_dialog .input-group select.is-valid,
-.c4g_brick_dialog .input-group textarea.is-valid.formdata,
-.c4g_brick_dialog .was-validated .input-group .c4g_non_input:valid,
-.c4g_brick_dialog .was-validated .input-group .styled_select:valid,
-.c4g_brick_dialog .was-validated .input-group input.formdata:valid[type=date],
-.c4g_brick_dialog .was-validated .input-group input.formdata:valid[type=email],
-.c4g_brick_dialog .was-validated .input-group input.formdata:valid[type=tel],
-.c4g_brick_dialog .was-validated .input-group input.formdata:valid[type=text],
-.c4g_brick_dialog .was-validated .input-group input.formdata:valid[type=url],
-.c4g_brick_dialog .was-validated .input-group input.formnodata:valid[type=date],
-.c4g_brick_dialog .was-validated .input-group input.formnodata:valid[type=email],
-.c4g_brick_dialog .was-validated .input-group input.formnodata:valid[type=tel],
-.c4g_brick_dialog .was-validated .input-group input.formnodata:valid[type=text],
-.c4g_brick_dialog .was-validated .input-group input.formnodata:valid[type=url],
-.c4g_brick_dialog .was-validated .input-group select:valid,
-.c4g_brick_dialog .was-validated .input-group textarea.formdata:valid,
-.c4g_brick_select_dialog .input-group .is-valid.styled_select,
-.c4g_brick_select_dialog .input-group select.is-valid,
-.c4g_brick_select_dialog .was-validated .input-group .styled_select:valid,
-.c4g_brick_select_dialog .was-validated .input-group select:valid,
-.input-group .c4g_brick_dialog .is-valid.c4g_non_input,
-.input-group .c4g_brick_dialog .is-valid.styled_select,
-.input-group .c4g_brick_dialog input.is-valid.formdata[type=date],
-.input-group .c4g_brick_dialog input.is-valid.formdata[type=email],
-.input-group .c4g_brick_dialog input.is-valid.formdata[type=tel],
-.input-group .c4g_brick_dialog input.is-valid.formdata[type=text],
-.input-group .c4g_brick_dialog input.is-valid.formdata[type=url],
-.input-group .c4g_brick_dialog input.is-valid.formnodata[type=date],
-.input-group .c4g_brick_dialog input.is-valid.formnodata[type=email],
-.input-group .c4g_brick_dialog input.is-valid.formnodata[type=tel],
-.input-group .c4g_brick_dialog input.is-valid.formnodata[type=text],
-.input-group .c4g_brick_dialog input.is-valid.formnodata[type=url],
-.input-group .c4g_brick_dialog select.is-valid,
-.input-group .c4g_brick_dialog textarea.is-valid.formdata,
-.input-group .c4g_brick_select_dialog .is-valid.styled_select,
-.input-group .c4g_brick_select_dialog select.is-valid,
+.c4g_brick_dialog .input-group .is-valid.c4g__form-control,
+.c4g_brick_dialog .input-group select.is-valid.c4g__form-select,
+.c4g_brick_dialog .was-validated .input-group .c4g__form-control:valid,
+.c4g_brick_dialog .was-validated .input-group select.c4g__form-select:valid,
+.input-group .c4g_brick_dialog .is-valid.c4g__form-control,
+.input-group .c4g_brick_dialog select.is-valid.c4g__form-select,
 .input-group .form-control.is-valid,
 .input-group .form-select.is-valid,
-.was-validated .input-group .c4g_brick_dialog .c4g_non_input:valid,
-.was-validated .input-group .c4g_brick_dialog .styled_select:valid,
-.was-validated .input-group .c4g_brick_dialog input.formdata:valid[type=date],
-.was-validated .input-group .c4g_brick_dialog input.formdata:valid[type=email],
-.was-validated .input-group .c4g_brick_dialog input.formdata:valid[type=tel],
-.was-validated .input-group .c4g_brick_dialog input.formdata:valid[type=text],
-.was-validated .input-group .c4g_brick_dialog input.formdata:valid[type=url],
-.was-validated .input-group .c4g_brick_dialog input.formnodata:valid[type=date],
-.was-validated .input-group .c4g_brick_dialog input.formnodata:valid[type=email],
-.was-validated .input-group .c4g_brick_dialog input.formnodata:valid[type=tel],
-.was-validated .input-group .c4g_brick_dialog input.formnodata:valid[type=text],
-.was-validated .input-group .c4g_brick_dialog input.formnodata:valid[type=url],
-.was-validated .input-group .c4g_brick_dialog select:valid,
-.was-validated .input-group .c4g_brick_dialog textarea.formdata:valid,
-.was-validated .input-group .c4g_brick_select_dialog .styled_select:valid,
-.was-validated .input-group .c4g_brick_select_dialog select:valid,
+.was-validated .input-group .c4g_brick_dialog .c4g__form-control:valid,
+.was-validated .input-group .c4g_brick_dialog select.c4g__form-select:valid,
 .was-validated .input-group .form-control:valid,
 .was-validated .input-group .form-select:valid {
   z-index: 1
 }
-.c4g_brick_dialog .input-group .is-valid.c4g_non_input:focus,
-.c4g_brick_dialog .input-group .is-valid.styled_select:focus,
-.c4g_brick_dialog .input-group input.is-valid.formdata:focus[type=date],
-.c4g_brick_dialog .input-group input.is-valid.formdata:focus[type=email],
-.c4g_brick_dialog .input-group input.is-valid.formdata:focus[type=tel],
-.c4g_brick_dialog .input-group input.is-valid.formdata:focus[type=text],
-.c4g_brick_dialog .input-group input.is-valid.formdata:focus[type=url],
-.c4g_brick_dialog .input-group input.is-valid.formnodata:focus[type=date],
-.c4g_brick_dialog .input-group input.is-valid.formnodata:focus[type=email],
-.c4g_brick_dialog .input-group input.is-valid.formnodata:focus[type=tel],
-.c4g_brick_dialog .input-group input.is-valid.formnodata:focus[type=text],
-.c4g_brick_dialog .input-group input.is-valid.formnodata:focus[type=url],
-.c4g_brick_dialog .input-group select.is-valid:focus,
-.c4g_brick_dialog .input-group textarea.is-valid.formdata:focus,
-.c4g_brick_dialog .was-validated .input-group .c4g_non_input:valid:focus,
-.c4g_brick_dialog .was-validated .input-group .styled_select:valid:focus,
-.c4g_brick_dialog .was-validated .input-group input.formdata:valid:focus[type=date],
-.c4g_brick_dialog .was-validated .input-group input.formdata:valid:focus[type=email],
-.c4g_brick_dialog .was-validated .input-group input.formdata:valid:focus[type=tel],
-.c4g_brick_dialog .was-validated .input-group input.formdata:valid:focus[type=text],
-.c4g_brick_dialog .was-validated .input-group input.formdata:valid:focus[type=url],
-.c4g_brick_dialog .was-validated .input-group input.formnodata:valid:focus[type=date],
-.c4g_brick_dialog .was-validated .input-group input.formnodata:valid:focus[type=email],
-.c4g_brick_dialog .was-validated .input-group input.formnodata:valid:focus[type=tel],
-.c4g_brick_dialog .was-validated .input-group input.formnodata:valid:focus[type=text],
-.c4g_brick_dialog .was-validated .input-group input.formnodata:valid:focus[type=url],
-.c4g_brick_dialog .was-validated .input-group select:valid:focus,
-.c4g_brick_dialog .was-validated .input-group textarea.formdata:valid:focus,
-.c4g_brick_select_dialog .input-group .is-valid.styled_select:focus,
-.c4g_brick_select_dialog .input-group select.is-valid:focus,
-.c4g_brick_select_dialog .was-validated .input-group .styled_select:valid:focus,
-.c4g_brick_select_dialog .was-validated .input-group select:valid:focus,
-.input-group .c4g_brick_dialog .is-valid.c4g_non_input:focus,
-.input-group .c4g_brick_dialog .is-valid.styled_select:focus,
-.input-group .c4g_brick_dialog input.is-valid.formdata:focus[type=date],
-.input-group .c4g_brick_dialog input.is-valid.formdata:focus[type=email],
-.input-group .c4g_brick_dialog input.is-valid.formdata:focus[type=tel],
-.input-group .c4g_brick_dialog input.is-valid.formdata:focus[type=text],
-.input-group .c4g_brick_dialog input.is-valid.formdata:focus[type=url],
-.input-group .c4g_brick_dialog input.is-valid.formnodata:focus[type=date],
-.input-group .c4g_brick_dialog input.is-valid.formnodata:focus[type=email],
-.input-group .c4g_brick_dialog input.is-valid.formnodata:focus[type=tel],
-.input-group .c4g_brick_dialog input.is-valid.formnodata:focus[type=text],
-.input-group .c4g_brick_dialog input.is-valid.formnodata:focus[type=url],
-.input-group .c4g_brick_dialog select.is-valid:focus,
-.input-group .c4g_brick_dialog textarea.is-valid.formdata:focus,
-.input-group .c4g_brick_select_dialog .is-valid.styled_select:focus,
-.input-group .c4g_brick_select_dialog select.is-valid:focus,
+.c4g_brick_dialog .input-group .is-valid.c4g__form-control:focus,
+.c4g_brick_dialog .input-group select.is-valid.c4g__form-select:focus,
+.c4g_brick_dialog .was-validated .input-group .c4g__form-control:valid:focus,
+.c4g_brick_dialog .was-validated .input-group select.c4g__form-select:valid:focus,
+.input-group .c4g_brick_dialog .is-valid.c4g__form-control:focus,
+.input-group .c4g_brick_dialog select.is-valid.c4g__form-select:focus,
 .input-group .form-control.is-valid:focus,
 .input-group .form-select.is-valid:focus,
-.was-validated .input-group .c4g_brick_dialog .c4g_non_input:valid:focus,
-.was-validated .input-group .c4g_brick_dialog .styled_select:valid:focus,
-.was-validated .input-group .c4g_brick_dialog input.formdata:valid:focus[type=date],
-.was-validated .input-group .c4g_brick_dialog input.formdata:valid:focus[type=email],
-.was-validated .input-group .c4g_brick_dialog input.formdata:valid:focus[type=tel],
-.was-validated .input-group .c4g_brick_dialog input.formdata:valid:focus[type=text],
-.was-validated .input-group .c4g_brick_dialog input.formdata:valid:focus[type=url],
-.was-validated .input-group .c4g_brick_dialog input.formnodata:valid:focus[type=date],
-.was-validated .input-group .c4g_brick_dialog input.formnodata:valid:focus[type=email],
-.was-validated .input-group .c4g_brick_dialog input.formnodata:valid:focus[type=tel],
-.was-validated .input-group .c4g_brick_dialog input.formnodata:valid:focus[type=text],
-.was-validated .input-group .c4g_brick_dialog input.formnodata:valid:focus[type=url],
-.was-validated .input-group .c4g_brick_dialog select:valid:focus,
-.was-validated .input-group .c4g_brick_dialog textarea.formdata:valid:focus,
-.was-validated .input-group .c4g_brick_select_dialog .styled_select:valid:focus,
-.was-validated .input-group .c4g_brick_select_dialog select:valid:focus,
+.was-validated .input-group .c4g_brick_dialog .c4g__form-control:valid:focus,
+.was-validated .input-group .c4g_brick_dialog select.c4g__form-select:valid:focus,
 .was-validated .input-group .form-control:valid:focus,
 .was-validated .input-group .form-select:valid:focus {
   z-index: 3
@@ -1897,43 +1244,10 @@ textarea.form-control.is-valid {
 .was-validated :invalid ~ .invalid-tooltip {
   display: block
 }
-.c4g_brick_dialog .is-invalid.c4g_non_input,
-.c4g_brick_dialog .was-validated .c4g_non_input:invalid,
-.c4g_brick_dialog .was-validated input.formdata:invalid[type=date],
-.c4g_brick_dialog .was-validated input.formdata:invalid[type=email],
-.c4g_brick_dialog .was-validated input.formdata:invalid[type=tel],
-.c4g_brick_dialog .was-validated input.formdata:invalid[type=text],
-.c4g_brick_dialog .was-validated input.formdata:invalid[type=url],
-.c4g_brick_dialog .was-validated input.formnodata:invalid[type=date],
-.c4g_brick_dialog .was-validated input.formnodata:invalid[type=email],
-.c4g_brick_dialog .was-validated input.formnodata:invalid[type=tel],
-.c4g_brick_dialog .was-validated input.formnodata:invalid[type=text],
-.c4g_brick_dialog .was-validated input.formnodata:invalid[type=url],
-.c4g_brick_dialog .was-validated textarea.formdata:invalid,
-.c4g_brick_dialog input.is-invalid.formdata[type=date],
-.c4g_brick_dialog input.is-invalid.formdata[type=email],
-.c4g_brick_dialog input.is-invalid.formdata[type=tel],
-.c4g_brick_dialog input.is-invalid.formdata[type=text],
-.c4g_brick_dialog input.is-invalid.formdata[type=url],
-.c4g_brick_dialog input.is-invalid.formnodata[type=date],
-.c4g_brick_dialog input.is-invalid.formnodata[type=email],
-.c4g_brick_dialog input.is-invalid.formnodata[type=tel],
-.c4g_brick_dialog input.is-invalid.formnodata[type=text],
-.c4g_brick_dialog input.is-invalid.formnodata[type=url],
-.c4g_brick_dialog textarea.is-invalid.formdata,
+.c4g_brick_dialog .is-invalid.c4g__form-control,
+.c4g_brick_dialog .was-validated .c4g__form-control:invalid,
 .form-control.is-invalid,
-.was-validated .c4g_brick_dialog .c4g_non_input:invalid,
-.was-validated .c4g_brick_dialog input.formdata:invalid[type=date],
-.was-validated .c4g_brick_dialog input.formdata:invalid[type=email],
-.was-validated .c4g_brick_dialog input.formdata:invalid[type=tel],
-.was-validated .c4g_brick_dialog input.formdata:invalid[type=text],
-.was-validated .c4g_brick_dialog input.formdata:invalid[type=url],
-.was-validated .c4g_brick_dialog input.formnodata:invalid[type=date],
-.was-validated .c4g_brick_dialog input.formnodata:invalid[type=email],
-.was-validated .c4g_brick_dialog input.formnodata:invalid[type=tel],
-.was-validated .c4g_brick_dialog input.formnodata:invalid[type=text],
-.was-validated .c4g_brick_dialog input.formnodata:invalid[type=url],
-.was-validated .c4g_brick_dialog textarea.formdata:invalid,
+.was-validated .c4g_brick_dialog .c4g__form-control:invalid,
 .was-validated .form-control:invalid {
   border-color: #dc3545;
   padding-right: calc(1.5em + .75rem);
@@ -1942,100 +1256,37 @@ textarea.form-control.is-valid {
   background-position: right calc(.375em + .1875rem) center;
   background-size: calc(.75em + .375rem) calc(.75em + .375rem)
 }
-.c4g_brick_dialog .is-invalid.c4g_non_input:focus,
-.c4g_brick_dialog .was-validated .c4g_non_input:invalid:focus,
-.c4g_brick_dialog .was-validated input.formdata:invalid:focus[type=date],
-.c4g_brick_dialog .was-validated input.formdata:invalid:focus[type=email],
-.c4g_brick_dialog .was-validated input.formdata:invalid:focus[type=tel],
-.c4g_brick_dialog .was-validated input.formdata:invalid:focus[type=text],
-.c4g_brick_dialog .was-validated input.formdata:invalid:focus[type=url],
-.c4g_brick_dialog .was-validated input.formnodata:invalid:focus[type=date],
-.c4g_brick_dialog .was-validated input.formnodata:invalid:focus[type=email],
-.c4g_brick_dialog .was-validated input.formnodata:invalid:focus[type=tel],
-.c4g_brick_dialog .was-validated input.formnodata:invalid:focus[type=text],
-.c4g_brick_dialog .was-validated input.formnodata:invalid:focus[type=url],
-.c4g_brick_dialog .was-validated textarea.formdata:invalid:focus,
-.c4g_brick_dialog input.is-invalid.formdata:focus[type=date],
-.c4g_brick_dialog input.is-invalid.formdata:focus[type=email],
-.c4g_brick_dialog input.is-invalid.formdata:focus[type=tel],
-.c4g_brick_dialog input.is-invalid.formdata:focus[type=text],
-.c4g_brick_dialog input.is-invalid.formdata:focus[type=url],
-.c4g_brick_dialog input.is-invalid.formnodata:focus[type=date],
-.c4g_brick_dialog input.is-invalid.formnodata:focus[type=email],
-.c4g_brick_dialog input.is-invalid.formnodata:focus[type=tel],
-.c4g_brick_dialog input.is-invalid.formnodata:focus[type=text],
-.c4g_brick_dialog input.is-invalid.formnodata:focus[type=url],
-.c4g_brick_dialog textarea.is-invalid.formdata:focus,
+.c4g_brick_dialog .is-invalid.c4g__form-control:focus,
+.c4g_brick_dialog .was-validated .c4g__form-control:invalid:focus,
 .form-control.is-invalid:focus,
-.was-validated .c4g_brick_dialog .c4g_non_input:invalid:focus,
-.was-validated .c4g_brick_dialog input.formdata:invalid:focus[type=date],
-.was-validated .c4g_brick_dialog input.formdata:invalid:focus[type=email],
-.was-validated .c4g_brick_dialog input.formdata:invalid:focus[type=tel],
-.was-validated .c4g_brick_dialog input.formdata:invalid:focus[type=text],
-.was-validated .c4g_brick_dialog input.formdata:invalid:focus[type=url],
-.was-validated .c4g_brick_dialog input.formnodata:invalid:focus[type=date],
-.was-validated .c4g_brick_dialog input.formnodata:invalid:focus[type=email],
-.was-validated .c4g_brick_dialog input.formnodata:invalid:focus[type=tel],
-.was-validated .c4g_brick_dialog input.formnodata:invalid:focus[type=text],
-.was-validated .c4g_brick_dialog input.formnodata:invalid:focus[type=url],
-.was-validated .c4g_brick_dialog textarea.formdata:invalid:focus,
+.was-validated .c4g_brick_dialog .c4g__form-control:invalid:focus,
 .was-validated .form-control:invalid:focus {
   border-color: #dc3545;
   box-shadow: 0 0 0 .25rem rgba(220,53,69,.25)
 }
-.c4g_brick_dialog .was-validated textarea.c4g_non_input:invalid,
-.c4g_brick_dialog .was-validated textarea.formdata:invalid,
-.c4g_brick_dialog textarea.is-invalid.c4g_non_input,
-.c4g_brick_dialog textarea.is-invalid.formdata,
-.was-validated .c4g_brick_dialog textarea.c4g_non_input:invalid,
-.was-validated .c4g_brick_dialog textarea.formdata:invalid,
+.c4g_brick_dialog .was-validated textarea.c4g__form-control:invalid,
+.c4g_brick_dialog textarea.is-invalid.c4g__form-control,
+.was-validated .c4g_brick_dialog textarea.c4g__form-control:invalid,
 .was-validated textarea.form-control:invalid,
 textarea.form-control.is-invalid {
   padding-right: calc(1.5em + .75rem);
   background-position: top calc(.375em + .1875rem) right calc(.375em + .1875rem)
 }
-.c4g_brick_dialog .is-invalid.styled_select,
-.c4g_brick_dialog .was-validated .styled_select:invalid,
-.c4g_brick_dialog .was-validated select:invalid,
-.c4g_brick_dialog select.is-invalid,
-.c4g_brick_select_dialog .is-invalid.styled_select,
-.c4g_brick_select_dialog .was-validated .styled_select:invalid,
-.c4g_brick_select_dialog .was-validated select:invalid,
-.c4g_brick_select_dialog select.is-invalid,
+.c4g_brick_dialog .was-validated select.c4g__form-select:invalid,
+.c4g_brick_dialog select.is-invalid.c4g__form-select,
 .form-select.is-invalid,
-.was-validated .c4g_brick_dialog .styled_select:invalid,
-.was-validated .c4g_brick_dialog select:invalid,
-.was-validated .c4g_brick_select_dialog .styled_select:invalid,
-.was-validated .c4g_brick_select_dialog select:invalid,
+.was-validated .c4g_brick_dialog select.c4g__form-select:invalid,
 .was-validated .form-select:invalid {
   border-color: #dc3545
 }
-.c4g_brick_dialog .is-invalid.styled_select:not([multiple]):not([size]),
-.c4g_brick_dialog .is-invalid.styled_select:not([multiple])[size="1"],
-.c4g_brick_dialog .was-validated .styled_select:invalid:not([multiple]):not([size]),
-.c4g_brick_dialog .was-validated .styled_select:invalid:not([multiple])[size="1"],
-.c4g_brick_dialog .was-validated select:invalid:not([multiple]):not([size]),
-.c4g_brick_dialog .was-validated select:invalid:not([multiple])[size="1"],
-.c4g_brick_dialog select.is-invalid:not([multiple]):not([size]),
-.c4g_brick_dialog select.is-invalid:not([multiple])[size="1"],
-.c4g_brick_select_dialog .is-invalid.styled_select:not([multiple]):not([size]),
-.c4g_brick_select_dialog .is-invalid.styled_select:not([multiple])[size="1"],
-.c4g_brick_select_dialog .was-validated .styled_select:invalid:not([multiple]):not([size]),
-.c4g_brick_select_dialog .was-validated .styled_select:invalid:not([multiple])[size="1"],
-.c4g_brick_select_dialog .was-validated select:invalid:not([multiple]):not([size]),
-.c4g_brick_select_dialog .was-validated select:invalid:not([multiple])[size="1"],
-.c4g_brick_select_dialog select.is-invalid:not([multiple]):not([size]),
-.c4g_brick_select_dialog select.is-invalid:not([multiple])[size="1"],
+.c4g_brick_dialog .was-validated select.c4g__form-select:invalid:not([multiple]):not([size]),
+.c4g_brick_dialog .was-validated select.c4g__form-select:invalid:not([multiple])[size="1"],
+.c4g_brick_dialog select.is-invalid.c4g__form-select:not([multiple]):not([size]),
+.c4g_brick_dialog select.is-invalid.c4g__form-select:not([multiple])[size="1"],
 .form-select.is-invalid:not([multiple]):not([size]),
 .form-select.is-invalid:not([multiple])[size="1"],
-.was-validated .c4g_brick_dialog .styled_select:invalid:not([multiple]):not([size]),
-.was-validated .c4g_brick_dialog .styled_select:invalid:not([multiple])[size="1"],
-.was-validated .c4g_brick_dialog select:invalid:not([multiple]):not([size]),
-.was-validated .c4g_brick_dialog select:invalid:not([multiple])[size="1"],
-.was-validated .c4g_brick_select_dialog .styled_select:invalid:not([multiple]):not([size]),
-.was-validated .c4g_brick_select_dialog .styled_select:invalid:not([multiple])[size="1"],
-.was-validated .c4g_brick_select_dialog select:invalid:not([multiple]):not([size]),
-.was-validated .c4g_brick_select_dialog select:invalid:not([multiple])[size="1"],
+.was-validated .c4g_brick_dialog select.c4g__form-select:invalid:not([multiple]):not([size]),
+.was-validated .c4g_brick_dialog select.c4g__form-select:invalid:not([multiple])[size="1"],
 .was-validated .form-select:invalid:not([multiple]):not([size]),
 .was-validated .form-select:invalid:not([multiple])[size="1"] {
   padding-right: 4.125rem;
@@ -2043,19 +1294,10 @@ textarea.form-control.is-invalid {
   background-position: right .75rem center,center right 2.25rem;
   background-size: 16px 12px,calc(.75em + .375rem) calc(.75em + .375rem)
 }
-.c4g_brick_dialog .is-invalid.styled_select:focus,
-.c4g_brick_dialog .was-validated .styled_select:invalid:focus,
-.c4g_brick_dialog .was-validated select:invalid:focus,
-.c4g_brick_dialog select.is-invalid:focus,
-.c4g_brick_select_dialog .is-invalid.styled_select:focus,
-.c4g_brick_select_dialog .was-validated .styled_select:invalid:focus,
-.c4g_brick_select_dialog .was-validated select:invalid:focus,
-.c4g_brick_select_dialog select.is-invalid:focus,
+.c4g_brick_dialog .was-validated select.c4g__form-select:invalid:focus,
+.c4g_brick_dialog select.is-invalid.c4g__form-select:focus,
 .form-select.is-invalid:focus,
-.was-validated .c4g_brick_dialog .styled_select:invalid:focus,
-.was-validated .c4g_brick_dialog select:invalid:focus,
-.was-validated .c4g_brick_select_dialog .styled_select:invalid:focus,
-.was-validated .c4g_brick_select_dialog select:invalid:focus,
+.was-validated .c4g_brick_dialog select.c4g__form-select:invalid:focus,
 .was-validated .form-select:invalid:focus {
   border-color: #dc3545;
   box-shadow: 0 0 0 .25rem rgba(220,53,69,.25)
@@ -2079,12 +1321,16 @@ textarea.form-control.is-invalid {
   box-shadow: 0 0 0 .25rem rgba(220,53,69,.25)
 }
 .form-check-input.is-invalid ~ .c4g__form-check-label,
+.form-check-input.is-invalid ~ .c4g__form-label-multicheckbox,
 .form-check-input.is-invalid ~ .form-check-label,
 .is-invalid.c4g__form-check-input ~ .c4g__form-check-label,
+.is-invalid.c4g__form-check-input ~ .c4g__form-label-multicheckbox,
 .is-invalid.c4g__form-check-input ~ .form-check-label,
 .was-validated .c4g__form-check-input:invalid ~ .c4g__form-check-label,
+.was-validated .c4g__form-check-input:invalid ~ .c4g__form-label-multicheckbox,
 .was-validated .c4g__form-check-input:invalid ~ .form-check-label,
 .was-validated .form-check-input:invalid ~ .c4g__form-check-label,
+.was-validated .form-check-input:invalid ~ .c4g__form-label-multicheckbox,
 .was-validated .form-check-input:invalid ~ .form-check-label {
   color: #dc3545
 }
@@ -2092,142 +1338,30 @@ textarea.form-control.is-invalid {
 .form-check-inline .form-check-input ~ .invalid-feedback {
   margin-left: .5em
 }
-.c4g_brick_dialog .input-group .is-invalid.c4g_non_input,
-.c4g_brick_dialog .input-group .is-invalid.styled_select,
-.c4g_brick_dialog .input-group input.is-invalid.formdata[type=date],
-.c4g_brick_dialog .input-group input.is-invalid.formdata[type=email],
-.c4g_brick_dialog .input-group input.is-invalid.formdata[type=tel],
-.c4g_brick_dialog .input-group input.is-invalid.formdata[type=text],
-.c4g_brick_dialog .input-group input.is-invalid.formdata[type=url],
-.c4g_brick_dialog .input-group input.is-invalid.formnodata[type=date],
-.c4g_brick_dialog .input-group input.is-invalid.formnodata[type=email],
-.c4g_brick_dialog .input-group input.is-invalid.formnodata[type=tel],
-.c4g_brick_dialog .input-group input.is-invalid.formnodata[type=text],
-.c4g_brick_dialog .input-group input.is-invalid.formnodata[type=url],
-.c4g_brick_dialog .input-group select.is-invalid,
-.c4g_brick_dialog .input-group textarea.is-invalid.formdata,
-.c4g_brick_dialog .was-validated .input-group .c4g_non_input:invalid,
-.c4g_brick_dialog .was-validated .input-group .styled_select:invalid,
-.c4g_brick_dialog .was-validated .input-group input.formdata:invalid[type=date],
-.c4g_brick_dialog .was-validated .input-group input.formdata:invalid[type=email],
-.c4g_brick_dialog .was-validated .input-group input.formdata:invalid[type=tel],
-.c4g_brick_dialog .was-validated .input-group input.formdata:invalid[type=text],
-.c4g_brick_dialog .was-validated .input-group input.formdata:invalid[type=url],
-.c4g_brick_dialog .was-validated .input-group input.formnodata:invalid[type=date],
-.c4g_brick_dialog .was-validated .input-group input.formnodata:invalid[type=email],
-.c4g_brick_dialog .was-validated .input-group input.formnodata:invalid[type=tel],
-.c4g_brick_dialog .was-validated .input-group input.formnodata:invalid[type=text],
-.c4g_brick_dialog .was-validated .input-group input.formnodata:invalid[type=url],
-.c4g_brick_dialog .was-validated .input-group select:invalid,
-.c4g_brick_dialog .was-validated .input-group textarea.formdata:invalid,
-.c4g_brick_select_dialog .input-group .is-invalid.styled_select,
-.c4g_brick_select_dialog .input-group select.is-invalid,
-.c4g_brick_select_dialog .was-validated .input-group .styled_select:invalid,
-.c4g_brick_select_dialog .was-validated .input-group select:invalid,
-.input-group .c4g_brick_dialog .is-invalid.c4g_non_input,
-.input-group .c4g_brick_dialog .is-invalid.styled_select,
-.input-group .c4g_brick_dialog input.is-invalid.formdata[type=date],
-.input-group .c4g_brick_dialog input.is-invalid.formdata[type=email],
-.input-group .c4g_brick_dialog input.is-invalid.formdata[type=tel],
-.input-group .c4g_brick_dialog input.is-invalid.formdata[type=text],
-.input-group .c4g_brick_dialog input.is-invalid.formdata[type=url],
-.input-group .c4g_brick_dialog input.is-invalid.formnodata[type=date],
-.input-group .c4g_brick_dialog input.is-invalid.formnodata[type=email],
-.input-group .c4g_brick_dialog input.is-invalid.formnodata[type=tel],
-.input-group .c4g_brick_dialog input.is-invalid.formnodata[type=text],
-.input-group .c4g_brick_dialog input.is-invalid.formnodata[type=url],
-.input-group .c4g_brick_dialog select.is-invalid,
-.input-group .c4g_brick_dialog textarea.is-invalid.formdata,
-.input-group .c4g_brick_select_dialog .is-invalid.styled_select,
-.input-group .c4g_brick_select_dialog select.is-invalid,
+.c4g_brick_dialog .input-group .is-invalid.c4g__form-control,
+.c4g_brick_dialog .input-group select.is-invalid.c4g__form-select,
+.c4g_brick_dialog .was-validated .input-group .c4g__form-control:invalid,
+.c4g_brick_dialog .was-validated .input-group select.c4g__form-select:invalid,
+.input-group .c4g_brick_dialog .is-invalid.c4g__form-control,
+.input-group .c4g_brick_dialog select.is-invalid.c4g__form-select,
 .input-group .form-control.is-invalid,
 .input-group .form-select.is-invalid,
-.was-validated .input-group .c4g_brick_dialog .c4g_non_input:invalid,
-.was-validated .input-group .c4g_brick_dialog .styled_select:invalid,
-.was-validated .input-group .c4g_brick_dialog input.formdata:invalid[type=date],
-.was-validated .input-group .c4g_brick_dialog input.formdata:invalid[type=email],
-.was-validated .input-group .c4g_brick_dialog input.formdata:invalid[type=tel],
-.was-validated .input-group .c4g_brick_dialog input.formdata:invalid[type=text],
-.was-validated .input-group .c4g_brick_dialog input.formdata:invalid[type=url],
-.was-validated .input-group .c4g_brick_dialog input.formnodata:invalid[type=date],
-.was-validated .input-group .c4g_brick_dialog input.formnodata:invalid[type=email],
-.was-validated .input-group .c4g_brick_dialog input.formnodata:invalid[type=tel],
-.was-validated .input-group .c4g_brick_dialog input.formnodata:invalid[type=text],
-.was-validated .input-group .c4g_brick_dialog input.formnodata:invalid[type=url],
-.was-validated .input-group .c4g_brick_dialog select:invalid,
-.was-validated .input-group .c4g_brick_dialog textarea.formdata:invalid,
-.was-validated .input-group .c4g_brick_select_dialog .styled_select:invalid,
-.was-validated .input-group .c4g_brick_select_dialog select:invalid,
+.was-validated .input-group .c4g_brick_dialog .c4g__form-control:invalid,
+.was-validated .input-group .c4g_brick_dialog select.c4g__form-select:invalid,
 .was-validated .input-group .form-control:invalid,
 .was-validated .input-group .form-select:invalid {
   z-index: 2
 }
-.c4g_brick_dialog .input-group .is-invalid.c4g_non_input:focus,
-.c4g_brick_dialog .input-group .is-invalid.styled_select:focus,
-.c4g_brick_dialog .input-group input.is-invalid.formdata:focus[type=date],
-.c4g_brick_dialog .input-group input.is-invalid.formdata:focus[type=email],
-.c4g_brick_dialog .input-group input.is-invalid.formdata:focus[type=tel],
-.c4g_brick_dialog .input-group input.is-invalid.formdata:focus[type=text],
-.c4g_brick_dialog .input-group input.is-invalid.formdata:focus[type=url],
-.c4g_brick_dialog .input-group input.is-invalid.formnodata:focus[type=date],
-.c4g_brick_dialog .input-group input.is-invalid.formnodata:focus[type=email],
-.c4g_brick_dialog .input-group input.is-invalid.formnodata:focus[type=tel],
-.c4g_brick_dialog .input-group input.is-invalid.formnodata:focus[type=text],
-.c4g_brick_dialog .input-group input.is-invalid.formnodata:focus[type=url],
-.c4g_brick_dialog .input-group select.is-invalid:focus,
-.c4g_brick_dialog .input-group textarea.is-invalid.formdata:focus,
-.c4g_brick_dialog .was-validated .input-group .c4g_non_input:invalid:focus,
-.c4g_brick_dialog .was-validated .input-group .styled_select:invalid:focus,
-.c4g_brick_dialog .was-validated .input-group input.formdata:invalid:focus[type=date],
-.c4g_brick_dialog .was-validated .input-group input.formdata:invalid:focus[type=email],
-.c4g_brick_dialog .was-validated .input-group input.formdata:invalid:focus[type=tel],
-.c4g_brick_dialog .was-validated .input-group input.formdata:invalid:focus[type=text],
-.c4g_brick_dialog .was-validated .input-group input.formdata:invalid:focus[type=url],
-.c4g_brick_dialog .was-validated .input-group input.formnodata:invalid:focus[type=date],
-.c4g_brick_dialog .was-validated .input-group input.formnodata:invalid:focus[type=email],
-.c4g_brick_dialog .was-validated .input-group input.formnodata:invalid:focus[type=tel],
-.c4g_brick_dialog .was-validated .input-group input.formnodata:invalid:focus[type=text],
-.c4g_brick_dialog .was-validated .input-group input.formnodata:invalid:focus[type=url],
-.c4g_brick_dialog .was-validated .input-group select:invalid:focus,
-.c4g_brick_dialog .was-validated .input-group textarea.formdata:invalid:focus,
-.c4g_brick_select_dialog .input-group .is-invalid.styled_select:focus,
-.c4g_brick_select_dialog .input-group select.is-invalid:focus,
-.c4g_brick_select_dialog .was-validated .input-group .styled_select:invalid:focus,
-.c4g_brick_select_dialog .was-validated .input-group select:invalid:focus,
-.input-group .c4g_brick_dialog .is-invalid.c4g_non_input:focus,
-.input-group .c4g_brick_dialog .is-invalid.styled_select:focus,
-.input-group .c4g_brick_dialog input.is-invalid.formdata:focus[type=date],
-.input-group .c4g_brick_dialog input.is-invalid.formdata:focus[type=email],
-.input-group .c4g_brick_dialog input.is-invalid.formdata:focus[type=tel],
-.input-group .c4g_brick_dialog input.is-invalid.formdata:focus[type=text],
-.input-group .c4g_brick_dialog input.is-invalid.formdata:focus[type=url],
-.input-group .c4g_brick_dialog input.is-invalid.formnodata:focus[type=date],
-.input-group .c4g_brick_dialog input.is-invalid.formnodata:focus[type=email],
-.input-group .c4g_brick_dialog input.is-invalid.formnodata:focus[type=tel],
-.input-group .c4g_brick_dialog input.is-invalid.formnodata:focus[type=text],
-.input-group .c4g_brick_dialog input.is-invalid.formnodata:focus[type=url],
-.input-group .c4g_brick_dialog select.is-invalid:focus,
-.input-group .c4g_brick_dialog textarea.is-invalid.formdata:focus,
-.input-group .c4g_brick_select_dialog .is-invalid.styled_select:focus,
-.input-group .c4g_brick_select_dialog select.is-invalid:focus,
+.c4g_brick_dialog .input-group .is-invalid.c4g__form-control:focus,
+.c4g_brick_dialog .input-group select.is-invalid.c4g__form-select:focus,
+.c4g_brick_dialog .was-validated .input-group .c4g__form-control:invalid:focus,
+.c4g_brick_dialog .was-validated .input-group select.c4g__form-select:invalid:focus,
+.input-group .c4g_brick_dialog .is-invalid.c4g__form-control:focus,
+.input-group .c4g_brick_dialog select.is-invalid.c4g__form-select:focus,
 .input-group .form-control.is-invalid:focus,
 .input-group .form-select.is-invalid:focus,
-.was-validated .input-group .c4g_brick_dialog .c4g_non_input:invalid:focus,
-.was-validated .input-group .c4g_brick_dialog .styled_select:invalid:focus,
-.was-validated .input-group .c4g_brick_dialog input.formdata:invalid:focus[type=date],
-.was-validated .input-group .c4g_brick_dialog input.formdata:invalid:focus[type=email],
-.was-validated .input-group .c4g_brick_dialog input.formdata:invalid:focus[type=tel],
-.was-validated .input-group .c4g_brick_dialog input.formdata:invalid:focus[type=text],
-.was-validated .input-group .c4g_brick_dialog input.formdata:invalid:focus[type=url],
-.was-validated .input-group .c4g_brick_dialog input.formnodata:invalid:focus[type=date],
-.was-validated .input-group .c4g_brick_dialog input.formnodata:invalid:focus[type=email],
-.was-validated .input-group .c4g_brick_dialog input.formnodata:invalid:focus[type=tel],
-.was-validated .input-group .c4g_brick_dialog input.formnodata:invalid:focus[type=text],
-.was-validated .input-group .c4g_brick_dialog input.formnodata:invalid:focus[type=url],
-.was-validated .input-group .c4g_brick_dialog select:invalid:focus,
-.was-validated .input-group .c4g_brick_dialog textarea.formdata:invalid:focus,
-.was-validated .input-group .c4g_brick_select_dialog .styled_select:invalid:focus,
-.was-validated .input-group .c4g_brick_select_dialog select:invalid:focus,
+.was-validated .input-group .c4g_brick_dialog .c4g__form-control:invalid:focus,
+.was-validated .input-group .c4g_brick_dialog select.c4g__form-select:invalid:focus,
 .was-validated .input-group .form-control:invalid:focus,
 .was-validated .input-group .form-select:invalid:focus {
   z-index: 3
@@ -3460,7 +2594,6 @@ fieldset:disabled .c4g__btn {
 }
 .btn-secondary,
 .c4g__btn-accordion,
-.c4g__btn-date,
 .c4g__btn-filter,
 .c4g__btn-more,
 .c4g__btn-secondary,
@@ -3471,7 +2604,6 @@ fieldset:disabled .c4g__btn {
 }
 .btn-secondary:hover,
 .c4g__btn-accordion:hover,
-.c4g__btn-date:hover,
 .c4g__btn-filter:hover,
 .c4g__btn-more:hover,
 .c4g__btn-secondary:hover,
@@ -3482,14 +2614,12 @@ fieldset:disabled .c4g__btn {
 }
 .btn-check:focus + .btn-secondary,
 .btn-check:focus + .c4g__btn-accordion,
-.btn-check:focus + .c4g__btn-date,
 .btn-check:focus + .c4g__btn-filter,
 .btn-check:focus + .c4g__btn-more,
 .btn-check:focus + .c4g__btn-secondary,
 .btn-check:focus + .c4g__btn-time,
 .btn-secondary:focus,
 .c4g__btn-accordion:focus,
-.c4g__btn-date:focus,
 .c4g__btn-filter:focus,
 .c4g__btn-more:focus,
 .c4g__btn-secondary:focus,
@@ -3500,21 +2630,18 @@ fieldset:disabled .c4g__btn {
   box-shadow: 0 0 0 .25rem rgba(130,138,145,.5)
 }
 .active.c4g__btn-accordion,
-.active.c4g__btn-date,
 .active.c4g__btn-filter,
 .active.c4g__btn-more,
 .active.c4g__btn-secondary,
 .active.c4g__btn-time,
 .btn-check:active + .btn-secondary,
 .btn-check:active + .c4g__btn-accordion,
-.btn-check:active + .c4g__btn-date,
 .btn-check:active + .c4g__btn-filter,
 .btn-check:active + .c4g__btn-more,
 .btn-check:active + .c4g__btn-secondary,
 .btn-check:active + .c4g__btn-time,
 .btn-check:checked + .btn-secondary,
 .btn-check:checked + .c4g__btn-accordion,
-.btn-check:checked + .c4g__btn-date,
 .btn-check:checked + .c4g__btn-filter,
 .btn-check:checked + .c4g__btn-more,
 .btn-check:checked + .c4g__btn-secondary,
@@ -3522,14 +2649,12 @@ fieldset:disabled .c4g__btn {
 .btn-secondary.active,
 .btn-secondary:active,
 .c4g__btn-accordion:active,
-.c4g__btn-date:active,
 .c4g__btn-filter:active,
 .c4g__btn-more:active,
 .c4g__btn-secondary:active,
 .c4g__btn-time:active,
 .show > .btn-secondary.dropdown-toggle,
 .show > .dropdown-toggle.c4g__btn-accordion,
-.show > .dropdown-toggle.c4g__btn-date,
 .show > .dropdown-toggle.c4g__btn-filter,
 .show > .dropdown-toggle.c4g__btn-more,
 .show > .dropdown-toggle.c4g__btn-secondary,
@@ -3539,21 +2664,18 @@ fieldset:disabled .c4g__btn {
   border-color: #51585e
 }
 .active.c4g__btn-accordion:focus,
-.active.c4g__btn-date:focus,
 .active.c4g__btn-filter:focus,
 .active.c4g__btn-more:focus,
 .active.c4g__btn-secondary:focus,
 .active.c4g__btn-time:focus,
 .btn-check:active + .btn-secondary:focus,
 .btn-check:active + .c4g__btn-accordion:focus,
-.btn-check:active + .c4g__btn-date:focus,
 .btn-check:active + .c4g__btn-filter:focus,
 .btn-check:active + .c4g__btn-more:focus,
 .btn-check:active + .c4g__btn-secondary:focus,
 .btn-check:active + .c4g__btn-time:focus,
 .btn-check:checked + .btn-secondary:focus,
 .btn-check:checked + .c4g__btn-accordion:focus,
-.btn-check:checked + .c4g__btn-date:focus,
 .btn-check:checked + .c4g__btn-filter:focus,
 .btn-check:checked + .c4g__btn-more:focus,
 .btn-check:checked + .c4g__btn-secondary:focus,
@@ -3561,14 +2683,12 @@ fieldset:disabled .c4g__btn {
 .btn-secondary.active:focus,
 .btn-secondary:active:focus,
 .c4g__btn-accordion:active:focus,
-.c4g__btn-date:active:focus,
 .c4g__btn-filter:active:focus,
 .c4g__btn-more:active:focus,
 .c4g__btn-secondary:active:focus,
 .c4g__btn-time:active:focus,
 .show > .btn-secondary.dropdown-toggle:focus,
 .show > .dropdown-toggle.c4g__btn-accordion:focus,
-.show > .dropdown-toggle.c4g__btn-date:focus,
 .show > .dropdown-toggle.c4g__btn-filter:focus,
 .show > .dropdown-toggle.c4g__btn-more:focus,
 .show > .dropdown-toggle.c4g__btn-secondary:focus,
@@ -3578,13 +2698,11 @@ fieldset:disabled .c4g__btn {
 .btn-secondary.disabled,
 .btn-secondary:disabled,
 .c4g__btn-accordion:disabled,
-.c4g__btn-date:disabled,
 .c4g__btn-filter:disabled,
 .c4g__btn-more:disabled,
 .c4g__btn-secondary:disabled,
 .c4g__btn-time:disabled,
 .disabled.c4g__btn-accordion,
-.disabled.c4g__btn-date,
 .disabled.c4g__btn-filter,
 .disabled.c4g__btn-more,
 .disabled.c4g__btn-secondary,
@@ -4636,256 +3754,14 @@ fieldset:disabled .c4g__btn {
   font-weight: 900;
   font-style: normal
 }
-.c4gGuiDialogTitle .h1,
-.c4gGuiDialogTitle h1 {
-  margin-top: 0;
-  margin-right: 0;
-  margin-left: 0;
-  margin-bottom: 0;
-  padding-top: 0;
-  padding-left: 0;
-  padding-right: 0;
-  padding-bottom: 0
+.c4g_brick_dialog .c4g__form-group {
+  margin-bottom: 1rem
 }
-.c4gGuiDialogTitle button {
-  float: right;
-  margin-top: 4px;
-  margin-left: 4px;
-  margin-right: 4px;
-  height: 21px
+.c4g_brick_dialog .c4g__form-headline {
+  font-size: 1.5rem
 }
-.c4gGuiDialogTitle input {
-  float: right;
-  margin-top: 4px;
-  height: 21px;
-  margin-right: 4px;
-  margin-left: 4px
-}
-.c4gGuiDialogTitle select.c4g_filter {
-  float: right;
-  margin-top: 4px;
-  height: 21px;
-  margin-right: 4px;
-  margin-left: 4px
-}
-.c4gGuiDialogTitle label {
-  float: right;
-  margin-top: 7px;
-  height: 21px;
-  margin-right: 4px;
-  margin-left: 4px;
-  font-size: inherit
-}
-.c4g_brick_headtext {
-  font-size: inherit;
-  font-weight: 400;
-  margin-top: 0;
-  margin-bottom: 0;
-  margin-left: 0
-}
-.c4g_brick_headtext_highlighted {
-  font-size: inherit;
-  font-weight: bolder;
-  margin-top: 0;
-  margin-bottom: 0
-}
-.c4g_brick_dialog .c4g__form-headline,
-.c4g_brick_dialog .c4g_popup_headline {
-  font-weight: 700;
-  font-size: 1.25em;
-  margin-bottom: 2px;
-  margin-top: 1em
-}
-.c4g_brick_dialog .styled_select,
-.c4g_brick_dialog select,
-.c4g_brick_select_dialog .styled_select,
-.c4g_brick_select_dialog select {
-  overflow: hidden
-}
-.c4g_brick_dialog .chosen-container,
-.c4g_brick_select_dialog .chosen-container {
-  display: block;
-  width: 100%;
-  margin-bottom: 5px;
-  border-radius: 3px;
-  font-size: inherit;
-  text-decoration: none
-}
-.c4g_brick_dialog .chosen-single,
-.c4g_brick_select_dialog .chosen-single {
-  text-decoration: none!important;
-  color: inherit!important;
-  border-radius: 0!important
-}
-.c4g_brick_dialog .chzn-select-disabled,
-.c4g_brick_select_dialog .chzn-select-disabled {
-  display: none!important
-}
-.c4g_brick_dialog textarea.formdata {
-  resize: vertical
-}
-.c4g_dialog label {
-  font-weight: 700
-}
-.c4g_brick_dialog p.c4g_field_description {
-  font-size: .9rem;
-  font-weight: lighter;
-  margin: 0 0;
-  color: #a9a9a9
-}
-.c4g_brick_dialog p.c4g_field_description a {
-  text-decoration: underline
-}
-.c4g_brick_dialog .c4g_field_descripton_hole {
-  margin-bottom: 4px
-}
-.c4g_brick_dialog .c4g_brick_header_text {
-  font-weight: 400;
-  text-align: right;
-  margin: 0 0;
-  font-style: italic;
-  font-size: inherit;
-  color: #a9a9a9
-}
-.c4g_brick_dialog .c4g_color.picker {
-  font-weight: 700;
-  margin-left: 0
-}
-.c4g_brick_dialog .c4g_color.block {
-  width: 16px;
-  height: 16px
-}
-.c4g_brick_dialog label.cg_checkbox_label {
-  font-weight: 400
-}
-.c4g_brick_dialog .c4g_textarea_length {
-  font-weight: 400;
-  margin: 0 0;
-  font-style: italic;
-  font-size: inherit;
-  color: #a9a9a9
-}
-.c4g_brick_dialog input[type=file] {
-  display: block;
-  margin: 0 auto;
-  width: 100%
-}
-.ol-viewport canvas {
-  margin-left: 0;
-  margin-right: 0
-}
-.c4g_brick_message_dialog {
-  padding: 5px
-}
-.c4g_brick_message_dialog .c4g_description,
-.c4g_brick_message_dialog label,
-.c4g_brick_message_dialog textarea {
-  width: 100%
-}
-div.cg_info_block {
-  margin: 5px 10px;
-  padding: 10px;
-  font-style: italic;
-  border: 1px solid rgba(0,0,0,.1);
-  background: rgba(255,255,255,.3)
-}
-div.cg_block {
-  margin: 5px 10px;
-  padding: 10px
-}
-#c4g_brick .c4gGuiContentWrapper {
-  width: 100%;
-  height: 100%
-}
-#c4g_brick .ui-widget,
-.c4gGuiDialogWrapper.ui-widget {
-  font-size: inherit
-}
-#c4g_brick .c4gGuiContentWrapper,
-#c4g_brick .c4gGuiNavigation {
-  padding-top: 10px
-}
-#main .ui-widget-header {
-  margin-top: 0!important;
-  font-weight: 400
-}
-.ui-dialog {
-  z-index: 750
-}
-.c4g_brick_dialog a input[type=url] {
-  cursor: pointer
-}
-.c4g_brick_dialog .h3,
-.c4g_brick_dialog h3 {
-  font-weight: 700;
-  cursor: pointer
-}
-.c4g_brick_dialog .h3 a,
-.c4g_brick_dialog h3 a {
-  text-decoration: none!important
-}
-.c4g_brick_dialog .c4g_brick_stopwatch {
-  position: relative;
-  height: 22px;
-  font-size: 24px
-}
-.mfp-iframe-holder .mfp-content {
-  width: 100%;
-  height: 100%
-}
-.mfp-content video {
-  width: 60%;
-  margin-left: 20%;
-  margin-right: 20%
-}
-.c4g_brick_dialog .c4g_brick_label {
-  border: 0
-}
-input.c4g_brick_info_text {
-  background-color: inherit;
-  border: none
-}
-.ui-widget.ui-widget-content {
-  border: 0
-}
-.ui-button {
-  cursor: default
-}
-.c4g_brick_headtext {
-  display: block;
-  width: 100%
-}
-.c4g_multicolumn {
-  margin-top: 10px
-}
-#c4g_description:empty,
-label:empty,
-li:empty {
-  display: none
-}
-.c4gGuiContentWrapper #c4g_list_search {
-  background-color: #fff!important
-}
-.c4g_list_search_hide {
-  display: none!important
-}
-.c4g_nodisplay {
-  display: none!important
-}
-.typed {
-  height: 110px
-}
-.c4g_condition__wrapper {
-  margin: 0 0
-}
-.c4g__form-description-text {
-  display: inline-block
-}
-.c4g__form-description a {
-  display: inline-block
-}
-#c4g_brick .ui-widget {
-  background: 0 0
+.c4g_brick_dialog .c4g_mandatory_class {
+  color: #8b0000
 }
 .ui-datepicker-month,
 .ui-datepicker-year {
@@ -4901,49 +3777,20 @@ table.datepicker_table {
 }
 .c4g__form-date-container {
   display: flex;
-  width: 100%
+  grid-gap: .5rem;
+  position: relative
 }
-.c4g__form-date-button {
-  display: inherit;
-  pointer-events: none;
-  cursor: pointer;
-  margin-left: 0;
-  margin-top: auto;
-  margin-bottom: auto
-}
-.c4g__form-date-button-flipped {
-  margin-right: 0
-}
-.c4g__form-date-button-interactive {
-  display: inherit;
-  cursor: pointer;
-  margin-left: 0;
-  margin-top: auto;
-  margin-bottom: auto
-}
-.c4g__form-date-button-interactive-flipped {
-  display: inherit;
-  cursor: pointer;
-  margin-right: 0;
-  margin-top: auto;
-  margin-bottom: auto
-}
-input.formdata.c4g__form-date-input {
-  display: inherit;
-  margin-right: 1em;
-  margin-left: 0;
-  width: 100%
-}
-input.formdata.c4g__form-date-input-flipped {
-  display: inherit;
-  margin-left: 1em;
-  margin-right: 0;
-  margin-left: 1em;
-  width: 100%
-}
-input.formdata.c4g__form-date-input-browser {
-  margin-right: 0;
-  margin-left: 0
+.c4g__btn-date {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background: 0 0;
+  border: none;
+  color: #000
 }
 .c4g_brick_dialog .c4g_timefield {
   border: 1px solid #e2e2e2;
@@ -5070,50 +3917,100 @@ input.formdata.c4g__form-date-input-browser {
   grid-template-columns: repeat(1,1fr);
   grid-gap: 1rem
 }
+@media (max-width:400px) {
+  .c4g__form-grid-1 {
+    grid-template-columns: repeat(0,1fr)
+  }
+}
 .c4g__form-grid-2 {
   display: grid;
   grid-template-columns: repeat(2,1fr);
   grid-gap: 1rem
+}
+@media (max-width:400px) {
+  .c4g__form-grid-2 {
+    grid-template-columns: repeat(1,1fr)
+  }
 }
 .c4g__form-grid-3 {
   display: grid;
   grid-template-columns: repeat(3,1fr);
   grid-gap: 1rem
 }
+@media (max-width:400px) {
+  .c4g__form-grid-3 {
+    grid-template-columns: repeat(1,1fr)
+  }
+}
 .c4g__form-grid-4 {
   display: grid;
   grid-template-columns: repeat(4,1fr);
   grid-gap: 1rem
+}
+@media (max-width:400px) {
+  .c4g__form-grid-4 {
+    grid-template-columns: repeat(1,1fr)
+  }
 }
 .c4g__form-grid-5 {
   display: grid;
   grid-template-columns: repeat(5,1fr);
   grid-gap: 1rem
 }
+@media (max-width:400px) {
+  .c4g__form-grid-5 {
+    grid-template-columns: repeat(2,1fr)
+  }
+}
 .c4g__form-grid-6 {
   display: grid;
   grid-template-columns: repeat(6,1fr);
   grid-gap: 1rem
+}
+@media (max-width:400px) {
+  .c4g__form-grid-6 {
+    grid-template-columns: repeat(2,1fr)
+  }
 }
 .c4g__form-grid-7 {
   display: grid;
   grid-template-columns: repeat(7,1fr);
   grid-gap: 1rem
 }
+@media (max-width:400px) {
+  .c4g__form-grid-7 {
+    grid-template-columns: repeat(2,1fr)
+  }
+}
 .c4g__form-grid-8 {
   display: grid;
   grid-template-columns: repeat(8,1fr);
   grid-gap: 1rem
+}
+@media (max-width:400px) {
+  .c4g__form-grid-8 {
+    grid-template-columns: repeat(3,1fr)
+  }
 }
 .c4g__form-grid-9 {
   display: grid;
   grid-template-columns: repeat(9,1fr);
   grid-gap: 1rem
 }
+@media (max-width:400px) {
+  .c4g__form-grid-9 {
+    grid-template-columns: repeat(3,1fr)
+  }
+}
 .c4g__form-grid-10 {
   display: grid;
   grid-template-columns: repeat(10,1fr);
   grid-gap: 1rem
+}
+@media (max-width:400px) {
+  .c4g__form-grid-10 {
+    grid-template-columns: repeat(3,1fr)
+  }
 }
 .c4g_brick_dialog .c4g_brick_grid_wrapper {
   position: relative;
@@ -5214,75 +4111,6 @@ label.c4g_signature {
 }
 .ol-control button {
   font-family: 'Font Awesome 5 Free'
-}
-.c4g_uploadButton {
-  margin-bottom: 4px;
-  cursor: pointer
-}
-.c4g_uploadLink {
-  cursor: pointer
-}
-.c4g_uploadLink a {
-  color: #000!important
-}
-.c4g_deleteButton {
-  margin-left: 5px;
-  padding: 1px;
-  color: red;
-  cursor: pointer;
-  font-family: "Font Awesome 5 Free"!important;
-  font-size: inherit
-}
-.c4g_deleteButton:before {
-  background: #f90;
-  color: #fff;
-  font-family: Helvetica,Arial,sans-serif;
-  font-size: 2em;
-  font-weight: 700;
-  text-align: center;
-  width: 40px;
-  height: 40px;
-  border-radius: 5px
-}
-#c4g_brick .c4gGuiButtons,
-#c4g_brick .c4gGuiDialogButtons {
-  padding-top: 10px
-}
-#c4g_brick .c4gGuiDialogButtons {
-  padding-bottom: 25px
-}
-#c4g_brick .c4g_brick_dialog .c4gCircleButton {
-  display: block;
-  padding: 0;
-  width: 75px;
-  height: 75px;
-  border-radius: 50%!important;
-  border: 5px solid;
-  overflow: hidden;
-  vertical-align: middle;
-  box-shadow: 0 0 3px gray
-}
-#c4g_brick .c4g_brick_dialog .c4gCircleButton .c4g-button-text {
-  text-align: center;
-  vertical-align: middle;
-  font-size: 20px;
-  padding: auto;
-  padding-top: 25px
-}
-.c4g_more_button_container {
-  min-width: 300px;
-  position: absolute;
-  padding: 10px;
-  z-index: 55
-}
-.c4g_more_button_container_hidden {
-  position: relative
-}
-.c4g_more_button_entry {
-  display: block
-}
-.c4g_more_button_entry_tiles {
-  display: inline-block
 }
 .c4g_sub_dialog {
   display: block

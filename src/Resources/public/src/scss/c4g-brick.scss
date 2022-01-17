@@ -1,4 +1,5 @@
 // mandatory
+
 @import "node_modules/bootstrap/scss/functions";
 @import "node_modules/bootstrap/scss/variables";
 @import "node_modules/bootstrap/scss/mixins";
@@ -6,6 +7,7 @@
 @import "helpers_mixins";
 
 @import "node_modules/bootstrap/scss/reboot";
+
 @import "node_modules/bootstrap/scss/forms";
 
 // used
@@ -21,9 +23,9 @@
 
 @import "c4g-brick-core";
 
-@import "c4g-brick-form";
+@import "c4g-brick-form2";
 
-@import "c4g-brick-date";
+@import "c4g-brick-date2";
 @import "c4g-brick-time";
 @import "c4g-brick-check";
 @import "c4g-brick-radio";
@@ -32,7 +34,7 @@
 @import "c4g-brick-signature";
 @import "c4g-brick-maps";
 
-@import "c4g-brick-button";
+@import "c4g-brick-button2";
 
 @import "c4g-brick-sub";
 
@@ -40,7 +42,6 @@
 @import "c4g-brick-tab";
 
 @import "c4g-brick-lists";
-
 
 //To-dos
 //- strikte Trennung ui -> c4gGui.scss vs. c4g-brick-ui

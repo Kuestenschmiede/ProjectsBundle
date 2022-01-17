@@ -1,0 +1,34 @@
+.c4g_brick_dialog {
+
+  .c4g__form-group {
+    margin-bottom: 1rem;
+  }
+
+  .c4g__form-headline {
+    font-size: 1.5rem;
+  }
+
+  .c4g__form-label {
+    @extend .form-label;
+  }
+
+  .c4g__form-control {
+    @extend .form-control;
+  }
+
+  .c4g__form-description {
+    @extend .form-text;
+  }
+
+  .c4g_mandatory_class {
+    color: darkred;
+  }
+
+
+
+  select {
+    &.c4g__form-select {
+      @extend .form-select;
+    }
+  }
+}

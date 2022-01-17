@@ -1,0 +1,43 @@
+.ui-datepicker-month, .ui-datepicker-year {
+  display: inline-block;
+}
+
+.datepicker_inner_container {
+  width: max-content;
+}
+
+table.datepicker_table {
+  width: inherit;
+}
+
+.c4g__form-date-container {
+  display: flex;
+  grid-gap: .5rem;
+  position: relative;
+}
+
+.c4g__btn-date {
+  //@extend .btn-secondary;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background: transparent;
+  border: none;
+  color: #000;
+}
+
+.c4g__form-date-button {
+  &-interactive {
+
+  }
+
+  &-interactive-flipped {
+
+  }
+}
+

@@ -1,42 +1,19 @@
-//.c4g__form-multicheckbox-switch{
-//  font-weight: bold;
-//}
-//.c4g_brick_dialog input[type='checkbox'] + label {
-//  display: inline-block;
-//  font-size: inherit;
-//  font-weight: 100;
-//  text-rendering: auto;
-//  -webkit-font-smoothing: antialiased;
-//  -moz-osx-font-smoothing: grayscale;
-//  margin-left: 0;
-//}
-//.c4g__form-multicheckbox-switch input[type='checkbox'] + label:before {
-//  content: "\f204";
-//  margin-right: 5px;
-//}
-//.c4g__form-multicheckbox-switch input[type='checkbox']:checked + label:before {
-//  content: "\f205";
-//  margin-right: 5px;
-//}
 .c4g__form-check {
   @extend .form-check;
-  //display: block;
-  //width: 100%;
 }
+
 .c4g__form-check-input {
   @extend .form-check-input;
-  //display: inline-block;
-  //width: 1.0em;
-  //vertical-align: middle;
-  //border-radius: 5px;
-  //padding-bottom: 2px;
 }
-.c4g__form-check-label{
+
+.c4g__form-label-multicheckbox {
   @extend .form-check-label;
-  //display: inline-block;
-  //margin-left: 2px;
-  //white-space: nowrap;
 }
+
+.c4g__form-check-label {
+  @extend .form-check-label;
+}
+
 .c4g__form-switch {
-  @extend .form-switch
+  @extend .form-switch;
 }
