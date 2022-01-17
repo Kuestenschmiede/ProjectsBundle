@@ -31,7 +31,7 @@ class C4GDateField extends C4GBrickField
     protected $sortType = 'de_date';
     protected $pattern = C4GBrickRegEx::DATE_D_M_Y; //ToDo
 
-    protected $flipButtonPosition = true;
+    protected $flipButtonPosition = false;
     protected $datePickerByBrowser = false;
 
     /**
