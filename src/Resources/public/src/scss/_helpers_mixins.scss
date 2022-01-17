@@ -1,0 +1,9 @@
+@mixin c4g__form-grid($i) {
+  @for $i from 1 to $i {
+    .c4g__form-grid-#{$i} {
+      display: grid;
+      grid-template-columns: repeat($i, 1fr);
+      grid-gap: 1rem;
+    }
+  }
+}

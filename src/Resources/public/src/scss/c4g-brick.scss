@@ -3,6 +3,8 @@
 @import "node_modules/bootstrap/scss/variables";
 @import "node_modules/bootstrap/scss/mixins";
 
+@import "helpers_mixins";
+
 @import "node_modules/bootstrap/scss/reboot";
 @import "node_modules/bootstrap/scss/forms";
 
@@ -16,7 +18,6 @@
 @import "node_modules/bootstrap/scss/nav";
 @import "node_modules/bootstrap/scss/modal";
 @import "node_modules/bootstrap/scss/accordion";
-
 
 @import "c4g-brick-core";
 

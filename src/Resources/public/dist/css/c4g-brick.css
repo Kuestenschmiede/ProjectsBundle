@@ -5065,6 +5065,11 @@ input.formdata.c4g__form-date-input-browser {
   max-width: 100px;
   max-height: 100px
 }
+.c4g__form-grid-1 {
+  display: grid;
+  grid-template-columns: repeat(1,1fr);
+  grid-gap: 1rem
+}
 .c4g__form-grid-2 {
   display: grid;
   grid-template-columns: repeat(2,1fr);
@@ -5073,6 +5078,41 @@ input.formdata.c4g__form-date-input-browser {
 .c4g__form-grid-3 {
   display: grid;
   grid-template-columns: repeat(3,1fr);
+  grid-gap: 1rem
+}
+.c4g__form-grid-4 {
+  display: grid;
+  grid-template-columns: repeat(4,1fr);
+  grid-gap: 1rem
+}
+.c4g__form-grid-5 {
+  display: grid;
+  grid-template-columns: repeat(5,1fr);
+  grid-gap: 1rem
+}
+.c4g__form-grid-6 {
+  display: grid;
+  grid-template-columns: repeat(6,1fr);
+  grid-gap: 1rem
+}
+.c4g__form-grid-7 {
+  display: grid;
+  grid-template-columns: repeat(7,1fr);
+  grid-gap: 1rem
+}
+.c4g__form-grid-8 {
+  display: grid;
+  grid-template-columns: repeat(8,1fr);
+  grid-gap: 1rem
+}
+.c4g__form-grid-9 {
+  display: grid;
+  grid-template-columns: repeat(9,1fr);
+  grid-gap: 1rem
+}
+.c4g__form-grid-10 {
+  display: grid;
+  grid-template-columns: repeat(10,1fr);
   grid-gap: 1rem
 }
 .c4g_brick_dialog .c4g_brick_grid_wrapper {
