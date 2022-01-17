@@ -361,7 +361,7 @@ abstract class C4GBrickField
         if ($title && !$this->withoutLabel || $this instanceof C4GButtonField || $this instanceof C4GLinkField || $this instanceof C4GSubDialogField) {
             $star = '';
             if ($mandatory && (!$this->isWithoutMandatoryStar())) {
-                $star = '<div class="c4g_mandatory_class">*</div>';
+                $star = '<span class="c4g_mandatory_class">*</span>';
             }
             if (!$withoutLineBreak && $dialogParams->isWithLabels() === true) {
                 $linebreak = C4GHTMLFactory::lineBreak();
