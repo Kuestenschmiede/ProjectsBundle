@@ -157,10 +157,11 @@ class C4GDateField extends C4GBrickField
                     $html = '<div class="c4g__form-date-container" >';
                 }
             } else {
+                $orientationClass = $this->isFlipButtonPosition() ? 'c4g__btn-left' : 'c4g__btn-right';
                 if (!$display) {
-                    $html = '<div class="c4g__form-date-container" style="display: none" onmousedown="C4GDatePicker(\'' . $id . '\', \'date\', \'' . $this->minDate . '\', \'' . $this->maxDate . '\', \'' . $format . '\',\'' . $pickerLanguage . '\',\'' . $this->excludeWeekdays . '\',\'' . $this->excludeDates . '\')" >';
+                    $html = '<div class="c4g__form-date-container '.$orientationClass.'" style="display: none" onmousedown="C4GDatePicker(\'' . $id . '\', \'date\', \'' . $this->minDate . '\', \'' . $this->maxDate . '\', \'' . $format . '\',\'' . $pickerLanguage . '\',\'' . $this->excludeWeekdays . '\',\'' . $this->excludeDates . '\')" >';
                 } else {
-                    $html = '<div class="c4g__form-date-container" onmousedown="C4GDatePicker(\'' . $id . '\', \'date\', \'' . $this->minDate . '\', \'' . $this->maxDate . '\', \'' . $format . '\',\'' . $pickerLanguage . '\',\'' . $this->excludeWeekdays . '\',\'' . $this->excludeDates . '\')" >';
+                    $html = '<div class="c4g__form-date-container '.$orientationClass.'" onmousedown="C4GDatePicker(\'' . $id . '\', \'date\', \'' . $this->minDate . '\', \'' . $this->maxDate . '\', \'' . $format . '\',\'' . $pickerLanguage . '\',\'' . $this->excludeWeekdays . '\',\'' . $this->excludeDates . '\')" >';
                 }
             }
             if ($this->isFlipButtonPosition()) {
