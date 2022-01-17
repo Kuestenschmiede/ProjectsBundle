@@ -7,7 +7,26 @@
       grid-gap: 1rem;
 
       @media (max-width: 400px) {
-        grid-template-columns: repeat(round($i/3), 1fr);
+        grid-template-columns: repeat(round($i/4), 1fr);
+      }
+
+    }
+  }
+}
+
+@mixin c4g__tile-grid($i) {
+  @for $i from 1 to $i {
+
+    .c4g__tile-grid-#{$i} {
+      display: grid;
+      grid-template-columns: repeat($i, 1fr);
+      width: max-content;
+      justify-content: center;
+      margin-left: auto;
+      margin-right: auto;
+
+      @media (max-width: 400px) {
+        grid-template-columns: repeat(round($i/4), 1fr);
       }
 
     }

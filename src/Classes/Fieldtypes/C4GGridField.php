@@ -140,19 +140,21 @@ class C4GGridField extends C4GBrickField
             $grid = $column->getGrid();
             if ($grid->getColumns()) {
                 $col = $grid->getColumns();
+                $count = 0;
                 foreach ($grid->getElements() as $gridElement) {
+                    $count++;
                     $field = $gridElement->getField();
 
                     if ($field) {
 
-                        $fieldHTML = $field->getC4GTileField($field->getFieldName(), $field, $column, $fieldList, $dialogParams);
-
-                        $elementHTML .= '<div class="c4g__form-grid-element">' . $fieldHTML . '</div>';
+                        $fieldHTML = $field->getC4GTileField($field->getFieldName(), $element, $column, $fieldList, $dialogParams);
+                        $fieldHTML = '<div class="c4g__tile-grid-element c4g_tile-grid-element--' . $this->getFieldName() . '">'.$fieldHTML.'</div>';
+                        $elementHTML .= $count > 1 ? ' '.$fieldHTML : $fieldHTML;
                     }
                 }
 
                 $html =
-                    '<div id="c4g__form-grid-' . $this->getFieldName() . '" class="c4g__form-grid-' . $col . ' c4g_form-grid-' . $this->getFieldName() . '">' .
+                    '<div id="c4g__tile-grid-' . $this->getFieldName() . '" class="c4g__tile-grid-' . $col . ' c4g_tile-grid-' . $this->getFieldName() . '">' .
                     $elementHTML . '</div>';
             }
         }

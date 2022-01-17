@@ -276,8 +276,7 @@ abstract class C4GBrickField
     public function getC4GTileField($fieldTitle, $element, $column, $fieldList, C4GBrickDialogParams $dialogParams)
     {
         $fieldName = $this->getFieldName();
-
-        return $element && $element->$fieldName ? $element->$fieldName : $this->getInitialValue();
+        return $element && $element->$fieldName ? $element->$fieldName : '';
     }
 
     public function getC4GPopupField($data, $groupId)
