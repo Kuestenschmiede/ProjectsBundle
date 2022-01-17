@@ -48,7 +48,7 @@ class C4GLastChangeField extends C4GMemberField
             $condition = $this->createConditionData($fieldList, $data);
 
             $result = $this->addC4GField($condition, $dialogParams, $fieldList, $data,
-                '<input ' . $required . ' ' . $condition['conditionPrepare'] . ' type="text" id="' . $id . '" class="formdata ' . $id . '" size="' . $this->size . '"  maxLength="' . $this->maxLength . '" name="' . $this->getFieldName() . '" value="' . $resVal . '">');
+                '<input ' . $required . ' ' . $condition['conditionPrepare'] . ' type="text" id="' . $id . '" class="formdata c4g__form-control ' . $id . '" size="' . $this->size . '"  maxLength="' . $this->maxLength . '" name="' . $this->getFieldName() . '" value="' . $resVal . '">');
         }
 
         return $result;

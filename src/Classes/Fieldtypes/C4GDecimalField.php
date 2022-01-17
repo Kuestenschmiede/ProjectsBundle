@@ -61,7 +61,7 @@ class C4GDecimalField extends C4GBrickFieldNumeric
 
             $result =
                 $this->addC4GField($condition,$dialogParams,$fieldList,$data,
-                    '<input pattern="' . $this->pattern . '" ' . $required . ' ' . $condition['conditionPrepare'] . ' type="text" step="any" id="' . $id . '" class="formdata c4g__form-text-input ' . $id . '" size="' . $this->getSize() . '" min="' . $this->getMin() . '" max="' . $this->getMax() . '" name="' . $this->getFieldName() . '" value="' . $value . '" >');
+                    '<input pattern="' . $this->pattern . '" ' . $required . ' ' . $condition['conditionPrepare'] . ' type="text" step="any" id="' . $id . '" class="formdata c4g__form-control c4g__form-text-input ' . $id . '" size="' . $this->getSize() . '" min="' . $this->getMin() . '" max="' . $this->getMax() . '" name="' . $this->getFieldName() . '" value="' . $value . '" >');
         }
 
         return $result;

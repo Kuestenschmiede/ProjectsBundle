@@ -277,7 +277,7 @@ abstract class C4GBrickField
     {
         $fieldName = $this->getFieldName();
 
-        return $element->$fieldName;
+        return $element && $element->$fieldName ? $element->$fieldName : $this->getInitialValue();
     }
 
     public function getC4GPopupField($data, $groupId)
@@ -361,7 +361,7 @@ abstract class C4GBrickField
         if ($title && !$this->withoutLabel || $this instanceof C4GButtonField || $this instanceof C4GLinkField || $this instanceof C4GSubDialogField) {
             $star = '';
             if ($mandatory && (!$this->isWithoutMandatoryStar())) {
-                $star = '<strong class="c4g_mandatory_class">*</strong>';
+                $star = '<div class="c4g_mandatory_class">*</div>';
             }
             if (!$withoutLineBreak && $dialogParams->isWithLabels() === true) {
                 $linebreak = C4GHTMLFactory::lineBreak();

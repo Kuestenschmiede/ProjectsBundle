@@ -144,6 +144,7 @@ class C4GGridField extends C4GBrickField
                     $field = $gridElement->getField();
 
                     if ($field) {
+
                         $fieldHTML = $field->getC4GTileField($field->getFieldName(), $field, $column, $fieldList, $dialogParams);
 
                         $elementHTML .= '<div class="c4g__form-grid-element">' . $fieldHTML . '</div>';

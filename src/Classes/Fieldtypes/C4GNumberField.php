@@ -78,7 +78,7 @@ class C4GNumberField extends C4GBrickFieldNumeric
 
             $result =
                 $this->addC4GField($condition,$dialogParams,$fieldList,$data,
-                    '<input ' . $required . ' ' . $condition['conditionPrepare'] . ' type="' . $type . '" ' . $changeAction . ' id="' . $id . '" class="formdata c4g__form-'.$type.'-input ' . $id . '" size="' .
+                    '<input ' . $required . ' ' . $condition['conditionPrepare'] . ' type="' . $type . '" ' . $changeAction . ' id="' . $id . '" class="formdata c4g__form-control c4g__form-'.$type.'-input ' . $id . '" size="' .
                     $this->getSize() . '" min="' . $this->getMin() . '" max="' . $this->getMax() . '" step="' . $this->getStep() . '" pattern="' . $this->pattern . '" name="' .
                     $fieldName . '" value="' . $value . '">');
         }

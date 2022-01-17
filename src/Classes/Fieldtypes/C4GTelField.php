@@ -42,7 +42,7 @@ class C4GTelField extends C4GBrickField
 
             $result =
                 $this->addC4GField($condition,$dialogParams,$fieldList,$data,
-                '<input type="tel" ' . $required . ' ' . $condition['conditionPrepare'] . ' id="' . $id . '"' . ' class="formdata c4g__form-tel-input ' . $id . '" name="' . $this->getFieldName() . '" title="' . $this->getTitle() . '" value="' . $value . '">');
+                '<input type="tel" ' . $required . ' ' . $condition['conditionPrepare'] . ' id="' . $id . '"' . ' class="formdata c4g__form-control c4g__form-tel-input ' . $id . '" name="' . $this->getFieldName() . '" title="' . $this->getTitle() . '" value="' . $value . '">');
         }
 
         return $result;

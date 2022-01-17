@@ -40,7 +40,7 @@ class C4GPostalField extends C4GBrickFieldNumeric
 
             $result =
                 $this->addC4GField($condition,$dialogParams,$fieldList,$data,
-                '<input type="text" pattern="' . $this->pattern . '" size="5"' . $required . ' ' . $condition['conditionPrepare'] . ' id="' . $id . '" class="formdata c4g__form-text-input ' . $id . '" name="' . $this->getFieldName() . '" title="' . $this->getTitle() . '" value="' . $value . '">');
+                '<input type="text" pattern="' . $this->pattern . '" size="5"' . $required . ' ' . $condition['conditionPrepare'] . ' id="' . $id . '" class="formdata c4g__form-control c4g__form-text-input ' . $id . '" name="' . $this->getFieldName() . '" title="' . $this->getTitle() . '" value="' . $value . '">');
         }
 
         return $result;

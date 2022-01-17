@@ -48,7 +48,7 @@ class C4GMemberField extends C4GBrickFieldText
             $condition = $this->createConditionData($fieldList, $data);
 
             $result = $this->addC4GField($condition, $dialogParams, $fieldList, $data,
-                '<input ' . $required . ' ' . $condition['conditionPrepare'] . ' type="text" id="' . $id . '" class="formdata ' . $id . '" size="' . $this->size . '"  maxLength="' . $this->maxLength . '" name="' . $this->getFieldName() . '" value="' . $value . '">');
+                '<input ' . $required . ' ' . $condition['conditionPrepare'] . ' type="text" id="' . $id . '" class="formdata c4g__form-control ' . $id . '" size="' . $this->size . '"  maxLength="' . $this->maxLength . '" name="' . $this->getFieldName() . '" value="' . $value . '">');
         }
 
         return $result;

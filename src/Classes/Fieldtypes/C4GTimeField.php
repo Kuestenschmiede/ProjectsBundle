@@ -52,7 +52,7 @@ class C4GTimeField extends C4GBrickField
             $result =
                 $this->addC4GField($condition,$dialogParams,$fieldList,$data,
                 '<div class="c4g_timefield" ' . $required . '>' .
-                '<input ' . $required . ' type="text" class="timepicker input formdata c4g__form-text-input" id="' . $id . '" value="' . $value . '" name="' . $fieldName . '" ' . $condition['conditionPrepare'] . ' maxlength="5" size="5" placeholder="__:__">' .
+                '<input ' . $required . ' type="text" class="timepicker input formdata c4g__form-control c4g__form-text-input" id="' . $id . '" value="' . $value . '" name="' . $fieldName . '" ' . $condition['conditionPrepare'] . ' maxlength="5" size="5" placeholder="__:__">' .
                 '<a class="gettime" onclick="C4GTimePicker(\'' . $id . '\', \'gettime\', this)"></a>' .
                 '</div>');
         }

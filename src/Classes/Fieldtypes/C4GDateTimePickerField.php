@@ -108,7 +108,7 @@ class C4GDateTimePickerField extends C4GBrickField
 
             $result =
                 $this->addC4GField($condition,$dialogParams,$fieldList,$data,
-                '<input ' . $required . ' type="text" id="' . $id . '" class="formdata ' . $id . '" onmousedown="C4GDateTimePicker(\'' . $id . '\')" name="' . $fieldName . '" value="' . $value . '" ' . $condition['conditionPrepare'] . '>');
+                '<input ' . $required . ' type="text" id="' . $id . '" class="formdata c4g__form-control ' . $id . '" onmousedown="C4GDateTimePicker(\'' . $id . '\')" name="' . $fieldName . '" value="' . $value . '" ' . $condition['conditionPrepare'] . '>');
         }
 
         return $result;

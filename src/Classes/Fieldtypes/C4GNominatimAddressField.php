@@ -51,7 +51,7 @@ class C4GNominatimAddressField extends C4GBrickField
             $condition = $this->createConditionData($fieldList, $data);
             $result =
                 $this->addC4GField($condition,$dialogParams,$fieldList,$data,
-                '<input ' . $required . ' ' . $condition['conditionPrepare'] . ' type="text" id="' . $id . '" class="formdata ' . $id . '" name="' . $fieldName . '" value="' . $value . '">');
+                '<input ' . $required . ' ' . $condition['conditionPrepare'] . ' type="text" id="' . $id . '" class="formdata c4g__form-control ' . $id . '" name="' . $fieldName . '" value="' . $value . '">');
         }
 
         return $result;

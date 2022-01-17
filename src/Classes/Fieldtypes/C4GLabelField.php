@@ -43,7 +43,7 @@ class C4GLabelField extends C4GBrickField
             $condition = $this->createConditionData($fieldList, $data);
 
             $result = $this->addC4GField($condition, $dialogParams, $fieldList, $data,
-                '<input ' . $required . ' ' . $condition['conditionPrepare'] . ' type="text" id="' . $id . '" class="formdata c4g__form-text-input ' . $id . ' c4g_brick_label" name="' . $this->getFieldName() . '" value="' . $value . '" style="text-align:' . $this->align . '"">');
+                '<input ' . $required . ' ' . $condition['conditionPrepare'] . ' type="text" id="' . $id . '" class="formdata c4g__form-control c4g__form-text-input ' . $id . ' c4g_brick_label" name="' . $this->getFieldName() . '" value="' . $value . '" style="text-align:' . $this->align . '"">');
         }
 
         return $result;

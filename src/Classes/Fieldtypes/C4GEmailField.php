@@ -40,7 +40,7 @@ class C4GEmailField extends C4GBrickFieldText
 
             $result =
                 $this->addC4GField($condition,$dialogParams,$fieldList,$data,
-                    '<input type="email"' . $required . ' pattern="' . $this->pattern . '" ' . $condition['conditionPrepare'] . ' id="' . $id . '" class="formdata c4g__form-email-input ' . $id . '" name="' . $this->getFieldName() . '" title="' . $this->getTitle() . '" value="' . $value . '">');
+                    '<input type="email"' . $required . ' pattern="' . $this->pattern . '" ' . $condition['conditionPrepare'] . ' id="' . $id . '" class="formdata c4g__form-control c4g__form-email-input ' . $id . '" name="' . $this->getFieldName() . '" title="' . $this->getTitle() . '" value="' . $value . '">');
         }
 
         return $result;

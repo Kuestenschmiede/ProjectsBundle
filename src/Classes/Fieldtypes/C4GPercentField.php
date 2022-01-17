@@ -87,7 +87,7 @@ class C4GPercentField extends C4GBrickFieldNumeric
             $this->setPattern(C4GBrickRegEx::generateNumericRegEx($this->getDecimals(), false, $this->getThousandsSep(), $this->getDecimalPoint()));
             $result =
                     $this->addC4GField($condition,$dialogParams,$fieldList,$data,
-                        '<input pattern="' . $this->pattern . '" ' . $required . ' ' . $condition['conditionPrepare'] . ' type="number" step="any" id="' . $id . '" class="formdata c4g__form-number-input ' . $id . '" size="' . $this->getSize() . '" min="' . $this->getMin() . '" max="' . $this->getMax() . '" name="' . $this->getFieldName() . '" value="' . $value . '" >');
+                        '<input pattern="' . $this->pattern . '" ' . $required . ' ' . $condition['conditionPrepare'] . ' type="number" step="any" id="' . $id . '" class="formdata c4g__form-control c4g__form-number-input ' . $id . '" size="' . $this->getSize() . '" min="' . $this->getMin() . '" max="' . $this->getMax() . '" name="' . $this->getFieldName() . '" value="' . $value . '" >');
         }
 
         return $result;
