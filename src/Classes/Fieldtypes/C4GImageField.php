@@ -233,7 +233,7 @@ class C4GImageField extends C4GBrickField
      * @param $element
      * @return mixed
      */
-    public function getC4GTileField($fieldTitle, $element, $column, $fieldList, C4GBrickDialogParams $dialogParams)
+    public function getC4GTileField($fieldTitle, $element)
     {
         $fieldName = $this->getFieldName();
         $file = $element->$fieldName;

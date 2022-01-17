@@ -259,7 +259,7 @@ class C4GHeadlineField extends C4GBrickField
      * @param $element
      * @return mixed
      */
-    public function getC4GTileField($fieldTitle, $element, $column, $fieldList, C4GBrickDialogParams $dialogParams)
+    public function getC4GTileField($fieldTitle, $element)
     {
         return $fieldTitle . '<div class="c4g_tile_value">' . '<h3>' . $this->getTitle() . '</h3>' . '</div>';
     }

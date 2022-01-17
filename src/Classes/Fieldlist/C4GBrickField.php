@@ -273,7 +273,7 @@ abstract class C4GBrickField
      * @param $column
      * @return mixed
      */
-    public function getC4GTileField($fieldTitle, $element, $column, $fieldList, C4GBrickDialogParams $dialogParams)
+    public function getC4GTileField($fieldTitle, $element)
     {
         $fieldName = $this->getFieldName();
         return $element && $element->$fieldName ? $element->$fieldName : '';

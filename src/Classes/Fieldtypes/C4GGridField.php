@@ -123,6 +123,34 @@ class C4GGridField extends C4GBrickField
         return $result;
     }
 
+    public function getC4GListField($rowData, $content)
+    {
+        $elementHTML = '';
+        if ($this->getGrid()) {
+            $grid = $this->getGrid();
+            if ($grid->getColumns()) {
+                $col = $grid->getColumns();
+                $count = 0;
+                foreach ($grid->getElements() as $gridElement) {
+                    $count++;
+                    $field = $gridElement->getField();
+
+                    if ($field) {
+                        $fieldHTML = $field->getC4GTileField($field->getFieldName(), $rowData);
+                        $fieldHTML = '<div class="c4g__list-list-element c4g_list-grid-element--' . $this->getFieldName() . '">' . $fieldHTML . '</div>';
+                        $elementHTML .= $count > 1 ? ' ' . $fieldHTML : $fieldHTML;
+                    }
+                }
+
+                $html =
+                    '<div id="c4g__list-grid-' . $this->getFieldName() . '" class="c4g__list-grid-' . $col . ' c4g__list-grid-' . $this->getFieldName() . '">' .
+                    $elementHTML . '</div>';
+            }
+        }
+
+        return $html;
+    }
+
     /**
      * @param $fieldTitle
      * @param $element
@@ -133,11 +161,11 @@ class C4GGridField extends C4GBrickField
      *
      * for css grid
      */
-    public function getC4GTileField($fieldTitle, $element, $column, $fieldList, C4GBrickDialogParams $dialogParams)
+    public function getC4GTileField($fieldTitle, $element)
     {
         $elementHTML = '';
-        if ($column && $column->getGrid()) {
-            $grid = $column->getGrid();
+        if ($this->getGrid()) {
+            $grid = $this->getGrid();
             if ($grid->getColumns()) {
                 $col = $grid->getColumns();
                 $count = 0;
@@ -147,14 +175,14 @@ class C4GGridField extends C4GBrickField
 
                     if ($field) {
 
-                        $fieldHTML = $field->getC4GTileField($field->getFieldName(), $element, $column, $fieldList, $dialogParams);
+                        $fieldHTML = $field->getC4GTileField($field->getFieldName(), $element);
                         $fieldHTML = '<div class="c4g__tile-grid-element c4g_tile-grid-element--' . $this->getFieldName() . '">'.$fieldHTML.'</div>';
                         $elementHTML .= $count > 1 ? ' '.$fieldHTML : $fieldHTML;
                     }
                 }
 
                 $html =
-                    '<div id="c4g__tile-grid-' . $this->getFieldName() . '" class="c4g__tile-grid-' . $col . ' c4g_tile-grid-' . $this->getFieldName() . '">' .
+                    '<div id="c4g__tile-grid-' . $this->getFieldName() . '" class="c4g__tile-grid-' . $col . ' c4g__tile-grid-' . $this->getFieldName() . '">' .
                     $elementHTML . '</div>';
             }
         }

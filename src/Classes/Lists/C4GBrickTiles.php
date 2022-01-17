@@ -358,7 +358,7 @@ class C4GBrickTiles
                                             $element->$fieldName,
                                             C4GBrickTiles::getOptions($fieldList, $element, $column)) . '</div>';
                                 } else {
-                                    $view .= $column->getC4GTileField($fieldTitle, $element, $column, $fieldList, $dialogParams);
+                                    $view .= $column->getC4GTileField($fieldTitle, $element);
                                 }
                                 $cnt++;
                             }
@@ -373,7 +373,7 @@ class C4GBrickTiles
                             } elseif ($column->isShowIfEmpty() && !($column instanceof C4GMoreButtonField)) {
                                 $view .= $fieldTitle . '<div class="c4g_tile_value"></div>';
                             } elseif ($column instanceof C4GMoreButtonField) {
-                                $view .= $column->getC4GTileField($fieldTitle, $element,$column, $fieldList, $dialogParams);
+                                $view .= $column->getC4GTileField($fieldTitle, $element);
                             }
                             $view .= '</div>';
                         }
@@ -424,7 +424,7 @@ class C4GBrickTiles
                                         $element->$fieldName,
                                         C4GBrickTiles::getOptions($fieldList, $element, $column)) . '</div>';
                                 } else {
-                                    $view .= $column->getC4GTileField('', $element, $column, $fieldList, $dialogParams);
+                                    $view .= $column->getC4GTileField('', $element, $column);
                                 }
                                 $cnt++;
                             }
