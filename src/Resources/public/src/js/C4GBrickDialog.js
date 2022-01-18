@@ -65,48 +65,76 @@ function C4GDatePicker(id,
             dMax = new Date(maxDate * 1000);
         }
 
-        jQuery.datepicker.setDefaults(jQuery.datepicker.regional[lang || "de"]);
-        jQuery("#"+id).datepicker({
-            beforeShowDay: function (date) {
-                if (weekdays) {
-                    var wd = new Array();
-                    wd = weekdays.split(",");
-                    for(var i = 0; i < wd.length; i++) {
-                        var iDay = wd[i];
-                        if (date.getDay() == iDay) {
-                            return [false,""];
-                        }
-                    }
-                }
-                if (exclude) {
-                    var ed = new Array();
-                    ed = exclude.split(",");
-                    for(var i = 0; i < ed.length; i++) {
-                        if ((Date.parse(date)/1000) == ed[i]) {
-                            return [false,""];
-                        }
-                    }
-                }
-                return [true,""];
-            },
+        const elem = document.querySelector("#"+id);
+        if (elem.datepicker) {
+            elem.datepicker.destroy();
+        }
+
+        var ed = new Array();
+        ed = exclude.split(",");
+
+        var wd = new Array();
+        wd = weekdays.split(",");
+
+        const datepicker = new window.Datepicker(elem, {
+            buttonClass: 'c4g__btn',
+            language: lang || "de",
+            format: format,
+            datesDisabled: ed,
+            daysOfWeekDisabled: wd,
             minDate: dMin,
             maxDate: dMax,
-            changeMonth: true,
-            changeYear: true,
-            yearRange: dMin.getFullYear()+":"+dMax.getFullYear(),
-            //showButtonPanel: true,
-            showOtherMonths: true,
-            selectOtherMonths: true
-            //showWeek: true
+            //calendarWeeks: true,
+            weekStart: 1,
+            //todayBtn: true,
+            todayHighlight: true,
+            orientation: 'auto right',
+            autohide: true
         });
-        jQuery(function(jQuery){
-            if (lang) {
-                regional = jQuery.datepicker.regional[lang.substr(0, 2)];
-            } else {
-                regional = ['en'];
-            }
-            jQuery.datepicker.setDefaults(regional);
-        });
+
+        //ToDo check without base controller
+        // jQuery.datepicker.setDefaults(jQuery.datepicker.regional[lang || "de"]);
+        // jQuery("#"+id).datepicker({
+        //     beforeShowDay: function (date) {
+        //         if (weekdays) {
+        //             var wd = new Array();
+        //             wd = weekdays.split(",");
+        //             for(var i = 0; i < wd.length; i++) {
+        //                 var iDay = wd[i];
+        //                 if (date.getDay() == iDay) {
+        //                     return [false,""];
+        //                 }
+        //             }
+        //         }
+        //         if (exclude) {
+        //             var ed = new Array();
+        //             ed = exclude.split(",");
+        //             for(var i = 0; i < ed.length; i++) {
+        //                 if ((Date.parse(date)/1000) == ed[i]) {
+        //                     return [false,""];
+        //                 }
+        //             }
+        //         }
+        //         return [true,""];
+        //     },
+        //     minDate: dMin,
+        //     maxDate: dMax,
+        //     changeMonth: true,
+        //     changeYear: true,
+        //     yearRange: dMin.getFullYear()+":"+dMax.getFullYear(),
+        //     //showButtonPanel: true,
+        //     showOtherMonths: true,
+        //     selectOtherMonths: true
+        //     //showWeek: true
+        // });
+        // jQuery(function(jQuery){
+        //     if (lang) {
+        //         regional = jQuery.datepicker.regional[lang.substr(0, 2)];
+        //     } else {
+        //         regional = ['en'];
+        //     }
+        //     jQuery.datepicker.setDefaults(regional);
+        // });
     }
 }
 

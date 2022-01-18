@@ -291,10 +291,6 @@ class C4GBrickDialog
         foreach ($GLOBALS['c4g']['brickdialog']['include']['js'] as $string) {
             $view .= "<script>jQuery(document).ready(function () { $string })</script>";
         }
-        if ($dialogParams->getOnloadScript()) {
-            $string = $dialogParams->getOnloadScript();
-            $view .= "<script>jQuery(document).ready(function () { $string })</script>";
-        }
 
         $view .= '<input type="hidden" id="c4g_project_id" name="c4g_project_id" class="formdata" value="' .
             $dialogParams->getProjectId() . '">';
@@ -418,6 +414,16 @@ class C4GBrickDialog
             $view .= '<br>';
         }
 
+        if ($dialogParams->getOnloadScript()) {
+            $string = $dialogParams->getOnloadScript();
+
+            //remove duplicated statements
+            $scriptArr = explode('; ', $string);
+            $scriptArr = array_unique($scriptArr);
+            $string = implode(';', $scriptArr);
+
+            $view .= "<script>jQuery(document).ready(function () { $string })</script>";
+        }
         return $view;
     }
 

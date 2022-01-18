@@ -141,6 +141,7 @@ class C4GBaseController extends AbstractFrontendModuleController
     protected $loadDefaultResources = true;
     protected $loadTrixEditorResources = false;
     protected $trixEditorResourceParams = [];
+    protected $loadDatePicker = true;
     protected $loadDateTimePickerResources = false;
     protected $loadChosenResources = false;
     protected $loadClearBrowserUrlResources = false;
@@ -157,7 +158,7 @@ class C4GBaseController extends AbstractFrontendModuleController
     //JQuery GUI Resource Params
     protected $jQueryAddCore = true;
     protected $jQueryAddJquery = true;
-    protected $jQueryAddJqueryUI = true;
+    protected $jQueryAddJqueryUI = false;
     protected $jQueryUseTree = false;
     protected $jQueryUseTable = true;
     protected $jQueryUseHistory = false;
@@ -676,7 +677,7 @@ class C4GBaseController extends AbstractFrontendModuleController
 
     protected function compileJquery()
     {
-        C4GJQueryGUI::initializeLibraries(
+        C4GJQueryGUI::initializeBrickLibraries(
             $this->jQueryAddCore,
             $this->jQueryAddJquery,
             $this->jQueryAddJqueryUI,
@@ -690,36 +691,39 @@ class C4GBaseController extends AbstractFrontendModuleController
             $this->loadDateTimePickerResources
         );
 
-        $settings = Database::getInstance()->execute('SELECT * FROM tl_c4g_settings LIMIT 1')->fetchAllAssoc();
+        //ToDo remove jQueryUI
+        if ($this->jQueryAddJqueryUI || $this->jQueryUseTable || $this->jQueryUseTree) {
+            $settings = Database::getInstance()->execute('SELECT * FROM tl_c4g_settings LIMIT 1')->fetchAllAssoc();
 
-        if ($settings) {
-            $this->settings = $settings[0];
-        }
+            if ($settings) {
+                $this->settings = $settings[0];
+            }
 
-        // load custom themeroller-css if set
-        if ($this->uiTheme) {
-            $GLOBALS['TL_CSS']['c4g_jquery_ui'] = $this->uiTheme;
-        } elseif ($this->c4g_appearance_themeroller_css) {
-            $objFile = \FilesModel::findByUuid($this->c4g_appearance_themeroller_css);
-            $GLOBALS['TL_CSS']['c4g_jquery_ui'] = $objFile->path;
-        } elseif ($this->c4g_uitheme_css_select) {
-            $theme = $this->c4g_uitheme_css_select;
-            $GLOBALS['TL_CSS']['c4g_jquery_ui'] = 'bundles/con4giscore/vendor/jQuery/ui-themes/themes/' . $theme . '/jquery-ui.css';
-        } elseif ($this->settings && $this->settings['c4g_appearance_themeroller_css']) {
-            $objFile = \FilesModel::findByUuid($this->settings['c4g_appearance_themeroller_css']);
-            $GLOBALS['TL_CSS']['c4g_jquery_ui'] = $objFile->path;
-        } elseif ($this->settings && $this->settings['c4g_uitheme_css_select']) {
-            $theme = $this->settings['c4g_uitheme_css_select'];
-            $GLOBALS['TL_CSS']['c4g_jquery_ui'] = 'bundles/con4giscore/vendor/jQuery/ui-themes/themes/' . $theme . '/jquery-ui.css';
-        } else {
-            $GLOBALS['TL_CSS']['c4g_jquery_ui'] = 'bundles/con4giscore/vendor/jQuery/ui-themes/themes/base/jquery-ui.css';
+            // load custom themeroller-css if set
+            if ($this->uiTheme) {
+                $GLOBALS['TL_CSS']['c4g_jquery_ui'] = $this->uiTheme;
+            } elseif ($this->c4g_appearance_themeroller_css) {
+                $objFile = \FilesModel::findByUuid($this->c4g_appearance_themeroller_css);
+                $GLOBALS['TL_CSS']['c4g_jquery_ui'] = $objFile->path;
+            } elseif ($this->c4g_uitheme_css_select) {
+                $theme = $this->c4g_uitheme_css_select;
+                $GLOBALS['TL_CSS']['c4g_jquery_ui'] = 'bundles/con4giscore/vendor/jQuery/ui-themes/themes/' . $theme . '/jquery-ui.css';
+            } elseif ($this->settings && $this->settings['c4g_appearance_themeroller_css']) {
+                $objFile = \FilesModel::findByUuid($this->settings['c4g_appearance_themeroller_css']);
+                $GLOBALS['TL_CSS']['c4g_jquery_ui'] = $objFile->path;
+            } elseif ($this->settings && $this->settings['c4g_uitheme_css_select']) {
+                $theme = $this->settings['c4g_uitheme_css_select'];
+                $GLOBALS['TL_CSS']['c4g_jquery_ui'] = 'bundles/con4giscore/vendor/jQuery/ui-themes/themes/' . $theme . '/jquery-ui.css';
+            } else {
+                $GLOBALS['TL_CSS']['c4g_jquery_ui'] = 'bundles/con4giscore/vendor/jQuery/ui-themes/themes/base/jquery-ui.css';
+            }
         }
     }
 
     protected function compileJavaScript()
     {
         if ($this->loadDefaultResources) {
-            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/dist/js/C4GBrickDialog.js', ResourceLoader::BODY, 'c4g_brick_dialog');
+            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/src/js/C4GBrickDialog.js', ResourceLoader::BODY, 'c4g_brick_dialog');
         }
         if ($this->loadConditionalFieldDisplayResources) {
             ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/dist/js/ConditionalFieldDisplay.js', ResourceLoader::BODY);
@@ -771,6 +775,10 @@ class C4GBaseController extends AbstractFrontendModuleController
             ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/vendor/signature-pad/jquery.signaturepad.min.js', ResourceLoader::BODY, 'signature-pad');
             ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/vendor/signature-pad/json2.min.js', ResourceLoader::BODY, 'json2');
         }
+
+        if ($this->loadDatePicker === true) {
+            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/dist/js/c4g-vendor-datepicker.js', ResourceLoader::BODY, 'vanillajs-datepicker');
+        }
     }
 
     protected function compileCss()
@@ -784,6 +792,9 @@ class C4GBaseController extends AbstractFrontendModuleController
         }
         if ($this->brickStyle) {
             ResourceLoader::loadCssResource($this->brickStyle, 'c4g_brick_style_' . $this->name);
+        }
+        if ($this->loadDatePicker) {
+            ResourceLoader::loadCSSResource('bundles/con4gisprojects/dist/css/datepicker.min.css');
         }
         if ($this->loadDateTimePickerResources) {
             ResourceLoader::loadCssResource(

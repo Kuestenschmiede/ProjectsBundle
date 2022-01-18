@@ -27,7 +27,9 @@
   .c4g__input-group {
     @extend .input-group;
   }
-
+  .c4g__input-group-text {
+    @extend .input-group-text;
+  }
 
 
   select {

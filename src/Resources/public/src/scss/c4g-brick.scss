@@ -21,6 +21,9 @@
 @import "node_modules/bootstrap/scss/modal";
 @import "node_modules/bootstrap/scss/accordion";
 
+//vendor
+@import 'node_modules/vanillajs-datepicker/dist/css/datepicker-bs5';
+
 @import "c4g-brick-core";
 
 @import "c4g-brick-form2";

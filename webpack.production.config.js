@@ -16,7 +16,8 @@ var config = {
   entry: {
     'c4g-vendor-trix': './src/Resources/public/vendor/js/c4g-vendor-trix.js',
     'c4g-vendor-minisearch': './src/Resources/public/vendor/js/c4g-vendor-minisearch.js',
-    'c4g-vendor-jquery': './src/Resources/public/vendor/js/c4g-vendor-jquery.js'
+    'c4g-vendor-jquery': './src/Resources/public/vendor/js/c4g-vendor-jquery.js',
+    'c4g-vendor-datepicker': './src/Resources/public/vendor/js/c4g-vendor-datepicker.js'
   },
   mode: 'production',
   output: {

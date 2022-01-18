@@ -15,7 +15,8 @@ var config = {
   entry: {
     'c4g-vendor-trix': './src/Resources/public/vendor/js/c4g-vendor-trix.js',
     'c4g-vendor-minisearch': './src/Resources/public/vendor/js/c4g-vendor-minisearch.js',
-    'c4g-vendor-jquery': './src/Resources/public/vendor/js/c4g-vendor-jquery.js'
+    'c4g-vendor-jquery': './src/Resources/public/vendor/js/c4g-vendor-jquery.js',
+    'c4g-vendor-datepicker': './src/Resources/public/vendor/js/c4g-vendor-datepicker.js'
   },
   mode: "development",
   output: {
@@ -30,10 +31,6 @@ var config = {
       'node_modules',
       'src/Resources/public/vendor/js'
     ],
-    alias: {
-      'parchment': path.resolve(__dirname, 'node_modules/parchment/src/parchment.ts'),
-      'quill$': path.resolve(__dirname, 'node_modules/quill/quill.js'),
-    },
     extensions: ['.js', '.ts', '.svg']
   },
   module: {
