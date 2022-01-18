@@ -24,6 +24,10 @@
     color: darkred;
   }
 
+  .c4g__input-group {
+    @extend .input-group;
+  }
+
 
 
   select {

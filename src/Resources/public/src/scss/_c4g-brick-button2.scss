@@ -9,7 +9,8 @@ a:link.ui-button,
   //color: unset;
 }
 
-.c4g__btn {
+.c4g__btn,
+.ui-button {
   @extend .btn;
 }
 
