@@ -107,7 +107,7 @@ class C4GDateField extends C4GBrickField
             'j'  => 's');
 
         $outputFormat = strtr($dateFormat, $trans);
-        
+
         if ($this->isShowIfEmpty() || !empty($value)) {
             $buttonId = "'" . $id . "'";
             $condition = $this->createConditionData($fieldList, $data);
