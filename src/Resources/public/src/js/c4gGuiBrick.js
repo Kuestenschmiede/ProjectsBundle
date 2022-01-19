@@ -1272,12 +1272,6 @@ window.c4g.projects = window.c4g.projects || {};
       }
 
       // User Message
-      /**
-       * Create a JQuery UI dialog for the usermessage instead of an alert.
-       * When opening the dialog raise the dialogs background overlay just beneath the dialogs z-index to ensure the user cannot interact with any other dialogs.
-       * When closing the dialog remove itself entirely to keep the dom clean.
-       * TODO: Consider providing a specific title based upon the usermessage or hiding the titlebar completely. This can be success via a CSS defition.
-       */
       if (typeof(content.usermessage) !== 'undefined') {
         //ToDo auslagern
         var title = 'Usermessage';
