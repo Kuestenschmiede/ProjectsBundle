@@ -59,8 +59,10 @@ class C4GJQueryGUI
             ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/dist/js/jquery-ui-de.js', ResourceLoader::BODY, 'c4g_jquery_ui_i18n');
             ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/jQuery/plugins/jquery.legacy.min.js', ResourceLoader::BODY, 'c4g_a');
             ResourceLoader::loadJavaScriptResource('bundles/con4giscore/dist/js/DialogHandler.js', ResourceLoader::BODY, 'dialog_handler');
-            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/dist/js/AlertHandler.js', ResourceLoader::BODY, 'alert_handler');
         }
+
+        //Defaault?
+        ResourceLoader::loadJavaScriptResource('bundles/con4giscore/dist/js/AlertHandler.js', ResourceLoader::BODY, 'alert_handler');
 
         if ($useTable) {
             ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/dist/js/jquery.scrollTo.min.js', ResourceLoader::BODY, 'c4g_jq_scrollTo');
@@ -191,8 +193,10 @@ class C4GJQueryGUI
             ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/dist/js/jquery-ui-de.js', ResourceLoader::BODY, 'c4g_jquery_ui_i18n');
             ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/jQuery/plugins/jquery.legacy.min.js', ResourceLoader::BODY, 'c4g_a');
             ResourceLoader::loadJavaScriptResource('bundles/con4giscore/dist/js/DialogHandler.js', ResourceLoader::BODY, 'dialog_handler');
-            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/dist/js/AlertHandler.js', ResourceLoader::BODY, 'alert_handler');
+            //ResourceLoader::loadJavaScriptResource('bundles/con4giscore/dist/js/AlertHandler.js', ResourceLoader::BODY, 'alert_handler');
         }
+
+        ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/dist/js/c4g-vendor-alerthandler.js', ResourceLoader::HEAD, 'alert_handler');
 
         if ($useTable) {
             ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/dist/js/jquery.scrollTo.min.js', ResourceLoader::BODY, 'c4g_jq_scrollTo');
@@ -259,7 +263,7 @@ class C4GJQueryGUI
         }
 
         if ($addCore) {
-            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/dist/js/c4gGui.js?v=' . time(), ResourceLoader::BODY, 'c4g_jquery_gui');
+            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/dist/js/c4gGuiBrick.js?v=' . time(), ResourceLoader::BODY, 'c4g_jquery_gui');
             ResourceLoader::loadCssResourceDeferred('bundles/con4gisprojects/dist/css/c4gGui.min.css');
             ResourceLoader::loadCssResourceDeferred('bundles/con4gisprojects/dist/css/c4gLoader.min.css');
         }
@@ -282,18 +286,6 @@ class C4GJQueryGUI
                 'datetimepicker'
             );
         }
-
-//        if ($loadDatePicker) {
-//            ResourceLoader::loadJavaScriptResource(
-//                'bundles/con4gisprojects/src/js/datepicker.js',
-//                ResourceLoader::BODY,
-//                'datepicker'
-//            );
-//
-//            ResourceLoader::loadJavaScriptResource(
-//                'bundles/con4gisprojects/vendor/ab-datepicker/js/locales/'.strtolower($loadDatePicker).'.min.js',
-//                ResourceLoader::JAVASCRIPT);
-//        }
     }
 
 }

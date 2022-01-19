@@ -142,6 +142,7 @@ class C4GBrickModuleParent extends Module
     protected $loadDefaultResources = true;
     protected $loadTrixEditorResources = false;
     protected $trixEditorResourceParams = [];
+    protected $loadDatePicker = true;
     protected $loadDateTimePickerResources = false;
     protected $loadChosenResources = false;
     protected $loadClearBrowserUrlResources = false;
@@ -644,7 +645,7 @@ class C4GBrickModuleParent extends Module
 
     protected function compileJquery()
     {
-        C4GJQueryGUI::initializeLibraries(
+        C4GJQueryGUI::initializeBrickLibraries(
             $this->jQueryAddCore,
             $this->jQueryAddJquery,
             $this->jQueryAddJqueryUI,
@@ -658,29 +659,32 @@ class C4GBrickModuleParent extends Module
             $this->loadDateTimePickerResources
         );
 
-        $settings = Database::getInstance()->execute('SELECT * FROM tl_c4g_settings LIMIT 1')->fetchAllAssoc();
+        //ToDo remove jQueryUI
+        if ($this->jQueryAddJqueryUI || $this->jQueryUseTable || $this->jQueryUseTree) {
+            $settings = Database::getInstance()->execute('SELECT * FROM tl_c4g_settings LIMIT 1')->fetchAllAssoc();
 
-        if ($settings) {
-            $this->settings = $settings[0];
-        }
+            if ($settings) {
+                $this->settings = $settings[0];
+            }
 
-        // load custom themeroller-css if set
-        if ($this->uiTheme) {
-            $GLOBALS['TL_CSS']['c4g_jquery_ui'] = $this->uiTheme;
-        } elseif ($this->c4g_appearance_themeroller_css) {
-            $objFile = \FilesModel::findByUuid($this->c4g_appearance_themeroller_css);
-            $GLOBALS['TL_CSS']['c4g_jquery_ui'] = $objFile->path;
-        } elseif ($this->c4g_uitheme_css_select) {
-            $theme = $this->c4g_uitheme_css_select;
-            $GLOBALS['TL_CSS']['c4g_jquery_ui'] = 'bundles/con4giscore/vendor/jQuery/ui-themes/themes/' . $theme . '/jquery-ui.css';
-        } elseif ($this->settings && $this->settings['c4g_appearance_themeroller_css']) {
-            $objFile = \FilesModel::findByUuid($this->settings['c4g_appearance_themeroller_css']);
-            $GLOBALS['TL_CSS']['c4g_jquery_ui'] = $objFile->path;
-        } elseif ($this->settings && $this->settings['c4g_uitheme_css_select']) {
-            $theme = $this->settings['c4g_uitheme_css_select'];
-            $GLOBALS['TL_CSS']['c4g_jquery_ui'] = 'bundles/con4giscore/vendor/jQuery/ui-themes/themes/' . $theme . '/jquery-ui.css';
-        } else {
-            $GLOBALS['TL_CSS']['c4g_jquery_ui'] = 'bundles/con4giscore/vendor/jQuery/ui-themes/themes/base/jquery-ui.css';
+            // load custom themeroller-css if set
+            if ($this->uiTheme) {
+                $GLOBALS['TL_CSS']['c4g_jquery_ui'] = $this->uiTheme;
+            } elseif ($this->c4g_appearance_themeroller_css) {
+                $objFile = \FilesModel::findByUuid($this->c4g_appearance_themeroller_css);
+                $GLOBALS['TL_CSS']['c4g_jquery_ui'] = $objFile->path;
+            } elseif ($this->c4g_uitheme_css_select) {
+                $theme = $this->c4g_uitheme_css_select;
+                $GLOBALS['TL_CSS']['c4g_jquery_ui'] = 'bundles/con4giscore/vendor/jQuery/ui-themes/themes/' . $theme . '/jquery-ui.css';
+            } elseif ($this->settings && $this->settings['c4g_appearance_themeroller_css']) {
+                $objFile = \FilesModel::findByUuid($this->settings['c4g_appearance_themeroller_css']);
+                $GLOBALS['TL_CSS']['c4g_jquery_ui'] = $objFile->path;
+            } elseif ($this->settings && $this->settings['c4g_uitheme_css_select']) {
+                $theme = $this->settings['c4g_uitheme_css_select'];
+                $GLOBALS['TL_CSS']['c4g_jquery_ui'] = 'bundles/con4giscore/vendor/jQuery/ui-themes/themes/' . $theme . '/jquery-ui.css';
+            } else {
+                $GLOBALS['TL_CSS']['c4g_jquery_ui'] = 'bundles/con4giscore/vendor/jQuery/ui-themes/themes/base/jquery-ui.css';
+            }
         }
     }
 
@@ -738,6 +742,10 @@ class C4GBrickModuleParent extends Module
             ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/vendor/signature-pad/flashcanvas.js', ResourceLoader::BODY, 'flashcanvas');
             ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/vendor/signature-pad/jquery.signaturepad.min.js', ResourceLoader::BODY, 'signature-pad');
             ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/vendor/signature-pad/json2.min.js', ResourceLoader::BODY, 'json2');
+        }
+
+        if ($this->loadDatePicker === true) {
+            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/dist/js/c4g-vendor-datepicker.js', ResourceLoader::BODY, 'vanillajs-datepicker');
         }
     }
 

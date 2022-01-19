@@ -1217,17 +1217,28 @@ function openAccordion(index) {
  * @param event
  */
 
+
 function removeSubDialog(button, event) {
     if (typeof(event) !== 'undefined') {
         event.stopPropagation();
     }
 
     //ToDo language
-    showConfirmationDialog(button.dataset.message, 'Bestätigung', 'Ja', 'Nein',  function() {
+    var alertBox = new window.AlertHandler();
+    alertBox.showConfirmDialog('Bestätigung', button.dataset.message, function() {
         while ((button) && (button.parentNode) && (button.parentNode.firstChild)) {
             button.parentNode.removeChild(button.parentNode.firstChild);
         }
-    });
+    }, function() { },'Ja', 'Nein', 'c4g__message_confirm');
+
+    //showConfirmationDialog(button.dataset.message, 'Bestätigung', 'Ja', 'Nein', confirmRemoveSubDialog(button));
+
+}
+
+function confirmRemoveSubDialog(button) {
+    while ((button) && (button.parentNode) && (button.parentNode.firstChild)) {
+        button.parentNode.removeChild(button.parentNode.firstChild);
+    }
 }
 
 /**
@@ -1253,7 +1264,7 @@ function addSubDialog(button, event, max) {
             child = target.insertBefore(newElement, target.firstChild);
         } else {
             child = target.appendChild(newElement);
-        }
+        }alerthandler
         var inputs = child.getElementsByTagName('input');
         // console.log(inputs);
         var j = 0;
@@ -1434,29 +1445,3 @@ function editSubDialog(button, event) {
     }
 }
 
-function showConfirmationDialog(message,title,yesLabel, noLabel, yesCallback){
-    jQuery('<div></div>').appendTo('body')
-        .html('<div>'+message+'?</div>')
-        .dialog({
-            modal: true, title: title, zIndex: 10000, autoOpen: true,
-            width: 'auto', resizable: false,
-            buttons: [
-                {
-                    text: yesLabel,
-                    click: function () {
-                    jQuery(this).dialog("close");
-                    yesCallback();
-                    }
-                },
-                {
-                    text: noLabel,
-                    click: function () {
-                        jQuery(this).dialog("close");
-                    }
-                }
-            ],
-            close: function (event, ui) {
-                jQuery(this).remove();
-            }
-        });
-}
