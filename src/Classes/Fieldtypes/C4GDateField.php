@@ -73,7 +73,7 @@ class C4GDateField extends C4GBrickField
         $value = $this->generateInitialValue($data);
 
         if ($this->isCallOnChange()) {
-            $changeAction = 'onchange="' . $this->getCallOnChangeFunction() . '"';
+            $changeAction = ' onchange="' . $this->getCallOnChangeFunction() . '"';
         }
 
         if (!$this->minDate || ($this->minDate == '') || ($this->minDate == 0)) {
@@ -99,10 +99,15 @@ class C4GDateField extends C4GBrickField
 
         $result = '';
 
-        $PHPFormatOptions = ['Y', 'm', 'd'];
-        $JSFormatOptions = ['yy', 'mm', 'dd'];
-        $outputFormat = str_replace($PHPFormatOptions, $JSFormatOptions, $dateFormat);
+        $trans = array(
+            'd' => 'dd',
+            'm' => 'mm',
+            'Y' => 'yyyy',
+            'y' => 'yy',
+            'j'  => 's');
 
+        $outputFormat = strtr($dateFormat, $trans);
+        
         if ($this->isShowIfEmpty() || !empty($value)) {
             $buttonId = "'" . $id . "'";
             $condition = $this->createConditionData($fieldList, $data);
@@ -158,9 +163,9 @@ class C4GDateField extends C4GBrickField
                 }
             } else {
                 if (!$display) {
-                    $html = '<div class="c4g__form-date-container c4g__input-group c4g__input-group-date" style="display: none">';// onmousedown="C4GDatePicker(\'' . $id . '\', \'date\', \'' . $this->minDate . '\', \'' . $this->maxDate . '\', \'' . $outputFormat . '\',\'' . $pickerLanguage . '\',\'' . $this->excludeWeekdays . '\',\'' . $this->excludeDates . '\')" >';
+                    $html = '<div class="c4g__form-date-container c4g__input-group c4g__input-group-date" style="display: none">';
                 } else {
-                    $html = '<div class="c4g__form-date-container c4g__input-group c4g__input-group-date">';// onmousedown="C4GDatePicker(\'' . $id . '\', \'date\', \'' . $this->minDate . '\', \'' . $this->maxDate . '\', \'' . $outputFormat . '\',\'' . $pickerLanguage . '\',\'' . $this->excludeWeekdays . '\',\'' . $this->excludeDates . '\')" >';
+                    $html = '<div class="c4g__form-date-container c4g__input-group c4g__input-group-date">';
                 }
             }
 

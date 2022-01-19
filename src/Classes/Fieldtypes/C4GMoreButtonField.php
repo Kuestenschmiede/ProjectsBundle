@@ -104,7 +104,7 @@ class C4GMoreButtonField extends C4GBrickField
         }
         $id = '';
         if ($dialogParams->getId() != -1) {
-            $id = 'c4g_condition_' . $dialogParams->getId() . ' ';
+            $id = 'c4g__form-group-' . $dialogParams->getId() . ' ';
         }
 
         return '<div '.$id

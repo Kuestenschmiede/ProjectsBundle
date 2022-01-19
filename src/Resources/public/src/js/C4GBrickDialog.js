@@ -92,6 +92,12 @@ function C4GDatePicker(id,
             autohide: true
         });
 
+        if (elem.datepicker) {
+            elem.addEventListener('changeDate', function (e) {
+                jQuery("#" + id).trigger('change');
+            });
+        }
+
         //ToDo check without base controller
         // jQuery.datepicker.setDefaults(jQuery.datepicker.regional[lang || "de"]);
         // jQuery("#"+id).datepicker({
@@ -1264,7 +1270,7 @@ function addSubDialog(button, event, max) {
             child = target.insertBefore(newElement, target.firstChild);
         } else {
             child = target.appendChild(newElement);
-        }alerthandler
+        }
         var inputs = child.getElementsByTagName('input');
         // console.log(inputs);
         var j = 0;

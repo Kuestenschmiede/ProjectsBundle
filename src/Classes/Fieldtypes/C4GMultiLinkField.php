@@ -19,7 +19,7 @@ class C4GMultiLinkField extends C4GBrickField
 {
     private $linkClass = '';
     private $wrapper = false;
-    private $wrapperClass = 'c4g_condition__wrapper';
+    private $wrapperClass = 'c4g__form-group-wrapper';
 
     /**
      * @param string $type

@@ -7,3 +7,4 @@
 - Patrick Froch (https://easysolutionsit.de)
 - Friedrich Schute (https://kuestenschmiede.de)
 - Raphael Ross (https://kuestenschmiede.de)
+- Artur Jozefiak (https://kuestenschmiede.de)
