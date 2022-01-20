@@ -1,4 +1,14 @@
 @charset "UTF-8";
+html {
+  --datepicker-day-default-color: #27ae60;
+  --datepicker-day-default-bgcolor: #ffffff;
+  --datepicker-day-disabled-color: #c0392b;
+  --datepicker-day-disabled-bgcolor: #ffffff;
+  --datepicker-day-free-color: #27ae60;
+  --datepicker-day-free-bgcolor: #ffffff;
+  --datepicker-day-today-color: #000000;
+  --datepicker-day-today-bgcolor: #f1c40f
+}
 .clearfix::after {
   display: block;
   clear: both;
@@ -4532,6 +4542,18 @@ table.datepicker_table {
   border: none;
   color: #000
 }
+.datepicker-cell {
+  color: var(--datepicker-day-default-color);
+  background-color: var(--datepicker-day-default-bgcolor)
+}
+.datepicker-cell.disabled {
+  color: var(--datepicker-day-disabled-color);
+  background-color: var(--datepicker-day-disabled-bgcolor)
+}
+.datepicker-cell.today {
+  color: var(--datepicker-day-today-color);
+  background-color: var(--datepicker-day-today-bgcolor)
+}
 .c4g_brick_dialog .c4g_timefield {
   border: 1px solid #e2e2e2;
   height: auto;
@@ -5497,5 +5519,5 @@ a.c4g_tile_button:hover {
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 99
+  z-index: 999
 }

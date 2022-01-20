@@ -135,13 +135,22 @@ window.c4g.projects = window.c4g.projects || {};
         if (typeof jQuery(document).ajaxStart === 'function') {
           jQuery(document).ajaxStart(function(){
             jQuery('.c4gGui,.c4gGuiDialog').addClass('c4gGuiAjaxBusy');
-            jQuery('.c4gLoaderPh').addClass('c4gLoader');
+
+            if (document.getElementById('c4g_brick') && document.getElementsByClassName('c4g__spinner-wrapper')) {
+              document.getElementsByClassName('c4g__spinner-wrapper')[0].style.display = "flex";
+            } else {
+              jQuery('.c4gLoaderPh').addClass('c4gLoader');
+            }
           });
         }
         if (typeof jQuery(document).ajaxStop === 'function') {
           jQuery(document).ajaxStop(function(){
             jQuery('.c4gGui,.c4gGuiDialog').removeClass('c4gGuiAjaxBusy');
-            jQuery('.c4gLoaderPh').removeClass('c4gLoader');
+            if (document.getElementById('c4g_brick') && document.getElementsByClassName('c4g__spinner-wrapper')) {
+              document.getElementsByClassName('c4g__spinner-wrapper')[0].style.display = "none";
+            } else {
+              jQuery('.c4gLoaderPh').removeClass('c4gLoader');
+            }
           });
         }
 
