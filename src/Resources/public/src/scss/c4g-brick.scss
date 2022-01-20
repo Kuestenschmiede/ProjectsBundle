@@ -3,6 +3,7 @@
 @import "node_modules/bootstrap/scss/functions";
 @import "node_modules/bootstrap/scss/variables";
 @import "node_modules/bootstrap/scss/mixins";
+@import "node_modules/bootstrap/scss/helpers";
 
 @import "helpers_mixins";
 
@@ -20,6 +21,7 @@
 @import "node_modules/bootstrap/scss/nav";
 @import "node_modules/bootstrap/scss/modal";
 @import "node_modules/bootstrap/scss/accordion";
+@import "node_modules/bootstrap/scss/spinners";
 
 //vendor
 @import 'node_modules/vanillajs-datepicker/dist/css/datepicker-bs5';
@@ -45,6 +47,8 @@
 @import "c4g-brick-tab";
 
 @import "c4g-brick-lists";
+
+@import "c4g-brick-spinners";
 
 //To-dos
 //- strikte Trennung ui -> c4gGui.scss vs. c4g-brick-ui

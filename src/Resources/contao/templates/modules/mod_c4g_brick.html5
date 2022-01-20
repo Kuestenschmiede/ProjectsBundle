@@ -44,6 +44,11 @@
 <div id="<?php echo $this->c4gData['div']; ?>"></div>
 <br />
 </div>
+<div class="c4g__spinner-wrapper" style="display:none">
+    <div class="c4g__spinner-border" role="status">
+        <span class="c4g__visually-hidden">Loading...</span>
+    </div>
+</div>
 <?php
    $GLOBALS['TL_BODY']['c4gMaps' . $this->id] =
         \Template::generateInlineScript('jQuery(document).ready(function(){

@@ -621,7 +621,7 @@ abstract class C4GBrickField
             $tablec = '</div>';
         }
 
-        $styleClass = 'c4g__form-'.$this->type.' '.'c4g__form-'.$this->type.'--'.$this->getFieldName().' '.$this->StyleClass;
+        $styleClass = 'c4g__form-'.$this->type.' '.'c4g__form-'.$this->type.'--'.$this->getFieldName().' '.$this->styleClass;
         $class = 'class="c4g__form-group ' . $styleClass . '" ';
 
         $fieldLabel = $this->addC4GFieldLabel($id, $this->getTitle(), $this->isMandatory(), $condition, $fieldList, $data, $dialogParams, true, $this->isSwitchTitleLabel());

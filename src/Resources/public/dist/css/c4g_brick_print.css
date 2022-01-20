@@ -76,14 +76,14 @@ h1 {
   margin-left: .2em;
   vertical-align: middle
 }
-.c4g_brick_dialog .c4g_brick_radio_group {
+.c4g_brick_dialog .c4g__form-radio-group {
   border: none;
   vertical-align: middle
 }
-.c4g_brick_dialog .c4g_brick_radio_group .radio_element {
+.c4g_brick_dialog .c4g__form-radio-group .c4g__form-check {
   display: inline-block
 }
-.c4g_brick_dialog .c4g_brick_radio_group label {
+.c4g_brick_dialog .c4g__form-radio-group label {
   font-weight: 400;
   margin-right: 2px;
   padding: 0;
@@ -95,14 +95,14 @@ h1 {
   margin-left: 0;
   vertical-align: middle
 }
-.c4g_brick_dialog .c4g_brick_radio_group .lbl_turned {
+.c4g_brick_dialog .c4g__form-radio-group .lbl_turned {
   font-weight: 400;
   margin-left: 0;
   margin-right: 1em;
   padding: 0;
   vertical-align: middle
 }
-.c4g_brick_dialog .c4g_brick_radio_group_wrapper label {
+.c4g_brick_dialog .c4g__form-radio-group_wrapper label {
   margin-left: 0
 }
 .c4g_brick_dialog h2,

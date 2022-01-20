@@ -8,30 +8,30 @@
   border: none;
   vertical-align: middle;
 }
-.c4g_brick_dialog .c4g_brick_radio_group .radio_element {
+.c4g_brick_dialog .c4g__form-radio-group .c4g__form-check {
   display: inline-block;
 }
-.c4g_brick_dialog .c4g_brick_radio_group label {
+.c4g_brick_dialog .c4g__form-radio-group label {
   font-weight: normal;
   margin-right: 2px;
   padding: 0;
   vertical-align: middle;
 }
-.c4g_brick_dialog .rb_turned input[type='radio']  {
-  display: inline;
-  margin-right: .2em;
-  margin-left: 0em;
-  vertical-align:middle;
-}
-.c4g_brick_dialog .c4g_brick_radio_group .lbl_turned {
-  font-weight: normal;
-  margin-left: 0em;
-  margin-right: 1.0em;
-  padding: 0;
-  padding-left: 2px;
-  padding-right: 2px;
-  vertical-align: middle;
-}
-.c4g_brick_dialog .c4g_brick_radio_group_wrapper label {
+//.c4g_brick_dialog .rb_turned input[type='radio']  {
+//  display: inline;
+//  margin-right: .2em;
+//  margin-left: 0em;
+//  vertical-align:middle;
+//}
+//.c4g_brick_dialog .c4g__form-radio-group .lbl_turned {
+//  font-weight: normal;
+//  margin-left: 0em;
+//  margin-right: 1.0em;
+//  padding: 0;
+//  padding-left: 2px;
+//  padding-right: 2px;
+//  vertical-align: middle;
+//}
+.c4g_brick_dialog .c4g__form-radio-group_wrapper label {
   margin-left: 0px;
 }

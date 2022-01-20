@@ -184,8 +184,8 @@ class C4GDateField extends C4GBrickField
                         $dialogParams->setOnloadScript($onLoadScript);
                     }
 
+                    $html .= '<button ' . $required . ' onclick="if (document.getElementById(' . $buttonId . ')) {jQuery(document.getElementById(' . $buttonId . ')).show();jQuery(document.getElementById(' . $buttonId . ')).focus();};" type="button" class="c4g__btn c4g__btn-date c4g__form-date-button-interactive"><i class="far fa-calendar-alt"></i></button>';
                     $html .= '<input readonly="false" autocomplete="off" ' . $required . ' type="text" id="' . $id . '" class="formdata c4g__form-control c4g__form-date-input ' . $id . '" ' . $changeAction . ' name="' . $fieldName . '" value="' . $value . '" ' . $condition['conditionPrepare'] . 'pattern="' . $this->pattern . '"' . '>';
-                    $html .= '<button onclick="if (document.getElementById(' . $buttonId . ')) {jQuery(document.getElementById(' . $buttonId . ')).show();jQuery(document.getElementById(' . $buttonId . ')).focus();};" type="button" class="c4g__btn c4g__btn-date c4g__form-date-button-interactive"><i class="far fa-calendar-alt"></i></button>';
                 } else {
                     $html .= '<input autocomplete="on" ' . $required . ' type="date" id="' . $id . '" class="formdata c4g__form-control c4g__form-date-input ' . $id . '" ' . $changeAction . ' name="' . $fieldName . '" value="' . $value . '" ' . $condition['conditionPrepare'] . 'pattern="' . $this->pattern . '"' . '>';
                 }

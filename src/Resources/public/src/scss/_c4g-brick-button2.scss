@@ -46,5 +46,12 @@ a:link.ui-button,
   @extend .btn-link;
 }
 
+.c4g__btn-radio {
+  @extend .btn-secondary
+}
+
+.c4g__btn-check {
+  @extend .btn-check
+}
 
 

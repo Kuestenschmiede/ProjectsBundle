@@ -88,7 +88,7 @@ function C4GDatePicker(id,
             weekStart: 1,
             //todayBtn: true,
             todayHighlight: true,
-            orientation: 'auto right',
+            orientation: 'auto left',
             autohide: true
         });
 
