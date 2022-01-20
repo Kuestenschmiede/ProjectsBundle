@@ -342,8 +342,6 @@ class C4GBaseController extends AbstractFrontendModuleController
                 }
 
                 return $user->id;
-
-                break;
             case C4GBrickConst::ID_TYPE_GROUP:
                 $group_id = $this->dialogParams->getGroupId();
                 if (!$group_id || ($group_id <= 0)) {
@@ -353,7 +351,6 @@ class C4GBaseController extends AbstractFrontendModuleController
                 }
 
                 return $group_id;
-                break;
             case C4GBrickConst::ID_TYPE_PROJECT:
                 $project_id = $this->dialogParams->getProjectId();
                 if (!$project_id || ($project_id <= 0)) {
@@ -363,8 +360,6 @@ class C4GBaseController extends AbstractFrontendModuleController
                 }
 
                 return $project_id;
-
-                break;
             case C4GBrickConst::ID_TYPE_PARENT:
                 $parent_id = $this->dialogParams->getParentId();
                 if (!$parent_id || ($parent_id <= 0)) {
@@ -374,8 +369,6 @@ class C4GBaseController extends AbstractFrontendModuleController
                 }
 
                 return $parent_id;
-
-                break;
             default:
                 return false;
         }
