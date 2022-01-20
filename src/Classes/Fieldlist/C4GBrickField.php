@@ -222,7 +222,6 @@ abstract class C4GBrickField
         $display = '';
 
         if ($class == '') {
-            $styleClass = 'c4g__form-'.$this->type.' '.'c4g__form-'.$this->type.'--'.$this->getFieldName().' '.$this->StyleClass;
             $class = 'class="c4g__form-group ' . $this->styleClass . '"';
         } else {
             $class = 'c4g__form-'.$this->type.' '.'c4g__form-'.$this->type.'--'.$this->getFieldName().' '.$class;
