@@ -154,25 +154,6 @@ class C4GMoreButtonField extends C4GBrickField
     }
 
     /**
-     * @return bool
-     */
-    public function isDatabaseField()
-    {
-        return $this->databaseField;
-    }
-
-    /**
-     * @param bool $databaseField
-     * @return $this|C4GBrickField
-     */
-    public function setDatabaseField($databaseField)
-    {
-        $this->databaseField = $databaseField;
-
-        return $this;
-    }
-
-    /**
      * @return C4GMoreButton
      */
     public function getMoreButton()
