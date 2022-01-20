@@ -43,7 +43,7 @@ class C4GMoreButtonField extends C4GBrickField
     /**
      * @param string $type
      */
-    public function __construct(string $type = C4GBrickFieldType::BUTTONŝ)
+    public function __construct(string $type = C4GBrickFieldType::BUTTON)
     {
         parent::__construct($type);
         $this->setSortColumn(false);
