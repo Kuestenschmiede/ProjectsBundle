@@ -9,7 +9,7 @@
   text-decoration: none;
   color: unset;
 }
-#c4g_brick .c4g_brick_tiles .c4g_tile_button  {
+#c4g_brick .c4g_brick_tiles .c4g__btn-tile  {
   position: relative;
   margin: 10px 10px 10px 10px;
   max-width: 320px;
@@ -63,6 +63,6 @@
 .c4gGuiButton .c4g_tile_value {
   font-weight: bold;
 }
-a.c4g_tile_button:hover {
+a.c4g__btn-tile:hover {
   cursor: default;
 }

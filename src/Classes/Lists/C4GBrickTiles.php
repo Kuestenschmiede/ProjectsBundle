@@ -308,7 +308,7 @@ class C4GBrickTiles
 
                 $tileClasses = C4GBrickTiles::getTileClasses($fieldList, $element);
 
-                $view .= '<a class="' . $tileClasses . 'c4gGuiAction c4gGuiButton c4g_tile_button" title="' . $hovertext .
+                $view .= '<a class="' . $tileClasses . 'c4gGuiAction c4gGuiButton c4g__btn c4g__btn-tile" title="' . $hovertext .
                     '"   data-action="' . $action . '" role="button" style="order: ' . $elementTimer . ';">';
 
                 $elementTimer++;
@@ -402,7 +402,7 @@ class C4GBrickTiles
                 $fields = [];
                 $cnt = 0;
                 $tileClasses = C4GBrickTiles::getTileClasses($fieldList, $element);
-                $view .= '<a class="' . $tileClasses . 'c4gGuiAction c4gGuiButton c4g_tile_button" data-action="' .
+                $view .= '<a class="' . $tileClasses . 'c4gGuiAction c4gGuiButton c4g__btn c4g__btn-tile" data-action="' .
                     C4GBrickActionType::ACTION_CLICK . ':' . $element->id . '" role="button" style="order: '
                     . $elementTimer . ';">';
 

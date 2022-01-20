@@ -786,6 +786,7 @@ window.c4g.projects = window.c4g.projects || {};
           var aButton = jQuery("<a />")
             .attr('href', '#')
             .attr('accesskey', value['accesskey'])
+            .attr('class', value.cssClass+' c4g__btn c4g__btn-primary')
             .html(value['text'])
             .click(function () {
               if (value['tableSelection']) {
@@ -1143,7 +1144,7 @@ window.c4g.projects = window.c4g.projects || {};
               var aLink = jQuery('<a>')
                 .attr('href', '#')
                 .attr('accesskey', value.accesskey)
-                .attr('class', value.cssClass)
+                .attr('class', value.cssClass+' c4g__btn c4g__btn-primary')
                 .html(value.text)
                 .click(value.click)
                 .appendTo(dialogButtonDiv);

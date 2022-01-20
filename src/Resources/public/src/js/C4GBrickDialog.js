@@ -173,7 +173,7 @@ function C4GDateTimePicker(id)
  */
 function C4GFilterButtonTiles(filter)
 {
-    var tiles = document.getElementsByClassName("c4g_tile_button");
+    var tiles = document.getElementsByClassName("c4g__btn-tile");
     var value = filter.value;
 
     //ToDO implementation
@@ -186,7 +186,7 @@ function C4GFilterButtonTiles(filter)
  */
 function C4GSearchTiles(search)
 {
-    var tiles = document.getElementsByClassName("c4g_tile_button");
+    var tiles = document.getElementsByClassName("c4g__btn-tile");
         text;
         value = search.value.toLowerCase();
         founded;

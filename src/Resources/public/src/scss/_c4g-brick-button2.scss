@@ -54,4 +54,7 @@ a:link.ui-button,
   @extend .btn-check
 }
 
+.c4g__btn-tile {
+  @extend .btn-link;
+}
 

@@ -360,7 +360,7 @@ div.cg_block {
     text-align: center;
     display: inline-flex;
 }
-#c4g_brick .c4g_brick_tiles .c4g_tile_button  {
+#c4g_brick .c4g_brick_tiles .c4g__btn-tile  {
     position: relative;
     margin: 10px 10px 10px 10px;
     max-width: 320px;
@@ -730,7 +730,7 @@ input.c4g_brick_info_text {
     border: 0;
 }
 
-a.c4g_tile_button:hover {
+a.c4g__btn-tile:hover {
     cursor: default;
 }
 .ui-button {

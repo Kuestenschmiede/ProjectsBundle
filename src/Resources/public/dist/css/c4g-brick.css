@@ -3650,19 +3650,23 @@ fieldset:disabled .ui-button {
   background-color: transparent
 }
 .btn-link,
-.c4g__btn-link {
+.c4g__btn-link,
+.c4g__btn-tile {
   font-weight: 400;
   color: #0d6efd;
   text-decoration: underline
 }
 .btn-link:hover,
-.c4g__btn-link:hover {
+.c4g__btn-link:hover,
+.c4g__btn-tile:hover {
   color: #0a58ca
 }
 .btn-link.disabled,
 .btn-link:disabled,
 .c4g__btn-link:disabled,
-.disabled.c4g__btn-link {
+.c4g__btn-tile:disabled,
+.disabled.c4g__btn-link,
+.disabled.c4g__btn-tile {
   color: #6c757d
 }
 .btn-lg {
@@ -5306,10 +5310,9 @@ th.nomouseevents .DataTables_sort_icon {
 .c4g__tile-grid-1 {
   display: grid;
   grid-template-columns: repeat(1,1fr);
-  width: -webkit-max-content;
-  width: -moz-max-content;
-  width: max-content;
   justify-content: center;
+  display: inline-grid;
+  grid-gap: 2px;
   margin-left: auto;
   margin-right: auto
 }
@@ -5321,10 +5324,9 @@ th.nomouseevents .DataTables_sort_icon {
 .c4g__tile-grid-2 {
   display: grid;
   grid-template-columns: repeat(2,1fr);
-  width: -webkit-max-content;
-  width: -moz-max-content;
-  width: max-content;
   justify-content: center;
+  display: inline-grid;
+  grid-gap: 2px;
   margin-left: auto;
   margin-right: auto
 }
@@ -5336,10 +5338,9 @@ th.nomouseevents .DataTables_sort_icon {
 .c4g__tile-grid-3 {
   display: grid;
   grid-template-columns: repeat(3,1fr);
-  width: -webkit-max-content;
-  width: -moz-max-content;
-  width: max-content;
   justify-content: center;
+  display: inline-grid;
+  grid-gap: 2px;
   margin-left: auto;
   margin-right: auto
 }
@@ -5351,10 +5352,9 @@ th.nomouseevents .DataTables_sort_icon {
 .c4g__tile-grid-4 {
   display: grid;
   grid-template-columns: repeat(4,1fr);
-  width: -webkit-max-content;
-  width: -moz-max-content;
-  width: max-content;
   justify-content: center;
+  display: inline-grid;
+  grid-gap: 2px;
   margin-left: auto;
   margin-right: auto
 }
@@ -5366,10 +5366,9 @@ th.nomouseevents .DataTables_sort_icon {
 .c4g__tile-grid-5 {
   display: grid;
   grid-template-columns: repeat(5,1fr);
-  width: -webkit-max-content;
-  width: -moz-max-content;
-  width: max-content;
   justify-content: center;
+  display: inline-grid;
+  grid-gap: 2px;
   margin-left: auto;
   margin-right: auto
 }
@@ -5381,10 +5380,9 @@ th.nomouseevents .DataTables_sort_icon {
 .c4g__tile-grid-6 {
   display: grid;
   grid-template-columns: repeat(6,1fr);
-  width: -webkit-max-content;
-  width: -moz-max-content;
-  width: max-content;
   justify-content: center;
+  display: inline-grid;
+  grid-gap: 2px;
   margin-left: auto;
   margin-right: auto
 }
@@ -5396,10 +5394,9 @@ th.nomouseevents .DataTables_sort_icon {
 .c4g__tile-grid-7 {
   display: grid;
   grid-template-columns: repeat(7,1fr);
-  width: -webkit-max-content;
-  width: -moz-max-content;
-  width: max-content;
   justify-content: center;
+  display: inline-grid;
+  grid-gap: 2px;
   margin-left: auto;
   margin-right: auto
 }
@@ -5411,10 +5408,9 @@ th.nomouseevents .DataTables_sort_icon {
 .c4g__tile-grid-8 {
   display: grid;
   grid-template-columns: repeat(8,1fr);
-  width: -webkit-max-content;
-  width: -moz-max-content;
-  width: max-content;
   justify-content: center;
+  display: inline-grid;
+  grid-gap: 2px;
   margin-left: auto;
   margin-right: auto
 }
@@ -5426,10 +5422,9 @@ th.nomouseevents .DataTables_sort_icon {
 .c4g__tile-grid-9 {
   display: grid;
   grid-template-columns: repeat(9,1fr);
-  width: -webkit-max-content;
-  width: -moz-max-content;
-  width: max-content;
   justify-content: center;
+  display: inline-grid;
+  grid-gap: 2px;
   margin-left: auto;
   margin-right: auto
 }
@@ -5441,10 +5436,9 @@ th.nomouseevents .DataTables_sort_icon {
 .c4g__tile-grid-10 {
   display: grid;
   grid-template-columns: repeat(10,1fr);
-  width: -webkit-max-content;
-  width: -moz-max-content;
-  width: max-content;
   justify-content: center;
+  display: inline-grid;
+  grid-gap: 2px;
   margin-left: auto;
   margin-right: auto
 }
@@ -5462,7 +5456,7 @@ th.nomouseevents .DataTables_sort_icon {
   text-decoration: none;
   color: unset
 }
-#c4g_brick .c4g_brick_tiles .c4g_tile_button {
+#c4g_brick .c4g_brick_tiles .c4g__btn-tile {
   position: relative;
   margin: 10px 10px 10px 10px;
   max-width: 320px;
@@ -5505,7 +5499,7 @@ th.nomouseevents .DataTables_sort_icon {
 .c4gGuiButton .c4g_tile_value {
   font-weight: 700
 }
-a.c4g_tile_button:hover {
+a.c4g__btn-tile:hover {
   cursor: default
 }
 .c4g__spinner-wrapper {

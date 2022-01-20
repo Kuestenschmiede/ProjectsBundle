@@ -38,8 +38,10 @@
     .c4g__tile-grid-#{$i} {
       display: grid;
       grid-template-columns: repeat($i, 1fr);
-      width: max-content;
+      //width: max-content;
       justify-content: center;
+      display: inline-grid;
+      grid-gap: 2px;
       margin-left: auto;
       margin-right: auto;
 
