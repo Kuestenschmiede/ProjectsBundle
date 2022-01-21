@@ -124,7 +124,7 @@ class C4GBaseController extends AbstractFrontendModuleController
     protected $withLabels = true; //switching on/off all labels
     protected $isPopup = false; //needed with magnific popup
     protected $c4g_map = false; //needed for embedding con4gis maps
-    protected $permalink_field = null; //using another field for permalink (default: id field)
+    protected $permalink_field = 'id'; //using another field for permalink (default: id field)
     protected $permalink_name = null; //for setting an own get param
     protected $permalinkModelClass = null; //if table filled by modelListFunction
     protected $withPermissionCheck = true; // can be set to false to avoid the table permission check
@@ -760,7 +760,7 @@ class C4GBaseController extends AbstractFrontendModuleController
         }
 
         if ($this->loadHistoryPushResources === true) {
-            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/dist/js/historyPush.js', ResourceLoader::BODY, 'history-push');
+            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/dist/js/historyBrickPush.js', ResourceLoader::BODY, 'history-push');
         }
 
         if ($this->loadSignaturePadResources === true) {
@@ -1090,6 +1090,9 @@ class C4GBaseController extends AbstractFrontendModuleController
         } catch (Exception $e) {
             $result = $this->showException($e);
         }
+
+        //Test
+        $result['dialogstate'] = str_replace('item:', $this->permalink_name.'=', $result['dialogstate']);
 
         return json_encode($result);
     }
