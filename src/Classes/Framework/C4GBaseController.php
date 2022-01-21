@@ -1091,8 +1091,9 @@ class C4GBaseController extends AbstractFrontendModuleController
             $result = $this->showException($e);
         }
 
-        //Test
-        $result['dialogstate'] = str_replace('item:', $this->permalink_name.'=', $result['dialogstate']);
+        if ($this->permalink_name) {
+            $result['dialogstate'] = str_replace('item:', $this->permalink_name.'=', $result['dialogstate']);
+        }
 
         return json_encode($result);
     }
