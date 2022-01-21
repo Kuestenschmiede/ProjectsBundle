@@ -31,10 +31,21 @@
     @extend .input-group-text;
   }
 
-
   select {
     &.c4g__form-select {
       @extend .form-select;
     }
+  }
+
+  .c4g__list-group {
+    @extend .list-group;
+  }
+
+  .c4g__list-group-item {
+    @extend .list-group-item;
+  }
+
+  .c4g__list-group-item-action {
+    @extend .list-group-item-action;
   }
 }
