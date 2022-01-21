@@ -238,7 +238,7 @@ class C4GShowListAction extends C4GBrickDialogAction
                             $database = $brickDatabase->getParams()->getDatabase();
 
                             //ToDo Umbau brickDatabase
-                            $model = $modelClass ? $modelClass : $brickDatabase->getParams()->getModelClass();
+                            $model = $modelClass ?: $brickDatabase->getParams()->getModelClass();
                             $elements = $model::$function($groupId, $pid_field, $parentId, $database, $listParams);
 
                             if ($elements->headline) {
