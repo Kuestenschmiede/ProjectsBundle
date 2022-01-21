@@ -32,7 +32,6 @@ class C4GShowListAction extends C4GBrickDialogAction
         $memberId = $dialogParams->getMemberId();
         $groupId = $dialogParams->getGroupId();
         $projectId = $dialogParams->getProjectId();
-        $projectKey = $dialogParams->getProjectKey();
         $parentId = $dialogParams->getParentId();
         $parentIdField = $dialogParams->getParentIdField();
         $parentModel = $dialogParams->getParentModel();
@@ -40,7 +39,6 @@ class C4GShowListAction extends C4GBrickDialogAction
         $parentCaptionFields = $dialogParams->getParentCaptionFields();
         $brickKey = $dialogParams->getBrickKey();
         $brickCaptionPlural = $dialogParams->getBrickCaptionPlural();
-        $captionField = $dialogParams->getCaptionField();
         $withLabels = $dialogParams->isWithLabels();
         $viewType = $dialogParams->getViewType();
         $viewParams = $dialogParams->getViewParams();
