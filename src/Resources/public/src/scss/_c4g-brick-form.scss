@@ -280,8 +280,8 @@ label:empty, li:empty, #c4g_description:empty {
 .typed {
   height: 110px;
 }
-.c4g__form-group-wrapper {
-  margin: 0 0;
+.c4g__list-group {
+  @extend .list-group;
 }
 .c4g__form-description-text {
   display: inline-block;

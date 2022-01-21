@@ -19,7 +19,7 @@ class C4GMultiLinkField extends C4GBrickField
 {
     private $linkClass = '';
     private $wrapper = false;
-    private $wrapperClass = 'c4g__form-group-wrapper';
+    private $wrapperClass = 'c4g__list-group';
 
     /**
      * @param string $type
@@ -51,7 +51,7 @@ class C4GMultiLinkField extends C4GBrickField
                 } else {
                     $rel = '';
                 }
-                $tags[] = '<a class="' . $this->linkClass . '" href="' . $link['linkHref'] . "\" $rel>" . $link['linkTitle'] . '</a>';
+                $tags[] = '<a class="' . $this->linkClass . ' c4g__list-group-item c4g__list-group-item-action" href="' . $link['linkHref'] . "\" $rel>" . $link['linkTitle'] . '</a>';
             }
 
             if ($this->wrapper) {
