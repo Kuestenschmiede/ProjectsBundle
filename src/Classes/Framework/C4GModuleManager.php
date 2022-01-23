@@ -64,7 +64,7 @@ class C4GModuleManager
             }
 
             $this->import('FrontendUser', 'User');
-            $groups = unserialize($objModule->groups);
+            $groups = \Contao\StringUtil::deserialize($objModule->groups);
 
             if (!is_array($groups) || count($groups) < 1 || count(array_intersect($groups, $this->User->groups)) < 1) {
                 header('HTTP/1.1 403 Forbidden');

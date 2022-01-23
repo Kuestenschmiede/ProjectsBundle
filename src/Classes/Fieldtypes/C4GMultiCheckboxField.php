@@ -198,7 +198,7 @@ class C4GMultiCheckboxField extends C4GBrickField
                     $cbArray[$tmpValue] = $tmpKey;
                 }
             }
-            //$cbArray = array_flip(unserialize(html_entity_decode($field_content)));
+            //$cbArray = array_flip(\Contao\StringUtil::deserialize(html_entity_decode($field_content)));
         } else {
             $cbArray = null;
         }

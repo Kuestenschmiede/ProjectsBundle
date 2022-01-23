@@ -95,7 +95,7 @@ class C4GForeignArrayField extends C4GBrickField
         if ($useDoctrine) {
             $dataArray = $dbValues->$index;
         } elseif ($dbValues->$index) {
-            $dataArray = unserialize($dbValues->$index);
+            $dataArray = \Contao\StringUtil::deserialize($dbValues->$index);
         }
         if ($this->autoAdd) {
             switch ($this->autoAddData) {

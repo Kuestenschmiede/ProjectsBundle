@@ -24,8 +24,8 @@
     "doctrine/orm": "^2.8.1",
     "doctrine/data-fixtures": "^1.4.4",
     "doctrine/persistence": "^2.1.0",
-    "terminal42/notification_center": "^1.6",
-    "guzzlehttp/guzzle": "^6.5",
+    "terminal42/notification_center": "^1.6.5",
+    "guzzlehttp/guzzle": "7.4.1",
     "contao-components/jquery": "^3.6",
     "bacon/bacon-qr-code": "^2.0"
   },

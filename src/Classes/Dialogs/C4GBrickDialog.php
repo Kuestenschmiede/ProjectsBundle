@@ -535,7 +535,7 @@ class C4GBrickDialog
             if ($buttons) {
                 foreach ($buttons as $button) {
                     if (strpos($button['action'], $action) !== false) {
-                        return unserialize($button['notifiaction']);
+                        return \Contao\StringUtil::deserialize($button['notifiaction']);
                     }
                 }
             }
@@ -1256,7 +1256,7 @@ class C4GBrickDialog
                         $set[$groupKeyField] = $group->id;
                         $owner = MemberModel::findByPk($owner_member_id);
                         if ($owner && !empty($owner->groups)) {
-                            $ownerGroups = unserialize($owner->groups);
+                            $ownerGroups = \Contao\StringUtil::deserialize($owner->groups);
                             $ownerGroups[] = $group->id;
 
                             $found = false;

@@ -214,7 +214,7 @@ class C4GRadioGroupField extends C4GBrickField
         //compare for C4GMatching
         if ($this->isSearchField()) {
             if ($dbValue != $dlgValue) {
-                $tmpValue = unserialize($dlgValue);
+                $tmpValue = \Contao\StringUtil::deserialize($dlgValue);
                 if (strlen($tmpValue[0]) > 0) {
                     $dlgValue = $tmpValue[0];
                 } else {

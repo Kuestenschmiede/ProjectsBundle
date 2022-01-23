@@ -578,7 +578,7 @@ class C4GShowDialogAction extends C4GBrickDialogAction
                         }
                     }
                 } else {
-                    foreach (unserialize($ids) as $value) {
+                    foreach (\Contao\StringUtil::deserialize($ids) as $value) {
                         $dbValues = $field->getBrickDatabase()->findBy($field->getForeignKey(), $value);
                         foreach ($dbValues as $dbVal) {
                             if ($dbVal instanceof \stdClass) {

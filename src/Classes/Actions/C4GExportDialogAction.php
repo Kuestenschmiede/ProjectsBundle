@@ -69,7 +69,7 @@ class C4GExportDialogAction extends C4GBrickDialogAction
         // generate export file
         $dbValues->refresh();
 
-        $selection = unserialize($dbValues->selection);
+        $selection = \Contao\StringUtil::deserialize($dbValues->selection);
         $filename = C4GStreamerExport::exportBasedata($groupId, $selection, $dbValues, $memberId);
 //        $dir = C4GBrickConst::PATH_GROUP_DATA."/".$this->group_id."/export/";
 //        $dir2 = C4GBrickConst::PATH_GROUP_DATA."/".$this->group_id."/basedata/";

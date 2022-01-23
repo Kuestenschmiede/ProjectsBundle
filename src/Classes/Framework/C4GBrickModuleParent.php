@@ -1289,7 +1289,7 @@ class C4GBrickModuleParent extends Module
     public function sendNotifications($newId, $notifyOnChanges, $notification_type, $dlgValues, $fieldList, $changes)
     {
         if ($newId || $notifyOnChanges) {
-            $notification_array = unserialize($notification_type);
+            $notification_array = \Contao\StringUtil::deserialize($notification_type);
             if (sizeof($notification_array) == 1) {
                 $objNotification = Notification::findByPk($notification_array);
                 if ($objNotification !== null) {

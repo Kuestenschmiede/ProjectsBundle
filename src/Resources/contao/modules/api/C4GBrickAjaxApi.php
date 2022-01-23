@@ -102,7 +102,7 @@ class C4GBrickAjaxApi extends \Frontend
             }
 
             $user = FrontendUser::getInstance();
-            $groups = unserialize($objModule->groups);
+            $groups = \Contao\StringUtil::deserialize($objModule->groups);
 
             if (!is_array($groups) || count($groups) < 1 || count(array_intersect($groups, $user->groups)) < 1)
             {
