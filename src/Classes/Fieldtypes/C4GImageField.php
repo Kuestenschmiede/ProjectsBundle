@@ -129,9 +129,9 @@ class C4GImageField extends C4GBrickField
                 $link = $data->$i;
 
                 $lightBoxField = $this->lightBoxField;
-                if ($link !== '') {
+                if ($link) {
                     $img = '<a href="' . $link . "\" target=\"_blank\" rel=\"noopener noreferrer\">$img</a>";
-                } elseif ($lightBoxField !== '' && $data->$lightBoxField === '1') {
+                } elseif ($lightBoxField !== '' || $data->$lightBoxField) {
                     $img = "<a href=\"$path\" data-lightbox=\"c4g_image\">$img</a>";
                 }
 
