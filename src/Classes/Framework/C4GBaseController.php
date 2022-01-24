@@ -71,6 +71,7 @@ class C4GBaseController extends AbstractFrontendModuleController
 
     //embedding additional sources
     protected $strTemplate = 'mod_c4g_brick'; //default module template
+    protected $printTemplate = 'c4g_pdftemplate'; //default print template
     protected $uiTheme = ''; //loading your own ui theme for your module class (https://jqueryui.com/themeroller/)
 
     //group params

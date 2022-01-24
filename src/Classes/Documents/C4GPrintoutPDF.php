@@ -193,7 +193,7 @@ class C4GPrintoutPDF
         $pdfManager->style = $style;
 
         $pdfData = [];
-        $pdfData['template'] = 'c4g_pdftemplate';
+        $pdfData['template'] = $module->printTemplate;//ToDo Check
         $pdfData['filename'] = '{{date::Y_m_d-H_i_s}}-' . rand(100, 999) . '_document.pdf';
         $pdfData['filepath'] = C4GBrickConst::PATH_BRICK_DOCUMENTS;
         $pdfData['Attachment'] = false;
