@@ -269,13 +269,8 @@ class C4GBrickModuleParent extends \Module
     private function memberCheck($init = false)
     {
         $user = FrontendUser::getInstance();
-        if ($user->id) {
-            if ($this->publicViewType &&
-                ($this->viewType === C4GBrickViewType::PUBLICBASED ||
-                $this->viewType === C4GBrickViewType::PUBLICPARENTBASED)
-            ) {
-                $this->viewType = $this->publicViewType;
-            }
+        if ($user->id > 0) {
+            return false;
         } elseif (
             !C4GBrickView::isPublicBased($this->viewType) &&
             !C4GBrickView::isPublicParentBased($this->viewType) &&
@@ -344,13 +339,9 @@ class C4GBrickModuleParent extends \Module
     {
         //loading language files
         $this->loadLanguageFiles();
+        $user = FrontendUser::getInstance();
 
-        if (FE_USER_LOGGED_IN) {
-            \System::import('FrontendUser', 'User');
-            $authenticated = $this->User->authenticate();
-        }
-
-        if (!$authenticated && $this->publicViewType && (($this->viewType == C4GBrickViewType::PUBLICBASED) || ($this->viewType == C4GBrickViewType::PUBLICPARENTBASED))) {
+        if ($user->id < 1 && $this->publicViewType && (($this->viewType == C4GBrickViewType::PUBLICBASED) || ($this->viewType == C4GBrickViewType::PUBLICPARENTBASED))) {
             $this->viewType = $this->publicViewType;
         }
 
