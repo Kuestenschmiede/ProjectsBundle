@@ -1091,7 +1091,7 @@ class C4GBrickModuleParent extends \Module
     /**
      * Initialize C4GPermissions for this module.
      */
-    final private function initPermissions()
+    private function initPermissions()
     {
         if (C4GBrickView::isWithoutEditing($this->viewType)) {
             $level = 1;
