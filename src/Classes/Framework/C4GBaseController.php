@@ -171,8 +171,9 @@ class C4GBaseController extends AbstractFrontendModuleController
     protected $jQueryUseScrollPane = true;
     protected $jQueryUsePopups = false;
 
-    //Deprecated Params
+    //Scripts that can be overwritten or appended in the module for individual functions and layout
     protected $brickStyle = '';
+    protected $printStyle = '';
     protected $brickScript = '';
 
     protected $rootDir;

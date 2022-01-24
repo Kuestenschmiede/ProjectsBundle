@@ -189,11 +189,16 @@ class C4GPrintoutPDF
         );
 
         $pdfManager = new PdfManager(null, null, $pass);
-        $style = TL_ROOT . 'bundles/con4gisprojects/dist/css/c4g_brick_print.min.css';
+
+        if ($module->printStyle) {
+            $style = $module->printStyle;
+        } else {
+            $style = TL_ROOT . 'bundles/con4gisprojects/dist/css/c4g_brick_print.min.css';
+        }
         $pdfManager->style = $style;
 
         $pdfData = [];
-        $pdfData['template'] = $module->printTemplate;//ToDo Check
+        $pdfData['template'] = $module->printTemplate;
         $pdfData['filename'] = '{{date::Y_m_d-H_i_s}}-' . rand(100, 999) . '_document.pdf';
         $pdfData['filepath'] = C4GBrickConst::PATH_BRICK_DOCUMENTS;
         $pdfData['Attachment'] = false;
