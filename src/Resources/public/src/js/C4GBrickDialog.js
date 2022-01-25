@@ -537,11 +537,13 @@ function C4GCheckCondition(field)
     var fieldNames = field.dataset.conditionName.split("~");
     var fieldValues = field.dataset.conditionValue.split("~");
     var fieldType = field.dataset.conditionType.split("~");
-
-
+    
     var currentName;
     var currentValue;
     var currentType;
+
+    let countValueHits = 0;
+    let countValuePoss = 0;
 
     for(f = 0; f < fieldNames.length; f++)
     {
@@ -552,6 +554,7 @@ function C4GCheckCondition(field)
         if (currentType == "method") {
             continue;
         }
+        countValuePoss++;
 
         checkValue = document.getElementById(currentName) ? document.getElementById(currentName).value : false;
 
@@ -585,6 +588,8 @@ function C4GCheckCondition(field)
                 } catch (err) {
                     //ToDo
                 }
+            } else {
+                countValueHits++;
             }
         }
     }
@@ -602,7 +607,7 @@ function C4GCheckCondition(field)
         checkValue = document.getElementById(currentName) ? document.getElementById(currentName).value : false;
 
         if (checkValue) {
-            if (checkValue == currentValue) {
+            if ((checkValue == currentValue) && (countValueHits == countValuePoss)) {
                 for (o = 0; o < field.children.length; o++) {
                     try {
                         jQuery(field.children[o]).show();
