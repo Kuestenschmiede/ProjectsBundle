@@ -51,7 +51,12 @@ class C4GMultiLinkField extends C4GBrickField
                 } else {
                     $rel = '';
                 }
-                $tags[] = '<a class="' . $this->linkClass . ' c4g__list-group-item c4g__list-group-item-action" href="' . $link['linkHref'] . "\" $rel>" . $link['linkTitle'] . '</a>';
+
+                if (!$link['linkHref']) {
+                    $tags[] = '<span class="' . $this->linkClass . ' c4g__list-group-item">' . $link['linkTitle'] . '</span>';
+                } else {
+                    $tags[] = '<a class="' . $this->linkClass . ' c4g__list-group-item c4g__list-group-item-action" href="' . $link['linkHref'] . "\" $rel>" . $link['linkTitle'] . '</a>';
+                }
             }
 
             if ($this->wrapper) {
