@@ -119,6 +119,7 @@ class C4GBrickDialogParams
     private $confirmActivationActionCallback = [];
     private $emptyListMessage = [];
     private $showCloseDialogPrompt = false; // Always show a confirmation dialog on close, even if nothing has been changed
+    private $didValuesChangeCallback = null;
 
     /**
      * C4GBrickDialogParams constructor.
@@ -2144,5 +2145,21 @@ class C4GBrickDialogParams
     public function setShowCloseDialogPrompt(bool $showCloseDialogPrompt = true): void
     {
         $this->showCloseDialogPrompt = $showCloseDialogPrompt;
+    }
+
+    /**
+     * @return C4GCallback
+     */
+    public function getDidValuesChangeCallback() : C4GCallback
+    {
+        return $this->didValuesChangeCallback;
+    }
+
+    /**
+     * @param C4GCallback $didValuesChangeCallback
+     */
+    public function setDidValuesChangeCallback(C4GCallback $didValuesChangeCallback): void
+    {
+        $this->didValuesChangeCallback = $didValuesChangeCallback;
     }
 }
