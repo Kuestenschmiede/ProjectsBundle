@@ -57,12 +57,8 @@ class C4GCheckboxField extends C4GBrickField
 
                 foreach ($fieldConditions as $fieldCondition) {
                     if (($fieldCondition) && ($fieldCondition->getType() == C4GBrickConditionType::BOOLSWITCH) && ($fieldCondition->getFieldName() == $this->getFieldName())) {
-                        $elementId = 'c4g_' . $afield->getFieldName();
-                        $reverse = 0;
-                        if (!$fieldCondition->getValue()) {
-                            $reverse = 1;
-                        }
-                        $boolswitch = ' onchange="handleBoolSwitch(' . $id . ',' . $elementId . ',' . $reverse . ')" ';
+
+                        //$boolswitch = ' onchange="handleBoolSwitch(' . $id . ',' . $elementId . ',' . $reverse . ')" ';
 
                         break;
                     }
@@ -70,7 +66,7 @@ class C4GCheckboxField extends C4GBrickField
             }
 
             $result = $this->addC4GField($condition, $dialogParams, $fieldList, $data,
-                '<input ' . $required . $boolswitch . $condition['conditionPrepare'] . ' type="checkbox" id="' . $id . '" class="formdata c4g__form-check-input ' . $id . '" name="' . $this->getFieldName() . '" value="' . $this->getFieldName() . '" ' . $checked . '>');
+                '<input ' . $required . $condition['conditionPrepare'] . ' type="checkbox" id="' . $id . '" class="formdata c4g__form-check-input ' . $id . '" name="' . $this->getFieldName() . '" value="' . $this->getFieldName() . '" ' . $checked . '>');
         }
 
         return $result;

@@ -75,6 +75,9 @@ function C4GDatePicker(id,
 
         var wd = new Array();
         wd = weekdays.split(",");
+        for (a in wd ) {
+            wd[a] = parseInt(wd[a]);
+        }
 
         const datepicker = new window.Datepicker(elem, {
             buttonClass: 'c4g__btn',
@@ -89,7 +92,8 @@ function C4GDatePicker(id,
             //todayBtn: true,
             todayHighlight: true,
             orientation: 'auto left',
-            autohide: true
+            autohide: true,
+            useCurrent: true
         });
 
         if (elem.datepicker) {
@@ -287,12 +291,23 @@ function handleBoolSwitch(checkbox, element, reverse) {
         var checkboxId = checkbox.id;
         var elementId = element.id;
 
-        var checked = document.getElementById(checkboxId).checked;
+        if (document.getElementById(checkboxId).type == "checkbox") {
+            var checked = document.getElementById(checkboxId).checked;
 
-        if (reverse == '1') {
-            document.getElementById(elementId).disabled = checked;
+            if (reverse == '1') {
+                document.getElementById(elementId).disabled = checked;
+            } else {
+                document.getElementById(elementId).disabled = !checked;
+            }
         } else {
-            document.getElementById(elementId).disabled = !checked;
+            var checked = document.getElementById(checkboxId).value;
+
+            if (reverse == '1') {
+                document.getElementById(elementId).disabled = checked;
+            } else {
+                document.getElementById(elementId).disabled = !checked;
+            }
+
         }
     }
 

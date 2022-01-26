@@ -700,16 +700,30 @@ abstract class C4GBrickField
     protected function generateRequiredString($data, $dialogParams)
     {
         $required = '';
-        if ($this->getConditionType() == C4GBrickConditionType::BOOLSWITCH) {
-            $condition = $this->getCondition();
-            if ($condition) {
-                $thisName = $condition[0]->getFieldName();
-                if ($data && ($data->$thisName != $condition[0]->getValue())) {
-                    $required = 'disabled readonly';
-                    $this->setWithoutMandatoryStar(true);
-                    $this->setEditable(false);
+        $condition = $this->createConditionData($fieldList, $data);
+        foreach ($fieldList as $afield) {
+            $fieldConditions = $afield->getCondition();
 
-                    return $required;
+            foreach ($fieldConditions as $fieldCondition) {
+                if (($fieldCondition) && ($fieldCondition->getType() == C4GBrickConditionType::BOOLSWITCH) && ($fieldCondition->getFieldName() == $this->getFieldName())) {
+
+                    $condition = $this->getCondition();
+                    if ($condition) {
+                        $thisName = $condition[0]->getFieldName();
+                        if ($data && (($condition[0]->getValue() == -1 && $data->$thisName) || ($data->$thisName != $condition[0]->getValue()))) {
+                            $required = 'disabled readonly';
+                            $this->setWithoutMandatoryStar(true);
+                            $this->setEditable(false);
+                            $id = $this->createFieldID();
+                            $elementId = 'c4g_' .$thisName;
+                            $reverse = 0;
+                            if (!$condition[0]->getValue()) {
+                                $reverse = 1;
+                            }
+                            $boolswitch = ' onchange="handleBoolSwitch(' . $id . ',' . $elementId . ',' . $reverse . ')"';
+                            return $required.$boolswitch;
+                        }
+                    }
                 }
             }
         }
