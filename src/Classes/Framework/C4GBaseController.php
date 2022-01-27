@@ -1625,4 +1625,20 @@ class C4GBaseController extends AbstractFrontendModuleController
 
         return $this;
     }
+
+    /**
+     * @return string
+     */
+    public function getPrintTemplate(): string
+    {
+        return $this->printTemplate;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPrintStyle(): string
+    {
+        return $this->printStyle;
+    }
 }
