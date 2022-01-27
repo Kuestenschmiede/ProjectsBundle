@@ -1322,20 +1322,23 @@ class C4GBaseController extends AbstractFrontendModuleController
     {
         if ($newId || $notifyOnChanges) {
             $notification_array = \Contao\StringUtil::deserialize($notification_type);
-            if (sizeof($notification_array) == 1) {
-                $objNotification = Notification::findByPk($notification_array);
-                if ($objNotification !== null) {
-                    $arrTokens = C4GBrickNotification::getArrayTokens($dlgValues, $fieldList);
-                    $arrTokens['admin_email'] = $GLOBALS['TL_CONFIG']['adminEmail'];
-                    $objNotification->send($arrTokens);
-                }
-            } else {
-                foreach ($notification_array as $notification) {
-                    $objNotification = Notification::findByPk($notification);
+
+            if ($notification_array && is_array($notification_array)) {
+                if (sizeof($notification_array) == 1) {
+                    $objNotification = Notification::findByPk($notification_array);
                     if ($objNotification !== null) {
                         $arrTokens = C4GBrickNotification::getArrayTokens($dlgValues, $fieldList);
                         $arrTokens['admin_email'] = $GLOBALS['TL_CONFIG']['adminEmail'];
                         $objNotification->send($arrTokens);
+                    }
+                } else {
+                    foreach ($notification_array as $notification) {
+                        $objNotification = Notification::findByPk($notification);
+                        if ($objNotification !== null) {
+                            $arrTokens = C4GBrickNotification::getArrayTokens($dlgValues, $fieldList);
+                            $arrTokens['admin_email'] = $GLOBALS['TL_CONFIG']['adminEmail'];
+                            $objNotification->send($arrTokens);
+                        }
                     }
                 }
             }
