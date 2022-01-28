@@ -123,7 +123,7 @@ class C4GSaveDialogAction extends C4GBrickDialogAction
             $printoutPDF->printAction($module, $printValues, $dialogId);
         }
 
-        if ($withNotification) {
+        if ($notification_type && $withNotification) {
             $this->module->sendNotifications($newId, $notifyOnChanges, $notification_type, $dlgValues, $fieldList, $changes);
         }
 
