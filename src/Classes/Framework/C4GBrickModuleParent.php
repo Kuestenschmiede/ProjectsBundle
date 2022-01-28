@@ -1243,7 +1243,7 @@ class C4GBrickModuleParent extends Module
                 }
             }
         }
-        if (sizeof($array) > 0) {
+        if (is_array($array) && (sizeof($array) > 0)) {
             $result = new C4GTablePermission($this->getC4GTablePermissionTable(), $array, $this->session);
 
             return $result;
@@ -1291,7 +1291,7 @@ class C4GBrickModuleParent extends Module
     {
         if ($newId || $notifyOnChanges) {
             $notification_array = \Contao\StringUtil::deserialize($notification_type);
-            if (sizeof($notification_array) == 1) {
+            if (is_array($notification_array) && sizeof($notification_array) == 1) {
                 $objNotification = Notification::findByPk($notification_array);
                 if ($objNotification !== null) {
                     $arrTokens = C4GBrickNotification::getArrayTokens($dlgValues, $fieldList);

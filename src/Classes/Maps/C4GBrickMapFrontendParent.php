@@ -773,7 +773,7 @@ class C4GBrickMapFrontendParent
                 }
             }
 
-            $size = sizeof($arrSortedData);
+            $size = is_array($arrSortedData) ? sizeof($arrSortedData) : 0;
             $arrData['hasChilds'] = true;
             $arrData['display'] = ($size > 0);
             $arrData['childsCount'] = $size;
@@ -824,7 +824,7 @@ class C4GBrickMapFrontendParent
                 }
             }
 
-            $size = sizeof($arrSortedData);
+            $size = is_array($arrSortedData) ? sizeof($arrSortedData) : 0;
             $arrData['hasChilds'] = true;
             $arrData['display'] = ($size > 0);
             $arrData['childsCount'] = $size;

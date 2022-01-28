@@ -19,7 +19,7 @@ abstract class C4GBrickDialogAction extends C4GBrickAction
     protected function sendNotifications($notifications, $dlgValues, $fieldList, $memberId, $object = null)
     {
         if ($notifications) {
-            if (sizeof($notifications) == 1) {
+            if (is_array($notifications) && sizeof($notifications) == 1) {
                 $objNotification = \NotificationCenter\Model\Notification::findByPk($notifications);
                 if ($objNotification !== null) {
                     $dlgValues['c4g_member_id'] = $memberId;

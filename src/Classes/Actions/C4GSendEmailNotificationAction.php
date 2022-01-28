@@ -38,7 +38,7 @@ class C4GSendEmailNotificationAction extends C4GBrickDialogAction
 
         $dlgValues['c4g_member_id'] = $memberId;
         if ($dialogParams->isWithNotification() && $id) {
-            if (sizeof($notification_array) == 1) {
+            if (is_array($notification_array) && count($notification_array) == 1) {
                 $objNotification = \NotificationCenter\Model\Notification::findByPk($notification_array);
                 if ($objNotification !== null) {
                     $arrTokens = C4GBrickNotification::getArrayTokens($dlgValues, $fieldList, true);
