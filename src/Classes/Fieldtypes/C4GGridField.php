@@ -135,7 +135,7 @@ class C4GGridField extends C4GBrickField
                     $count++;
                     $field = $gridElement->getField();
 
-                    if ($field) {
+                    if ($field && $field->isTableColumn()) {
                         $fieldHTML = $field->getC4GTileField($field->getTitle(), $rowData);
                         $fieldHTML = '<div class="c4g__list-list-element c4g_list-grid-element--' . $this->getFieldName() . '">' . $fieldHTML . '</div>';
                         $elementHTML .= $count > 1 ? ' ' . $fieldHTML : $fieldHTML;
@@ -173,7 +173,7 @@ class C4GGridField extends C4GBrickField
                     $count++;
                     $field = $gridElement->getField();
 
-                    if ($field) {
+                    if ($field && $field->isTableColumn()) {
 
                         $fieldHTML = $field->getC4GTileField($field->getTitle(), $element);
                         $fieldHTML = '<div class="c4g__tile-grid-element c4g_tile-grid-element--' . $this->getFieldName() . '">'.$fieldHTML.'</div>';
