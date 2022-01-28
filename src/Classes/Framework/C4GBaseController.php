@@ -38,6 +38,7 @@ use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\Database;
 use Contao\FrontendUser;
 use Contao\ModuleModel;
+use Contao\StringUtil;
 use Contao\Template;
 use NotificationCenter\Model\Notification;
 use PhpParser\Node\Expr\Array_;
@@ -476,6 +477,10 @@ class C4GBaseController extends AbstractFrontendModuleController
 
     public function initBrickModule($id)
     {
+        $arrHeadline = StringUtil::deserialize($this->headline);
+        $this->headline = \is_array($arrHeadline) ? $arrHeadline['value'] : $arrHeadline;
+        $this->hl = \is_array($arrHeadline) ? $arrHeadline['unit'] : 'h1';
+
         //loading language files
         $this->loadLanguageFiles();
 
@@ -571,8 +576,10 @@ class C4GBaseController extends AbstractFrontendModuleController
                 $contentId = $this->settings['position_map'];
             }
             $this->dialogParams->setContentId($contentId);
+
             $this->dialogParams->setHeadline($this->headline);
             $this->dialogParams->setHeadlineTag($this->hl);
+
             $this->dialogParams->setSendEMails($this->sendEMails);
             $this->dialogParams->setWithNotification($this->withNotification);
             $this->dialogParams->setNotificationType($this->notification_type);
