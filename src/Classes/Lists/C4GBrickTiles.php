@@ -452,6 +452,7 @@ class C4GBrickTiles
                     '</div>' . $button . $search . '<div class="c4g_tile_filter_items">' . $filterResult . '</div>' : '',
                 'modal' => true,
             ]),
+            'headline' => '',
             'dialogid' => C4GBrickActionType::IDENTIFIER_LIST . $key,
             'dialogstate' => C4GBrickActionType::IDENTIFIER_LIST . $key,
             'dialogbuttons' => C4GBrickTiles::getDialogButtons($listParams, $parentCaption),
