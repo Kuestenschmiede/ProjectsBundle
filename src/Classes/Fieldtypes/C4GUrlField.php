@@ -20,7 +20,12 @@ class C4GUrlField extends C4GBrickField
 {
     private $withLink = true;
     private $addProtocol = true;
+    private $linkType = self::LINK_TYPE_DEFAULT;
     private $url = ''; //optional additional to initial value
+
+    const LINK_TYPE_DEFAULT = 10;
+    const LINK_TYPE_PHONE = 20;
+    const LINK_TYPE_EMAIL = 30;
 
     /**
      * @param string $type
@@ -51,9 +56,23 @@ class C4GUrlField extends C4GBrickField
             if ($this->withLink && !$this->isEditable()) {
                 $url = $this->url ?: $value;
 
-                if ($this->addProtocol && !C4GUtils::startsWith($url, 'http')) {
-                    $url = 'https://' . $url;
+                switch ($this->linkType) {
+                    case self::LINK_TYPE_PHONE:
+                        $url = 'tel:' . $url;
+
+                        break;
+                    case self::LINK_TYPE_EMAIL:
+                        $url = 'mailto:' . $url;
+
+                        break;
+                    default:
+                        if ($this->addProtocol && !C4GUtils::startsWith($url, 'http')) {
+                            $url = 'https://' . $url;
+                        }
+
+                        break;
                 }
+
                 $fieldDataBefore = '<a' . $condition['conditionPrepare'] . ' href="' . $url . '" target="_blank" rel="noopener" class="formdata">';
                 $fieldDataAfter = '</a>';
 
@@ -140,4 +159,19 @@ class C4GUrlField extends C4GBrickField
         $this->url = $url;
     }
 
+    /**
+     * @return int
+     */
+    public function getLinkType(): int
+    {
+        return $this->linkType;
+    }
+
+    /**
+     * @param int $linkType
+     */
+    public function setLinkType(int $linkType): void
+    {
+        $this->linkType = $linkType;
+    }
 }
