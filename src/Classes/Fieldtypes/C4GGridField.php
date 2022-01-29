@@ -59,7 +59,7 @@ class C4GGridField extends C4GBrickField
                     if ($field) {
                         $fieldHTML = $field->getC4GDialogField($fieldList, $data, $dialogParams);
 
-                        $elementHTML .= '<div class="c4g__form-grid-element">' . $fieldHTML . '</div>';
+                        $elementHTML .= '<div class="c4g__form-grid-element c4g__form-grid-element--'.$field->getFieldName().'">' . $fieldHTML . '</div>';
                     }
                 }
 
