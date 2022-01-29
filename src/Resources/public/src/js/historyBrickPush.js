@@ -8,9 +8,15 @@
  * @link https://www.con4gis.org
  */
 
+function backWithRefresh() {
+    historyPush('', history, false);
+    location.reload();
+}
 
 function historyPush(state, history, gui) {
-    gui.pushingState = true;
+    if (gui) {
+        gui.pushingState = true;
+    }
     let newHref = window.location.href;
     let removeGetParam = false;
 
@@ -74,5 +80,7 @@ function historyPush(state, history, gui) {
         }
     }
 
-    gui.pushingState = false;
+    if (gui) {
+        gui.pushingState = false;
+    }
 }
