@@ -33,7 +33,7 @@ class C4GExportDialogAction extends C4GBrickDialogAction
 
         $validate_result = C4GBrickDialog::validateFields($fieldList, $dlgValues);
         if ($validate_result) {
-            return ['usermessage' => $validate_result];
+            return ['usermessage' => htmlspecialchars_decode($validate_result)];
         }
 
         $database = $brickDatabase->getParams()->getDatabase();

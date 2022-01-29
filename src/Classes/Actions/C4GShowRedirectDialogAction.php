@@ -53,11 +53,11 @@ class C4GShowRedirectDialogAction extends C4GBrickDialogAction
         }
         if ($redirectDialogSite && (($jumpTo = \PageModel::findByPk($redirectDialogSite)) !== null)) {
             $return['title'] = $redirectDialogTitle;
-            $return['usermessage'] = $redirectDialogMessage;
+            $return['usermessage'] = htmlspecialchars_decode($redirectDialogMessage);
             $return['jump_after_message'] = $jumpTo->getFrontendUrl();
         } else {
             $return['title'] = $redirectDialogTitle;
-            $return['usermessage'] = $redirectDialogMessage;
+            $return['usermessage'] = htmlspecialchars_decode($redirectDialogMessage);
         }
 
         return $return;

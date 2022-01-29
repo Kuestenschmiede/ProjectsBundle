@@ -46,7 +46,7 @@ trait C4GTraitCheckMandatoryFields
 
         $validate_result = C4GBrickDialog::validateFields($this->makeRegularFieldList($fieldList), $dlgValues);
         if ($validate_result) {
-            return ['usermessage' => $validate_result, 'title' => $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['INVALID_INPUT']];
+            return ['usermessage' => htmlspecialchars_decode($validate_result), 'title' => $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['INVALID_INPUT']];
         }
 
         return [];

@@ -2120,7 +2120,7 @@ abstract class C4GBrickField
      */
     public function getSpecialMandatoryMessage()
     {
-        return $this->specialMandatoryMessage;
+        return htmlspecialchars_decode($this->specialMandatoryMessage);
     }
 
     /**
