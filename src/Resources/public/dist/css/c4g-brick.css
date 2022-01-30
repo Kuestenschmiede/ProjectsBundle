@@ -5119,6 +5119,9 @@ fieldset:disabled .ui-button {
 .c4g_brick_dialog .c4g_mandatory_class {
   color: #8b0000
 }
+.c4g_brick_dialog .c4g__form-group a input {
+  cursor: pointer
+}
 .ui-datepicker-month,
 .ui-datepicker-year {
   display: inline-block
@@ -5209,6 +5212,9 @@ table.datepicker_table {
   width: auto;
   border-style: inherit
 }
+.c4g__form-check {
+  line-height: initial
+}
 .c4g__form-check-input {
   margin-top: 0
 }
@@ -5271,7 +5277,8 @@ table.datepicker_table {
 .c4g__form-grid-1 {
   display: grid;
   grid-template-columns: repeat(1,1fr);
-  grid-gap: 1rem
+  grid-row-gap: .5rem;
+  grid-column-gap: 1rem
 }
 @media (max-width:400px) {
   .c4g__form-grid-1 {
@@ -5281,7 +5288,8 @@ table.datepicker_table {
 .c4g__form-grid-2 {
   display: grid;
   grid-template-columns: repeat(2,1fr);
-  grid-gap: 1rem
+  grid-row-gap: .5rem;
+  grid-column-gap: 1rem
 }
 @media (max-width:400px) {
   .c4g__form-grid-2 {
@@ -5291,7 +5299,8 @@ table.datepicker_table {
 .c4g__form-grid-3 {
   display: grid;
   grid-template-columns: repeat(3,1fr);
-  grid-gap: 1rem
+  grid-row-gap: .5rem;
+  grid-column-gap: 1rem
 }
 @media (max-width:400px) {
   .c4g__form-grid-3 {
@@ -5301,7 +5310,8 @@ table.datepicker_table {
 .c4g__form-grid-4 {
   display: grid;
   grid-template-columns: repeat(4,1fr);
-  grid-gap: 1rem
+  grid-row-gap: .5rem;
+  grid-column-gap: 1rem
 }
 @media (max-width:400px) {
   .c4g__form-grid-4 {
@@ -5311,7 +5321,8 @@ table.datepicker_table {
 .c4g__form-grid-5 {
   display: grid;
   grid-template-columns: repeat(5,1fr);
-  grid-gap: 1rem
+  grid-row-gap: .5rem;
+  grid-column-gap: 1rem
 }
 @media (max-width:400px) {
   .c4g__form-grid-5 {
@@ -5321,7 +5332,8 @@ table.datepicker_table {
 .c4g__form-grid-6 {
   display: grid;
   grid-template-columns: repeat(6,1fr);
-  grid-gap: 1rem
+  grid-row-gap: .5rem;
+  grid-column-gap: 1rem
 }
 @media (max-width:400px) {
   .c4g__form-grid-6 {
@@ -5331,7 +5343,8 @@ table.datepicker_table {
 .c4g__form-grid-7 {
   display: grid;
   grid-template-columns: repeat(7,1fr);
-  grid-gap: 1rem
+  grid-row-gap: .5rem;
+  grid-column-gap: 1rem
 }
 @media (max-width:400px) {
   .c4g__form-grid-7 {
@@ -5341,7 +5354,8 @@ table.datepicker_table {
 .c4g__form-grid-8 {
   display: grid;
   grid-template-columns: repeat(8,1fr);
-  grid-gap: 1rem
+  grid-row-gap: .5rem;
+  grid-column-gap: 1rem
 }
 @media (max-width:400px) {
   .c4g__form-grid-8 {
@@ -5351,7 +5365,8 @@ table.datepicker_table {
 .c4g__form-grid-9 {
   display: grid;
   grid-template-columns: repeat(9,1fr);
-  grid-gap: 1rem
+  grid-row-gap: .5rem;
+  grid-column-gap: 1rem
 }
 @media (max-width:400px) {
   .c4g__form-grid-9 {
@@ -5361,7 +5376,8 @@ table.datepicker_table {
 .c4g__form-grid-10 {
   display: grid;
   grid-template-columns: repeat(10,1fr);
-  grid-gap: 1rem
+  grid-row-gap: .5rem;
+  grid-column-gap: 1rem
 }
 @media (max-width:400px) {
   .c4g__form-grid-10 {
@@ -5404,6 +5420,9 @@ table.datepicker_table {
   margin-left: 0;
   margin-top: auto;
   margin-bottom: auto
+}
+.c4g__form-grid-element .c4g__form-group {
+  margin-bottom: 0
 }
 .c4g-signature-pad {
   padding-bottom: 1.25%;
@@ -5572,7 +5591,8 @@ label.c4g_signature {
   width: -moz-max-content;
   width: max-content;
   justify-content: left;
-  grid-gap: 2px
+  grid-row-gap: 2px;
+  grid-column-gap: 2px
 }
 @media (max-width:400px) {
   .c4g__list-grid-1 {
@@ -5586,7 +5606,8 @@ label.c4g_signature {
   width: -moz-max-content;
   width: max-content;
   justify-content: left;
-  grid-gap: 2px
+  grid-row-gap: 2px;
+  grid-column-gap: 2px
 }
 @media (max-width:400px) {
   .c4g__list-grid-2 {
@@ -5600,7 +5621,8 @@ label.c4g_signature {
   width: -moz-max-content;
   width: max-content;
   justify-content: left;
-  grid-gap: 2px
+  grid-row-gap: 2px;
+  grid-column-gap: 2px
 }
 @media (max-width:400px) {
   .c4g__list-grid-3 {
@@ -5614,7 +5636,8 @@ label.c4g_signature {
   width: -moz-max-content;
   width: max-content;
   justify-content: left;
-  grid-gap: 2px
+  grid-row-gap: 2px;
+  grid-column-gap: 2px
 }
 @media (max-width:400px) {
   .c4g__list-grid-4 {
@@ -5628,7 +5651,8 @@ label.c4g_signature {
   width: -moz-max-content;
   width: max-content;
   justify-content: left;
-  grid-gap: 2px
+  grid-row-gap: 2px;
+  grid-column-gap: 2px
 }
 @media (max-width:400px) {
   .c4g__list-grid-5 {
@@ -5642,7 +5666,8 @@ label.c4g_signature {
   width: -moz-max-content;
   width: max-content;
   justify-content: left;
-  grid-gap: 2px
+  grid-row-gap: 2px;
+  grid-column-gap: 2px
 }
 @media (max-width:400px) {
   .c4g__list-grid-6 {
@@ -5656,7 +5681,8 @@ label.c4g_signature {
   width: -moz-max-content;
   width: max-content;
   justify-content: left;
-  grid-gap: 2px
+  grid-row-gap: 2px;
+  grid-column-gap: 2px
 }
 @media (max-width:400px) {
   .c4g__list-grid-7 {
@@ -5670,7 +5696,8 @@ label.c4g_signature {
   width: -moz-max-content;
   width: max-content;
   justify-content: left;
-  grid-gap: 2px
+  grid-row-gap: 2px;
+  grid-column-gap: 2px
 }
 @media (max-width:400px) {
   .c4g__list-grid-8 {
@@ -5684,7 +5711,8 @@ label.c4g_signature {
   width: -moz-max-content;
   width: max-content;
   justify-content: left;
-  grid-gap: 2px
+  grid-row-gap: 2px;
+  grid-column-gap: 2px
 }
 @media (max-width:400px) {
   .c4g__list-grid-9 {
@@ -5698,7 +5726,8 @@ label.c4g_signature {
   width: -moz-max-content;
   width: max-content;
   justify-content: left;
-  grid-gap: 2px
+  grid-row-gap: 2px;
+  grid-column-gap: 2px
 }
 @media (max-width:400px) {
   .c4g__list-grid-10 {
@@ -5770,7 +5799,8 @@ th.nomouseevents .DataTables_sort_icon {
   width: -moz-max-content;
   width: max-content;
   justify-content: left;
-  grid-gap: 2px
+  grid-row-gap: 2px;
+  grid-column-gap: 2px
 }
 @media (max-width:400px) {
   .c4g__list-grid-1 {
@@ -5784,7 +5814,8 @@ th.nomouseevents .DataTables_sort_icon {
   width: -moz-max-content;
   width: max-content;
   justify-content: left;
-  grid-gap: 2px
+  grid-row-gap: 2px;
+  grid-column-gap: 2px
 }
 @media (max-width:400px) {
   .c4g__list-grid-2 {
@@ -5798,7 +5829,8 @@ th.nomouseevents .DataTables_sort_icon {
   width: -moz-max-content;
   width: max-content;
   justify-content: left;
-  grid-gap: 2px
+  grid-row-gap: 2px;
+  grid-column-gap: 2px
 }
 @media (max-width:400px) {
   .c4g__list-grid-3 {
@@ -5812,7 +5844,8 @@ th.nomouseevents .DataTables_sort_icon {
   width: -moz-max-content;
   width: max-content;
   justify-content: left;
-  grid-gap: 2px
+  grid-row-gap: 2px;
+  grid-column-gap: 2px
 }
 @media (max-width:400px) {
   .c4g__list-grid-4 {
@@ -5826,7 +5859,8 @@ th.nomouseevents .DataTables_sort_icon {
   width: -moz-max-content;
   width: max-content;
   justify-content: left;
-  grid-gap: 2px
+  grid-row-gap: 2px;
+  grid-column-gap: 2px
 }
 @media (max-width:400px) {
   .c4g__list-grid-5 {
@@ -5840,7 +5874,8 @@ th.nomouseevents .DataTables_sort_icon {
   width: -moz-max-content;
   width: max-content;
   justify-content: left;
-  grid-gap: 2px
+  grid-row-gap: 2px;
+  grid-column-gap: 2px
 }
 @media (max-width:400px) {
   .c4g__list-grid-6 {
@@ -5854,7 +5889,8 @@ th.nomouseevents .DataTables_sort_icon {
   width: -moz-max-content;
   width: max-content;
   justify-content: left;
-  grid-gap: 2px
+  grid-row-gap: 2px;
+  grid-column-gap: 2px
 }
 @media (max-width:400px) {
   .c4g__list-grid-7 {
@@ -5868,7 +5904,8 @@ th.nomouseevents .DataTables_sort_icon {
   width: -moz-max-content;
   width: max-content;
   justify-content: left;
-  grid-gap: 2px
+  grid-row-gap: 2px;
+  grid-column-gap: 2px
 }
 @media (max-width:400px) {
   .c4g__list-grid-8 {
@@ -5882,7 +5919,8 @@ th.nomouseevents .DataTables_sort_icon {
   width: -moz-max-content;
   width: max-content;
   justify-content: left;
-  grid-gap: 2px
+  grid-row-gap: 2px;
+  grid-column-gap: 2px
 }
 @media (max-width:400px) {
   .c4g__list-grid-9 {
@@ -5896,7 +5934,8 @@ th.nomouseevents .DataTables_sort_icon {
   width: -moz-max-content;
   width: max-content;
   justify-content: left;
-  grid-gap: 2px
+  grid-row-gap: 2px;
+  grid-column-gap: 2px
 }
 @media (max-width:400px) {
   .c4g__list-grid-10 {
@@ -5904,7 +5943,8 @@ th.nomouseevents .DataTables_sort_icon {
   }
 }
 .c4g_brick_list ul {
-  display: flex
+  display: flex;
+  list-style: none
 }
 .c4g_brick_list li {
   padding-right: 8px
@@ -5914,9 +5954,10 @@ th.nomouseevents .DataTables_sort_icon {
   grid-template-columns: repeat(1,1fr);
   justify-content: center;
   display: inline-grid;
-  grid-gap: 2px;
   margin-left: auto;
-  margin-right: auto
+  margin-right: auto;
+  grid-row-gap: 2px;
+  grid-column-gap: 2px
 }
 @media (max-width:400px) {
   .c4g__tile-grid-1 {
@@ -5928,9 +5969,10 @@ th.nomouseevents .DataTables_sort_icon {
   grid-template-columns: repeat(2,1fr);
   justify-content: center;
   display: inline-grid;
-  grid-gap: 2px;
   margin-left: auto;
-  margin-right: auto
+  margin-right: auto;
+  grid-row-gap: 2px;
+  grid-column-gap: 2px
 }
 @media (max-width:400px) {
   .c4g__tile-grid-2 {
@@ -5942,9 +5984,10 @@ th.nomouseevents .DataTables_sort_icon {
   grid-template-columns: repeat(3,1fr);
   justify-content: center;
   display: inline-grid;
-  grid-gap: 2px;
   margin-left: auto;
-  margin-right: auto
+  margin-right: auto;
+  grid-row-gap: 2px;
+  grid-column-gap: 2px
 }
 @media (max-width:400px) {
   .c4g__tile-grid-3 {
@@ -5956,9 +5999,10 @@ th.nomouseevents .DataTables_sort_icon {
   grid-template-columns: repeat(4,1fr);
   justify-content: center;
   display: inline-grid;
-  grid-gap: 2px;
   margin-left: auto;
-  margin-right: auto
+  margin-right: auto;
+  grid-row-gap: 2px;
+  grid-column-gap: 2px
 }
 @media (max-width:400px) {
   .c4g__tile-grid-4 {
@@ -5970,9 +6014,10 @@ th.nomouseevents .DataTables_sort_icon {
   grid-template-columns: repeat(5,1fr);
   justify-content: center;
   display: inline-grid;
-  grid-gap: 2px;
   margin-left: auto;
-  margin-right: auto
+  margin-right: auto;
+  grid-row-gap: 2px;
+  grid-column-gap: 2px
 }
 @media (max-width:400px) {
   .c4g__tile-grid-5 {
@@ -5984,9 +6029,10 @@ th.nomouseevents .DataTables_sort_icon {
   grid-template-columns: repeat(6,1fr);
   justify-content: center;
   display: inline-grid;
-  grid-gap: 2px;
   margin-left: auto;
-  margin-right: auto
+  margin-right: auto;
+  grid-row-gap: 2px;
+  grid-column-gap: 2px
 }
 @media (max-width:400px) {
   .c4g__tile-grid-6 {
@@ -5998,9 +6044,10 @@ th.nomouseevents .DataTables_sort_icon {
   grid-template-columns: repeat(7,1fr);
   justify-content: center;
   display: inline-grid;
-  grid-gap: 2px;
   margin-left: auto;
-  margin-right: auto
+  margin-right: auto;
+  grid-row-gap: 2px;
+  grid-column-gap: 2px
 }
 @media (max-width:400px) {
   .c4g__tile-grid-7 {
@@ -6012,9 +6059,10 @@ th.nomouseevents .DataTables_sort_icon {
   grid-template-columns: repeat(8,1fr);
   justify-content: center;
   display: inline-grid;
-  grid-gap: 2px;
   margin-left: auto;
-  margin-right: auto
+  margin-right: auto;
+  grid-row-gap: 2px;
+  grid-column-gap: 2px
 }
 @media (max-width:400px) {
   .c4g__tile-grid-8 {
@@ -6026,9 +6074,10 @@ th.nomouseevents .DataTables_sort_icon {
   grid-template-columns: repeat(9,1fr);
   justify-content: center;
   display: inline-grid;
-  grid-gap: 2px;
   margin-left: auto;
-  margin-right: auto
+  margin-right: auto;
+  grid-row-gap: 2px;
+  grid-column-gap: 2px
 }
 @media (max-width:400px) {
   .c4g__tile-grid-9 {
@@ -6040,9 +6089,10 @@ th.nomouseevents .DataTables_sort_icon {
   grid-template-columns: repeat(10,1fr);
   justify-content: center;
   display: inline-grid;
-  grid-gap: 2px;
   margin-left: auto;
-  margin-right: auto
+  margin-right: auto;
+  grid-row-gap: 2px;
+  grid-column-gap: 2px
 }
 @media (max-width:400px) {
   .c4g__tile-grid-10 {

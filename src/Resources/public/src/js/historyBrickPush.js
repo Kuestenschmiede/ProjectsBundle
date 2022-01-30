@@ -9,8 +9,15 @@
  */
 
 function backWithRefresh() {
-    historyPush('', history, false);
-    location.reload();
+    //this one for external pages
+    var prevPage = window.location.href;
+    history.go(-2);
+
+    //and this needed if called per brick list
+    setTimeout(function(){
+        historyPush('', history, false);
+        location.reload();
+    }, 100);
 }
 
 function historyPush(state, history, gui) {

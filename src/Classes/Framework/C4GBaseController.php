@@ -769,7 +769,7 @@ class C4GBaseController extends AbstractFrontendModuleController
         }
 
         if ($this->loadHistoryPushResources === true) {
-            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/dist/js/historyBrickPush.js', ResourceLoader::BODY, 'history-push');
+            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/src/js/historyBrickPush.js', ResourceLoader::BODY, 'history-push');
         }
 
         if ($this->loadSignaturePadResources === true) {
