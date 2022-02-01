@@ -61,3 +61,10 @@ table.datepicker_table {
   }
 }
 
+// fix datepicker calendar icons with theme css
+.c4g__form-date span.day:before {
+  font-family: inherit;
+  padding-right: inherit;
+  content: '';
+}
+
