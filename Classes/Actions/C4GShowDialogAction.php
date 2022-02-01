@@ -648,7 +648,6 @@ class C4GShowDialogAction extends C4GBrickDialogAction
                         }
                         $valuesArray[] = $first;
                         unset($valuesArrayOld[$firstKey]);
-                        array_values($valuesArrayOld);
                     }
                 } else {
                     $valuesArray = array_reverse((array) $values);
