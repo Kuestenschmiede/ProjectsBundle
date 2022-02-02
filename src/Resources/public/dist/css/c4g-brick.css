@@ -5163,6 +5163,11 @@ table.datepicker_table {
   color: var(--datepicker-day-today-color);
   background-color: var(--datepicker-day-today-bgcolor)
 }
+.c4g__form-date span.day:before {
+  font-family: inherit;
+  padding-right: inherit;
+  content: ''
+}
 .c4g_brick_dialog .c4g_timefield {
   border: 1px solid #e2e2e2;
   height: auto;

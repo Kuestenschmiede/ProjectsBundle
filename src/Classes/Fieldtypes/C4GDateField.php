@@ -40,6 +40,12 @@ class C4GDateField extends C4GBrickField
     public function __construct(string $type = C4GBrickFieldType::DATE)
     {
         parent::__construct($type);
+
+        if ($GLOBALS['TL_CONFIG']['dateFormat'] == 'Y-m-d') {
+            $this->pattern = C4GBrickRegEx::DATE_Y_M_D;
+        } else if ($GLOBALS['TL_CONFIG']['dateFormat'] != 'd.m.Y') {
+            $this->pattern = '';
+        }
     }
 
     /**
