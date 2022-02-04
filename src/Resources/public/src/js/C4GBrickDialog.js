@@ -689,7 +689,9 @@ function C4GCheckMethodswitchCondition(field)
 
     for(f = 0; f < fieldNames.length; f++)
     {
-        currentName = "c4g_" + fieldNames[f];
+        var nameWithParams = fieldNames[f].split('--');
+
+        currentName = "c4g_" + nameWithParams[0];
         currentFunction = window[fieldFunction[f]];
         currentType = fieldType[f];
 
@@ -704,6 +706,9 @@ function C4GCheckMethodswitchCondition(field)
         checkValue = document.getElementById(currentName) ? document.getElementById(currentName).value : false;
 
         if (checkValue) {
+            if (nameWithParams[1]) {
+                checkValue = checkValue+'--'+nameWithParams[1];
+            }
             if (!currentFunction(checkValue)) {
                 for (o = 0; o < field.children.length; o++) {
                     try {
@@ -743,7 +748,8 @@ function C4GCheckMethodswitchCondition(field)
 
     for(f = 0; f < fieldNames.length; f++)
     {
-        currentName = "c4g_" + fieldNames[f];
+        var nameWithParams = fieldNames[f].split('--');
+        currentName = "c4g_" + nameWithParams[0];
         currentFunction = window[fieldFunction[f]];
         currentType = fieldType[f];
 
@@ -757,6 +763,9 @@ function C4GCheckMethodswitchCondition(field)
         checkValue = document.getElementById(currentName) ? document.getElementById(currentName).value : false;
 
         if (checkValue) {
+            if (nameWithParams[1]) {
+                checkValue = checkValue+'--'+nameWithParams[1];
+            }
             if (currentFunction(checkValue)) {
                 for (o = 0; o < field.children.length; o++) {
                     try {
