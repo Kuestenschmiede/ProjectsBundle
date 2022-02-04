@@ -368,7 +368,7 @@ abstract class C4GBrickField
             if (($dialogParams && $dialogParams->isTableRows()) || $this->isTableRow()) {
                 $linebreak = '';
             }
-
+            $extTitleField = '';
             if ($showExtTitleField && $this->getExtTitleField()) {
                 $extTitleField = $this->getExtTitleField()->getC4GDialogField($fieldList, $data, $dialogParams);
             }
