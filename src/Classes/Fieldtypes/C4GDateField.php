@@ -75,7 +75,7 @@ class C4GDateField extends C4GBrickField
 
         $id = 'c4g_' . $fieldName;
         $title = $this->getTitle();
-        $required = $this->generateRequiredString($data, $dialogParams);
+        $required = $this->generateRequiredString($data, $dialogParams, $fieldList);
         $value = $this->generateInitialValue($data);
 
         if ($this->isCallOnChange()) {

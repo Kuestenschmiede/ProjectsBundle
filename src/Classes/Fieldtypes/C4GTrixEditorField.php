@@ -42,7 +42,7 @@ class C4GTrixEditorField extends C4GBrickField
 
         if ($this->isShowIfEmpty() || !empty(trim($value))) {
             $condition = $this->createConditionData($fieldList, $data);
-            //$required = $this->generateRequiredString($data, $dialogParams);
+            //$required = $this->generateRequiredString($data, $dialogParams, $fieldList);
 
             if ($this->isEditable()) {
                 $fieldData = '<input id="' . $id . '" class="formdata c4g__form-editor" name="' .

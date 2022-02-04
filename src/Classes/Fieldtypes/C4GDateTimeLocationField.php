@@ -48,7 +48,7 @@ class C4GDateTimeLocationField extends C4GBrickField
         $withoutAddressReloadButton = $this->isWithoutAddressReloadButton();
         // $size = $field->getSize();
         $time = $data->loc_time;
-        $required = $this->generateRequiredString($data, $dialogParams);
+        $required = $this->generateRequiredString($data, $dialogParams, $fieldList);
 
         $address = null;
         if ($extModel && $extFieldName && $latitudeField && $longitudeField) {

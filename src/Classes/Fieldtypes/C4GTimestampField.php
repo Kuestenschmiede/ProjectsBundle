@@ -37,7 +37,7 @@ class C4GTimestampField extends C4GBrickField
         $fieldName = $this->getFieldName();
         $id = $this->createFieldID();
         $title = $this->getTitle();
-        $required = $this->generateRequiredString($data, $dialogParams);
+        $required = $this->generateRequiredString($data, $dialogParams, $fieldList);
         $value = $this->generateInitialValue($data);
         if ($value > 0) {
             $value = $value . ' (' . date('d.m.Y H:i:s', $value) . ')';

@@ -46,7 +46,7 @@ class C4GSelectField extends C4GBrickField
 
         $id = $this->createFieldID();
 
-        $required = $this->generateRequiredString($data, $dialogParams);
+        $required = $this->generateRequiredString($data, $dialogParams, $fieldList);
         $value = $this->generateInitialValue($data);
         $changeAction = '';
 

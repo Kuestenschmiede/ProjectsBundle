@@ -43,7 +43,7 @@ class C4GPercentField extends C4GBrickFieldNumeric
     public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = [])
     {
         if ($this->getDecimals() <= 0) {
-            $required = $this->generateRequiredString($data, $dialogParams);
+            $required = $this->generateRequiredString($data, $dialogParams, $fieldList);
 
             $result = '';
             $id = 'c4g_' . $this->getFieldName();
@@ -74,7 +74,7 @@ class C4GPercentField extends C4GBrickFieldNumeric
             return $result;
         }
         $id = 'c4g_' . $this->getFieldName();
-        $required = $this->generateRequiredString($data, $dialogParams);
+        $required = $this->generateRequiredString($data, $dialogParams, $fieldList);
         if ($this->getThousandsSep() !== '') {
             $value = number_format(str_replace(',', '.', $this->generateInitialValue($data)), $this->getDecimals(), $this->getDecimalPoint(), $this->getThousandsSep());
         } else {

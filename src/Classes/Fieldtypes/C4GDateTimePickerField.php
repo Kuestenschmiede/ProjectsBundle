@@ -43,7 +43,7 @@ class C4GDateTimePickerField extends C4GBrickField
         $fieldName = $this->getFieldName();
         $id = 'c4g_' . $fieldName;
         $title = $this->getTitle();
-        $required = $this->generateRequiredString($data, $dialogParams);
+        $required = $this->generateRequiredString($data, $dialogParams, $fieldList);
         $value = $this->generateInitialValue($data);
 
         if (is_int($value) && $this->dateField) {

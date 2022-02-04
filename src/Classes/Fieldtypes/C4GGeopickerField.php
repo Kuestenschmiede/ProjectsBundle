@@ -52,7 +52,7 @@ class C4GGeopickerField extends C4GBrickField
         $withoutAddressReloadButton = $this->isWithoutAddressReloadButton();
         $withoutAddressRow = $this->isWithoutAddressRow();
         // $size = $field->getSize();
-        $required = $this->generateRequiredString($data, $dialogParams);
+        $required = $this->generateRequiredString($data, $dialogParams, $fieldList);
         $database = $additionalParams['database'];
         $content = $additionalParams['content'];
 

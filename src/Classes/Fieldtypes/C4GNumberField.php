@@ -39,7 +39,7 @@ class C4GNumberField extends C4GBrickFieldNumeric
      */
     public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = [])
     {
-        $required = $this->generateRequiredString($data, $dialogParams);
+        $required = $this->generateRequiredString($data, $dialogParams, $fieldList);
 
         $result = '';
         $fieldName = $this->getFieldName();

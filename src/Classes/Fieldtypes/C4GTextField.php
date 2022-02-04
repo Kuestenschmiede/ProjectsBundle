@@ -37,7 +37,7 @@ class C4GTextField extends C4GBrickFieldText
         if ($this->getAdditionalID()) {
             $id .= '_' . $this->getAdditionalID();
         }
-        $required = $this->generateRequiredString($data, $dialogParams);
+        $required = $this->generateRequiredString($data, $dialogParams, $fieldList);
         $value = $this->generateInitialValue($data);
         if ($this->replaceInsertTag) {
             $value = Controller::replaceInsertTags($value);

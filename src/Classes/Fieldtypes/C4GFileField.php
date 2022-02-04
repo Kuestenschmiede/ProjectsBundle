@@ -67,7 +67,7 @@ class C4GFileField extends C4GBrickField
 
         $id = 'c4g_' . $fieldName;
         $title = $this->getTitle();
-        $required = $this->generateRequiredString($data, $dialogParams);
+        $required = $this->generateRequiredString($data, $dialogParams, $fieldList);
         $buttonRequired = $required;
         if ((!$this->isEditable() ||
             ($viewType && (

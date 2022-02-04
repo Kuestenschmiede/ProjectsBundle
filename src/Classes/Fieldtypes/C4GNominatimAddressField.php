@@ -39,7 +39,7 @@ class C4GNominatimAddressField extends C4GBrickField
         $fieldName = $this->getFieldName();
         $id = 'c4g_' . $fieldName;
         $title = $this->getTitle();
-        $required = $this->generateRequiredString($data, $dialogParams);
+        $required = $this->generateRequiredString($data, $dialogParams, $fieldList);
         $latitude = $data->latitude;
         $longitutde = $data->longitude;
         $this->setLatitudeField($latitude);

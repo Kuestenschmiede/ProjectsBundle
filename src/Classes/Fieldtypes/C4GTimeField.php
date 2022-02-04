@@ -36,7 +36,7 @@ class C4GTimeField extends C4GBrickField
         $fieldName = $this->getFieldName();
         $id = $this->createFieldID();
         $title = $this->getTitle();
-        $required = $this->generateRequiredString($data, $dialogParams);
+        $required = $this->generateRequiredString($data, $dialogParams, $fieldList);
         $value = $this->generateInitialValue($data);
         if ($value > 0) {
             $value = date($GLOBALS['TL_CONFIG']['timeFormat'], $value);

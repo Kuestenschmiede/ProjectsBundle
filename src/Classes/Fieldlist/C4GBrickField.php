@@ -222,7 +222,7 @@ abstract class C4GBrickField
         $display = '';
 
         if ($class == '') {
-            $styleClass = 'c4g__form-'.$this->type.' '.'c4g__form-'.$this->type.'--'.$this->getFieldName().' '.$this->StyleClass;
+            $styleClass = 'c4g__form-'.$this->type.' '.'c4g__form-'.$this->type.'--'.$this->getFieldName().' '.$this->getStyleClass();
             $class = 'class="c4g__form-group ' . $styleClass . '"';
         } else {
             $class = 'c4g__form-'.$this->type.' '.'c4g__form-'.$this->type.'--'.$this->getFieldName().' '.$class;
@@ -409,44 +409,45 @@ abstract class C4GBrickField
                         //ansonsten würden die Felder ausgeblendet werden.
                         return true;//($data->$conditionField == $conditionValue);
                     case C4GBrickConditionType::VALUESWITCH:
-
-                        foreach ($fieldList as $listField) {
-                            //Ist das das schaltende Feld?
-                            if ($listField->getAdditionalID()) {
-                                if ($conditionField == $listField->getFieldName() . '_' . $listField->getAdditionalID()) {
-                                    if (($data) && ($data->$conditionField)) {
-                                        //der aktuelle Wert aus der Datenbank
-                                        $conditionFieldData = $data->$conditionField;
-                                    } else {
-                                        //der initial Wert, falls (noch) kein Datenbankwert vorhanden ist
-                                        $conditionFieldData = $listField->getInitialValue();
-                                    }
-
-                                    // ist der aktuelle Wert der freischaltende Wert?
-                                    if ($conditionFieldData == $conditionValue) {
-                                        return true;
-                                    }
-                                    if (empty($conditionFieldData) || ($conditionFieldData == -1)) {
-                                        $emptyConditionFieldData = true;
-                                    }
-                                }
-                            } else {
+                        if ($fieldList) {
+                            foreach ($fieldList as $listField) {
                                 //Ist das das schaltende Feld?
-                                if ($conditionField == $listField->getFieldName()) {
-                                    if (($data) && ($data->$conditionField)) {
-                                        //der aktuelle Wert aus der Datenbank
-                                        $conditionFieldData = $data->$conditionField;
-                                    } else {
-                                        //der initial Wert, falls (noch) kein Datenbankwert vorhanden ist
-                                        $conditionFieldData = $listField->getInitialValue();
-                                    }
+                                if ($listField->getAdditionalID()) {
+                                    if ($conditionField == $listField->getFieldName() . '_' . $listField->getAdditionalID()) {
+                                        if (($data) && ($data->$conditionField)) {
+                                            //der aktuelle Wert aus der Datenbank
+                                            $conditionFieldData = $data->$conditionField;
+                                        } else {
+                                            //der initial Wert, falls (noch) kein Datenbankwert vorhanden ist
+                                            $conditionFieldData = $listField->getInitialValue();
+                                        }
 
-                                    // ist der aktuelle Wert der freischaltende Wert?
-                                    if ($conditionFieldData == $conditionValue) {
-                                        return true;
+                                        // ist der aktuelle Wert der freischaltende Wert?
+                                        if ($conditionFieldData == $conditionValue) {
+                                            return true;
+                                        }
+                                        if (empty($conditionFieldData) || ($conditionFieldData == -1)) {
+                                            $emptyConditionFieldData = true;
+                                        }
                                     }
-                                    if (empty($conditionFieldData) || ($conditionFieldData == -1)) {
-                                        $emptyConditionFieldData = true;
+                                } else {
+                                    //Ist das das schaltende Feld?
+                                    if ($conditionField == $listField->getFieldName()) {
+                                        if (($data) && ($data->$conditionField)) {
+                                            //der aktuelle Wert aus der Datenbank
+                                            $conditionFieldData = $data->$conditionField;
+                                        } else {
+                                            //der initial Wert, falls (noch) kein Datenbankwert vorhanden ist
+                                            $conditionFieldData = $listField->getInitialValue();
+                                        }
+
+                                        // ist der aktuelle Wert der freischaltende Wert?
+                                        if ($conditionFieldData == $conditionValue) {
+                                            return true;
+                                        }
+                                        if (empty($conditionFieldData) || ($conditionFieldData == -1)) {
+                                            $emptyConditionFieldData = true;
+                                        }
                                     }
                                 }
                             }
@@ -459,33 +460,45 @@ abstract class C4GBrickField
                         $conditionModel = $condition->getModel();
                         $conditionFunction = $condition->getFunction();
 
-                        foreach ($fieldList as $listField) {
-                            if ($listField->getAdditionalID()) {
-                                if ($conditionField == $listField->getFieldName() . '_' . $listField->getAdditionalID()) {
-                                    if (($data) && ($data->$conditionField)) {
-                                        $conditionFieldData = $data->$conditionField;
+                        if ($pos = strpos($conditionField,'--')) {
+                            $conditionFieldValue = substr($conditionField, 0, $pos);
+                            $conditionFieldConst =  substr($conditionField, $pos+2);
+                        }
+
+                        if ($fieldList) {
+                            foreach ($fieldList as $listField) {
+                                if ($listField->getAdditionalID()) {
+                                    if ($conditionFieldValue == $listField->getFieldName() . '_' . $listField->getAdditionalID()) {
+                                        if (($data) && ($data->$conditionFieldValue)) {
+                                            $conditionFieldData = $data->$conditionFieldValue;
+                                        } else {
+                                            $conditionFieldData = $listField->getInitialValue();
+                                        }
+
+                                        if ($conditionModel && $conditionFunction) {
+                                            return $conditionModel::$conditionFunction($conditionFieldData);
+                                        }
+
+                                        return false;
+                                    }
+                                } elseif ($conditionFieldValue == $listField->getFieldName()) {
+                                    if (($data) && ($data->$conditionFieldValue)) {
+                                        $conditionFieldData = $data->$conditionFieldValue;
                                     } else {
                                         $conditionFieldData = $listField->getInitialValue();
                                     }
 
                                     if ($conditionModel && $conditionFunction) {
-                                        return $conditionModel::$conditionFunction($conditionFieldData);
+                                        if ($conditionFieldConst) {
+                                            return $conditionModel::$conditionFunction($conditionFieldData.'--'.$conditionFieldConst);
+
+                                        } else {
+                                            return $conditionModel::$conditionFunction($conditionFieldData);
+                                        }
                                     }
 
                                     return false;
                                 }
-                            } elseif ($conditionField == $listField->getFieldName()) {
-                                if (($data) && ($data->$conditionField)) {
-                                    $conditionFieldData = $data->$conditionField;
-                                } else {
-                                    $conditionFieldData = $listField->getInitialValue();
-                                }
-
-                                if ($conditionModel && $conditionFunction) {
-                                    return $conditionModel::$conditionFunction($conditionFieldData);
-                                }
-
-                                return false;
                             }
                         }
 
@@ -697,31 +710,33 @@ abstract class C4GBrickField
      * @param C4GBrickDialogParams $dialogParams
      * @return string
      */
-    protected function generateRequiredString($data, $dialogParams)
+    protected function generateRequiredString($data, $dialogParams, $fieldList)
     {
         $required = '';
-        $condition = $this->createConditionData($fieldList, $data);
-        foreach ($fieldList as $afield) {
-            $fieldConditions = $afield->getCondition();
+        //$condition = $this->createConditionData($fieldList, $data);
+        if ($fieldList) {
+            foreach ($fieldList as $afield) {
+                $fieldConditions = $afield->getCondition();
 
-            foreach ($fieldConditions as $fieldCondition) {
-                if (($fieldCondition) && ($fieldCondition->getType() == C4GBrickConditionType::BOOLSWITCH) && ($fieldCondition->getFieldName() == $this->getFieldName())) {
+                foreach ($fieldConditions as $fieldCondition) {
+                    if (($fieldCondition) && ($fieldCondition->getType() == C4GBrickConditionType::BOOLSWITCH) && ($fieldCondition->getFieldName() == $this->getFieldName())) {
 
-                    $condition = $this->getCondition();
-                    if ($condition) {
-                        $thisName = $condition[0]->getFieldName();
-                        if ($data && (($condition[0]->getValue() == -1 && $data->$thisName) || ($data->$thisName != $condition[0]->getValue()))) {
-                            $required = 'disabled readonly';
-                            $this->setWithoutMandatoryStar(true);
-                            $this->setEditable(false);
-                            $id = $this->createFieldID();
-                            $elementId = 'c4g_' .$thisName;
-                            $reverse = 0;
-                            if (!$condition[0]->getValue()) {
-                                $reverse = 1;
+                        $condition = $this->getCondition();
+                        if ($condition) {
+                            $thisName = $condition[0]->getFieldName();
+                            if ($data && (($condition[0]->getValue() == -1 && $data->$thisName) || ($data->$thisName != $condition[0]->getValue()))) {
+                                $required = 'disabled readonly';
+                                $this->setWithoutMandatoryStar(true);
+                                $this->setEditable(false);
+                                $id = $this->createFieldID();
+                                $elementId = 'c4g_' . $thisName;
+                                $reverse = 0;
+                                if (!$condition[0]->getValue()) {
+                                    $reverse = 1;
+                                }
+                                $boolswitch = ' onchange="handleBoolSwitch(' . $id . ',' . $elementId . ',' . $reverse . ')"';
+                                return $required . $boolswitch;
                             }
-                            $boolswitch = ' onchange="handleBoolSwitch(' . $id . ',' . $elementId . ',' . $reverse . ')"';
-                            return $required.$boolswitch;
                         }
                     }
                 }

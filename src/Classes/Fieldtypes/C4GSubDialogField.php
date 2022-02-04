@@ -79,7 +79,7 @@ class C4GSubDialogField extends C4GBrickField
         $addButton = $this->addButton;
         $removeButton = $this->removeButton;
         $editButton = $this->editButton;
-        $this->generateRequiredString($data, $dialogParams);
+        $this->generateRequiredString($data, $dialogParams, $fieldList);
 
         $fieldsHtml = '';
         $keyFieldName = $this->keyField->getFieldName();

@@ -35,7 +35,7 @@ class C4GMultiSelectField extends C4GBrickField
     {
         $fieldName = $this->getFieldName();
         $id = $this->createFieldID();
-        $required = $this->generateRequiredString($fieldList, $data);
+        $required = $this->generateRequiredString($data, $dialogParams, $fieldList);
 
         $value = $this->generateInitialValue($data);
 //        if ($this->isCallOnChange()) {

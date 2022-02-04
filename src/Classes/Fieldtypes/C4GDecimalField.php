@@ -45,7 +45,7 @@ class C4GDecimalField extends C4GBrickFieldNumeric
     {
         $this->setPattern(C4GBrickRegEx::generateNumericRegEx($this->getDecimals(), $this->allowNegative, $this->getThousandsSep(), $this->getDecimalPoint()));
         $id = 'c4g_' . $this->getFieldName();
-        $required = $this->generateRequiredString($data, $dialogParams);
+        $required = $this->generateRequiredString($data, $dialogParams, $fieldList);
         if ($this->getThousandsSep() !== '') {
             $value = number_format(str_replace(',', '.', $this->generateInitialValue($data)), $this->getDecimals(), $this->getDecimalPoint(), $this->getThousandsSep());
         } else {
