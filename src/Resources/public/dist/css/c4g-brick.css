@@ -5221,7 +5221,8 @@ table.datepicker_table {
   line-height: initial
 }
 .c4g__form-check-input {
-  margin-top: 0
+  margin-top: 0;
+  min-width: 1em
 }
 .c4g_brick_dialog input[type=radio] {
   display: inline;
