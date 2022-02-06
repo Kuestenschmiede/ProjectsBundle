@@ -240,7 +240,7 @@ class C4GBaseController extends AbstractFrontendModuleController
                     $this->headline = $value;
                     $this->headlineTag = $unit;
                 }
-            } else if (strpos($value,'a:')) {
+            } else if (!is_array($value) && strpos($value,'a:')) {
                 $this->$fieldName = \Contao\StringUtil::deserialize($value);
             } else {
                 $this->$fieldName = $value;
