@@ -393,9 +393,8 @@ class C4GBrickDialog
                         ) . $afterDiv;
                 }
                 if ($field instanceof C4GSelectField && $field->isChosen()) {
-                    $onLoadScript = $dialogParams->getOnloadScript();
                     $id = 'c4g_' . $field->getFieldName();
-                    $onLoadScript .= ' resizeChosen("' . $id . '_chosen");';
+                    $onLoadScript = 'resizeChosen("' . $id . '_chosen");';
                     $dialogParams->setOnloadScript($onLoadScript);
                 }
             }
@@ -409,16 +408,16 @@ class C4GBrickDialog
             $dialogParams->isWithNextPrevButtons()) {
             $view .= '<button class="c4g_tab_switch_left c4g_tab_switch_last" ' .
                 ' onclick="clickPreviousTab(this)" accesskey="z">' .
-                $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['BACK'] . '</button><br>';
+                $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['BACK'] . '</button>';
         } else {
-            $view .= '<br>';
+            //$view .= '<br>';
         }
 
         if ($dialogParams->getOnloadScript()) {
             $string = $dialogParams->getOnloadScript();
 
             //remove duplicated statements
-            $scriptArr = explode('; ', $string);
+            $scriptArr = explode(';', $string);
             $scriptArr = array_unique($scriptArr);
             $string = implode(';', $scriptArr);
 
