@@ -71,8 +71,7 @@ class C4GSelectField extends C4GBrickField
                 } else {
                     $class = $class . ' chzn-select';
                 }
-                $onLoadScript = $dialogParams->getOnloadScript();
-                $onLoadScript .= ' resizeChosen("c4g_' . $id . '_chosen");';
+                $onLoadScript = 'resizeChosen("c4g_' . $id . '_chosen");';
                 $dialogParams->setOnloadScript($onLoadScript);
             }
 

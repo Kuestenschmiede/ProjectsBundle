@@ -1539,6 +1539,9 @@ class C4GBrickDialogParams
     {
         if ($this->onloadScript !== '') {
             $this->onloadScript .= $onloadScript;
+            $scriptArr = explode(';', $this->onloadScript);
+            $scriptArr = array_unique($scriptArr);
+            $this->onloadScript = implode(';', $scriptArr);
         } else {
             $this->onloadScript = $onloadScript;
         }

@@ -34,6 +34,8 @@ class C4GDateField extends C4GBrickField
     protected $flipButtonPosition = false;
     protected $datePickerByBrowser = false;
 
+    protected $showInlinePicker = false;
+
     /**
      * @param string $type
      */
@@ -177,21 +179,28 @@ class C4GDateField extends C4GBrickField
 
             if (!$this->isIgnoreViewType() && (C4GBrickView::isWithoutEditing($dialogParams->getViewType()) || !$this->isEditable())) {
                 if (!$this->isDatePickerByBrowser()) {
-                    $html .= '<input readonly="false" autocomplete="off" ' . $required . ' type="text" id="' . $id . '" class="formdata c4g__form-control c4g__form-date-input ' . $id . '" ' . $changeAction . ' name="' . $fieldName . '" value="' . $value . '" ' . $condition['conditionPrepare'] . 'pattern="' . $this->pattern . '"' . '>';
+//                    if ($this->isShowInlinePicker()) {
+//                        $html .= '<div readonly="false" autocomplete="off" ' . $required . ' type="text" id="' . $id . '" class="formdata c4g__form-control c4g__form-date-input ' . $id . '" ' . $changeAction . ' name="' . $fieldName . '" value="' . $value . '" ' . $condition['conditionPrepare'] . 'pattern="' . $this->pattern . '"' . '>';
+//                    } else {
+                        $html .= '<input readonly="false" autocomplete="off" ' . $required . ' type="text" id="' . $id . '" class="formdata c4g__form-control c4g__form-date-input ' . $id . '" ' . $changeAction . ' name="' . $fieldName . '" value="' . $value . '" ' . $condition['conditionPrepare'] . 'pattern="' . $this->pattern . '"' . '>';
+//                    }
                 } else {
                     $html .= '<input readonly="false" autocomplete="off" ' . $required . ' type="text" id="' . $id . '" class="formdata c4g__form-control c4g__form-date-input ' . $id . '" ' . $changeAction . ' name="' . $fieldName . '" value="' . $value . '" ' . $condition['conditionPrepare'] . 'pattern="' . $this->pattern . '"' . '>';
                 }
             } else {
                 if (!$this->isDatePickerByBrowser()) {
-                    $onLoadScript = $dialogParams->getOnloadScript();
                     $search = "C4GDatePicker('" . $id;
                     if (!strpos($onLoadScript, $search)) {
-                        $onLoadScript .= ' C4GDatePicker(\'' . $id . '\', \'date\', \'' . $this->minDate . '\', \'' . $this->maxDate . '\', \'' . $outputFormat . '\',\'' . $pickerLanguage . '\',\'' . $this->excludeWeekdays . '\',\'' . $this->excludeDates . '\');';
+                        $onLoadScript = 'C4GDatePicker(\'' . $id . '\', \'date\', \'' . $this->minDate . '\', \'' . $this->maxDate . '\', \'' . $outputFormat . '\',\'' . $pickerLanguage . '\',\'' . $this->excludeWeekdays . '\',\'' . $this->excludeDates . '\');';
                         $dialogParams->setOnloadScript($onLoadScript);
                     }
 
-                    $html .= '<button ' . $required . ' onclick="if (document.getElementById(' . $buttonId . ')) {jQuery(document.getElementById(' . $buttonId . ')).show();jQuery(document.getElementById(' . $buttonId . ')).focus();};" type="button" class="c4g__btn c4g__btn-date c4g__form-date-button-interactive"><i class="far fa-calendar-alt"></i></button>';
-                    $html .= '<input readonly="false" autocomplete="off" ' . $required . ' type="text" id="' . $id . '" class="formdata c4g__form-control c4g__form-date-input ' . $id . '" ' . $changeAction . ' name="' . $fieldName . '" value="' . $value . '" ' . $condition['conditionPrepare'] . 'pattern="' . $this->pattern . '"' . '>';
+                    if ($this->isShowInlinePicker()) {
+                        $html .= '<div readonly="false" autocomplete="off" ' . $required . ' type="text" id="' . $id . '" class="formdata c4g__form-control c4g__form-date-input ' . $id . '" ' . $changeAction . ' name="' . $fieldName . '" value="' . $value . '" ' . $condition['conditionPrepare'] . 'pattern="' . $this->pattern . '"' . '>';
+                    } else {
+                        $html .= '<button ' . $required . ' onclick="if (document.getElementById(' . $buttonId . ')) {jQuery(document.getElementById(' . $buttonId . ')).show();jQuery(document.getElementById(' . $buttonId . ')).focus();};" type="button" class="c4g__btn c4g__btn-date c4g__form-date-button-interactive"><i class="far fa-calendar-alt"></i></button>';
+                        $html .= '<input readonly="false" autocomplete="off" ' . $required . ' type="text" id="' . $id . '" class="formdata c4g__form-control c4g__form-date-input ' . $id . '" ' . $changeAction . ' name="' . $fieldName . '" value="' . $value . '" ' . $condition['conditionPrepare'] . 'pattern="' . $this->pattern . '"' . '>';
+                    }
                 } else {
                     $html .= '<input autocomplete="on" ' . $required . ' type="date" id="' . $id . '" class="formdata c4g__form-control c4g__form-date-input ' . $id . '" ' . $changeAction . ' name="' . $fieldName . '" value="' . $value . '" ' . $condition['conditionPrepare'] . 'pattern="' . $this->pattern . '"' . '>';
                 }
@@ -519,4 +528,21 @@ class C4GDateField extends C4GBrickField
         $this->datePickerByBrowser = $datePickerByBrowser;
         $this->pattern = C4GBrickRegEx::DATE_Y_M_D; //ToDo
     }
+
+    /**
+     * @return bool
+     */
+    public function isShowInlinePicker(): bool
+    {
+        return $this->showInlinePicker;
+    }
+
+    /**
+     * @param bool $showInlinePicker
+     */
+    public function setShowInlinePicker(bool $showInlinePicker): void
+    {
+        $this->showInlinePicker = $showInlinePicker;
+    }
+
 }
