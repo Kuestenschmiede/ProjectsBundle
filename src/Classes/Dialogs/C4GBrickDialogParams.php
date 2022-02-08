@@ -1542,6 +1542,11 @@ class C4GBrickDialogParams
             $scriptArr = explode(';', $this->onloadScript);
             $scriptArr = array_unique($scriptArr);
             $this->onloadScript = implode(';', $scriptArr);
+
+            $lastChar = substr(trim($this->onloadScript), -1);
+            if ($lastChar != ';') {
+                $this->onloadScript = trim($this->onloadScript).';';
+            }
         } else {
             $this->onloadScript = $onloadScript;
         }
