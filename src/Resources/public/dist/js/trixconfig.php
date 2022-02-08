@@ -112,7 +112,6 @@ function trixConfig() {
             let key = createStorageKey(file);
             let formData = createFormData(key, file);
             let xhr = new XMLHttpRequest();
-            console.log(file);
             let url;
             if (file.type.includes('image')) {
             url = '/con4gis/upload/image';
