@@ -186,6 +186,7 @@ class C4GDateField extends C4GBrickField
             } else {
                 if (!$this->isDatePickerByBrowser()) {
                     $search = "C4GDatePicker('" . $id;
+                    $onLoadScript = $dialogParams->getOnloadScript();
                     if (!strpos($onLoadScript, $search)) {
                         $onLoadScript = 'C4GDatePicker(\'' . $id . '\', \'date\', \'' . $this->minDate . '\', \'' . $this->maxDate . '\', \'' . $outputFormat . '\',\'' . $pickerLanguage . '\',\'' . $this->excludeWeekdays . '\',\'' . $this->excludeDates . '\');';
                         $dialogParams->setOnloadScript($onLoadScript);
