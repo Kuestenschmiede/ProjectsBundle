@@ -220,7 +220,7 @@ class C4GBrickDatabase
             return false;
         }
 
-        $result['insertId'] = $objInsertStmt->insertId;
+        $result['insertId'] = $id;
 
         return $result;
     }
