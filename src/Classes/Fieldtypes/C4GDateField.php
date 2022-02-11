@@ -36,6 +36,8 @@ class C4GDateField extends C4GBrickField
 
     protected $showInlinePicker = false;
 
+    protected $displayEmptyInput = true;
+
     /**
      * @param string $type
      */
@@ -148,7 +150,7 @@ class C4GDateField extends C4GBrickField
                                 }
                             }
                         }
-                        if (!$fieldValue || !$con->checkAgainstCondition($fieldValue)) {
+                        if ((!$this->displayEmptyInput && !$fieldValue) || !$con->checkAgainstCondition($fieldValue)) {
                             $display = false;
                         }
                     }
@@ -540,6 +542,22 @@ class C4GDateField extends C4GBrickField
     public function setShowInlinePicker(bool $showInlinePicker): void
     {
         $this->showInlinePicker = $showInlinePicker;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isDisplayEmptyInput(): bool
+    {
+        return $this->displayEmptyInput;
+    }
+
+    /**
+     * @param bool $displayEmptyInput
+     */
+    public function setDisplayEmptyInput(bool $displayEmptyInput): void
+    {
+        $this->displayEmptyInput = $displayEmptyInput;
     }
 
 }
