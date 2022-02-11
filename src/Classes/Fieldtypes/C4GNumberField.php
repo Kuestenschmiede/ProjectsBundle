@@ -94,9 +94,15 @@ class C4GNumberField extends C4GBrickFieldNumeric
      */
     public function compareWithDB($dbValues, $dlgValues)
     {
-        $fieldname = $this->getFieldName();
+        $fieldName = $this->getFieldName();
         $dbValue = $dbValues->$fieldname;
-        $dlgvalue = $dlgValues[$this->getFieldName()];
+
+        $additionalId = $this->getAdditionalID();
+        if (!empty($additionalId)) {
+            $fieldName .= '_' . $additionalId;
+        }
+
+        $dlgvalue = $dlgValues[$fieldName];
         $dbValue = trim($dbValue);
         $dlgValue = trim($dlgvalue);
         if ($this->getThousandsSep() !== '') {
@@ -105,13 +111,14 @@ class C4GNumberField extends C4GBrickFieldNumeric
         $result = null;
 
         if ($this->isSearchField()) {
-            if (!$dbValues->$fieldname) {
-                $pos = strripos($fieldname, '_');
-                if ($pos !== false) {
-                    $fieldName = substr($fieldname, 0, $pos);
-                }
+//ToDo check unused code
+//            if (!$dbValue) {
+//                $pos = strripos($fieldname, '_');
+//                if ($pos !== false) {
+//                    $fieldName = substr($fieldname, 0, $pos);
+//                }
                 if ($this->isSearchMinimumField()) {
-                    $dbValue = $dbValues->$fieldName;
+                    //$dbValue = $dbValues->$fieldName;
                     $maximum_fieldname = $fieldName . '_maximum';
                     if ($dbValue !== 0 && !($dbValue > $dlgValue && $dbValue < $dlgValues[$maximum_fieldname])) {
                         $result = new C4GBrickFieldCompare($this, $dbValue, $dlgValue);
@@ -120,7 +127,7 @@ class C4GNumberField extends C4GBrickFieldNumeric
                     if ($dbValue > $dlgValue) {
                         $result = new C4GBrickFieldCompare($this, $dbValue, $dlgValue);
                     }
-                }
+//                }
             }
         } elseif (strcmp($dbValue, $dlgValue) != 0) {
             $result = new C4GBrickFieldCompare($this, $dbValue, $dlgValue);
