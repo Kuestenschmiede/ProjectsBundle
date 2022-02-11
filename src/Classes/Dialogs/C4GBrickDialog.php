@@ -281,7 +281,7 @@ class C4GBrickDialog
         $print = false
     ) {
         $view = '<div class="' . C4GBrickConst::CLASS_DIALOG .
-            ' c4g__content">' . C4GHTMLFactory::lineBreak();
+            ' c4g__content">'/* . C4GHTMLFactory::lineBreak()*/;
 
         $GLOBALS['c4g']['brickdialog']['include']['js'][] = 'replaceC4GDialog(' . $dialogParams->getId() . ');';
         if ($dialogParams->isWithTabContentCheck()) {

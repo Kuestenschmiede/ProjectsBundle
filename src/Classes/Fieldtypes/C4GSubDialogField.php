@@ -126,7 +126,7 @@ class C4GSubDialogField extends C4GBrickField
             $message = $this->removeButtonMessage;
             $fieldsHtml .= "<span class='c4g__btn c4g__btn-secondary c4g_sub_dialog_remove_button js-sub-dialog-button $removeButtonClass' onclick='removeSubDialog(this,event);' data-message='$message' title='$message'>$removeButton</span>";
         } else {
-            $fieldsHtml .= '<br>';
+            $fieldsHtml .= ''; //<br>
         }
 
         /** Generate html for already loaded data sets if there are any */
@@ -243,7 +243,7 @@ class C4GSubDialogField extends C4GBrickField
                             }
                             $loadedDataHtml .= "$editButtonHtml$deleteButtonHtml";
                         } else {
-                            $loadedDataHtml .= '<br>';
+                            $loadedDataHtml .= ''; //<br>
                         }
 
                         $loadedDataHtml .= '</div>';
@@ -336,7 +336,7 @@ class C4GSubDialogField extends C4GBrickField
                         }
                         $loadedDataHtml .= "$editButtonHtml$deleteButtonHtml";
                     } else {
-                        $loadedDataHtml .= '<br>';
+                        $loadedDataHtml .= ''; //<br>
                     }
 
                     $loadedDataHtml .= '</div>';
@@ -373,7 +373,7 @@ class C4GSubDialogField extends C4GBrickField
             $html .= '</div>';
             $html .= '</div>';
         } else {
-            $html = '<br>';
+            $html = ''; //<br>
         }
 
         return $html;
