@@ -131,11 +131,10 @@ class C4GMultiCheckboxField extends C4GBrickField
             }
 
             if (!$this->isEditable()) {
-                $checked = $this->allChecked ? ' checked' : '';
                 if ($required != '') {
-                    $required .= ' disabled readonly' . $checked;
+                    $required .= ' disabled readonly';
                 } else {
-                    $required = 'disabled readonly' . $checked;
+                    $required = 'disabled readonly';
                 }
             }
 
@@ -157,7 +156,7 @@ class C4GMultiCheckboxField extends C4GBrickField
                     $condition['conditionPrepare'] = '';
                     $result .= $spanStart .
                         '<input type="checkbox" id="c4g_' . $optionId . '" ' . $required . ' class="formdata c4g__form-check-input c4g_display_none"'.$switch.' size="' . $size . '" name="' . $optionId . '" value="' . $optionId . '"' .
-                        ($values && isset($values[$option_id]) ? ' checked="checked"' : '') . '">' . $this->addC4GFieldLabel('c4g_' . $optionId, $type_caption, false, $condition, $fieldList, $data, $dialogParams, false, true)
+                        (($values && isset($values[$option_id])) || $this->allChecked ? ' checked="checked"' : '') . '">' . $this->addC4GFieldLabel('c4g_' . $optionId, $type_caption, false, $condition, $fieldList, $data, $dialogParams, false, true)
                         . $spanEnd;
                 }
                 $result .= $description;
