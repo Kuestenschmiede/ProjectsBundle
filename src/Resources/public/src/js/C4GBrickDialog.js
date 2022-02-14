@@ -549,6 +549,22 @@ function C4GCheckCondition(field)
                         }
                         jQuery(field.children[o]).hide();
                         jQuery(field.children[o]).removeAttr("selected");
+
+                        for (p = 0; p < field.children[o].children.length; p++) {
+                            if (jQuery(field.children[o].children[p]).hasClass("datepicker")) {
+                                continue;
+                            }
+
+                            jQuery(field.children[o].children[p]).removeClass("formdata");
+                            if (jQuery(field.children[o].children[p]).hasClass('chzn-select')) {
+                                jQuery(field.children[o].children[p]).removeClass("chzn-select");
+                                jQuery(field.children[o].children[p]).addClass("chzn-select-disabled");
+                                jQuery(field.children[o].children[p]).style = "display:none";
+                                jQuery(field.children[o].children[p]).trigger('chosen:updated');
+                            }
+                            jQuery(field.children[o].children[p]).hide();
+                            jQuery(field.children[o].children[p]).removeAttr("selected");
+                        }
                     } catch (err) {
                         //ToDo
                     }
@@ -602,6 +618,30 @@ function C4GCheckCondition(field)
                                 jQuery(field.children[o]).removeClass("chzn-select-disabled");
                                 jQuery(field.children[o]).addClass("chzn-select");
                                 jQuery(field.children[o]).hide();
+                            }
+                        }
+
+
+                        for (p = 0; p < field.children[o].children.length; p++) {
+                            if (jQuery(field.children[o].children[p]).hasClass("datepicker")) {
+                                continue;
+                            }
+
+                            jQuery( field.children[o].children[p]).show();
+                            jQuery( field.children[o].children[p]).addClass("formdata");
+
+                            if (jQuery( field.children[o].children[p]).hasClass("c4g_display_none")) {
+                                if (jQuery( field.children[o].children[p]).hasClass('chzn-select')) {
+                                    jQuery( field.children[o].children[p]).removeClass("chzn-select");
+                                    jQuery( field.children[o].children[p]).addClass("chzn-select-disabled");
+                                }
+                                jQuery( field.children[o].children[p]).hide();
+                            } else {
+                                if (jQuery( field.children[o].children[p]).hasClass('chzn-select-disabled')) {
+                                    jQuery( field.children[o].children[p]).removeClass("chzn-select-disabled");
+                                    jQuery( field.children[o].children[p]).addClass("chzn-select");
+                                    jQuery( field.children[o].children[p]).hide();
+                                }
                             }
                         }
 
@@ -691,6 +731,10 @@ function C4GCheckMethodswitchCondition(field)
                     if (hasChilds) {
                         for (p = 0; p < jQuery(field.children[o].children).length; p++) {
                             try {
+                                if (jQuery(field.children[o].children[p]).hasClass("datepicker")) {
+                                    continue;
+                                }
+
                                 jQuery(field.children[o].children[p]).removeClass("formdata");
                                 if (jQuery(field.children[o].children[p]).hasClass('chzn-select')) {
                                     jQuery(field.children[o].children[p]).removeClass("chzn-select");
@@ -758,6 +802,10 @@ function C4GCheckMethodswitchCondition(field)
                     if (hasChilds) {
                         for (p = 0; p < jQuery(field.children[o].children).length; p++) {
                             try {
+                                if (jQuery(field.children[o].children[p]).hasClass("datepicker")) {
+                                    continue;
+                                }
+
                                 jQuery(field.children[o].children[p]).show();
                                 jQuery(field.children[o].children[p]).addClass("formdata");
 
