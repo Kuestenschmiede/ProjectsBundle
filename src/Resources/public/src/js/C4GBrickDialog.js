@@ -99,52 +99,15 @@ function C4GDatePicker(id,
         if (elem.datepicker) {
             elem.addEventListener('changeDate', function (e) {
                 jQuery("#" + id).trigger('change');
+
+                var pickerIdx = id.indexOf("_picker");
+                if (pickerIdx && pickerIdx > 0) {
+                    var dateFieldId = id.substr(0,pickerIdx);
+                    jQuery("#" + dateFieldId).val(datepicker.getDate(format));
+                    jQuery("#" + dateFieldId).trigger('change');
+                }
             });
         }
-
-        //ToDo check without base controller
-        // jQuery.datepicker.setDefaults(jQuery.datepicker.regional[lang || "de"]);
-        // jQuery("#"+id).datepicker({
-        //     beforeShowDay: function (date) {
-        //         if (weekdays) {
-        //             var wd = new Array();
-        //             wd = weekdays.split(",");
-        //             for(var i = 0; i < wd.length; i++) {
-        //                 var iDay = wd[i];
-        //                 if (date.getDay() == iDay) {
-        //                     return [false,""];
-        //                 }
-        //             }
-        //         }
-        //         if (exclude) {
-        //             var ed = new Array();
-        //             ed = exclude.split(",");
-        //             for(var i = 0; i < ed.length; i++) {
-        //                 if ((Date.parse(date)/1000) == ed[i]) {
-        //                     return [false,""];
-        //                 }
-        //             }
-        //         }
-        //         return [true,""];
-        //     },
-        //     minDate: dMin,
-        //     maxDate: dMax,
-        //     changeMonth: true,
-        //     changeYear: true,
-        //     yearRange: dMin.getFullYear()+":"+dMax.getFullYear(),
-        //     //showButtonPanel: true,
-        //     showOtherMonths: true,
-        //     selectOtherMonths: true
-        //     //showWeek: true
-        // });
-        // jQuery(function(jQuery){
-        //     if (lang) {
-        //         regional = jQuery.datepicker.regional[lang.substr(0, 2)];
-        //     } else {
-        //         regional = ['en'];
-        //     }
-        //     jQuery.datepicker.setDefaults(regional);
-        // });
     }
 }
 
