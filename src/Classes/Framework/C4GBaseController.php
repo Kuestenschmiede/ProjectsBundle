@@ -479,7 +479,7 @@ class C4GBaseController extends AbstractFrontendModuleController
     {
         $arrHeadline = StringUtil::deserialize($this->headline);
         $this->headline = \is_array($arrHeadline) ? $arrHeadline['value'] : $arrHeadline;
-        $this->hl = \is_array($arrHeadline) ? $arrHeadline['unit'] : 'h1';
+        $this->hl = \is_array($arrHeadline) ? $arrHeadline['unit'] : $this->headlineTag;
 
         //loading language files
         $this->loadLanguageFiles();
@@ -578,7 +578,7 @@ class C4GBaseController extends AbstractFrontendModuleController
             $this->dialogParams->setContentId($contentId);
 
             $this->dialogParams->setHeadline($this->headline);
-            $this->dialogParams->setHeadlineTag($this->hl);
+            $this->dialogParams->setHeadlineTag($this->hl ?: $this->headlineTag);
 
             $this->dialogParams->setSendEMails($this->sendEMails);
             $this->dialogParams->setWithNotification($this->withNotification);
