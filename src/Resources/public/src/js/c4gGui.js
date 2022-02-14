@@ -888,16 +888,6 @@ window.c4g.projects = window.c4g.projects || {};
       if ((typeof(content.contentdata) !== 'undefined') || (jQuery.isArray(content.contents))) {
         // populate dataTable
         scope.fnInitContentDiv();
-
-        var newWidth = '100%';
-        var newHeight = '100%';
-        if (options.navPanel) {
-          newWidth = jQuery(scope.contentWrapperDiv).parent().width()
-            - jQuery(navDiv).width() - 5;
-          newHeight = jQuery(navDiv).height();
-        }
-        jQuery(scope.contentWrapperDiv).width(newWidth);
-        jQuery(scope.contentWrapperDiv).height(newHeight);
         if (typeof (content.state) !== 'undefined') {
           jQuery(scope.contentDiv).attr('data-state', content.state);
         }
