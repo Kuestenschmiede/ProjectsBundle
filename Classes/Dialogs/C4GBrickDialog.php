@@ -1386,7 +1386,6 @@ class C4GBrickDialog
 
                                 $subDlgValues[$keyArray[0] . $field->getDelimiter() . $keyArray[2]][$keyArray[1]] = $value;
                                 $indexList[] = $keyArray[0] . $field->getDelimiter() . $keyArray[2];
-                                array_unique($indexList);
                             } else {
                                 foreach ($subFields as $subField) {
                                     if ($subField instanceof C4GSubDialogField) {
