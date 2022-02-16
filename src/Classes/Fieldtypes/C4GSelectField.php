@@ -57,9 +57,9 @@ class C4GSelectField extends C4GBrickField
                     $dialogParams->setOnloadScript($this->getCallOnChangeFunction());
                 }
             } else {
-                $changeAction = 'onchange="C4GCallOnChange(this)"';
+                $changeAction = 'onchange="handleBrickConditions();"';
                 if ($this->isInitialCallOnChange()) {
-                    $onLoadScript = 'C4GCallOnChange(document.getElementById('.$id.'));';
+                    $onLoadScript = 'handleBrickConditions();';
                     $dialogParams->setOnloadScript($onLoadScript);
                 }
             }

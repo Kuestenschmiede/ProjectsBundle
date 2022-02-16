@@ -39,7 +39,7 @@ class C4GMultiSelectField extends C4GBrickField
 
         $value = $this->generateInitialValue($data);
 //        if ($this->isCallOnChange()) {
-//            $changeAction = 'onchange="C4GCallOnChange(this)"';
+//            $changeAction = 'onchange="handleBrickConditions()"';
 //        }
 
         $result = '';

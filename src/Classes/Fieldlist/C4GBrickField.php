@@ -53,7 +53,7 @@ abstract class C4GBrickField
     private $addressField = null; //nominatim reverse search
     private $attributes = ''; //additional html attributes as string
     private $callOnChange = false; //call function on change (useful with select and other types)
-    private $callOnChangeFunction = 'C4GCallOnChange(this)'; //call this function on change
+    private $callOnChangeFunction = 'handleBrickConditions()'; //call this function on change
     private $columnWidth = 0; //culumn width on datatable view
     private $comparable = true; //for field Compare on saving
     private $withoutValidation = false; //disable field validation
@@ -287,7 +287,8 @@ abstract class C4GBrickField
                 return '<div class=' . $styleClass . '>' . $data[$this->getFieldName()] . '</div>';
             }
 
-            return '<div class=' . $styleClass . '><b>' . $this->getTitle() . '</b>: ' . $data[$this->getFieldName()] . '</div>';
+            return '<div class=' . $styleClass . '><b
+>' . $this->getTitle() . '</b>: ' . $data[$this->getFieldName()] . '</div>';
         }
 
         return '';
@@ -363,7 +364,7 @@ abstract class C4GBrickField
                 $star = '<span class="c4g_mandatory_class">*</span>';
             }
             if (!$withoutLineBreak && $dialogParams->isWithLabels() === true) {
-                $linebreak = C4GHTMLFactory::lineBreak();
+                $linebreak = '';//C4GHTMLFactory::lineBreak();
             }
             if (($dialogParams && $dialogParams->isTableRows()) || $this->isTableRow()) {
                 $linebreak = '';
@@ -455,10 +456,10 @@ abstract class C4GBrickField
 
                         break;
                     case C4GBrickConditionType::METHODSWITCH:
-                        $conditionField = $condition->getFieldName();
+                        $conditionField = $condition->getFieldName() ?: -1;
                         //$conditionValue = $condition->getValue();
                         $conditionModel = $condition->getModel();
-                        $conditionFunction = $condition->getFunction();
+                        $conditionFunction = $condition->getFunction() ?: -1;
 
                         if ($pos = strpos($conditionField,'--')) {
                             $conditionFieldValue = substr($conditionField, 0, $pos);
@@ -522,15 +523,15 @@ abstract class C4GBrickField
         if ($description && ($description != '') && $withLinkDescription && $withoutLineBreak) {
             $result = '<div class="c4g__form-description c4g_field_description" ' . $condition['conditionPrepare'] . '><a href="' . $description . '" target="_blank">Link</a>' . '</div>';
         } elseif ($description && ($description != '') && $withLinkDescription) {
-            $result = '<div class="c4g__form-description c4g_field_description" ' . $condition['conditionPrepare'] . '><a href="' . $description . '" target="_blank">Link</a>' . C4GHTMLFactory::lineBreak() . C4GHTMLFactory::lineBreak() . '</div>';
+            $result = '<div class="c4g__form-description c4g_field_description" ' . $condition['conditionPrepare'] . '><a href="' . $description . '" target="_blank">Link</a>' . '</div>';
         } elseif ($description && ($description != '') && $withoutLineBreak) {
             $result = '<div class="c4g__form-description c4g_field_description" ' . $condition['conditionPrepare'] . '>' . $description . '</div>';
         } elseif ($description && ($description != '')) {
-            $result = '<div class="c4g__form-description c4g_field_description" ' . $condition['conditionPrepare'] . '>' . $description . C4GHTMLFactory::lineBreak() . C4GHTMLFactory::lineBreak() . '</div>';
+            $result = '<div class="c4g__form-description c4g_field_description" ' . $condition['conditionPrepare'] . '>' . $description . '</div>';
         } elseif (!$withoutLineBreak) {
-            $result = '<div ' . $condition['conditionPrepare'] . '>' . '</div>';
+            $result = '<div class="c4g__form-description" ' . $condition['conditionPrepare'] . '>' . '</div>';
         } else /*if ($description && ($description != ''))*/ {
-            $result = '<div class="c4g__form-description c4g__form-description-empty c4g_field_descripton_hole"></div>';
+            $result = '<div class="c4g__form-description c4g__form-description-empty c4g_field_descripton_hole noformdata"></div>';
         }
 
         return $result;
@@ -561,15 +562,15 @@ abstract class C4GBrickField
                 }
 
                 if (!empty($conditionname) or $conditionname == '0') {
-                    $conditionname .= '~' . $condition->getFieldName();
-                    $conditionvalue .= '~' . $condition->getValue();
-                    $conditionfunction .= '~' . $condition->getFunction();
-                    $conditiontype .= '~' . $condition->getType();
+                    $conditionname .= '~' . $condition->getFieldName() ?: -1;
+                    $conditionvalue .= '~' . $condition->getValue() ?: -1;
+                    $conditionfunction .= '~' . $condition->getFunction() ?: -1;
+                    $conditiontype .= '~' . $condition->getType() ?: -1;
                 } else {
-                    $conditionname = $condition->getFieldName();
-                    $conditionvalue = $condition->getValue();
-                    $conditionfunction .= $condition->getFunction();
-                    $conditiontype .= $condition->getType();
+                    $conditionname = $condition->getFieldName() ?: -1;
+                    $conditionvalue = $condition->getValue() ?: -1;
+                    $conditionfunction .= $condition->getFunction() ?: -1;
+                    $conditiontype .= $condition->getType() ?: -1;
                 }
             }
 

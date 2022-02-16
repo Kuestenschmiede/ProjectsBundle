@@ -135,12 +135,19 @@ class C4GImageField extends C4GBrickField
                     $img = "<a href=\"$path\" data-lightbox=\"c4g_image\">$img</a>";
                 }
 
-                $result = '<div '
+                $imageLabel = '';
+                if ($label) {
+                    $imageLabel = '<div class="c4g_image_label"><label>' . $label . '</label></div>';
+                }
+
+                //ToDo <div class="c4g_image_src  c4g_' . $this->getFieldName() . '_src"></div>
+
+                $result = '<div class="c4g__form-group c4g__form-image" '
                     . $condition['conditionName']
                     . $condition['conditionType']
                     . $condition['conditionValue']
                     . $condition['conditionDisable'] . '>
-                        <div class="c4g_image c4g_' . $this->getFieldName() . '"><div class="c4g_image_label"><label>' . $label . '</label></div><div class="c4g_image_src  c4g_' . $this->getFieldName() . '_src"></div><div class="c4g_image_description">' .
+                        <div class="c4g_image c4g_' . $this->getFieldName() . '">'.$imageLabel.'<div class="c4g_image_description">' .
                     $img . $description . '</div></div></div>';
             }
         }

@@ -155,7 +155,7 @@ class C4GMultiCheckboxField extends C4GBrickField
                     $optionId = $fieldName . '|' . $option_id;
                     $condition['conditionPrepare'] = '';
                     $result .= $spanStart .
-                        '<input type="checkbox" id="c4g_' . $optionId . '" ' . $required . ' class="formdata c4g__form-check-input c4g_display_none"'.$switch.' size="' . $size . '" name="' . $optionId . '" value="' . $optionId . '"' .
+                        '<input type="checkbox" id="c4g_' . $optionId . '" ' . $required . ' class="noformdata c4g__form-check-input c4g_display_none"'.$switch.' size="' . $size . '" name="' . $optionId . '" value="' . $optionId . '"' .
                         (($values && isset($values[$option_id])) || $this->allChecked ? ' checked="checked"' : '') . '">' . $this->addC4GFieldLabel('c4g_' . $optionId, $type_caption, false, $condition, $fieldList, $data, $dialogParams, false, true)
                         . $spanEnd;
                 }

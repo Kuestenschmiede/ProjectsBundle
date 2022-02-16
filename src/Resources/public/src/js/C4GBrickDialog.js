@@ -79,34 +79,35 @@ function C4GDatePicker(id,
             wd[a] = parseInt(wd[a]);
         }
 
-        const datepicker = new window.Datepicker(elem, {
-            buttonClass: 'c4g__btn',
-            language: lang || "de",
-            format: format,
-            datesDisabled: ed,
-            daysOfWeekDisabled: wd,
-            minDate: dMin,
-            maxDate: dMax,
-            //calendarWeeks: true,
-            weekStart: 1,
-            //todayBtn: true,
-            todayHighlight: true,
-            orientation: 'auto left',
-            autohide: true,
-            useCurrent: true
-        });
-
-        if (elem.datepicker) {
-            elem.addEventListener('changeDate', function (e) {
-                jQuery("#" + id).trigger('change');
-
-                var pickerIdx = id.indexOf("_picker");
-                if (pickerIdx && pickerIdx > 0) {
-                    var dateFieldId = id.substr(0,pickerIdx);
-                    jQuery("#" + dateFieldId).val(datepicker.getDate(format));
-                    jQuery("#" + dateFieldId).trigger('change');
-                }
+        if (window.Datepicker instanceof Function) {
+            const datepicker = new window.Datepicker(elem, {
+                buttonClass: 'c4g__btn',
+                language: lang || "de",
+                format: format,
+                datesDisabled: ed,
+                daysOfWeekDisabled: wd,
+                minDate: dMin,
+                maxDate: dMax,
+                //calendarWeeks: true,
+                weekStart: 1,
+                //todayBtn: true,
+                todayHighlight: true,
+                orientation: 'auto left',
+                autohide: true,
+                useCurrent: true
             });
+            if (elem.datepicker) {
+                elem.addEventListener('changeDate', function (e) {
+                    jQuery("#" + id).trigger('change');
+
+                    var pickerIdx = id.indexOf("_picker");
+                    if (pickerIdx && pickerIdx > 0) {
+                        var dateFieldId = id.substr(0,pickerIdx);
+                        jQuery("#" + dateFieldId).val(datepicker.getDate(format));
+                        jQuery("#" + dateFieldId).trigger('change');
+                    }
+                });
+            }
         }
     }
 }
@@ -395,112 +396,102 @@ function C4GBrickFileUpload( file, path, uploadURL, deleteURL, fieldName, target
 
 /**
  *
- * @param object
+ * @param fields
  * @constructor
  */
-function C4GCallOnChange(object) {
-
-    var fields = document.getElementsByClassName("c4g_brick_dialog")[0].children;
-    fields = C4GSortConditionFields(fields);
-
-    for(var i = 0; i < fields.length; i++)
-    {
+function C4GCheckConditionFields(fields) {
+    for (var i = 0; i < fields.length; i++) {
         var field = fields[i];
-
-        C4GCheckCondition(field);
-    }
-
-    var accordion_fields = document.getElementsByClassName("c4gGuiCollapsible_target");
-    if (accordion_fields) {
-        for(var i = 0; i < accordion_fields.length; i++) {
-            var accordion_field = accordion_fields[i];
-
-            var fields = accordion_field.children;
-
-            fields = C4GSortConditionFields(fields);
-
-            for(j = 0; j < fields.length; j++)
-            {
-                var field = fields[j];
-
-                C4GCheckCondition(field);
+        if (field.dataset.conditionName) {
+            var fieldNames = field.dataset.conditionName.split("~");
+            var result = true;
+            for (idx = 0; idx < fieldNames.length; idx++) {
+                C4GRemoveConditionSettings(field, idx);
+                if (result) {
+                    result = C4GCheckConditionSettings(field, idx);
+                }
             }
         }
     }
-
-    var tab_content = document.getElementsByClassName("c4gGuiTabContent");
-    if (tab_content) {
-        for(var i = 0; i < tab_content.length; i++) {
-            var content_field = tab_content[i];
-
-            var fields = content_field.children;
-
-            fields = C4GSortConditionFields(fields);
-
-            for(j = 0; j < fields.length; j++)
-            {
-                var field = fields[j];
-
-                C4GCheckCondition(field);
-            }
-            checkC4GTab();
-        }
-    }
-
 }
 
 /**
-/*
  *
- * @param object
+ * @returns {boolean}
  * @constructor
  */
-function C4GCallOnChangeMethodswitchFunction(object) {
-
-    var fields = document.getElementsByClassName("c4g_brick_dialog")[0].children;
-    fields = C4GSortConditionMethodswitchFields(fields);
-
-    for(var i = 0; i < fields.length; i++)
-    {
-        var field = fields[i];
-
-        C4GCheckMethodswitchCondition(field);
+function handleBrickConditions() {
+    var result = true;
+    var dialogs = document.getElementsByClassName("c4g_brick_dialog");
+    for (var i=0; i< dialogs.length; i++) {
+        var fields = dialogs[i].children;
+        if (fields) {
+            C4GCheckConditionFields(fields);
+        }
     }
 
     var accordion_fields = document.getElementsByClassName("c4gGuiCollapsible_target");
     if (accordion_fields) {
-        for(var i = 0; i < accordion_fields.length; i++) {
-            var accordion_field = accordion_fields[i];
-
-            var fields = accordion_field.children;
-
-            fields = C4GSortConditionMethodswitchFields(fields);
-
-            for(j = 0; j < fields.length; j++)
-            {
-                var field = fields[j];
-
-                C4GCheckMethodswitchCondition(field);
-            }
-        }
+        C4GCheckConditionFields(accordion_fields);
     }
 
     var tab_content = document.getElementsByClassName("c4gGuiTabContent");
     if (tab_content) {
         for(var i = 0; i < tab_content.length; i++) {
             var content_field = tab_content[i];
-
             var fields = content_field.children;
-
-            fields = C4GSortConditionMethodswitchFields(fields);
-
-            for(j = 0; j < fields.length; j++)
-            {
-                var field = fields[j];
-
-                C4GCheckMethodswitchCondition(field);
-            }
+            C4GCheckConditionFields(fields);
             checkC4GTab();
+        }
+    }
+
+    return result;
+}
+
+/**
+ *
+ * @param field
+ * @returns {boolean}
+ * @constructor
+ */
+function C4GCheckFieldTypes(field) {
+    var result = true;
+
+    if (!field.className ||
+        jQuery(field).hasClass("noformdata") ||
+        jQuery(field).hasClass("datepicker")
+    ) {
+        return false;
+    }
+
+    return result;
+}
+
+/**
+ *
+ * @param field
+ * @constructor
+ */
+function C4GRemoveConditionClasses(field, level= 1) {
+    if (C4GCheckFieldTypes(field)) {
+        jQuery(field).removeClass("formdata");
+        if (jQuery(field).hasClass('chzn-select')) {
+            jQuery(field).removeClass("chzn-select");
+            jQuery(field).addClass("chzn-select-disabled");
+            jQuery(field).style = "display:none";
+            jQuery(field).trigger('chosen:updated');
+        }
+        jQuery(field).hide();
+        jQuery(field).removeAttr("selected");
+
+        var children = field.children;
+        if (children) {
+            if (level < 4) {
+                level = level +1;
+                for (i = 0; i < children.length; i++) {
+                    C4GRemoveConditionClasses(children[i], level);
+                }
+            }
         }
     }
 }
@@ -510,167 +501,45 @@ function C4GCallOnChangeMethodswitchFunction(object) {
  * @param field
  * @constructor
  */
-function C4GCheckCondition(field)
-{
-    var fieldNames = field.dataset.conditionName.split("~");
-    var fieldValues = field.dataset.conditionValue.split("~");
-    var fieldType = field.dataset.conditionType.split("~");
-    
-    var currentName;
-    var currentValue;
-    var currentType;
+function C4GRemoveConditionSettings(field, idx) {
+    if (field.dataset.conditionName && field.dataset.conditionType && ((field.dataset.conditionValue && field.dataset.conditionType.split("~").includes("value")) || (field.dataset.conditionFunction && field.dataset.conditionType.split("~").includes("method")))) {
+        var fieldNames = field.dataset.conditionName.split("~");
+        var fieldValues = field.dataset.conditionValue ? field.dataset.conditionValue.split("~") : [];
+        var fieldFunction = field.dataset.conditionFunction ? field.dataset.conditionFunction.split("~") : [];
+        var fieldType = field.dataset.conditionType.split("~");
 
-    let countValueHits = 0;
-    let countValuePoss = 0;
+        var currentName;
+        var currentValue;
+        var currentFunction;
+        var currentType;
+        var checkValue = false;
 
-    for(f = 0; f < fieldNames.length; f++)
-    {
-        currentName = "c4g_" + fieldNames[f];
-        currentValue = fieldValues[f];
-        currentType = fieldType[f];
+        currentType = fieldType[idx];
+        if (currentType == 'value') {
+            currentName = "c4g_" + fieldNames[idx];
+            currentValue = fieldValues[idx];
+            checkValue = document.getElementById(currentName) ? document.getElementById(currentName).value : false;
+            checkValue = (checkValue === currentValue);
+        } else if (currentType == 'method') {
+            var nameWithParams = fieldNames[idx].split('--');
+            currentName = "c4g_" + nameWithParams[0];
+            currentFunction = window[fieldFunction[idx]];
+            checkValue = document.getElementById(currentName) ? document.getElementById(currentName).value : false;
 
-        if (currentType == "method") {
-            continue;
-        }
-        countValuePoss++;
-
-        checkValue = document.getElementById(currentName) ? document.getElementById(currentName).value : false;
-
-        if (checkValue) {
-            if (checkValue != currentValue) {
-                for (o = 0; o < field.children.length; o++) {
-                    try {
-                        jQuery(field.children[o]).removeClass("formdata");
-                        if (jQuery(field.children[o]).hasClass('chzn-select')) {
-                            jQuery(field.children[o]).removeClass("chzn-select");
-                            jQuery(field.children[o]).addClass("chzn-select-disabled");
-                            jQuery(field.children[o]).style = "display:none";
-                            jQuery(field.children[o]).trigger('chosen:updated');
-                        }
-                        jQuery(field.children[o]).hide();
-                        jQuery(field.children[o]).removeAttr("selected");
-
-                        for (p = 0; p < field.children[o].children.length; p++) {
-                            if (jQuery(field.children[o].children[p]).hasClass("datepicker")) {
-                                continue;
-                            }
-
-                            jQuery(field.children[o].children[p]).removeClass("formdata");
-                            if (jQuery(field.children[o].children[p]).hasClass('chzn-select')) {
-                                jQuery(field.children[o].children[p]).removeClass("chzn-select");
-                                jQuery(field.children[o].children[p]).addClass("chzn-select-disabled");
-                                jQuery(field.children[o].children[p]).style = "display:none";
-                                jQuery(field.children[o].children[p]).trigger('chosen:updated');
-                            }
-                            jQuery(field.children[o].children[p]).hide();
-                            jQuery(field.children[o].children[p]).removeAttr("selected");
-                        }
-                    } catch (err) {
-                        //ToDo
-                    }
-                }
-                try {
-                    jQuery(field).removeClass("formdata");
-                    if (jQuery(field).hasClass('chzn-select')) {
-                        jQuery(field).removeClass("chzn-select");
-                        jQuery(field).addClass("chzn-select-disabled");
-                        jQuery(field).style = "display:none";
-                        jQuery(field).trigger('chosen:updated');
-                    }
-                    jQuery(field.hide());
-                    jQuery(field.removeAttr("selected"));
-                } catch (err) {
-                    //ToDo
+            if (currentFunction instanceof Function) {
+                if (nameWithParams[1]) {
+                    checkValue = checkValue + '--' + nameWithParams[1];
+                    checkValue = currentFunction(checkValue);
+                } else {
+                    checkValue = currentFunction(checkValue);
                 }
             } else {
-                countValueHits++;
+                checkVlaue = false;
             }
         }
-    }
 
-    for(f = 0; f < fieldNames.length; f++)
-    {
-        currentName = "c4g_" + fieldNames[f];
-        currentValue = fieldValues[f];
-        currentType = fieldType[f];
-
-        if (currentType == "method") {
-            continue;
-        }
-
-        checkValue = document.getElementById(currentName) ? document.getElementById(currentName).value : false;
-
-        if (checkValue) {
-            if ((checkValue == currentValue) && (countValueHits == countValuePoss)) {
-                for (o = 0; o < field.children.length; o++) {
-                    try {
-                        jQuery(field.children[o]).show();
-                        jQuery(field.children[o]).addClass("formdata");
-
-                        if (jQuery(field.children[o]).hasClass("c4g_display_none")) {
-                            if (jQuery(field.children[o]).hasClass('chzn-select')) {
-                                jQuery(field.children[o]).removeClass("chzn-select");
-                                jQuery(field.children[o]).addClass("chzn-select-disabled");
-                            }
-                            jQuery(field.children[o]).hide();
-                        } else {
-                            if (jQuery(field.children[o]).hasClass('chzn-select-disabled')) {
-                                jQuery(field.children[o]).removeClass("chzn-select-disabled");
-                                jQuery(field.children[o]).addClass("chzn-select");
-                                jQuery(field.children[o]).hide();
-                            }
-                        }
-
-
-                        for (p = 0; p < field.children[o].children.length; p++) {
-                            if (jQuery(field.children[o].children[p]).hasClass("datepicker")) {
-                                continue;
-                            }
-
-                            jQuery( field.children[o].children[p]).show();
-                            jQuery( field.children[o].children[p]).addClass("formdata");
-
-                            if (jQuery( field.children[o].children[p]).hasClass("c4g_display_none")) {
-                                if (jQuery( field.children[o].children[p]).hasClass('chzn-select')) {
-                                    jQuery( field.children[o].children[p]).removeClass("chzn-select");
-                                    jQuery( field.children[o].children[p]).addClass("chzn-select-disabled");
-                                }
-                                jQuery( field.children[o].children[p]).hide();
-                            } else {
-                                if (jQuery( field.children[o].children[p]).hasClass('chzn-select-disabled')) {
-                                    jQuery( field.children[o].children[p]).removeClass("chzn-select-disabled");
-                                    jQuery( field.children[o].children[p]).addClass("chzn-select");
-                                    jQuery( field.children[o].children[p]).hide();
-                                }
-                            }
-                        }
-
-                    } catch (err) {
-                        //ToDo
-                    }
-                }
-                try {
-                    jQuery(field).show();
-                    jQuery(field).addClass("formdata");
-
-                    if (jQuery(field).hasClass("c4g_display_none")) {
-                        if (jQuery(field).hasClass('chzn-select')) {
-                            jQuery(field).removeClass("chzn-select");
-                            jQuery(field).addClass("chzn-select-disabled");
-                        }
-                        jQuery(field).hide();
-                    } else {
-                        if (jQuery(field).hasClass('chzn-select-disabled')) {
-                            jQuery(field).removeClass("chzn-select-disabled");
-                            jQuery(field).addClass("chzn-select");
-                            jQuery(field).hide();
-                        }
-                    }
-
-                } catch (err) {
-                    //ToDo
-                }
-            }
+        if (!checkValue) {
+            C4GRemoveConditionClasses(field);
         }
     }
 }
@@ -680,206 +549,91 @@ function C4GCheckCondition(field)
  * @param field
  * @constructor
  */
-function C4GCheckMethodswitchCondition(field)
-{
-    var fieldNames = field.dataset.conditionName.split("~");
-    var fieldFunction = field.dataset.conditionFunction.split("~");
-    var fieldType = field.dataset.conditionType.split("~");
+function C4GCheckConditionClasses(field, level= 1) {
+    if (C4GCheckFieldTypes(field)) {
+        jQuery(field).show();
+        jQuery(field).addClass("formdata");
 
-    var currentName;
-    var currentFunction;
-    var currentType;
-
-    for(f = 0; f < fieldNames.length; f++)
-    {
-        var nameWithParams = fieldNames[f].split('--');
-
-        currentName = "c4g_" + nameWithParams[0];
-        currentFunction = window[fieldFunction[f]];
-        currentType = fieldType[f];
-
-        if (currentType == "value") {
-            continue;
-        }
-
-        if (!currentFunction) {
-            continue;
-        }
-
-        checkValue = document.getElementById(currentName) ? document.getElementById(currentName).value : false;
-
-        if (checkValue) {
-            if (nameWithParams[1]) {
-                checkValue = checkValue+'--'+nameWithParams[1];
+        if (jQuery(field).hasClass("c4g_display_none")) {
+            if (jQuery(field).hasClass('chzn-select')) {
+                jQuery(field).removeClass("chzn-select");
+                jQuery(field).addClass("chzn-select-disabled");
             }
-            if (!currentFunction(checkValue)) {
-                for (o = 0; o < field.children.length; o++) {
-                    try {
-                        jQuery(field.children[o]).removeClass("formdata");
-                        if (jQuery(field.children[o]).hasClass('chzn-select')) {
-                            jQuery(field.children[o]).removeClass("chzn-select");
-                            jQuery(field.children[o]).addClass("chzn-select-disabled");
-                        }
-                        jQuery(field.children[o]).removeAttr("selected");
-                        jQuery(field.children[o]).removeAttr("required");
-                        jQuery(field.children[o]).hide();
-                    } catch (err) {
-                        //ToDo
-                    }
+            jQuery(field).hide();
+        } else {
+            if (jQuery(field).hasClass('chzn-select-disabled')) {
+                jQuery(field).removeClass("chzn-select-disabled");
+                jQuery(field).addClass("chzn-select");
+                jQuery(field).hide();
+            }
+        }
 
-                    var hasChilds = jQuery(field.children[o]).children;
-                    if (hasChilds) {
-                        for (p = 0; p < jQuery(field.children[o].children).length; p++) {
-                            try {
-                                if (jQuery(field.children[o].children[p]).hasClass("datepicker")) {
-                                    continue;
-                                }
+        var children = field.children;
+        if (children) {
+            if (level < 4) {
+                level = level+1;
 
-                                jQuery(field.children[o].children[p]).removeClass("formdata");
-                                if (jQuery(field.children[o].children[p]).hasClass('chzn-select')) {
-                                    jQuery(field.children[o].children[p]).removeClass("chzn-select");
-                                    jQuery(field.children[o].children[p]).addClass("chzn-select-disabled");
-                                }
-                                jQuery(field.children[o].children[p]).removeAttr("selected");
-                                jQuery(field.children[o].children[p]).removeAttr("required");
-                                jQuery(field.children[o].children[p]).hide();
-                            } catch (err) {
-                                //ToDo
-                            }
-                        }
-                    }
+                for (i = 0; i < children.length; i++) {
+                    C4GCheckConditionClasses(children[i], level);
                 }
             }
         }
-    }
-
-    for(f = 0; f < fieldNames.length; f++)
-    {
-        var nameWithParams = fieldNames[f].split('--');
-        currentName = "c4g_" + nameWithParams[0];
-        currentFunction = window[fieldFunction[f]];
-        currentType = fieldType[f];
-
-        if (currentType == "value") {
-            continue;
-        }
-        if (!currentFunction) {
-            continue;
-        }
-
-        checkValue = document.getElementById(currentName) ? document.getElementById(currentName).value : false;
-
-        if (checkValue) {
-            if (nameWithParams[1]) {
-                checkValue = checkValue+'--'+nameWithParams[1];
-            }
-            if (currentFunction(checkValue)) {
-                for (o = 0; o < field.children.length; o++) {
-                    try {
-                        jQuery(field.children[o]).show();
-                        jQuery(field.children[o]).addClass("formdata");
-
-                        if (jQuery(field.children[o]).hasClass("c4g_display_none")) {
-                            if (jQuery(field.children[o]).hasClass('chzn-select')) {
-                                jQuery(field.children[o]).removeClass("chzn-select");
-                                jQuery(field.children[o]).addClass("chzn-select-disabled");
-                            }
-                            jQuery(field.children[o]).removeAttr("selected");
-                            jQuery(field.children[o]).removeAttr("required");
-                            jQuery(field.children[o]).hide();
-                        } else {
-                            if (jQuery(field.children[o]).hasClass('chzn-select-disabled')) {
-                                jQuery(field.children[o]).removeClass("chzn-select-disabled");
-                                jQuery(field.children[o]).addClass("chzn-select");
-                                jQuery(field.children[o]).hide();
-                            }
-                        }
-                    } catch (err) {
-                        //ToDo
-                    }
-
-                    var hasChilds = jQuery(field.children[o]).children;
-                    if (hasChilds) {
-                        for (p = 0; p < jQuery(field.children[o].children).length; p++) {
-                            try {
-                                if (jQuery(field.children[o].children[p]).hasClass("datepicker")) {
-                                    continue;
-                                }
-
-                                jQuery(field.children[o].children[p]).show();
-                                jQuery(field.children[o].children[p]).addClass("formdata");
-
-                                if (jQuery(field.children[o].children[p]).hasClass("c4g_display_none")) {
-                                    if (jQuery(field.children[o].children[p]).hasClass('chzn-select')) {
-                                        jQuery(field.children[o].children[p]).removeClass("chzn-select");
-                                        jQuery(field.children[o].children[p]).addClass("chzn-select-disabled");
-                                    }
-                                    jQuery(field.children[o].children[p]).removeAttr("selected");
-                                    jQuery(field.children[o].children[p]).removeAttr("required");
-                                    jQuery(field.children[o].children[p]).hide();
-                                } else {
-                                    if (jQuery(field.children[o].children[p]).hasClass('chzn-select-disabled')) {
-                                        jQuery(field.children[o].children[p]).removeClass("chzn-select-disabled");
-                                        jQuery(field.children[o].children[p]).addClass("chzn-select");
-                                        jQuery(field.children[o].children[p]).hide();
-                                    }
-                                }
-                            } catch (err) {
-                                //ToDo
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
     }
 }
 
 /**
  *
- * @param fields
- * @returns {Array}
+ * @param field
+ * @param idx
+ * @returns {boolean}
  * @constructor
  */
-function C4GSortConditionFields(fields)
+function C4GCheckConditionSettings(field, idx)
 {
-    var goodFields = new Array();
-    var timer = 0;
+    var result = true;
+    if (field.dataset.conditionName && field.dataset.conditionType && ((field.dataset.conditionValue && field.dataset.conditionType.split("~").includes("value")) || (field.dataset.conditionFunction && field.dataset.conditionType.split("~").includes("method")))) {
+        var fieldNames = field.dataset.conditionName.split("~");
+        var fieldValues = field.dataset.conditionValue ? field.dataset.conditionValue.split("~") : [];
+        var fieldFunction = field.dataset.conditionFunction ? field.dataset.conditionFunction.split("~") : [];
+        var fieldType = field.dataset.conditionType.split("~");
 
-    if (fields) {
-        for(i = 0; i < fields.length; i++)
-        {
-            if (fields[i].dataset.conditionName && fields[i].dataset.conditionValue && fields[i].dataset.conditionType && (fields[i].dataset.conditionType.split("~").includes("value"))) {
-                goodFields[timer] = fields[i];
-                timer++;
+        var result = false;
+
+        var currentName;
+        var currentValue;
+        var currentFunction;
+        var currentType= fieldType[idx];
+        var checkValue = false;
+
+        if (currentType == 'value') {
+            currentName = "c4g_" + fieldNames[idx];
+            currentValue = fieldValues[idx];
+            checkValue = document.getElementById(currentName) ? document.getElementById(currentName).value : false;
+            checkValue = (checkValue === currentValue);
+        } else if (currentType == 'method') {
+            var nameWithParams = fieldNames[idx].split('--');
+            currentName = "c4g_" + nameWithParams[0];
+            currentFunction = window[fieldFunction[idx]];
+            checkValue = document.getElementById(currentName) ? document.getElementById(currentName).value : false;
+
+            if (currentFunction instanceof Function) {
+                if (nameWithParams[1]) {
+                    checkValue = checkValue + '--' + nameWithParams[1];
+                    checkValue = currentFunction(checkValue);
+                } else {
+                    checkValue = currentFunction(checkValue);
+                }
+            } else {
+                checkValue = false;
             }
         }
-    }
-    return goodFields;
-}
 
-/**
- *
- * @param fields
- * @returns {Array}
- * @constructor
- */
-function C4GSortConditionMethodswitchFields(fields)
-{
-    var goodFields = new Array();
-    var timer = 0;
-
-    if (fields) {
-        for(i = 0; i < fields.length; i++)
-        {
-            if (fields[i].dataset.conditionName && fields[i].dataset.conditionFunction && fields[i].dataset.conditionType && (fields[i].dataset.conditionType.split("~").includes("method"))) {
-                goodFields[timer] = fields[i];
-                timer++;
-            }
+        if (checkValue) {
+            result = true;
+            C4GCheckConditionClasses(field);
         }
     }
-    return goodFields;
+    return result;
 }
 
 /**
@@ -1490,4 +1244,3 @@ function editSubDialog(button, event) {
         button.innerHTML = button.dataset.captionbeginediting;
     }
 }
-
