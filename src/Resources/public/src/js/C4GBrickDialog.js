@@ -161,13 +161,13 @@ function C4GSearchTiles(search)
 
     if(value)
     {
-        for (aTimer = 0; aTimer < tiles.length; aTimer+=1)
+        for (var aTimer = 0; aTimer < tiles.length; aTimer+=1)
         {
             founded = false;
 
             fields = tiles[aTimer].children[0].children;
 
-            for (fTimer = 0; fTimer < fields.length; fTimer+=1)
+            for (var fTimer = 0; fTimer < fields.length; fTimer+=1)
             {
                 if(fields[fTimer].innerHTML)
                 {
@@ -405,7 +405,7 @@ function C4GCheckConditionFields(fields) {
         if (field.dataset.conditionName) {
             var fieldNames = field.dataset.conditionName.split("~");
             var result = true;
-            for (idx = 0; idx < fieldNames.length; idx++) {
+            for (var idx = 0; idx < fieldNames.length; idx++) {
                 C4GRemoveConditionSettings(field, idx);
                 if (result) {
                     result = C4GCheckConditionSettings(field, idx);
@@ -486,9 +486,9 @@ function C4GRemoveConditionClasses(field, level= 1) {
 
         var children = field.children;
         if (children) {
-            if (level < 4) {
+            if (level < 5) {
                 level = level +1;
-                for (i = 0; i < children.length; i++) {
+                for (var i = 0; i < children.length; i++) {
                     C4GRemoveConditionClasses(children[i], level);
                 }
             }
@@ -570,10 +570,10 @@ function C4GCheckConditionClasses(field, level= 1) {
 
         var children = field.children;
         if (children) {
-            if (level < 4) {
+            if (level < 5) {
                 level = level+1;
 
-                for (i = 0; i < children.length; i++) {
+                for (var i=0; i < children.length; i++) {
                     C4GCheckConditionClasses(children[i], level);
                 }
             }

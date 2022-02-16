@@ -57,12 +57,13 @@ class C4GNumberField extends C4GBrickFieldNumeric
             } else {
                 $value = $this->generateInitialValue($data);
             }
-//            $onChange = 'onChange="changeNumberFormat(\'' . $id . '\',this.value)"'; This neither seems to work properly nor does it seem needed - rro
+//$onChange = 'onChange="changeNumberFormat(\'' . $id . '\',this.value)"'; This neither seems to work properly nor does it seem needed - rro
             $type = 'text';
         } else {
             $value = $this->generateInitialValue($data);
             $type = 'number';
         }
+
         if ($this->isShowIfEmpty() || !empty($value)) {
             $condition = $this->createConditionData($fieldList, $data);
 
@@ -70,14 +71,13 @@ class C4GNumberField extends C4GBrickFieldNumeric
 
             if ($this->isCallOnChange()) {
                 if ($this->getCallOnChangeFunction()) {
-                    $changeAction = 'onchange="' . $this->getCallOnChangeFunction() . 'handleBrickConditions();"'; //ToDo check with both solutions
+                    $changeAction = 'onchange="' . $this->getCallOnChangeFunction() . '"';
                 } else {
                     $changeAction = 'onchange="handleBrickConditions();"';
                 }
             }
 
-            $result =
-                $this->addC4GField($condition,$dialogParams,$fieldList,$data,
+            $result = $this->addC4GField($condition,$dialogParams,$fieldList,$data,
                     '<input ' . $required . ' ' . $condition['conditionPrepare'] . ' type="' . $type . '" ' . $changeAction . ' id="' . $id . '" class="formdata c4g__form-control c4g__form-'.$type.'-input ' . $id . '" size="' .
                     $this->getSize() . '" min="' . $this->getMin() . '" max="' . $this->getMax() . '" step="' . $this->getStep() . '" pattern="' . $this->pattern . '" name="' .
                     $fieldName . '" value="' . $value . '">');
