@@ -323,7 +323,7 @@ class C4GRadioGroupField extends C4GBrickField
             foreach ($this->getCondition() as $con) {
                 $fieldName = $con->getFieldName();
                 if (!$con->checkAgainstCondition($dlgValues[$fieldName])) {
-                    return false;
+                    return $this; //todo shouldn't happend, better error handling.
                 }
             }
         }

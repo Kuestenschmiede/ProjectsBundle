@@ -35,8 +35,15 @@ class C4GBrickCondition
         if ($this->model && $this->function) {
             $model = $this->model;
             $function = $this->function;
+            $conditionField = $this->fieldName;
 
-            return $model::$function($Value);
+            if ($pos = strpos($conditionField,'--')) {
+                $conditionFieldValue = substr($conditionField, 0, $pos);
+                $conditionFieldConst =  substr($conditionField, $pos+2);
+                return $model::$function($Value.'--'.$conditionFieldConst);
+            } else {
+                return $model::$function($Value);
+            }
         }
         if ($Value == $this->value) {
             return true;
