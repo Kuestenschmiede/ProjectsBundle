@@ -337,7 +337,7 @@ class C4GDateField extends C4GBrickField
     }
 
     /**
-     * Public method that will be called in translateFieldValues in C4GBrickModuleParent
+     * Public method that will be called to view the value
      * @param $value
      * @return mixed
      */
@@ -349,7 +349,7 @@ class C4GDateField extends C4GBrickField
         $date = $value;
         $timestamp = strtotime($value);
         if (is_numeric($timestamp)) {
-            return $value;
+            return date($GLOBALS['TL_CONFIG']['dateFormat'], $timestamp);
         } elseif ($value == $GLOBALS['TL_LANG']['FE_C4G_DIALOG_COMPARE']['newEntry']) {
             return $value;
         }

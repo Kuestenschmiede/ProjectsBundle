@@ -63,7 +63,7 @@ class C4GBrickNotification
                         }
                         $tokensValues[$field->getFieldName()] .= $multiCheckboxString;
                     } elseif (!$field instanceof C4GMultiCheckboxField) {
-                        $tokensValues[$field->getFieldName()] = $dlgValue;
+                        $tokensValues[$field->getFieldName()] = $field->translateFieldValue($dlgValue);
                     }
                 }
             }

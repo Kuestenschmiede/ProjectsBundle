@@ -239,7 +239,7 @@ class C4GRadioGroupField extends C4GBrickField
     }
 
     /**
-     * Public method that will be called in translateFieldValues in C4GBrickModuleParent
+     * Public method that will be called to view the value
      * @param $value
      * @return mixed
      */
@@ -323,7 +323,7 @@ class C4GRadioGroupField extends C4GBrickField
             foreach ($this->getCondition() as $con) {
                 $fieldName = $con->getFieldName();
                 if (!$con->checkAgainstCondition($dlgValues[$fieldName])) {
-                    return $this; //todo shouldn't happend, better error handling.
+                    return false; //todo shouldn't happend, better error handling.
                 }
             }
         }
