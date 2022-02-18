@@ -102,12 +102,12 @@ class C4GMultiCheckboxField extends C4GBrickField
             $switch = '';
             if ($this->isModernStyle() == false) {
                 $div = $conditionStart;// . '<div class="c4g__form-multicheckbox formdata" ' . $condition['conditionPrepare'];
-                $spanStart = '<div class="c4g__form-check">';
+                $spanStart = '<div class="c4g__form-check formdata">';
                 $spanEnd = '</div>';
             } else {
                 $switch = ' role="switch"';
                 $div = $conditionStart;// . '<div class="c4g__form-multicheckbox c4g_form-multicheckbox-switch formdata" ' . $condition['conditionPrepare'];
-                $spanStart = '<div class="c4g__form-check c4g__form-switch">';
+                $spanStart = '<div class="c4g__form-check c4g__form-switch formdata">';
                 $spanEnd = '</div>';
             }
 
@@ -155,7 +155,7 @@ class C4GMultiCheckboxField extends C4GBrickField
                     $optionId = $fieldName . '|' . $option_id;
                     $condition['conditionPrepare'] = '';
                     $result .= $spanStart .
-                        '<input type="checkbox" id="c4g_' . $optionId . '" ' . $required . ' class="noformdata c4g__form-check-input c4g_display_none"'.$switch.' size="' . $size . '" name="' . $optionId . '" value="' . $optionId . '"' .
+                        '<input type="checkbox" id="c4g_' . $optionId . '" ' . $required . ' class="formdata c4g__form-check-input"'.$switch.' size="' . $size . '" name="' . $optionId . '" value="' . $optionId . '"' .
                         (($values && isset($values[$option_id])) || $this->allChecked ? ' checked="checked"' : '') . '">' . $this->addC4GFieldLabel('c4g_' . $optionId, $type_caption, false, $condition, $fieldList, $data, $dialogParams, false, true)
                         . $spanEnd;
                 }
