@@ -12,6 +12,7 @@ namespace con4gis\ProjectsBundle\Classes\Fieldlist;
 
 use con4gis\CoreBundle\Classes\C4GHTMLFactory;
 use con4gis\CoreBundle\Classes\C4GUtils;
+use con4gis\CoreBundle\Classes\Helper\StringHelper;
 use con4gis\ProjectsBundle\Classes\Conditions\C4GBrickConditionType;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GButtonField;
@@ -380,6 +381,9 @@ abstract class C4GBrickField
 
             $conditionPrepare = $condition && is_array($condition) ? $condition['conditionPrepare'] : '';
 
+
+            $title = trim($title) ? StringHelper::spaceToNbsp($title) : $title;
+
             if ($this->isWithoutLabel() || ($dialogParams->isWithLabels() === false && !($this instanceof C4GMultiCheckboxField || $this instanceof C4GCheckboxField))) {
                 return '<label class="c4g__form-label c4g__form-'.$this->type.'-label ' . $this->getFieldName() . ' ' . $id . '" for="' . $id . '" ' . $conditionPrepare . '>' . $star . $additionalLabel . $linebreak . '</label>' . $extTitleField;
             }
@@ -518,6 +522,8 @@ abstract class C4GBrickField
     {
         $withLinkDescription = $this->isWithLinkDescription();
         $withoutLineBreak = $this->isWithoutDescriptionLineBreak() || !$description;
+
+        $description = trim($description) ? StringHelper::spaceToNbsp($description) : $description;
 
         $result = '';
         if ($description && ($description != '') && $withLinkDescription && $withoutLineBreak) {
