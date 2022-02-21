@@ -16,6 +16,7 @@ use con4gis\ProjectsBundle\Classes\Documents\C4GPrintoutPDF;
 use con4gis\ProjectsBundle\Classes\Framework\C4GModuleManager;
 use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\Database;
+use Contao\FrontendUser;
 use Contao\Input;
 use Contao\Module;
 use Contao\ModuleModel;
@@ -183,7 +184,8 @@ class AjaxController extends ApiController
             $response->setStatusCode(400);
             return $response;
         }
-        if (!FE_USER_LOGGED_IN) {
+        $user = FrontendUser::getInstance();
+        if ($user->id < 1) {
             $response->setStatusCode(401);
             return $response;
         }
