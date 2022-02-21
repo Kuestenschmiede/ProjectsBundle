@@ -60,7 +60,7 @@ class C4GMultiCheckboxField extends C4GBrickField
 
         $values = [];
         if ($value) {
-            if ($this->serializeResult) {
+            if (!is_array($value) && $this->serializeResult) {
                 $tmpArray = StringUtil::deserialize(html_entity_decode($value));
             } else {
                 $tmpArray = $value;
