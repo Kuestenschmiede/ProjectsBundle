@@ -17,6 +17,7 @@ use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldCompare;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldType;
+use con4gis\ProjectsBundle\Classes\Lists\C4GBrickList;
 use con4gis\ProjectsBundle\Classes\Views\C4GBrickViewType;
 use Contao\StringUtil;
 
@@ -313,6 +314,24 @@ class C4GMultiCheckboxField extends C4GBrickField
     public function translateFieldValue($value)
     {
         return C4GBrickCommon::translateSelectOption($value, $this->getOptions());
+    }
+
+    public function getC4GListField($rowData, $content)
+    {
+        $result = '';
+        $fieldName = $this->getFieldName();
+
+        $rowData = StringUtil::deserialize($rowData->$fieldName);
+        foreach ($rowData as $optionId) {
+
+            if ($result) {
+                $result .= ','.C4GBrickCommon::translateSelectOption($optionId, $this->getOptions());
+            } else {
+                $result = C4GBrickCommon::translateSelectOption($optionId, $this->getOptions());
+            }
+        }
+
+        return $result;
     }
 
     /**
