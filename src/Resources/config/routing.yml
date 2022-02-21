@@ -34,7 +34,5 @@ con4gis_get_address:
 
 con4gis_brick_file_upload:
     path: /con4gis/upload_file
-    defaults:
-        _scope: frontend
-        _controller: "con4gisProjectsBundle:Ajax:upload"
+    controller: con4gis\ProjectsBundle\Controller\AjaxController::uploadAction
     methods: [POST]
