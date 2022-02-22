@@ -5498,6 +5498,15 @@ label.c4g_signature {
 .ol-control button {
   font-family: 'Font Awesome 5 Free'
 }
+.c4g_uploadButton {
+  display: block
+}
+.c4g_deleteButton i {
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  font-style: normal;
+  color: red
+}
 .c4g_sub_dialog {
   display: block
 }

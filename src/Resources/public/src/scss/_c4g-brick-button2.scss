@@ -58,3 +58,13 @@ a:link.ui-button,
   @extend .btn-link;
 }
 
+.c4g_uploadButton {
+  display: block;
+}
+.c4g_deleteButton i {
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  font-style: normal;
+  color: red;
+}
+

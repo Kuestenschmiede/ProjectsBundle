@@ -113,23 +113,15 @@ class C4GNumberField extends C4GBrickFieldNumeric
         $result = null;
 
         if ($this->isSearchField()) {
-//ToDo check unused code
-//            if (!$dbValue) {
-//                $pos = strripos($fieldname, '_');
-//                if ($pos !== false) {
-//                    $fieldName = substr($fieldname, 0, $pos);
-//                }
-                if ($this->isSearchMinimumField()) {
-                    //$dbValue = $dbValues->$fieldName;
-                    $maximum_fieldname = $fieldName . '_maximum';
-                    if ($dbValueInt !== 0 && !($dbValueInt > $dlgValueInt && $dbValueInt < $dlgValues[$maximum_fieldname])) {
-                        $result = new C4GBrickFieldCompare($this, $dbValue, $dlgValue);
-                    }
-                } elseif ($this->isSearchMaximumField() && $dbValue !== 0) {
-                    if ($dbValueInt > $dlgValueInt) {
-                        $result = new C4GBrickFieldCompare($this, $dbValue, $dlgValue);
-                    }
-//                }
+            if ($this->isSearchMinimumField()) {
+                $maximum_fieldname = $fieldName . '_maximum';
+                if ($dbValueInt !== 0 && !($dbValueInt > $dlgValueInt && $dbValueInt < $dlgValues[$maximum_fieldname])) {
+                    $result = new C4GBrickFieldCompare($this, $dbValue, $dlgValue);
+                }
+            } elseif ($this->isSearchMaximumField() && $dbValue !== 0) {
+                if ($dbValueInt > $dlgValueInt) {
+                    $result = new C4GBrickFieldCompare($this, $dbValue, $dlgValue);
+                }
             }
         } elseif ($dbValueInt != $dlgValueInt) {
             $result = new C4GBrickFieldCompare($this, $dbValue, $dlgValue);

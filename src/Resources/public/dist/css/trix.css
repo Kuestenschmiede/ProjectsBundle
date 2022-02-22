@@ -6,6 +6,9 @@ trix-editor {
   min-height: 5em;
   outline: 0
 }
+trix-editor ul {
+  list-style-type: disc
+}
 .c4g_brick_dialog trix-editor {
   width: 100%
 }

@@ -488,9 +488,9 @@ window.c4g.projects = window.c4g.projects || {};
                             .reduce(function (a, b) {
                               a += "";
                               b += "";
-                              var x = a.replace(",", ".");
+                              var x = a ? a.replace(",", ".") : 0;
                               x = parseFloat(x) || 0;
-                              var y = b.replace(",", ".");
+                              var y = b ? b.replace(",", ".") : 0;
                               y = parseFloat(y) || 0;
                               return x + y;
                             }, 0);
@@ -499,7 +499,7 @@ window.c4g.projects = window.c4g.projects || {};
                           // TODO Internationalize this
                           // TODO make this configurable ?
                           sum = parseFloat(sum).toFixed(2).toLocaleString();
-                          sum = sum.replace(".", ",");
+                          sum = sum ? sum.replace(".", ",") : 0;
                         }
                       }
 
