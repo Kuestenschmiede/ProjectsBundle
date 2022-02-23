@@ -19,6 +19,14 @@
   text-align: left;
 }
 
+.dataTable,
+.dataTable th,
+.dataTable td {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
 .dataTables_wrapper {
   font-size: inherit;
   overflow-y: auto;

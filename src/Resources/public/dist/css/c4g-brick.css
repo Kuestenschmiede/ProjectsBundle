@@ -5769,6 +5769,11 @@ label.c4g_signature {
 .dataTable tr td.c4g_list_align_left {
   text-align: left
 }
+.dataTable,
+.dataTable td,
+.dataTable th {
+  box-sizing: border-box
+}
 .dataTables_wrapper {
   font-size: inherit;
   overflow-y: auto
