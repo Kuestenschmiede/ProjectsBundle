@@ -8,7 +8,7 @@
  * @copyright (c) 2010-2022, by Küstenschmiede GmbH Software & Design
  * @link https://www.con4gis.org
  */
-namespace con4gis\ProjectsBundle\Classes\Modules;
+namespace con4gis\ProjectsBundle\Controller;
 
 use con4gis\ProjectsBundle\Classes\Actions\C4GBrickActionType;
 use con4gis\ProjectsBundle\Classes\Actions\C4GRedirectAction;
@@ -18,7 +18,7 @@ use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GTextField;
 use con4gis\ProjectsBundle\Classes\Framework\C4GBaseController;
 use con4gis\ProjectsBundle\Classes\Views\C4GBrickViewType;
 
-class C4GSearchModule extends C4GBaseController
+class C4GSearchModuleController extends C4GBaseController
 {
     protected $withPermissionCheck = false;
     protected $databaseType = C4GBrickDatabaseType::NO_DB;
@@ -61,9 +61,10 @@ class C4GSearchModule extends C4GBaseController
         }
     }
 
-    public function addFields()
+    public function addFields() : array
     {
         $this->fieldList = $this->getFieldList();
+        return $this->fieldList;
     }
 
     public function getFieldList()
@@ -85,7 +86,7 @@ class C4GSearchModule extends C4GBaseController
     public function redirectToList($values, $putVars)
     {
         $page = $this->listModule;
-        $this->dialogParams->getSession()->setSessionValue('c4g_list_searchValue', $putVars['searchValue']);
+        $this->session->setSessionValue('c4g_list_searchValue', $putVars['searchValue']);
         $this->dialogParams->setRedirectSite($page);
         $action = new C4GRedirectAction(
             $this->dialogParams,

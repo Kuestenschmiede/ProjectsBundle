@@ -21,12 +21,6 @@ $GLOBALS['TL_HOOKS']['postLogout'][] = array('con4gis\ProjectsBundle\Classes\Fra
 $GLOBALS['TL_HOOKS']['postLogin'][] = array('con4gis\ProjectsBundle\Classes\Framework\C4GMaintenance', 'onLoginClearSessions');
 
 /**
- * Frontend Modules
- */
-$GLOBALS['FE_MOD']['con4gis']['C4GSearchModule'] = 'con4gis\ProjectsBundle\Classes\Modules\C4GSearchModule';
-asort($GLOBALS['FE_MOD']['con4gis']);
-
-/**
  * API MODULES
  */
 $GLOBALS['TL_API']['c4g_brick_ajax'] = 'C4GBrickAjaxApi';

@@ -344,7 +344,29 @@ function deleteC4GBrickFile(button) {
  * @param button
  */
 function deleteC4GBrickImage(button) {
-    button.parentNode.removeChild(button.parentNode.firstChild);
+    var id = button.id;
+    if (id) {
+        var idx = id.indexOf("c4g_deleteButton_");
+        if (idx == 0) {
+            id = id.substr(17);
+            var hiddenUrl = "c4g_uploadURL_" + id;
+            hiddenUrl = document.getElementById(hiddenUrl);
+            hiddenUrl.value = "";
+
+            var link = "c4g_uploadLink_" + id;
+            link = document.getElementById(link);
+            link.innerHTML = "";
+
+            var handle = document.getElementById("c4g_"+id);//jQuery("#c4g_"+id);
+            handle.value = "";
+            handle.defaultValue = "";
+            jQuery(handle).trigger('change');
+
+            link.style.display = "none";
+            button.style.display = "none";
+        }
+    }
+    //button.parentNode.removeChild(button.parentNode.firstChild);
 }
 
 /**

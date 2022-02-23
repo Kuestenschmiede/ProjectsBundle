@@ -10,3 +10,12 @@ services:
             - "@contao.framework"
         public: true
         class: con4gis\ProjectsBundle\Controller\AjaxController
+
+    con4gis\ProjectsBundle\Controller\C4GSearchModuleController:
+        arguments:
+            - '%kernel.project_dir%'
+            - "@session"
+            - "@contao.framework"
+        public: true
+        tags:
+            - { name: contao.frontend_module,category: con4gis,template: mod_c4g_brick,type: C4GSearchModule }
