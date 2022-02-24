@@ -46,7 +46,7 @@ class C4GMultiLinkField extends C4GBrickField
                     break;
                 }
 
-                if ($link['linkNewTab'] === '1') {
+                if (key_exists('linkNewTab', $link) && $link['linkNewTab'] === '1') {
                     $rel = 'target="_blank" rel="noopener noreferrer"';
                 } else {
                     $rel = '';

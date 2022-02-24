@@ -439,7 +439,7 @@ abstract class C4GBrickField
                                 } else {
                                     //Ist das das schaltende Feld?
                                     if ($conditionField == $listField->getFieldName()) {
-                                        if ($data && property_exists($data,$conditionField) && ($data->$conditionField)) {
+                                        if ($data && /*property_exists($data,$conditionField) && (*/$data->$conditionField) {
                                             //der aktuelle Wert aus der Datenbank
                                             $conditionFieldData = $data->$conditionField;
                                         } else {
@@ -684,7 +684,7 @@ abstract class C4GBrickField
      */
     protected function generateInitialValue($data)
     {
-        if (((!$data)) ||
+        if (!$data ||
                 (!$this->isDatabaseField()) && ($this->getSource() != C4GBrickFieldSourceType::OTHER_FIELD) &&
                 (!$this->getExternalIdField())) {
             $value = $this->getInitialValue();
@@ -697,7 +697,7 @@ abstract class C4GBrickField
                 }
             }
 
-            $value = $data->$fieldName;//$data && property_exists($data, $fieldName) ? $data->$fieldName : '';
+            $value = $data->$fieldName; //$data && property_exists($data, $fieldName) ? $data->$fieldName : false;
         }
 
         if ($value === '') {

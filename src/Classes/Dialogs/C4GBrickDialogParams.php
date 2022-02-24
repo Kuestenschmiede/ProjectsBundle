@@ -152,7 +152,7 @@ class C4GBrickDialogParams
             if ($viewType != C4GBrickViewType::MEMBERBOOKING) {
                 if (!C4GBrickView::isWithoutEditing($viewType)) {
                     $buttons[] = new C4GBrickButton(C4GBrickConst::BUTTON_SAVE);
-                    $buttons[] = new C4GBrickButton(C4GBrickConst::BUTTON_SAVE_AND_REDIRECT);
+//                    $buttons[] = new C4GBrickButton(C4GBrickConst::BUTTON_SAVE_AND_REDIRECT);
 //                    $buttons[] = new C4GBrickButton(C4GBrickConst::BUTTON_TICKET);
                 }
 

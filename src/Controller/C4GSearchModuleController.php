@@ -24,15 +24,40 @@ class C4GSearchModuleController extends C4GBaseController
     protected $databaseType = C4GBrickDatabaseType::NO_DB;
     protected $viewType = C4GBrickViewType::PUBLICFORM;
     protected $languageFile = 'fe_c4g_search_module';
-    protected $loadTriggerSearchFromOtherModuleResources = true;
+    protected $loadTriggerSearchFromOtherModuleResources = false;
     protected $jQueryUseScrollPane = false;
     protected $jQueryUseTable = false;
     protected $loadHistoryPushResources = false;
+    protected $loadDefaultResources = true;
+    protected $loadTrixEditorResources = false;
+    protected $loadDateTimePickerResources = false;
+    protected $loadChosenResources = false;
+    protected $loadClearBrowserUrlResources = false;
+    protected $loadConditionalFieldDisplayResources = false;
+    protected $loadMoreButtonResources = false;
+    protected $loadFontAwesomeResources = false;
+    protected $loadFileUploadResources = false;
+    protected $loadMultiColumnResources = false;
+    protected $loadMiniSearchResources = false;
+    protected $loadSignaturePadResources = false;
+    protected $jQueryAddCore = true;
+    protected $jQueryAddJquery = true;
+    protected $jQueryAddJqueryUI = false;
+    protected $jQueryUseTree = false;
+    protected $jQueryUseHistory = false;
+    protected $jQueryUseTooltip = false;
+    protected $jQueryUseMaps = false;
+    protected $jQueryUseGoogleMaps = false;
+    protected $jQueryUseMapsEditor = false;
+    protected $jQueryUseWswgEditor = false;
+    protected $jQueryUsePopups = false;
 
     public function initBrickModule($id)
     {
         parent::initBrickModule($id);
         $this->dialogParams->deleteButton(C4GBrickConst::BUTTON_SAVE);
+        $this->dialogParams->deleteButton(C4GBrickConst::BUTTON_SAVE_AND_REDIRECT);
+
         $this->dialogParams->setWithoutGuiHeader(true);
 
         if (strval($this->searchButtonCaption) === '') {

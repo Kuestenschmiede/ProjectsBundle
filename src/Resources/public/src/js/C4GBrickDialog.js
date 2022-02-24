@@ -351,13 +351,18 @@ function deleteC4GBrickImage(button) {
             id = id.substr(17);
             var hiddenUrl = "c4g_uploadURL_" + id;
             hiddenUrl = document.getElementById(hiddenUrl);
+
+            var deleteUrl = document.getElementById("c4g_deleteURL_" + id);
+            deleteUrl.value = hiddenUrl.value;
+
+
             hiddenUrl.value = "";
 
             var link = "c4g_uploadLink_" + id;
             link = document.getElementById(link);
             link.innerHTML = "";
 
-            var handle = document.getElementById("c4g_"+id);//jQuery("#c4g_"+id);
+            var handle = document.getElementById("c4g_"+id);
             handle.value = "";
             handle.defaultValue = "";
             jQuery(handle).trigger('change');

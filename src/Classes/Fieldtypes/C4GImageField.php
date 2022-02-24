@@ -64,7 +64,7 @@ class C4GImageField extends C4GBrickField
         } else {
             $value = $this->generateInitialValue($data);
         }
-
+        $path = '';
         if ($this->deserialize) {
             if ($value) {
                 $path = StringUtil::deserialize($value)[0];
@@ -75,7 +75,9 @@ class C4GImageField extends C4GBrickField
                 $path = $value;
             } else {
                 $pathobj = C4GBrickCommon::loadFile($value);
-                $path = $pathobj->path;
+                if ($pathobj) {
+                    $path = $pathobj->path;
+                }
             }
         }
 

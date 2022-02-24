@@ -196,7 +196,7 @@ abstract class C4GBrickAction
         $dialogParams->setId($id);
 
         if ($brickAction != C4GBrickActionType::ACTION_BUTTONCLICK) {
-            if (key_exists('2',$values) && $values[2]) {
+            if (key_exists(2,$values) && $values[2]) {
                 $groupId = $values[2];
             } else {
                 $groupId = $dialogParams->getSession()->getSessionValue('c4g_brick_group_id');
@@ -209,7 +209,7 @@ abstract class C4GBrickAction
                 }
             }
 
-            if (key_exists('3',$values) && $values[3]) {
+            if (key_exists(3,$values) && $values[3]) {
                 $project_id = $values[3];
             } else {
                 $project_id = $dialogParams->getSession()->getSessionValue('c4g_brick_project_id');
@@ -221,7 +221,7 @@ abstract class C4GBrickAction
                 $dialogParams->setProjectUuid($dialogParams->getSession()->getSessionValue('c4g_brick_project_uuid'));
             }
 
-            if (key_exists('4',$values) && $values[4]) {
+            if (key_exists(4,$values) && $values[4]) {
                 $parent_id = $values[4];
             } else {
                 $parent_id = $dialogParams->getSession()->getSessionValue('c4g_brick_parent_id');

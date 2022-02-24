@@ -271,7 +271,9 @@ class C4GBaseController extends AbstractFrontendModuleController
 
         if (key_exists('state', $_GET)) {
             $request = $_GET['state'];
-        } else {
+        } /*else if ($this->permalink_name && key_exists($this->permalink_name, $_GET)) {
+            $request = $_GET[$this->permalink_name];
+        }*/ else {
             $request = 'initnav';
         }
 
@@ -307,6 +309,7 @@ class C4GBaseController extends AbstractFrontendModuleController
     public function addFields() : array
     {
         //to fill $this->fieldList in your module class
+        return [];
     }
 
     /**
@@ -733,7 +736,7 @@ class C4GBaseController extends AbstractFrontendModuleController
     protected function compileJavaScript()
     {
         if ($this->loadDefaultResources) {
-            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/src/js/C4GBrickDialog.js', ResourceLoader::BODY, 'c4g_brick_dialog');
+            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/dist/js/C4GBrickDialog.js', ResourceLoader::BODY, 'c4g_brick_dialog');
         }
         if ($this->loadConditionalFieldDisplayResources) {
             ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/dist/js/ConditionalFieldDisplay.js', ResourceLoader::BODY);
@@ -992,7 +995,7 @@ class C4GBaseController extends AbstractFrontendModuleController
                     }
                 }
 
-                if ($_GET[C4GBrickActionType::IDENTIFIER_PERMALINK]) {
+                if (key_exists(C4GBrickActionType::IDENTIFIER_PERMALINK, $_GET) && $_GET[C4GBrickActionType::IDENTIFIER_PERMALINK]) {
                     if (!$this->permalinkModelClass) {
                         $dataset = $this->brickDatabase->findBy($this->permalink_field, $_GET[C4GBrickActionType::IDENTIFIER_PERMALINK]);
                     } else {
@@ -1009,7 +1012,7 @@ class C4GBaseController extends AbstractFrontendModuleController
                         $action = C4GBrickActionType::IDENTIFIER_LIST . ':' . $id;
                         $result = $this->getPerformAction($request, $action);
                     }
-                } elseif ($_GET[$this->permalink_field]) {
+                } elseif (key_exists($this->permalink_field, $_GET) && $_GET[$this->permalink_field]) {
                     if (!$this->permalinkModelClass) {
                         $dataset = $this->brickDatabase->findBy($this->permalink_field, $_GET[$this->permalink_field]);
                     } else {
@@ -1026,7 +1029,7 @@ class C4GBaseController extends AbstractFrontendModuleController
                         $action = C4GBrickActionType::IDENTIFIER_LIST . ':' . $id;
                         $result = $this->getPerformAction($request, $action);
                     }
-                } elseif ($this->permalink_name && $_GET[$this->permalink_name]) {
+                } elseif ($this->permalink_name && key_exists($this->permalink_name, $_GET) && $_GET[$this->permalink_name]) {
                     if (!$this->permalinkModelClass) {
                         $dataset = $this->brickDatabase->findBy($this->permalink_field, $_GET[$this->permalink_name]);
                     } else {
@@ -1110,7 +1113,9 @@ class C4GBaseController extends AbstractFrontendModuleController
             $result = $this->showException($e);
         }
 
-        if ($this->permalink_name && $result && key_exists('dialogstate', $result)) {
+        if ($this->permalink_name && $this->session->getSessionValue("c4g_brick_dialog_id") && ($result['dialogstate'] == "item:")) {
+            $result['dialogstate'] = str_replace('item:', $this->permalink_name.'='. $this->session->getSessionValue("c4g_brick_dialog_id"), $result['dialogstate']);
+        } else if ($this->permalink_name && $result && key_exists('dialogstate', $result)) {
             $result['dialogstate'] = str_replace('item:', $this->permalink_name.'=', $result['dialogstate']);
         }
 

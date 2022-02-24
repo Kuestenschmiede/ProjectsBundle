@@ -27,7 +27,7 @@ function historyPush(state, history, gui) {
     let newHref = window.location.href;
     let removeGetParam = false;
 
-    if (state == 'list-1') {
+    if ((state == 'list-1') || (state == 'list:-1')) {
         let idx = newHref.indexOf('?');
         if (idx !== -1) {
             newHref = newHref.substr(0, idx);
@@ -35,7 +35,7 @@ function historyPush(state, history, gui) {
         removeGetParam = true;
     }
 
-    let indexList = newHref.indexOf('?list-1');
+    let indexList = newHref.indexOf('?list-1') ? newHref.indexOf('?list-1') : newHref.indexOf('?list:-1');
     if (indexList !== -1) {
         newHref = newHref.substr(0, indexList);
     }
@@ -72,8 +72,8 @@ function historyPush(state, history, gui) {
     }
 
     if (removeGetParam) {
-        if (state == 'list-1') {
-            let idx = newHref.indexOf('?list-1');
+        if ((state == 'list-1') || (state == 'list:-1')) {
+            let idx = newHref.indexOf('?list-1') ? newHref.indexOf('?list-1') : idx = newHref.indexOf('?list:-1');
             if (idx !== -1) {
                 newHref = newHref.substr(0, idx);
             }

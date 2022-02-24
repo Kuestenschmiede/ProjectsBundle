@@ -553,7 +553,7 @@ class C4GBrickDialog
     {
         $result = [];
 
-        if ($dbValues && property_exists($dbValues, 'id')) {
+        //if ($dbValues && property_exists($dbValues, 'id')) {
             //SAVE BUTTON
             $type_save = C4GBrickConst::BUTTON_SAVE;
             if (($dialogParams->checkButtonVisibility($type_save) && (!$dialogParams->isFrozen()))) {
@@ -682,7 +682,7 @@ class C4GBrickDialog
                 $button_close = $dialogParams->getButton($type_close);
                 $result[] = static::addButtonArray($button_close, $dbValues->id);
             }
-        }
+        //}
 
         return $result;
     }

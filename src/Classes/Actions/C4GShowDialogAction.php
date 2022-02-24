@@ -139,14 +139,13 @@ class C4GShowDialogAction extends C4GBrickDialogAction
         }
 
         $doCopy = false;
-        $elements = null;
         if (((($viewType == C4GBrickViewType::MEMBERFORM) || ($viewType == C4GBrickViewType::MEMBERVIEW) ||
-                ($viewType == C4GBrickViewType::GROUPFORM) && (($id == null) || ($id == -1))) ||
-            ($viewType == C4GBrickViewType::GROUPFORMCOPY) ||
-            ($viewType == C4GBrickViewType::PROJECTFORMCOPY) ||
-            ($viewType == C4GBrickViewType::GROUPPARENTVIEW) ||
-            ($viewType == C4GBrickViewType::PUBLICFORM) ||
-            ($viewType == C4GBrickViewType::PROJECTPARENTFORMCOPY)) ||
+                    ($viewType == C4GBrickViewType::GROUPFORM) && (($id == null) || ($id == -1))) ||
+                ($viewType == C4GBrickViewType::GROUPFORMCOPY) ||
+                ($viewType == C4GBrickViewType::PROJECTFORMCOPY) ||
+                ($viewType == C4GBrickViewType::GROUPPARENTVIEW) ||
+                ($viewType == C4GBrickViewType::PUBLICFORM) ||
+                ($viewType == C4GBrickViewType::PROJECTPARENTFORMCOPY)) ||
             ($viewType == C4GBrickViewType::PUBLICUUIDVIEW)/* ||
             ($viewType == C4GBrickViewType::PUBLICVIEW) ||
             ($viewType == C4GBrickViewType::PUBLICPARENTVIEW)*/) {
@@ -306,7 +305,7 @@ class C4GShowDialogAction extends C4GBrickDialogAction
                     break;
             }
 
-            if ($elements && is_array($elements) && key_exists(0, $elements) && ($elements[0] != null)) {
+            if (($elements != null) && ($elements[0] != null)) {
                 $element = $elements[count($elements) - 1];
 
                 if (($element) && ($doCopy)) {
@@ -337,10 +336,6 @@ class C4GShowDialogAction extends C4GBrickDialogAction
             }
         }
 
-        $element = null;
-        $group_headline = '';
-        $parent_headline = '';
-        $headtext = '';
         if (C4GBrickView::isGroupBased($viewType) && $modelListFunction) {
             $function = $modelListFunction;
             $database = $brickDatabase->getParams()->getDatabase();
@@ -361,9 +356,8 @@ class C4GShowDialogAction extends C4GBrickDialogAction
         }
 
         //ToDo Weitere ViewTypes überprüfen
-        if ($viewType != C4GBrickViewType::PROJECTPARENTFORMCOPY && $element && property_exists($element, 'uuid')) {
-            $uuid = $element->uuid;
-            $uuid = $this->getElementUuid($uuid);
+        if ($viewType != C4GBrickViewType::PROJECTPARENTFORMCOPY) {
+            $uuid = $this->getElementUuid($element->uuid);
             $dialogParams->setProjectUuid($uuid);
         }
 
@@ -385,6 +379,8 @@ class C4GShowDialogAction extends C4GBrickDialogAction
         }
 
         if (C4GBrickView::isWithGroup($viewType)) {
+
+//            $group_id = $this->group_id;
             if ($groupId) {
                 $group = \MemberGroupModel::findByPk($groupId);
                 if ($group) {
