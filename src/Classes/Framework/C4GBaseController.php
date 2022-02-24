@@ -39,6 +39,7 @@ use Contao\Database;
 use Contao\FrontendUser;
 use Contao\ModuleModel;
 use Contao\StringUtil;
+use Contao\System;
 use Contao\Template;
 use NotificationCenter\Model\Notification;
 use PhpParser\Node\Expr\Array_;
@@ -268,7 +269,7 @@ class C4GBaseController extends AbstractFrontendModuleController
             parse_str(file_get_contents('php://input'), $this->putVars);
         }
 
-        if ($_GET['state']) {
+        if (key_exists('state', $_GET)) {
             $request = $_GET['state'];
         } else {
             $request = 'initnav';
@@ -477,13 +478,15 @@ class C4GBaseController extends AbstractFrontendModuleController
 
     public function initBrickModule($id)
     {
-        $arrHeadline = StringUtil::deserialize($this->headline);
-        $this->headline = \is_array($arrHeadline) ? $arrHeadline['value'] : $arrHeadline;
-        $this->hl = \is_array($arrHeadline) ? $arrHeadline['unit'] : $this->headlineTag;
+        $arrHeadline = property_exists($this, 'headline') ? StringUtil::deserialize($this->headline) : '';
+        $this->headline = is_array($arrHeadline) && key_exists('value', $arrHeadline) ? $arrHeadline['value'] : $arrHeadline;
+        $hl = property_exists($this,'headlineTag') ? $this->headlineTag : 'h1';
+        $this->hl = is_array($arrHeadline) && key_exists('unit', $arrHeadline) ? $arrHeadline['unit'] : $hl;
 
         //loading language files
         $this->loadLanguageFiles();
 
+        $authenticated = false;
         if (FE_USER_LOGGED_IN) {
             $user = FrontendUser::getInstance();
             $authenticated = $user->authenticate();
@@ -529,6 +532,8 @@ class C4GBaseController extends AbstractFrontendModuleController
             $this->brickDatabase = new C4GBrickDatabase($databaseParams);
         }
 
+        $user = FrontendUser::getInstance();
+
         //setting list params
         //ToDo ViewType berücksichten (bei Formularen nicht notwendig)
         if (!$this->listParams) {
@@ -536,7 +541,7 @@ class C4GBaseController extends AbstractFrontendModuleController
             $this->listParams->setWithModelListFunction(!empty($this->modelListFunction));
             //$this->listParams->setWithModelDialogFunction(!empty($this->modelDialogFunction));
 
-            $groups = C4GBrickCommon::getGroupListForBrick($this->User->id, $this->brickKey);
+            $groups = C4GBrickCommon::getGroupListForBrick($user->id, $this->brickKey);
             $groupCount = count($groups);
             $this->listParams->setGroupCount($groupCount);
             $this->listParams->setWithJQueryUI($this->jQueryAddJqueryUI);
@@ -558,7 +563,6 @@ class C4GBaseController extends AbstractFrontendModuleController
             $this->dialogParams->setProjectId($this->project_id);
             $this->dialogParams->setProjectUuid($this->project_uuid);
             $this->dialogParams->setParentId($this->parent_id);
-            $user = FrontendUser::getInstance();
             $this->dialogParams->setMemberId($user->id);
             $this->dialogParams->setProjectKey($this->projectKey);
             $this->dialogParams->setParentModel($this->parentModel);
@@ -571,7 +575,7 @@ class C4GBaseController extends AbstractFrontendModuleController
                 $this->dialogParams->setBrickCaptionPlural($this->brickCaptionPlural);
             }
             $this->dialogParams->setC4gMap($this->c4g_map);
-            $contentId = $this->contentid;
+            $contentId = property_exists($this,'contentId') ? $this->contentid : 0;
             if (!$contentId) {
                 $contentId = $this->settings['position_map'];
             }
@@ -582,14 +586,18 @@ class C4GBaseController extends AbstractFrontendModuleController
 
             $this->dialogParams->setSendEMails($this->sendEMails);
             $this->dialogParams->setWithNotification($this->withNotification);
-            $this->dialogParams->setNotificationType($this->notification_type);
+
+            if (property_exists($this,'notification_type')) {
+                $this->dialogParams->setNotificationType($this->notification_type);
+            }
+
             $this->dialogParams->setNotificationTypeContactRequest($this->notification_type_contact_request);
             $this->dialogParams->setWithActivationInfo($this->withActivationInfo);
             $this->dialogParams->setPopup($this->isPopup);
             $this->dialogParams->setWithBackup($this->withBackup);
-            $this->dialogParams->setRedirectBackSite($this->redirect_back_site);
+            $this->dialogParams->setRedirectBackSite(property_exists($this,'redirect_back_site') ? $this->redirect_back_site : '');
             $this->dialogParams->setParentIdField($this->parentIdField);
-            $this->dialogParams->setRedirectSite($this->redirect_site);
+            $this->dialogParams->setRedirectSite(property_exists($this,'redirect_site') ? $this->redirect_site : '');
             $this->dialogParams->setCaptionField($this->captionField);
         }
 
@@ -707,7 +715,7 @@ class C4GBaseController extends AbstractFrontendModuleController
             } elseif ($this->c4g_appearance_themeroller_css) {
                 $objFile = \FilesModel::findByUuid($this->c4g_appearance_themeroller_css);
                 $GLOBALS['TL_CSS']['c4g_jquery_ui'] = $objFile->path;
-            } elseif ($this->c4g_uitheme_css_select) {
+            } elseif (property_exists($this, 'c4g_uitheme_css_select') && $this->c4g_uitheme_css_select) {
                 $theme = $this->c4g_uitheme_css_select;
                 $GLOBALS['TL_CSS']['c4g_jquery_ui'] = 'bundles/con4giscore/vendor/jQuery/ui-themes/themes/' . $theme . '/jquery-ui.css';
             } elseif ($this->settings && $this->settings['c4g_appearance_themeroller_css']) {
@@ -951,9 +959,10 @@ class C4GBaseController extends AbstractFrontendModuleController
                 }
             }
 
-            $this->frontendUrl = $this->Environment->url . TL_PATH . '/' . $session['referer']['current'];
+            $currentReferer = is_array($session['referer']) && key_exists('current',$session['referer']) ? $session['referer']['current'] : '';
+            $this->frontendUrl = \Contao\Environment::get('url') . TL_PATH . '/' . $currentReferer;
 
-            if (($_SERVER['REQUEST_METHOD']) == 'PUT') {
+            if (key_exists('REQUEST_METHOD', $_SERVER) && ($_SERVER['REQUEST_METHOD'] == 'PUT')) {
                 parse_str(file_get_contents('php://input'), $this->putVars);
                 foreach ($this->putVars as $key => $putVar) {
                     $tmpVar = C4GUtils::secure_ugc($putVar);
@@ -964,15 +973,16 @@ class C4GBaseController extends AbstractFrontendModuleController
 
             // if there was an initial get parameter "state" then use it for jumping directly
             // to the refering function
-            if (($request == 'initnav') && $_GET['initreq']) {
+            if (($request == 'initnav') && (key_exists('initreq',$_GET) && $_GET['initreq'])) {
                 $_GET['historyreq'] = $_GET['initreq'];
             }
 
             //permalink (1 permalink=id / 2 fieldname=id / 3 permalink_name=id)
             if ($this->permalink_field &&
-                    ($_GET[C4GBrickActionType::IDENTIFIER_PERMALINK] ||
-                        $_GET[$this->permalink_field] ||
-                        ($this->permalink_name && $_GET[$this->permalink_name])
+                    (
+                        (key_exists(C4GBrickActionType::IDENTIFIER_PERMALINK,$_GET) && $_GET[C4GBrickActionType::IDENTIFIER_PERMALINK]) ||
+                        (key_exists($this->permalink_field,$_GET) && $_GET[$this->permalink_field]) ||
+                        ($this->permalink_name && (key_exists($this->permalink_name,$_GET) && $_GET[$this->permalink_name]))
                     )
             ) {
                 if (!$this->brickDatabase) {
@@ -1034,7 +1044,7 @@ class C4GBaseController extends AbstractFrontendModuleController
                     }
                 }
                 // History navigation
-            } elseif ($_GET['historyreq']) {
+            } elseif (key_exists('historyreq', $_GET) && $_GET['historyreq']) {
                 $actions = explode(';', $_GET['historyreq']);
                 $result = [];
                 foreach ($actions as $action) {
@@ -1100,7 +1110,7 @@ class C4GBaseController extends AbstractFrontendModuleController
             $result = $this->showException($e);
         }
 
-        if ($this->permalink_name) {
+        if ($this->permalink_name && $result && key_exists('dialogstate', $result)) {
             $result['dialogstate'] = str_replace('item:', $this->permalink_name.'=', $result['dialogstate']);
         }
 

@@ -373,7 +373,8 @@ class C4GBrickList
                     'bVisible' => false,
                     'bSearchable' => false,
                     'aTargets' => [0],
-                    'responsivePriority' => [$priority], ];
+                    'responsivePriority' => [$priority]
+                ];
                 $cnt++;
             } else {
                 if ($column->isTableColumn()) {

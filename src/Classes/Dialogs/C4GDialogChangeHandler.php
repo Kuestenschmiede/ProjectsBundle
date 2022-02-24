@@ -36,7 +36,7 @@ class C4GDialogChangeHandler
     {
         /* @var $field C4GBrickField */
         foreach ($fieldList as $field) {
-            if ($changes[$field->getFieldName()]) {
+            if (key_exists($field->getFieldName(), $changes) && $changes[$field->getFieldName()]) {
                 $fieldChanges = $changes[$field->getFieldName()];
                 // there is a change for the current field
                 foreach ($fieldChanges as $property => $value) {

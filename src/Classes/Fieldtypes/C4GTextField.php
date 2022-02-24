@@ -57,6 +57,7 @@ class C4GTextField extends C4GBrickFieldText
                     $placeholder = '';
                 }
 
+                $aria = '';
                 if ($this->ariaLabel !== '') {
                     $aria = 'aria-label="' . $this->ariaLabel . '"';
                 }

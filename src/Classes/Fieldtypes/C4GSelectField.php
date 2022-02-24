@@ -194,7 +194,7 @@ class C4GSelectField extends C4GBrickField
                     if ($this->isShowIfEmpty() || (!empty($option['id']) && !empty($option['name']))) {
                         $option_id = $option['id'];
                         $option_name = $option['name'];
-                        $optionAttributes = $option['attributes'] ? ' ' . $option['attributes'] . ' ': '';
+                        $optionAttributes = key_exists('attributes', $option) && $option['attributes'] ? ' ' . $option['attributes'] . ' ': '';
 
                         if ($option_name == '') {
                             $option_name = $option_id;

@@ -27,7 +27,7 @@
             "embedDialogs: '". $this->c4gData['embedDialogs'] ."', ".
             "jquiEmbeddedDialogs: '". $this->c4gData['jquiEmbeddedDialogs'] ."', ";
 
-          if ($this->c4gData['navPanel']) {
+          if (key_exists('navPanel', $this->c4gData) && $this->c4gData['navPanel']) {
             $strC4gGui .= "navPanel: true";
           } else {
             $strC4gGui .= "navPanel: false";

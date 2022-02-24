@@ -105,9 +105,9 @@ class C4GImageField extends C4GBrickField
                     $width = $this->getWidth();
                     $height = $this->getHeight();
                     $maxWidth = $this->getFieldName() . 'MaxWidth';
-                    $maxWidth = $data->$maxWidth;
+                    $maxWidth = $data ? $data->$maxWidth : $width;
                     $maxheight = $this->getFieldName() . 'MaxHeight';
-                    $maxheight = $data->$maxheight;
+                    $maxheight = $data ? $data->$maxheight : $height;
 
                     if ($width && $height) {
                         $size = 'width="' . $width . '" height="' . $height . '"';
@@ -126,7 +126,7 @@ class C4GImageField extends C4GBrickField
 
                 $img = "<img src=\"$path\" title=\"" . $this->getTitle() . "\" $size/>";
                 $i = $this->getFieldName() . 'Link';
-                $link = $data->$i;
+                $link = $data ? $data->$i : '';
 
                 $lightBoxField = $this->lightBoxField;
                 if ($link) {

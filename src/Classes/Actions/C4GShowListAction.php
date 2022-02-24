@@ -224,6 +224,7 @@ class C4GShowListAction extends C4GBrickDialogAction
         }
 
         try {
+            $list_headline = '';
             $tableName = $brickDatabase->getParams()->getTableName();
             switch ($viewType) {
                 case C4GBrickView::isGroupBased($viewType):
@@ -371,6 +372,7 @@ class C4GShowListAction extends C4GBrickDialogAction
         }
 
         $filterObject = $listParams->getFilterObject();
+        $filterText = '';
         if ($filterObject) {
             $elements = $filterObject->filter($elements, $dialogParams);
             $filterObject->addButton($listParams);
@@ -475,8 +477,8 @@ class C4GShowListAction extends C4GBrickDialogAction
         //ToDo rebuild headline meachnism (list && dialog)
 
         // ignore default headlines if set
+        $headtext = '';
         if ($listParams->isCustomHeadline() && $list_headline) {
-            $headtext = '';
             if ($listParams->getHeadline()) {
                 $headtext = '<' . $headlineTag . '>' . $listParams->getHeadline() . '</' . $headlineTag . '>';
             }

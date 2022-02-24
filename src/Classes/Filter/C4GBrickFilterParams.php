@@ -292,9 +292,9 @@ class C4GBrickFilterParams
 
     public function getBrickFilterCookies($brickKey)
     {
-        $fromCookie = $_COOKIE[$brickKey . '_rangeFrom'];
-        $toCookie = $_COOKIE[$brickKey . '_rangeTo'];
-        $methodFilterCookie = $_COOKIE[$brickKey . '_methodFilter'];
+        $fromCookie = key_exists($brickKey . '_rangeFrom', $_COOKIE) ? $_COOKIE[$brickKey . '_rangeFrom'] : '';
+        $toCookie = key_exists($brickKey . '_rangeTo', $_COOKIE) ? $_COOKIE[$brickKey . '_rangeTo'] : '';
+        $methodFilterCookie = key_exists($brickKey . '_methodFilter', $_COOKIE) ? $_COOKIE[$brickKey . '_methodFilter'] : '';
         if ($fromCookie && $toCookie) {
             $this->rangeFrom = $fromCookie;
             $this->rangeTo = $toCookie;

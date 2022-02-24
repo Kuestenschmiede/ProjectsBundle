@@ -462,6 +462,7 @@ class C4GBrickDialog
             }
         }
 
+        $datasetId = $dataset && property_exists($dataset,'id')  ? $dataset->id : '';
         if ($dialogParams->isWithoutGuiHeader()) {
             $result = [
                 'headline' => $headtext,
@@ -471,8 +472,8 @@ class C4GBrickDialog
                     'modal' => true,
                     'embedDialogs' => true,
                 ]),
-                'dialogid' => C4GBrickActionType::IDENTIFIER_DIALOG . $dataset->id,
-                'dialogstate' => C4GBrickActionType::IDENTIFIER_DIALOG . ':' . $dataset->id,
+                'dialogid' => C4GBrickActionType::IDENTIFIER_DIALOG . $datasetId,
+                'dialogstate' => C4GBrickActionType::IDENTIFIER_DIALOG . ':' . $datasetId,
                 'dialogbuttons' => C4GBrickDialog::getDialogButtons($dialogParams, $dataset),
             ];
         } else {
@@ -485,8 +486,8 @@ class C4GBrickDialog
                     'modal' => true,
                     'embedDialogs' => true,
                 ]),
-                'dialogid' => C4GBrickActionType::IDENTIFIER_DIALOG . $dataset->id,
-                'dialogstate' => C4GBrickActionType::IDENTIFIER_DIALOG . ':' . $dataset->id,
+                'dialogid' => C4GBrickActionType::IDENTIFIER_DIALOG . $datasetId,
+                'dialogstate' => C4GBrickActionType::IDENTIFIER_DIALOG . ':' . $datasetId,
                 'dialogbuttons' => C4GBrickDialog::getDialogButtons($dialogParams, $dataset),
             ];
         }
@@ -552,130 +553,135 @@ class C4GBrickDialog
     {
         $result = [];
 
-        //SAVE BUTTON
-        $type_save = C4GBrickConst::BUTTON_SAVE;
-        if (($dialogParams->checkButtonVisibility($type_save) && (!$dialogParams->isFrozen()))) {
-            $button_save = $dialogParams->getButton($type_save);
-            $result[] = static::addButtonArray($button_save, $dbValues->id);
-        }
+        if ($dbValues && property_exists($dbValues, 'id')) {
+            //SAVE BUTTON
+            $type_save = C4GBrickConst::BUTTON_SAVE;
+            if (($dialogParams->checkButtonVisibility($type_save) && (!$dialogParams->isFrozen()))) {
+                $button_save = $dialogParams->getButton($type_save);
+                $result[] = static::addButtonArray($button_save, $dbValues->id);
+            }
 
-        $type_save_and_redirect = C4GBrickConst::BUTTON_SAVE_AND_REDIRECT;
-        if (($dialogParams->checkButtonVisibility($type_save_and_redirect) && (!$dialogParams->isFrozen()))) {
-            $button_save_and_redirect = $dialogParams->getButton($type_save_and_redirect);
-            $result[] = static::addButtonArray($button_save_and_redirect, $dbValues->id);
-        }
+            $type_save_and_redirect = C4GBrickConst::BUTTON_SAVE_AND_REDIRECT;
+            if (($dialogParams->checkButtonVisibility($type_save_and_redirect) && (!$dialogParams->isFrozen()))) {
+                $button_save_and_redirect = $dialogParams->getButton($type_save_and_redirect);
+                $result[] = static::addButtonArray($button_save_and_redirect, $dbValues && property_exists($dbValues, 'id') ? $dbValues->id : 0);
+            }
 
-        //SAVE & NEW BUTTON
+            //SAVE & NEW BUTTON
 //            $type_save_and_new = C4GBrickConst::BUTTON_SAVE_AND_NEW;
 //            if (($dialogParams->checkButtonVisibility($type_save_and_new) && (!$dialogParams->isFrozen()))) {
 //                $button_save_and_new = $dialogParams->getButton($type_save_and_new);
 //                $result[] = static::addButtonArray($button_save_and_new, $dbValues->id);
 //            }
 
-        //BOOKING BUTTON
-        $groupKeyField = $dialogParams->getViewParams()->getGroupKeyField();
-        if ($dbValues->$groupKeyField && ($dbValues->$groupKeyField > 0)) {
-            $type_booking = C4GBrickConst::BUTTON_BOOKING_CHANGE;
-        } else {
-            $type_booking = C4GBrickConst::BUTTON_BOOKING_SAVE;
-        }
-        if ($dialogParams->checkButtonVisibility($type_booking)) {
-            $button_booking = $dialogParams->getButton($type_booking);
-            $result[] = static::addButtonArray($button_booking, $dbValues->id);
-        }
+            //BOOKING BUTTON
+            $groupKeyField = $dialogParams->getViewParams()->getGroupKeyField();
+            $groupKeyCheck = $dbValues && property_exists($dbValues, $groupKeyField) && ($dbValues->$groupKeyField > 0) ? true : false;
+            if ($groupKeyCheck) {
+                $type_booking = C4GBrickConst::BUTTON_BOOKING_CHANGE;
+            } else {
+                $type_booking = C4GBrickConst::BUTTON_BOOKING_SAVE;
+            }
+            if ($dialogParams->checkButtonVisibility($type_booking)) {
+                $button_booking = $dialogParams->getButton($type_booking);
+                $result[] = static::addButtonArray($button_booking, $dbValues->id);
+            }
 
-        //REDIRECT BUTTON
-        $redirect = C4GBrickConst::BUTTON_REDIRECT;
-        if ($dialogParams->checkButtonVisibility($redirect, $dbValues)) {
-            $button_redirect = $dialogParams->getButton($redirect);
-            $result[] = static::addButtonArray($button_redirect, $dbValues->id);
-        }
+            //REDIRECT BUTTON
+            $redirect = C4GBrickConst::BUTTON_REDIRECT;
+            if ($dialogParams->checkButtonVisibility($redirect, $dbValues)) {
+                $button_redirect = $dialogParams->getButton($redirect);
+                $result[] = static::addButtonArray($button_redirect, $dbValues->id);
+            }
 
-        //CLICK BUTTON
-        $click = C4GBrickConst::BUTTON_CLICK;
-        if ($dialogParams->checkButtonVisibility($click)) {
-            $buttons_click = $dialogParams->getButtonsArray($click);
-            if ($buttons_click) {
-                foreach ($buttons_click as $button_click) {
-                    $result[] = static::addButtonArray($button_click, $dbValues->id);
+            //CLICK BUTTON
+            $click = C4GBrickConst::BUTTON_CLICK;
+            if ($dialogParams->checkButtonVisibility($click)) {
+                $buttons_click = $dialogParams->getButtonsArray($click);
+                if ($buttons_click) {
+                    foreach ($buttons_click as $button_click) {
+                        $result[] = static::addButtonArray($button_click, $dbValues->id);
+                    }
                 }
             }
-        }
 
-        //ARCHIVE BUTTON
-        if ($dbValues && $dbValues->published) {
-            $type_archive = C4GBrickConst::BUTTON_ARCHIVE;
-        } elseif ($dbValues || ($dialogParams->isRedirectWithSaving() && $dialogParams->isRedirectWithActivation())) {
-            $type_archive = C4GBrickConst::BUTTON_ACTIVATION;
-        }
-        if ($dialogParams->checkButtonVisibility($type_archive)) {
-            $button_archive = $dialogParams->getButton($type_archive);
-            $result[] = static::addButtonArray($button_archive, $dbValues->id);
-        }
-
-        //FREEZE BUTTON (freeze project)
-        if ($dbValues && ($dbValues->is_frozen == true)) {
-            $type_freeze = C4GBrickConst::BUTTON_DEFROST;
-        } elseif ($dbValues) {
-            $type_freeze = C4GBrickConst::BUTTON_FREEZE;
-        }
-        if ($dialogParams->checkButtonVisibility($type_freeze)) {
-            $button_freeze = $dialogParams->getButton($type_freeze);
-            $result[] = static::addButtonArray($button_freeze, $dbValues->id);
-        }
-
-        //EXPORT BUTTON
-        $type_export = C4GBrickConst::BUTTON_EXPORT;
-        if ($dialogParams->checkButtonVisibility($type_export)) {
-            $button_export = $dialogParams->getButton($type_export);
-            $result[] = static::addButtonArray($button_export, $dbValues->id);
-        }
-
-        //PRINT BUTTON
-        $type_print = C4GBrickConst::BUTTON_PRINT;
-        if ($dialogParams->checkButtonVisibility($type_print)) {
-            $button_print = $dialogParams->getButton($type_print);
-
-            $printCondition = $dialogParams->getPrintConditionField();
-            if (!$dialogParams->getPrintConditionField() || ($dbValues->$printCondition)) {
-                $result[] = static::addButtonArray($button_print, $dbValues->id);
+            //ARCHIVE BUTTON
+            $type_archive = false;
+            if ($dbValues && $dbValues->published) {
+                $type_archive = C4GBrickConst::BUTTON_ARCHIVE;
+            } elseif ($dbValues || ($dialogParams->isRedirectWithSaving() && $dialogParams->isRedirectWithActivation())) {
+                $type_archive = C4GBrickConst::BUTTON_ACTIVATION;
             }
-        }
-
-        //DELETE BUTTON
-        $type_delete = C4GBrickConst::BUTTON_DELETE;
-        if (($dialogParams->checkButtonVisibility($type_delete) && (!$dialogParams->isFrozen()))) {
-            $button_delete = $dialogParams->getButton($type_delete);
-            $result[] = static::addButtonArray($button_delete, $dbValues->id);
-        }
-
-        //SEND-EMAIL BUTTON
-        $send_email = C4GBrickConst::BUTTON_SEND_EMAIL;
-        if ($dialogParams->checkButtonVisibility($send_email)) {
-            $button_send_email = $dialogParams->getButton($send_email);
-            $result[] = static::addButtonArray($button_send_email, $dbValues->id);
-        }
-
-        //SEND-NOTIFICATION BUTTON
-        $send_notification = C4GBrickConst::BUTTON_SEND_NOTIFICATION;
-        if ($dialogParams->checkButtonVisibility($send_notification)) {
-            $button_send_notification = $dialogParams->getButton($send_notification);
-            $result[] = static::addButtonArray($button_send_notification, $dbValues->id);
-        }
-
-        $type_ticket = C4GBrickConst::BUTTON_TICKET;
-        if (($dialogParams->checkButtonVisibility($type_ticket) && (!$dialogParams->isFrozen()))) {
-            $button_ticket = $dialogParams->getButton($type_ticket);
-            if ($dbValues->id && ($dbValues->id != -1)) {
-                $result[] = static::addButtonArray($button_ticket, $dbValues->id);
+            if ($type_archive && $dialogParams->checkButtonVisibility($type_archive)) {
+                $button_archive = $dialogParams->getButton($type_archive);
+                $result[] = static::addButtonArray($button_archive, $dbValues->id);
             }
-        }
 
-        //CLOSE BUTTON
-        $type_close = C4GBrickConst::BUTTON_CANCEL;
-        if ($dialogParams->checkButtonVisibility($type_close)) {
-            $button_close = $dialogParams->getButton($type_close);
-            $result[] = static::addButtonArray($button_close, $dbValues->id);
+            //FREEZE BUTTON (freeze project)
+            $type_freeze = false;
+            if ($dbValues && ($dbValues->is_frozen == true)) {
+                $type_freeze = C4GBrickConst::BUTTON_DEFROST;
+            } elseif ($dbValues) {
+                $type_freeze = C4GBrickConst::BUTTON_FREEZE;
+            }
+            if ($type_freeze && $dialogParams->checkButtonVisibility($type_freeze)) {
+                $button_freeze = $dialogParams->getButton($type_freeze);
+                $result[] = static::addButtonArray($button_freeze, $dbValues->id);
+            }
+
+            //EXPORT BUTTON
+            $type_export = C4GBrickConst::BUTTON_EXPORT;
+            if ($dialogParams->checkButtonVisibility($type_export)) {
+                $button_export = $dialogParams->getButton($type_export);
+                $result[] = static::addButtonArray($button_export, $dbValues->id);
+            }
+
+            //PRINT BUTTON
+            $type_print = C4GBrickConst::BUTTON_PRINT;
+            if ($dialogParams->checkButtonVisibility($type_print)) {
+                $button_print = $dialogParams->getButton($type_print);
+
+                $printCondition = $dialogParams->getPrintConditionField();
+                if (!$dialogParams->getPrintConditionField() || ($dbValues->$printCondition)) {
+                    $result[] = static::addButtonArray($button_print, $dbValues->id);
+                }
+            }
+
+            //DELETE BUTTON
+            $type_delete = C4GBrickConst::BUTTON_DELETE;
+            if (($dialogParams->checkButtonVisibility($type_delete) && (!$dialogParams->isFrozen()))) {
+                $button_delete = $dialogParams->getButton($type_delete);
+                $result[] = static::addButtonArray($button_delete, $dbValues->id);
+            }
+
+            //SEND-EMAIL BUTTON
+            $send_email = C4GBrickConst::BUTTON_SEND_EMAIL;
+            if ($dialogParams->checkButtonVisibility($send_email)) {
+                $button_send_email = $dialogParams->getButton($send_email);
+                $result[] = static::addButtonArray($button_send_email, $dbValues->id);
+            }
+
+            //SEND-NOTIFICATION BUTTON
+            $send_notification = C4GBrickConst::BUTTON_SEND_NOTIFICATION;
+            if ($dialogParams->checkButtonVisibility($send_notification)) {
+                $button_send_notification = $dialogParams->getButton($send_notification);
+                $result[] = static::addButtonArray($button_send_notification, $dbValues->id);
+            }
+
+            $type_ticket = C4GBrickConst::BUTTON_TICKET;
+            if (($dialogParams->checkButtonVisibility($type_ticket) && (!$dialogParams->isFrozen()))) {
+                $button_ticket = $dialogParams->getButton($type_ticket);
+                if ($dbValues->id && ($dbValues->id != -1)) {
+                    $result[] = static::addButtonArray($button_ticket, $dbValues->id);
+                }
+            }
+
+            //CLOSE BUTTON
+            $type_close = C4GBrickConst::BUTTON_CANCEL;
+            if ($dialogParams->checkButtonVisibility($type_close)) {
+                $button_close = $dialogParams->getButton($type_close);
+                $result[] = static::addButtonArray($button_close, $dbValues->id);
+            }
         }
 
         return $result;

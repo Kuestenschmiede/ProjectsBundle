@@ -15,6 +15,7 @@ $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['BRICK_CAPTION_PLURAL2'] = 'Data Sets';
 /** FE Buttons **/
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['SAVE']            = 'Save';
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['SAVE_AND_NEW']    = 'Save and New';
+$GLOBALS['TL_LANG']['FE_C4G_DIALOG']['SAVE_AND_REDIRECT'] = 'Save';
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['BOOKING_SAVE']    = 'Make binding Order';
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['BOOKING_CHANGE']  = 'Apply Changes';
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['SEARCH']          = 'Instant Search';

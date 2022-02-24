@@ -364,6 +364,7 @@ abstract class C4GBrickField
             if ($mandatory && (!$this->isWithoutMandatoryStar())) {
                 $star = '<span class="c4g_mandatory_class">*</span>';
             }
+            $linebreak = '';
             if (!$withoutLineBreak && $dialogParams->isWithLabels() === true) {
                 $linebreak = '';//C4GHTMLFactory::lineBreak();
             }
@@ -419,7 +420,7 @@ abstract class C4GBrickField
                                 //Ist das das schaltende Feld?
                                 if ($listField->getAdditionalID()) {
                                     if ($conditionField == $listField->getFieldName() . '_' . $listField->getAdditionalID()) {
-                                        if (($data) && ($data->$conditionField)) {
+                                        if ($data && property_exists($data,$conditionField) && ($data->$conditionField)) {
                                             //der aktuelle Wert aus der Datenbank
                                             $conditionFieldData = $data->$conditionField;
                                         } else {
@@ -438,7 +439,7 @@ abstract class C4GBrickField
                                 } else {
                                     //Ist das das schaltende Feld?
                                     if ($conditionField == $listField->getFieldName()) {
-                                        if (($data) && ($data->$conditionField)) {
+                                        if ($data && property_exists($data,$conditionField) && ($data->$conditionField)) {
                                             //der aktuelle Wert aus der Datenbank
                                             $conditionFieldData = $data->$conditionField;
                                         } else {
@@ -474,7 +475,7 @@ abstract class C4GBrickField
                             foreach ($fieldList as $listField) {
                                 if ($listField->getAdditionalID()) {
                                     if ($conditionFieldValue == $listField->getFieldName() . '_' . $listField->getAdditionalID()) {
-                                        if (($data) && ($data->$conditionFieldValue)) {
+                                        if ($data && property_exists($data,$conditionField) && ($data->$conditionField)) {
                                             $conditionFieldData = $data->$conditionFieldValue;
                                         } else {
                                             $conditionFieldData = $listField->getInitialValue();
@@ -487,7 +488,7 @@ abstract class C4GBrickField
                                         return false;
                                     }
                                 } elseif ($conditionFieldValue == $listField->getFieldName()) {
-                                    if (($data) && ($data->$conditionFieldValue)) {
+                                    if ($data && property_exists($data,$conditionField) && ($data->$conditionField)) {
                                         $conditionFieldData = $data->$conditionFieldValue;
                                     } else {
                                         $conditionFieldData = $listField->getInitialValue();
@@ -552,6 +553,7 @@ abstract class C4GBrickField
         $conditiondisable = '';
         $conditionPrepare = '';
         $conditionfunction = '';
+        $conditionResult = '';
 
         $class = 'formdata';
 
@@ -603,6 +605,9 @@ abstract class C4GBrickField
 
     public function addC4GField($condition, $dialogParams, $fieldList, $data, $fieldData)
     {
+        if (!$condition) {
+            $condition = $this->createConditionData($fieldList,$data);
+        }
         //ToDo change table to display:grid if feature released for all standard browsers
         $id = 'c4g_' . $this->getFieldName();
         if ($this->getAdditionalID()) {
@@ -692,7 +697,7 @@ abstract class C4GBrickField
                 }
             }
 
-            $value = $data->$fieldName;
+            $value = $data->$fieldName;//$data && property_exists($data, $fieldName) ? $data->$fieldName : '';
         }
 
         if ($value === '') {

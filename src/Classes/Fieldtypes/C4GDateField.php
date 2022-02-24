@@ -81,7 +81,7 @@ class C4GDateField extends C4GBrickField
         $title = $this->getTitle();
         $required = $this->generateRequiredString($data, $dialogParams, $fieldList);
         $value = $this->generateInitialValue($data);
-
+        $changeAction = '';
         if ($this->isCallOnChange()) {
             $changeAction = ' onchange="' . $this->getCallOnChangeFunction() . '"';
         }
@@ -132,7 +132,7 @@ class C4GDateField extends C4GBrickField
                         $fieldValue = '';
                         if ($data) {
                             if ($data instanceof \stdClass) {
-                                $fieldValue = $data->$conField;
+                                $fieldValue = $data && property_exists($data,$conField) ? $data->$conField : '';
                             } else {
                                 $fieldValue = $data->row()[$conField];
                             }

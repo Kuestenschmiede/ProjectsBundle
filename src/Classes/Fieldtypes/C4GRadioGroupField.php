@@ -114,7 +114,7 @@ class C4GRadioGroupField extends C4GBrickField
                     $cnt++;
                 }
             }
-            $optionAttributes = $option['attributes'] ? ' ' . $option['attributes'] . ' ': '';
+            $optionAttributes = key_exists('attribtes',$option) && $option['attributes'] ? ' ' . $option['attributes'] . ' ': '';
 
             $onClick = "jQuery('#" . $id . "').val(jQuery('input[name=_" . $id . "]:checked').val());";
             if ($object_id && intval($object_id) != -1) {
