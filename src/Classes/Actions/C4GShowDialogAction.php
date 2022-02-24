@@ -26,6 +26,7 @@ class C4GShowDialogAction extends C4GBrickDialogAction
     public function run()
     {
         $element = null;
+        $elements = null;
         $brickDatabase = $this->getBrickDatabase();
         $dialogParams = $this->getDialogParams();
         $viewParams = $dialogParams->getViewParams();
@@ -41,6 +42,9 @@ class C4GShowDialogAction extends C4GBrickDialogAction
         $parentIdField = $dialogParams->getParentIdField();
         $additionalHeadtext = $dialogParams->getAdditionalHeadText();
         $parentCaptionFields = $dialogParams->getParentCaptionFields();
+        $group_headline = '';
+        $group_headline = '';
+        $parent_headline = '';
 
         if ((!$id || $id == -1 || $id == '-1' || !is_int($id)) && ($dialogParams->isWithInitialSaving())) {
             $id = $this->saveAndGetId($id);
@@ -305,7 +309,7 @@ class C4GShowDialogAction extends C4GBrickDialogAction
                     break;
             }
 
-            if (($elements != null) && ($elements[0] != null)) {
+            if ($elements && key_exists(0, $elements) && ($elements[0] != null)) {
                 $element = $elements[count($elements) - 1];
 
                 if (($element) && ($doCopy)) {
@@ -357,8 +361,10 @@ class C4GShowDialogAction extends C4GBrickDialogAction
 
         //ToDo Weitere ViewTypes überprüfen
         if ($viewType != C4GBrickViewType::PROJECTPARENTFORMCOPY) {
-            $uuid = $this->getElementUuid($element->uuid);
-            $dialogParams->setProjectUuid($uuid);
+            $uuid = $element ? $this->getElementUuid($element->uuid) : false;
+            if ($uuid) {
+                $dialogParams->setProjectUuid($uuid);
+            }
         }
 
         //ToDo nach Umbau prüfen

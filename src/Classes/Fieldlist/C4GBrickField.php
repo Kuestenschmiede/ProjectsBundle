@@ -420,7 +420,7 @@ abstract class C4GBrickField
                                 //Ist das das schaltende Feld?
                                 if ($listField->getAdditionalID()) {
                                     if ($conditionField == $listField->getFieldName() . '_' . $listField->getAdditionalID()) {
-                                        if ($data && property_exists($data,$conditionField) && ($data->$conditionField)) {
+                                        if ($data && /*property_exists($data,$conditionField) && (*/$data->$conditionField) {
                                             //der aktuelle Wert aus der Datenbank
                                             $conditionFieldData = $data->$conditionField;
                                         } else {
@@ -475,7 +475,7 @@ abstract class C4GBrickField
                             foreach ($fieldList as $listField) {
                                 if ($listField->getAdditionalID()) {
                                     if ($conditionFieldValue == $listField->getFieldName() . '_' . $listField->getAdditionalID()) {
-                                        if ($data && property_exists($data,$conditionField) && ($data->$conditionField)) {
+                                        if ($data && /*property_exists($data,$conditionField) && (*/$data->$conditionField) {
                                             $conditionFieldData = $data->$conditionFieldValue;
                                         } else {
                                             $conditionFieldData = $listField->getInitialValue();
@@ -488,7 +488,7 @@ abstract class C4GBrickField
                                         return false;
                                     }
                                 } elseif ($conditionFieldValue == $listField->getFieldName()) {
-                                    if ($data && property_exists($data,$conditionField) && ($data->$conditionField)) {
+                                    if ($data && /*property_exists($data,$conditionField) && (*/$data->$conditionField) {
                                         $conditionFieldData = $data->$conditionFieldValue;
                                     } else {
                                         $conditionFieldData = $listField->getInitialValue();
