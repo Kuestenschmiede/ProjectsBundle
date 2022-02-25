@@ -988,16 +988,17 @@ class C4GBaseController extends AbstractFrontendModuleController
                         ($this->permalink_name && (key_exists($this->permalink_name,$_GET) && $_GET[$this->permalink_name]))
                     )
             ) {
-                if (!$this->brickDatabase) {
-                    $this->initBrickModule(-1);
-                    if ($this->withPermissionCheck) {
-                        $this->initPermissions();
-                    }
-                }
+//                if (!$this->brickDatabase) {
+//                    $this->initBrickModule(-1);
+//                    if ($this->withPermissionCheck) {
+//                        $this->initPermissions();
+//                    }
+//                }
 
                 if (key_exists(C4GBrickActionType::IDENTIFIER_PERMALINK, $_GET) && $_GET[C4GBrickActionType::IDENTIFIER_PERMALINK]) {
                     if (!$this->permalinkModelClass) {
-                        $dataset = $this->brickDatabase->findBy($this->permalink_field, $_GET[C4GBrickActionType::IDENTIFIER_PERMALINK]);
+                        $model  = $this->modelClass;
+                        $dataset = $model::findBy($this->permalink_field, $_GET[C4GBrickActionType::IDENTIFIER_PERMALINK]);
                     } else {
                         $model = $this->permalinkModelClass;
                         $dataset = $model::findBy($this->permalink_field, $_GET[C4GBrickActionType::IDENTIFIER_PERMALINK]);
@@ -1014,7 +1015,8 @@ class C4GBaseController extends AbstractFrontendModuleController
                     }
                 } elseif (key_exists($this->permalink_field, $_GET) && $_GET[$this->permalink_field]) {
                     if (!$this->permalinkModelClass) {
-                        $dataset = $this->brickDatabase->findBy($this->permalink_field, $_GET[$this->permalink_field]);
+                        $model  = $this->modelClass;
+                        $dataset = $model::findBy($this->permalink_field, $_GET[$this->permalink_field]);
                     } else {
                         $model = $this->permalinkModelClass;
                         $dataset = $model::findBy($this->permalink_field, $_GET[$this->permalink_field]);
@@ -1031,7 +1033,8 @@ class C4GBaseController extends AbstractFrontendModuleController
                     }
                 } elseif ($this->permalink_name && key_exists($this->permalink_name, $_GET) && $_GET[$this->permalink_name]) {
                     if (!$this->permalinkModelClass) {
-                        $dataset = $this->brickDatabase->findBy($this->permalink_field, $_GET[$this->permalink_name]);
+                        $model  = $this->modelClass;
+                        $dataset = $model::findBy($this->permalink_field, $_GET[$this->permalink_name]);
                     } else {
                         $model = $this->permalinkModelClass;
                         $dataset = $model::findBy($this->permalink_field, $_GET[$this->permalink_name]);

@@ -143,7 +143,7 @@ class C4GShowDialogAction extends C4GBrickDialogAction
         }
 
         $doCopy = false;
-        if (((($viewType == C4GBrickViewType::MEMBERFORM) || ($viewType == C4GBrickViewType::MEMBERVIEW) ||
+        if (((($viewType == C4GBrickViewType::MEMBERFORM) || ($viewType == C4GBrickViewType::MEMBERVIEW) || ($viewType == C4GBrickViewType::MEMBERBASED) ||
                     ($viewType == C4GBrickViewType::GROUPFORM) && (($id == null) || ($id == -1))) ||
                 ($viewType == C4GBrickViewType::GROUPFORMCOPY) ||
                 ($viewType == C4GBrickViewType::PROJECTFORMCOPY) ||
@@ -196,6 +196,11 @@ class C4GShowDialogAction extends C4GBrickDialogAction
 
                     break;
                 case C4GBrickViewType::MEMBERFORM:
+                    $memberKeyField = $viewParams->getMemberKeyField();
+                    $elements = $brickDatabase->findby($memberKeyField, $memberId);
+
+                    break;
+                case C4GBrickViewType::MEMBERBASED:
                     $memberKeyField = $viewParams->getMemberKeyField();
                     $elements = $brickDatabase->findby($memberKeyField, $memberId);
 
@@ -309,7 +314,7 @@ class C4GShowDialogAction extends C4GBrickDialogAction
                     break;
             }
 
-            if ($elements && key_exists(0, $elements) && ($elements[0] != null)) {
+            if ($elements && is_array($elements) && key_exists(0, $elements) && ($elements[0] != null)) {
                 $element = $elements[count($elements) - 1];
 
                 if (($element) && ($doCopy)) {
@@ -347,6 +352,15 @@ class C4GShowDialogAction extends C4GBrickDialogAction
             $modelClass = $brickDatabase->getParams()->getModelClass();
             $model = $modelClass;
             $elements = $model::$function($groupId, $database, $this->getListParams(), $brickDatabase);
+            $element = $elements->$id;
+        }
+
+        if (C4GBrickView::isMemberBased($viewType) && $modelListFunction) {
+            $function = $modelListFunction;
+            $database = $brickDatabase->getParams()->getDatabase();
+            $modelClass = $brickDatabase->getParams()->getModelClass();
+            $model = $modelClass;
+            $elements = $model::$function($memberId, '', $brickDatabase, $this->getFieldList(), $this->getListParams());
             $element = $elements->$id;
         }
 
