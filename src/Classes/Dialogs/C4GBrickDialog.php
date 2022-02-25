@@ -607,7 +607,7 @@ class C4GBrickDialog
 
             //ARCHIVE BUTTON
             $type_archive = false;
-            if ($dbValues && $dbValues->published) {
+            if ($dbValues && property_exists($dbValues, 'published') && $dbValues->published) {
                 $type_archive = C4GBrickConst::BUTTON_ARCHIVE;
             } elseif ($dbValues || ($dialogParams->isRedirectWithSaving() && $dialogParams->isRedirectWithActivation())) {
                 $type_archive = C4GBrickConst::BUTTON_ACTIVATION;
@@ -619,7 +619,7 @@ class C4GBrickDialog
 
             //FREEZE BUTTON (freeze project)
             $type_freeze = false;
-            if ($dbValues && ($dbValues->is_frozen == true)) {
+            if ($dbValues && property_exists($dbValues, 'is_frozen') && ($dbValues->is_frozen == true)) {
                 $type_freeze = C4GBrickConst::BUTTON_DEFROST;
             } elseif ($dbValues) {
                 $type_freeze = C4GBrickConst::BUTTON_FREEZE;

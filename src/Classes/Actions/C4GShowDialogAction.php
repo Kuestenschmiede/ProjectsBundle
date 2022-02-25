@@ -45,6 +45,7 @@ class C4GShowDialogAction extends C4GBrickDialogAction
         $group_headline = '';
         $group_headline = '';
         $parent_headline = '';
+        $headtext = '';
 
         if ((!$id || $id == -1 || $id == '-1' || !is_int($id)) && ($dialogParams->isWithInitialSaving())) {
             $id = $this->saveAndGetId($id);
@@ -375,7 +376,7 @@ class C4GShowDialogAction extends C4GBrickDialogAction
 
         //ToDo Weitere ViewTypes überprüfen
         if ($viewType != C4GBrickViewType::PROJECTPARENTFORMCOPY) {
-            $uuid = $element ? $this->getElementUuid($element->uuid) : false;
+            $uuid = $element && property_exists($element,'uuid') ? $this->getElementUuid($element->uuid) : false;
             if ($uuid) {
                 $dialogParams->setProjectUuid($uuid);
             }
