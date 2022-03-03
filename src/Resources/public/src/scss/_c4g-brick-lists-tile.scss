@@ -63,6 +63,9 @@
 .c4gGuiButton .c4g_tile_value {
   font-weight: bold;
 }
+.c4g__btn-tile {
+  cursor: pointer!important;
+}
 a.c4g__btn-tile:hover {
   cursor: default;
 }
