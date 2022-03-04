@@ -14,19 +14,19 @@ const webpack = require("webpack");
 var path = require('path');
 var config = {
   entry: {
-    'c4g-vendor-trix': './Resources/public/vendor/js/c4g-vendor-trix.js',
-    'c4g-vendor-minisearch': './Resources/public/vendor/js/c4g-vendor-minisearch.js',
-    'c4g-vendor-jquery': './Resources/public/vendor/js/c4g-vendor-jquery.js'
+    'c4g-vendor-trix': './src/Resources/public/vendor/js/c4g-vendor-trix.js',
+    'c4g-vendor-minisearch': './src/Resources/public/vendor/js/c4g-vendor-minisearch.js',
+    'c4g-vendor-jquery': './src/Resources/public/vendor/js/c4g-vendor-jquery.js'
   },
   mode: 'production',
   output: {
     filename: '[name].js',
-    path: path.resolve('./Resources/public/dist/js'),
+    path: path.resolve('./src/Resources/public/dist/js'),
     chunkFilename: '[name].bundle.[contenthash].js',
     publicPath: 'bundles/con4gisprojects/dist/js/'
   },
   resolve: {
-    modules: ['node_modules', 'Resources/public/vendor/js'],
+    modules: ['node_modules', 'src/Resources/public/vendor/js'],
     extensions: ['.js', '.ts', '.svg']
   },
   module: {
@@ -34,7 +34,7 @@ var config = {
       {
         include: [
           path.resolve('.'),
-          path.resolve('./Resources/public/vendor/js/')
+          path.resolve('./src/Resources/public/vendor/js/')
         ],
       },
       {
