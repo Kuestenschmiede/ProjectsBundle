@@ -5,7 +5,7 @@
  * @version 8
  * @author con4gis contributors (see "authors.txt")
  * @license LGPL-3.0-or-later
- * @copyright (c) 2010-2021, by Küstenschmiede GmbH Software & Design
+ * @copyright (c) 2010-2022, by Küstenschmiede GmbH Software & Design
  * @link https://www.con4gis.org
  */
 namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
@@ -13,6 +13,7 @@ namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickCommon;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
+use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldType;
 use Contao\StringUtil;
 
 class C4GGalleryField extends C4GBrickField
@@ -21,6 +22,14 @@ class C4GGalleryField extends C4GBrickField
     private $imageHeight = '';
     private $withTitle = false;
     private $maxImages = 0; //0 show all
+
+    /**
+     * @param string $type
+     */
+    public function __construct(string $type = C4GBrickFieldType::GALLERY)
+    {
+        parent::__construct($type);
+    }
 
     /**
      * @param C4GBrickField[] $fieldList
@@ -148,11 +157,11 @@ class C4GGalleryField extends C4GBrickField
 //                case C4GBrickFileType::IMAGES_PNG_JPG:
 //                    if($fileObject->path[0] == '/')
 //                    {
-//                        return $fieldTitle . '<div class="c4g_tile value">' . '<img src="' .substr ($fileObject->path, 1 ). '" width="'.$this->getSize().'" height="'.$this->getSize().'">' . '</div>';
+//                        return $fieldTitle . '<div class="c4g_tile_value">' . '<img src="' .substr ($fileObject->path, 1 ). '" width="'.$this->getSize().'" height="'.$this->getSize().'">' . '</div>';
 //                    }
 //                    else
 //                    {
-//                        return $fieldTitle . '<div class="c4g_tile value">' . '<img src="' .$fileObject->path. '" width="'.$this->getSize().'" height="'.$this->getSize().'">' . '</div>';
+//                        return $fieldTitle . '<div class="c4g_tile_value">' . '<img src="' .$fileObject->path. '" width="'.$this->getSize().'" height="'.$this->getSize().'">' . '</div>';
 //                    }
 //            }
 //        }
@@ -164,16 +173,16 @@ class C4GGalleryField extends C4GBrickField
 //                case C4GBrickFileType::IMAGES_JPG:
 //                case C4GBrickFileType::IMAGES_PNG:
 //                case C4GBrickFileType::IMAGES_PNG_JPG:
-//                    return $fieldTitle . '<div class="c4g_tile value">' . '<img src="bundles/con4gisprojects/images/missing.svg">' . '</div>';
+//                    return $fieldTitle . '<div class="c4g_tile_value">' . '<img src="bundles/con4gisprojects/images/missing.svg">' . '</div>';
 //                    break;
 //                default:
-//                    return $fieldTitle . '<div class="c4g_tile value">' . '<div class="error"></div>' . '</div>';
+//                    return $fieldTitle . '<div class="c4g_tile_value">' . '<div class="error"></div>' . '</div>';
 //            }
 //        }
 //    }
 //
 //    /**
-//     * Public method that will be called in translateFieldValues in C4GBrickModuleParent
+//     * Public method that will be called to view the value
 //     * @param $value
 //     * @return mixed
 //     */

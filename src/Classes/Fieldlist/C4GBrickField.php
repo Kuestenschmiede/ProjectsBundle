@@ -5,13 +5,14 @@
  * @version 8
  * @author con4gis contributors (see "authors.txt")
  * @license LGPL-3.0-or-later
- * @copyright (c) 2010-2021, by Küstenschmiede GmbH Software & Design
+ * @copyright (c) 2010-2022, by Küstenschmiede GmbH Software & Design
  * @link https://www.con4gis.org
  */
 namespace con4gis\ProjectsBundle\Classes\Fieldlist;
 
 use con4gis\CoreBundle\Classes\C4GHTMLFactory;
 use con4gis\CoreBundle\Classes\C4GUtils;
+use con4gis\CoreBundle\Classes\Helper\StringHelper;
 use con4gis\ProjectsBundle\Classes\Conditions\C4GBrickConditionType;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GButtonField;
@@ -53,7 +54,7 @@ abstract class C4GBrickField
     private $addressField = null; //nominatim reverse search
     private $attributes = ''; //additional html attributes as string
     private $callOnChange = false; //call function on change (useful with select and other types)
-    private $callOnChangeFunction = 'C4GCallOnChange(this)'; //call this function on change
+    private $callOnChangeFunction = 'handleBrickConditions()'; //call this function on change
     private $columnWidth = 0; //culumn width on datatable view
     private $comparable = true; //for field Compare on saving
     private $withoutValidation = false; //disable field validation
@@ -149,12 +150,13 @@ abstract class C4GBrickField
     private $defaultValue = '';
 
     /**
-     * C4GBrickField constructor.
+     * @param string $type
      */
-    public function __construct()
+    public function __construct(string $type = 'default')
     {
+        $this->type = $type;
     }
-
+    
     public static function create(string $fieldName,
                                   string $title = '',
                                   string $description = '',
@@ -221,16 +223,18 @@ abstract class C4GBrickField
         $display = '';
 
         if ($class == '') {
-            $class = 'class="c4g_condition ' . $this->styleClass . '"';
+            $styleClass = 'c4g__form-'.$this->type.' '.'c4g__form-'.$this->type.'--'.$this->getFieldName().' '.$this->getStyleClass();
+            $class = 'class="c4g__form-group ' . $styleClass . '"';
         } else {
-            $class = 'class="c4g_condition ' . $class . '"';
+            $class = 'c4g__form-'.$this->type.' '.'c4g__form-'.$this->type.'--'.$this->getFieldName().' '.$class;
+            $class = 'class="c4g__form-group ' . $class . '"';
         }
 
         if ($this->initInvisible) {
             $display = ' style="display: none"';
         }
 
-        return '<div id="c4g_condition" '
+        return '<div '
         . $class
         . $condition['conditionName']
         . $condition['conditionType']
@@ -267,13 +271,13 @@ abstract class C4GBrickField
      * Public method for creating the field specific tile HTML
      * @param $fieldTitle
      * @param $element
+     * @param $column
      * @return mixed
      */
     public function getC4GTileField($fieldTitle, $element)
     {
         $fieldName = $this->getFieldName();
-
-        return $element->$fieldName;
+        return $element && $element->$fieldName ? $element->$fieldName : '';
     }
 
     public function getC4GPopupField($data, $groupId)
@@ -284,14 +288,15 @@ abstract class C4GBrickField
                 return '<div class=' . $styleClass . '>' . $data[$this->getFieldName()] . '</div>';
             }
 
-            return '<p class=' . $styleClass . '><b>' . $this->getTitle() . '</b>: ' . $data[$this->getFieldName()] . '</p>';
+            return '<div class=' . $styleClass . '><b
+>' . $this->getTitle() . '</b>: ' . $data[$this->getFieldName()] . '</div>';
         }
 
         return '';
     }
 
     /**
-     * Public method that will be called in translateFieldValues in C4GBrickModuleParent
+     * Public method that will be called to view the value
      * @param $value
      * @return mixed
      */
@@ -357,19 +362,16 @@ abstract class C4GBrickField
         if ($title && !$this->withoutLabel || $this instanceof C4GButtonField || $this instanceof C4GLinkField || $this instanceof C4GSubDialogField) {
             $star = '';
             if ($mandatory && (!$this->isWithoutMandatoryStar())) {
-                $star = '<strong class="c4g_mandatory_class">*</strong>';
+                $star = '<span class="c4g_mandatory_class">*</span>';
             }
+            $linebreak = '';
             if (!$withoutLineBreak && $dialogParams->isWithLabels() === true) {
-                $linebreak = C4GHTMLFactory::lineBreak();
+                $linebreak = '';//C4GHTMLFactory::lineBreak();
             }
-            $tdo = '';
-            $tdc = '';
             if (($dialogParams && $dialogParams->isTableRows()) || $this->isTableRow()) {
                 $linebreak = '';
-                $tdo = '<td style="width:' . $this->getTableRowLabelWidth() . '">';
-                $tdc = '</td>';
             }
-
+            $extTitleField = '';
             if ($showExtTitleField && $this->getExtTitleField()) {
                 $extTitleField = $this->getExtTitleField()->getC4GDialogField($fieldList, $data, $dialogParams);
             }
@@ -380,11 +382,14 @@ abstract class C4GBrickField
 
             $conditionPrepare = $condition && is_array($condition) ? $condition['conditionPrepare'] : '';
 
+
+            $title = trim($title) ? StringHelper::spaceToNbsp(trim($title)) : $title;
+
             if ($this->isWithoutLabel() || ($dialogParams->isWithLabels() === false && !($this instanceof C4GMultiCheckboxField || $this instanceof C4GCheckboxField))) {
-                return $tdo . '<label class="' . $this->getFieldName() . ' ' . $id . '" for="' . $id . '" ' . $conditionPrepare . '>' . $star . $additionalLabel . $linebreak . '</label>' . $tdc . $extTitleField;
+                return '<label class="c4g__form-label c4g__form-'.$this->type.'-label ' . $this->getFieldName() . ' ' . $id . '" for="' . $id . '" ' . $conditionPrepare . '>' . $star . $additionalLabel . $linebreak . '</label>' . $extTitleField;
             }
 
-            return $tdo . '<label class="c4g-form-label ' . $this->getFieldName() . ' ' . $id . '" for="' . $id . '" ' . $conditionPrepare . '>' . $title . $additionalLabel . $star . $linebreak . '</label>' . $tdc . $extTitleField;
+            return '<label class="c4g__form-label c4g__form-'.$this->type.'-label ' . $this->getFieldName() . ' ' . $id . '" for="' . $id . '" ' . $conditionPrepare . '>' . $title . $additionalLabel . $star . $linebreak . '</label>' . $extTitleField;
         }
 
         return '';
@@ -410,44 +415,45 @@ abstract class C4GBrickField
                         //ansonsten würden die Felder ausgeblendet werden.
                         return true;//($data->$conditionField == $conditionValue);
                     case C4GBrickConditionType::VALUESWITCH:
-
-                        foreach ($fieldList as $listField) {
-                            //Ist das das schaltende Feld?
-                            if ($listField->getAdditionalID()) {
-                                if ($conditionField == $listField->getFieldName() . '_' . $listField->getAdditionalID()) {
-                                    if (($data) && ($data->$conditionField)) {
-                                        //der aktuelle Wert aus der Datenbank
-                                        $conditionFieldData = $data->$conditionField;
-                                    } else {
-                                        //der initial Wert, falls (noch) kein Datenbankwert vorhanden ist
-                                        $conditionFieldData = $listField->getInitialValue();
-                                    }
-
-                                    // ist der aktuelle Wert der freischaltende Wert?
-                                    if ($conditionFieldData == $conditionValue) {
-                                        return true;
-                                    }
-                                    if (empty($conditionFieldData) || ($conditionFieldData == -1)) {
-                                        $emptyConditionFieldData = true;
-                                    }
-                                }
-                            } else {
+                        if ($fieldList) {
+                            foreach ($fieldList as $listField) {
                                 //Ist das das schaltende Feld?
-                                if ($conditionField == $listField->getFieldName()) {
-                                    if (($data) && ($data->$conditionField)) {
-                                        //der aktuelle Wert aus der Datenbank
-                                        $conditionFieldData = $data->$conditionField;
-                                    } else {
-                                        //der initial Wert, falls (noch) kein Datenbankwert vorhanden ist
-                                        $conditionFieldData = $listField->getInitialValue();
-                                    }
+                                if ($listField->getAdditionalID()) {
+                                    if ($conditionField == $listField->getFieldName() . '_' . $listField->getAdditionalID()) {
+                                        if ($data && /*property_exists($data,$conditionField) && (*/$data->$conditionField) {
+                                            //der aktuelle Wert aus der Datenbank
+                                            $conditionFieldData = $data->$conditionField;
+                                        } else {
+                                            //der initial Wert, falls (noch) kein Datenbankwert vorhanden ist
+                                            $conditionFieldData = $listField->getInitialValue();
+                                        }
 
-                                    // ist der aktuelle Wert der freischaltende Wert?
-                                    if ($conditionFieldData == $conditionValue) {
-                                        return true;
+                                        // ist der aktuelle Wert der freischaltende Wert?
+                                        if ($conditionFieldData == $conditionValue) {
+                                            return true;
+                                        }
+                                        if (empty($conditionFieldData) || ($conditionFieldData == -1)) {
+                                            $emptyConditionFieldData = true;
+                                        }
                                     }
-                                    if (empty($conditionFieldData) || ($conditionFieldData == -1)) {
-                                        $emptyConditionFieldData = true;
+                                } else {
+                                    //Ist das das schaltende Feld?
+                                    if ($conditionField == $listField->getFieldName()) {
+                                        if ($data && /*property_exists($data,$conditionField) && (*/$data->$conditionField) {
+                                            //der aktuelle Wert aus der Datenbank
+                                            $conditionFieldData = $data->$conditionField;
+                                        } else {
+                                            //der initial Wert, falls (noch) kein Datenbankwert vorhanden ist
+                                            $conditionFieldData = $listField->getInitialValue();
+                                        }
+
+                                        // ist der aktuelle Wert der freischaltende Wert?
+                                        if ($conditionFieldData == $conditionValue) {
+                                            return true;
+                                        }
+                                        if (empty($conditionFieldData) || ($conditionFieldData == -1)) {
+                                            $emptyConditionFieldData = true;
+                                        }
                                     }
                                 }
                             }
@@ -455,38 +461,50 @@ abstract class C4GBrickField
 
                         break;
                     case C4GBrickConditionType::METHODSWITCH:
-                        $conditionField = $condition->getFieldName();
+                        $conditionField = $condition->getFieldName() ?: -1;
                         //$conditionValue = $condition->getValue();
                         $conditionModel = $condition->getModel();
-                        $conditionFunction = $condition->getFunction();
+                        $conditionFunction = $condition->getFunction() ?: -1;
 
-                        foreach ($fieldList as $listField) {
-                            if ($listField->getAdditionalID()) {
-                                if ($conditionField == $listField->getFieldName() . '_' . $listField->getAdditionalID()) {
-                                    if (($data) && ($data->$conditionField)) {
-                                        $conditionFieldData = $data->$conditionField;
+                        if ($pos = strpos($conditionField,'--')) {
+                            $conditionFieldValue = substr($conditionField, 0, $pos);
+                            $conditionFieldConst =  substr($conditionField, $pos+2);
+                        }
+
+                        if ($fieldList) {
+                            foreach ($fieldList as $listField) {
+                                if ($listField->getAdditionalID()) {
+                                    if ($conditionFieldValue == $listField->getFieldName() . '_' . $listField->getAdditionalID()) {
+                                        if ($data && /*property_exists($data,$conditionField) && (*/$data->$conditionField) {
+                                            $conditionFieldData = $data->$conditionFieldValue;
+                                        } else {
+                                            $conditionFieldData = $listField->getInitialValue();
+                                        }
+
+                                        if ($conditionModel && $conditionFunction) {
+                                            return $conditionModel::$conditionFunction($conditionFieldData);
+                                        }
+
+                                        return false;
+                                    }
+                                } elseif ($conditionFieldValue == $listField->getFieldName()) {
+                                    if ($data && /*property_exists($data,$conditionField) && (*/$data->$conditionField) {
+                                        $conditionFieldData = $data->$conditionFieldValue;
                                     } else {
                                         $conditionFieldData = $listField->getInitialValue();
                                     }
 
                                     if ($conditionModel && $conditionFunction) {
-                                        return $conditionModel::$conditionFunction($conditionFieldData);
+                                        if ($conditionFieldConst) {
+                                            return $conditionModel::$conditionFunction($conditionFieldData.'--'.$conditionFieldConst);
+
+                                        } else {
+                                            return $conditionModel::$conditionFunction($conditionFieldData);
+                                        }
                                     }
 
                                     return false;
                                 }
-                            } elseif ($conditionField == $listField->getFieldName()) {
-                                if (($data) && ($data->$conditionField)) {
-                                    $conditionFieldData = $data->$conditionField;
-                                } else {
-                                    $conditionFieldData = $listField->getInitialValue();
-                                }
-
-                                if ($conditionModel && $conditionFunction) {
-                                    return $conditionModel::$conditionFunction($conditionFieldData);
-                                }
-
-                                return false;
                             }
                         }
 
@@ -506,19 +524,21 @@ abstract class C4GBrickField
         $withLinkDescription = $this->isWithLinkDescription();
         $withoutLineBreak = $this->isWithoutDescriptionLineBreak() || !$description;
 
+        $description = trim($description) ? StringHelper::spaceToNbsp($description) : $description;
+
         $result = '';
         if ($description && ($description != '') && $withLinkDescription && $withoutLineBreak) {
-            $result = '<p class="c4g_field_description" ' . $condition['conditionPrepare'] . '><a href="' . $description . '" target="_blank">Link</a>' . '</p>';
+            $result = '<div class="c4g__form-description c4g_field_description" ' . $condition['conditionPrepare'] . '><a href="' . $description . '" target="_blank">Link</a>' . '</div>';
         } elseif ($description && ($description != '') && $withLinkDescription) {
-            $result = '<p class="c4g_field_description" ' . $condition['conditionPrepare'] . '><a href="' . $description . '" target="_blank">Link</a>' . C4GHTMLFactory::lineBreak() . C4GHTMLFactory::lineBreak() . '</p>';
+            $result = '<div class="c4g__form-description c4g_field_description" ' . $condition['conditionPrepare'] . '><a href="' . $description . '" target="_blank">Link</a>' . '</div>';
         } elseif ($description && ($description != '') && $withoutLineBreak) {
-            $result = '<p class="c4g_field_description" ' . $condition['conditionPrepare'] . '>' . $description . '</p>';
+            $result = '<div class="c4g__form-description c4g_field_description" ' . $condition['conditionPrepare'] . '>' . $description . '</div>';
         } elseif ($description && ($description != '')) {
-            $result = '<p class="c4g_field_description" ' . $condition['conditionPrepare'] . '>' . $description . C4GHTMLFactory::lineBreak() . C4GHTMLFactory::lineBreak() . '</p>';
+            $result = '<div class="c4g__form-description c4g_field_description" ' . $condition['conditionPrepare'] . '>' . $description . '</div>';
         } elseif (!$withoutLineBreak) {
-            $result = '<p ' . $condition['conditionPrepare'] . '>' . '</p>';
+            $result = '<div class="c4g__form-description" ' . $condition['conditionPrepare'] . '>' . '</div>';
         } else /*if ($description && ($description != ''))*/ {
-            $result = '<div class="c4g_field_descripton_hole"></div>';
+            $result = '<div class="c4g__form-description c4g__form-description-empty c4g_field_descripton_hole noformdata"></div>';
         }
 
         return $result;
@@ -533,6 +553,7 @@ abstract class C4GBrickField
         $conditiondisable = '';
         $conditionPrepare = '';
         $conditionfunction = '';
+        $conditionResult = '';
 
         $class = 'formdata';
 
@@ -549,15 +570,15 @@ abstract class C4GBrickField
                 }
 
                 if (!empty($conditionname) or $conditionname == '0') {
-                    $conditionname .= '~' . $condition->getFieldName();
-                    $conditionvalue .= '~' . $condition->getValue();
-                    $conditionfunction .= '~' . $condition->getFunction();
-                    $conditiontype .= '~' . $condition->getType();
+                    $conditionname .= '~' . $condition->getFieldName() ?: -1;
+                    $conditionvalue .= '~' . $condition->getValue() ?: -1;
+                    $conditionfunction .= '~' . $condition->getFunction() ?: -1;
+                    $conditiontype .= '~' . $condition->getType() ?: -1;
                 } else {
-                    $conditionname = $condition->getFieldName();
-                    $conditionvalue = $condition->getValue();
-                    $conditionfunction .= $condition->getFunction();
-                    $conditiontype .= $condition->getType();
+                    $conditionname = $condition->getFieldName() ?: -1;
+                    $conditionvalue = $condition->getValue() ?: -1;
+                    $conditionfunction .= $condition->getFunction() ?: -1;
+                    $conditiontype .= $condition->getType() ?: -1;
                 }
             }
 
@@ -584,6 +605,9 @@ abstract class C4GBrickField
 
     public function addC4GField($condition, $dialogParams, $fieldList, $data, $fieldData)
     {
+        if (!$condition) {
+            $condition = $this->createConditionData($fieldList,$data);
+        }
         //ToDo change table to display:grid if feature released for all standard browsers
         $id = 'c4g_' . $this->getFieldName();
         if ($this->getAdditionalID()) {
@@ -616,20 +640,16 @@ abstract class C4GBrickField
 
         if (($dialogParams && $dialogParams->isTableRows()) || $this->isTableRow()) {
             //$linebreak = '';
-            $tableo = '<table class="c4g_brick_table_rows" style="width:' . $this->getTableRowWidth() . '">';
-            $tro = '<tr>';
-            $trc = '</tr>';
-            $tdo = '<td>';
-            $tdc = '</td>';
-            $tablec = '</table>';
+            $widthLabel =  $this->getTableRowLabelWidth() ?: auto;
+            $widthField = $this->getTableRowWidth() && $this->getTableRowLabelWidth() ? (intval($this->getTableRowWidth()) - intval($this->getTableRowLabelWidth())).'%' : 'auto';
+            $tableo = '<div class="c4g__form-grid-2 c4g__form-grid-table-row" style="grid-template-columns: '.$widthLabel. ' '.$widthField.';">';
+            $tablec = '</div>';
         }
 
-        $class = 'class="c4g_condition" ';
-        if ($this->getStyleClass()) {
-            $class = 'class="c4g_condition ' . $this->getStyleClass() . '" ';
-        }
+        $styleClass = 'c4g__form-'.$this->type.' '.'c4g__form-'.$this->type.'--'.$this->getFieldName().' '.$this->styleClass;
+        $class = 'class="c4g__form-group ' . $styleClass . '" ';
 
-        $fieldLabel = $this->addC4GFieldLabel($id, $this->getTitle(), $this->isMandatory(), $condition, $fieldList, $data, $dialogParams, true, $this->switchTitleLabel);
+        $fieldLabel = $this->addC4GFieldLabel($id, $this->getTitle(), $this->isMandatory(), $condition, $fieldList, $data, $dialogParams, true, $this->isSwitchTitleLabel());
 
         if ($this->switchTitleLabel) {
             $label = $fieldLabel;
@@ -654,8 +674,7 @@ abstract class C4GBrickField
         . $condition['conditionValue']
         . $condition['conditionFunction']
         . $condition['conditionDisable'] . '>' .
-        $tableo . $tro . $fieldLabel .
-        $tdo . $fieldData . $tdc . $trc . $tablec .
+        $tableo . $fieldLabel . $fieldData . $tablec .
         $description . '</div>';
     }
 
@@ -665,7 +684,7 @@ abstract class C4GBrickField
      */
     protected function generateInitialValue($data)
     {
-        if (((!$data)) ||
+        if (!$data ||
                 (!$this->isDatabaseField()) && ($this->getSource() != C4GBrickFieldSourceType::OTHER_FIELD) &&
                 (!$this->getExternalIdField())) {
             $value = $this->getInitialValue();
@@ -678,7 +697,7 @@ abstract class C4GBrickField
                 }
             }
 
-            $value = $data->$fieldName;
+            $value = $data->$fieldName; //$data && property_exists($data, $fieldName) ? $data->$fieldName : false;
         }
 
         if ($value === '') {
@@ -703,19 +722,35 @@ abstract class C4GBrickField
      * @param C4GBrickDialogParams $dialogParams
      * @return string
      */
-    protected function generateRequiredString($data, $dialogParams)
+    protected function generateRequiredString($data, $dialogParams, $fieldList)
     {
         $required = '';
-        if ($this->getConditionType() == C4GBrickConditionType::BOOLSWITCH) {
-            $condition = $this->getCondition();
-            if ($condition) {
-                $thisName = $condition[0]->getFieldName();
-                if ($data && ($data->$thisName != $condition[0]->getValue())) {
-                    $required = 'disabled readonly';
-                    $this->setWithoutMandatoryStar(true);
-                    $this->setEditable(false);
+        //$condition = $this->createConditionData($fieldList, $data);
+        if ($fieldList) {
+            foreach ($fieldList as $afield) {
+                $fieldConditions = $afield->getCondition();
 
-                    return $required;
+                foreach ($fieldConditions as $fieldCondition) {
+                    if (($fieldCondition) && ($fieldCondition->getType() == C4GBrickConditionType::BOOLSWITCH) && ($fieldCondition->getFieldName() == $this->getFieldName())) {
+
+                        $condition = $this->getCondition();
+                        if ($condition) {
+                            $thisName = $condition[0]->getFieldName();
+                            if ($data && (($condition[0]->getValue() == -1 && $data->$thisName) || ($data->$thisName != $condition[0]->getValue()))) {
+                                $required = 'disabled readonly';
+                                $this->setWithoutMandatoryStar(true);
+                                $this->setEditable(false);
+                                $id = $this->createFieldID();
+                                $elementId = 'c4g_' . $thisName;
+                                $reverse = 0;
+                                if (!$condition[0]->getValue()) {
+                                    $reverse = 1;
+                                }
+                                $boolswitch = ' onchange="handleBoolSwitch(' . $id . ',' . $elementId . ',' . $reverse . ')"';
+                                return $required . $boolswitch;
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -2112,7 +2147,7 @@ abstract class C4GBrickField
      */
     public function getSpecialMandatoryMessage()
     {
-        return $this->specialMandatoryMessage;
+        return htmlspecialchars_decode($this->specialMandatoryMessage);
     }
 
     /**

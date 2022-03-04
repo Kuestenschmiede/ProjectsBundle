@@ -5,7 +5,7 @@
  * @version 8
  * @author con4gis contributors (see "authors.txt")
  * @license LGPL-3.0-or-later
- * @copyright (c) 2010-2021, by Küstenschmiede GmbH Software & Design
+ * @copyright (c) 2010-2022, by Küstenschmiede GmbH Software & Design
  * @link https://www.con4gis.org
  */
 namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
@@ -13,6 +13,7 @@ namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldCompare;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldText;
+use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldType;
 use Contao\Controller;
 
 class C4GTextField extends C4GBrickFieldText
@@ -22,13 +23,21 @@ class C4GTextField extends C4GBrickFieldText
     protected $simpleTextWithoutEditing = false; //Renders HTML tags, never use this to display user-generated data
     protected $ariaLabel = '';
 
+    /**
+     * @param string $type
+     */
+    public function __construct(string $type = C4GBrickFieldType::TEXT)
+    {
+        parent::__construct($type);
+    }
+
     public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = [])
     {
         $id = 'c4g_' . $this->getFieldName();
         if ($this->getAdditionalID()) {
             $id .= '_' . $this->getAdditionalID();
         }
-        $required = $this->generateRequiredString($data, $dialogParams);
+        $required = $this->generateRequiredString($data, $dialogParams, $fieldList);
         $value = $this->generateInitialValue($data);
         if ($this->replaceInsertTag) {
             $value = Controller::replaceInsertTags($value);
@@ -40,7 +49,7 @@ class C4GTextField extends C4GBrickFieldText
 
             if ($this->isSimpleTextWithoutEditing()) {
                 $result = $this->addC4GField($condition, $dialogParams, $fieldList, $data,
-                    '<div ' . $condition['conditionPrepare'] . " id=\"$id\" class=\"c4g_non_input\">$value</div>");
+                    '<div ' . $condition['conditionPrepare'] . " id=\"$id\" class=\"c4g_non_input formdata\">$value</div>");
             } else {
                 if ($this->placeholder !== '') {
                     $placeholder = ' placeholder="' . $this->placeholder . '"';
@@ -48,12 +57,13 @@ class C4GTextField extends C4GBrickFieldText
                     $placeholder = '';
                 }
 
+                $aria = '';
                 if ($this->ariaLabel !== '') {
                     $aria = 'aria-label="' . $this->ariaLabel . '"';
                 }
 
                 $result = $this->addC4GField($condition, $dialogParams, $fieldList, $data,
-                    '<input ' . $required . ' ' . $condition['conditionPrepare'] . ' type="text" id="' . $id . '" class="formdata c4g-form-text ' . $id . '" size="' . $this->size . '"  maxLength="' . $this->maxLength . '" name="' . $this->getFieldName() . '" value="' . $value . '"' . $placeholder . $aria . '>');
+                    '<input ' . $required . ' ' . $condition['conditionPrepare'] . ' type="text" id="' . $id . '" class="formdata c4g__form-control c4g__form-text-input ' . $id . '" size="' . $this->size . '"  maxLength="' . $this->maxLength . '" name="' . $this->getFieldName() . '" value="' . $value . '"' . $placeholder . $aria . '>');
             }
         }
 

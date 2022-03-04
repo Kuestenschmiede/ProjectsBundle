@@ -1,0 +1,37 @@
+.c4g_sub_dialog {
+  display: block;
+}
+
+.c4g_sub_dialog_set {
+  clear: both;
+}
+
+.c4g_sub_dialog_set_uneditable .c4g_sub_dialog_add_button {
+  display:none;
+}
+
+.c4g_sub_dialog_set_uneditable .c4g_sub_dialog_remove_button {
+  display:none;
+}
+
+.c4g_sub_dialog_add_button {
+  margin-left: 8px;
+}
+
+.c4g_sub_dialog_edit_button {
+  margin-right: 8px;
+}
+
+.c4g_sub_dialog_remove_button, .c4g_sub_dialog_edit_button{
+  align-self: center;
+  margin-bottom: 20px;
+}
+
+.c4g_sub_dialog_remove_button {
+  float: right;
+}
+
+.c4g_sub_dialog_container {
+  margin-bottom: 20px;
+  clear: both;
+}

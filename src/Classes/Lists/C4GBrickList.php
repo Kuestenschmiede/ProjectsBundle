@@ -5,7 +5,7 @@
  * @version 8
  * @author con4gis contributors (see "authors.txt")
  * @license LGPL-3.0-or-later
- * @copyright (c) 2010-2021, by Küstenschmiede GmbH Software & Design
+ * @copyright (c) 2010-2022, by Küstenschmiede GmbH Software & Design
  * @link https://www.con4gis.org
  */
 namespace con4gis\ProjectsBundle\Classes\Lists;
@@ -18,6 +18,7 @@ use con4gis\ProjectsBundle\Classes\Buttons\C4GBrickButton;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickCommon;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickConst;
 use con4gis\ProjectsBundle\Classes\Conditions\C4GBrickConditionType;
+use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GClassField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GDataClassField;
@@ -279,7 +280,7 @@ class C4GBrickList
      */
     public static function showC4GTableList(
         $listCaption, $database, $content, $listHeadline, $fieldList, $tableElements, $key,
-        $parentCaption, $listParams)
+        $parentCaption, C4GBrickListParams $listParams, C4GBrickDialogParams $dialogParams)
     {
         if (!$tableElements) {
             $tableElements = [];
@@ -372,7 +373,8 @@ class C4GBrickList
                     'bVisible' => false,
                     'bSearchable' => false,
                     'aTargets' => [0],
-                    'responsivePriority' => [$priority], ];
+                    'responsivePriority' => [$priority]
+                ];
                 $cnt++;
             } else {
                 if ($column->isTableColumn()) {
@@ -581,9 +583,9 @@ class C4GBrickList
             'headline' => $listHeadline,
             'buttons' => $buttons,
         ];
-        if ($searchValue = \Session::getInstance()->get('c4g_list_searchValue')) {
+        if ($searchValue = $listParams->getSession()->getSessionValue('c4g_list_searchValue')) {
             $return['searchValue'] = $searchValue;
-            \Session::getInstance()->remove('c4g_list_searchValue');
+            $listParams->getSession()->remove('c4g_list_searchValue');
         }
 
         if ($listParams->isshowToolTips()) {
@@ -593,7 +595,9 @@ class C4GBrickList
         return $return;
     }
 
-    public static function showC4GList($listCaption, $database, $content, $listHeadline, $fieldList, $tableElements, $key, $parentCaption, C4GBrickListParams $listParams)
+    public static function showC4GList(
+        $listCaption, $database, $content, $listHeadline, $fieldList, $tableElements, $key, $parentCaption,
+        C4GBrickListParams $listParams, C4GBrickDialogParams $dialogParams)
     {
         $customListViewFunction = $listParams->getCustomListViewFunction();
         if (empty($customListViewFunction)) {
@@ -632,9 +636,9 @@ class C4GBrickList
             'dialogbuttons' => $buttons,
         ];
 
-        if ($searchValue = \Session::getInstance()->get('c4g_list_searchValue')) {
+        if ($searchValue = $listParams->getSession()->getSessionValue('c4g_list_searchValue')) {
             $result['searchValue'] = $searchValue;
-            \Session::getInstance()->remove('c4g_list_searchValue');
+            $listParams->getSession()->remove('c4g_list_searchValue');
         }
 
         return $result;

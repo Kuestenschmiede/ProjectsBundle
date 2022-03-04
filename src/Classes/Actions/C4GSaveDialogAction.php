@@ -5,7 +5,7 @@
  * @version 8
  * @author con4gis contributors (see "authors.txt")
  * @license LGPL-3.0-or-later
- * @copyright (c) 2010-2021, by Küstenschmiede GmbH Software & Design
+ * @copyright (c) 2010-2022, by Küstenschmiede GmbH Software & Design
  * @link https://www.con4gis.org
  */
 namespace con4gis\ProjectsBundle\Classes\Actions;
@@ -94,7 +94,7 @@ class C4GSaveDialogAction extends C4GBrickDialogAction
 
             if ($result['insertId']) {
                 if ($this->setSessionIdAfterInsert) {
-                    \Session::getInstance()->set($this->setSessionIdAfterInsert, $result['insertId']);
+                    $dialogParams->getSession()->setSessionValue($this->setSessionIdAfterInsert, $result['insertId']);
                 }
                 //if a project was added we have to change the project booking count
                 if ((empty($dbValues)) && ($projectKey != '') && (C4GVersionProvider::isInstalled('con4gis/booking'))) {
@@ -102,11 +102,11 @@ class C4GSaveDialogAction extends C4GBrickDialogAction
                 }
                 if ($this->setParentIdAfterSave) {
                     $dialogParams->setParentId($result['insertId']);
-                    \Session::getInstance()->set('c4g_brick_parent_id', $result['insertId']);
+                    $dialogParams->getSession()->setSessionValue('c4g_brick_parent_id', $result['insertId']);
                 }
                 $dialogId = $result['insertId'];
                 $dbValues = $brickDatabase->findByPk($dialogId);
-                \Session::getInstance()->set('c4g_brick_dialog_id', $dialogId);
+                $dialogParams->getSession()->setSessionValue('c4g_brick_dialog_id', $dialogId);
             } elseif (($dialogId) && (C4GVersionProvider::isInstalled('con4gis/booking'))) {
                 \con4gis\BookingBundle\Resources\contao\models\C4gBookingGroupsModel::log($dbValues);
             }
@@ -123,7 +123,7 @@ class C4GSaveDialogAction extends C4GBrickDialogAction
             $printoutPDF->printAction($module, $printValues, $dialogId);
         }
 
-        if ($withNotification) {
+        if ($notification_type && $withNotification) {
             $this->module->sendNotifications($newId, $notifyOnChanges, $notification_type, $dlgValues, $fieldList, $changes);
         }
 

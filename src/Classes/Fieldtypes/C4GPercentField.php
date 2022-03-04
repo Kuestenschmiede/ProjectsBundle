@@ -5,7 +5,7 @@
  * @version 8
  * @author con4gis contributors (see "authors.txt")
  * @license LGPL-3.0-or-later
- * @copyright (c) 2010-2021, by Küstenschmiede GmbH Software & Design
+ * @copyright (c) 2010-2022, by Küstenschmiede GmbH Software & Design
  * @link https://www.con4gis.org
  */
 namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
@@ -14,6 +14,7 @@ use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldNumeric;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldCompare;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickRegEx;
+use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldType;
 
 class C4GPercentField extends C4GBrickFieldNumeric
 {
@@ -24,11 +25,11 @@ class C4GPercentField extends C4GBrickFieldNumeric
     protected $percentGroup = '';
 
     /**
-     * C4GPercentField constructor.
+     * @param string $type
      */
-    public function __construct()
+    public function __construct(string $type = C4GBrickFieldType::FLOAT)
     {
-        parent::__construct();
+        parent::__construct($type);
         $this->setMax(100);
     }
 
@@ -42,7 +43,7 @@ class C4GPercentField extends C4GBrickFieldNumeric
     public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = [])
     {
         if ($this->getDecimals() <= 0) {
-            $required = $this->generateRequiredString($data, $dialogParams);
+            $required = $this->generateRequiredString($data, $dialogParams, $fieldList);
 
             $result = '';
             $id = 'c4g_' . $this->getFieldName();
@@ -65,7 +66,7 @@ class C4GPercentField extends C4GBrickFieldNumeric
                 $this->setPattern(C4GBrickRegEx::NUMBERS_NO_SEP);
                 $result =
                     $this->addC4GField($condition, $dialogParams, $fieldList, $data,
-                        '<input ' . $required . ' ' . $condition['conditionPrepare'] . ' type="' . $type . '" ' . $onChange . ' id="' . $id . '" class="formdata ' . $id . '" size="' .
+                        '<input ' . $required . ' ' . $condition['conditionPrepare'] . ' type="' . $type . '" ' . $onChange . ' id="' . $id . '" class="formdata c4g__form-'.$type.'-input ' . $id . '" size="' .
                         $this->getSize() . '" min="' . $this->getMin() . '" max="' . $this->getMax() . '" step="' . $this->getStep() . '" pattern="' . $this->pattern . '" name="' .
                         $this->getFieldName() . '" value="' . $value . '">');
             }
@@ -73,7 +74,7 @@ class C4GPercentField extends C4GBrickFieldNumeric
             return $result;
         }
         $id = 'c4g_' . $this->getFieldName();
-        $required = $this->generateRequiredString($data, $dialogParams);
+        $required = $this->generateRequiredString($data, $dialogParams, $fieldList);
         if ($this->getThousandsSep() !== '') {
             $value = number_format(str_replace(',', '.', $this->generateInitialValue($data)), $this->getDecimals(), $this->getDecimalPoint(), $this->getThousandsSep());
         } else {
@@ -86,7 +87,7 @@ class C4GPercentField extends C4GBrickFieldNumeric
             $this->setPattern(C4GBrickRegEx::generateNumericRegEx($this->getDecimals(), false, $this->getThousandsSep(), $this->getDecimalPoint()));
             $result =
                     $this->addC4GField($condition,$dialogParams,$fieldList,$data,
-                        '<input pattern="' . $this->pattern . '" ' . $required . ' ' . $condition['conditionPrepare'] . ' type="number" step="any" id="' . $id . '" class="formdata ' . $id . '" size="' . $this->getSize() . '" min="' . $this->getMin() . '" max="' . $this->getMax() . '" name="' . $this->getFieldName() . '" value="' . $value . '" >');
+                        '<input pattern="' . $this->pattern . '" ' . $required . ' ' . $condition['conditionPrepare'] . ' type="number" step="any" id="' . $id . '" class="formdata c4g__form-control c4g__form-number-input ' . $id . '" size="' . $this->getSize() . '" min="' . $this->getMin() . '" max="' . $this->getMax() . '" name="' . $this->getFieldName() . '" value="' . $value . '" >');
         }
 
         return $result;

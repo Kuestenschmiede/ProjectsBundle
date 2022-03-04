@@ -5,7 +5,7 @@
  * @version 8
  * @author con4gis contributors (see "authors.txt")
  * @license LGPL-3.0-or-later
- * @copyright (c) 2010-2021, by Küstenschmiede GmbH Software & Design
+ * @copyright (c) 2010-2022, by Küstenschmiede GmbH Software & Design
  * @link https://www.con4gis.org
  */
 namespace con4gis\ProjectsBundle\Classes\Actions;
@@ -35,7 +35,7 @@ trait C4GTraitCheckMandatoryFields
                         $callbackParams = 'c4g_' . $mandatoryCheckResult->getFieldName();
                     }
 
-                    return ['usermessage' => $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_MANDATORY_FIELD'] . '"' . $mandatoryCheckResult->getTitle() . '".',
+                    return ['usermessage' => $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_MANDATORY_FIELD'] . '"' . strip_tags($mandatoryCheckResult->getTitle()) . '".',
                         'title' => $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_MANDATORY_TITLE'],
                         'callback' => ['function' => $callback, 'params' => $callbackParams], ];
                 }
@@ -46,7 +46,7 @@ trait C4GTraitCheckMandatoryFields
 
         $validate_result = C4GBrickDialog::validateFields($this->makeRegularFieldList($fieldList), $dlgValues);
         if ($validate_result) {
-            return ['usermessage' => $validate_result, 'title' => $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['INVALID_INPUT']];
+            return ['usermessage' => htmlspecialchars_decode($validate_result), 'title' => $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['INVALID_INPUT']];
         }
 
         return [];

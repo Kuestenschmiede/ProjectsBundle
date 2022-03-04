@@ -5,7 +5,7 @@
  * @version 8
  * @author con4gis contributors (see "authors.txt")
  * @license LGPL-3.0-or-later
- * @copyright (c) 2010-2021, by Küstenschmiede GmbH Software & Design
+ * @copyright (c) 2010-2022, by Küstenschmiede GmbH Software & Design
  * @link https://www.con4gis.org
  */
 namespace con4gis\ProjectsBundle\Classes\Actions;
@@ -53,11 +53,11 @@ class C4GShowRedirectDialogAction extends C4GBrickDialogAction
         }
         if ($redirectDialogSite && (($jumpTo = \PageModel::findByPk($redirectDialogSite)) !== null)) {
             $return['title'] = $redirectDialogTitle;
-            $return['usermessage'] = $redirectDialogMessage;
+            $return['usermessage'] = htmlspecialchars_decode($redirectDialogMessage);
             $return['jump_after_message'] = $jumpTo->getFrontendUrl();
         } else {
             $return['title'] = $redirectDialogTitle;
-            $return['usermessage'] = $redirectDialogMessage;
+            $return['usermessage'] = htmlspecialchars_decode($redirectDialogMessage);
         }
 
         return $return;

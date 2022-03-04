@@ -4,7 +4,7 @@
  * @version 8
  * @author con4gis contributors (see "authors.txt")
  * @license LGPL-3.0-or-later
- * @copyright (c) 2010-2021, by Küstenschmiede GmbH Software & Design
+ * @copyright (c) 2010-2022, by Küstenschmiede GmbH Software & Design
  * @link https://www.con4gis.org
  */
 
@@ -114,7 +114,7 @@ function livePositions(map, importLayer, data, setStyleHelper) {
         timeout = window.setTimeout(function(){liveRequest()}, 10000);
     }
 
-    var url = 'src/con4gis/CoreBundle/Resources/api/index.php/'+data.type+'Service?method=getPositions';
+    var url = 'src/con4gis/CoreBundle/src/Resources/api/index.php/'+data.type+'Service?method=getPositions';
 
     var liveRequest = function() {
         OpenLayers.Request.GET({

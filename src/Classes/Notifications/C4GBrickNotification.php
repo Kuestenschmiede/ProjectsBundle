@@ -5,7 +5,7 @@
  * @version 8
  * @author con4gis contributors (see "authors.txt")
  * @license LGPL-3.0-or-later
- * @copyright (c) 2010-2021, by Küstenschmiede GmbH Software & Design
+ * @copyright (c) 2010-2022, by Küstenschmiede GmbH Software & Design
  * @link https://www.con4gis.org
  */
 namespace con4gis\ProjectsBundle\Classes\Notifications;
@@ -16,7 +16,7 @@ use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GMultiCheckboxField;
 
 class C4GBrickNotification
 {
-    public function getArrayTokens($dlgValues, $fieldList, $button_email = false, $object = null)
+    public static function getArrayTokens($dlgValues, $fieldList, $button_email = false, $object = null)
     {
         $field_array = [];
         $tokensValues = [];
@@ -63,7 +63,7 @@ class C4GBrickNotification
                         }
                         $tokensValues[$field->getFieldName()] .= $multiCheckboxString;
                     } elseif (!$field instanceof C4GMultiCheckboxField) {
-                        $tokensValues[$field->getFieldName()] = $dlgValue;
+                        $tokensValues[$field->getFieldName()] = $field->translateFieldValue($dlgValue);
                     }
                 }
             }

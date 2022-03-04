@@ -5,15 +5,23 @@
  * @version 8
  * @author con4gis contributors (see "authors.txt")
  * @license LGPL-3.0-or-later
- * @copyright (c) 2010-2021, by Küstenschmiede GmbH Software & Design
+ * @copyright (c) 2010-2022, by Küstenschmiede GmbH Software & Design
  * @link https://www.con4gis.org
  */
 namespace con4gis\ProjectsBundle\Classes\Dialogs;
 
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
+use con4gis\ProjectsBundle\Classes\Session\C4gBrickSession;
 
 class C4GDialogChangeHandler
 {
+    private $session = null;
+
+    public function __construct(C4gBrickSession &$session)
+    {
+        $this->session = $session;
+    }
+
     /**
      * Reads the incoming changes from the changes array and applies them to the correct field from the
      * passed fieldList. The changes are then saved into the session for persisting them through multiple
@@ -28,7 +36,7 @@ class C4GDialogChangeHandler
     {
         /* @var $field C4GBrickField */
         foreach ($fieldList as $field) {
-            if ($changes[$field->getFieldName()]) {
+            if (key_exists($field->getFieldName(), $changes) && $changes[$field->getFieldName()]) {
                 $fieldChanges = $changes[$field->getFieldName()];
                 // there is a change for the current field
                 foreach ($fieldChanges as $property => $value) {
@@ -53,7 +61,7 @@ class C4GDialogChangeHandler
     private function saveChangesToSession($changes, $moduleKey)
     {
         // load changes from session
-        $oldChanges = \Session::getInstance()->get($moduleKey . '_fieldChanges');
+        $oldChanges = $this->session->getSessionValue($moduleKey . '_fieldChanges');
         // merge with new ones
         if ($oldChanges) {
             foreach ($changes as $key => $arrValue) {
@@ -66,7 +74,7 @@ class C4GDialogChangeHandler
             $changes = array_merge($changes, $oldChanges);
         }
         // store new changes
-        \Session::getInstance()->set($moduleKey . '_fieldChanges', $changes);
+        $this->session->setSessionValue($moduleKey . '_fieldChanges', $changes);
     }
 
     /**
@@ -76,7 +84,7 @@ class C4GDialogChangeHandler
      */
     private function loadChangesFromSession($moduleKey)
     {
-        if ($changes = \Session::getInstance()->get($moduleKey . '_fieldChanges')) {
+        if ($changes = $this->session->getSessionValue($moduleKey . '_fieldChanges')) {
             return $changes;
         }
 
@@ -113,6 +121,6 @@ class C4GDialogChangeHandler
 
     public function clearSession($moduleKey)
     {
-        \Session::getInstance()->remove($moduleKey . '_fieldChanges');
+        $this->session->remove($moduleKey . '_fieldChanges');
     }
 }

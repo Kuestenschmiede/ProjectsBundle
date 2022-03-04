@@ -5,7 +5,7 @@
  * @version 8
  * @author con4gis contributors (see "authors.txt")
  * @license LGPL-3.0-or-later
- * @copyright (c) 2010-2021, by Küstenschmiede GmbH Software & Design
+ * @copyright (c) 2010-2022, by Küstenschmiede GmbH Software & Design
  * @link https://www.con4gis.org
  */
 namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
@@ -14,14 +14,19 @@ use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldNumeric;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldCompare;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickRegEx;
+use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldType;
 
 class C4GNumberField extends C4GBrickFieldNumeric
 {
     protected $pattern = C4GBrickRegEx::DIGITS_NEG;
     protected $initialValue = 0;
 
-    public function __construct()
+    /**
+     * @param string $type
+     */
+    public function __construct(string $type = C4GBrickFieldType::INT)
     {
+        parent::__construct($type);
         $this->setAlign('right');
     }
 
@@ -34,7 +39,7 @@ class C4GNumberField extends C4GBrickFieldNumeric
      */
     public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = [])
     {
-        $required = $this->generateRequiredString($data, $dialogParams);
+        $required = $this->generateRequiredString($data, $dialogParams, $fieldList);
 
         $result = '';
         $fieldName = $this->getFieldName();
@@ -52,12 +57,13 @@ class C4GNumberField extends C4GBrickFieldNumeric
             } else {
                 $value = $this->generateInitialValue($data);
             }
-//            $onChange = 'onChange="changeNumberFormat(\'' . $id . '\',this.value)"'; This neither seems to work properly nor does it seem needed - rro
+//$onChange = 'onChange="changeNumberFormat(\'' . $id . '\',this.value)"'; This neither seems to work properly nor does it seem needed - rro
             $type = 'text';
         } else {
             $value = $this->generateInitialValue($data);
             $type = 'number';
         }
+
         if ($this->isShowIfEmpty() || !empty($value)) {
             $condition = $this->createConditionData($fieldList, $data);
 
@@ -65,15 +71,14 @@ class C4GNumberField extends C4GBrickFieldNumeric
 
             if ($this->isCallOnChange()) {
                 if ($this->getCallOnChangeFunction()) {
-                    $changeAction = 'onchange="' . $this->getCallOnChangeFunction() . 'C4GCallOnChange(this);"'; //ToDo check with both solutions
+                    $changeAction = 'onchange="' . $this->getCallOnChangeFunction() . '"';
                 } else {
-                    $changeAction = 'onchange="C4GCallOnChange(this)"';
+                    $changeAction = 'onchange="handleBrickConditions();"';
                 }
             }
 
-            $result =
-                $this->addC4GField($condition,$dialogParams,$fieldList,$data,
-                    '<input ' . $required . ' ' . $condition['conditionPrepare'] . ' type="' . $type . '" ' . $changeAction . ' id="' . $id . '" class="formdata ' . $id . '" size="' .
+            $result = $this->addC4GField($condition,$dialogParams,$fieldList,$data,
+                    '<input ' . $required . ' ' . $condition['conditionPrepare'] . ' type="' . $type . '" ' . $changeAction . ' id="' . $id . '" class="formdata c4g__form-control c4g__form-'.$type.'-input ' . $id . '" size="' .
                     $this->getSize() . '" min="' . $this->getMin() . '" max="' . $this->getMax() . '" step="' . $this->getStep() . '" pattern="' . $this->pattern . '" name="' .
                     $fieldName . '" value="' . $value . '">');
         }
@@ -89,35 +94,36 @@ class C4GNumberField extends C4GBrickFieldNumeric
      */
     public function compareWithDB($dbValues, $dlgValues)
     {
-        $fieldname = $this->getFieldName();
-        $dbValue = $dbValues->$fieldname;
-        $dlgvalue = $dlgValues[$this->getFieldName()];
+        $fieldName = $this->getFieldName();
+        $dbValue = $dbValues->$fieldName;
+
+        $additionalId = $this->getAdditionalID();
+        if (!empty($additionalId)) {
+            $fieldName .= '_' . $additionalId;
+        }
+
+        $dlgvalue = $dlgValues[$fieldName];
         $dbValue = trim($dbValue);
         $dlgValue = trim($dlgvalue);
         if ($this->getThousandsSep() !== '') {
             $dlgValue = str_replace('.', '', $dlgValue);
         }
+        $dbValueInt = intval($dbValue);
+        $dlgValueInt = intval($dlgValue);
         $result = null;
 
         if ($this->isSearchField()) {
-            if (!$dbValues->$fieldname) {
-                $pos = strripos($fieldname, '_');
-                if ($pos !== false) {
-                    $fieldName = substr($fieldname, 0, $pos);
+            if ($this->isSearchMinimumField()) {
+                $maximum_fieldname = $fieldName . '_maximum';
+                if ($dbValueInt !== 0 && !($dbValueInt > $dlgValueInt && $dbValueInt < $dlgValues[$maximum_fieldname])) {
+                    $result = new C4GBrickFieldCompare($this, $dbValue, $dlgValue);
                 }
-                if ($this->isSearchMinimumField()) {
-                    $dbValue = $dbValues->$fieldName;
-                    $maximum_fieldname = $fieldName . '_maximum';
-                    if ($dbValue !== 0 && !($dbValue > $dlgValue && $dbValue < $dlgValues[$maximum_fieldname])) {
-                        $result = new C4GBrickFieldCompare($this, $dbValue, $dlgValue);
-                    }
-                } elseif ($this->isSearchMaximumField() && $dbValue !== 0) {
-                    if ($dbValue > $dlgValue) {
-                        $result = new C4GBrickFieldCompare($this, $dbValue, $dlgValue);
-                    }
+            } elseif ($this->isSearchMaximumField() && $dbValue !== 0) {
+                if ($dbValueInt > $dlgValueInt) {
+                    $result = new C4GBrickFieldCompare($this, $dbValue, $dlgValue);
                 }
             }
-        } elseif (strcmp($dbValue, $dlgValue) != 0) {
+        } elseif ($dbValueInt != $dlgValueInt) {
             $result = new C4GBrickFieldCompare($this, $dbValue, $dlgValue);
         }
 

@@ -5,7 +5,7 @@
  * @version 8
  * @author con4gis contributors (see "authors.txt")
  * @license LGPL-3.0-or-later
- * @copyright (c) 2010-2021, by Küstenschmiede GmbH Software & Design
+ * @copyright (c) 2010-2022, by Küstenschmiede GmbH Software & Design
  * @link https://www.con4gis.org
  */
 namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
@@ -15,6 +15,7 @@ use con4gis\ProjectsBundle\Classes\Common\C4GBrickCommon;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldCompare;
+use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldType;
 use con4gis\ProjectsBundle\Classes\Files\C4GBrickFileType;
 use con4gis\ProjectsBundle\Classes\Views\C4GBrickViewType;
 
@@ -32,6 +33,14 @@ class C4GFileField extends C4GBrickField
     private $linkType = self::LINK_TYPE_ANCHOR;
     const LINK_TYPE_ANCHOR = 'a';
     const LINK_TYPE_IMAGE = 'img';
+
+    /**
+     * @param string $type
+     */
+    public function __construct(string $type = C4GBrickFieldType::FILE)
+    {
+        parent::__construct($type);
+    }
 
     /**
      * @param C4GBrickField[] $fieldList
@@ -58,7 +67,7 @@ class C4GFileField extends C4GBrickField
 
         $id = 'c4g_' . $fieldName;
         $title = $this->getTitle();
-        $required = $this->generateRequiredString($data, $dialogParams);
+        $required = $this->generateRequiredString($data, $dialogParams, $fieldList);
         $buttonRequired = $required;
         if ((!$this->isEditable() ||
             ($viewType && (
@@ -97,7 +106,7 @@ class C4GFileField extends C4GBrickField
         }
 
         $file_link = '<label id="c4g_uploadLink_' . $fieldName . '" class="c4g_uploadLink"></label>' .
-            '<button id="c4g_deleteButton_' . $fieldName . '" class="c4g_deleteButton"' . $buttonRequired . ' onClick="deleteC4GBrickFile(this)" style="display:none">X</button>';
+            '<button id="c4g_deleteButton_' . $fieldName . '" class="c4g_deleteButton c4g__btn"' . $buttonRequired . ' onClick="deleteC4GBrickFile(this)" style="display:none"><i class="fa-solid fa-trash"></i></button>';
 
         if ($fileObject) {
             $file_uuid = $fileObject->uuid;
@@ -126,7 +135,7 @@ class C4GFileField extends C4GBrickField
             }
             $file_link =
                 '<label id="c4g_uploadLink_' . $fieldName . '" class="c4g_uploadLink">' . $linkTag .
-                '<button id="c4g_deleteButton_' . $fieldName . '" class="c4g_deleteButton"' . $buttonRequired . ' onClick="deleteC4GBrickImage(this)">X</button></label>';
+                '<button id="c4g_deleteButton_' . $fieldName . '" class="c4g_deleteButton c4g__btn"' . $buttonRequired . ' onClick="deleteC4GBrickImage(this)"><i class="fa-solid fa-trash"></i></button></label>';
         }
 
         $result = '';
@@ -135,7 +144,7 @@ class C4GFileField extends C4GBrickField
             $condition = $this->createConditionData($fieldList, $data);
             $result =
                 $this->addC4GField($condition,$dialogParams,$fieldList,$data,
-                    '<button id="c4g_uploadButton_' . $fieldName . '" class="c4g_uploadButton"' . $buttonRequired . ' ' . $condition['conditionPrepare'] . ' onClick="document.getElementById(\'' . $id . '\').click()">' . $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['FILE_UPLOAD'] . '</button>' .
+                    '<button id="c4g_uploadButton_' . $fieldName . '" class="c4g_uploadButton c4g__btn-primary"' . $buttonRequired . ' ' . $condition['conditionPrepare'] . ' onClick="document.getElementById(\'' . $id . '\').click()">' . $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['FILE_UPLOAD'] . '</button>' .
                     $file_link . C4GHTMLFactory::lineBreak() .
                     '<input type="hidden" id="' . $this->uploadURL . '_' . $fieldName . '" name="' . $this->uploadURL . '" class="formdata" ' . $condition['conditionPrepare'] . ' value="' . $file_url . '">' .
                     '<input type="hidden" id="' . $this->deleteURL . '_' . $fieldName . '" name="' . $this->deleteURL . '" class="formdata" ' . $condition['conditionPrepare'] . ' value="">' .
@@ -317,10 +326,10 @@ class C4GFileField extends C4GBrickField
                 case C4GBrickFileType::IMAGES_PNG_JPG:
                 case C4GBrickFileType::IMAGES_PNG_JPG_TIFF:
                     if ($fileObject->path[0] == '/') {
-                        return $fieldTitle . '<div class="c4g_tile value">' . '<img src="' . substr($fileObject->path, 1) . '" width="' . $this->getSize() . '" height="' . $this->getSize() . '">' . '</div>';
+                        return $fieldTitle . '<div class="c4g_tile_value">' . '<img src="' . substr($fileObject->path, 1) . '" width="' . $this->getSize() . '" height="' . $this->getSize() . '">' . '</div>';
                     }
 
-                        return $fieldTitle . '<div class="c4g_tile value">' . '<img src="' . $fileObject->path . '" width="' . $this->getSize() . '" height="' . $this->getSize() . '">' . '</div>';
+                        return $fieldTitle . '<div class="c4g_tile_value">' . '<img src="' . $fileObject->path . '" width="' . $this->getSize() . '" height="' . $this->getSize() . '">' . '</div>';
 
             }
         } else {
@@ -330,17 +339,17 @@ class C4GFileField extends C4GBrickField
                 case C4GBrickFileType::IMAGES_PNG:
                 case C4GBrickFileType::IMAGES_PNG_JPG:
                 case C4GBrickFileType::IMAGES_PNG_JPG_TIFF:
-                    return $fieldTitle . '<div class="c4g_tile value">' . '<img src="bundles/con4gisprojects/images/missing.svg">' . '</div>';
+                    return $fieldTitle . '<div class="c4g_tile_value">' . '<img src="bundles/con4gisprojects/images/missing.svg">' . '</div>';
 
                     break;
                 default:
-                    return $fieldTitle . '<div class="c4g_tile value">' . '<div class="error"></div>' . '</div>';
+                    return $fieldTitle . '<div class="c4g_tile_value">' . '<div class="error"></div>' . '</div>';
             }
         }
     }
 
     /**
-     * Public method that will be called in translateFieldValues in C4GBrickModuleParent
+     * Public method that will be called to view the value
      * @param $value
      * @return mixed
      */

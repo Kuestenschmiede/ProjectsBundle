@@ -5,7 +5,7 @@
  * @version 8
  * @author con4gis contributors (see "authors.txt")
  * @license LGPL-3.0-or-later
- * @copyright (c) 2010-2021, by Küstenschmiede GmbH Software & Design
+ * @copyright (c) 2010-2022, by Küstenschmiede GmbH Software & Design
  * @link https://www.con4gis.org
  */
 namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
@@ -14,6 +14,7 @@ use con4gis\ProjectsBundle\Classes\Common\C4GBrickCommon;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldCompare;
+use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldType;
 use Contao\Database;
 
 class C4GGeopickerField extends C4GBrickField
@@ -22,6 +23,15 @@ class C4GGeopickerField extends C4GBrickField
     private $withoutAddressRow = false; //do not show address row
     private $locGeoxFieldname = 'loc_geox';
     private $locGeoyFieldname = 'loc_geoy';
+
+    /**
+     * @param string $type
+     */
+    public function __construct(string $type = C4GBrickFieldType::GEOPICKER)
+    {
+        parent::__construct($type);
+    }
+
 
     /**
      * @param C4GBrickField[] $fieldList
@@ -42,7 +52,7 @@ class C4GGeopickerField extends C4GBrickField
         $withoutAddressReloadButton = $this->isWithoutAddressReloadButton();
         $withoutAddressRow = $this->isWithoutAddressRow();
         // $size = $field->getSize();
-        $required = $this->generateRequiredString($data, $dialogParams);
+        $required = $this->generateRequiredString($data, $dialogParams, $fieldList);
         $database = $additionalParams['database'];
         $content = $additionalParams['content'];
 

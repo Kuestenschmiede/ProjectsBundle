@@ -5,7 +5,7 @@
  * @version 8
  * @author con4gis contributors (see "authors.txt")
  * @license LGPL-3.0-or-later
- * @copyright (c) 2010-2021, by Küstenschmiede GmbH Software & Design
+ * @copyright (c) 2010-2022, by Küstenschmiede GmbH Software & Design
  * @link https://www.con4gis.org
  */
 
@@ -24,6 +24,7 @@ namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldCompare;
+use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldType;
 
 class C4GTimeSelectTableField extends C4GBrickField
 {
@@ -32,6 +33,14 @@ class C4GTimeSelectTableField extends C4GBrickField
     protected $interval = 0;
     protected $dateFormat = '';
     protected $jsCallback = '';
+
+    /**
+     * @param string $type
+     */
+    public function __construct(string $type = C4GBrickFieldType::TIME)
+    {
+        parent::__construct($type);
+    }
 
     /**
      * @param C4GBrickField[] $fieldList
@@ -43,7 +52,7 @@ class C4GTimeSelectTableField extends C4GBrickField
     public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = [])
     {
         $id = 'c4g_' . $this->getFieldName();
-        $required = $this->generateRequiredString($data, $dialogParams);
+        $required = $this->generateRequiredString($data, $dialogParams, $fieldList);
         $value = $this->generateInitialValue($data);
         $condition = $this->createConditionData($fieldList, $data);
 
@@ -53,8 +62,8 @@ class C4GTimeSelectTableField extends C4GBrickField
             $style = '';
         }
 
-        $fieldData = '<input ' . $required . ' ' . $condition['conditionPrepare'] . ' type="hidden" id="' . $id . '" class="formdata ' . $id . '" name="' . $this->getFieldName() . '" value="' . $value . '">';
-        $fieldData .= '<div class="c4g_time_select_table ' . $this->getStyleClass() . '" ' . $style . '>';
+        $fieldData = '<input ' . $required . ' ' . $condition['conditionPrepare'] . ' type="hidden" id="' . $id . '" class="formdata c4g__form-time-select ' . $id . '" name="' . $this->getFieldName() . '" value="' . $value . '">';
+        $fieldData .= '<div class="c4g__form-time-select-table ' . $this->getStyleClass() . '" ' . $style . '>';
 
         $index = 0;
         while (($this->begin + ($index * $this->interval)) <= $this->end) {
@@ -65,7 +74,7 @@ class C4GTimeSelectTableField extends C4GBrickField
                 $javascript .= $this->jsCallback;
             }
 
-            $fieldData .= "<button id=\"$id\" class=\"ui-button ui-corner-all ui-widget\" onclick=\"$javascript\">" . date($this->dateFormat, $begin) . '</button>';
+            $fieldData .= "<button id=\"$id\" class=\"c4g__btn c4g__btn-time\" onclick=\"$javascript\">" . date($this->dateFormat, $begin) . '</button>';
             $index += 1;
         }
 

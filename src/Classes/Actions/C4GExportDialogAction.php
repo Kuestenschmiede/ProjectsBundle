@@ -5,7 +5,7 @@
  * @version 8
  * @author con4gis contributors (see "authors.txt")
  * @license LGPL-3.0-or-later
- * @copyright (c) 2010-2021, by Küstenschmiede GmbH Software & Design
+ * @copyright (c) 2010-2022, by Küstenschmiede GmbH Software & Design
  * @link https://www.con4gis.org
  */
 namespace con4gis\ProjectsBundle\Classes\Actions;
@@ -33,7 +33,7 @@ class C4GExportDialogAction extends C4GBrickDialogAction
 
         $validate_result = C4GBrickDialog::validateFields($fieldList, $dlgValues);
         if ($validate_result) {
-            return ['usermessage' => $validate_result];
+            return ['usermessage' => htmlspecialchars_decode($validate_result)];
         }
 
         $database = $brickDatabase->getParams()->getDatabase();
@@ -69,7 +69,7 @@ class C4GExportDialogAction extends C4GBrickDialogAction
         // generate export file
         $dbValues->refresh();
 
-        $selection = unserialize($dbValues->selection);
+        $selection = \Contao\StringUtil::deserialize($dbValues->selection);
         $filename = C4GStreamerExport::exportBasedata($groupId, $selection, $dbValues, $memberId);
 //        $dir = C4GBrickConst::PATH_GROUP_DATA."/".$this->group_id."/export/";
 //        $dir2 = C4GBrickConst::PATH_GROUP_DATA."/".$this->group_id."/basedata/";

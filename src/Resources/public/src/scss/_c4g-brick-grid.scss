@@ -1,0 +1,43 @@
+@include c4g__form-grid(11);
+
+.c4g_brick_dialog .c4g_brick_grid_wrapper {
+  position: relative;
+  margin: 0 auto;
+  margin-left: 2.0%;
+  width: 98%;
+}
+#c4g_brick_grid td {
+  vertical-align: top;
+}
+.c4g_brick_dialog .c4g_brick_grid_wrapper  .c4g_brick_grid_box label,
+.c4g_brick_dialog .c4g_brick_grid_wrapper  .c4g_brick_grid_box input,
+.c4g_brick_dialog .c4g_brick_grid_wrapper .c4g_brick_grid_box .formdata,
+.c4g_brick_dialog .c4g_brick_grid_wrapper .c4g_brick_grid_box p{
+  margin-left: 0px;
+  margin-right: 0px;
+  width: 100%;
+}
+
+.c4g_brick_dialog .c4g__form-grid-table-row select,.c4g_brick_dialog .c4g__form-grid-table-row .styled_select,
+.c4g_brick_select_dialog .c4g__form-grid-table-row select,.c4g_brick_select_dialog .c4g__form-grid-table-row .styled_select {
+  display: block;
+  width: 100%;
+  margin-bottom: 5px;
+  overflow:hidden;
+  border-radius: 3px;
+}
+.c4g_brick_dialog .c4g__form-grid-table-row {
+  position: relative;
+  margin-bottom: .25em;
+  width: 100%;
+}
+
+.c4g_brick_dialog .c4g__form-grid-table-row label {
+  margin-left: 0%;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.c4g__form-grid-element .c4g__form-group {
+  margin-bottom: 0;
+}

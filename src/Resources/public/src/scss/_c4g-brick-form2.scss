@@ -1,0 +1,55 @@
+.c4g_brick_dialog {
+
+  .c4g__form-group {
+    margin-bottom: 1rem;
+  }
+
+  .c4g__form-headline {
+    font-size: 1.5rem;
+  }
+
+  .c4g__form-label {
+    @extend .form-label;
+  }
+
+  .c4g__form-control {
+    @extend .form-control;
+  }
+
+  .c4g__form-description {
+    @extend .form-text;
+  }
+
+  .c4g_mandatory_class {
+    color: darkred;
+  }
+
+  .c4g__input-group {
+    @extend .input-group;
+  }
+  .c4g__input-group-text {
+    @extend .input-group-text;
+  }
+
+  select {
+    &.c4g__form-select {
+      @extend .form-select;
+    }
+  }
+
+  .c4g__list-group {
+    @extend .list-group;
+  }
+
+  .c4g__list-group-item {
+    @extend .list-group-item;
+  }
+
+  .c4g__list-group-item-action {
+    @extend .list-group-item-action;
+  }
+
+  .c4g__form-group a input {
+     cursor: pointer;
+  }
+}

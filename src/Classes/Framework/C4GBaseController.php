@@ -5,12 +5,11 @@
  * @version 8
  * @author con4gis contributors (see "authors.txt")
  * @license LGPL-3.0-or-later
- * @copyright (c) 2010-2021, by Küstenschmiede GmbH Software & Design
+ * @copyright (c) 2010-2022, by Küstenschmiede GmbH Software & Design
  * @link https://www.con4gis.org
  */
 namespace con4gis\ProjectsBundle\Classes\Framework;
 
-use con4gis\ProjectsBundle\Classes\jQuery\C4GJQueryGUI;
 use con4gis\CoreBundle\Classes\C4GUtils;
 use con4gis\CoreBundle\Classes\C4GVersionProvider;
 use con4gis\CoreBundle\Classes\ResourceLoader;
@@ -25,24 +24,26 @@ use con4gis\ProjectsBundle\Classes\Database\C4GBrickDatabaseParams;
 use con4gis\ProjectsBundle\Classes\Database\C4GBrickDatabaseType;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GDialogChangeHandler;
+use con4gis\ProjectsBundle\Classes\jQuery\C4GJQueryGUI;
 use con4gis\ProjectsBundle\Classes\Lists\C4GBrickListParams;
 use con4gis\ProjectsBundle\Classes\Models\C4gProjectsModel;
 use con4gis\ProjectsBundle\Classes\Notifications\C4GBrickNotification;
 use con4gis\ProjectsBundle\Classes\Permission\C4GTablePermission;
+use con4gis\ProjectsBundle\Classes\Session\C4gBrickSession;
 use con4gis\ProjectsBundle\Classes\Views\C4GBrickView;
 use con4gis\ProjectsBundle\Classes\Views\C4GBrickViewParams;
 use con4gis\ProjectsBundle\Classes\Views\C4GBrickViewType;
-use Contao\BackendTemplate;
 use Contao\CoreBundle\Controller\FrontendModule\AbstractFrontendModuleController;
 use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\Database;
 use Contao\FrontendUser;
 use Contao\ModuleModel;
+use Contao\StringUtil;
 use Contao\System;
 use Contao\Template;
 use NotificationCenter\Model\Notification;
+use PhpParser\Node\Expr\Array_;
 use Symfony\Component\Config\Definition\Exception\Exception;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -72,6 +73,7 @@ class C4GBaseController extends AbstractFrontendModuleController
 
     //embedding additional sources
     protected $strTemplate = 'mod_c4g_brick'; //default module template
+    protected $printTemplate = 'pdf_c4g_brick'; //default print template
     protected $uiTheme = ''; //loading your own ui theme for your module class (https://jqueryui.com/themeroller/)
 
     //group params
@@ -125,7 +127,7 @@ class C4GBaseController extends AbstractFrontendModuleController
     protected $withLabels = true; //switching on/off all labels
     protected $isPopup = false; //needed with magnific popup
     protected $c4g_map = false; //needed for embedding con4gis maps
-    protected $permalink_field = null; //using another field for permalink (default: id field)
+    protected $permalink_field = 'id'; //using another field for permalink (default: id field)
     protected $permalink_name = null; //for setting an own get param
     protected $permalinkModelClass = null; //if table filled by modelListFunction
     protected $withPermissionCheck = true; // can be set to false to avoid the table permission check
@@ -142,6 +144,7 @@ class C4GBaseController extends AbstractFrontendModuleController
     protected $loadDefaultResources = true;
     protected $loadTrixEditorResources = false;
     protected $trixEditorResourceParams = [];
+    protected $loadDatePicker = true;
     protected $loadDateTimePickerResources = false;
     protected $loadChosenResources = false;
     protected $loadClearBrowserUrlResources = false;
@@ -158,7 +161,7 @@ class C4GBaseController extends AbstractFrontendModuleController
     //JQuery GUI Resource Params
     protected $jQueryAddCore = true;
     protected $jQueryAddJquery = true;
-    protected $jQueryAddJqueryUI = true;
+    protected $jQueryAddJqueryUI = false;
     protected $jQueryUseTree = false;
     protected $jQueryUseTable = true;
     protected $jQueryUseHistory = false;
@@ -170,20 +173,54 @@ class C4GBaseController extends AbstractFrontendModuleController
     protected $jQueryUseScrollPane = true;
     protected $jQueryUsePopups = false;
 
-    //Deprecated Params
+    //Scripts that can be overwritten or appended in the module for individual functions and layout
     protected $brickStyle = '';
+    protected $printStyle = '';
     protected $brickScript = '';
 
     protected $rootDir;
     protected $session;
     protected $framework;
+    protected $model;
 
-    public function __construct(string $rootDir, Session $session, ContaoFramework $framework)
+    public function __construct(string $rootDir, Session $session, ContaoFramework $framework, ModuleModel $model = null)
     {
         $this->rootDir      = $rootDir;
         $this->session      = $session;
         $this->framework    = $framework;
+
+        $this->framework->initialize(true);
+
+        $this->session = new C4gBrickSession($session);
+
+        if ($model) {
+            $this->model = $model;
+            foreach ($model->row() as $fieldName=>$value) {
+                if ($fieldName === 'headline') {
+                    $headlineArray = \Contao\StringUtil::deserialize($value);
+                    $unit = $headlineArray['unit'];
+                    $value = $headlineArray['value'];
+                    if ($value) {
+                        $this->headline = $value;
+                        $this->headlineTag = $unit;
+                    }
+                } else if (strpos($value,'a:')) {
+                    $this->$fieldName = \Contao\StringUtil::deserialize($value);
+                } else {
+                    $this->$fieldName = $value;
+                }
+            }
+        }
     }
+
+    /**
+     * @return C4gBrickSession
+     */
+    public function getSession(): C4gBrickSession
+    {
+        return $this->session;
+    }
+
 
     /**
      * @param Template $template
@@ -193,31 +230,50 @@ class C4GBaseController extends AbstractFrontendModuleController
      */
     protected function getResponse(Template $template, ModuleModel $model, Request $request): ?Response
     {
-        global $objPage;
         $this->model = $model;
-        $this->id = $model->id;
+
+        foreach ($model->row() as $fieldName=>$value) {
+            if ($fieldName === 'headline') {
+                $headlineArray = \Contao\StringUtil::deserialize($value);
+                $unit = $headlineArray['unit'];
+                $value = $headlineArray['value'];
+                if ($value) {
+                    $this->headline = $value;
+                    $this->headlineTag = $unit;
+                }
+            } else if (!is_array($value) && strpos($value,'a:')) {
+                $this->$fieldName = \Contao\StringUtil::deserialize($value);
+            } else {
+                $this->$fieldName = $value;
+            }
+        }
 
         $this->compileJquery();
 
         $this->compileJavaScript();
         $this->compileCss();
 
-        $data['id'] = $model->id;
-        $data['ajaxUrl'] = 'con4gis/brick_ajax_api/' . $GLOBALS['TL_LANGUAGE'];
+        $classname = rawurlencode(get_class($this));
+
+        $data['id'] = $this->id;
+        $data['ajaxUrl'] = 'con4gis/brick_ajax_api/' . $GLOBALS['TL_LANGUAGE'] . '/' . $classname;
         $data['ajaxData'] = $this->id;
         $data['height'] = 'auto';
         $data['width'] = '100%';
         $data['embedDialogs'] = true;
-        $data['jquiEmbeddedDialogs'] = true;
+        $data['jquiEmbeddedDialogs'] = $this->jQueryAddJqueryUI;
+        $data['jquiBreadcrumb'] = $this->jQueryAddJqueryUI;
+        $data['jquiButtons'] = $this->jQueryAddJqueryUI;
 
         if (($_SERVER['REQUEST_METHOD']) == 'PUT') {
             parse_str(file_get_contents('php://input'), $this->putVars);
         }
 
-        //ToDo Wird der state hier wirklich gebraucht?
-        if ($_GET['state']) {
+        if (key_exists('state', $_GET)) {
             $request = $_GET['state'];
-        } else {
+        } /*else if ($this->permalink_name && key_exists($this->permalink_name, $_GET)) {
+            $request = $_GET[$this->permalink_name];
+        }*/ else {
             $request = 'initnav';
         }
 
@@ -247,13 +303,13 @@ class C4GBaseController extends AbstractFrontendModuleController
         return $template->getResponse();
     }
 
-
     /**
-     * module class function to get fields
+     * @return array
      */
-    public function addFields()
+    public function addFields() : array
     {
         //to fill $this->fieldList in your module class
+        return [];
     }
 
     /**
@@ -289,38 +345,37 @@ class C4GBaseController extends AbstractFrontendModuleController
             case C4GBrickConst::ID_TYPE_MEMBER:
                 if (FE_USER_LOGGED_IN) {
                     $user = FrontendUser::getInstance();
+                    $user->authenticate();
                 }
 
                 return $user->id;
-
-                break;
             case C4GBrickConst::ID_TYPE_GROUP:
                 $group_id = $this->dialogParams->getGroupId();
                 if (!$group_id || ($group_id <= 0)) {
-                    $group_id = \Session::getInstance()->get('c4g_brick_group_id');
+                    $group_id = $this->session->getSessionValue('c4g_brick_group_id');
+                } else {
+                    $this->session->setSessionValue('c4g_brick_group_id',$group_id);
                 }
 
                 return $group_id;
-
-                break;
             case C4GBrickConst::ID_TYPE_PROJECT:
                 $project_id = $this->dialogParams->getProjectId();
                 if (!$project_id || ($project_id <= 0)) {
-                    $project_id = \Session::getInstance()->get('c4g_brick_project_id');
+                    $project_id = $this->session->getSessionValue('c4g_brick_project_id');
+                } else {
+                    $this->session->setSessionValue('c4g_brick_project_id',$project_id);
                 }
 
                 return $project_id;
-
-                break;
             case C4GBrickConst::ID_TYPE_PARENT:
                 $parent_id = $this->dialogParams->getParentId();
                 if (!$parent_id || ($parent_id <= 0)) {
-                    $parent_id = \Session::getInstance()->get('c4g_brick_parent_id');
+                    $parent_id = $this->session->getSessionValue('c4g_brick_parent_id');
+                } else {
+                    $this->session->setSessionValue('c4g_brick_parent_id',$parent_id);
                 }
 
                 return $parent_id;
-
-                break;
             default:
                 return false;
         }
@@ -426,9 +481,15 @@ class C4GBaseController extends AbstractFrontendModuleController
 
     public function initBrickModule($id)
     {
+        $arrHeadline = property_exists($this, 'headline') ? StringUtil::deserialize($this->headline) : '';
+        $this->headline = is_array($arrHeadline) && key_exists('value', $arrHeadline) ? $arrHeadline['value'] : $arrHeadline;
+        $hl = property_exists($this,'headlineTag') ? $this->headlineTag : 'h1';
+        $this->hl = is_array($arrHeadline) && key_exists('unit', $arrHeadline) ? $arrHeadline['unit'] : $hl;
+
         //loading language files
         $this->loadLanguageFiles();
 
+        $authenticated = false;
         if (FE_USER_LOGGED_IN) {
             $user = FrontendUser::getInstance();
             $authenticated = $user->authenticate();
@@ -457,7 +518,10 @@ class C4GBaseController extends AbstractFrontendModuleController
 
             $databaseParams->setFindBy($this->findBy);
             $databaseParams->setEntityNamespace($namespace);
-            $databaseParams->setDatabase($this->Database);
+
+            //ToDo
+            $database = \Database::getInstance();
+            $databaseParams->setDatabase($database);
 
             if ($this->databaseType == C4GBrickDatabaseType::DCA_MODEL) {
                 $databaseParams->setModelClass($this->modelClass);
@@ -471,14 +535,16 @@ class C4GBaseController extends AbstractFrontendModuleController
             $this->brickDatabase = new C4GBrickDatabase($databaseParams);
         }
 
+        $user = FrontendUser::getInstance();
+
         //setting list params
         //ToDo ViewType berücksichten (bei Formularen nicht notwendig)
         if (!$this->listParams) {
-            $this->listParams = new C4GBrickListParams($this->brickKey, $this->viewType);
+            $this->listParams = new C4GBrickListParams($this->brickKey, $this->viewType, $this->session);
             $this->listParams->setWithModelListFunction(!empty($this->modelListFunction));
             //$this->listParams->setWithModelDialogFunction(!empty($this->modelDialogFunction));
 
-            $groups = C4GBrickCommon::getGroupListForBrick($this->User->id, $this->brickKey);
+            $groups = C4GBrickCommon::getGroupListForBrick($user->id, $this->brickKey);
             $groupCount = count($groups);
             $this->listParams->setGroupCount($groupCount);
             $this->listParams->setWithJQueryUI($this->jQueryAddJqueryUI);
@@ -495,12 +561,11 @@ class C4GBaseController extends AbstractFrontendModuleController
 
         //setting dialog params
         if (!$this->dialogParams) {
-            $this->dialogParams = new C4GBrickDialogParams($this->brickKey, $this->viewType);
+            $this->dialogParams = new C4GBrickDialogParams($this->brickKey, $this->viewType, $this->session);
             $this->dialogParams->setGroupId($this->group_id);
             $this->dialogParams->setProjectId($this->project_id);
             $this->dialogParams->setProjectUuid($this->project_uuid);
             $this->dialogParams->setParentId($this->parent_id);
-            $user = FrontendUser::getInstance();
             $this->dialogParams->setMemberId($user->id);
             $this->dialogParams->setProjectKey($this->projectKey);
             $this->dialogParams->setParentModel($this->parentModel);
@@ -513,23 +578,29 @@ class C4GBaseController extends AbstractFrontendModuleController
                 $this->dialogParams->setBrickCaptionPlural($this->brickCaptionPlural);
             }
             $this->dialogParams->setC4gMap($this->c4g_map);
-            $contentId = $this->contentid;
+            $contentId = property_exists($this,'contentId') ? $this->contentid : 0;
             if (!$contentId) {
                 $contentId = $this->settings['position_map'];
             }
             $this->dialogParams->setContentId($contentId);
+
             $this->dialogParams->setHeadline($this->headline);
-            $this->dialogParams->setHeadlineTag($this->hl);
+            $this->dialogParams->setHeadlineTag($this->hl ?: $this->headlineTag);
+
             $this->dialogParams->setSendEMails($this->sendEMails);
             $this->dialogParams->setWithNotification($this->withNotification);
-            $this->dialogParams->setNotificationType($this->notification_type);
+
+            if (property_exists($this,'notification_type')) {
+                $this->dialogParams->setNotificationType($this->notification_type);
+            }
+
             $this->dialogParams->setNotificationTypeContactRequest($this->notification_type_contact_request);
             $this->dialogParams->setWithActivationInfo($this->withActivationInfo);
             $this->dialogParams->setPopup($this->isPopup);
             $this->dialogParams->setWithBackup($this->withBackup);
-            $this->dialogParams->setRedirectBackSite($this->redirect_back_site);
+            $this->dialogParams->setRedirectBackSite(property_exists($this,'redirect_back_site') ? $this->redirect_back_site : '');
             $this->dialogParams->setParentIdField($this->parentIdField);
-            $this->dialogParams->setRedirectSite($this->redirect_site);
+            $this->dialogParams->setRedirectSite(property_exists($this,'redirect_site') ? $this->redirect_site : '');
             $this->dialogParams->setCaptionField($this->captionField);
         }
 
@@ -542,7 +613,7 @@ class C4GBaseController extends AbstractFrontendModuleController
         }
 
         //setting id on every call
-        \Session::getInstance()->set('c4g_brick_dialog_id', $id);
+        $this->session->setSessionValue('c4g_brick_dialog_id', $id);
         if ($id) {
             $this->dialogParams->setId($id);
         }
@@ -550,17 +621,17 @@ class C4GBaseController extends AbstractFrontendModuleController
         //Setting UUID
         if ($this->useUuidCookie) {
             if (!($_COOKIE[$this->UUID])) {
-                if (!\Session::getInstance()->get($this->UUID)) {
-                    \Session::getInstance()->set($this->UUID, C4GBrickCommon::getGUID());
+                if (!$this->session->getSessionValue->get($this->UUID)) {
+                    $this->session->setSessionValue($this->UUID, C4GBrickCommon::getGUID());
                 }
-                setcookie($this->UUID, \Session::getInstance()->get($this->UUID), time() + 60 * 60 * 24 * 30, '/');
+                setcookie($this->UUID, $this->session->getSessionValue($this->UUID), time() + 60 * 60 * 24 * 30, '/');
             } else {
-                \Session::getInstance()->set($this->UUID, $_COOKIE[$this->UUID]);
+                $this->session->setSessionValue($this->UUID, $_COOKIE[$this->UUID]);
                 setcookie($this->UUID, ($_COOKIE[$this->UUID]), time() + 60 * 60 * 24 * 30, '/');
             }
-            if (\Session::getInstance()->get($this->UUID)) {
-                $this->dialogParams->setUuid(\Session::getInstance()->get($this->UUID));
-                $this->listParams->setUuid(\Session::getInstance()->get($this->UUID));
+            if ($this->session->getSessionValue($this->UUID)) {
+                $this->dialogParams->setUuid($this->session->getSessionValue($this->UUID));
+                $this->listParams->setUuid($this->session->getSessionValue($this->UUID));
             }
 
             //Synchronize MemberBased and PublicUuidBased view types
@@ -589,11 +660,11 @@ class C4GBaseController extends AbstractFrontendModuleController
 
         //set fieldList
         if (!$this->fieldList) {
-            $putVars = \Session::getInstance()->get('c4g_brick_dialog_values');
+            $putVars = $this->session->getSessionValue('c4g_brick_dialog_values');
             $result = $this->addFields();
             if ($result) {
                 $this->fieldList = $result;
-                $this->dialogChangeHandler = new C4GDialogChangeHandler();
+                $this->dialogChangeHandler = new C4GDialogChangeHandler($this->session);
                 $this->fieldList = $this->dialogChangeHandler->reapplyChanges($this->brickKey, $this->fieldList);
             }
             if ($this->fieldList && $putVars && $this->renewInitialValues()) {
@@ -619,7 +690,7 @@ class C4GBaseController extends AbstractFrontendModuleController
 
     protected function compileJquery()
     {
-        C4GJQueryGUI::initializeLibraries(
+        C4GJQueryGUI::initializeBrickLibraries(
             $this->jQueryAddCore,
             $this->jQueryAddJquery,
             $this->jQueryAddJqueryUI,
@@ -633,29 +704,32 @@ class C4GBaseController extends AbstractFrontendModuleController
             $this->loadDateTimePickerResources
         );
 
-        $settings = Database::getInstance()->execute('SELECT * FROM tl_c4g_settings LIMIT 1')->fetchAllAssoc();
+        //ToDo remove jQueryUI
+        if ($this->jQueryAddJqueryUI || $this->jQueryUseTable || $this->jQueryUseTree) {
+            $settings = Database::getInstance()->execute('SELECT * FROM tl_c4g_settings LIMIT 1')->fetchAllAssoc();
 
-        if ($settings) {
-            $this->settings = $settings[0];
-        }
+            if ($settings) {
+                $this->settings = $settings[0];
+            }
 
-        // load custom themeroller-css if set
-        if ($this->uiTheme) {
-            $GLOBALS['TL_CSS']['c4g_jquery_ui'] = $this->uiTheme;
-        } elseif ($this->c4g_appearance_themeroller_css) {
-            $objFile = \FilesModel::findByUuid($this->c4g_appearance_themeroller_css);
-            $GLOBALS['TL_CSS']['c4g_jquery_ui'] = $objFile->path;
-        } elseif ($this->c4g_uitheme_css_select) {
-            $theme = $this->c4g_uitheme_css_select;
-            $GLOBALS['TL_CSS']['c4g_jquery_ui'] = 'bundles/con4giscore/vendor/jQuery/ui-themes/themes/' . $theme . '/jquery-ui.css';
-        } elseif ($this->settings && $this->settings['c4g_appearance_themeroller_css']) {
-            $objFile = \FilesModel::findByUuid($this->settings['c4g_appearance_themeroller_css']);
-            $GLOBALS['TL_CSS']['c4g_jquery_ui'] = $objFile->path;
-        } elseif ($this->settings && $this->settings['c4g_uitheme_css_select']) {
-            $theme = $this->settings['c4g_uitheme_css_select'];
-            $GLOBALS['TL_CSS']['c4g_jquery_ui'] = 'bundles/con4giscore/vendor/jQuery/ui-themes/themes/' . $theme . '/jquery-ui.css';
-        } else {
-            $GLOBALS['TL_CSS']['c4g_jquery_ui'] = 'bundles/con4giscore/vendor/jQuery/ui-themes/themes/base/jquery-ui.css';
+            // load custom themeroller-css if set
+            if ($this->uiTheme) {
+                $GLOBALS['TL_CSS']['c4g_jquery_ui'] = $this->uiTheme;
+            } elseif ($this->c4g_appearance_themeroller_css) {
+                $objFile = \FilesModel::findByUuid($this->c4g_appearance_themeroller_css);
+                $GLOBALS['TL_CSS']['c4g_jquery_ui'] = $objFile->path;
+            } elseif (property_exists($this, 'c4g_uitheme_css_select') && $this->c4g_uitheme_css_select) {
+                $theme = $this->c4g_uitheme_css_select;
+                $GLOBALS['TL_CSS']['c4g_jquery_ui'] = 'bundles/con4giscore/vendor/jQuery/ui-themes/themes/' . $theme . '/jquery-ui.css';
+            } elseif ($this->settings && $this->settings['c4g_appearance_themeroller_css']) {
+                $objFile = \FilesModel::findByUuid($this->settings['c4g_appearance_themeroller_css']);
+                $GLOBALS['TL_CSS']['c4g_jquery_ui'] = $objFile->path;
+            } elseif ($this->settings && $this->settings['c4g_uitheme_css_select']) {
+                $theme = $this->settings['c4g_uitheme_css_select'];
+                $GLOBALS['TL_CSS']['c4g_jquery_ui'] = 'bundles/con4giscore/vendor/jQuery/ui-themes/themes/' . $theme . '/jquery-ui.css';
+            } else {
+                $GLOBALS['TL_CSS']['c4g_jquery_ui'] = 'bundles/con4giscore/vendor/jQuery/ui-themes/themes/base/jquery-ui.css';
+            }
         }
     }
 
@@ -706,13 +780,17 @@ class C4GBaseController extends AbstractFrontendModuleController
         }
 
         if ($this->loadHistoryPushResources === true) {
-            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/dist/js/historyPush.js', ResourceLoader::BODY, 'history-push');
+            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/dist/js/historyBrickPush.js', ResourceLoader::BODY, 'history-push');
         }
 
         if ($this->loadSignaturePadResources === true) {
             ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/vendor/signature-pad/flashcanvas.js', ResourceLoader::BODY, 'flashcanvas');
             ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/vendor/signature-pad/jquery.signaturepad.min.js', ResourceLoader::BODY, 'signature-pad');
             ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/vendor/signature-pad/json2.min.js', ResourceLoader::BODY, 'json2');
+        }
+
+        if ($this->loadDatePicker === true) {
+            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/dist/js/c4g-vendor-datepicker.js', ResourceLoader::BODY, 'vanillajs-datepicker');
         }
     }
 
@@ -722,7 +800,7 @@ class C4GBaseController extends AbstractFrontendModuleController
             ResourceLoader::loadCssResource('bundles/con4giscore/dist/css/fontawesome.min.css', 'fontawesome');
         }
         if ($this->loadDefaultResources) {
-            ResourceLoader::loadCssResource('bundles/con4gisprojects/dist/css/c4g_brick.min.css',
+            ResourceLoader::loadCssResource('bundles/con4gisprojects/dist/css/c4g-brick.min.css',
                 'c4g_brick_style');
         }
         if ($this->brickStyle) {
@@ -763,14 +841,14 @@ class C4GBaseController extends AbstractFrontendModuleController
             if ($request != 'undefined') {
                 // replace "state" parameter in Session-Referer to force correct
                 // handling after login with "redirect back" set
-                $session = \Session::getInstance()->getData();
+                $session = $this->session->getSession()->all();
                 $session['referer']['last'] = $session['referer']['current'];
                 // echo '<br>[LAST]' . $session['referer']['last'] . '<br>';
                 $session['referer']['current'] = C4GUtils::addParametersToURL(
                     $session['referer']['last'],
                     ['state' => $request]);
                 // echo '<br>[CURRENT]' . $session['referer']['current'] . '<br>';
-                \Session::getInstance()->setData($session);
+                $this->session->getSession()->replace($session);
             }
         }
 
@@ -788,11 +866,11 @@ class C4GBaseController extends AbstractFrontendModuleController
                 return $result;
             }
 
-            $session = \Session::getInstance()->getData();
+            $session = $this->session->getSession()->all();
 
             if (C4GBrickView::isGroupBased($this->viewType)) {
                 if (($this->group_id == -1) || ($this->group_id == null)) {
-                    $groupId = \Session::getInstance()->get('c4g_brick_group_id');
+                    $groupId = $this->session->getSessionValue('c4g_brick_group_id');
                     if ($groupId && MemberGroupModel::isMemberOfGroup($groupId, $user->id)) {
                         if (MemberModel::hasRightInGroup($user->id, $groupId, $this->brickKey)) {
                             $this->group_id = $groupId;
@@ -807,7 +885,7 @@ class C4GBaseController extends AbstractFrontendModuleController
                 }
             } elseif (C4GBrickView::isProjectBased($this->viewType)) {
                 if (($this->group_id == -1) || ($this->group_id == null)) {
-                    $groupId = \Session::getInstance()->get('c4g_brick_group_id');
+                    $groupId = $this->session->getSessionValue('c4g_brick_group_id');
                     if (C4GBrickAction::checkGroupId($groupId, $user->id, $this->brickKey)) {
                         $this->group_id = $groupId;
                     }
@@ -824,17 +902,17 @@ class C4GBaseController extends AbstractFrontendModuleController
                 }
 
                 if (($this->project_id == -1) || ($this->project_id == null)) {
-                    $project_id = \Session::getInstance()->get('c4g_brick_project_id');
-                    if (C4gProjectsModel::checkProjectId($project_id, $this->projectKey)) {
+                    $project_id = $this->session->getSessionValue('c4g_brick_project_id');
+                    if (C4gProjectsModel::checkProjectId($project_id, $this->projectKey, $this->session)) {
                         $this->project_id = $project_id;
-                        $this->project_uuid = \Session::getInstance()->get('c4g_brick_project_uuid');
+                        $this->project_uuid = $this->session->getSessionValue('c4g_brick_project_uuid');
                         $path = C4GBrickConst::PATH_GROUP_DATA . '/' . $this->group_id . '/' . $this->project_uuid;
                         C4GBrickCommon::mkdir($path);
                     }
                 }
             } elseif (C4GBrickView::isProjectParentBased($this->viewType)) {
                 if (($this->group_id == -1) || ($this->group_id == null)) {
-                    $groupId = \Session::getInstance()->get('c4g_brick_group_id');
+                    $groupId = $this->session->getSessionValue('c4g_brick_group_id');
                     if (C4GBrickAction::checkGroupId($groupId, $user->id, $this->brickKey)) {
                         $this->group_id = $groupId;
                     }
@@ -851,17 +929,17 @@ class C4GBaseController extends AbstractFrontendModuleController
                 }
 
                 if (($this->project_id == -1) || ($this->project_id == null)) {
-                    $project_id = \Session::getInstance()->get('c4g_brick_project_id');
-                    if (C4gProjectsModel::checkProjectId($project_id, $this->projectKey)) {
+                    $project_id = $this->session->getSessionValue('c4g_brick_project_id');
+                    if (C4gProjectsModel::checkProjectId($project_id, $this->projectKey, $this->session)) {
                         $this->project_id = $project_id;
-                        $this->project_uuid = \Session::getInstance()->get('c4g_brick_project_uuid');
+                        $this->project_uuid = $this->session->getSessionValue('c4g_brick_project_uuid');
                         $path = C4GBrickConst::PATH_GROUP_DATA . '/' . $this->group_id . '/' . $this->project_uuid;
                         C4GBrickCommon::mkdir($path);
                     }
                 }
 
                 if (($this->parent_id == -1) || ($this->parent_id == null)) {
-                    $this->parent_id = \Session::getInstance()->get('c4g_brick_parent_id');
+                    $this->parent_id = $this->session->getSessionValue('c4g_brick_parent_id');
                 }
             } elseif (C4GBrickView::isMemberBased($this->viewType)) {
                 C4GBrickCommon::mkdir(C4GBrickConst::PATH_BRICK_DATA);
@@ -875,7 +953,7 @@ class C4GBaseController extends AbstractFrontendModuleController
                 if (($this->group_id == -1) || ($this->group_id == null)) {
 
                     //falls die group_id über die Liste vorhanden ist, soll diese auch hier für Module geladen werden, die den viewType wechseln können.
-                    $groupId = \Session::getInstance()->get('c4g_brick_group_id');
+                    $groupId = $this->session->getSessionValue('c4g_brick_group_id');
                     if ($groupId && MemberGroupModel::isMemberOfGroup($groupId, $user->id)) {
                         if (MemberModel::hasRightInGroup($user->id, $groupId, $this->brickKey)) {
                             $this->group_id = $groupId;
@@ -884,9 +962,10 @@ class C4GBaseController extends AbstractFrontendModuleController
                 }
             }
 
-            $this->frontendUrl = $this->Environment->url . TL_PATH . '/' . $session['referer']['current'];
+            $currentReferer = is_array($session['referer']) && key_exists('current',$session['referer']) ? $session['referer']['current'] : '';
+            $this->frontendUrl = \Contao\Environment::get('url') . TL_PATH . '/' . $currentReferer;
 
-            if (($_SERVER['REQUEST_METHOD']) == 'PUT') {
+            if (key_exists('REQUEST_METHOD', $_SERVER) && ($_SERVER['REQUEST_METHOD'] == 'PUT')) {
                 parse_str(file_get_contents('php://input'), $this->putVars);
                 foreach ($this->putVars as $key => $putVar) {
                     $tmpVar = C4GUtils::secure_ugc($putVar);
@@ -897,27 +976,29 @@ class C4GBaseController extends AbstractFrontendModuleController
 
             // if there was an initial get parameter "state" then use it for jumping directly
             // to the refering function
-            if (($request == 'initnav') && $_GET['initreq']) {
+            if (($request == 'initnav') && (key_exists('initreq',$_GET) && $_GET['initreq'])) {
                 $_GET['historyreq'] = $_GET['initreq'];
             }
 
             //permalink (1 permalink=id / 2 fieldname=id / 3 permalink_name=id)
             if ($this->permalink_field &&
-                    ($_GET[C4GBrickActionType::IDENTIFIER_PERMALINK] ||
-                        $_GET[$this->permalink_field] ||
-                        ($this->permalink_name && $_GET[$this->permalink_name])
+                    (
+                        (key_exists(C4GBrickActionType::IDENTIFIER_PERMALINK,$_GET) && $_GET[C4GBrickActionType::IDENTIFIER_PERMALINK]) ||
+                        (key_exists($this->permalink_field,$_GET) && $_GET[$this->permalink_field]) ||
+                        ($this->permalink_name && (key_exists($this->permalink_name,$_GET) && $_GET[$this->permalink_name]))
                     )
             ) {
-                if (!$this->brickDatabase) {
-                    $this->initBrickModule(-1);
-                    if ($this->withPermissionCheck) {
-                        $this->initPermissions();
-                    }
-                }
+//                if (!$this->brickDatabase) {
+//                    $this->initBrickModule(-1);
+//                    if ($this->withPermissionCheck) {
+//                        $this->initPermissions();
+//                    }
+//                }
 
-                if ($_GET[C4GBrickActionType::IDENTIFIER_PERMALINK]) {
+                if (key_exists(C4GBrickActionType::IDENTIFIER_PERMALINK, $_GET) && $_GET[C4GBrickActionType::IDENTIFIER_PERMALINK]) {
                     if (!$this->permalinkModelClass) {
-                        $dataset = $this->brickDatabase->findBy($this->permalink_field, $_GET[C4GBrickActionType::IDENTIFIER_PERMALINK]);
+                        $model  = $this->modelClass;
+                        $dataset = $model::findBy($this->permalink_field, $_GET[C4GBrickActionType::IDENTIFIER_PERMALINK]);
                     } else {
                         $model = $this->permalinkModelClass;
                         $dataset = $model::findBy($this->permalink_field, $_GET[C4GBrickActionType::IDENTIFIER_PERMALINK]);
@@ -932,9 +1013,10 @@ class C4GBaseController extends AbstractFrontendModuleController
                         $action = C4GBrickActionType::IDENTIFIER_LIST . ':' . $id;
                         $result = $this->getPerformAction($request, $action);
                     }
-                } elseif ($_GET[$this->permalink_field]) {
+                } elseif (key_exists($this->permalink_field, $_GET) && $_GET[$this->permalink_field]) {
                     if (!$this->permalinkModelClass) {
-                        $dataset = $this->brickDatabase->findBy($this->permalink_field, $_GET[$this->permalink_field]);
+                        $model  = $this->modelClass;
+                        $dataset = $model::findBy($this->permalink_field, $_GET[$this->permalink_field]);
                     } else {
                         $model = $this->permalinkModelClass;
                         $dataset = $model::findBy($this->permalink_field, $_GET[$this->permalink_field]);
@@ -949,9 +1031,10 @@ class C4GBaseController extends AbstractFrontendModuleController
                         $action = C4GBrickActionType::IDENTIFIER_LIST . ':' . $id;
                         $result = $this->getPerformAction($request, $action);
                     }
-                } elseif ($this->permalink_name && $_GET[$this->permalink_name]) {
+                } elseif ($this->permalink_name && key_exists($this->permalink_name, $_GET) && $_GET[$this->permalink_name]) {
                     if (!$this->permalinkModelClass) {
-                        $dataset = $this->brickDatabase->findBy($this->permalink_field, $_GET[$this->permalink_name]);
+                        $model  = $this->modelClass;
+                        $dataset = $model::findBy($this->permalink_field, $_GET[$this->permalink_name]);
                     } else {
                         $model = $this->permalinkModelClass;
                         $dataset = $model::findBy($this->permalink_field, $_GET[$this->permalink_name]);
@@ -967,7 +1050,7 @@ class C4GBaseController extends AbstractFrontendModuleController
                     }
                 }
                 // History navigation
-            } elseif ($_GET['historyreq']) {
+            } elseif (key_exists('historyreq', $_GET) && $_GET['historyreq']) {
                 $actions = explode(';', $_GET['historyreq']);
                 $result = [];
                 foreach ($actions as $action) {
@@ -1033,6 +1116,12 @@ class C4GBaseController extends AbstractFrontendModuleController
             $result = $this->showException($e);
         }
 
+        if ($this->permalink_name && $this->session->getSessionValue("c4g_brick_dialog_id") && ($result['dialogstate'] == "item:")) {
+            $result['dialogstate'] = str_replace('item:', $this->permalink_name.'='. $this->session->getSessionValue("c4g_brick_dialog_id"), $result['dialogstate']);
+        } else if ($this->permalink_name && $result && key_exists('dialogstate', $result)) {
+            $result['dialogstate'] = str_replace('item:', $this->permalink_name.'=', $result['dialogstate']);
+        }
+
         return json_encode($result);
     }
 
@@ -1076,7 +1165,7 @@ class C4GBaseController extends AbstractFrontendModuleController
 
             $putVars = $this->putVars;
             if (!$putVars || (count($putVars) <= 0)) {
-                $putVars = \Session::getInstance()->get('c4g_brick_dialog_values');
+                $putVars = $this->session->getSessionValue('c4g_brick_dialog_values');
             }
 
             foreach ($this->fieldList as $field) {
@@ -1101,7 +1190,7 @@ class C4GBaseController extends AbstractFrontendModuleController
     /**
      * Initialize C4GPermissions for this module.
      */
-    final private function initPermissions()
+    private function initPermissions()
     {
         if (C4GBrickView::isWithoutEditing($this->viewType)) {
             $level = 1;
@@ -1210,8 +1299,8 @@ class C4GBaseController extends AbstractFrontendModuleController
                 }
             }
         }
-        if (sizeof($array) > 0) {
-            $result = new C4GTablePermission($this->getC4GTablePermissionTable(), $array);
+        if (is_array($array) && (sizeof($array) > 0)) {
+            $result = new C4GTablePermission($this->getC4GTablePermissionTable(), $array, $this->session);
 
             return $result;
         }
@@ -1257,21 +1346,24 @@ class C4GBaseController extends AbstractFrontendModuleController
     public function sendNotifications($newId, $notifyOnChanges, $notification_type, $dlgValues, $fieldList, $changes)
     {
         if ($newId || $notifyOnChanges) {
-            $notification_array = unserialize($notification_type);
-            if (sizeof($notification_array) == 1) {
-                $objNotification = Notification::findByPk($notification_array);
-                if ($objNotification !== null) {
-                    $arrTokens = C4GBrickNotification::getArrayTokens($dlgValues, $fieldList);
-                    $arrTokens['admin_email'] = $GLOBALS['TL_CONFIG']['adminEmail'];
-                    $objNotification->send($arrTokens);
-                }
-            } else {
-                foreach ($notification_array as $notification) {
-                    $objNotification = Notification::findByPk($notification);
+            $notification_array = \Contao\StringUtil::deserialize($notification_type);
+
+            if ($notification_array && is_array($notification_array)) {
+                if (is_array($notification_array) && sizeof($notification_array) == 1) {
+                    $objNotification = Notification::findByPk($notification_array);
                     if ($objNotification !== null) {
                         $arrTokens = C4GBrickNotification::getArrayTokens($dlgValues, $fieldList);
                         $arrTokens['admin_email'] = $GLOBALS['TL_CONFIG']['adminEmail'];
                         $objNotification->send($arrTokens);
+                    }
+                } else {
+                    foreach ($notification_array as $notification) {
+                        $objNotification = Notification::findByPk($notification);
+                        if ($objNotification !== null) {
+                            $arrTokens = C4GBrickNotification::getArrayTokens($dlgValues, $fieldList);
+                            $arrTokens['admin_email'] = $GLOBALS['TL_CONFIG']['adminEmail'];
+                            $objNotification->send($arrTokens);
+                        }
                     }
                 }
             }
@@ -1420,6 +1512,11 @@ class C4GBaseController extends AbstractFrontendModuleController
         return null;
     }
 
+    /**
+     * @param $singular
+     * @param $plural
+     * @return void
+     */
     protected function setBrickCaptions($singular, $plural)
     {
         $this->brickCaption = $singular;
@@ -1431,6 +1528,11 @@ class C4GBaseController extends AbstractFrontendModuleController
         }
     }
 
+    /**
+     * @param $singular
+     * @param $plural
+     * @return void
+     */
     protected function setParentCaptions($singular, $plural)
     {
         $this->parentCaption = $singular;
@@ -1540,12 +1642,28 @@ class C4GBaseController extends AbstractFrontendModuleController
 
     /**
      * @param string $language
-     * @return C4GBrickModuleParent
+     * @return C4GBaseController
      */
-    public function setLanguage(string $language): C4GBrickModuleParent
+    public function setLanguage(string $language): C4GBaseController
     {
         $this->language = $language;
 
         return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPrintTemplate(): string
+    {
+        return $this->printTemplate;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPrintStyle(): string
+    {
+        return $this->printStyle;
     }
 }

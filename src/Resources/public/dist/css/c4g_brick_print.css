@@ -61,9 +61,7 @@ h1 {
   display: block;
   margin-bottom: .25em;
   margin-top: .25em;
-  margin-left: 2.5%;
-  margin-right: 2.5%;
-  width: 95%;
+  width: 100%;
   min-height: 27px;
   border: none
 }
@@ -78,14 +76,14 @@ h1 {
   margin-left: .2em;
   vertical-align: middle
 }
-.c4g_brick_dialog .c4g_brick_radio_group {
+.c4g_brick_dialog .c4g__form-radio-group {
   border: none;
   vertical-align: middle
 }
-.c4g_brick_dialog .c4g_brick_radio_group .radio_element {
+.c4g_brick_dialog .c4g__form-radio-group .c4g__form-check {
   display: inline-block
 }
-.c4g_brick_dialog .c4g_brick_radio_group label {
+.c4g_brick_dialog .c4g__form-radio-group label {
   font-weight: 400;
   margin-right: 2px;
   padding: 0;
@@ -97,24 +95,20 @@ h1 {
   margin-left: 0;
   vertical-align: middle
 }
-.c4g_brick_dialog .c4g_brick_radio_group .lbl_turned {
+.c4g_brick_dialog .c4g__form-radio-group .lbl_turned {
   font-weight: 400;
   margin-left: 0;
   margin-right: 1em;
   padding: 0;
   vertical-align: middle
 }
-.c4g_brick_dialog .c4g_brick_radio_group_wrapper {
-  margin-left: 2.5%
-}
-.c4g_brick_dialog .c4g_brick_radio_group_wrapper label {
+.c4g_brick_dialog .c4g__form-radio-group_wrapper label {
   margin-left: 0
 }
 .c4g_brick_dialog h2,
 .c4g_brick_dialog label,
 .c4g_brick_select_dialog label {
-  font-weight: 700;
-  margin-left: 2.5%
+  font-weight: 700
 }
 .c4g_brick_dialog label strong {
   color: red
@@ -124,11 +118,10 @@ h1 {
 .c4g_brick_select_dialog .styled_select,
 .c4g_brick_select_dialog select {
   display: block;
-  width: 95.33%;
+  width: 100%;
   min-height: 27px;
   padding-left: 3px;
   padding-right: 3px;
-  margin-left: 2.33%;
   margin-bottom: .25em;
   margin-top: .25em;
   overflow: hidden
@@ -158,8 +151,7 @@ h1 {
 .c4g_brick_select_dialog .c4g_brick_table_rows .styled_select,
 .c4g_brick_select_dialog .c4g_brick_table_rows select {
   display: block;
-  width: 95.5%;
-  margin-left: 2.5%;
+  width: 100%;
   margin-bottom: 5px;
   overflow: hidden;
   border-radius: 3px
@@ -168,32 +160,30 @@ h1 {
   resize: vertical
 }
 .c4g_dialog label {
-  font-weight: 700;
-  margin-left: 2.5%
+  font-weight: 700
 }
-.c4g_brick_dialog p.c4g_field_description {
+.c4g_brick_dialog .c4g__form-description {
   font-size: .9rem;
   font-weight: lighter;
-  margin: 0 2.5%;
+  margin: 0 0;
   color: #a9a9a9
 }
-.c4g_brick_dialog p.c4g_field_description a {
+.c4g_brick_dialo .c4g__form-description a {
   text-decoration: underline
 }
-.c4g_brick_dialog .c4g_field_descripton_hole {
+.c4g_brick_dialog .c4g__form-description-empty {
   margin-bottom: 4px
 }
 .c4g_brick_dialog .c4g_brick_header_text {
   font-weight: 400;
   text-align: right;
-  margin: 0 2.5%;
+  margin: 0 0;
   font-style: italic;
   font-size: inherit;
   color: #a9a9a9
 }
 .c4g_brick_dialog .c4g_color.picker {
-  font-weight: 700;
-  margin-left: 2.5%
+  font-weight: 700
 }
 .c4g_brick_dialog .c4g_color.block {
   width: 16px;
@@ -237,7 +227,7 @@ h1 {
 }
 .c4g_brick_dialog .c4g_textarea_length {
   font-weight: 400;
-  margin: 0 2.5%;
+  margin: 0 0;
   font-style: italic;
   font-size: inherit;
   color: #a9a9a9
@@ -245,13 +235,13 @@ h1 {
 .c4g_brick_dialog input[type=file] {
   display: block;
   margin: 0 auto;
-  width: 95%
+  width: 100%
 }
 .c4g_brick_dialog #cke_ckeditor {
   display: block;
   margin: 0 auto;
   margin-top: 5px;
-  width: 95%;
+  width: 100%;
   font-size: unset
 }
 .c4g_brick_dialog #cke_ckeditor:-moz-read-only .cke_bottom,
@@ -264,24 +254,18 @@ h1 {
 .c4g_brick_dialog #cke_ckeditor:read-only .cke_top {
   display: none
 }
-.c4g_brick_dialog canvas {
-  margin-left: 2.5%;
-  margin-right: 2.5%
-}
 .c4g_brick_dialog .c4g_brick_geopicker_label {
   padding-top: 10px
 }
 .c4g_brick_dialog #c4g_brick_geopicker {
-  width: 95%!important;
-  margin-top: 5px!important;
-  margin-left: 2.5%!important
+  width: 100%;
+  margin-top: 5px!important
 }
 .c4g_brick_dialog #c4g_brick_geopicker_geox,
 .c4g_brick_dialog #c4g_brick_geopicker_geoy {
   display: block;
   margin: 0 auto;
-  margin-left: 2.5%;
-  width: 95%
+  width: 100%
 }
 .c4g_brick_message_dialog {
   padding: 5px
@@ -289,17 +273,15 @@ h1 {
 .c4g_brick_message_dialog .c4g_description,
 .c4g_brick_message_dialog label,
 .c4g_brick_message_dialog textarea {
-  width: 95%
+  width: 100%
 }
 .c4g_brick_dialog #c4g_brick_geopicker_address {
   float: left;
-  margin-left: 2.5%;
   width: 75%
 }
 .c4g_brick_dialog .c4g_brick_geopicker_address_without_reloadbutton {
   float: left;
-  margin-left: 2.5%;
-  width: 95%!important
+  width: 100%
 }
 .c4g_brick_dialog #c4g_addressUpdateButton {
   width: 20%;
@@ -341,7 +323,6 @@ div.cg_block {
   border-bottom-style: solid
 }
 .c4g_uploadButton {
-  margin-left: 2.5%;
   margin-bottom: 4px;
   cursor: pointer
 }
@@ -379,7 +360,7 @@ div.cg_block {
   text-align: center;
   display: inline-flex
 }
-#c4g_brick .c4g_brick_tiles .c4g_tile_button {
+#c4g_brick .c4g_brick_tiles .c4g__btn-tile {
   position: relative;
   margin: 10px 10px 10px 10px;
   max-width: 320px;
@@ -389,10 +370,6 @@ div.cg_block {
   flex-basis: auto;
   box-shadow: 0 0 4px 0 #5a5a5a;
   overflow: hidden
-}
-.c4g_brick_dialog .c4g_gallery {
-  margin-left: 2.5%;
-  margin-right: 2.5%
 }
 .c4g_brick_dialog .c4g_gallery .c4g_gallery_images {
   display: flex;
@@ -427,8 +404,6 @@ div.cg_block {
 }
 .c4g_brick_dialog .c4g_image {
   text-align: center;
-  margin-left: 2.5%;
-  margin-right: 2.5%;
   margin-bottom: 10px;
   font-style: normal;
   font-weight: 700;
@@ -467,7 +442,6 @@ table.dataTable.display tbody {
   border: 1px solid #e2e2e2;
   height: auto;
   width: 76px;
-  margin-left: 2.5%;
   overflow: hidden;
   display: flex
 }
@@ -540,9 +514,6 @@ table.dataTable.display tbody {
 .c4g_checkbox label {
   margin-left: 2px;
   white-space: nowrap
-}
-label.c4g_multicheckbox {
-  margin-left: 2.5%
 }
 .c4g_multicheckbox_modern {
   font-weight: 700
@@ -632,7 +603,6 @@ label.c4g_multicheckbox {
 }
 .c4g_brick_dialog h3 {
   font-weight: 700;
-  margin-left: 2.5%;
   cursor: pointer
 }
 .c4g_brick_dialog h3 a {
@@ -643,29 +613,20 @@ label.c4g_multicheckbox {
   margin-bottom: 8px
 }
 .c4g_tab_switch_left {
-  margin-left: 2.5%;
   margin-bottom: 8px;
   margin-right: 4px
 }
 .c4g_tab_switch_right {
-  margin-right: 2.5%;
   margin-bottom: 8px
 }
 .c4g_tab_switch_first {
-  margin-left: 2.5%;
   float: left;
   margin-bottom: 8px
-}
-.c4g_brick_dialog .c4g_brick_button,
-.c4g_brick_dialog .c4g_brick_link,
-.c4g_tab_switch_left {
-  margin-left: 2.5%
 }
 .c4g_brick_dialog .c4g_brick_grid_wrapper {
   position: relative;
   margin: 0 auto;
-  margin-left: 2%;
-  width: 98%
+  width: 100%
 }
 #c4g_brick_grid td {
   vertical-align: top
@@ -685,15 +646,12 @@ label.c4g_multicheckbox {
 }
 .c4g_brick_dialog .c4g_brick_stopwatch {
   position: relative;
-  margin-left: 2.5%;
   height: 22px;
   font-size: 24px
 }
 .mfp-iframe-holder .mfp-content {
   width: 100%;
-  height: 100%;
-  max-width: 95%;
-  max-height: 95%
+  height: 100%
 }
 .mfp-content video {
   width: 60%;
@@ -721,10 +679,6 @@ label.c4g_multicheckbox {
 .c4g_brick_dialog .c4g_brick_label {
   border: 0
 }
-.c4g_dialog_link {
-  margin-left: 2.5%;
-  margin-right: 2.5%
-}
 .dataTables_scrollHeadInner {
   padding-left: 0!important
 }
@@ -747,7 +701,7 @@ input.c4g_brick_info_text {
 .ui-widget.ui-widget-content {
   border: 0
 }
-a.c4g_tile_button:hover {
+a.c4g__btn-tile:hover {
   cursor: default
 }
 .ui-button {
@@ -785,14 +739,12 @@ a.c4g_tile_button:hover {
 .c4g_date_field_button {
   display: inherit!important;
   pointer-events: none;
-  margin-right: 2.5%;
   margin-top: auto;
   margin-bottom: auto
 }
 .c4g_date_field_button_interactive {
   display: inherit!important;
   cursor: pointer;
-  margin-right: 2.5%;
   margin-top: auto;
   margin-bottom: auto
 }
@@ -819,10 +771,6 @@ a.c4g_tile_button:hover {
 }
 .c4g_sub_dialog_set_uneditable .c4g_sub_dialog_remove_button {
   display: none
-}
-.c4g_include_fields .teaser {
-  margin-left: 2.5%;
-  margin-right: 2.5%
 }
 .c4g_sub_dialog_add_button {
   margin-left: 8px

@@ -1,5 +1,5 @@
 con4gisProjectsBundle:
-    path: /con4gis/brick_ajax_api/{language}/{module}/{action}
+    path: /con4gis/brick_ajax_api/{language}/{classname}/{module}/{action}
     controller: con4gis\ProjectsBundle\Controller\AjaxController::ajaxAction
     methods: [ GET, PUT ]
     requirements:
@@ -8,25 +8,19 @@ con4gisProjectsBundle:
 
 editortab_service:
     path: /con4gis/editorTabService/{id}
-    defaults:
-        _scope: frontend
-        _controller: "con4gisProjectsBundle:Ajax:editor"
+    controller: con4gis\ProjectsBundle\Controller\AjaxController::editorAction
     requirements:
         id: '\d+'
     methods: [GET, PUT, DELETE]
 
 editortab_service_post:
     path: /con4gis/editorTabService
-    defaults:
-        _scope: frontend
-        _controller: "con4gisProjectsBundle:Ajax:editorPost"
+    controller: con4gis\ProjectsBundle\Controller\AjaxController::editorPostAction
     methods: [POST]
 
 con4gis_get_address:
     path: /con4gis/get_address/{profileId}/{lat}/{lon}
-    defaults:
-        _scope: frontend
-        _controller: "con4gisProjectsBundle:Ajax:getAddress"
+    controller: con4gis\ProjectsBundle\Controller\AjaxController::getAddressAction
     requirements:
         profileId: '\d+'
         lat: '.*'
@@ -34,7 +28,5 @@ con4gis_get_address:
 
 con4gis_brick_file_upload:
     path: /con4gis/upload_file
-    defaults:
-        _scope: frontend
-        _controller: "con4gisProjectsBundle:Ajax:upload"
+    controller: con4gis\ProjectsBundle\Controller\AjaxController::uploadAction
     methods: [POST]

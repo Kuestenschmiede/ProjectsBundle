@@ -4,7 +4,7 @@
  * @version 8
  * @author con4gis contributors (see "authors.txt")
  * @license LGPL-3.0-or-later
- * @copyright (c) 2010-2021, by Küstenschmiede GmbH Software & Design
+ * @copyright (c) 2010-2022, by Küstenschmiede GmbH Software & Design
  * @link https://www.con4gis.org
  */
 
@@ -16,7 +16,9 @@ var config = {
   entry: {
     'c4g-vendor-trix': './src/Resources/public/vendor/js/c4g-vendor-trix.js',
     'c4g-vendor-minisearch': './src/Resources/public/vendor/js/c4g-vendor-minisearch.js',
-    'c4g-vendor-jquery': './src/Resources/public/vendor/js/c4g-vendor-jquery.js'
+    'c4g-vendor-jquery': './src/Resources/public/vendor/js/c4g-vendor-jquery.js',
+    'c4g-vendor-datepicker': './src/Resources/public/vendor/js/c4g-vendor-datepicker.js',
+    'c4g-vendor-alerthandler': './src/Resources/public/vendor/js/c4g-vendor-alerthandler.js'
   },
   mode: 'production',
   output: {

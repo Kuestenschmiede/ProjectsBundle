@@ -5,7 +5,7 @@
  * @version 8
  * @author con4gis contributors (see "authors.txt")
  * @license LGPL-3.0-or-later
- * @copyright (c) 2010-2021, by Küstenschmiede GmbH Software & Design
+ * @copyright (c) 2010-2022, by Küstenschmiede GmbH Software & Design
  * @link https://www.con4gis.org
  */
 namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
@@ -13,6 +13,7 @@ namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldCompare;
+use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldType;
 
 /**
  * Represents a simple text for information purposes.
@@ -23,6 +24,14 @@ class C4GInfoTextField extends C4GBrickField
     private $align = 'left';
 
     /**
+     * @param string $type
+     */
+    public function __construct(string $type = C4GBrickFieldType::TEXT)
+    {
+        parent::__construct($type);
+    }
+
+    /**
      * @param $field
      * @param $data
      * @return string
@@ -30,7 +39,7 @@ class C4GInfoTextField extends C4GBrickField
     public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = [])
     {
         $id = 'c4g_' . $this->getFieldName();
-        $required = $this->generateRequiredString($data, $dialogParams);
+        $required = $this->generateRequiredString($data, $dialogParams, $fieldList);
         $value = $this->generateInitialValue($data);
         $result = '';
 
@@ -38,7 +47,7 @@ class C4GInfoTextField extends C4GBrickField
             $condition = $this->createConditionData($fieldList, $data);
 
             $result = $this->addC4GField($condition, $dialogParams, $fieldList, $data,
-                '<input ' . $required . ' ' . $condition['conditionPrepare'] . ' type="text" id="' . $id . '" class="formdata ' . $id . ' c4g_brick_info_text" name="' . $this->getFieldName() . '" value="' . $value . '" style="text-align:' . $this->align . '"">');
+                '<input ' . $required . ' ' . $condition['conditionPrepare'] . ' type="text" id="' . $id . '" class="formdata c4g__form-control ' . $id . ' c4g_brick_info_text" name="' . $this->getFieldName() . '" value="' . $value . '" style="text-align:' . $this->align . '"">');
 
             /* TODO - wird mit label versehen, p ist dann ungültig.
                     $result = $this->addC4GField($condition, $dialogParams, $fieldList, $data,

@@ -5,14 +5,14 @@
  * @version 8
  * @author con4gis contributors (see "authors.txt")
  * @license LGPL-3.0-or-later
- * @copyright (c) 2010-2021, by Küstenschmiede GmbH Software & Design
+ * @copyright (c) 2010-2022, by Küstenschmiede GmbH Software & Design
  * @link https://www.con4gis.org
  */
 
 //Palettes
 // only add field if maps is installed
 $packages = \Contao\System::getContainer()->getParameter('kernel.packages');
-if ($packages['con4gis/maps']) {
+if (array_key_exists('con4gis/maps', $packages)) {
     Contao\CoreBundle\DataContainer\PaletteManipulator::create()
         ->addLegend('projects_legend', 'expert_legend', Contao\CoreBundle\DataContainer\PaletteManipulator::POSITION_BEFORE, true)
         ->addField('position_map', 'projects_legend', Contao\CoreBundle\DataContainer\PaletteManipulator::POSITION_APPEND)

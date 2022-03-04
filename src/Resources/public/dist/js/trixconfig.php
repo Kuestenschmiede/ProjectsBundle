@@ -6,7 +6,7 @@
  * @version 8
  * @author con4gis contributors (see "authors.txt")
  * @license LGPL-3.0-or-later
- * @copyright (c) 2010-2021, by Küstenschmiede GmbH Software & Design
+ * @copyright (c) 2010-2022, by Küstenschmiede GmbH Software & Design
  * @link https://www.con4gis.org
  */
 
@@ -112,7 +112,6 @@ function trixConfig() {
             let key = createStorageKey(file);
             let formData = createFormData(key, file);
             let xhr = new XMLHttpRequest();
-            console.log(file);
             let url;
             if (file.type.includes('image')) {
             url = '/con4gis/upload/image';

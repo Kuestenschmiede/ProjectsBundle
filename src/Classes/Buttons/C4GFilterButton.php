@@ -5,7 +5,7 @@
  * @version 8
  * @author con4gis contributors (see "authors.txt")
  * @license LGPL-3.0-or-later
- * @copyright (c) 2010-2021, by Küstenschmiede GmbH Software & Design
+ * @copyright (c) 2010-2022, by Küstenschmiede GmbH Software & Design
  * @link https://www.con4gis.org
  */
 namespace con4gis\ProjectsBundle\Classes\Buttons;
@@ -28,7 +28,7 @@ class C4GFilterButton implements C4GFilterButtonInterface
      */
     public function getButtonHtml(): string
     {
-        return '<span class="c4g_list_filter ui-button ui-corner-all ' . $this->class . '" title="' . $this->description .
+        return '<span class="c4g_list_filter c4g__btn c4g__btn-filter ' . $this->class . '" title="' . $this->description .
             '" onclick="let element = document.getElementsByClassName(\'c4g_brick_list\');' .
             'element = element.item(element.length - 1);' .
             'element.classList.toggle(\'filter_' . $this->class . '_parent\');' .

@@ -5,7 +5,7 @@
  * @version 8
  * @author con4gis contributors (see "authors.txt")
  * @license LGPL-3.0-or-later
- * @copyright (c) 2010-2021, by Küstenschmiede GmbH Software & Design
+ * @copyright (c) 2010-2022, by Küstenschmiede GmbH Software & Design
  * @link https://www.con4gis.org
  */
 
@@ -135,13 +135,22 @@ window.c4g.projects = window.c4g.projects || {};
         if (typeof jQuery(document).ajaxStart === 'function') {
           jQuery(document).ajaxStart(function(){
             jQuery('.c4gGui,.c4gGuiDialog').addClass('c4gGuiAjaxBusy');
-            jQuery('.c4gLoaderPh').addClass('c4gLoader');
+
+            if (document.getElementById('c4g_brick') && document.getElementsByClassName('c4g__spinner-wrapper')) {
+              document.getElementsByClassName('c4g__spinner-wrapper')[0].style.display = "flex";
+            } else {
+              jQuery('.c4gLoaderPh').addClass('c4gLoader');
+            }
           });
         }
         if (typeof jQuery(document).ajaxStop === 'function') {
           jQuery(document).ajaxStop(function(){
             jQuery('.c4gGui,.c4gGuiDialog').removeClass('c4gGuiAjaxBusy');
-            jQuery('.c4gLoaderPh').removeClass('c4gLoader');
+            if (document.getElementById('c4g_brick') && document.getElementsByClassName('c4g__spinner-wrapper')) {
+              document.getElementsByClassName('c4g__spinner-wrapper')[0].style.display = "none";
+            } else {
+              jQuery('.c4gLoaderPh').removeClass('c4gLoader');
+            }
           });
         }
 
@@ -486,9 +495,9 @@ window.c4g.projects = window.c4g.projects || {};
                             .reduce(function (a, b) {
                               a += "";
                               b += "";
-                              var x = a.replace(",", ".");
+                              var x = a ? a.replace(",", ".") : 0;
                               x = parseFloat(x) || 0;
-                              var y = b.replace(",", ".");
+                              var y = b ? b.replace(",", ".") : 0;
                               y = parseFloat(y) || 0;
                               return x + y;
                             }, 0);
@@ -497,7 +506,7 @@ window.c4g.projects = window.c4g.projects || {};
                           // TODO Internationalize this
                           // TODO make this configurable ?
                           sum = parseFloat(sum).toFixed(2).toLocaleString();
-                          sum = sum.replace(".", ",");
+                          sum = sum ? sum.replace(".", ",") : 0;
                         }
                       }
 
@@ -784,6 +793,7 @@ window.c4g.projects = window.c4g.projects || {};
           var aButton = jQuery("<a />")
             .attr('href', '#')
             .attr('accesskey', value['accesskey'])
+            .attr('class', value.cssClass+' c4g__btn c4g__btn-primary')
             .html(value['text'])
             .click(function () {
               if (value['tableSelection']) {
@@ -878,16 +888,6 @@ window.c4g.projects = window.c4g.projects || {};
       if ((typeof(content.contentdata) !== 'undefined') || (jQuery.isArray(content.contents))) {
         // populate dataTable
         scope.fnInitContentDiv();
-
-        var newWidth = '100%';
-        var newHeight = '100%';
-        if (options.navPanel) {
-          newWidth = jQuery(scope.contentWrapperDiv).parent().width()
-            - jQuery(navDiv).width() - 5;
-          newHeight = jQuery(navDiv).height();
-        }
-        jQuery(scope.contentWrapperDiv).width(newWidth);
-        jQuery(scope.contentWrapperDiv).height(newHeight);
         if (typeof (content.state) !== 'undefined') {
           jQuery(scope.contentDiv).attr('data-state', content.state);
         }
@@ -1116,14 +1116,16 @@ window.c4g.projects = window.c4g.projects || {};
               .appendTo(scope.contentWrapperDiv);
 
             if (typeof(dialogoptions.title) !== 'undefined') {
-              var titleDiv;
-              if (options.jquiEmbeddedDialogs) {
-                titleDiv = jQuery('<div>').attr('class', 'c4gGuiDialogTitle c4gGuiDialogTitleJqui ui-widget ui-widget-header ui-corner-all');
-                titleDiv.html(dialogoptions.title);
-              } else {
-                titleDiv = jQuery('<div>')
-                  .attr('class', 'c4gGuiDialogTitle c4gGuiDialogTitleNoJqui')
-                  .append(jQuery('<h1>').html(dialogoptions.title));
+              var titleDiv = "";
+              if (dialogoptions.title) {
+                if (options.jquiEmbeddedDialogs) {
+                  titleDiv = jQuery('<div>').attr('class', 'c4gGuiDialogTitle c4gGuiDialogTitleJqui ui-widget ui-widget-header ui-corner-all');
+                  titleDiv.html(dialogoptions.title);
+                } else {
+                  titleDiv = jQuery('<div>')
+                      .attr('class', 'c4gGuiDialogTitle c4gGuiDialogTitleNoJqui')
+                      .append(jQuery('<h1>').html(dialogoptions.title));
+                }
               }
               jQuery(tmpDialogDiv).prepend(titleDiv);
             }
@@ -1139,7 +1141,7 @@ window.c4g.projects = window.c4g.projects || {};
               var aLink = jQuery('<a>')
                 .attr('href', '#')
                 .attr('accesskey', value.accesskey)
-                .attr('class', value.cssClass)
+                .attr('class', value.cssClass+' c4g__btn c4g__btn-primary')
                 .html(value.text)
                 .click(value.click)
                 .appendTo(dialogButtonDiv);

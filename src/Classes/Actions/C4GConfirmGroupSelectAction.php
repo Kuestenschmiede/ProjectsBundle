@@ -5,7 +5,7 @@
  * @version 8
  * @author con4gis contributors (see "authors.txt")
  * @license LGPL-3.0-or-later
- * @copyright (c) 2010-2021, by Küstenschmiede GmbH Software & Design
+ * @copyright (c) 2010-2022, by Küstenschmiede GmbH Software & Design
  * @link https://www.con4gis.org
  */
 namespace con4gis\ProjectsBundle\Classes\Actions;
@@ -25,10 +25,10 @@ class C4GConfirmGroupSelectAction extends C4GBrickDialogAction
         $dialogParams->setProjectUuid('');
         $dialogParams->setParentId('');
 
-        \Session::getInstance()->set('c4g_brick_group_id', $dlgValues[$groupKeyField]);
-        \Session::getInstance()->set('c4g_brick_project_id', '');
-        \Session::getInstance()->set('c4g_brick_project_uuid', '');
-        \Session::getInstance()->set('c4g_brick_parent_id', '');
+        $dialogParams->getSession()->setSessionValue('c4g_brick_group_id', $dlgValues[$groupKeyField]);
+        $dialogParams->getSession()->setSessionValue('c4g_brick_project_id', '');
+        $dialogParams->getSession()->setSessionValue('c4g_brick_project_uuid', '');
+        $dialogParams->getSession()->setSessionValue('c4g_brick_parent_id', '');
 
         $this->setPutVars(null);
 

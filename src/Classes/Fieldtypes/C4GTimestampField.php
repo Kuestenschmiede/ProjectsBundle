@@ -5,7 +5,7 @@
  * @version 8
  * @author con4gis contributors (see "authors.txt")
  * @license LGPL-3.0-or-later
- * @copyright (c) 2010-2021, by Küstenschmiede GmbH Software & Design
+ * @copyright (c) 2010-2022, by Küstenschmiede GmbH Software & Design
  * @link https://www.con4gis.org
  */
 namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
@@ -13,9 +13,18 @@ namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldCompare;
+use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldType;
 
 class C4GTimestampField extends C4GBrickField
 {
+    /**
+     * @param string $type
+     */
+    public function __construct(string $type = C4GBrickFieldType::TIMESTAMP)
+    {
+        parent::__construct($type);
+    }
+
     /**
      * @param C4GBrickField[] $fieldList
      * @param $data
@@ -28,7 +37,7 @@ class C4GTimestampField extends C4GBrickField
         $fieldName = $this->getFieldName();
         $id = $this->createFieldID();
         $title = $this->getTitle();
-        $required = $this->generateRequiredString($data, $dialogParams);
+        $required = $this->generateRequiredString($data, $dialogParams, $fieldList);
         $value = $this->generateInitialValue($data);
         if ($value > 0) {
             $value = $value . ' (' . date('d.m.Y H:i:s', $value) . ')';
@@ -41,7 +50,7 @@ class C4GTimestampField extends C4GBrickField
 
             $result =
                 $this->addC4GField($condition,$dialogParams,$fieldList,$data,
-                '<input ' . $required . ' type="text" id="' . $id . '" class="formdata ' . $id . '" name="' . $fieldName . '" value="' . $value . '" ' . $condition['conditionPrepare'] . '>');
+                '<input ' . $required . ' type="text" id="' . $id . '" class="formdata c4g__form-control c4g__form-text-input ' . $id . '" name="' . $fieldName . '" value="' . $value . '" ' . $condition['conditionPrepare'] . '>');
         }
 
         return $result;
@@ -112,11 +121,11 @@ class C4GTimestampField extends C4GBrickField
     {
         $fieldName = $this->getFieldName();
 
-        return $fieldTitle . '<div class="c4g_tile value">' . $element->$fieldName . ' (' . date('d.m.Y H:i:s', $element->$fieldName) . ')' . '</div>';
+        return $fieldTitle . '<div class="c4g_tile_value">' . $element->$fieldName . ' (' . date('d.m.Y H:i:s', $element->$fieldName) . ')' . '</div>';
     }
 
     /**
-     * Public method that will be called in translateFieldValues in C4GBrickModuleParent
+     * Public method that will be called to view the value
      * @param $value
      * @return mixed
      */

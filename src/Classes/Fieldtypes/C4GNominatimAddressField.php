@@ -5,7 +5,7 @@
  * @version 8
  * @author con4gis contributors (see "authors.txt")
  * @license LGPL-3.0-or-later
- * @copyright (c) 2010-2021, by Küstenschmiede GmbH Software & Design
+ * @copyright (c) 2010-2022, by Küstenschmiede GmbH Software & Design
  * @link https://www.con4gis.org
  */
 namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
@@ -13,9 +13,19 @@ namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickCommon;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
+use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldType;
 
 class C4GNominatimAddressField extends C4GBrickField
 {
+    /**
+     * @param string $type
+     */
+    public function __construct(string $type = C4GBrickFieldType::NOMINATIM_ADDRESS)
+    {
+        parent::__construct($type);
+    }
+
+
     /**
      * @param C4GBrickField[] $fieldList
      * @param $data
@@ -29,7 +39,7 @@ class C4GNominatimAddressField extends C4GBrickField
         $fieldName = $this->getFieldName();
         $id = 'c4g_' . $fieldName;
         $title = $this->getTitle();
-        $required = $this->generateRequiredString($data, $dialogParams);
+        $required = $this->generateRequiredString($data, $dialogParams, $fieldList);
         $latitude = $data->latitude;
         $longitutde = $data->longitude;
         $this->setLatitudeField($latitude);
@@ -41,7 +51,7 @@ class C4GNominatimAddressField extends C4GBrickField
             $condition = $this->createConditionData($fieldList, $data);
             $result =
                 $this->addC4GField($condition,$dialogParams,$fieldList,$data,
-                '<input ' . $required . ' ' . $condition['conditionPrepare'] . ' type="text" id="' . $id . '" class="formdata ' . $id . '" name="' . $fieldName . '" value="' . $value . '">');
+                '<input ' . $required . ' ' . $condition['conditionPrepare'] . ' type="text" id="' . $id . '" class="formdata c4g__form-control ' . $id . '" name="' . $fieldName . '" value="' . $value . '">');
         }
 
         return $result;

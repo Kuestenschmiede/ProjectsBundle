@@ -5,7 +5,7 @@
  * @version 8
  * @author con4gis contributors (see "authors.txt")
  * @license LGPL-3.0-or-later
- * @copyright (c) 2010-2021, by Küstenschmiede GmbH Software & Design
+ * @copyright (c) 2010-2022, by Küstenschmiede GmbH Software & Design
  * @link https://www.con4gis.org
  */
 namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
@@ -15,11 +15,21 @@ use con4gis\ProjectsBundle\Classes\Conditions\C4GBrickConditionType;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldCompare;
+use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldType;
 use con4gis\ProjectsBundle\Classes\Lists\C4GBrickList;
 use con4gis\ProjectsBundle\Classes\Lists\C4GBrickTiles;
 
 class C4GCheckboxField extends C4GBrickField
 {
+    /**
+     * @param string $type
+     */
+    public function __construct(string $type = C4GBrickFieldType::CHECKBOX)
+    {
+        parent::__construct($type);
+        $this->setSwitchTitleLabel(true);
+    }
+
     /**
      * @param $field
      * @param $data
@@ -28,7 +38,7 @@ class C4GCheckboxField extends C4GBrickField
     public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = [])
     {
         $id = 'c4g_' . $this->getFieldName();
-        $required = $this->generateRequiredString($data, $dialogParams);
+        $required = $this->generateRequiredString($data, $dialogParams, $fieldList);
         $value = $this->generateInitialValue($data);
         $checked = '';
 
@@ -47,12 +57,8 @@ class C4GCheckboxField extends C4GBrickField
 
                 foreach ($fieldConditions as $fieldCondition) {
                     if (($fieldCondition) && ($fieldCondition->getType() == C4GBrickConditionType::BOOLSWITCH) && ($fieldCondition->getFieldName() == $this->getFieldName())) {
-                        $elementId = 'c4g_' . $afield->getFieldName();
-                        $reverse = 0;
-                        if (!$fieldCondition->getValue()) {
-                            $reverse = 1;
-                        }
-                        $boolswitch = ' onchange="handleBoolSwitch(' . $id . ',' . $elementId . ',' . $reverse . ')" ';
+
+                        //$boolswitch = ' onchange="handleBoolSwitch(' . $id . ',' . $elementId . ',' . $reverse . ')" ';
 
                         break;
                     }
@@ -60,7 +66,7 @@ class C4GCheckboxField extends C4GBrickField
             }
 
             $result = $this->addC4GField($condition, $dialogParams, $fieldList, $data,
-                '<input ' . $required . $boolswitch . $condition['conditionPrepare'] . ' type="checkbox" id="' . $id . '" class="formdata ' . $id . '" name="' . $this->getFieldName() . '" value="' . $this->getFieldName() . '" ' . $checked . '>');
+                '<input ' . $required . $condition['conditionPrepare'] . ' type="checkbox" id="' . $id . '" class="formdata c4g__form-check-input ' . $id . '" name="' . $this->getFieldName() . '" value="' . $this->getFieldName() . '" ' . $checked . '>');
         }
 
         return $result;
@@ -126,11 +132,11 @@ class C4GCheckboxField extends C4GBrickField
     {
         $fieldName = $this->getFieldName();
 
-        return $fieldTitle . '<div class="c4g_tile value">' . C4GBrickTiles::translateBool($element->$fieldName) . '</div>';
+        return $fieldTitle . '<div class="c4g_tile_value">' . C4GBrickTiles::translateBool($element->$fieldName) . '</div>';
     }
 
     /**
-     * Public method that will be called in translateFieldValues in C4GBrickModuleParent
+     * Public method that will be called to view the value
      * @param $value
      * @return mixed
      */

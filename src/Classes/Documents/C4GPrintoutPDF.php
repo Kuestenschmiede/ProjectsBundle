@@ -5,7 +5,7 @@
  * @version 8
  * @author con4gis contributors (see "authors.txt")
  * @license LGPL-3.0-or-later
- * @copyright (c) 2010-2021, by Küstenschmiede GmbH Software & Design
+ * @copyright (c) 2010-2022, by Küstenschmiede GmbH Software & Design
  * @link https://www.con4gis.org
  */
 namespace con4gis\ProjectsBundle\Classes\Documents;
@@ -189,11 +189,16 @@ class C4GPrintoutPDF
         );
 
         $pdfManager = new PdfManager(null, null, $pass);
-        $style = TL_ROOT . 'bundles/con4gisprojects/dist/css/c4g_brick_print.min.css';
+
+        if ($module->getPrintStyle()) {
+            $style = $module->getPrintStyle();
+        } else {
+            $style = TL_ROOT . 'bundles/con4gisprojects/dist/css/c4g_brick_print.min.css';
+        }
         $pdfManager->style = $style;
 
         $pdfData = [];
-        $pdfData['template'] = 'c4g_pdftemplate';
+        $pdfData['template'] = $module->getPrintTemplate();
         $pdfData['filename'] = '{{date::Y_m_d-H_i_s}}-' . rand(100, 999) . '_document.pdf';
         $pdfData['filepath'] = C4GBrickConst::PATH_BRICK_DOCUMENTS;
         $pdfData['Attachment'] = false;

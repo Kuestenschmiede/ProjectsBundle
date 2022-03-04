@@ -5,7 +5,7 @@
  * @version 8
  * @author con4gis contributors (see "authors.txt")
  * @license LGPL-3.0-or-later
- * @copyright (c) 2010-2021, by Küstenschmiede GmbH Software & Design
+ * @copyright (c) 2010-2022, by Küstenschmiede GmbH Software & Design
  * @link https://www.con4gis.org
  */
 namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
@@ -15,6 +15,7 @@ use con4gis\ProjectsBundle\Classes\Common\C4GBrickRegEx;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldNumeric;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldCompare;
+use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldType;
 
 class C4GDecimalField extends C4GBrickFieldNumeric
 {
@@ -22,10 +23,15 @@ class C4GDecimalField extends C4GBrickFieldNumeric
     protected $allowNegative = false;
     protected $decimal_point = ',';
 
-    public function __construct()
+    /**
+     * @param string $type
+     */
+    public function __construct(string $type = C4GBrickFieldType::FLOAT)
     {
         $this->setAlign('right');
+        parent::__construct($type);
     }
+
 
     //ToDo onChange Aufruf zur Darstellung ausgebaut. Diesen müssen wir wieder nachrüsten
     //-> C4GBrickDialog.js - changeNumberFormat
@@ -39,7 +45,7 @@ class C4GDecimalField extends C4GBrickFieldNumeric
     {
         $this->setPattern(C4GBrickRegEx::generateNumericRegEx($this->getDecimals(), $this->allowNegative, $this->getThousandsSep(), $this->getDecimalPoint()));
         $id = 'c4g_' . $this->getFieldName();
-        $required = $this->generateRequiredString($data, $dialogParams);
+        $required = $this->generateRequiredString($data, $dialogParams, $fieldList);
         if ($this->getThousandsSep() !== '') {
             $value = number_format(str_replace(',', '.', $this->generateInitialValue($data)), $this->getDecimals(), $this->getDecimalPoint(), $this->getThousandsSep());
         } else {
@@ -55,7 +61,7 @@ class C4GDecimalField extends C4GBrickFieldNumeric
 
             $result =
                 $this->addC4GField($condition,$dialogParams,$fieldList,$data,
-                    '<input pattern="' . $this->pattern . '" ' . $required . ' ' . $condition['conditionPrepare'] . ' type="text" step="any" id="' . $id . '" class="formdata ' . $id . '" size="' . $this->getSize() . '" min="' . $this->getMin() . '" max="' . $this->getMax() . '" name="' . $this->getFieldName() . '" value="' . $value . '" >');
+                    '<input pattern="' . $this->pattern . '" ' . $required . ' ' . $condition['conditionPrepare'] . ' type="text" step="any" id="' . $id . '" class="formdata c4g__form-control c4g__form-text-input ' . $id . '" size="' . $this->getSize() . '" min="' . $this->getMin() . '" max="' . $this->getMax() . '" name="' . $this->getFieldName() . '" value="' . $value . '" >');
         }
 
         return $result;

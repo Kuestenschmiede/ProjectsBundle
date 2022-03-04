@@ -1,0 +1,70 @@
+.ui-datepicker-month, .ui-datepicker-year {
+  display: inline-block;
+}
+
+.datepicker_inner_container {
+  width: max-content;
+}
+
+table.datepicker_table {
+  width: inherit;
+}
+
+.c4g__form-date-container {
+  display: flex;
+  grid-gap: .5rem;
+  position: relative;
+}
+
+.c4g__btn-date {
+  //@extend .btn-secondary;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background: transparent;
+  border: none;
+  color: #000;
+}
+
+.c4g__form-date-button {
+  &-interactive {
+
+  }
+
+  &-interactive-flipped {
+
+  }
+}
+
+// NEW DATEPICKER
+.datepicker-cell {
+  color: var(--datepicker-day-default-color);
+  background-color: var(--datepicker-day-default-bgcolor);
+}
+
+.datepicker-cell {
+  &.disabled {
+    color: var(--datepicker-day-disabled-color);
+    background-color: var(--datepicker-day-disabled-bgcolor);
+  }
+}
+
+.datepicker-cell {
+  &.today {
+    color: var(--datepicker-day-today-color);
+    background-color:var(--datepicker-day-today-bgcolor);
+  }
+}
+
+// fix datepicker calendar icons with theme css
+.c4g__form-date span.day:before {
+  font-family: inherit;
+  padding-right: inherit;
+  content: '';
+}
+

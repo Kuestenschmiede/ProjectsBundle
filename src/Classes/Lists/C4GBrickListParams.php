@@ -5,7 +5,7 @@
  * @version 8
  * @author con4gis contributors (see "authors.txt")
  * @license LGPL-3.0-or-later
- * @copyright (c) 2010-2021, by Küstenschmiede GmbH Software & Design
+ * @copyright (c) 2010-2022, by Küstenschmiede GmbH Software & Design
  * @link https://www.con4gis.org
  */
 namespace con4gis\ProjectsBundle\Classes\Lists;
@@ -16,6 +16,7 @@ use con4gis\ProjectsBundle\Classes\Buttons\C4GFilterButtonInterface;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickConst;
 use con4gis\ProjectsBundle\Classes\Filter\C4GBrickFilterParams;
 use con4gis\ProjectsBundle\Classes\Filter\C4GListFilter;
+use con4gis\ProjectsBundle\Classes\Session\C4gBrickSession;
 use con4gis\ProjectsBundle\Classes\Views\C4GBrickView;
 
 /**
@@ -68,11 +69,12 @@ class C4GBrickListParams
     private $autoWidth = false;
     private $responsive = true;
     private $redirectListPage = 0;
+    private $session = null;
 
     /**
      * C4GBrickListParams constructor.
      */
-    public function __construct($brickKey, $viewType)
+    public function __construct($brickKey, $viewType, C4gBrickSession $session)
     {
         $this->buttons = $this->getDefaultListButtons($viewType);
         $this->exportButtons = new C4GExportButtons();
@@ -80,6 +82,8 @@ class C4GBrickListParams
         $this->filterParams = new C4GBrickFilterParams($brickKey);
         $this->filterParams->setHeadtext($GLOBALS['TL_LANG']['FE_C4G_DIALOG']['headText']);
         $this->filterParams->setButtontext($GLOBALS['TL_LANG']['FE_C4G_DIALOG']['buttonText']);
+
+        $this->session = $session;
     }
 
     /**
@@ -1002,5 +1006,21 @@ class C4GBrickListParams
     public function setRedirectListPage(int $redirectListPage): void
     {
         $this->redirectListPage = $redirectListPage;
+    }
+
+    /**
+     * @return C4gBrickSession
+     */
+    public function getSession(): C4gBrickSession
+    {
+        return $this->session;
+    }
+
+    /**
+     * @param C4gBrickSession $session
+     */
+    public function setSession(C4gBrickSession $session): void
+    {
+        $this->session = $session;
     }
 }

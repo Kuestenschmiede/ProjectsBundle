@@ -5,7 +5,7 @@
  * @version 8
  * @author con4gis contributors (see "authors.txt")
  * @license LGPL-3.0-or-later
- * @copyright (c) 2010-2021, by Küstenschmiede GmbH Software & Design
+ * @copyright (c) 2010-2022, by Küstenschmiede GmbH Software & Design
  * @link https://www.con4gis.org
  */
 namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
@@ -14,11 +14,26 @@ use con4gis\CoreBundle\Classes\C4GUtils;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldCompare;
+use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldType;
 
 class C4GUrlField extends C4GBrickField
 {
     private $withLink = true;
     private $addProtocol = true;
+    private $linkType = self::LINK_TYPE_DEFAULT;
+    private $url = ''; //optional additional to initial value
+
+    const LINK_TYPE_DEFAULT = 10;
+    const LINK_TYPE_PHONE = 20;
+    const LINK_TYPE_EMAIL = 30;
+
+    /**
+     * @param string $type
+     */
+    public function __construct(string $type = C4GBrickFieldType::URL)
+    {
+        parent::__construct($type);
+    }
 
     /**
      * @param $field
@@ -28,26 +43,45 @@ class C4GUrlField extends C4GBrickField
     public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = [])
     {
         $id = 'c4g_' . $this->getFieldName();
-        $required = $this->generateRequiredString($data, $dialogParams);
+        $required = $this->generateRequiredString($data, $dialogParams, $fieldList);
         $value = $this->generateInitialValue($data);
         $result = '';
 
         if ($this->isShowIfEmpty() || !empty($value)) {
             $condition = $this->createConditionData($fieldList, $data);
+            $conditionPrepare = ' '. $condition['conditionPrepare'];
             $fieldDataBefore = '';
             $fieldDataAfter = '';
 
             if ($this->withLink && !$this->isEditable()) {
-                if ($this->addProtocol && !C4GUtils::startsWith($value, 'http')) {
-                    $value = 'https://' . $value;
+                $url = $this->url ?: $value;
+
+                switch ($this->linkType) {
+                    case self::LINK_TYPE_PHONE:
+                        $url = 'tel:' . $url;
+
+                        break;
+                    case self::LINK_TYPE_EMAIL:
+                        $url = 'mailto:' . $url;
+
+                        break;
+                    default:
+                        if ($this->addProtocol && !C4GUtils::startsWith($url, 'http')) {
+                            $url = 'https://' . $url;
+                        }
+
+                        break;
                 }
-                $fieldDataBefore = '<a href="' . $value . '" target="_blank" rel="noopener">';
+
+                $fieldDataBefore = '<a' . $condition['conditionPrepare'] . ' href="' . $url . '" target="_blank" rel="noopener" class="formdata">';
                 $fieldDataAfter = '</a>';
+
+                $conditionPrepare = '';
             };
 
             $result =
                 $this->addC4GField($condition,$dialogParams,$fieldList,$data,
-                    $fieldDataBefore . '<input type="url" ' . $required . ' ' . $condition['conditionPrepare'] . ' id="' . $id . '" class="formdata" name="' . $this->getFieldName() . '" title="' . $this->getTitle() . '" value="' . $value . '">' . $fieldDataAfter);
+                    $fieldDataBefore . '<input type="url" ' . $required . $conditionPrepare . ' id="' . $id . '" class="formdata c4g__form-control c4g__form-url-input" name="' . $this->getFieldName() . '" title="' . $this->getTitle() . '" value="' . $value . '">' . $fieldDataAfter);
         }
 
         return $result;
@@ -107,5 +141,37 @@ class C4GUrlField extends C4GBrickField
     public function setAddProtocol(bool $addProtocol): void
     {
         $this->addProtocol = $addProtocol;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUrl(): string
+    {
+        return $this->url;
+    }
+
+    /**
+     * @param string $url
+     */
+    public function setUrl(string $url): void
+    {
+        $this->url = $url;
+    }
+
+    /**
+     * @return int
+     */
+    public function getLinkType(): int
+    {
+        return $this->linkType;
+    }
+
+    /**
+     * @param int $linkType
+     */
+    public function setLinkType(int $linkType): void
+    {
+        $this->linkType = $linkType;
     }
 }

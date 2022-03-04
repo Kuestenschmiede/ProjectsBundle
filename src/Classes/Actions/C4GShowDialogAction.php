@@ -5,7 +5,7 @@
  * @version 8
  * @author con4gis contributors (see "authors.txt")
  * @license LGPL-3.0-or-later
- * @copyright (c) 2010-2021, by Küstenschmiede GmbH Software & Design
+ * @copyright (c) 2010-2022, by Küstenschmiede GmbH Software & Design
  * @link https://www.con4gis.org
  */
 namespace con4gis\ProjectsBundle\Classes\Actions;
@@ -26,6 +26,7 @@ class C4GShowDialogAction extends C4GBrickDialogAction
     public function run()
     {
         $element = null;
+        $elements = null;
         $brickDatabase = $this->getBrickDatabase();
         $dialogParams = $this->getDialogParams();
         $viewParams = $dialogParams->getViewParams();
@@ -41,10 +42,14 @@ class C4GShowDialogAction extends C4GBrickDialogAction
         $parentIdField = $dialogParams->getParentIdField();
         $additionalHeadtext = $dialogParams->getAdditionalHeadText();
         $parentCaptionFields = $dialogParams->getParentCaptionFields();
+        $group_headline = '';
+        $group_headline = '';
+        $parent_headline = '';
+        $headtext = '';
 
         if ((!$id || $id == -1 || $id == '-1' || !is_int($id)) && ($dialogParams->isWithInitialSaving())) {
             $id = $this->saveAndGetId($id);
-            \Session::getInstance()->set('c4g_brick_dialog_id', $id);
+            $dialogParams->getSession()->setSessionValue('c4g_brick_dialog_id', $id);
             $dialogParams->setId($id);
         }
 
@@ -79,11 +84,11 @@ class C4GShowDialogAction extends C4GBrickDialogAction
                     }
                 }
             } elseif (!$parentId) {
-                $parentId = \Session::getInstance()->get('c4g_brick_parent_id');
+                $parentId = $dialogParams->getSession()->getSessionValue('c4g_brick_parent_id');
             }
         }
 
-        \Session::getInstance()->set('c4g_brick_dialog_id', $id);
+        $dialogParams->getSession()->setSessionValue('c4g_brick_dialog_id', $id);
 
         $parentModel = $dialogParams->getParentModel();
         if ($parentId && $parentModel) {
@@ -139,13 +144,13 @@ class C4GShowDialogAction extends C4GBrickDialogAction
         }
 
         $doCopy = false;
-        if (((($viewType == C4GBrickViewType::MEMBERFORM) || ($viewType == C4GBrickViewType::MEMBERVIEW) ||
-                ($viewType == C4GBrickViewType::GROUPFORM) && (($id == null) || ($id == -1))) ||
-            ($viewType == C4GBrickViewType::GROUPFORMCOPY) ||
-            ($viewType == C4GBrickViewType::PROJECTFORMCOPY) ||
-            ($viewType == C4GBrickViewType::GROUPPARENTVIEW) ||
-            ($viewType == C4GBrickViewType::PUBLICFORM) ||
-            ($viewType == C4GBrickViewType::PROJECTPARENTFORMCOPY)) ||
+        if (((($viewType == C4GBrickViewType::MEMBERFORM) || ($viewType == C4GBrickViewType::MEMBERVIEW) || ($viewType == C4GBrickViewType::MEMBERBASED) ||
+                    ($viewType == C4GBrickViewType::GROUPFORM) && (($id == null) || ($id == -1))) ||
+                ($viewType == C4GBrickViewType::GROUPFORMCOPY) ||
+                ($viewType == C4GBrickViewType::PROJECTFORMCOPY) ||
+                ($viewType == C4GBrickViewType::GROUPPARENTVIEW) ||
+                ($viewType == C4GBrickViewType::PUBLICFORM) ||
+                ($viewType == C4GBrickViewType::PROJECTPARENTFORMCOPY)) ||
             ($viewType == C4GBrickViewType::PUBLICUUIDVIEW)/* ||
             ($viewType == C4GBrickViewType::PUBLICVIEW) ||
             ($viewType == C4GBrickViewType::PUBLICPARENTVIEW)*/) {
@@ -192,6 +197,11 @@ class C4GShowDialogAction extends C4GBrickDialogAction
 
                     break;
                 case C4GBrickViewType::MEMBERFORM:
+                    $memberKeyField = $viewParams->getMemberKeyField();
+                    $elements = $brickDatabase->findby($memberKeyField, $memberId);
+
+                    break;
+                case C4GBrickViewType::MEMBERBASED:
                     $memberKeyField = $viewParams->getMemberKeyField();
                     $elements = $brickDatabase->findby($memberKeyField, $memberId);
 
@@ -305,7 +315,7 @@ class C4GShowDialogAction extends C4GBrickDialogAction
                     break;
             }
 
-            if (($elements != null) && ($elements[0] != null)) {
+            if ($elements && is_array($elements) && key_exists(0, $elements) && ($elements[0] != null)) {
                 $element = $elements[count($elements) - 1];
 
                 if (($element) && ($doCopy)) {
@@ -321,13 +331,13 @@ class C4GShowDialogAction extends C4GBrickDialogAction
 //                        $parent = $parentModel::findByPk($element->pid);
 //                        if ($parent) {
 //                            $this->project_id = $parent->project_id;
-//                            \Session::getInstance()->set("c4g_brick_project_id", $this->project_id);
+//                            $dialogParams->getSession()->setSessionValue("c4g_brick_project_id", $this->project_id);
 //
 //                            if ($this->project_id) {
 //                                $project = \C4gProjectsModel::findByPk($this->project_id);
 //                                if ($project) {
 //                                    $this->group_id = $project->group_id;
-//                                    \Session::getInstance()->set("c4g_brick_group_id", $this->group_id);
+//                                    $dialogParams->getSession()->setSessionValue("c4g_brick_group_id", $this->group_id);
 //                                }
 //                            }
 //                        }
@@ -346,6 +356,15 @@ class C4GShowDialogAction extends C4GBrickDialogAction
             $element = $elements->$id;
         }
 
+        if (C4GBrickView::isMemberBased($viewType) && $modelListFunction) {
+            $function = $modelListFunction;
+            $database = $brickDatabase->getParams()->getDatabase();
+            $modelClass = $brickDatabase->getParams()->getModelClass();
+            $model = $modelClass;
+            $elements = $model::$function($memberId, '', $brickDatabase, $this->getFieldList(), $this->getListParams());
+            $element = $elements->$id;
+        }
+
         if (C4GBrickView::isPublicBased($viewType) || C4GBrickView::isPublicParentBased($viewType)) {
             if ($modelDialogFunction && $id) {
                 $modelClass = $brickDatabase->getParams()->getModelClass();
@@ -357,8 +376,10 @@ class C4GShowDialogAction extends C4GBrickDialogAction
 
         //ToDo Weitere ViewTypes überprüfen
         if ($viewType != C4GBrickViewType::PROJECTPARENTFORMCOPY) {
-            $uuid = $this->getElementUuid($element->uuid);
-            $dialogParams->setProjectUuid($uuid);
+            $uuid = $element && property_exists($element,'uuid') ? $this->getElementUuid($element->uuid) : false;
+            if ($uuid) {
+                $dialogParams->setProjectUuid($uuid);
+            }
         }
 
         //ToDo nach Umbau prüfen
@@ -578,7 +599,7 @@ class C4GShowDialogAction extends C4GBrickDialogAction
                         }
                     }
                 } else {
-                    foreach (unserialize($ids) as $value) {
+                    foreach (\Contao\StringUtil::deserialize($ids) as $value) {
                         $dbValues = $field->getBrickDatabase()->findBy($field->getForeignKey(), $value);
                         foreach ($dbValues as $dbVal) {
                             if ($dbVal instanceof \stdClass) {

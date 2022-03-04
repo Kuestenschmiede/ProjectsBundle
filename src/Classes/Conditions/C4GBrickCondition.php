@@ -5,7 +5,7 @@
  * @version 8
  * @author con4gis contributors (see "authors.txt")
  * @license LGPL-3.0-or-later
- * @copyright (c) 2010-2021, by Küstenschmiede GmbH Software & Design
+ * @copyright (c) 2010-2022, by Küstenschmiede GmbH Software & Design
  * @link https://www.con4gis.org
  */
 namespace con4gis\ProjectsBundle\Classes\Conditions;
@@ -35,8 +35,15 @@ class C4GBrickCondition
         if ($this->model && $this->function) {
             $model = $this->model;
             $function = $this->function;
+            $conditionField = $this->fieldName;
 
-            return $model::$function($Value);
+            if ($pos = strpos($conditionField,'--')) {
+                $conditionFieldValue = substr($conditionField, 0, $pos);
+                $conditionFieldConst =  substr($conditionField, $pos+2);
+                return $model::$function($Value.'--'.$conditionFieldConst);
+            } else {
+                return $model::$function($Value);
+            }
         }
         if ($Value == $this->value) {
             return true;

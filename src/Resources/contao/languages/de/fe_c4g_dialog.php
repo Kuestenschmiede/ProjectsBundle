@@ -5,7 +5,7 @@
  * @version 8
  * @author con4gis contributors (see "authors.txt")
  * @license LGPL-3.0-or-later
- * @copyright (c) 2010-2021, by Küstenschmiede GmbH Software & Design
+ * @copyright (c) 2010-2022, by Küstenschmiede GmbH Software & Design
  * @link https://www.con4gis.org
  */
 
@@ -16,6 +16,7 @@ $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['BRICK_CAPTION_PLURAL2'] = 'Datensätzen';
 /** FE Buttons **/
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['SAVE']            = 'Speichern';
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['SAVE_AND_NEW']    = 'Speichern & Neu';
+$GLOBALS['TL_LANG']['FE_C4G_DIALOG']['SAVE_AND_REDIRECT'] = 'Speichern';
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['BOOKING_SAVE']    = 'Kostenpflichtig buchen';
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['BOOKING_CHANGE']  = 'Änderungen übernehmen';
 $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['SEARCH']          = 'Sofortsuche';

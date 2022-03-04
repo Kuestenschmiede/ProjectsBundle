@@ -5,13 +5,14 @@
  * @version 8
  * @author con4gis contributors (see "authors.txt")
  * @license LGPL-3.0-or-later
- * @copyright (c) 2010-2021, by Küstenschmiede GmbH Software & Design
+ * @copyright (c) 2010-2022, by Küstenschmiede GmbH Software & Design
  * @link https://www.con4gis.org
  */
 namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
 
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
+use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldType;
 
 /**
  * Class C4GHeadlineField
@@ -26,12 +27,20 @@ class C4GHeadlineField extends C4GBrickField
     protected $associatedFields = [];
     protected $number = 0;
 
-    const ACCORDION_HEADLINE_CLASS = 'c4g_accordion_headline';
-    const ACCORDION_HEADLINE_ICON_CLASS = 'c4g_accordion_icon';
-    const ACCORDION_HEADLINE_TEXT_CLASS = 'c4g_accordion_text';
-    const ACCORDION_TARGET_CLASS = 'c4g_accordion_target';
-    const ACCORDION_HEADLINE_STATE_ACTIVE = 'c4g_accordion_headline_active';
-    const ACCORDION_TARGET_STATE_ACTIVE = 'c4g_accordion_target_active';
+    const ACCORDION_HEADLINE_CLASS = 'c4g__accordion-headline';
+    const ACCORDION_HEADLINE_ICON_CLASS = 'c4g__accordion-icon';
+    const ACCORDION_HEADLINE_TEXT_CLASS = 'c4g__accordion-text';
+    const ACCORDION_TARGET_CLASS = 'c4g__accordion-target';
+    const ACCORDION_HEADLINE_STATE_ACTIVE = 'c4g__accordion-headline-active';
+    const ACCORDION_TARGET_STATE_ACTIVE = 'c4g__accordion-target-active';
+
+    /**
+     * @param string $type
+     */
+    public function __construct(string $type = C4GBrickFieldType::HEADLINE)
+    {
+        parent::__construct($type);
+    }
 
     /**
      * @param $fieldList
@@ -90,10 +99,10 @@ class C4GHeadlineField extends C4GBrickField
                 $headlineText = $headline_count . '. ' . $headlineText;
             }
 
+            $styleClass = 'c4g__form-'.$this->getType().' '.'c4g__form-'.$this->getType().'--'.$this->getFieldName();
             $headline =
-                '<div class="c4g_brick_headline" ' . $condition['conditionPrepare'] . '>' . $headlineText . '</div>';
-            $class = 'class="c4g_condition formdata" ';
-//            $headline = $this->generateC4GFieldHTML($condition, $headline . $this->additionalHeaderText, $class);
+                '<div class="c4g__form-headline" ' . $condition['conditionPrepare'] . '>' . $headlineText . '</div>';
+            $class = 'class="c4g__form-group formdata '.$styleClass.'"';
             $headline = '<div '
                 . $class
                 . $condition['conditionName']
@@ -107,7 +116,7 @@ class C4GHeadlineField extends C4GBrickField
                 . '</div>';
             if ($dialogParams->isAccordion()) {
                 $accordion_state = 'c4gGuiCollapsible_target c4gGuiCollapsible_hide';
-                $accordionClass = 'c4gGuiAccordion ui-accordion ui-corner-top c4gGuiCollapsible_trigger';
+                $accordionClass = 'c4gGuiAccordion c4g__accordion c4gGuiCollapsible_trigger';
 
                 if ($dialogParams->getAccordionCounter() > 0) {
                     if ($dialogParams->getAccordionCounter() >= $headline_count) {
@@ -121,12 +130,13 @@ class C4GHeadlineField extends C4GBrickField
                     $accordion = '<div class="' . $accordionClass . '">';
                 }
 
-                $accordion_content = '</div><div class="' . $accordion_state . ' ui-accordion-content ui-corner-bottom ui-widget-content"><br>';
+                $accordion_content = '</div><div class="' . $accordion_state . ' c4g__accordion-content c4g__btn c4g__btn-accordion c4g__content"><br>';
                 $icon = $this->getAccordionIcon();
 
                 $dialogParams->setAccordionCounter($dialogParams->getAccordionCounter() + 1);
-                $headline = '<h3 class="c4g_brick_headline ui-accordion-header ui-corner-top ui-accordion-icons c4gGuiCollapsible_trigger_target"><a href="#">' . $icon . $this->getTitle() . '</a></h3>';
-                $class = 'class="c4g_condition formdata" ';
+                $headline = '<h3 class="c4g__form-headline c4g__accordion-header c4g__accordion-icons c4gGuiCollapsible_trigger_target"><a href="#">' . $icon . $this->getTitle() . '</a></h3>';
+                $styleClass = 'c4g__form-'.$this->getType().' '.'c4g__form-'.$this->getType().'--'.$this->getFieldName();
+                $class = 'class="c4g__form-group formdata '.$styleClass.'"';
                 $headline = '<div '
                     . $class
                     . $condition['conditionName']
@@ -145,21 +155,21 @@ class C4GHeadlineField extends C4GBrickField
                     $margin = 2 + ($dialogParams->getTabContentCounter() * 0.052);
                     if ($dialogParams->getTabContentCounter() >= $headline_count) {
                         //last headline
-                        $tabContent = '<br></div></div><div style="margin-top:-' . $margin . 'px" class="' . $tabField . ' c4gGuiTabContent ui-corner-bottom ui-widget-content">' . $headline;
+                        $tabContent = '<br></div></div><div style="margin-top:-' . $margin . 'px" class="' . $tabField . ' c4gGuiTabContent c4g__content">' . $headline;
                     } else {
-                        $tabContent = '<br></div><div style="margin-top:-' . $margin . 'px" class="' . $tabField . ' c4gGuiTabContent ui-corner-bottom ui-widget-content">' . $headline;
+                        $tabContent = '<br></div><div style="margin-top:-' . $margin . 'px" class="' . $tabField . ' c4gGuiTabContent c4g__content">' . $headline;
                     }
                     $headline = '';
                 } else {
-                    $tabContainer = '<div class="c4gGuiTabContainer ui-tabs ui-corner-all ui-widget ui-widget-content"><ul class="c4gGuiTabLinks ui-widget ui-tabs-nav ui-corner-all">';
+                    $tabContainer = '<div class="c4gGuiTabContainer c4g__tabs c4g__content"><ul class="c4gGuiTabLinks c4g__tabs-nav">';
                     $idx = 0;
                     foreach ($tablist as $tab) {
                         $tabFieldValue = 'c4g_tab_' . $idx;
                         $tabTitle = $tab->getTitle();
                         if ($idx == 0) {
-                            $tabContainer .= '<li class="c4gGuiTabLink ui-tabs-anchor ui-tabs-tab ui-corner-top ui-state-active ui-tab ' . $tabFieldValue . '" onclick="clickC4GTab(\'' . $tabFieldValue . '\')" data-tab="' . $tabFieldValue . '">' . $tabTitle . '</li>';
+                            $tabContainer .= '<li class="c4gGuiTabLink c4g__tabs-anchor c4g__tabs-tab c4g__state-active ' . $tabFieldValue . '" onclick="clickC4GTab(\'' . $tabFieldValue . '\')" data-tab="' . $tabFieldValue . '">' . $tabTitle . '</li>';
                         } else {
-                            $tabContainer .= '<li class="c4gGuiTabLink ui-tabs-anchor ui-tabs-tab ui-corner-top ui-state-default ui-tab ' . $tabFieldValue . '" onclick="clickC4GTab(\'' . $tabFieldValue . '\')" data-tab="' . $tabFieldValue . '">' . $tabTitle . '</li>';
+                            $tabContainer .= '<li class="c4gGuiTabLink c4g__tabs-anchor c4g__tabs-tab c4g__state-default ' . $tabFieldValue . '" onclick="clickC4GTab(\'' . $tabFieldValue . '\')" data-tab="' . $tabFieldValue . '">' . $tabTitle . '</li>';
                         }
                         $idx++;
                     }
@@ -251,7 +261,7 @@ class C4GHeadlineField extends C4GBrickField
      */
     public function getC4GTileField($fieldTitle, $element)
     {
-        return $fieldTitle . '<div class="c4g_tile value">' . '<h3>' . $this->getTitle() . '</h3>' . '</div>';
+        return $fieldTitle . '<div class="c4g_tile_value">' . '<h3>' . $this->getTitle() . '</h3>' . '</div>';
     }
 
     /**

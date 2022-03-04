@@ -5,7 +5,7 @@
  * @version 8
  * @author con4gis contributors (see "authors.txt")
  * @license LGPL-3.0-or-later
- * @copyright (c) 2010-2021, by Küstenschmiede GmbH Software & Design
+ * @copyright (c) 2010-2022, by Küstenschmiede GmbH Software & Design
  * @link https://www.con4gis.org
  */
 namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
@@ -13,6 +13,7 @@ namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
 use con4gis\CoreBundle\Classes\C4GUtils;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
+use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldType;
 
 class C4GLinkField extends C4GBrickField
 {
@@ -26,13 +27,12 @@ class C4GLinkField extends C4GBrickField
     const LINK_TYPE_EMAIL = 30;
 
     /**
-     * C4GLinkField constructor.
+     * @param string $type
      */
-    public function __construct()
+    public function __construct(string $type = C4GBrickFieldType::LINK)
     {
-        parent::__construct();
+        parent::__construct($type);
         $this->setDatabaseField(true);
-//        $this->setComparable(false);
         $this->setEditable(false);
     }
 

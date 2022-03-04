@@ -5,7 +5,7 @@
  * @version 8
  * @author con4gis contributors (see "authors.txt")
  * @license LGPL-3.0-or-later
- * @copyright (c) 2010-2021, by Küstenschmiede GmbH Software & Design
+ * @copyright (c) 2010-2022, by Küstenschmiede GmbH Software & Design
  * @link https://www.con4gis.org
  */
 namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
@@ -13,9 +13,18 @@ namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldCompare;
+use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldType;
 
 class C4GTrixEditorField extends C4GBrickField
 {
+    /**
+     * @param string $type
+     */
+    public function __construct(string $type = C4GBrickFieldType::TEXTEDITOR)
+    {
+        parent::__construct($type);
+    }
+
     /**
      * @param C4GBrickField[] $fieldList
      * @param $data
@@ -33,18 +42,17 @@ class C4GTrixEditorField extends C4GBrickField
 
         if ($this->isShowIfEmpty() || !empty(trim($value))) {
             $condition = $this->createConditionData($fieldList, $data);
+            //$required = $this->generateRequiredString($data, $dialogParams, $fieldList);
 
             if ($this->isEditable()) {
-                $fieldData = '<input id="' . $id . '" class="formdata c4g-editor-trix ui-corner-all" name="' .
+                $fieldData = '<input id="' . $id . '" class="formdata c4g__form-editor" name="' .
                     $this->getFieldName() . '" value="' . $value . '" type="hidden" name="content">' .
                     '<trix-editor class="trix-content ' . $this->getStyleClass() . '" input="' . $id . '"></trix-editor>';
             } else {
                 $fieldData = '<div disabled ' . $condition['conditionPrepare'] . ' id="' . $id .
-                    '" class="formdata c4g-editor-disabled ' . $id . ' ui-corner-all">' .
+                    '" class="formdata c4g__form-editor-disabled ' . $id . '">' .
                     html_entity_decode($value) . ' </div>';
             }
-
-            $condition = $this->createConditionData($fieldList, $data);
 
             $result = $this->addC4GField($condition, $dialogParams, $fieldList, $data, $fieldData);
         }

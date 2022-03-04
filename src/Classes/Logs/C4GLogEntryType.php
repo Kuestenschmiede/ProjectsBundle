@@ -5,7 +5,7 @@
  * @version 8
  * @author con4gis contributors (see "authors.txt")
  * @license LGPL-3.0-or-later
- * @copyright (c) 2010-2021, by Küstenschmiede GmbH Software & Design
+ * @copyright (c) 2010-2022, by Küstenschmiede GmbH Software & Design
  * @link https://www.con4gis.org
  */
 namespace con4gis\ProjectsBundle\Classes\Logs;
@@ -20,12 +20,12 @@ class C4GLogEntryType
         $optionlist = [
             [
                 'id' => C4GLogEntryType::SAVE_DATASET,
-                'name' => $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['LOG_ENTRY_TYPE']['save'],
+                'name' => &$GLOBALS['TL_LANG']['FE_C4G_DIALOG']['LOG_ENTRY_TYPE']['save'],
             ],
 
             [
                 'id' => C4GLogEntryType::DELETE_DATASET,
-                'name' => $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['LOG_ENTRY_TYPE']['delete'],
+                'name' => &$GLOBALS['TL_LANG']['FE_C4G_DIALOG']['LOG_ENTRY_TYPE']['delete'],
             ],
         ];
 

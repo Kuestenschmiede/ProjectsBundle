@@ -1,0 +1,121 @@
+.c4g_uploadButton {
+  margin-bottom: 4px;
+  cursor: pointer;
+}
+.c4g_uploadLink {
+  cursor: pointer;
+}
+.c4g_uploadLink a {
+  color: #000000!important;
+}
+.c4g_deleteButton {
+  margin-left: 5px;
+  padding: 1px;
+  color: red;
+  cursor: pointer;
+  font-family: "Font Awesome 5 Free"!important;
+  font-size: inherit;
+}
+.c4g_deleteButton:before {
+  background: #f90;
+  color: #fff;
+  font-family: 'Helvetica', 'Arial', sans-serif;
+  font-size: 2em;
+  font-weight: bold;
+  text-align: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 5px;
+}
+
+#c4g_brick .c4gGuiButtons,
+#c4g_brick .c4gGuiDialogButtons {
+  padding-top: 10px;
+}
+
+#c4g_brick .c4gGuiDialogButtons {
+  padding-bottom: 25px;
+}
+
+#c4g_brick .c4g_brick_dialog .c4gCircleButton {
+  display: block;
+  padding: 0;
+  width: 75px;
+  height: 75px;
+  border-radius: 50%!important;
+  border:5px solid;
+  overflow:hidden;
+  vertical-align: middle;
+  /*background: #4679BD;*/
+  box-shadow: 0 0 3px gray;
+}
+#c4g_brick .c4g_brick_dialog .c4gCircleButton .c4g-button-text {
+  text-align: center;
+  vertical-align: middle;
+  font-size: 20px;
+  padding: auto;
+  padding-top: 25px;
+}
+.c4g_more_button_hidden {
+
+}
+
+.c4g_more_button_container
+{
+  min-width: 300px;
+  position: absolute;
+  padding: 10px;
+  z-index: 55;
+}
+
+.c4g_more_button_container_hidden
+{
+  position: relative;
+}
+.c4g_more_button_entry {
+  display:block;
+}
+
+.c4g_more_button_entry_tiles {
+  display:inline-block;
+}
+
+
+.c4g__btn{
+  @extend .btn;
+}
+
+.c4g__btn-primary {
+  @extend .btn-primary;
+}
+
+.c4g__btn-secondary {
+  @extend .btn-secondary;
+}
+
+.c4g__btn-filter {
+  @extend .btn-secondary;
+}
+
+.c4g__btn-more {
+  @extend .btn-secondary;
+}
+
+//.c4g__btn-date {
+//  @extend .btn-secondary;
+//}
+
+.c4g__btn-time {
+  @extend .btn-secondary;
+}
+
+.c4g__btn-accordion {
+  @extend .btn-secondary;
+}
+
+.c4g__btn-link {
+  @extend .btn-link;
+}
+
+
+

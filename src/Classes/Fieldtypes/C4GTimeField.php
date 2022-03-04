@@ -5,7 +5,7 @@
  * @version 8
  * @author con4gis contributors (see "authors.txt")
  * @license LGPL-3.0-or-later
- * @copyright (c) 2010-2021, by Küstenschmiede GmbH Software & Design
+ * @copyright (c) 2010-2022, by Küstenschmiede GmbH Software & Design
  * @link https://www.con4gis.org
  */
 namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
@@ -13,9 +13,17 @@ namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldCompare;
+use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldType;
 
 class C4GTimeField extends C4GBrickField
 {
+    /**
+     * @param string $type
+     */
+    public function __construct(string $type = C4GBrickFieldType::TIME)
+    {
+        parent::__construct($type);
+    }
     /**
      * @param C4GBrickField[] $fieldList
      * @param $data
@@ -28,7 +36,7 @@ class C4GTimeField extends C4GBrickField
         $fieldName = $this->getFieldName();
         $id = $this->createFieldID();
         $title = $this->getTitle();
-        $required = $this->generateRequiredString($data, $dialogParams);
+        $required = $this->generateRequiredString($data, $dialogParams, $fieldList);
         $value = $this->generateInitialValue($data);
         if ($value > 0) {
             $value = date($GLOBALS['TL_CONFIG']['timeFormat'], $value);
@@ -44,7 +52,7 @@ class C4GTimeField extends C4GBrickField
             $result =
                 $this->addC4GField($condition,$dialogParams,$fieldList,$data,
                 '<div class="c4g_timefield" ' . $required . '>' .
-                '<input ' . $required . ' type="text" class="timepicker input formdata" id="' . $id . '" value="' . $value . '" name="' . $fieldName . '" ' . $condition['conditionPrepare'] . ' maxlength="5" size="5" placeholder="__:__">' .
+                '<input ' . $required . ' type="text" class="timepicker input formdata c4g__form-control c4g__form-text-input" id="' . $id . '" value="' . $value . '" name="' . $fieldName . '" ' . $condition['conditionPrepare'] . ' maxlength="5" size="5" placeholder="__:__">' .
                 '<a class="gettime" onclick="C4GTimePicker(\'' . $id . '\', \'gettime\', this)"></a>' .
                 '</div>');
         }
@@ -122,11 +130,11 @@ class C4GTimeField extends C4GBrickField
         $fieldName = $this->getFieldName();
         $date = $element->$fieldName;
 
-        return $fieldTitle . '<div class="c4g_tile value">' . date($GLOBALS['TL_CONFIG']['timeFormat'], $date) . '</div>';
+        return $fieldTitle . '<div class="c4g_tile_value">' . date($GLOBALS['TL_CONFIG']['timeFormat'], $date) . '</div>';
     }
 
     /**
-     * Public method that will be called in translateFieldValues in C4GBrickModuleParent
+     * Public method that will be called to view the value
      * @param $value
      * @return mixed
      */

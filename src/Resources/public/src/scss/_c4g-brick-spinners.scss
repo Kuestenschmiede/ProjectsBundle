@@ -1,0 +1,20 @@
+.c4g__spinner-border {
+  @extend .spinner-border;
+}
+.c4g__visually-hidden {
+  @extend .visually-hidden;
+}
+
+.c4g__spinner-wrapper {
+  display: none;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(#ffffff,.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}

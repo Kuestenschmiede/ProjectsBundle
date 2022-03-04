@@ -5,7 +5,7 @@
  * @version 8
  * @author con4gis contributors (see "authors.txt")
  * @license LGPL-3.0-or-later
- * @copyright (c) 2010-2021, by Küstenschmiede GmbH Software & Design
+ * @copyright (c) 2010-2022, by Küstenschmiede GmbH Software & Design
  * @link https://www.con4gis.org
  */
 namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
@@ -16,6 +16,7 @@ use con4gis\ProjectsBundle\Classes\Conditions\C4GBrickConditionType;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldCompare;
+use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldType;
 
 class C4GSelectField extends C4GBrickField
 {
@@ -28,6 +29,14 @@ class C4GSelectField extends C4GBrickField
     private $initialCallOnChange = false;
     private $withOptionType = false;
 
+    /**
+     * @param string $type
+     */
+    public function __construct(string $type = C4GBrickFieldType::SELECT)
+    {
+        parent::__construct($type);
+    }
+
     public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = [])
     {
         $fieldName = $this->getFieldName();
@@ -37,15 +46,22 @@ class C4GSelectField extends C4GBrickField
 
         $id = $this->createFieldID();
 
-        $required = $this->generateRequiredString($data, $dialogParams);
+        $required = $this->generateRequiredString($data, $dialogParams, $fieldList);
         $value = $this->generateInitialValue($data);
         $changeAction = '';
 
         if ($this->isCallOnChange()) {
             if ($this->getCallOnChangeFunction()) {
                 $changeAction = 'onchange="' . $this->getCallOnChangeFunction() . '"';
+                if ($this->isInitialCallOnChange()) {
+                    $dialogParams->setOnloadScript($this->getCallOnChangeFunction());
+                }
             } else {
-                $changeAction = 'onchange="C4GCallOnChange(this)"';
+                $changeAction = 'onchange="handleBrickConditions();"';
+                if ($this->isInitialCallOnChange()) {
+                    $onLoadScript = 'handleBrickConditions();';
+                    $dialogParams->setOnloadScript($onLoadScript);
+                }
             }
         }
 
@@ -55,15 +71,14 @@ class C4GSelectField extends C4GBrickField
             $condition = $this->createConditionData($fieldList, $data);
 
             $options = $this->getSelectOptions($data, $value, $condition);
-            $class = 'formdata';
+            $class = 'formdata c4g__form-select ';
             if ($this->isChosen() && (count($this->getOptions()) >= $this->getMinChosenCount())) {
                 if (strpos($required, 'disabled')) {
                     $class = $class . ' chzn-select-disabled';
                 } else {
                     $class = $class . ' chzn-select';
                 }
-                $onLoadScript = $dialogParams->getOnloadScript();
-                $onLoadScript .= ' resizeChosen("c4g_' . $id . '_chosen");';
+                $onLoadScript = 'resizeChosen("c4g_' . $id . '_chosen");';
                 $dialogParams->setOnloadScript($onLoadScript);
             }
 
@@ -175,10 +190,11 @@ class C4GSelectField extends C4GBrickField
                         }
                     }
 
+                    $optionAttributes = '';
                     if ($this->isShowIfEmpty() || (!empty($option['id']) && !empty($option['name']))) {
                         $option_id = $option['id'];
                         $option_name = $option['name'];
-                        $optionAttributes = $option['attributes'] ? ' ' . $option['attributes'] . ' ': '';
+                        $optionAttributes = key_exists('attributes', $option) && $option['attributes'] ? ' ' . $option['attributes'] . ' ': '';
 
                         if ($option_name == '') {
                             $option_name = $option_id;
@@ -254,7 +270,7 @@ class C4GSelectField extends C4GBrickField
         //compare for C4GMatching
         if ($this->isSearchField()) {
             if ($dbValue != $dlgValue) {
-                $tmpValue = unserialize($dlgValue);
+                $tmpValue = \Contao\StringUtil::deserialize($dlgValue);
                 if (strlen($tmpValue[0]) > 0) {
                     $dlgValue = $tmpValue[0];
                 } else {
@@ -324,7 +340,7 @@ class C4GSelectField extends C4GBrickField
     }
 
     /**
-     * Public method that will be called in translateFieldValues in C4GBrickModuleParent
+     * Public method that will be called to view the value
      * @param $value
      * @return mixed
      */

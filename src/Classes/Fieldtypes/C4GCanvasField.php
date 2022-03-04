@@ -5,7 +5,7 @@
  * @version 8
  * @author con4gis contributors (see "authors.txt")
  * @license LGPL-3.0-or-later
- * @copyright (c) 2010-2021, by Küstenschmiede GmbH Software & Design
+ * @copyright (c) 2010-2022, by Küstenschmiede GmbH Software & Design
  * @link https://www.con4gis.org
  */
 namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
@@ -13,11 +13,20 @@ namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldCompare;
+use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldType;
 
 class C4GCanvasField extends C4GBrickField
 {
     private $width = 256;
     private $height = 192;
+
+    /**
+     * @param string $type
+     */
+    public function __construct(string $type = C4GBrickFieldType::CANVAS)
+    {
+        parent::__construct($type);
+    }
 
     /**
      * @param $field
@@ -27,7 +36,7 @@ class C4GCanvasField extends C4GBrickField
     public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = [])
     {
         $id = 'c4g_' . $this->getFieldName();
-        $required = $this->generateRequiredString($data, $dialogParams);
+        $required = $this->generateRequiredString($data, $dialogParams, $fieldList);
         $value = $this->generateInitialValue($data);
         $result = '';
 
@@ -40,7 +49,7 @@ class C4GCanvasField extends C4GBrickField
             $condition = $this->createConditionData($fieldList, $data);
             $result =
                 $this->addC4GField($condition,$dialogParams,$fieldList,$data,
-                '<canvas ' . $required . ' ' . $condition['conditionPrepare'] . ' id="' . $id . '" class="' . $id . $additionalClasses . ' ui-corner-all" name="' . $this->getFieldName() . '" width="' . $this->getWidth() . '" height="' . $this->getHeight() . '" >' . $value . ' </canvas>');
+                '<canvas ' . $required . ' ' . $condition['conditionPrepare'] . ' id="' . $id . '" class="' . $id . $additionalClasses . ' c4g__form-canvas" name="' . $this->getFieldName() . '" width="' . $this->getWidth() . '" height="' . $this->getHeight() . '" >' . $value . ' </canvas>');
         }
 
         return $result;
@@ -78,7 +87,7 @@ class C4GCanvasField extends C4GBrickField
     {
         $fieldName = $this->getFieldName();
 
-        return $fieldTitle . '<div class="c4g_tile value">' . $element->$fieldName . '</div>';
+        return $fieldTitle . '<div class="c4g_tile_value">' . $element->$fieldName . '</div>';
     }
 
     /**

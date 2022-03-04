@@ -6,10 +6,11 @@ trix-editor {
   min-height: 5em;
   outline: 0
 }
+trix-editor ul {
+  list-style-type: disc
+}
 .c4g_brick_dialog trix-editor {
-  width: 95%;
-  margin-left: 2.5%;
-  margin-right: 2.5%
+  width: 100%
 }
 trix-toolbar * {
   box-sizing: border-box
@@ -21,9 +22,7 @@ trix-toolbar .trix-button-row {
   overflow-x: auto
 }
 .c4g_brick_dialog trix-toolbar .trix-button-row {
-  width: 95%;
-  margin-left: 2.5%;
-  margin-right: 2.5%
+  width: 100%
 }
 trix-toolbar .trix-button-group {
   display: flex;

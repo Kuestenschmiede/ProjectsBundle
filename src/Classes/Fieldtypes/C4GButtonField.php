@@ -5,7 +5,7 @@
  * @version 8
  * @author con4gis contributors (see "authors.txt")
  * @license LGPL-3.0-or-later
- * @copyright (c) 2010-2021, by Küstenschmiede GmbH Software & Design
+ * @copyright (c) 2010-2022, by Küstenschmiede GmbH Software & Design
  * @link https://www.con4gis.org
  */
 namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
@@ -14,6 +14,7 @@ use con4gis\ProjectsBundle\Classes\Buttons\C4GBrickButton;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickConst;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
+use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldType;
 
 class C4GButtonField extends C4GBrickField
 {
@@ -27,13 +28,15 @@ class C4GButtonField extends C4GBrickField
     /**
      * C4GButtonField constructor.
      */
-    public function __construct(C4GBrickButton $button)
+    public function __construct(C4GBrickButton $button, string $type = C4GBrickFieldType::BUTTON)
     {
         $this->setDatabaseField(false);
         $this->setComparable(false);
         $this->setTitle($button->getCaption());
 
         $this->button = $button;
+
+        parent::__construct($type);
     }
 
     /**
@@ -44,7 +47,7 @@ class C4GButtonField extends C4GBrickField
     public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = [])
     {
         $id = 'c4g_' . $this->getFieldName();
-        $required = $this->generateRequiredString($data, $dialogParams);
+        $required = $this->generateRequiredString($data, $dialogParams, $fieldList);
 
         $button = $this->button;
 
@@ -55,7 +58,7 @@ class C4GButtonField extends C4GBrickField
             $function = $this->getOnClick();
             $divBefore = '<div class="c4gGuiDialogButtonsJqui ">';
             $divAfter = '</div>';
-            $class = 'c4gGuiAction c4gGuiButton c4g_brick_button c4gGuiSend';
+            $class = 'c4gGuiAction c4gGuiButton c4g__btn c4g__btn-primary c4gGuiSend';
 
             if ($this->getOnClickType() == C4GBrickConst::ONCLICK_TYPE_SERVER) {
                 $dataAction = 'href="#" data-action="' . $button->getAction() . ':' . $function . ':' . $dialogParams->getId() . '" role="button"';
@@ -65,7 +68,7 @@ class C4GButtonField extends C4GBrickField
         } elseif ($button->getAction()) {
             $divBefore = '<div class="c4gGuiDialogButtonsJqui ">';
             $divAfter = '</div>';
-            $class = 'c4gGuiAction c4gGuiButton c4g_brick_button c4gGuiSend';
+            $class = 'c4gGuiAction c4gGuiButton c4g__btn c4g__btn-primary c4gGuiSend';
 
             $dataAction = 'href="#" data-action="' . $button->getAction() . ':' . $dialogParams->getId() . '" role="button"';
         } else {

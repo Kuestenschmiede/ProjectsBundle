@@ -5,7 +5,7 @@
  * @version 8
  * @author con4gis contributors (see "authors.txt")
  * @license LGPL-3.0-or-later
- * @copyright (c) 2010-2021, by Küstenschmiede GmbH Software & Design
+ * @copyright (c) 2010-2022, by Küstenschmiede GmbH Software & Design
  * @link https://www.con4gis.org
  */
 namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
@@ -13,9 +13,19 @@ namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldCompare;
+use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldType;
 
 class C4GMultiSelectField extends C4GBrickField
 {
+    /**
+     * @param string $type
+     */
+    public function __construct(string $type = C4GBrickFieldType::MULTISELECT)
+    {
+        parent::__construct($type);
+    }
+
+
     /**
      * @param $field
      * @param $data
@@ -25,11 +35,11 @@ class C4GMultiSelectField extends C4GBrickField
     {
         $fieldName = $this->getFieldName();
         $id = $this->createFieldID();
-        $required = $this->generateRequiredString($fieldList, $data);
+        $required = $this->generateRequiredString($data, $dialogParams, $fieldList);
 
         $value = $this->generateInitialValue($data);
 //        if ($this->isCallOnChange()) {
-//            $changeAction = 'onchange="C4GCallOnChange(this)"';
+//            $changeAction = 'onchange="handleBrickConditions()"';
 //        }
 
         $result = '';

@@ -5,7 +5,7 @@
  * @version 8
  * @author con4gis contributors (see "authors.txt")
  * @license LGPL-3.0-or-later
- * @copyright (c) 2010-2021, by Küstenschmiede GmbH Software & Design
+ * @copyright (c) 2010-2022, by Küstenschmiede GmbH Software & Design
  * @link https://www.con4gis.org
  */
 namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
@@ -15,6 +15,7 @@ use con4gis\ProjectsBundle\Classes\Common\C4GBrickCommon;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldSourceType;
+use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldType;
 use con4gis\ProjectsBundle\Classes\Files\C4GBrickFileType;
 use Contao\StringUtil;
 
@@ -24,6 +25,15 @@ class C4GImageField extends C4GBrickField
     private $height = '256px';
     private $deserialize = false;
     private $lightBoxField = '';
+
+    /**
+     * @param string $type
+     */
+    public function __construct(string $type = C4GBrickFieldType::IMAGE)
+    {
+        parent::__construct($type);
+    }
+
 
     /**
      * @param C4GBrickField[] $fieldList
@@ -54,7 +64,7 @@ class C4GImageField extends C4GBrickField
         } else {
             $value = $this->generateInitialValue($data);
         }
-
+        $path = '';
         if ($this->deserialize) {
             if ($value) {
                 $path = StringUtil::deserialize($value)[0];
@@ -65,7 +75,9 @@ class C4GImageField extends C4GBrickField
                 $path = $value;
             } else {
                 $pathobj = C4GBrickCommon::loadFile($value);
-                $path = $pathobj->path;
+                if ($pathobj) {
+                    $path = $pathobj->path;
+                }
             }
         }
 
@@ -95,9 +107,9 @@ class C4GImageField extends C4GBrickField
                     $width = $this->getWidth();
                     $height = $this->getHeight();
                     $maxWidth = $this->getFieldName() . 'MaxWidth';
-                    $maxWidth = $data->$maxWidth;
+                    $maxWidth = $data ? $data->$maxWidth : $width;
                     $maxheight = $this->getFieldName() . 'MaxHeight';
-                    $maxheight = $data->$maxheight;
+                    $maxheight = $data ? $data->$maxheight : $height;
 
                     if ($width && $height) {
                         $size = 'width="' . $width . '" height="' . $height . '"';
@@ -116,21 +128,28 @@ class C4GImageField extends C4GBrickField
 
                 $img = "<img src=\"$path\" title=\"" . $this->getTitle() . "\" $size/>";
                 $i = $this->getFieldName() . 'Link';
-                $link = $data->$i;
+                $link = $data ? $data->$i : '';
 
                 $lightBoxField = $this->lightBoxField;
-                if ($link !== '') {
+                if ($link) {
                     $img = '<a href="' . $link . "\" target=\"_blank\" rel=\"noopener noreferrer\">$img</a>";
-                } elseif ($lightBoxField !== '' && $data->$lightBoxField === '1') {
+                } elseif ($lightBoxField !== '' || $data->$lightBoxField) {
                     $img = "<a href=\"$path\" data-lightbox=\"c4g_image\">$img</a>";
                 }
 
-                $result = '<div '
+                $imageLabel = '';
+                if ($label) {
+                    $imageLabel = '<div class="c4g_image_label"><label>' . $label . '</label></div>';
+                }
+
+                //ToDo <div class="c4g_image_src  c4g_' . $this->getFieldName() . '_src"></div>
+
+                $result = '<div class="c4g__form-group c4g__form-image" '
                     . $condition['conditionName']
                     . $condition['conditionType']
                     . $condition['conditionValue']
                     . $condition['conditionDisable'] . '>
-                        <div class="c4g_image c4g_' . $this->getFieldName() . '"><div class="c4g_image_label"><label>' . $label . '</label></div><div class="c4g_image_src  c4g_' . $this->getFieldName() . '_src"></div><div class="c4g_image_description">' .
+                        <div class="c4g_image c4g_' . $this->getFieldName() . '">'.$imageLabel.'<div class="c4g_image_description">' .
                     $img . $description . '</div></div></div>';
             }
         }
@@ -231,17 +250,28 @@ class C4GImageField extends C4GBrickField
             $file = '';
         }
         $fileObject = C4GBrickCommon::loadFile($file);
+
+        $fileTypes = $this->getFileTypes();
+        if (!$fileTypes) {
+            $fileTypes = C4GBrickFileType::IMAGES_ALL;
+        }
+
+        $size = $this->getSize();
+        if (!$size) {
+            $size = $fileObject->width;
+        }
+
         if ($fileObject) {
-            switch ($this->getFileTypes()) {
+            switch ($fileTypes) {
                 case C4GBrickFileType::IMAGES_ALL:
                 case C4GBrickFileType::IMAGES_JPG:
                 case C4GBrickFileType::IMAGES_PNG:
                 case C4GBrickFileType::IMAGES_PNG_JPG:
                     if ($fileObject->path[0] == '/') {
-                        return $fieldTitle . '<div class="c4g_tile value">' . '<img src="' . substr($fileObject->path, 1) . '" width="' . $this->getSize() . '" height="' . $this->getSize() . '">' . '</div>';
+                        return $fieldTitle . '<div class="c4g_tile_value">' . '<img src="' . substr($fileObject->path, 1) . '" width="' . $size . '" height="' . $size . '">' . '</div>';
                     }
 
-                        return $fieldTitle . '<div class="c4g_tile value">' . '<img src="' . $fileObject->path . '" width="' . $this->getSize() . '" height="' . $this->getSize() . '">' . '</div>';
+                        return $fieldTitle . '<div class="c4g_tile_value">' . '<img src="' . $fileObject->path . '" width="' . $size . '" height="' . $size . '">' . '</div>';
 
             }
         } else {
@@ -250,11 +280,11 @@ class C4GImageField extends C4GBrickField
                 case C4GBrickFileType::IMAGES_JPG:
                 case C4GBrickFileType::IMAGES_PNG:
                 case C4GBrickFileType::IMAGES_PNG_JPG:
-                    return $fieldTitle . '<div class="c4g_tile value">' . '<img src="bundles/con4gisprojects/images/missing.svg">' . '</div>';
+                    return $fieldTitle . '<div class="c4g_tile_value">' . '<img src="bundles/con4gisprojects/images/missing.svg">' . '</div>';
 
                     break;
                 default:
-                    return $fieldTitle . '<div class="c4g_tile value">' . '<div class="error"></div>' . '</div>';
+                    return $fieldTitle . '<div class="c4g_tile_value">' . '<div class="error"></div>' . '</div>';
             }
         }
     }
@@ -292,7 +322,7 @@ class C4GImageField extends C4GBrickField
     }
 
     /**
-     * Public method that will be called in translateFieldValues in C4GBrickModuleParent
+     * Public method that will be called to view the value
      * @param $value
      * @return mixed
      */

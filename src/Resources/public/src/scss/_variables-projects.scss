@@ -1,0 +1,21 @@
+// COLORS DATEPICKER
+$datepicker-day-default-color: #27ae60;
+$datepicker-day-default-bgcolor: #ffffff;
+$datepicker-day-disabled-color: #c0392b;
+$datepicker-day-disabled-bgcolor: #ffffff;
+$datepicker-day-free-color: #27ae60;
+$datepicker-day-free-bgcolor: #ffffff;
+$datepicker-day-today-color: #000000;
+$datepicker-day-today-bgcolor: #f1c40f;
+
+
+html {
+  --datepicker-day-default-color: #{$datepicker-day-default-color};
+  --datepicker-day-default-bgcolor: #{$datepicker-day-default-bgcolor};
+  --datepicker-day-disabled-color: #{$datepicker-day-disabled-color};
+  --datepicker-day-disabled-bgcolor: #{$datepicker-day-disabled-bgcolor};
+  --datepicker-day-free-color: #{$datepicker-day-free-color};
+  --datepicker-day-free-bgcolor: #{$datepicker-day-free-bgcolor};
+  --datepicker-day-today-color: #{$datepicker-day-today-color};
+  --datepicker-day-today-bgcolor: #{$datepicker-day-today-bgcolor};
+}

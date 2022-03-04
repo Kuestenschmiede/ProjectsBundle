@@ -5,7 +5,7 @@
  * @version 8
  * @author con4gis contributors (see "authors.txt")
  * @license LGPL-3.0-or-later
- * @copyright (c) 2010-2021, by Küstenschmiede GmbH Software & Design
+ * @copyright (c) 2010-2022, by Küstenschmiede GmbH Software & Design
  * @link https://www.con4gis.org
  */
 namespace con4gis\ProjectsBundle\Classes\Actions;
@@ -19,7 +19,7 @@ abstract class C4GBrickDialogAction extends C4GBrickAction
     protected function sendNotifications($notifications, $dlgValues, $fieldList, $memberId, $object = null)
     {
         if ($notifications) {
-            if (sizeof($notifications) == 1) {
+            if (is_array($notifications) && sizeof($notifications) == 1) {
                 $objNotification = \NotificationCenter\Model\Notification::findByPk($notifications);
                 if ($objNotification !== null) {
                     $dlgValues['c4g_member_id'] = $memberId;

@@ -5,20 +5,30 @@
  * @version 8
  * @author con4gis contributors (see "authors.txt")
  * @license LGPL-3.0-or-later
- * @copyright (c) 2010-2021, by Küstenschmiede GmbH Software & Design
+ * @copyright (c) 2010-2022, by Küstenschmiede GmbH Software & Design
  * @link https://www.con4gis.org
  */
 namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
 
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
+use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldType;
 use Contao\StringUtil;
 
 class C4GMultiLinkField extends C4GBrickField
 {
     private $linkClass = '';
     private $wrapper = false;
-    private $wrapperClass = 'c4g_condition__wrapper';
+    private $wrapperClass = 'c4g__list-group';
+
+    /**
+     * @param string $type
+     */
+    public function __construct(string $type = C4GBrickFieldType::MULTILINK)
+    {
+        parent::__construct($type);
+    }
+
 
     public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = [])
     {
@@ -36,12 +46,17 @@ class C4GMultiLinkField extends C4GBrickField
                     break;
                 }
 
-                if ($link['linkNewTab'] === '1') {
+                if (key_exists('linkNewTab', $link) && $link['linkNewTab'] === '1') {
                     $rel = 'target="_blank" rel="noopener noreferrer"';
                 } else {
                     $rel = '';
                 }
-                $tags[] = '<a class="' . $this->linkClass . '" href="' . $link['linkHref'] . "\" $rel>" . $link['linkTitle'] . '</a>';
+
+                if (!$link['linkHref']) {
+                    $tags[] = '<span class="' . $this->linkClass . ' c4g__list-group-item">' . $link['linkTitle'] . '</span>';
+                } else {
+                    $tags[] = '<a class="' . $this->linkClass . ' c4g__list-group-item c4g__list-group-item-action" href="' . $link['linkHref'] . "\" $rel>" . $link['linkTitle'] . '</a>';
+                }
             }
 
             if ($this->wrapper) {

@@ -5,7 +5,7 @@
  * @version 8
  * @author con4gis contributors (see "authors.txt")
  * @license LGPL-3.0-or-later
- * @copyright (c) 2010-2021, by Küstenschmiede GmbH Software & Design
+ * @copyright (c) 2010-2022, by Küstenschmiede GmbH Software & Design
  * @link https://www.con4gis.org
  */
 namespace con4gis\ProjectsBundle\Classes\Fieldlist;
@@ -26,6 +26,11 @@ abstract class C4GBrickFieldText extends C4GBrickField
     protected $encodeHtmlEntities = true;
     protected $placeholder = '';
     protected $tableAutoCut = false;
+
+    public function __construct(string $type = C4GBrickFieldType::TEXT)
+    {
+        parent::__construct($type);
+    }
 
     /**
      * Will be called by if the field value is longer than $maxChars. Return a value that will replace it.

@@ -11,10 +11,11 @@ trix-editor {
   min-height: 5em;
   outline: none;
 }
+trix-editor ul {
+  list-style-type: disc; //modified
+}
 .c4g_brick_dialog trix-editor {
-  width: 95%; //modified
-  margin-left: 2.5%; //modified
-  margin-right: 2.5%; //modified
+  width: 100%; //modified
 }
 trix-toolbar * {
   box-sizing: border-box; }
@@ -25,9 +26,7 @@ trix-toolbar .trix-button-row {
   overflow-x: auto;
 }
 .c4g_brick_dialog trix-toolbar .trix-button-row {
-  width: 95%; //modified
-  margin-left: 2.5%; //modified
-  margin-right: 2.5%; //modified
+  width: 100%; //modified
 }
 trix-toolbar .trix-button-group {
   display: flex;

@@ -5,7 +5,7 @@
  * @version 8
  * @author con4gis contributors (see "authors.txt")
  * @license LGPL-3.0-or-later
- * @copyright (c) 2010-2021, by Küstenschmiede GmbH Software & Design
+ * @copyright (c) 2010-2022, by Küstenschmiede GmbH Software & Design
  * @link https://www.con4gis.org
  */
 
@@ -17,14 +17,9 @@ use con4gis\CoreBundle\Classes\C4GVersionProvider;
 
 $apiBaseUrl = 'con4gis';
 
-$GLOBALS['TL_HOOKS']['postLogout'][] = array('con4gis\ProjectsBundle\Classes\Framework\C4GMaintenance', 'onLogoutClearSessions');
-$GLOBALS['TL_HOOKS']['postLogin'][] = array('con4gis\ProjectsBundle\Classes\Framework\C4GMaintenance', 'onLoginClearSessions');
-
-/**
- * Frontend Modules
- */
-$GLOBALS['FE_MOD']['con4gis']['C4GSearchModule'] = 'con4gis\ProjectsBundle\Classes\Modules\C4GSearchModule';
-asort($GLOBALS['FE_MOD']['con4gis']);
+//ToDO deprecated
+//$GLOBALS['TL_HOOKS']['postLogout'][] = array('con4gis\ProjectsBundle\Classes\Framework\C4GMaintenance', 'onLogoutClearSessions');
+//$GLOBALS['TL_HOOKS']['postLogin'][] = array('con4gis\ProjectsBundle\Classes\Framework\C4GMaintenance', 'onLoginClearSessions');
 
 /**
  * API MODULES

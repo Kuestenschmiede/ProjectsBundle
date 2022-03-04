@@ -5,7 +5,7 @@
  * @version 8
  * @author con4gis contributors (see "authors.txt")
  * @license LGPL-3.0-or-later
- * @copyright (c) 2010-2021, by Küstenschmiede GmbH Software & Design
+ * @copyright (c) 2010-2022, by Küstenschmiede GmbH Software & Design
  * @link https://www.con4gis.org
  */
 namespace con4gis\ProjectsBundle\Classes\Dialogs;
@@ -14,6 +14,7 @@ use con4gis\CoreBundle\Classes\Callback\C4GCallback;
 use con4gis\ProjectsBundle\Classes\Buttons\C4GBrickButton;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickConst;
 use con4gis\ProjectsBundle\Classes\Conditions\C4GBrickCondition;
+use con4gis\ProjectsBundle\Classes\Session\C4gBrickSession;
 use con4gis\ProjectsBundle\Classes\Views\C4GBrickView;
 use con4gis\ProjectsBundle\Classes\Views\C4GBrickViewParams;
 use con4gis\ProjectsBundle\Classes\Views\C4GBrickViewType;
@@ -120,14 +121,16 @@ class C4GBrickDialogParams
     private $emptyListMessage = [];
     private $showCloseDialogPrompt = false; // Always show a confirmation dialog on close, even if nothing has been changed
     private $didValuesChangeCallback = null;
+    private $session = null;
 
     /**
      * C4GBrickDialogParams constructor.
      */
-    public function __construct($brickKey, $viewType)
+    public function __construct($brickKey, $viewType, C4gBrickSession $session)
     {
         $this->brickKey = $brickKey;
         $this->viewType = $viewType;
+        $this->session  = $session;
 
         if (!$this->viewParams) {
             $this->viewParams = new C4GBrickViewParams($this->viewType);
@@ -150,7 +153,7 @@ class C4GBrickDialogParams
             if ($viewType != C4GBrickViewType::MEMBERBOOKING) {
                 if (!C4GBrickView::isWithoutEditing($viewType)) {
                     $buttons[] = new C4GBrickButton(C4GBrickConst::BUTTON_SAVE);
-                    $buttons[] = new C4GBrickButton(C4GBrickConst::BUTTON_SAVE_AND_REDIRECT);
+//                    $buttons[] = new C4GBrickButton(C4GBrickConst::BUTTON_SAVE_AND_REDIRECT);
 //                    $buttons[] = new C4GBrickButton(C4GBrickConst::BUTTON_TICKET);
                 }
 
@@ -487,11 +490,20 @@ class C4GBrickDialogParams
         return false;
     }
 
+    private function checkButton($button) {
+        if (!$button->getCaption()) {
+            $caption = $button->getTypeCaption();
+            $button->setCaption($caption);
+        }
+
+        return $button;
+    }
+
     public function getButton($type)
     {
         foreach ($this->buttons as $button) {
             if ($button->getType() == $type) {
-                return $button;
+                return $this->checkButton($button);
             }
         }
 
@@ -503,7 +515,7 @@ class C4GBrickDialogParams
         $result = [];
         foreach ($this->buttons as $button) {
             if ($button->getType() == $type) {
-                $result[] = $button;
+                $result[] = $this->checkButton($button);
             }
         }
 
@@ -532,6 +544,20 @@ class C4GBrickDialogParams
                     }
 
                     return false;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    public function changeButtonCaption($type, $caption)
+    {
+        if ($type && $caption) {
+            foreach ($this->buttons as $button) {
+                if ($button->getType() == $type) {
+                    $button->setCaption($caption);
+                    return true;
                 }
             }
         }
@@ -1514,6 +1540,14 @@ class C4GBrickDialogParams
     {
         if ($this->onloadScript !== '') {
             $this->onloadScript .= $onloadScript;
+            $scriptArr = explode(';', $this->onloadScript);
+            $scriptArr = array_unique($scriptArr);
+            $this->onloadScript = implode(';', $scriptArr);
+
+            $lastChar = substr(trim($this->onloadScript), -1);
+            if ($lastChar != ';') {
+                $this->onloadScript = trim($this->onloadScript).';';
+            }
         } else {
             $this->onloadScript = $onloadScript;
         }
@@ -2161,5 +2195,21 @@ class C4GBrickDialogParams
     public function setDidValuesChangeCallback(C4GCallback $didValuesChangeCallback): void
     {
         $this->didValuesChangeCallback = $didValuesChangeCallback;
+    }
+
+    /**
+     * @return C4gBrickSession
+     */
+    public function getSession(): C4gBrickSession
+    {
+        return $this->session;
+    }
+
+    /**
+     * @param C4gBrickSession $session
+     */
+    public function setSession(C4gBrickSession $session): void
+    {
+        $this->session = $session;
     }
 }

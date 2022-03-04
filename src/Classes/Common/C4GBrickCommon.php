@@ -5,7 +5,7 @@
  * @version 8
  * @author con4gis contributors (see "authors.txt")
  * @license LGPL-3.0-or-later
- * @copyright (c) 2010-2021, by Küstenschmiede GmbH Software & Design
+ * @copyright (c) 2010-2022, by Küstenschmiede GmbH Software & Design
  * @link https://www.con4gis.org
  */
 namespace con4gis\ProjectsBundle\Classes\Common;
@@ -320,12 +320,19 @@ class C4GBrickCommon
 
     public static function getUUID()
     {
+        $result = '';
         $s = uniqid('', false);
-        //return base_convert($s, 16, 36);
 
-        $hex = substr($s, 0, 13);
-        $dec = $s[13] . substr($s, 15); // skip the dot
-        $result = base_convert($hex, 16, 36) . base_convert($dec, 10, 36);
+        if (!empty($s)) {
+            $hex = substr($s, 0, 13);
+            if (!empty($s[13])) {
+              $dec = $s[13] . substr($s, 15); // skip the dot
+              $result = base_convert($hex, 16, 36) . base_convert($dec, 10, 36);
+            } else {
+              $result = base_convert($hex, 16, 36);
+            }
+
+        }
 
         return $result;
     }
@@ -390,21 +397,6 @@ class C4GBrickCommon
         $member = MemberModel::findByPk($memberId);
 
         return $member->firstname . ' ' . $member->lastname;
-    }
-
-    public function setSessionValues($group_id, $project_id, $parent_id)
-    {
-        if ($group_id) {
-            \Session::getInstance()->set('c4g_brick_group_id', $group_id);
-        }
-
-        if ($project_id) {
-            \Session::getInstance()->set('c4g_brick_project_id', $project_id);
-        }
-
-        if ($parent_id) {
-            \Session::getInstance()->set('c4g_brick_parent_id', $parent_id);
-        }
     }
 
     /**

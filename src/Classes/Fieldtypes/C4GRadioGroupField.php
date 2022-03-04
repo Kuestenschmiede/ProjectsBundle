@@ -5,7 +5,7 @@
  * @version 8
  * @author con4gis contributors (see "authors.txt")
  * @license LGPL-3.0-or-later
- * @copyright (c) 2010-2021, by Küstenschmiede GmbH Software & Design
+ * @copyright (c) 2010-2022, by Küstenschmiede GmbH Software & Design
  * @link https://www.con4gis.org
  */
 namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
@@ -16,22 +16,34 @@ use con4gis\ProjectsBundle\Classes\Conditions\C4GBrickConditionType;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldCompare;
+use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldType;
 use con4gis\ProjectsBundle\Classes\Views\C4GBrickViewType;
 
 class C4GRadioGroupField extends C4GBrickField
 {
-    private $turnButton = false;
+    private $turnButton = true;
+    private $showButtons = false;
     private $clearGroupText = '';
     private $addNameToId = true;
     private $withoutScripts = false;
     private $timeButtonSpecial = false;
 
+    /**
+     * @param string $type
+     */
+    public function __construct(string $type = C4GBrickFieldType::RADIOGROUP)
+    {
+        parent::__construct($type);
+    }
+
     public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = [])
     {
-        $required = $this->generateRequiredString($data, $dialogParams);
+        $required = $this->generateRequiredString($data, $dialogParams, $fieldList);
         $value = $this->generateInitialValue($data);
         $is_frozen = $dialogParams->isFrozen();
         $result = '';
+        $additionalInputClass = $this->showButtons ? ' c4g__btn-check' : '';
+        $additionalLabelClass = $this->showButtons ? ' c4g__btn c4g__btn-radio' : '';
 
         $fieldName = $this->getFieldName();
         if ($this->getAdditionalID() || $this->getAdditionalID() == '0') {
@@ -86,15 +98,12 @@ class C4GRadioGroupField extends C4GBrickField
                 $name = '_' . $id;
                 $option_name = $fieldName . $option_id;
                 $for = $fieldName . $option_id;
-                $addToFieldset = ' class="c4g_brick_radio_group"';
-            //$addToWrapper = '';
+                $addToFieldset = ' class="c4g__form-radio-group"';
             } else {
                 $name = $id;
                 $option_name = $option_id;
                 $for = $option_name;
-                $addToFieldset = ' class="c4g_brick_radio_group"';
-                //$addToFieldset = ' id="'.$name.'" class="c4g_brick_radio_group formdata"';
-                //$addToWrapper = '';
+                $addToFieldset = ' class="c4g__form-radio-group"';
             }
             $type_caption = $option['name'];
 
@@ -105,30 +114,20 @@ class C4GRadioGroupField extends C4GBrickField
                     $cnt++;
                 }
             }
-            $optionAttributes = $option['attributes'] ? ' ' . $option['attributes'] . ' ': '';
+            $optionAttributes = key_exists('attribtes',$option) && $option['attributes'] ? ' ' . $option['attributes'] . ' ': '';
 
             $onClick = "jQuery('#" . $id . "').val(jQuery('input[name=_" . $id . "]:checked').val());";
-            if ($this->turnButton) {
-                if ($object_id && $object_id != -1) {
-                    $object_class = 'class="radio_object_' . $object_id . '" ';
-                }/* else {
-                    $object_class = 'class="radio_object_disabled" disabled ';
-                }*/
-
-                $option_results = $option_results . '<div class="radio_element rb_turned"><input type="radio" ' . $object_class . 'id="' . $option_name . '" name="' . $name . '" ' . $optionAttributes . $required . ' ' . $changeAction . ' onclick="' . $onClick . '" value="' . $option_id . '" ' . (($value == $option_id) ? 'checked' : '') . ' /><label class="full lbl_turned" for="' . $for . '" >' . $type_caption . '</label></div>';
+            if ($object_id && intval($object_id) != -1) {
+                $object_class = 'class="c4g__form-check-input radio_object_' . $object_id . $additionalInputClass.'" ';
             } else {
-                if ($object_id && $object_id != -1) {
-                    $object_class = 'class="radio_object_' . $object_id . '" ';
-                }/* else {
-                    $object_class = 'class="radio_object_disabled" disabled ';
-                }*/
-
-                $option_results = $option_results . '<div class="radio_element"><label class="full" for="' . $for . '" >' . $type_caption . '</label><input type="radio" ' . $object_class . 'id="' . $option_name . '" name="' . $name . '" ' . $optionAttributes . $required . ' ' . $changeAction . ' onclick="' . $onClick . '" value="' . $option_id . '" ' . (($value == $option_id) ? 'checked' : '') . ' /></div>';
+                $object_class = 'class="c4g__form-check-input' . $additionalInputClass.'" ';
             }
+
+            $option_results = $option_results . '<div class="c4g__form-check"><input type="radio" ' . $object_class . 'id="' . $option_name . '" name="' . $name . '" ' . $optionAttributes . $required . ' ' . $changeAction . ' onclick="' . $onClick . '" data-object="" value="' . $option_id . '" ' . (($value == $option_id) ? 'checked' : '') . ' /><label class="c4g__form-check-label'.$additionalLabelClass.'" for="' . $for . '" >' . $type_caption . '</label></div>';
         }
 
         if (!$option_results) {
-            $option_results = '<div class="c4g_brick_radio_group_clear">' . $this->clearGroupText . '</div>';
+            $option_results = '<div class="c4g__form-radio-group_clear">' . $this->clearGroupText . '</div>';
         }
 
         $conditionPrepare = $condition['conditionPrepare'];
@@ -136,21 +135,21 @@ class C4GRadioGroupField extends C4GBrickField
         $attributes = $this->getAttributes() ? ' ' . $this->getAttributes() . ' ': '';
 
         if ($this->withoutScripts) {
-            $result .= $this->generateC4GFieldHTML($condition, '<div class="c4g_brick_radio_group_wrapper" ' . $condition['conditionPrepare'] . '>' .
+            $result .= $this->generateC4GFieldHTML($condition, '<div class="c4g__form-radio-group_wrapper" ' . $condition['conditionPrepare'] . '>' .
                 '<input type="hidden" name="' . $fieldName . '" value="' . $value . '" id="' . $id . '"  ' . $required . ' ' . $conditionPrepare . ' ' . 'class="formdata ' . $id . $attributes . '">' .
-                '<label ' . $conditionPrepare . '>' . $this->addC4GField(null, $dialogParams, $fieldList, $data, '</label>' .
+                '<label class="c4g__form-radio-group_label"' . $conditionPrepare . '>' . $this->addC4GField(null, $dialogParams, $fieldList, $data, '</label>' .
                     '<fieldset' . $addToFieldset . '>' .
                     $option_results .
                     '</fieldset>' .
                     '</div>'));
         } else {
-            $result .= $this->generateC4GFieldHTML($condition, '<div class="c4g_brick_radio_group_wrapper" ' . $condition['conditionPrepare'] . '>' .
+            $result .= $this->generateC4GFieldHTML($condition, '<div class="c4g__form-radio-group_wrapper formdata" ' . $condition['conditionPrepare'] . '>' .
                 '<input type="hidden" name="' . $fieldName . '" value="' . $value . '" id="' . $id . '"  ' . $required . ' ' . $conditionPrepare . ' ' . 'class="formdata ' . $id . $attributes . '">' .
-                '<label ' . $conditionPrepare . '>' . $this->addC4GField(null, $dialogParams, $fieldList, $data, '</label>' .
+                '<label class="c4g__form-radio-group_label"' . $conditionPrepare . '>' . $this->addC4GField(null, $dialogParams, $fieldList, $data, '</label>' .
                     '<fieldset' . $addToFieldset . '>' .
                     $option_results .
-                    '</fieldset><span class="reset_c4g_brick_radio_group"></span><script>function resetRadioGroup(){ jQuery("input[name=\'_' . $id . '\']").removeAttr(\'checked\');jQuery("#' . $id . '").val(0); };</script>' .
-                    '</div>'));
+                    '</fieldset><span class="reset_c4g__form-radio-group"></span>' .
+                    '</div><script>function resetRadioGroup(){ jQuery("input[name=\'_' . $id . '\']").removeAttr(\'checked\');jQuery("#' . $id . '").val(0); };</script>'));
         }
 
         return $result;
@@ -184,8 +183,8 @@ class C4GRadioGroupField extends C4GBrickField
                     }
                 } else {
                     if ($condition->getType() == C4GBrickConditionType::METHODSWITCH) {
-                        $conditionField = $condition->getFieldName();
-                        $conditionFunction = $condition->getFunction();
+                        $conditionField = $condition->getFieldName() ?: -1;
+                        $conditionFunction = $condition->getFunction() ?: -1;
                         $conditionModel = $condition->getModel();
 
                         if ($conditionField && $conditionModel && $conditionFunction) {
@@ -215,7 +214,7 @@ class C4GRadioGroupField extends C4GBrickField
         //compare for C4GMatching
         if ($this->isSearchField()) {
             if ($dbValue != $dlgValue) {
-                $tmpValue = unserialize($dlgValue);
+                $tmpValue = \Contao\StringUtil::deserialize($dlgValue);
                 if (strlen($tmpValue[0]) > 0) {
                     $dlgValue = $tmpValue[0];
                 } else {
@@ -240,7 +239,7 @@ class C4GRadioGroupField extends C4GBrickField
     }
 
     /**
-     * Public method that will be called in translateFieldValues in C4GBrickModuleParent
+     * Public method that will be called to view the value
      * @param $value
      * @return mixed
      */
@@ -275,8 +274,8 @@ class C4GRadioGroupField extends C4GBrickField
 
             foreach ($conditions as $condition) {
                 if ($condition->getType() == C4GBrickConditionType::METHODSWITCH) {
-                    $conditionField = $condition->getFieldName();
-                    $conditionFunction = $condition->getFunction();
+                    $conditionField = $condition->getFieldName() ?: -1;
+                    $conditionFunction = $condition->getFunction() ?: -1;
                     $conditionModel = $condition->getModel();
 
                     if ($conditionField && $conditionModel && $conditionFunction) {
@@ -324,7 +323,7 @@ class C4GRadioGroupField extends C4GBrickField
             foreach ($this->getCondition() as $con) {
                 $fieldName = $con->getFieldName();
                 if (!$con->checkAgainstCondition($dlgValues[$fieldName])) {
-                    return false;
+                    return false; //todo shouldn't happend, better error handling.
                 }
             }
         }
@@ -428,5 +427,21 @@ class C4GRadioGroupField extends C4GBrickField
     public function setTimeButtonSpecial(bool $timeButtonSpecial): void
     {
         $this->timeButtonSpecial = $timeButtonSpecial;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isShowButtons(): bool
+    {
+        return $this->showButtons;
+    }
+
+    /**
+     * @param bool $showButtons
+     */
+    public function setShowButtons(bool $showButtons): void
+    {
+        $this->showButtons = $showButtons;
     }
 }

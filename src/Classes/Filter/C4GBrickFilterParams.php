@@ -5,7 +5,7 @@
  * @version 8
  * @author con4gis contributors (see "authors.txt")
  * @license LGPL-3.0-or-later
- * @copyright (c) 2010-2021, by Küstenschmiede GmbH Software & Design
+ * @copyright (c) 2010-2022, by Küstenschmiede GmbH Software & Design
  * @link https://www.con4gis.org
  */
 namespace con4gis\ProjectsBundle\Classes\Filter;
@@ -292,9 +292,9 @@ class C4GBrickFilterParams
 
     public function getBrickFilterCookies($brickKey)
     {
-        $fromCookie = $_COOKIE[$brickKey . '_rangeFrom'];
-        $toCookie = $_COOKIE[$brickKey . '_rangeTo'];
-        $methodFilterCookie = $_COOKIE[$brickKey . '_methodFilter'];
+        $fromCookie = key_exists($brickKey . '_rangeFrom', $_COOKIE) ? $_COOKIE[$brickKey . '_rangeFrom'] : '';
+        $toCookie = key_exists($brickKey . '_rangeTo', $_COOKIE) ? $_COOKIE[$brickKey . '_rangeTo'] : '';
+        $methodFilterCookie = key_exists($brickKey . '_methodFilter', $_COOKIE) ? $_COOKIE[$brickKey . '_methodFilter'] : '';
         if ($fromCookie && $toCookie) {
             $this->rangeFrom = $fromCookie;
             $this->rangeTo = $toCookie;

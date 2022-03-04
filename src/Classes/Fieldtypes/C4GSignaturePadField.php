@@ -5,7 +5,7 @@
  * @version 8
  * @author con4gis contributors (see "authors.txt")
  * @license LGPL-3.0-or-later
- * @copyright (c) 2010-2021, by Küstenschmiede GmbH Software & Design
+ * @copyright (c) 2010-2022, by Küstenschmiede GmbH Software & Design
  * @link https://www.con4gis.org
  */
 namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
@@ -13,10 +13,19 @@ namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldCompare;
+use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldType;
 use con4gis\ProjectsBundle\Classes\Signature\SignatureToImage;
 
 class C4GSignaturePadField extends C4GBrickField
 {
+    /**
+     * @param string $type
+     */
+    public function __construct(string $type = C4GBrickFieldType::SIGNATURE)
+    {
+        parent::__construct($type);
+    }
+
     /**
      * @param C4GBrickField[] $fieldList
      * @param $data
@@ -45,14 +54,14 @@ class C4GSignaturePadField extends C4GBrickField
         }
 
         if ($this->isShowIfEmpty() || !empty(trim($value))) {
-            $fieldData = '<div class="c4g-signature-pad ui-corner-all">' .
+            $fieldData = '<div class="c4g__form-signature-pad">' .
                     '<ul class="sigNav">' .
                       '<li class="clearButton"><a href="#clear">' . $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['DELETE'] . '</a></li>' .
                     '</ul>' .
                     '<div class="sig sigWrapper">' .
                       '<div class="typed"></div>' .
                       '<canvas class="pad" width="300" height="110" autofocus></canvas>' .
-                      '<input id="' . $id . '" type="hidden" name="' . $this->getFieldName() . '" class="formdata output c4g-signature-pad-output' .
+                      '<input id="' . $id . '" type="hidden" name="' . $this->getFieldName() . '" class="formdata output  c4g__form-signature-pad-output' .
                       $this->getFieldName() . '" value="' . $value . '">' .
                     '</div>' . $script;
 

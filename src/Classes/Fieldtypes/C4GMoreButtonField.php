@@ -5,7 +5,7 @@
  * @version 8
  * @author con4gis contributors (see "authors.txt")
  * @license LGPL-3.0-or-later
- * @copyright (c) 2010-2021, by Küstenschmiede GmbH Software & Design
+ * @copyright (c) 2010-2022, by Küstenschmiede GmbH Software & Design
  * @link https://www.con4gis.org
  */
 namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
@@ -14,6 +14,7 @@ use con4gis\ProjectsBundle\Classes\Buttons\C4GMoreButton;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldCompare;
+use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldType;
 use con4gis\ProjectsBundle\Classes\Lists\C4GBrickRenderMode;
 
 class C4GMoreButtonField extends C4GBrickField
@@ -40,10 +41,11 @@ class C4GMoreButtonField extends C4GBrickField
     protected $buttonTitle = '...';
 
     /**
-     * C4GMoreButtonField constructor.
+     * @param string $type
      */
-    public function __construct()
+    public function __construct(string $type = C4GBrickFieldType::BUTTON)
     {
+        parent::__construct($type);
         $this->setSortColumn(false);
         $this->setSort(false);
         $this->setTableColumnPriority(1);
@@ -100,12 +102,12 @@ class C4GMoreButtonField extends C4GBrickField
             $tdc = '</td>';
             $tablec = '</table>';
         }
-        $id = 'c4g_condition';
+        $id = '';
         if ($dialogParams->getId() != -1) {
-            $id .= '_' . $dialogParams->getId();
+            $id = 'c4g__form-group-' . $dialogParams->getId() . ' ';
         }
 
-        return '<div id=' . $id . ' '
+        return '<div '.$id
             . $class
             . '>' .
             $tableo . $tro .
@@ -149,25 +151,6 @@ class C4GMoreButtonField extends C4GBrickField
         }
 
         return '';
-    }
-
-    /**
-     * @return bool
-     */
-    public function isDatabaseField()
-    {
-        return $this->databaseField;
-    }
-
-    /**
-     * @param bool $databaseField
-     * @return $this|C4GBrickField
-     */
-    public function setDatabaseField($databaseField)
-    {
-        $this->databaseField = $databaseField;
-
-        return $this;
     }
 
     /**

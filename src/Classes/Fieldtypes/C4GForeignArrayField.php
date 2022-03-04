@@ -5,7 +5,7 @@
  * @version 8
  * @author con4gis contributors (see "authors.txt")
  * @license LGPL-3.0-or-later
- * @copyright (c) 2010-2021, by Küstenschmiede GmbH Software & Design
+ * @copyright (c) 2010-2022, by Küstenschmiede GmbH Software & Design
  * @link https://www.con4gis.org
  */
 namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
@@ -16,6 +16,7 @@ use con4gis\ProjectsBundle\Classes\Database\C4GBrickDatabase;
 use con4gis\ProjectsBundle\Classes\Database\C4GBrickDatabaseType;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
+use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldType;
 
 class C4GForeignArrayField extends C4GBrickField
 {
@@ -37,9 +38,13 @@ class C4GForeignArrayField extends C4GBrickField
     private $autoAdd = false;   //Automatically add a value to the array in the database if it does not exist yet.
     private $autoAddData = '';  //The data to add automatically. "member" = The current member id.
 
-    public function __construct()
+    /**
+     * @param string $type
+     */
+    public function __construct(string $type = C4GBrickFieldType::FOREIGNARRAY)
     {
         $this->setComparable(false);
+        parent::__construct($type);
     }
 
     public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = [])
@@ -96,7 +101,7 @@ class C4GForeignArrayField extends C4GBrickField
         if ($useDoctrine) {
             $dataArray = $dbValues->$index;
         } elseif ($dbValues->$index) {
-            $dataArray = unserialize($dbValues->$index);
+            $dataArray = \Contao\StringUtil::deserialize($dbValues->$index);
         }
         if ($this->autoAdd) {
             switch ($this->autoAddData) {

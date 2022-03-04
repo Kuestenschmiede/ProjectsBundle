@@ -5,7 +5,7 @@
  * @version 8
  * @author con4gis contributors (see "authors.txt")
  * @license LGPL-3.0-or-later
- * @copyright (c) 2010-2021, by Küstenschmiede GmbH Software & Design
+ * @copyright (c) 2010-2022, by Küstenschmiede GmbH Software & Design
  * @link https://www.con4gis.org
  */
 
@@ -102,7 +102,7 @@ class C4GBrickAjaxApi extends \Frontend
             }
 
             $user = FrontendUser::getInstance();
-            $groups = unserialize($objModule->groups);
+            $groups = \Contao\StringUtil::deserialize($objModule->groups);
 
             if (!is_array($groups) || count($groups) < 1 || count(array_intersect($groups, $user->groups)) < 1)
             {

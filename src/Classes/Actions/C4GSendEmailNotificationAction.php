@@ -5,7 +5,7 @@
  * @version 8
  * @author con4gis contributors (see "authors.txt")
  * @license LGPL-3.0-or-later
- * @copyright (c) 2010-2021, by Küstenschmiede GmbH Software & Design
+ * @copyright (c) 2010-2022, by Küstenschmiede GmbH Software & Design
  * @link https://www.con4gis.org
  */
 namespace con4gis\ProjectsBundle\Classes\Actions;
@@ -26,7 +26,7 @@ class C4GSendEmailNotificationAction extends C4GBrickDialogAction
         $id = $dialogParams->getId();
 
         $dlgValues = $this->getPutVars();
-        $notification_array = unserialize($dialogParams->getNotificationTypeContactRequest());
+        $notification_array = \Contao\StringUtil::deserialize($dialogParams->getNotificationTypeContactRequest());
 
         $memberId = $dialogParams->getMemberId();
         if ($memberId && $memberId > 0) {
@@ -38,7 +38,7 @@ class C4GSendEmailNotificationAction extends C4GBrickDialogAction
 
         $dlgValues['c4g_member_id'] = $memberId;
         if ($dialogParams->isWithNotification() && $id) {
-            if (sizeof($notification_array) == 1) {
+            if (is_array($notification_array) && count($notification_array) == 1) {
                 $objNotification = \NotificationCenter\Model\Notification::findByPk($notification_array);
                 if ($objNotification !== null) {
                     $arrTokens = C4GBrickNotification::getArrayTokens($dlgValues, $fieldList, true);

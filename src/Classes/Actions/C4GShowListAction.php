@@ -5,7 +5,7 @@
  * @version 8
  * @author con4gis contributors (see "authors.txt")
  * @license LGPL-3.0-or-later
- * @copyright (c) 2010-2021, by Küstenschmiede GmbH Software & Design
+ * @copyright (c) 2010-2022, by Küstenschmiede GmbH Software & Design
  * @link https://www.con4gis.org
  */
 namespace con4gis\ProjectsBundle\Classes\Actions;
@@ -32,7 +32,6 @@ class C4GShowListAction extends C4GBrickDialogAction
         $memberId = $dialogParams->getMemberId();
         $groupId = $dialogParams->getGroupId();
         $projectId = $dialogParams->getProjectId();
-        $projectKey = $dialogParams->getProjectKey();
         $parentId = $dialogParams->getParentId();
         $parentIdField = $dialogParams->getParentIdField();
         $parentModel = $dialogParams->getParentModel();
@@ -40,7 +39,6 @@ class C4GShowListAction extends C4GBrickDialogAction
         $parentCaptionFields = $dialogParams->getParentCaptionFields();
         $brickKey = $dialogParams->getBrickKey();
         $brickCaptionPlural = $dialogParams->getBrickCaptionPlural();
-        $captionField = $dialogParams->getCaptionField();
         $withLabels = $dialogParams->isWithLabels();
         $viewType = $dialogParams->getViewType();
         $viewParams = $dialogParams->getViewParams();
@@ -101,7 +99,7 @@ class C4GShowListAction extends C4GBrickDialogAction
                 $this->dialogParams->setGroupId($onlyGroupId);
                 $this->listParams->deleteButton(C4GBrickConst::BUTTON_GROUP);
             }
-            \Session::getInstance()->set('c4g_brick_group_id', $groupId);
+            $this->dialogParams->getSession()->setSessionValue('c4g_brick_group_id', $groupId);
 
             $group = \MemberGroupModel::findByPk($groupId);
             if ($group) {
@@ -117,8 +115,8 @@ class C4GShowListAction extends C4GBrickDialogAction
                 if ($project) {
                     $project_headline = '<div class="c4g_brick_headtext">' . $GLOBALS['TL_LANG']['FE_C4G_LIST']['USERMESSAGE_ACTIVE_PROJECT'] . '<b>' . $project->caption . '</b></div>';
                 } else {
-                    \Session::getInstance()->set('c4g_brick_project_id', '');
-                    \Session::getInstance()->set('c4g_brick_project_uuid', '');
+                    $dialogParams->getSession()->setSessionValue('c4g_brick_project_id', '');
+                    $dialogParams->getSession()->setSessionValue('c4g_brick_project_uuid', '');
 
                     $redirects = $dialogParams->getRedirects();
                     if ($redirects) {
@@ -193,7 +191,7 @@ class C4GShowListAction extends C4GBrickDialogAction
                     }
                     $parent_headline = '<div class="c4g_brick_headtext"> ' . $parentCaption . ': <b>' . $caption . '</b></div>';
                 } elseif (!$dialogParams->isWithCommonParentOption()) {
-                    \Session::getInstance()->set('c4g_brick_parent_id', '');
+                    $dialogParams->getSession()->setSessionValue('c4g_brick_parent_id', '');
 
                     return ['title' => $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_MISSING_PARENT_TITLE'] . $parentCaption,
                         'usermessage' => $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_MISSING_PARENT'] . $parentCaption . '.',
@@ -226,6 +224,7 @@ class C4GShowListAction extends C4GBrickDialogAction
         }
 
         try {
+            $list_headline = '';
             $tableName = $brickDatabase->getParams()->getTableName();
             switch ($viewType) {
                 case C4GBrickView::isGroupBased($viewType):
@@ -240,7 +239,7 @@ class C4GShowListAction extends C4GBrickDialogAction
                             $database = $brickDatabase->getParams()->getDatabase();
 
                             //ToDo Umbau brickDatabase
-                            $model = $modelClass ? $modelClass : $brickDatabase->getParams()->getModelClass();
+                            $model = $modelClass ?: $brickDatabase->getParams()->getModelClass();
                             $elements = $model::$function($groupId, $pid_field, $parentId, $database, $listParams);
 
                             if ($elements->headline) {
@@ -373,6 +372,7 @@ class C4GShowListAction extends C4GBrickDialogAction
         }
 
         $filterObject = $listParams->getFilterObject();
+        $filterText = '';
         if ($filterObject) {
             $elements = $filterObject->filter($elements, $dialogParams);
             $filterObject->addButton($listParams);
@@ -477,8 +477,8 @@ class C4GShowListAction extends C4GBrickDialogAction
         //ToDo rebuild headline meachnism (list && dialog)
 
         // ignore default headlines if set
+        $headtext = '';
         if ($listParams->isCustomHeadline() && $list_headline) {
-            $headtext = '';
             if ($listParams->getHeadline()) {
                 $headtext = '<' . $headlineTag . '>' . $listParams->getHeadline() . '</' . $headlineTag . '>';
             }
@@ -540,7 +540,8 @@ class C4GShowListAction extends C4GBrickDialogAction
                     $elements,
                     $id,
                     $parentCaption,
-                    $listParams
+                    $listParams,
+                    $dialogParams
                 );
 
                 break;
@@ -554,7 +555,8 @@ class C4GShowListAction extends C4GBrickDialogAction
                     $elements,
                     $id,
                     $parentCaption,
-                    $listParams
+                    $listParams,
+                    $dialogParams
                 );
 
                 break;
@@ -568,6 +570,7 @@ class C4GShowListAction extends C4GBrickDialogAction
                     $elements,
                     $id,
                     $listParams,
+                    $dialogParams,
                     $parentCaption,
                     $withLabels
                 );

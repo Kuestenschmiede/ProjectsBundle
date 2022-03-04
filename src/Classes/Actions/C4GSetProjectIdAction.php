@@ -5,7 +5,7 @@
  * @version 8
  * @author con4gis contributors (see "authors.txt")
  * @license LGPL-3.0-or-later
- * @copyright (c) 2010-2021, by Küstenschmiede GmbH Software & Design
+ * @copyright (c) 2010-2022, by Küstenschmiede GmbH Software & Design
  * @link https://www.con4gis.org
  */
 namespace con4gis\ProjectsBundle\Classes\Actions;
@@ -24,10 +24,10 @@ class C4GSetProjectIdAction extends C4GBrickDialogAction
         $project = C4gProjectsModel::findByPk($projectId);
         $dialogParams->setProjectUuid($project->uuid);
 
-        \Session::getInstance()->set('c4g_brick_project_id', $projectId);
-        \Session::getInstance()->set('c4g_brick_project_uuid', $project->uuid);
+        $dialogParams->getSession()->setSessionValue('c4g_brick_project_id', $projectId);
+        $dialogParams->getSession()->setSessionValue('c4g_brick_project_uuid', $project->uuid);
 
-        \Session::getInstance()->set('c4g_brick_parent_id', '');
+        $dialogParams->getSession()->setSessionValue('c4g_brick_parent_id', '');
         $dialogParams->setParentId('');
 
         $this->setPutVars(null);

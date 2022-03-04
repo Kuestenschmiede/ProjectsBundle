@@ -5,7 +5,7 @@
  * @version 8
  * @author con4gis contributors (see "authors.txt")
  * @license LGPL-3.0-or-later
- * @copyright (c) 2010-2021, by Küstenschmiede GmbH Software & Design
+ * @copyright (c) 2010-2022, by Küstenschmiede GmbH Software & Design
  * @link https://www.con4gis.org
  */
 namespace con4gis\ProjectsBundle\Classes\Actions;
@@ -17,12 +17,14 @@ use con4gis\ProjectsBundle\Classes\Common\C4GBrickConst;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GDateTimeLocationField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GGeopickerField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GGridField;
+use con4gis\ProjectsBundle\Classes\Framework\C4GBaseController;
 use con4gis\ProjectsBundle\Classes\Models\C4gProjectsModel;
 use con4gis\ProjectsBundle\Classes\Permission\C4GTablePermission;
 use con4gis\ProjectsBundle\Classes\Views\C4GBrickView;
 use con4gis\ProjectsBundle\Classes\Views\C4GBrickViewType;
 use con4gis\GroupsBundle\Resources\contao\models\MemberGroupModel;
 use con4gis\GroupsBundle\Resources\contao\models\MemberModel;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 abstract class C4GBrickAction
 {
@@ -32,7 +34,6 @@ abstract class C4GBrickAction
     protected $putVars;
     protected $brickDatabase;
     protected $module = null;
-
     /**
      * C4GBrickAction constructor.
      */
@@ -195,35 +196,35 @@ abstract class C4GBrickAction
         $dialogParams->setId($id);
 
         if ($brickAction != C4GBrickActionType::ACTION_BUTTONCLICK) {
-            if ($values[2]) {
+            if (key_exists(2,$values) && $values[2]) {
                 $groupId = $values[2];
             } else {
-                $groupId = \Session::getInstance()->get('c4g_brick_group_id');
+                $groupId = $dialogParams->getSession()->getSessionValue('c4g_brick_group_id');
             }
 
             if ($groupId && MemberGroupModel::isMemberOfGroup($groupId, $dialogParams->getMemberId())) {
                 if (MemberModel::hasRightInGroup($dialogParams->getMemberId(), $groupId, $dialogParams->getBrickKey())) {
                     $dialogParams->setGroupId($groupId);
-                    \Session::getInstance()->set('c4g_brick_group_id', $groupId);
+                    $dialogParams->getSession()->setSessionValue('c4g_brick_group_id', $groupId);
                 }
             }
 
-            if ($values[3]) {
+            if (key_exists(3,$values) && $values[3]) {
                 $project_id = $values[3];
             } else {
-                $project_id = \Session::getInstance()->get('c4g_brick_project_id');
+                $project_id = $dialogParams->getSession()->getSessionValue('c4g_brick_project_id');
             }
 
-            if (C4gProjectsModel::checkProjectId($project_id, $dialogParams->getProjectKey())) {
+            if (C4gProjectsModel::checkProjectId($project_id, $dialogParams->getProjectKey(),$dialogParams->getSession())) {
                 $dialogParams->setProjectId($project_id);
-                \Session::getInstance()->set('c4g_brick_project_id', $project_id);
-                $dialogParams->setProjectUuid(\Session::getInstance()->get('c4g_brick_project_uuid'));
+                $dialogParams->getSession()->setSessionValue('c4g_brick_project_id', $project_id);
+                $dialogParams->setProjectUuid($dialogParams->getSession()->getSessionValue('c4g_brick_project_uuid'));
             }
 
-            if ($values[4]) {
+            if (key_exists(4,$values) && $values[4]) {
                 $parent_id = $values[4];
             } else {
-                $parent_id = \Session::getInstance()->get('c4g_brick_parent_id');
+                $parent_id = $dialogParams->getSession()->getSessionValue('c4g_brick_parent_id');
             }
 
             $dialogParams->setParentId($parent_id);
@@ -246,7 +247,7 @@ abstract class C4GBrickAction
                     if (($element) && ($element->$groupKeyField)) {
                         if (static::checkGroupId($element->$groupKeyField, $dialogParams->getMemberId(), $dialogParams->getBrickKey())) {
                             $dialogParams->setGroupId($element->$groupKeyField);
-                            \Session::getInstance()->set('c4g_brick_group_id', $dialogParams->getGroupId());
+                            $dialogParams->getSession()->setSessionValue('c4g_brick_group_id', $dialogParams->getGroupId());
                         }
                     }
                 } else {
@@ -258,7 +259,7 @@ abstract class C4GBrickAction
                             return $action->run();
                         }
                         $dialogParams->setGroupId($onlyGroup_id);
-                        \Session::getInstance()->set('c4g_brick_group_id', $dialogParams->getGroupId());
+                        $dialogParams->getSession()->setSessionValue('c4g_brick_group_id', $dialogParams->getGroupId());
                     }
                 }
 
@@ -301,7 +302,7 @@ abstract class C4GBrickAction
 
                 if (($viewType == C4GBrickViewType::PROJECTPARENTFORMCOPY) ||
                     ($viewType == C4GBrickViewType::PROJECTPARENTVIEW)) {
-                    static::setIdValuesByParent($id, $dialogParams);
+                    static::setIdValuesByParent($id, $dialogParams, $module);
                 }
             }
         }
@@ -313,10 +314,10 @@ abstract class C4GBrickAction
 
             if (($element) && ($element->$groupKeyField)) {
                 $dialogParams->setGroupId($element->$groupKeyField);
-                \Session::getInstance()->set('c4g_brick_group_id', $element->$groupKeyField);
+                $dialogParams->getSession()->setSessionValue('c4g_brick_group_id', $element->$groupKeyField);
             } else {
                 $dialogParams->setGroupId(null);
-                \Session::getInstance()->set('c4g_brick_group_id', null);
+                $dialogParams->getSession()->setSessionValue('c4g_brick_group_id', null);
             }
         }
 
@@ -345,7 +346,7 @@ abstract class C4GBrickAction
                 if ($module->isWithPermissionCheck()) {
                     $table = $module->getC4GTablePermissionTable();
                     if ($table) {
-                        $permission = new C4GTablePermission($table, [$dialogParams->getId()]);
+                        $permission = new C4GTablePermission($table, [$dialogParams->getId()], $dialogParams->getSession());
                         if ($action->isReadOnly()) {
                             $permission->setLevel(1);
                         } else {
@@ -431,7 +432,7 @@ abstract class C4GBrickAction
      * @param $parent_id
      * ToDo funktion hier nur zwischengelagert (PerformAction Umbau)
      */
-    public static function setIdValuesByParent($parent_id, $dialogParams)
+    public static function setIdValuesByParent($parent_id, $dialogParams, C4GBaseController &$module)
     {
         $dialogParams->setParentId($parent_id);
         $dialogParams->setProjectId('');
@@ -452,10 +453,10 @@ abstract class C4GBrickAction
             }
         }
 
-        \Session::getInstance()->set('c4g_brick_group_id', $dialogParams->getGroupId());
-        \Session::getInstance()->set('c4g_brick_project_id', $dialogParams->getProjectId());
-        \Session::getInstance()->set('c4g_brick_project_uuid', $dialogParams->getProjectUuid());
-        \Session::getInstance()->set('c4g_brick_parent_id', $dialogParams->getParentId());
+        $dialogParams->getSession()->setSessionValue('c4g_brick_group_id', $dialogParams->getGroupId());
+        $dialogParams->getSession()->setSessionValue('c4g_brick_project_id', $dialogParams->getProjectId());
+        $dialogParams->getSession()->setSessionValue('c4g_brick_project_uuid', $dialogParams->getProjectUuid());
+        $dialogParams->getSession()->setSessionValue('c4g_brick_parent_id', $dialogParams->getParentId());
     }
 
     public function withMap($fieldList, $contentId)

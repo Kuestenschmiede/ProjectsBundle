@@ -5,13 +5,14 @@
  * @version 8
  * @author con4gis contributors (see "authors.txt")
  * @license LGPL-3.0-or-later
- * @copyright (c) 2010-2021, by Küstenschmiede GmbH Software & Design
+ * @copyright (c) 2010-2022, by Küstenschmiede GmbH Software & Design
  * @link https://www.con4gis.org
  */
 namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
 
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
+use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldType;
 
 class C4GAudioField extends C4GBrickField
 {
@@ -20,9 +21,10 @@ class C4GAudioField extends C4GBrickField
     /**
      * C4GAudioField constructor.
      */
-    public function __construct($sound)
+    public function __construct($sound,string $type = C4GBrickFieldType::AUDIO)
     {
         $this->sound = $sound;
+        parent::__construct($type);
     }
 
     /**
@@ -42,7 +44,7 @@ class C4GAudioField extends C4GBrickField
             $condition = $this->createConditionData($fieldList, $data);
 
             $html =
-                '<div id="' . $id . '" class="c4g_brick_audio c4gGuiDialogButtonsJqui">' .
+                '<div id="' . $id . '" class="c4g__form-audio  c4gGuiDialogButtonsJqui">' .
                 '<audio autoplay><source src="' . $sound . '" type="audio/mpeg">Your browser does not support the audio element.</audio>' .
                 '</div>';
 
