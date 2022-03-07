@@ -458,7 +458,7 @@ class C4GSubDialogField extends C4GBrickField
         if ($subDlgValues) {
             $foreignKey = $dbValues->id;
             $subDbValues = $this->brickDatabase->findBy($this->foreignKeyField->getFieldName(), $foreignKey);
-            if (count($subDbValues) > count($subDlgValues)) {
+            if (count((array)$subDbValues) > count((array)$subDlgValues)) {
                 $changes[] = new C4GBrickFieldCompare($this, $subDbValues, $subDlgValues);
             } else {
                 foreach ($subDlgValues as $sDlgValuesKey => $sDlgvalues) {
