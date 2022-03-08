@@ -408,13 +408,8 @@ class C4GBaseController extends AbstractFrontendModuleController
     private function memberCheck($init = false)
     {
         $user = FrontendUser::getInstance();
-        if ($user->id) {
-            if ($this->publicViewType &&
-                ($this->viewType === C4GBrickViewType::PUBLICBASED ||
-                $this->viewType === C4GBrickViewType::PUBLICPARENTBASED)
-            ) {
-                $this->viewType = $this->publicViewType;
-            }
+        if ($user->id > 0) {
+            return false;
         } elseif (
             !C4GBrickView::isPublicBased($this->viewType) &&
             !C4GBrickView::isPublicParentBased($this->viewType) &&

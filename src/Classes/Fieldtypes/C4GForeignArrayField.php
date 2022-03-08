@@ -10,6 +10,7 @@
  */
 namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
 
+use con4gis\CoreBundle\Classes\C4GUtils;
 use con4gis\CoreBundle\Classes\Helper\ArrayHelper;
 use con4gis\ProjectsBundle\Classes\Database\C4GBrickDatabase;
 use con4gis\ProjectsBundle\Classes\Database\C4GBrickDatabaseType;
@@ -31,6 +32,8 @@ class C4GForeignArrayField extends C4GBrickField
     private $where = [];
     private $delimiter = '#';
     private $identifier = '';
+    private $parentFieldName = '';
+    private $parentFieldDelimiter = '';
 
     private $autoAdd = false;   //Automatically add a value to the array in the database if it does not exist yet.
     private $autoAddData = '';  //The data to add automatically. "member" = The current member id.
@@ -52,13 +55,16 @@ class C4GForeignArrayField extends C4GBrickField
         $loadedDataHtml = '';
         $subData = [];
         foreach ($data as $key => $value) {
-            $keyArray = explode($this->delimiter, $key);
+            if (C4GUtils::startsWith($key, $this->parentFieldName)) {
+                $base = explode($this->parentFieldDelimiter, $key)[1];
+            }
+            $keyArray = explode($this->delimiter, $base ?? $key);
             if ($keyArray && $keyArray[0] == $this->identifier && $keyArray[1] && $keyArray[2]) {
                 $subData[$keyArray[0] . $this->delimiter . $keyArray[2]][$keyArray[1]] = $value;
             }
         }
 
-        foreach ($subData as $dbVals) {
+        foreach ($subData as $key => $dbVals) {
             $dbVals = ArrayHelper::arrayToObject($dbVals);
 
             foreach ($this->foreignFieldList as $field) {
@@ -388,5 +394,37 @@ class C4GForeignArrayField extends C4GBrickField
         $this->identifier = $identifier;
 
         return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getParentFieldName(): string
+    {
+        return $this->parentFieldName;
+    }
+
+    /**
+     * @param string $parentFieldName
+     */
+    public function setParentFieldName(string $parentFieldName): void
+    {
+        $this->parentFieldName = $parentFieldName;
+    }
+
+    /**
+     * @return string
+     */
+    public function getParentFieldDelimiter(): string
+    {
+        return $this->parentFieldDelimiter;
+    }
+
+    /**
+     * @param string $parentFieldDelimiter
+     */
+    public function setParentFieldDelimiter(string $parentFieldDelimiter): void
+    {
+        $this->parentFieldDelimiter = $parentFieldDelimiter;
     }
 }
