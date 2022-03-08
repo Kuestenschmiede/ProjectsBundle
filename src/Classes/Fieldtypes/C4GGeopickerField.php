@@ -57,7 +57,7 @@ class C4GGeopickerField extends C4GBrickField
         $content = $additionalParams['content'];
 
         $address = null;
-        if ($extModel && $extFieldName && $latitudeField && $longitudeField) {
+        if ($latitudeField && $longitudeField) {
             $lat = $data->$latitudeField;
             $lon = $data->$longitudeField;
 
