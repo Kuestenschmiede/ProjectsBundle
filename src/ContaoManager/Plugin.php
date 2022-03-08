@@ -44,9 +44,19 @@ class Plugin implements RoutingPluginInterface, BundlePluginInterface
      */
     public function getBundles(ParserInterface $parser)
     {
-        return [
-            BundleConfig::create(con4gisProjectsBundle::class)
-                ->setLoadAfter([con4gisCoreBundle::class])
-        ];
+        if (class_exists('con4gis\MapsBundle\con4gisMapsBundle')) {
+            return [
+                BundleConfig::create(con4gisProjectsBundle::class)
+                    ->setLoadAfter([
+                        con4gisCoreBundle::class,
+                        \con4gis\MapsBundle\con4gisMapsBundle::class
+                    ])
+            ];
+        } else {
+            return [
+                BundleConfig::create(con4gisProjectsBundle::class)
+                    ->setLoadAfter([con4gisCoreBundle::class])
+            ];
+        }
     }
 }

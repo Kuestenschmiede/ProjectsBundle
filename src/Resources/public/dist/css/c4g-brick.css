@@ -5122,6 +5122,11 @@ fieldset:disabled .ui-button {
 .c4g_brick_dialog .c4g__form-group a input {
   cursor: pointer
 }
+.c4g_brick_dialog .c4g__form-url a {
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit
+}
 .ui-datepicker-month,
 .ui-datepicker-year {
   display: inline-block

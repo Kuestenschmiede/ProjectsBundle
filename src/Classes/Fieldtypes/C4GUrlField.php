@@ -72,16 +72,16 @@ class C4GUrlField extends C4GBrickField
 
                         break;
                 }
-
-                $fieldDataBefore = '<a' . $condition['conditionPrepare'] . ' href="' . $url . '" target="_blank" rel="noopener" class="formdata">';
+                $conditionPrepare = '';
+                $fieldDataBefore = '<a' . $conditionPrepare . ' href="' . $url . '" target="_blank" rel="noopener" class="noformdata">';
                 $fieldDataAfter = '</a>';
 
-                $conditionPrepare = '';
+
             };
 
             $result =
                 $this->addC4GField($condition,$dialogParams,$fieldList,$data,
-                    $fieldDataBefore . '<input type="url" ' . $required . $conditionPrepare . ' id="' . $id . '" class="formdata c4g__form-control c4g__form-url-input" name="' . $this->getFieldName() . '" title="' . $this->getTitle() . '" value="' . $value . '">' . $fieldDataAfter);
+                    $fieldDataBefore . '<input type="url" ' . $required . $conditionPrepare . ' id="' . $id . '" class="noformdata c4g__form-control c4g__form-url-input" name="' . $this->getFieldName() . '" title="' . $this->getTitle() . '" value="' . $value . '">' . $fieldDataAfter);
         }
 
         return $result;

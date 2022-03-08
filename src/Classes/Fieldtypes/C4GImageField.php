@@ -144,7 +144,7 @@ class C4GImageField extends C4GBrickField
 
                 //ToDo <div class="c4g_image_src  c4g_' . $this->getFieldName() . '_src"></div>
 
-                $result = '<div class="c4g__form-group c4g__form-image" '
+                $result = '<div class="c4g__form-group c4g__form-image formdata" '
                     . $condition['conditionName']
                     . $condition['conditionType']
                     . $condition['conditionValue']
