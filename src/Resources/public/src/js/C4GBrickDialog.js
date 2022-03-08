@@ -349,14 +349,6 @@ function deleteC4GBrickImage(button) {
         var idx = id.indexOf("c4g_deleteButton_");
         if (idx == 0) {
             id = id.substr(17);
-            var hiddenUrl = "c4g_uploadURL_" + id;
-            hiddenUrl = document.getElementById(hiddenUrl);
-
-            var deleteUrl = document.getElementById("c4g_deleteURL_" + id);
-            deleteUrl.value = hiddenUrl.value;
-
-
-            hiddenUrl.value = "";
 
             var link = "c4g_uploadLink_" + id;
             link = document.getElementById(link);
