@@ -579,7 +579,25 @@ class C4GShowDialogAction extends C4GBrickDialogAction
                     $ids = $element->$index;
                 }
 
-                if (is_array($ids)) {
+                //ToDo review by rro
+                if (is_numeric($ids)) {
+                    $dbValues = $field->getBrickDatabase()->findBy($field->getForeignKey(), $ids);
+                    if ($dbValues instanceof \Contao\Model) {
+                        foreach ($dbValues->row() as $key => $val) {
+                            $ind = $field->getFieldName() . $field->getDelimiter() . $key . $field->getDelimiter() . $value;
+                            $element->$ind = $val;
+                        }
+                    } else {
+                        foreach ($dbValues as $dbVal) {
+                            if ($dbVal instanceof \stdClass) {
+                                foreach ($dbVal as $key => $val) {
+                                    $ind = $field->getFieldName() . $field->getDelimiter() . $key . $field->getDelimiter() . $value;
+                                    $element->$ind = $val;
+                                }
+                            }
+                        }
+                    }
+                } else if (is_array($ids)) {
                     foreach ($ids as $value) {
                         $dbValues = $field->getBrickDatabase()->findBy($field->getForeignKey(), $value);
                         if ($dbValues instanceof \Contao\Model) {
@@ -652,7 +670,15 @@ class C4GShowDialogAction extends C4GBrickDialogAction
                 }
                 $field->setBrickDatabase(new C4GBrickDatabase($databaseParams));
 
-                $values = $field->getBrickDatabase()->findBy($field->getForeignKeyField()->getFieldName(), $foreignKey);
+                //ToDo review by rro
+                if ($field->getKeyField()->getFieldName() && $element) {
+                    $fieldName = $field->getKeyField()->getFieldName();
+                    $foreignKey = $element->$fieldName;
+                }
+
+                $foreignKeyField = $field->getForeignKeyField() && $field->getForeignKeyField()->getFieldName() ?  $field->getForeignKeyField()->getFieldName() : 'id';
+
+                $values = $field->getBrickDatabase()->findBy($foreignKeyField, $foreignKey);
                 $count = 0;
                 if ($field->getOrderBy() !== '') {
                     $orderBy = $field->getOrderBy();
@@ -675,7 +701,7 @@ class C4GShowDialogAction extends C4GBrickDialogAction
                 }
                 foreach ($valuesArray as $value) {
                     $count += 1;
-                    if ($value instanceof \stdClass) {
+                    if (($value instanceof \stdClass) || is_array($value)) {
                         foreach ($value as $key => $val) {
                             if ($superField) {
                                 $name = $superField->getFieldName() . $superField->getDelimiter() . $field->getFieldName() . $superField->getDelimiter() . $superFieldCount;
