@@ -45,7 +45,12 @@ class C4GCloseDialogAction extends C4GBrickDialogAction
         }
         $fieldList = $this->makeRegularFieldList($this->getFieldList());
 
-        $changes = C4GBrickDialog::compareWithDB($fieldList, $dlgValues, $dbValues, $viewType, $is_frozen);
+        $this->ignoreChanges = $this->ignoreChanges ?: $dialogParams->isIgnoreChanges();
+
+        $changes = [];
+        //if (!$this->ignoreChanges) {
+            $changes = C4GBrickDialog::compareWithDB($fieldList, $dlgValues, $dbValues, $viewType, $is_frozen);
+        //}
 
         if ((count($changes) > 0 && $this->ignoreChanges == false) || $dialogParams->isShowCloseDialogPrompt()) {
             $action = new C4GShowMessageChangesDialogAction($dialogParams, $this->getListParams(), $this->getFieldList(), $this->getPutVars(), $this->getBrickDatabase());

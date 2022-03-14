@@ -120,6 +120,7 @@ class C4GBrickDialogParams
     private $confirmActivationActionCallback = [];
     private $emptyListMessage = [];
     private $showCloseDialogPrompt = false; // Always show a confirmation dialog on close, even if nothing has been changed
+    private $ignoreChanges = false;
     private $didValuesChangeCallback = null;
     private $session = null;
 
@@ -2211,5 +2212,21 @@ class C4GBrickDialogParams
     public function setSession(C4gBrickSession $session): void
     {
         $this->session = $session;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isIgnoreChanges(): bool
+    {
+        return $this->ignoreChanges;
+    }
+
+    /**
+     * @param bool $ignoreChanges
+     */
+    public function setIgnoreChanges(bool $ignoreChanges): void
+    {
+        $this->ignoreChanges = $ignoreChanges;
     }
 }
