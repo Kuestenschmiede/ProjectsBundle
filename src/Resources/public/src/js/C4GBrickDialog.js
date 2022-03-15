@@ -115,6 +115,77 @@ function C4GDatePicker(id,
 /**
  *
  * @param id
+ * @param type
+ * @param min
+ * @param max
+ * @param format
+ * @constructor
+ */
+// function C4GDateRangePicker(
+//     id,type,minDate,maxDate,format,lang,weekdays,exclude)
+// {
+//     if (type == "date")
+//     {
+//         var dMin = '';
+//         if (minDate) {
+//             dMin = new Date(minDate * 1000);
+//         }
+//
+//         var dMax = '';
+//         if (maxDate) {
+//             dMax = new Date(maxDate * 1000);
+//         }
+//
+//         const elem = document.querySelector("#"+id);
+//         if (elem.datepicker) {
+//             elem.datepicker.destroy();
+//         }
+//
+//         var ed = new Array();
+//         ed = exclude.split(",");
+//
+//         var wd = new Array();
+//         wd = weekdays.split(",");
+//         for (a in wd ) {
+//             wd[a] = parseInt(wd[a]);
+//         }
+//
+//         if (window.DateRangePicker instanceof Function) {
+//             const datepicker = new window.DateRangePicker(elem, {
+//                 buttonClass: 'c4g__btn',
+//                 language: lang || "de",
+//                 format: format,
+//                 datesDisabled: ed,
+//                 daysOfWeekDisabled: wd,
+//                 minDate: dMin,
+//                 maxDate: dMax,
+//                 //calendarWeeks: true,
+//                 weekStart: 1,
+//                 //todayBtn: true,
+//                 todayHighlight: true,
+//                 orientation: 'auto left',
+//                 autohide: true,
+//                 useCurrent: true
+//             });
+//             if (elem.datepicker) {
+//                 elem.addEventListener('changeDate', function (e) {
+//                     jQuery("#" + id).trigger('change');
+//
+//                     var pickerIdx = id.indexOf("_picker");
+//                     if (pickerIdx && pickerIdx > 0) {
+//                         var dateFieldId = id.substr(0,pickerIdx);
+//                         jQuery("#" + dateFieldId).val(datepicker.getDate(format));
+//                         jQuery("#" + dateFieldId).trigger('change');
+//                     }
+//                 });
+//             }
+//         }
+//     }
+// }
+
+/**
+ *
+ * @param id
  * @constructor
  */
 function C4GDateTimePicker(id)

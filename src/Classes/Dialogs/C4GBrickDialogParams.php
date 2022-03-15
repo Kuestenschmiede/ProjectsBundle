@@ -120,7 +120,7 @@ class C4GBrickDialogParams
     private $confirmActivationActionCallback = [];
     private $emptyListMessage = [];
     private $showCloseDialogPrompt = false; // Always show a confirmation dialog on close, even if nothing has been changed
-    private $ignoreChanges = false;
+    private $ignoreChanges = false; //ignore Changes on close dialog
     private $didValuesChangeCallback = null;
     private $session = null;
 
