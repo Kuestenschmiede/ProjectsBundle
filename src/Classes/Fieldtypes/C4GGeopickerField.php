@@ -10,6 +10,7 @@
  */
 namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
 
+use con4gis\CoreBundle\Classes\C4GUtils;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickCommon;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
@@ -23,6 +24,7 @@ class C4GGeopickerField extends C4GBrickField
     private $withoutAddressRow = false; //do not show address row
     private $locGeoxFieldname = 'loc_geox';
     private $locGeoyFieldname = 'loc_geoy';
+    private $geocodeAddressFields = [];
 
     /**
      * @param string $type
@@ -67,6 +69,22 @@ class C4GGeopickerField extends C4GBrickField
         } else {
             $lon = $data->loc_geox;
             $lat = $data->loc_geoy;
+        }
+
+        if (!$lon && !$lat && $this->geocodeAddressFields && count($this->geocodeAddressFields)) {
+            $geocodeAddress = '';
+            foreach ($this->geocodeAddressFields as $field) {
+                if ($data->$field && $geocodeAddress) {
+                    $geocodeAddress .= ' '.$data->$field;
+                } else if ($data->$field) {
+                    $geocodeAddress .= $data->$field;
+                }
+            }
+            $coordinates = C4GUtils::geocodeAddress($geocodeAddress);
+            if ($coordinates) {
+                $lon = $coordinates[0];
+                $lat = $coordinates[1];
+            }
         }
 
         $profile_id = null;
@@ -301,5 +319,21 @@ class C4GGeopickerField extends C4GBrickField
         $this->locGeoyFieldname = $locGeoyFieldname;
 
         return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getGeocodeAddressFields(): array
+    {
+        return $this->geocodeAddressFields;
+    }
+
+    /**
+     * @param array $geocodeAddressFields
+     */
+    public function setGeocodeAddressFields(array $geocodeAddressFields): void
+    {
+        $this->geocodeAddressFields = $geocodeAddressFields;
     }
 }
