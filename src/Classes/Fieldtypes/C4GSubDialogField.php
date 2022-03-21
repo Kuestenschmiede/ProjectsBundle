@@ -335,8 +335,6 @@ class C4GSubDialogField extends C4GBrickField
                             $deleteButtonHtml = '';
                         }
                         $loadedDataHtml .= "$editButtonHtml$deleteButtonHtml";
-                    } else {
-                        $loadedDataHtml .= ''; //<br>
                     }
 
                     $loadedDataHtml .= '</div>';
@@ -344,7 +342,7 @@ class C4GSubDialogField extends C4GBrickField
             }
         }
 
-        if (($this->showButtons && !C4GBrickView::isWithoutEditing($dialogParams->getViewType())) || $loadedDataHtml) {
+        if ((($this->showButtons || ($this->showDataSetsByCount && $loadedDataHtml)) && !C4GBrickView::isWithoutEditing($dialogParams->getViewType())) || $loadedDataHtml) {
             $condition = $this->createConditionData($fieldList, $data);
             $styleClass = 'c4g__form-'.$this->getType().' '.'c4g__form-'.$this->getType().'--'.$this->getFieldName();
             $class = 'class="c4g__form-group formdata '.$styleClass.'"';
@@ -457,6 +455,8 @@ class C4GSubDialogField extends C4GBrickField
 
         if ($subDlgValues) {
             $foreignKey = $dbValues->id;
+
+            //ToDo without keyField
             $subDbValues = $this->brickDatabase->findBy($this->foreignKeyField->getFieldName(), $foreignKey);
             if (count((array)$subDbValues) > count((array)$subDlgValues)) {
                 $changes[] = new C4GBrickFieldCompare($this, $subDbValues, $subDlgValues);
