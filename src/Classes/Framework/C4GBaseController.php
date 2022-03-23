@@ -608,7 +608,23 @@ class C4GBaseController extends AbstractFrontendModuleController
         }
 
         //setting id on every call
+
+
         $this->session->setSessionValue('c4g_brick_dialog_id', $id);
+
+        if ($this->permalink_field !== 'id') {
+            $alias = '';
+            $permalinkField = $this->permalink_field;
+            if ($id && $id != -1 && $this->modelClass) {
+                $model = $this->modelClass;
+                $object = $model::findByPk($id);
+                if ($object) {
+                    $alias = $object->$permalinkField;
+                    $this->session->setSessionValue('c4g_brick_dialog_' . $permalinkField, $alias);
+                }
+            }
+        }
+
         if ($id) {
             $this->dialogParams->setId($id);
         }
@@ -1027,12 +1043,17 @@ class C4GBaseController extends AbstractFrontendModuleController
                         $result = $this->getPerformAction($request, $action);
                     }
                 } elseif ($this->permalink_name && key_exists($this->permalink_name, $_GET) && $_GET[$this->permalink_name]) {
+                    if (is_numeric($_GET[$this->permalink_name])) {
+                        $permalinkField = 'id'; //ToDo other solution
+                    } else {
+                        $permalinkField = $this->permalink_field;
+                    }
                     if (!$this->permalinkModelClass) {
                         $model  = $this->modelClass;
-                        $dataset = $model::findBy($this->permalink_field, $_GET[$this->permalink_name]);
+                        $dataset = $model::findBy($permalinkField, $_GET[$this->permalink_name]);
                     } else {
                         $model = $this->permalinkModelClass;
-                        $dataset = $model::findBy($this->permalink_field, $_GET[$this->permalink_name]);
+                        $dataset = $model::findBy($permalinkField, $_GET[$this->permalink_name]);
                     }
                     if ($dataset) {
                         $id = $dataset->id;
@@ -1111,7 +1132,9 @@ class C4GBaseController extends AbstractFrontendModuleController
             $result = $this->showException($e);
         }
 
-        if ($this->permalink_name && $this->session->getSessionValue("c4g_brick_dialog_id") && ($result['dialogstate'] == "item:")) {
+        if ($this->permalink_name && $this->permalink_field && $this->permalink_field !== 'id' && $this->session->getSessionValue("c4g_brick_dialog_".$this->permalink_field) && ($result['dialogstate'] == "item:")) {
+            $result['dialogstate'] = str_replace('item:', $this->permalink_name.'='. $this->session->getSessionValue("c4g_brick_dialog_".$this->permalink_field), $result['dialogstate']);
+        } else if ($this->permalink_name && $this->session->getSessionValue("c4g_brick_dialog_id") && ($result['dialogstate'] == "item:")) {
             $result['dialogstate'] = str_replace('item:', $this->permalink_name.'='. $this->session->getSessionValue("c4g_brick_dialog_id"), $result['dialogstate']);
         } else if ($this->permalink_name && $result && key_exists('dialogstate', $result)) {
             $result['dialogstate'] = str_replace('item:', $this->permalink_name.'=', $result['dialogstate']);
