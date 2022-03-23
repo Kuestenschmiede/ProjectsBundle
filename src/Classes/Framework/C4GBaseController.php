@@ -991,11 +991,17 @@ class C4GBaseController extends AbstractFrontendModuleController
                 $_GET['historyreq'] = $_GET['initreq'];
             }
 
+            if (is_numeric($_GET[$this->permalink_name])) {
+                $permalinkField = 'id'; //ToDo other solution to work parallel with id and alias
+            } else {
+                $permalinkField = $this->permalink_field;
+            }
+
             //permalink (1 permalink=id / 2 fieldname=id / 3 permalink_name=id)
-            if ($this->permalink_field &&
+            if ($permalinkField &&
                     (
                         (key_exists(C4GBrickActionType::IDENTIFIER_PERMALINK,$_GET) && $_GET[C4GBrickActionType::IDENTIFIER_PERMALINK]) ||
-                        (key_exists($this->permalink_field,$_GET) && $_GET[$this->permalink_field]) ||
+                        (key_exists($permalinkField,$_GET) && $_GET[$permalinkField]) ||
                         ($this->permalink_name && (key_exists($this->permalink_name,$_GET) && $_GET[$this->permalink_name]))
                     )
             ) {
@@ -1009,10 +1015,10 @@ class C4GBaseController extends AbstractFrontendModuleController
                 if (key_exists(C4GBrickActionType::IDENTIFIER_PERMALINK, $_GET) && $_GET[C4GBrickActionType::IDENTIFIER_PERMALINK]) {
                     if (!$this->permalinkModelClass) {
                         $model  = $this->modelClass;
-                        $dataset = $model::findBy($this->permalink_field, $_GET[C4GBrickActionType::IDENTIFIER_PERMALINK]);
+                        $dataset = $model::findBy($permalinkField, $_GET[C4GBrickActionType::IDENTIFIER_PERMALINK]);
                     } else {
                         $model = $this->permalinkModelClass;
-                        $dataset = $model::findBy($this->permalink_field, $_GET[C4GBrickActionType::IDENTIFIER_PERMALINK]);
+                        $dataset = $model::findBy($permalinkField, $_GET[C4GBrickActionType::IDENTIFIER_PERMALINK]);
                     }
 
                     if ($dataset) {
@@ -1024,13 +1030,13 @@ class C4GBaseController extends AbstractFrontendModuleController
                         $action = C4GBrickActionType::IDENTIFIER_LIST . ':' . $id;
                         $result = $this->getPerformAction($request, $action);
                     }
-                } elseif (key_exists($this->permalink_field, $_GET) && $_GET[$this->permalink_field]) {
+                } elseif (key_exists($permalinkField, $_GET) && $_GET[$permalinkField]) {
                     if (!$this->permalinkModelClass) {
                         $model  = $this->modelClass;
-                        $dataset = $model::findBy($this->permalink_field, $_GET[$this->permalink_field]);
+                        $dataset = $model::findBy($permalinkField, $_GET[$permalinkField]);
                     } else {
                         $model = $this->permalinkModelClass;
-                        $dataset = $model::findBy($this->permalink_field, $_GET[$this->permalink_field]);
+                        $dataset = $model::findBy($permalinkField, $_GET[$permalinkField]);
                     }
 
                     if ($dataset) {
@@ -1043,11 +1049,6 @@ class C4GBaseController extends AbstractFrontendModuleController
                         $result = $this->getPerformAction($request, $action);
                     }
                 } elseif ($this->permalink_name && key_exists($this->permalink_name, $_GET) && $_GET[$this->permalink_name]) {
-                    if (is_numeric($_GET[$this->permalink_name])) {
-                        $permalinkField = 'id'; //ToDo other solution
-                    } else {
-                        $permalinkField = $this->permalink_field;
-                    }
                     if (!$this->permalinkModelClass) {
                         $model  = $this->modelClass;
                         $dataset = $model::findBy($permalinkField, $_GET[$this->permalink_name]);
@@ -1132,8 +1133,8 @@ class C4GBaseController extends AbstractFrontendModuleController
             $result = $this->showException($e);
         }
 
-        if ($this->permalink_name && $this->permalink_field && $this->permalink_field !== 'id' && $this->session->getSessionValue("c4g_brick_dialog_".$this->permalink_field) && ($result['dialogstate'] == "item:")) {
-            $result['dialogstate'] = str_replace('item:', $this->permalink_name.'='. $this->session->getSessionValue("c4g_brick_dialog_".$this->permalink_field), $result['dialogstate']);
+        if ($this->permalink_name && $permalinkField && $permalinkField !== 'id' && $this->session->getSessionValue("c4g_brick_dialog_".$permalinkField) && ($result['dialogstate'] == "item:")) {
+            $result['dialogstate'] = str_replace('item:', $this->permalink_name.'='. $this->session->getSessionValue("c4g_brick_dialog_".$permalinkField), $result['dialogstate']);
         } else if ($this->permalink_name && $this->session->getSessionValue("c4g_brick_dialog_id") && ($result['dialogstate'] == "item:")) {
             $result['dialogstate'] = str_replace('item:', $this->permalink_name.'='. $this->session->getSessionValue("c4g_brick_dialog_id"), $result['dialogstate']);
         } else if ($this->permalink_name && $result && key_exists('dialogstate', $result)) {
