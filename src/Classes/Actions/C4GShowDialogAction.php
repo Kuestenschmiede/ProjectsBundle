@@ -579,7 +579,6 @@ class C4GShowDialogAction extends C4GBrickDialogAction
                     $ids = $element->$index;
                 }
 
-                //ToDo review by rro
                 if (is_numeric($ids)) {
                     $dbValues = $field->getBrickDatabase()->findBy($field->getForeignKey(), $ids);
                     if ($dbValues instanceof \Contao\Model) {
@@ -670,7 +669,6 @@ class C4GShowDialogAction extends C4GBrickDialogAction
                 }
                 $field->setBrickDatabase(new C4GBrickDatabase($databaseParams));
 
-                //ToDo review by rro
                 if ($field->getKeyField()->getFieldName() && $element) {
                     $fieldName = $field->getKeyField()->getFieldName();
                     $foreignKey = $element->$fieldName;
