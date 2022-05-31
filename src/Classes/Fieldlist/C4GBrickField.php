@@ -524,7 +524,7 @@ abstract class C4GBrickField
         $withLinkDescription = $this->isWithLinkDescription();
         $withoutLineBreak = $this->isWithoutDescriptionLineBreak() || !$description;
 
-        $description = trim($description) ? StringHelper::spaceToNbsp($description) : $description;
+        $description = trim($description);// ? StringHelper::spaceToNbsp($description) : $description;
 
         $result = '';
         if ($description && ($description != '') && $withLinkDescription && $withoutLineBreak) {
