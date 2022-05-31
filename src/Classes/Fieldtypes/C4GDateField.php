@@ -280,7 +280,7 @@ class C4GDateField extends C4GBrickField
         // if the year is only two characters long, check the current year
         // if given year is greater, it will be seen as 20th century
         // else it will be seen as 21st century
-        if (strlen($arrParts[2]) == 2 && $GLOBALS['TL_CONFIG']['dateFormat'] == 'd.m.Y') {
+        if (strlen($arrParts[2]) == 2 && (($GLOBALS['TL_CONFIG']['dateFormat'] == 'd.m.Y') || ($GLOBALS['TL_CONFIG']['dateFormat'] == 'd.m.y'))) {
             $currentYear = (new \DateTime())->format('y');
             if ($arrParts[2] > intval($currentYear)) {
                 $fieldData = $arrParts[0] . '.' . $arrParts[1] . '.19' . $arrParts[2];
@@ -290,7 +290,7 @@ class C4GDateField extends C4GBrickField
         }
         $date = $fieldData ? new \DateTime($fieldData) : false;
         if ($date) {
-            $date->Format($format);
+            $date->format($format);
             $date->setTime(0, 0, 0);
             $fieldData = $date->getTimestamp();
         } else {

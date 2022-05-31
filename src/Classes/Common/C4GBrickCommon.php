@@ -599,4 +599,20 @@ class C4GBrickCommon
 
         return $time;
     }
+
+    /**
+     * For functions like strtotime, the notation d.m.y is a time. This function facilitates the correct date conversion.
+     * @param $string
+     * @param $format
+     * @return mixed|string
+     */
+    public static function getLongDateToConvert($format, $string)
+    {
+        if ($string && $format) {
+            $date = date_create_from_format($format, $string);
+            return $date->format('d.m.Y');
+        }
+
+        return $string;
+    }
 }
