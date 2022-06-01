@@ -183,6 +183,9 @@ class C4GBrickModuleParent extends Module
      */
     public function getSession(): C4gBrickSession
     {
+        if (!$this->session instanceof C4gBrickSession) {
+            $this->session = new C4gBrickSession(System::getContainer()->get('session'));
+        }
         return $this->session;
     }
 
@@ -236,9 +239,9 @@ class C4GBrickModuleParent extends Module
             case C4GBrickConst::ID_TYPE_GROUP:
                 $group_id = $this->dialogParams->getGroupId();
                 if (!$group_id || ($group_id <= 0)) {
-                    $group_id = $this->session->getSessionValue('c4g_brick_group_id');
+                    $group_id = $this->getSession()->getSessionValue('c4g_brick_group_id');
                 } else {
-                    $this->session->setSessionValue('c4g_brick_group_id',$group_id);
+                    $this->getSession()->setSessionValue('c4g_brick_group_id',$group_id);
                 }
 
                 return $group_id;
@@ -246,9 +249,9 @@ class C4GBrickModuleParent extends Module
             case C4GBrickConst::ID_TYPE_PROJECT:
                 $project_id = $this->dialogParams->getProjectId();
                 if (!$project_id || ($project_id <= 0)) {
-                    $project_id = $this->session->getSessionValue('c4g_brick_project_id');
+                    $project_id = $this->getSession()->getSessionValue('c4g_brick_project_id');
                 } else {
-                    $this->session->setSessionValue('c4g_brick_project_id',$project_id);
+                    $this->getSession()->setSessionValue('c4g_brick_project_id',$project_id);
                 }
 
                 return $project_id;
@@ -257,9 +260,9 @@ class C4GBrickModuleParent extends Module
             case C4GBrickConst::ID_TYPE_PARENT:
                 $parent_id = $this->dialogParams->getParentId();
                 if (!$parent_id || ($parent_id <= 0)) {
-                    $parent_id = $this->session->getSessionValue('c4g_brick_parent_id');
+                    $parent_id = $this->getSession()->getSessionValue('c4g_brick_parent_id');
                 } else {
-                    $this->session->setSessionValue('c4g_brick_parent_id',$parent_id);
+                    $this->getSession()->setSessionValue('c4g_brick_parent_id',$parent_id);
                 }
 
                 return $parent_id;
@@ -412,7 +415,7 @@ class C4GBrickModuleParent extends Module
         //setting list params
         //ToDo ViewType berücksichten (bei Formularen nicht notwendig)
         if (!$this->listParams) {
-            $this->listParams = new C4GBrickListParams($this->brickKey, $this->viewType, $this->session);
+            $this->listParams = new C4GBrickListParams($this->brickKey, $this->viewType, $this->getSession());
             $this->listParams->setWithModelListFunction(!empty($this->modelListFunction));
             //$this->listParams->setWithModelDialogFunction(!empty($this->modelDialogFunction));
 
@@ -433,7 +436,7 @@ class C4GBrickModuleParent extends Module
 
         //setting dialog params
         if (!$this->dialogParams) {
-            $this->dialogParams = new C4GBrickDialogParams($this->brickKey, $this->viewType, $this->session);
+            $this->dialogParams = new C4GBrickDialogParams($this->brickKey, $this->viewType, $this->getSession());
             $this->dialogParams->setGroupId($this->group_id);
             $this->dialogParams->setProjectId($this->project_id);
             $this->dialogParams->setProjectUuid($this->project_uuid);
@@ -480,7 +483,7 @@ class C4GBrickModuleParent extends Module
         }
 
         //setting id on every call
-        $this->session->setSessionValue('c4g_brick_dialog_id', $id);
+        $this->getSession()->setSessionValue('c4g_brick_dialog_id', $id);
         if ($id) {
             $this->dialogParams->setId($id);
         }
@@ -488,17 +491,17 @@ class C4GBrickModuleParent extends Module
         //Setting UUID
         if ($this->useUuidCookie) {
             if (!($_COOKIE[$this->UUID])) {
-                if (!$this->session->getSessionValue->get($this->UUID)) {
-                    $this->session->setSessionValue($this->UUID, C4GBrickCommon::getGUID());
+                if (!$this->getSession()->getSession()->get($this->UUID)) {
+                    $this->getSession()->setSessionValue($this->UUID, C4GBrickCommon::getGUID());
                 }
-                setcookie($this->UUID, $this->session->getSessionValue($this->UUID), time() + 60 * 60 * 24 * 30, '/');
+                setcookie($this->UUID, $this->getSession()->getSessionValue($this->UUID), time() + 60 * 60 * 24 * 30, '/');
             } else {
-                $this->session->setSessionValue($this->UUID, $_COOKIE[$this->UUID]);
+                $this->getSession()->setSessionValue($this->UUID, $_COOKIE[$this->UUID]);
                 setcookie($this->UUID, ($_COOKIE[$this->UUID]), time() + 60 * 60 * 24 * 30, '/');
             }
-            if ($this->session->getSessionValue($this->UUID)) {
-                $this->dialogParams->setUuid($this->session->getSessionValue($this->UUID));
-                $this->listParams->setUuid($this->session->getSessionValue($this->UUID));
+            if ($this->getSession()->getSessionValue($this->UUID)) {
+                $this->dialogParams->setUuid($this->getSession()->getSessionValue($this->UUID));
+                $this->listParams->setUuid($this->getSession()->getSessionValue($this->UUID));
             }
 
             //Synchronize MemberBased and PublicUuidBased view types
@@ -527,11 +530,11 @@ class C4GBrickModuleParent extends Module
 
         //set fieldList
         if (!$this->fieldList) {
-            $putVars = $this->session->getSessionValue('c4g_brick_dialog_values');
+            $putVars = $this->getSession()->getSessionValue('c4g_brick_dialog_values');
             $result = $this->addFields();
             if ($result) {
                 $this->fieldList = $result;
-                $this->dialogChangeHandler = new C4GDialogChangeHandler($this->session);
+                $this->dialogChangeHandler = new C4GDialogChangeHandler($this->getSession());
                 $this->fieldList = $this->dialogChangeHandler->reapplyChanges($this->brickKey, $this->fieldList);
             }
             if ($this->fieldList && $putVars && $this->renewInitialValues()) {
@@ -788,14 +791,14 @@ class C4GBrickModuleParent extends Module
             if ($request != 'undefined') {
                 // replace "state" parameter in Session-Referer to force correct
                 // handling after login with "redirect back" set
-                $session = $this->session->getSession()->all();
+                $session = $this->getSession()->getSession()->all();
                 $session['referer']['last'] = $session['referer']['current'];
                 // echo '<br>[LAST]' . $session['referer']['last'] . '<br>';
                 $session['referer']['current'] = C4GUtils::addParametersToURL(
                     $session['referer']['last'],
                     ['state' => $request]);
                 // echo '<br>[CURRENT]' . $session['referer']['current'] . '<br>';
-                $this->session->getSession()->replace($session);
+                $this->getSession()->getSession()->replace($session);
             }
         }
 
@@ -813,11 +816,11 @@ class C4GBrickModuleParent extends Module
                 return $result;
             }
 
-            $session = $this->session->getSession()->all();
+            $session = $this->getSession()->getSession()->all();
 
             if (C4GBrickView::isGroupBased($this->viewType)) {
                 if (($this->group_id == -1) || ($this->group_id == null)) {
-                    $groupId = $this->session->getSessionValue('c4g_brick_group_id');
+                    $groupId = $this->getSession()->getSessionValue('c4g_brick_group_id');
                     if ($groupId && MemberGroupModel::isMemberOfGroup($groupId, $user->id)) {
                         if (MemberModel::hasRightInGroup($user->id, $groupId, $this->brickKey)) {
                             $this->group_id = $groupId;
@@ -832,7 +835,7 @@ class C4GBrickModuleParent extends Module
                 }
             } elseif (C4GBrickView::isProjectBased($this->viewType)) {
                 if (($this->group_id == -1) || ($this->group_id == null)) {
-                    $groupId = $this->session->getSessionValue('c4g_brick_group_id');
+                    $groupId = $this->getSession()->getSessionValue('c4g_brick_group_id');
                     if (C4GBrickAction::checkGroupId($groupId, $user->id, $this->brickKey)) {
                         $this->group_id = $groupId;
                     }
@@ -849,17 +852,17 @@ class C4GBrickModuleParent extends Module
                 }
 
                 if (($this->project_id == -1) || ($this->project_id == null)) {
-                    $project_id = $this->session->getSessionValue('c4g_brick_project_id');
-                    if (C4gProjectsModel::checkProjectId($project_id, $this->projectKey, $this->session)) {
+                    $project_id = $this->getSession()->getSessionValue('c4g_brick_project_id');
+                    if (C4gProjectsModel::checkProjectId($project_id, $this->projectKey, $this->getSession())) {
                         $this->project_id = $project_id;
-                        $this->project_uuid = $this->session->getSessionValue('c4g_brick_project_uuid');
+                        $this->project_uuid = $this->getSession()->getSessionValue('c4g_brick_project_uuid');
                         $path = C4GBrickConst::PATH_GROUP_DATA . '/' . $this->group_id . '/' . $this->project_uuid;
                         C4GBrickCommon::mkdir($path);
                     }
                 }
             } elseif (C4GBrickView::isProjectParentBased($this->viewType)) {
                 if (($this->group_id == -1) || ($this->group_id == null)) {
-                    $groupId = $this->session->getSessionValue('c4g_brick_group_id');
+                    $groupId = $this->getSession()->getSessionValue('c4g_brick_group_id');
                     if (C4GBrickAction::checkGroupId($groupId, $user->id, $this->brickKey)) {
                         $this->group_id = $groupId;
                     }
@@ -876,17 +879,17 @@ class C4GBrickModuleParent extends Module
                 }
 
                 if (($this->project_id == -1) || ($this->project_id == null)) {
-                    $project_id = $this->session->getSessionValue('c4g_brick_project_id');
-                    if (C4gProjectsModel::checkProjectId($project_id, $this->projectKey, $this->session)) {
+                    $project_id = $this->getSession()->getSessionValue('c4g_brick_project_id');
+                    if (C4gProjectsModel::checkProjectId($project_id, $this->projectKey, $this->getSession())) {
                         $this->project_id = $project_id;
-                        $this->project_uuid = $this->session->getSessionValue('c4g_brick_project_uuid');
+                        $this->project_uuid = $this->getSession()->getSessionValue('c4g_brick_project_uuid');
                         $path = C4GBrickConst::PATH_GROUP_DATA . '/' . $this->group_id . '/' . $this->project_uuid;
                         C4GBrickCommon::mkdir($path);
                     }
                 }
 
                 if (($this->parent_id == -1) || ($this->parent_id == null)) {
-                    $this->parent_id = $this->session->getSessionValue('c4g_brick_parent_id');
+                    $this->parent_id = $this->getSession()->getSessionValue('c4g_brick_parent_id');
                 }
             } elseif (C4GBrickView::isMemberBased($this->viewType)) {
                 C4GBrickCommon::mkdir(C4GBrickConst::PATH_BRICK_DATA);
@@ -900,7 +903,7 @@ class C4GBrickModuleParent extends Module
                 if (($this->group_id == -1) || ($this->group_id == null)) {
 
                     //falls die group_id über die Liste vorhanden ist, soll diese auch hier für Module geladen werden, die den viewType wechseln können.
-                    $groupId = $this->session->getSessionValue('c4g_brick_group_id');
+                    $groupId = $this->getSession()->getSessionValue('c4g_brick_group_id');
                     if ($groupId && MemberGroupModel::isMemberOfGroup($groupId, $user->id)) {
                         if (MemberModel::hasRightInGroup($user->id, $groupId, $this->brickKey)) {
                             $this->group_id = $groupId;
@@ -1100,7 +1103,7 @@ class C4GBrickModuleParent extends Module
 
             $putVars = $this->putVars;
             if (!$putVars || (count($putVars) <= 0)) {
-                $putVars = $this->session->getSessionValue('c4g_brick_dialog_values');
+                $putVars = $this->getSession()->getSessionValue('c4g_brick_dialog_values');
             }
 
             foreach ($this->fieldList as $field) {
@@ -1235,7 +1238,7 @@ class C4GBrickModuleParent extends Module
             }
         }
         if (is_array($array) && (sizeof($array) > 0)) {
-            $result = new C4GTablePermission($this->getC4GTablePermissionTable(), $array, $this->session);
+            $result = new C4GTablePermission($this->getC4GTablePermissionTable(), $array, $this->getSession());
 
             return $result;
         }
