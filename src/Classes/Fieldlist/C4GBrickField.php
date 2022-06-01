@@ -383,7 +383,7 @@ abstract class C4GBrickField
             $conditionPrepare = $condition && is_array($condition) ? $condition['conditionPrepare'] : '';
 
 
-            $title = trim($title) ? StringHelper::spaceToNbsp(trim($title)) : $title;
+            $title = trim($title);// ? StringHelper::spaceToNbsp(trim($title)) : $title;
 
             if ($this->isWithoutLabel() || ($dialogParams->isWithLabels() === false && !($this instanceof C4GMultiCheckboxField || $this instanceof C4GCheckboxField))) {
                 return '<label class="c4g__form-label c4g__form-'.$this->type.'-label ' . $this->getFieldName() . ' ' . $id . '" for="' . $id . '" ' . $conditionPrepare . '>' . $star . $additionalLabel . $linebreak . '</label>' . $extTitleField;
