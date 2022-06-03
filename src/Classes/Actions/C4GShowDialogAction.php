@@ -202,8 +202,13 @@ class C4GShowDialogAction extends C4GBrickDialogAction
 
                     break;
                 case C4GBrickViewType::MEMBERBASED:
-                    $memberKeyField = $viewParams->getMemberKeyField();
-                    $elements = $brickDatabase->findby($memberKeyField, $memberId);
+                    if ($modelDialogFunction) {
+                        $modelClass = $brickDatabase->getParams()->getModelClass();
+                        $element = $modelClass::$modelDialogFunction($id);
+                    } else {
+                        $memberKeyField = $viewParams->getMemberKeyField();
+                        $elements = $brickDatabase->findby($memberKeyField, $memberId);
+                    }
 
                     break;
                 case C4GBrickViewType::MEMBERVIEW:
