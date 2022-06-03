@@ -1106,9 +1106,13 @@ class C4GBrickModuleParent extends Module
                 $putVars = $this->getSession()->getSessionValue('c4g_brick_dialog_values');
             }
 
-            foreach ($this->fieldList as $field) {
-                $fieldName = $field->getFieldName();
-                $putVars[$fieldName] = $field->validateFieldValue($putVars[$fieldName]);
+            if (is_array($putVars)) {
+                foreach ($this->fieldList as $field) {
+                    $fieldName = $field->getFieldName();
+                    $putVars[$fieldName] = $field->validateFieldValue($putVars[$fieldName]);
+                }
+            } else {
+                $putVars = [];
             }
 
             //id lost with button field (ONCLICK_TYPE_SERVER)
