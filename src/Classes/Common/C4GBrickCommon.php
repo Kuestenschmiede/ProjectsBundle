@@ -610,7 +610,7 @@ class C4GBrickCommon
     {
         if ($string && $format) {
             $date = date_create_from_format($format, $string);
-            return $date->format('d.m.Y');
+            return $date ? $date->format('d.m.Y') : $string;
         }
 
         return $string;
