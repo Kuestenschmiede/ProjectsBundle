@@ -973,7 +973,7 @@ class C4GBaseController extends AbstractFrontendModuleController
                 }
             }
 
-            $currentReferer = is_array($session['referer']) && key_exists('current',$session['referer']) ? $session['referer']['current'] : '';
+            $currentReferer = $session && key_exists('referer', $session) && is_array($session['referer']) && key_exists('current',$session['referer']) ? $session['referer']['current'] : '';
             $this->frontendUrl = \Contao\Environment::get('url') . TL_PATH . '/' . $currentReferer;
 
             if (key_exists('REQUEST_METHOD', $_SERVER) && ($_SERVER['REQUEST_METHOD'] == 'PUT')) {
@@ -991,7 +991,7 @@ class C4GBaseController extends AbstractFrontendModuleController
                 $_GET['historyreq'] = $_GET['initreq'];
             }
 
-            if (is_numeric($_GET[$this->permalink_name])) {
+            if ($this->permalink_name && is_numeric($_GET[$this->permalink_name])) {
                 $permalinkField = 'id'; //ToDo other solution to work parallel with id and alias
             } else {
                 $permalinkField = $this->permalink_field;
