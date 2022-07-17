@@ -62,13 +62,13 @@ class C4GPrintoutPDF
                         $newField->setSimpleTextWithoutEditing(true);
                         $newField->setShowIfEmpty(false);
                         $newField->setPrintable($subField->isPrintable());
-                        $newField->setTableRow(true);
+                        $newField->setPrintableTableRow(true);
                         $subField = $newField;
                     }
                     if ($subField instanceof C4GSelectField) {
                         $subField->setSimpleTextWithoutEditing(true);
                         $subField->setInitialValue($data[$field->getFieldName()]);
-                        $subField->setTableRow(true);
+                        $subField->setPrintableTableRow(true);
                     }
                     if ($subField->isPrintable() && (trim($data[$subField->getFieldName()]) || (($field instanceof C4GSubDialogField) || ($field instanceof C4GForeignArrayField) || ($field instanceof C4GGridField)))) {
                         $resultField = C4GPrintoutPDF::checkSubFields($subField, $data);
@@ -94,13 +94,13 @@ class C4GPrintoutPDF
                         $newField->setSimpleTextWithoutEditing(true);
                         $newField->setShowIfEmpty(false);
                         $newField->setPrintable($subField->isPrintable());
-                        $newField->setTableRow(true);
+                        $newField->setPrintableTableRow(true);
                         $subField = $newField;
                     }
                     if ($subField instanceof C4GSelectField) {
                         $subField->setSimpleTextWithoutEditing(true);
                         $subField->setInitialValue($data[$field->getFieldName()]);
-                        $subField->setTableRow(true);
+                        $subField->setPrintableTableRow(true);
                     }
                     if ($subField->isPrintable() && (trim($data[$subField->getFieldName()]) || (($field instanceof C4GSubDialogField) || ($field instanceof C4GForeignArrayField) || ($field instanceof C4GGridField)))) {
                         $resultField = C4GPrintoutPDF::checkSubFields($subField, $data);
@@ -119,7 +119,7 @@ class C4GPrintoutPDF
                 $newField->setTitle($field->getTitle());
                 $newField->setShowIfEmpty(false);
                 $newField->setPrintable($field->isPrintable());
-                $newField->setTableRow(false);
+                $newField->setPrintableTableRow(true);
                 foreach ($grid->getColumns() as $subField) {
                     if ((($subField instanceof C4GTextField) || ($subField instanceof C4GTextareaField)) && (trim($data[$subField->getFieldName()]))) {
                         $value =  trim($data[$subField->getFieldName()]);
@@ -181,13 +181,13 @@ class C4GPrintoutPDF
                 $newField->setSimpleTextWithoutEditing(true);
                 $newField->setShowIfEmpty(false);
                 $newField->setPrintable($field->isPrintable());
-                $newField->setTableRow(true);
+                $newField->setPrintableTableRow(true);
                 $field = $newField;
             }
             if ($field instanceof C4GSelectField) {
                 $field->setSimpleTextWithoutEditing(true);
                 $field->setInitialValue($data[$field->getFieldName()]);
-                $field->setTableRow(true);
+                $field->setPrintableTableRow(true);
             }
 
             if ($field instanceof C4GImageField) {

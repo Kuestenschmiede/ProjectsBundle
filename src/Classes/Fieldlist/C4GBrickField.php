@@ -120,6 +120,7 @@ abstract class C4GBrickField
     private $tableColumn = false; //show this field in datatable?
     private $tableColumnPriority = 0; //lowest values (> 0) will be removed last on small displays.
     private $tableRow = false; //show field as table row -> label, input in one row
+    private $printableTableRow = false; //to print label and value in a row
     private $tableRowLabelWidth = '25%'; //table row label width
     private $tableRowWidth = '98.2%'; //table row width
     private $testValue = ''; //so use can optional a check value if needed
@@ -368,9 +369,19 @@ abstract class C4GBrickField
             if (!$withoutLineBreak && $dialogParams->isWithLabels() === true) {
                 $linebreak = '';//C4GHTMLFactory::lineBreak();
             }
-            if (($dialogParams && $dialogParams->isTableRows()) || $this->isTableRow()) {
+            if (($dialogParams && $dialogParams->isTableRows()) || $this->isTableRow() || $this->isPrintableTableRow()) {
                 $linebreak = '';
             }
+
+            $tdo = '';
+            $tdc = '';
+            if ($this->isPrintableTableRow()) {
+                $linebreak = '';
+                $tdo = '<td style="width:' . $this->getTableRowLabelWidth() . '">';
+                $tdc = '</td>';
+            }
+
+
             $extTitleField = '';
             if ($showExtTitleField && $this->getExtTitleField()) {
                 $extTitleField = $this->getExtTitleField()->getC4GDialogField($fieldList, $data, $dialogParams);
@@ -386,10 +397,10 @@ abstract class C4GBrickField
             $title = trim($title);// ? StringHelper::spaceToNbsp(trim($title)) : $title;
 
             if ($this->isWithoutLabel() || ($dialogParams->isWithLabels() === false && !($this instanceof C4GMultiCheckboxField || $this instanceof C4GCheckboxField))) {
-                return '<label class="c4g__form-label c4g__form-'.$this->type.'-label ' . $this->getFieldName() . ' ' . $id . '" for="' . $id . '" ' . $conditionPrepare . '>' . $star . $additionalLabel . $linebreak . '</label>' . $extTitleField;
+                return $tdo.'<label class="c4g__form-label c4g__form-'.$this->type.'-label ' . $this->getFieldName() . ' ' . $id . '" for="' . $id . '" ' . $conditionPrepare . '>' . $star . $additionalLabel . $linebreak . '</label>' . $tdc . $extTitleField;
             }
 
-            return '<label class="c4g__form-label c4g__form-'.$this->type.'-label ' . $this->getFieldName() . ' ' . $id . '" for="' . $id . '" ' . $conditionPrepare . '>' . $title . $additionalLabel . $star . $linebreak . '</label>' . $extTitleField;
+            return $tdo.'<label class="c4g__form-label c4g__form-'.$this->type.'-label ' . $this->getFieldName() . ' ' . $id . '" for="' . $id . '" ' . $conditionPrepare . '>' . $title . $additionalLabel . $star . $linebreak . '</label>' . $tdc . $extTitleField;
         }
 
         return '';
@@ -640,10 +651,18 @@ abstract class C4GBrickField
 
         if (($dialogParams && $dialogParams->isTableRows()) || $this->isTableRow()) {
             //$linebreak = '';
-            $widthLabel =  $this->getTableRowLabelWidth() ?: auto;
+            $widthLabel =  $this->getTableRowLabelWidth() ?: 'auto';
             $widthField = $this->getTableRowWidth() && $this->getTableRowLabelWidth() ? (intval($this->getTableRowWidth()) - intval($this->getTableRowLabelWidth())).'%' : 'auto';
             $tableo = '<div class="c4g__form-grid-2 c4g__form-grid-table-row" style="grid-template-columns: '.$widthLabel. ' '.$widthField.';">';
             $tablec = '</div>';
+        } else if ($this->isPrintableTableRow()) {
+            //$linebreak = '';
+            $tableo = '<table class="c4g_brick_table_rows" style="width:' . $this->getTableRowWidth() . '">';
+            $tro = '<tr>';
+            $trc = '</tr>';
+            $tdo = '<td>';
+            $tdc = '</td>';
+            $tablec = '</table>';
         }
 
         $styleClass = 'c4g__form-'.$this->type.' '.'c4g__form-'.$this->type.'--'.$this->getFieldName().' '.$this->styleClass;
@@ -667,15 +686,29 @@ abstract class C4GBrickField
             }
         }
 
-        return '<div '
-        . $class
-        . $condition['conditionName']
-        . $condition['conditionType']
-        . $condition['conditionValue']
-        . $condition['conditionFunction']
-        . $condition['conditionDisable'] . '>' .
-        $tableo . $fieldLabel . $fieldData . $tablec .
-        $description . '</div>';
+        if ($this->isPrintableTableRow()) {
+            return '<div '
+                . $class
+                . $condition['conditionName']
+                . $condition['conditionType']
+                . $condition['conditionValue']
+                . $condition['conditionFunction']
+                . $condition['conditionDisable'] . '>' .
+                $tableo . $tro . $fieldLabel .
+                $tdo . $fieldData . $tdc . $trc . $tablec .
+                $description . '</div>';
+        } else {
+            return '<div '
+                . $class
+                . $condition['conditionName']
+                . $condition['conditionType']
+                . $condition['conditionValue']
+                . $condition['conditionFunction']
+                . $condition['conditionDisable'] . '>' .
+                $tableo . $fieldLabel . $fieldData . $tablec .
+                $description . '</div>';
+        }
+
     }
 
     /**
@@ -2679,5 +2712,21 @@ abstract class C4GBrickField
     public function setRangeField(string $rangeField): void
     {
         $this->rangeField = $rangeField;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isPrintableTableRow(): bool
+    {
+        return $this->printableTableRow;
+    }
+
+    /**
+     * @param bool $printableTableRow
+     */
+    public function setPrintableTableRow(bool $printableTableRow): void
+    {
+        $this->printableTableRow = $printableTableRow;
     }
 }
