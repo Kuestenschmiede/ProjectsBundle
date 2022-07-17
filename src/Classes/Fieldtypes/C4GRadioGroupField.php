@@ -92,6 +92,7 @@ class C4GRadioGroupField extends C4GBrickField
         }
 
         $option_results = '';
+        $object_id = -1;
         foreach ($options as $option) {
             $option_id = $option['id'];
             if ($this->addNameToId) {
@@ -107,7 +108,7 @@ class C4GRadioGroupField extends C4GBrickField
             }
             $type_caption = $option['name'];
 
-            if ($option['objects'] && count($option['objects']) > 0) {
+            if (key_exists('objects', $option) && $option['objects'] && count($option['objects']) > 0) {
                 $cnt = 0;
                 foreach ($option['objects'] as $key => $object) {
                     $object_id = ($cnt == 0) ? $option['objects'][$key]['id'] : $object_id . '-' . $option['objects'][$key]['id'];

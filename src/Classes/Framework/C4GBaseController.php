@@ -991,7 +991,7 @@ class C4GBaseController extends AbstractFrontendModuleController
                 $_GET['historyreq'] = $_GET['initreq'];
             }
 
-            if ($this->permalink_name && is_numeric($_GET[$this->permalink_name])) {
+            if ($this->permalink_name && key_exists($this->permalink_name, $_GET) && is_numeric($_GET[$this->permalink_name])) {
                 $permalinkField = 'id'; //ToDo other solution to work parallel with id and alias
             } else {
                 $permalinkField = $this->permalink_field;
