@@ -117,16 +117,19 @@ class C4GPrintoutPDF
                 $newField = new C4GTextField();
                 $newField->setFieldName($field->getFieldName());
                 $newField->setTitle($field->getTitle());
+                $newField->setSimpleTextWithoutEditing(true);
                 $newField->setShowIfEmpty(false);
                 $newField->setPrintable($field->isPrintable());
                 $newField->setPrintableTableRow(true);
-                foreach ($grid->getColumns() as $subField) {
-                    if ((($subField instanceof C4GTextField) || ($subField instanceof C4GTextareaField)) && (trim($data[$subField->getFieldName()]))) {
+                $newField->setInitialValue($field->getInitialValue());
+                foreach ($grid->getElements() as $element) {
+                    $subField = $element->getField();
+                    if ((($subField instanceof C4GTextField) || ($subField instanceof C4GTextareaField) || ($subField instanceof C4GPostalField)) && (trim($data[$subField->getFieldName()]))) {
                         $value =  trim($data[$subField->getFieldName()]);
                         $newField->setInitialValue($newField->getInitialValue() ? $newField->getInitialValue() . ' ' .  $value : $value);
                     }
                 }
-                //$subFieldList[] = $newField;
+
                 return $newField;
             }
         }
@@ -200,6 +203,9 @@ class C4GPrintoutPDF
 
             if ($field->isPrintable() && (trim($data[$field->getFieldName()]) || (($field instanceof C4GSubDialogField) || ($field instanceof C4GForeignArrayField) || ($field instanceof C4GImageField) || ($field instanceof C4GGridField)))) {
                 $resultField = C4GPrintoutPDF::checkSubFields($field, $data);
+                if ($resultField) {
+                    $data[$resultField->getFieldName()] = $resultField->getInitialValue();
+                }
                 $printFieldList[] = $resultField ?: $field;
             }
         }
