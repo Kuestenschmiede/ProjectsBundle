@@ -59,13 +59,13 @@ class AjaxController extends ApiController
                 if ($classname) {
                     if ($strClass && class_exists($strClass)) {
                         $objModule = new $classname($this->rootDir, $this->session, $this->framework, $objModule);
-                        $printoutPDF = new C4GPrintoutPDF($database);
+                        $printoutPDF = new C4GPrintoutPDF($database, $language);
                         return $printoutPDF->printAction($objModule, $arrData, $id, true);
                     }
                 } else {
                     if ($strClass && class_exists($strClass)) {
                         $objModule = new $strClass($objModule);
-                        $printoutPDF = new C4GPrintoutPDF($database);
+                        $printoutPDF = new C4GPrintoutPDF($database, $language);
                         return $printoutPDF->printAction($objModule, $arrData, $id, true);
                     }
                 }
