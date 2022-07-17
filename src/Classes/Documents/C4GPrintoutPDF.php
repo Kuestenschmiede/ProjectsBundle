@@ -17,6 +17,7 @@ use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialog;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GDateField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GEmailField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GForeignArrayField;
+use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GGridField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GImageField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GPostalField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GSelectField;
@@ -34,13 +35,15 @@ class C4GPrintoutPDF
 {
     private $framework;
     private $database;
+    private $language;
 
     /**
      * C4GPrintoutPDF constructor.
      */
-    public function __construct($database)
+    public function __construct($database, $language = '')
     {
         $this->database = $database;
+        $this->language = $language ?: $GLOBALS['TL_LANGUAGE'];
     }
 
     private function checkSubFields(&$field, $data)
@@ -67,9 +70,9 @@ class C4GPrintoutPDF
                         $subField->setInitialValue($data[$field->getFieldName()]);
                         $subField->setTableRow(true);
                     }
-                    if ($subField->isPrintable() && (trim($data[$subField->getFieldName()]) || (($field instanceof C4GSubDialogField) || ($field instanceof C4GForeignArrayField)))) {
-                        C4GPrintoutPDF::checkSubFields($subField, $data);
-                        $subFieldList[] = $subField;
+                    if ($subField->isPrintable() && (trim($data[$subField->getFieldName()]) || (($field instanceof C4GSubDialogField) || ($field instanceof C4GForeignArrayField) || ($field instanceof C4GGridField)))) {
+                        $resultField = C4GPrintoutPDF::checkSubFields($subField, $data);
+                        $subFieldList[] =  $resultField ?: $subField;
                     }
                 }
                 $field->setFieldList($subFieldList);
@@ -99,12 +102,32 @@ class C4GPrintoutPDF
                         $subField->setInitialValue($data[$field->getFieldName()]);
                         $subField->setTableRow(true);
                     }
-                    if ($subField->isPrintable() && (trim($data[$subField->getFieldName()]) || (($field instanceof C4GSubDialogField) || ($field instanceof C4GForeignArrayField)))) {
-                        C4GPrintoutPDF::checkSubFields($subField, $data);
-                        $subFieldList[] = $subField;
+                    if ($subField->isPrintable() && (trim($data[$subField->getFieldName()]) || (($field instanceof C4GSubDialogField) || ($field instanceof C4GForeignArrayField) || ($field instanceof C4GGridField)))) {
+                        $resultField = C4GPrintoutPDF::checkSubFields($subField, $data);
+                        $subFieldList[] = $resultField ?: $subField;
                     }
                 }
                 $field->setForeignFieldList($subFieldList);
+            }
+        }
+
+        if ($field instanceof C4GGridField) {
+            $grid = $field->getGrid();
+            if ($grid) {
+                $newField = new C4GTextField();
+                $newField->setFieldName($field->getFieldName());
+                $newField->setTitle($field->getTitle());
+                $newField->setShowIfEmpty(false);
+                $newField->setPrintable($field->isPrintable());
+                $newField->setTableRow(false);
+                foreach ($grid->getColumns() as $subField) {
+                    if ((($subField instanceof C4GTextField) || ($subField instanceof C4GTextareaField)) && (trim($data[$subField->getFieldName()]))) {
+                        $value =  trim($data[$subField->getFieldName()]);
+                        $newField->setInitialValue($newField->getInitialValue() ? $newField->getInitialValue() . ' ' .  $value : $value);
+                    }
+                }
+                //$subFieldList[] = $newField;
+                return $newField;
             }
         }
     }
@@ -115,6 +138,8 @@ class C4GPrintoutPDF
         if (method_exists($module, 'printPdf')) {
             return $module->printPdf($id);
         }
+
+        $module->setLanguage($this->language);
         $module->initBrickModule($id);
 
         $module->getDialogParams()->setTabContent(false);
@@ -173,9 +198,9 @@ class C4GPrintoutPDF
                 }
             }
 
-            if ($field->isPrintable() && (trim($data[$field->getFieldName()]) || (($field instanceof C4GSubDialogField) || ($field instanceof C4GForeignArrayField) || ($field instanceof C4GImageField)))) {
-                C4GPrintoutPDF::checkSubFields($field, $data);
-                $printFieldList[] = $field;
+            if ($field->isPrintable() && (trim($data[$field->getFieldName()]) || (($field instanceof C4GSubDialogField) || ($field instanceof C4GForeignArrayField) || ($field instanceof C4GImageField) || ($field instanceof C4GGridField)))) {
+                $resultField = C4GPrintoutPDF::checkSubFields($field, $data);
+                $printFieldList[] = $resultField ?: $field;
             }
         }
 
