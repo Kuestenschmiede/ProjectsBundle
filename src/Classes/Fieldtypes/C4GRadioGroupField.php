@@ -124,7 +124,7 @@ class C4GRadioGroupField extends C4GBrickField
                 $object_class = 'class="c4g__form-check-input' . $additionalInputClass.'" ';
             }
 
-            $option_results = $option_results . '<div class="c4g__form-check"><input type="radio" ' . $object_class . 'id="' . $option_name . '" name="' . $name . '" ' . $optionAttributes . $required . ' ' . $changeAction . ' onclick="' . $onClick . '" data-object="" value="' . $option_id . '" ' . (($value == $option_id) ? 'checked' : '') . ' /><label class="c4g__form-check-label'.$additionalLabelClass.'" for="' . $for . '" >' . $type_caption . '</label></div>';
+            $option_results = $option_results . '<div class="c4g__form-check"><input type="radio" ' . $object_class . 'id="' . $option_name . '" name="' . $name . '" ' . $optionAttributes . ' ' . $changeAction . ' onclick="' . $onClick . '" data-object="" value="' . $option_id . '" ' . (($value == $option_id) ? 'checked' : '') . ' /><label class="c4g__form-check-label'.$additionalLabelClass.'" for="' . $for . '" >' . $type_caption . '</label></div>';
         }
 
         if (!$option_results) {
