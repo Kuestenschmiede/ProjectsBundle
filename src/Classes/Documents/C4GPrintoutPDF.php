@@ -201,7 +201,7 @@ class C4GPrintoutPDF
                 }
             }
 
-            if ($field->isPrintable() && (trim($data[$field->getFieldName()]) || (($field instanceof C4GSubDialogField) || ($field instanceof C4GForeignArrayField) || ($field instanceof C4GImageField) || ($field instanceof C4GGridField)))) {
+            if ($field->isPrintable() && ($field->getFieldName() && $data[$field->getFieldName()] && (trim($data[$field->getFieldName()])) || (($field instanceof C4GSubDialogField) || ($field instanceof C4GForeignArrayField) || ($field instanceof C4GImageField) || ($field instanceof C4GGridField)))) {
                 $resultField = C4GPrintoutPDF::checkSubFields($field, $data);
                 if ($resultField) {
                     $data[$resultField->getFieldName()] = $resultField->getInitialValue();
