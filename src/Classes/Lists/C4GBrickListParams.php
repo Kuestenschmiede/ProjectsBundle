@@ -27,6 +27,7 @@ class C4GBrickListParams
 {
     private $displayLength = 25; //dataTable displayLength
     private $withModelListFunction = false; //calls modelListFunction
+    private $modelListParams = []; //array of params to use with model list function
     private $withDetails = true; //show details by tablerow click
     private $filterParams = null; //filterParams to filter big datasets *DEPRECATED*
     private $filterObject = null; //Filter object to filter the data.
@@ -1022,5 +1023,21 @@ class C4GBrickListParams
     public function setSession(C4gBrickSession $session): void
     {
         $this->session = $session;
+    }
+
+    /**
+     * @return array
+     */
+    public function getModelListParams(): array
+    {
+        return $this->modelListParams;
+    }
+
+    /**
+     * @param array $modelListParams
+     */
+    public function setModelListParams(array $modelListParams): void
+    {
+        $this->modelListParams = $modelListParams;
     }
 }
