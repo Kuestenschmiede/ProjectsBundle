@@ -144,7 +144,7 @@ class C4GRadioGroupField extends C4GBrickField
                     '</fieldset>' .
                     '</div>'));
         } else {
-            $result .= $this->generateC4GFieldHTML($condition, '<div class="c4g__form-radio-group_wrapper formdata" ' . $condition['conditionPrepare'] . '>' .
+            $result .= $this->generateC4GFieldHTML($condition, '<div class="c4g__form-radio-group_wrapper" ' . $condition['conditionPrepare'] . '>' .
                 '<input type="hidden" name="' . $fieldName . '" value="' . $value . '" id="' . $id . '"  ' . $required . ' ' . $conditionPrepare . ' ' . 'class="formdata ' . $id . $attributes . '">' .
                 '<label class="c4g__form-radio-group_label"' . $conditionPrepare . '>' . $this->addC4GField(null, $dialogParams, $fieldList, $data, '</label>' .
                     '<fieldset' . $addToFieldset . '>' .
@@ -324,7 +324,7 @@ class C4GRadioGroupField extends C4GBrickField
             foreach ($this->getCondition() as $con) {
                 $fieldName = $con->getFieldName();
                 if (!$con->checkAgainstCondition($dlgValues[$fieldName])) {
-                    /*return false; *///todo shouldn't happend, better error handling.
+                    return false; //todo shouldn't happend, better error handling.
                 }
             }
         }
