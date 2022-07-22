@@ -19,7 +19,9 @@ use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GEmailField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GForeignArrayField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GGridField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GImageField;
+use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GMultiCheckboxField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GPostalField;
+use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GRadioGroupField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GSelectField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GSubDialogField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GTelField;
@@ -133,6 +135,8 @@ class C4GPrintoutPDF
                 return $newField;
             }
         }
+
+        return false;
     }
 
     public function printAction($module, $data, $id, $buttonClick = false)
@@ -169,6 +173,16 @@ class C4GPrintoutPDF
             $field->setDescription('');
             $field->setEditable(false);
             $field->setShowIfEmpty(false);
+
+            if ($field->getCondition()) {
+                foreach ($field->getCondition() as $con) {
+                    $conFieldName = $con->getFieldName();
+                    if (!$con->checkAgainstCondition($data[$conFieldName])) {
+                        continue(2);
+                    }
+                }
+            }
+
             if (
                 ($field instanceof C4GTextField) ||
                 ($field instanceof C4GTextareaField) ||
@@ -201,11 +215,26 @@ class C4GPrintoutPDF
                 }
             }
 
-            if ($field->isPrintable() && ($field->getFieldName() && $data[$field->getFieldName()] && (trim($data[$field->getFieldName()])) || (($field instanceof C4GSubDialogField) || ($field instanceof C4GForeignArrayField) || ($field instanceof C4GImageField) || ($field instanceof C4GGridField)))) {
+            if ($field instanceof C4GRadioGroupField) {
+                $fieldName = $field->getFieldName();
+                $field->setShowIfEmpty(false);
+                $field->setPrintableTableRow(false);
+                $field->setCondition([]);
+                $field->setRemoveWithEmptyCondition(false);
+                if ($field->isSaveAsArray()) {
+                    $field->setInitialValue($dataset->$fieldName ? intvaL(StringUtil::deserialize($dataset->$fieldName)[0]) : '');
+                } else {
+                    $field->setInitialValue($dataset->$fieldName);
+                }
+                $field->setDefaultValue($field->getInitialValue());
+            }
+
+            if ($field->isPrintable() && ($field->getFieldName() && $data[$field->getFieldName()] && (trim($data[$field->getFieldName()])) || (($field instanceof C4GSubDialogField) || ($field instanceof C4GForeignArrayField) || ($field instanceof C4GImageField) || ($field instanceof C4GRadioGroupField) || ($field instanceof C4GGridField)))) {
                 $resultField = C4GPrintoutPDF::checkSubFields($field, $data);
                 if ($resultField) {
                     $data[$resultField->getFieldName()] = $resultField->getInitialValue();
                 }
+
                 $printFieldList[] = $resultField ?: $field;
             }
         }
