@@ -27,6 +27,7 @@ class C4GRadioGroupField extends C4GBrickField
     private $addNameToId = true;
     private $withoutScripts = false;
     private $timeButtonSpecial = false;
+    private $saveAsArray = false;
 
     /**
      * @param string $type
@@ -39,7 +40,8 @@ class C4GRadioGroupField extends C4GBrickField
     public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = [])
     {
         $required = $this->generateRequiredString($data, $dialogParams, $fieldList);
-        $value = $this->generateInitialValue($data);
+
+        $value = $this->generateInitialValue($data, $this->isSaveAsArray());
         $is_frozen = $dialogParams->isFrozen();
         $result = '';
         $additionalInputClass = $this->showButtons ? ' c4g__btn-check' : '';
@@ -304,6 +306,10 @@ class C4GRadioGroupField extends C4GBrickField
             }
         }
 
+        if ($this->isSaveAsArray()) {
+            $fieldData = serialize([$fieldData]);
+        }
+
         return $fieldData;
     }
 
@@ -444,5 +450,21 @@ class C4GRadioGroupField extends C4GBrickField
     public function setShowButtons(bool $showButtons): void
     {
         $this->showButtons = $showButtons;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isSaveAsArray(): bool
+    {
+        return $this->saveAsArray;
+    }
+
+    /**
+     * @param bool $saveAsArray
+     */
+    public function setSaveAsArray(bool $saveAsArray): void
+    {
+        $this->saveAsArray = $saveAsArray;
     }
 }

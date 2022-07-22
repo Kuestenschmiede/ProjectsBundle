@@ -25,6 +25,7 @@ use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GLinkField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GNumberField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GUrlField;
 use con4gis\ProjectsBundle\Classes\Views\C4GBrickViewType;
+use Contao\StringUtil;
 
 abstract class C4GBrickField
 {
@@ -715,7 +716,7 @@ abstract class C4GBrickField
      * @param $data
      * @return mixed
      */
-    protected function generateInitialValue($data)
+    protected function generateInitialValue($data, $deserialze = false)
     {
         if (!$data ||
                 (!$this->isDatabaseField()) && ($this->getSource() != C4GBrickFieldSourceType::OTHER_FIELD) &&
@@ -723,14 +724,19 @@ abstract class C4GBrickField
             $value = $this->getInitialValue();
         } else {
             $fieldName = $this->getFieldName();
-            if ($this->getAdditionalID()) {
-                $pos = strripos($fieldName, '_');
-                if ($pos !== false) {
-                    $fieldName = substr($fieldName, 0, $pos);
-                }
-            }
+//            if ($this->getAdditionalID()) {
+//                $pos = strripos($fieldName, '_');
+//                if ($pos !== false) {
+//                    $fieldName = substr($fieldName, 0, $pos);
+//                }
+//            }
 
             $value = $data->$fieldName; //$data && property_exists($data, $fieldName) ? $data->$fieldName : false;
+
+
+            if ($deserialze) {
+                $value = $value ? StringUtil::deserialize($value)[0] : $value;
+            }
         }
 
         if ($value === '') {

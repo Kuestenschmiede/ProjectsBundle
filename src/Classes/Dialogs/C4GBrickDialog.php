@@ -36,6 +36,7 @@ use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GHeadlineField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GImageField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GKeyField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GMultiCheckboxField;
+use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GRadioGroupField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GSelectField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GSignaturePadField;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GSubDialogField;
@@ -1112,7 +1113,15 @@ class C4GBrickDialog
                     $fieldName .= '_' . $field->getAdditionalId();
                 }
 
-                $fieldData = $dlgValues[$fieldName];
+                if ($field->getCondition()) {
+                    foreach ($field->getCondition() as $con) {
+                        $conFieldName = $con->getFieldName();
+                        if (!$con->checkAgainstCondition($dlgValues[$conFieldName])) {
+                            continue(2);
+                        }
+                    }
+                }
+
                 if ((!$field->isFormField()) && (!$fieldData) && ($field->getInitialValue() || $field->getRandomValue())) {
                     $fieldData = $field->getRandomValue();
                     if ($fieldData === '') {
@@ -1165,7 +1174,7 @@ class C4GBrickDialog
                     if ($field instanceof C4GFileField && $field->getFilenameColumn() !== '' && $field->getFilename() !== '') {
                         $set[$field->getFilenameColumn()] = $field->getFilename();
                     }
-                    if (!($field instanceof C4GFileField) && !($field instanceof C4GMultiCheckboxField) && (!$field instanceof C4GForeignArrayField)) {
+                    if (!($field instanceof C4GFileField) && !($field instanceof C4GRadioGroupField) && !($field instanceof C4GMultiCheckboxField) && (!$field instanceof C4GForeignArrayField)) {
                         $set[$field->getFieldName()] = html_entity_decode(C4GUtils::secure_ugc($fieldData));
                     }
                 }
