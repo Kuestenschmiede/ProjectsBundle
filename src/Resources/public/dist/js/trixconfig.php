@@ -114,9 +114,9 @@ function trixConfig() {
             let xhr = new XMLHttpRequest();
             let url;
             if (file.type.includes('image')) {
-            url = '/con4gis/upload/image';
+            url = '<?php echo $_GET['imageuploadpath'] ?: '/con4gis/upload/image'; ?>';
             } else {
-            url = '/con4gis/upload/file';
+            url = '<?php echo $_GET['fileuploadpath'] ?: '/con4gis/upload/file'; ?>';
             }
 
             xhr.open('POST', url, true);
