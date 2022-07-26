@@ -926,7 +926,7 @@ class C4GBrickDialog
                         $caption = $field->getTitle() ? $field->getTitle() : $fieldName;
                         if (($pattern != '') && !(preg_match('/' . $pattern . '/', $dlgValue))) {
                             return $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['CHECK_FIELD'] . '"' . $caption . '".';
-                        } elseif ($dlgValue > $field->getMax() || $dlgValue < $field->getMin()) {
+                        } elseif ((float) $dlgValue > (float) $field->getMax() || (float) $dlgValue < (float) $field->getMin()) {
                             return $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['CHECK_FIELD'] . '"' . $caption . '".';
                         }
                     }
