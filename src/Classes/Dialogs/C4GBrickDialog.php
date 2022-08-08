@@ -1117,7 +1117,8 @@ class C4GBrickDialog
                     foreach ($field->getCondition() as $con) {
                         $conFieldName = $con->getFieldName();
                         if (!$con->checkAgainstCondition($dlgValues[$conFieldName])) {
-                            continue(2);
+                            if (!strpos($conFieldName,'--'))
+                                continue(2);
                         }
                     }
                 }
