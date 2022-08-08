@@ -283,6 +283,8 @@ class C4GDateField extends C4GBrickField
             } else {
                 $fieldData = $arrParts[0] . '.' . $arrParts[1] . '.20' . $arrParts[2];
             }
+        } else if ($GLOBALS['TL_CONFIG']['dateFormat'] == 'd/m/Y') {
+            $fieldData = str_replace('/','.',$fieldData);
         }
         $date = $fieldData ? new \DateTime($fieldData) : false;
         if ($date) {
@@ -342,7 +344,11 @@ class C4GDateField extends C4GBrickField
         if ($value === '') {
             $value = 0;
         }
-        $date = $value;
+
+        if ($GLOBALS['TL_CONFIG']['dateFormat'] == 'd/m/Y') {
+            $value = str_replace('/','.',$value);
+        }
+
         $timestamp = strtotime($value);
         if (is_numeric($timestamp)) {
             return date($GLOBALS['TL_CONFIG']['dateFormat'], $timestamp);
@@ -350,7 +356,7 @@ class C4GDateField extends C4GBrickField
             return $value;
         }
 
-        return date($GLOBALS['TL_CONFIG']['dateFormat'], $date);
+        return date($GLOBALS['TL_CONFIG']['dateFormat'], $value);
     }
 
     /**
