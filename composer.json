@@ -20,12 +20,12 @@
   "require": {
     "php": "^7.4 || ^8.0",
     "contao/core-bundle": "^4.9",
-    "con4gis/core": "^v6.0.12",
-    "menatwork/contao-multicolumnwizard-bundle": "^3.5.5",
+    "con4gis/core": "^v6.0.13",
+    "menatwork/contao-multicolumnwizard-bundle": "^3.5.7",
     "doctrine/orm": "^2.8.1",
     "doctrine/data-fixtures": "^1.4.4",
     "doctrine/persistence": "^2.3.0",
-    "terminal42/notification_center": "^1.6.5",
+    "terminal42/notification_center": "^1.6.13",
     "contao-components/jquery": "^3.6",
     "bacon/bacon-qr-code": "^2.0"
   },
