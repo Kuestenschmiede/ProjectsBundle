@@ -49,9 +49,21 @@ class C4GTimepickerField extends C4GBrickField
             $condition = $this->createConditionData($fieldList, $data);
             $description = $this->getC4GDescriptionLabel($this->getDescription(), $condition);
 
+            $pattern = '"[0-9]{2}:[0-9]{2}"';
+
+            //ToDo no way with input type time
+            //            if (strpos($value, '.')) {
+            //                $pattern = '"[0-9]{2}.[0-9]{2}"';
+            //            }
+
+            //hotfix swiss format
+            if (strpos($value, '.')) {
+                $value = str_replace('.',':',$value);
+            }
+
             $result =
                 $this->addC4GField($condition,$dialogParams,$fieldList,$data,
-                '<input type="time"' . $required . ' ' . $condition['conditionPrepare'] . ' id="' . $id . '" class="formdata c4g__form-control c4g__form-time-input ' . $id . '" name="' . $this->getFieldName() . '" title="' . $this->getTitle() . '" value="' . $value . '">');
+                '<input type="time"' . $required . ' ' . $condition['conditionPrepare'] . ' id="' . $id . '" class="formdata c4g__form-control c4g__form-time-input ' . $id . '" name="' . $this->getFieldName() . '" title="' . $this->getTitle() . '" value="' . $value . '" pattern='.$pattern.'>');
         }
 
         return $result;
