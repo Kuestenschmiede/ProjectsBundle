@@ -180,7 +180,7 @@ class C4GDateField extends C4GBrickField
             }
 
             if (!$this->isIgnoreViewType() && (C4GBrickView::isWithoutEditing($dialogParams->getViewType()) || !$this->isEditable())) {
-                $html .= '<input autocomplete="off" ' . $required . ' type="text" id="' . $id . '" class="noformdata c4g__form-control c4g__form-date-input ' . $id . '" ' . $changeAction . ' name="' . $fieldName . '" value="' . $value . '" ' . $condition['conditionPrepare'] . 'pattern="' . $this->pattern . '"' . '>';
+                $html .= '<input autocomplete="off" ' . $required . ' type="text" id="' . $id . '" class="formdata c4g__form-control c4g__form-date-input ' . $id . '" ' . $changeAction . ' name="' . $fieldName . '" value="' . $value . '" ' . $condition['conditionPrepare'] . 'pattern="' . $this->pattern . '"' . '>';
             } else {
                 if (!$this->isDatePickerByBrowser()) {
                     $search = "C4GDatePicker('" . $id;
