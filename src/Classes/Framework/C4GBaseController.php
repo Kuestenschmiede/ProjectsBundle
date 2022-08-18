@@ -452,7 +452,7 @@ class C4GBaseController extends AbstractFrontendModuleController
     /**
      * loading all language files
      */
-    private function loadLanguageFiles()
+    protected function loadLanguageFiles()
     {
         if ($this->language === '') {
             $language = $GLOBALS['TL_LANGUAGE'];
