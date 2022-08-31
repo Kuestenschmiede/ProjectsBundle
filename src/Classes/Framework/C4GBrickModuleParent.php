@@ -412,6 +412,8 @@ class C4GBrickModuleParent extends Module
             $this->brickDatabase = new C4GBrickDatabase($databaseParams);
         }
 
+        $user = FrontendUser::getInstance();
+
         //setting list params
         //ToDo ViewType berücksichten (bei Formularen nicht notwendig)
         if (!$this->listParams) {
@@ -419,7 +421,7 @@ class C4GBrickModuleParent extends Module
             $this->listParams->setWithModelListFunction(!empty($this->modelListFunction));
             //$this->listParams->setWithModelDialogFunction(!empty($this->modelDialogFunction));
 
-            $groups = C4GBrickCommon::getGroupListForBrick($this->User->id, $this->brickKey);
+            $groups = C4GBrickCommon::getGroupListForBrick($user->id, $this->brickKey);
             $groupCount = count($groups);
             $this->listParams->setGroupCount($groupCount);
             $this->listParams->setWithJQueryUI($this->jQueryAddJqueryUI);
