@@ -117,7 +117,7 @@ class C4GDateTimeListFilter extends C4GListFilter
     public function getFilterHeadline(): string
     {
         if ($this->to && ($this->to >= $this->from)) {
-            return sprintf($GLOBALS['TL_LANG']['FE_C4G_DIALOG']['filterPeriod'], '<b>' . date('d.m.Y', $this->from) . '</b>', '<b>' . date('d.m.Y', $this->to . '</b>'));
+            return sprintf($GLOBALS['TL_LANG']['FE_C4G_DIALOG']['filterPeriod'], '<b>' . date('d.m.Y', $this->from) . '</b>', '<b>' . date('d.m.Y', $this->to) . '</b>');
         }
 
         return '';
