@@ -16,10 +16,10 @@ use con4gis\ProjectsBundle\Classes\Common\C4GBrickConst;
 
 class C4GDateTimeListFilter extends C4GListFilter
 {
-    protected $from = 0;
-    protected $to = 0;
-    protected $fieldName = 'tstamp';
-    protected $buttonText = '';
+    protected int $from = 0;
+    protected int $to = 0;
+    protected string $fieldName = 'tstamp';
+    protected string $buttonText = '';
 
     /**
      * @param $dlgValues
@@ -34,7 +34,7 @@ class C4GDateTimeListFilter extends C4GListFilter
 
     public function setDefaultFilter($from, $to)
     {
-        if (intval($this->from) === 0 && intval($this->to) === 0) {
+        if ($this->from === 0 && $this->to === 0) {
             $this->from = $from;
             $this->to = $to;
         }
@@ -50,22 +50,22 @@ class C4GDateTimeListFilter extends C4GListFilter
      */
     public function filter($elements, $dialogParams)
     {
-        if ($this->to && (intval($this->to) >= intval($this->from))) {
+        if ($this->to && ($this->to >= $this->from)) {
             $rowElements = [];
             foreach ($elements as $key => $value) {
                 if (is_array($value)) {
-                    if ((intval($value[$this->fieldName]) < intval($this->from)) || (intval($value[$this->fieldName]) > intval($this->to))) {
+                    if ((intval($value[$this->fieldName]) < $this->from) || (intval($value[$this->fieldName]) > $this->to)) {
                         unset($elements[$key]);
                     }
                 } elseif ($value instanceof \Model) {
                     $fieldName = $this->fieldName;
-                    if ((intval($value->$fieldName) < intval($this->from)) || (intval($value->$fieldName) > intval($this->to))) {
+                    if ((intval($value->$fieldName) < $this->from) || (intval($value->$fieldName) > $this->to)) {
                     } else {
                         $rowElements[] = $value->row();
                     }
                 } else {
                     $fieldName = $this->fieldName;
-                    if ((intval($value->$fieldName) < intval($this->from)) || (intval($value->$fieldName) > intval($this->to))) {
+                    if ((intval($value->$fieldName) < $this->from) || (intval($value->$fieldName) > $this->to)) {
                         unset($elements->$key);
                     }
                 }
@@ -116,7 +116,7 @@ class C4GDateTimeListFilter extends C4GListFilter
      */
     public function getFilterHeadline(): string
     {
-        if ($this->to && (intval($this->to) >= intval($this->from))) {
+        if ($this->to && ($this->to >= $this->from)) {
             return sprintf($GLOBALS['TL_LANG']['FE_C4G_DIALOG']['filterPeriod'], '<b>' . date('d.m.Y', $this->from) . '</b>', '<b>' . date('d.m.Y', $this->to . '</b>'));
         }
 
