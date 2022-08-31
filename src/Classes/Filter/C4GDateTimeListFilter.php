@@ -13,6 +13,7 @@ namespace con4gis\ProjectsBundle\Classes\Filter;
 use con4gis\CoreBundle\Classes\Helper\ArrayHelper;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickCommon;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickConst;
+use Contao\Model\Collection;
 
 class C4GDateTimeListFilter extends C4GListFilter
 {
@@ -50,21 +51,20 @@ class C4GDateTimeListFilter extends C4GListFilter
      */
     public function filter($elements, $dialogParams)
     {
+        if ($elements instanceof Collection) {
+            $elements = $elements->fetchAll();
+            $convertToObject = true;
+        } else {
+            $convertToObject = false;
+        }
         if ($this->to && ($this->to >= $this->from)) {
-            $rowElements = [];
+            $fieldName = $this->fieldName;
             foreach ($elements as $key => $value) {
                 if (is_array($value)) {
                     if ((intval($value[$this->fieldName]) < $this->from) || (intval($value[$this->fieldName]) > $this->to)) {
                         unset($elements[$key]);
                     }
-                } elseif ($value instanceof \Model) {
-                    $fieldName = $this->fieldName;
-                    if ((intval($value->$fieldName) < $this->from) || (intval($value->$fieldName) > $this->to)) {
-                    } else {
-                        $rowElements[] = $value->row();
-                    }
                 } else {
-                    $fieldName = $this->fieldName;
                     if ((intval($value->$fieldName) < $this->from) || (intval($value->$fieldName) > $this->to)) {
                         unset($elements->$key);
                     }
@@ -72,11 +72,10 @@ class C4GDateTimeListFilter extends C4GListFilter
             }
         }
 
-        if (empty($rowElements)) {
-            return $elements;
+        if ($convertToObject) {
+            return ArrayHelper::arrayToObject($elements);
         }
-
-        return ArrayHelper::arrayToObject($rowElements);
+        return $elements;
     }
 
     /**
