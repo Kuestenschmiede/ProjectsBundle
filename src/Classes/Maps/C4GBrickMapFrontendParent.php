@@ -600,7 +600,7 @@ class C4GBrickMapFrontendParent
      * @param string $graphicTitle
      * @return array
      */
-    public function createMapStructureContent($locationStyle, $loc_geox, $loc_geoy, $popupInfo, $label = '', $graphicTitle = '', $cluster = null, $url = null, $interval = 60000, $properties)
+    public function createMapStructureContent($locationStyle, $loc_geox, $loc_geoy, $popupInfo, $label = '', $graphicTitle = '', $cluster = null, $url = null, $interval = 60000, $properties = [])
     {
         $stringClass = $GLOBALS['con4gis']['stringClass'];
         $popupInfo = $stringClass::toHtml5($popupInfo);
