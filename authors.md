@@ -8,3 +8,4 @@
 - Friedrich Schute (https://kuestenschmiede.de)
 - Raphael Ross (https://kuestenschmiede.de)
 - Artur Jozefiak (https://kuestenschmiede.de)
+- Marc Zakrzewski (https://kuestenschmiede.de)

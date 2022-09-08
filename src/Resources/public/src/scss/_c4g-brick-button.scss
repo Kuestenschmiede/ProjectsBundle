@@ -1,87 +1,16 @@
-.c4g_uploadButton {
-  margin-bottom: 4px;
-  cursor: pointer;
-}
-.c4g_uploadLink {
-  cursor: pointer;
-}
-.c4g_uploadLink a {
-  color: #000000!important;
-}
-.c4g_deleteButton {
-  margin-left: 5px;
-  padding: 1px;
-  color: red;
-  cursor: pointer;
-  font-family: "Font Awesome 5 Free"!important;
-  font-size: inherit;
-}
-.c4g_deleteButton:before {
-  background: #f90;
-  color: #fff;
-  font-family: 'Helvetica', 'Arial', sans-serif;
-  font-size: 2em;
-  font-weight: bold;
-  text-align: center;
-  width: 40px;
-  height: 40px;
-  border-radius: 5px;
+.c4gGuiAction,
+.c4gGuiButton,
+.c4gGuiSend,
+.ui-button,
+a.ui-button,
+a:link.ui-button,
+.ui-corner-all,
+.ui-widget {
+  //color: unset;
 }
 
-#c4g_brick .c4gGuiButtons,
-#c4g_brick .c4gGuiDialogButtons {
-  padding-top: 10px;
-}
-
-#c4g_brick .c4gGuiDialogButtons {
-  padding-bottom: 25px;
-}
-
-#c4g_brick .c4g_brick_dialog .c4gCircleButton {
-  display: block;
-  padding: 0;
-  width: 75px;
-  height: 75px;
-  border-radius: 50%!important;
-  border:5px solid;
-  overflow:hidden;
-  vertical-align: middle;
-  /*background: #4679BD;*/
-  box-shadow: 0 0 3px gray;
-}
-#c4g_brick .c4g_brick_dialog .c4gCircleButton .c4g-button-text {
-  text-align: center;
-  vertical-align: middle;
-  font-size: 20px;
-  padding: auto;
-  padding-top: 25px;
-}
-.c4g_more_button_hidden {
-
-}
-
-.c4g_more_button_container
-{
-  min-width: 300px;
-  position: absolute;
-  padding: 10px;
-  z-index: 55;
-}
-
-.c4g_more_button_container_hidden
-{
-  position: relative;
-}
-.c4g_more_button_entry {
-  display:block;
-}
-
-.c4g_more_button_entry_tiles {
-  display:inline-block;
-}
-
-
-.c4g__btn{
+.c4g__btn,
+.ui-button {
   @extend .btn;
 }
 
@@ -117,5 +46,25 @@
   @extend .btn-link;
 }
 
+.c4g__btn-radio {
+  @extend .btn-secondary
+}
 
+.c4g__btn-check {
+  @extend .btn-check
+}
+
+.c4g__btn-tile {
+  @extend .btn-link;
+}
+
+.c4g_uploadButton {
+  display: block;
+}
+.c4g_deleteButton i {
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  font-style: normal;
+  color: red;
+}
 
