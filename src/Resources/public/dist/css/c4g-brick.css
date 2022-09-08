@@ -614,10 +614,6 @@ legend + * {
 ::-webkit-color-swatch-wrapper {
   padding: 0
 }
-::-webkit-file-upload-button {
-  font: inherit;
-  -webkit-appearance: button
-}
 ::file-selector-button {
   font: inherit;
   -webkit-appearance: button
@@ -714,6 +710,11 @@ progress {
   color: #6c757d;
   opacity: 1
 }
+.c4g_brick_dialog .c4g__form-control:-ms-input-placeholder,
+.form-control:-ms-input-placeholder {
+  color: #6c757d;
+  opacity: 1
+}
 .c4g_brick_dialog .c4g__form-control::placeholder,
 .form-control::placeholder {
   color: #6c757d;
@@ -723,23 +724,6 @@ progress {
 .form-control:disabled {
   background-color: #e9ecef;
   opacity: 1
-}
-.c4g_brick_dialog .c4g__form-control::-webkit-file-upload-button,
-.form-control::-webkit-file-upload-button {
-  padding: .375rem .75rem;
-  margin: -.375rem -.75rem;
-  -webkit-margin-end: .75rem;
-  margin-inline-end: .75rem;
-  color: #212529;
-  background-color: #e9ecef;
-  pointer-events: none;
-  border-color: inherit;
-  border-style: solid;
-  border-width: 0;
-  border-inline-end-width: 1px;
-  border-radius: 0;
-  -webkit-transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
-  transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out
 }
 .c4g_brick_dialog .c4g__form-control::file-selector-button,
 .form-control::file-selector-button {
@@ -758,19 +742,10 @@ progress {
   transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out
 }
 @media (prefers-reduced-motion:reduce) {
-  .c4g_brick_dialog .c4g__form-control::-webkit-file-upload-button,
-  .form-control::-webkit-file-upload-button {
-    -webkit-transition: none;
-    transition: none
-  }
   .c4g_brick_dialog .c4g__form-control::file-selector-button,
   .form-control::file-selector-button {
     transition: none
   }
-}
-.c4g_brick_dialog .c4g__form-control:hover:not(:disabled):not([readonly])::-webkit-file-upload-button,
-.form-control:hover:not(:disabled):not([readonly])::-webkit-file-upload-button {
-  background-color: #dde0e3
 }
 .c4g_brick_dialog .c4g__form-control:hover:not(:disabled):not([readonly])::file-selector-button,
 .form-control:hover:not(:disabled):not([readonly])::file-selector-button {
@@ -801,12 +776,6 @@ progress {
   font-size: .875rem;
   border-radius: .25rem
 }
-.form-control-sm::-webkit-file-upload-button {
-  padding: .25rem .5rem;
-  margin: -.25rem -.5rem;
-  -webkit-margin-end: .5rem;
-  margin-inline-end: .5rem
-}
 .form-control-sm::file-selector-button {
   padding: .25rem .5rem;
   margin: -.25rem -.5rem;
@@ -818,12 +787,6 @@ progress {
   padding: .5rem 1rem;
   font-size: 1.25rem;
   border-radius: .5rem
-}
-.form-control-lg::-webkit-file-upload-button {
-  padding: .5rem 1rem;
-  margin: -.5rem -1rem;
-  -webkit-margin-end: 1rem;
-  margin-inline-end: 1rem
 }
 .form-control-lg::file-selector-button {
   padding: .5rem 1rem;
@@ -965,8 +928,6 @@ textarea.form-control-lg {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
-  -webkit-print-color-adjust: exact;
-  color-adjust: exact;
   print-color-adjust: exact
 }
 .c4g__form-check-input[type=checkbox],
@@ -1232,6 +1193,11 @@ textarea.form-control-lg {
 .form-floating > .form-control::-moz-placeholder {
   color: transparent
 }
+.c4g_brick_dialog .form-floating > .c4g__form-control:-ms-input-placeholder,
+.form-floating > .form-control-plaintext:-ms-input-placeholder,
+.form-floating > .form-control:-ms-input-placeholder {
+  color: transparent
+}
 .c4g_brick_dialog .form-floating > .c4g__form-control::placeholder,
 .form-floating > .form-control-plaintext::placeholder,
 .form-floating > .form-control::placeholder {
@@ -1240,6 +1206,12 @@ textarea.form-control-lg {
 .c4g_brick_dialog .form-floating > .c4g__form-control:not(:-moz-placeholder-shown),
 .form-floating > .form-control-plaintext:not(:-moz-placeholder-shown),
 .form-floating > .form-control:not(:-moz-placeholder-shown) {
+  padding-top: 1.625rem;
+  padding-bottom: .625rem
+}
+.c4g_brick_dialog .form-floating > .c4g__form-control:not(:-ms-input-placeholder),
+.form-floating > .form-control-plaintext:not(:-ms-input-placeholder),
+.form-floating > .form-control:not(:-ms-input-placeholder) {
   padding-top: 1.625rem;
   padding-bottom: .625rem
 }
@@ -1265,6 +1237,11 @@ textarea.form-control-lg {
 }
 .c4g_brick_dialog .form-floating > .c4g__form-control:not(:-moz-placeholder-shown) ~ label,
 .form-floating > .form-control:not(:-moz-placeholder-shown) ~ label {
+  opacity: .65;
+  transform: scale(.85) translateY(-.5rem) translateX(.15rem)
+}
+.c4g_brick_dialog .form-floating > .c4g__form-control:not(:-ms-input-placeholder) ~ label,
+.form-floating > .form-control:not(:-ms-input-placeholder) ~ label {
   opacity: .65;
   transform: scale(.85) translateY(-.5rem) translateX(.15rem)
 }
@@ -2892,6 +2869,7 @@ textarea.form-control.is-invalid {
   cursor: pointer;
   -webkit-user-select: none;
   -moz-user-select: none;
+  -ms-user-select: none;
   user-select: none;
   border: var(--bs-btn-border-width) solid var(--bs-btn-border-color);
   border-radius: var(--bs-btn-border-radius);
@@ -4604,6 +4582,7 @@ fieldset:disabled .ui-button {
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   -moz-user-select: none;
+  -ms-user-select: none;
   user-select: none
 }
 .datepicker-main {

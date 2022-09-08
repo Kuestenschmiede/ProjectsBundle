@@ -170,11 +170,11 @@ function C4GFilterButtonTiles(filter)
 function C4GSearchTiles(search)
 {
     var tiles = document.getElementsByClassName("c4g__btn-tile");
-        text;
-        value = search.value.toLowerCase();
-        founded;
+    var text;
+    var value = search.value.toLowerCase();
+    var founded;
 
-    if(value)
+    if (value)
     {
         for (var aTimer = 0; aTimer < tiles.length; aTimer+=1)
         {
@@ -190,7 +190,7 @@ function C4GSearchTiles(search)
 
                     searchedStatus = text.search(value);
                     if(searchedStatus == "-1") {
-                      //ToDo implementation
+                        //ToDo implementation
                     }
                     else
                     {
@@ -309,7 +309,7 @@ function handleC4GBrickFile(fileList, path, uploadURL, deleteURL, fieldName, tar
         var array = [];
         var i = 0;
         for(var i = 0; i < blobBin.length; i++) {
-          array.push(blobBin.charCodeAt(i));
+            array.push(blobBin.charCodeAt(i));
         }
         var file = new Blob([new Uint8Array(array)], {type: 'image/png'});
         file.name = fieldName+'.png';
@@ -508,15 +508,15 @@ function C4GCheckFieldTypes(field) {
  */
 function C4GRemoveConditionClasses(field, level= 1) {
     if (C4GCheckFieldTypes(field)) {
-        field.classList.remove("formdata");
-        if (field.classList.contains('chzn-select')) {
-            field.classList.remove("chzn-select");
-            field.classList.add("chzn-select-disabled");
-            field.style.display = "none";
+        jQuery(field).removeClass("formdata");
+        if (jQuery(field).hasClass('chzn-select')) {
+            jQuery(field).removeClass("chzn-select");
+            jQuery(field).addClass("chzn-select-disabled");
+            jQuery(field).style = "display:none";
             jQuery(field).trigger('chosen:updated');
         }
-        field.style.display = "none";
-        field.removeAttribute("selected");
+        jQuery(field).hide();
+        jQuery(field).removeAttr("selected");
 
         var children = field.children;
         if (children) {
@@ -585,20 +585,20 @@ function C4GRemoveConditionSettings(field, idx) {
  */
 function C4GCheckConditionClasses(field, level= 1) {
     if (C4GCheckFieldTypes(field)) {
-        field.style.display = "block";
-        field.classList.add("formdata");
+        jQuery(field).show();
+        jQuery(field).addClass("formdata");
 
-        if (field.classList.contains("c4g_display_none")) {
-            if (field.classList.contains('chzn-select')) {
+        if (jQuery(field).hasClass("c4g_display_none")) {
+            if (jQuery(field).hasClass('chzn-select')) {
                 jQuery(field).removeClass("chzn-select");
                 jQuery(field).addClass("chzn-select-disabled");
             }
             jQuery(field).hide();
         } else {
-            if (field.classList.contains('chzn-select-disabled')) {
-                field.classList.remove("chzn-select-disabled");
-                field.classList.add("chzn-select");
-                field.style.display = "none";
+            if (jQuery(field).hasClass('chzn-select-disabled')) {
+                jQuery(field).removeClass("chzn-select-disabled");
+                jQuery(field).addClass("chzn-select");
+                jQuery(field).hide();
             }
         }
 
@@ -817,12 +817,12 @@ function showAnimation(id, callFunction) {
 
 
 function clickC4GTab(tab_id){
-    document.getElementsByClassName('c4gGuiTabLink').classList.remove("c4g__state-active");
-    document.getElementsByClassName('c4gGuiTabLink').classList.add("c4g__state-default");
-    document.getElementsByClassName('c4gGuiTabContent').classList.remove('current');
-    document.getElementsByClassName(tab_id).classList.remove("c4g__state-default");
-    document.getElementsByClassName(tab_id).classList.add("c4g__state-active");
-    document.getElementsByClassName(tab_id+"_content").classList.add("current");
+    jQuery(document.getElementsByClassName('c4gGuiTabLink')).removeClass("c4g__state-active");
+    jQuery(document.getElementsByClassName('c4gGuiTabLink')).addClass("c4g__state-default");
+    jQuery(document.getElementsByClassName('c4gGuiTabContent')).removeClass('current');
+    jQuery(document.getElementsByClassName(tab_id)).removeClass("c4g__state-default");
+    jQuery(document.getElementsByClassName(tab_id)).addClass("c4g__state-active");
+    jQuery(document.getElementsByClassName(tab_id+"_content")).addClass("current");
 }
 
 function clickNextTab() {
@@ -830,56 +830,56 @@ function clickNextTab() {
 }
 
 function clickPreviousTab() {
-  switchTab('-');
+    switchTab('-');
 }
 
 function switchTab(mode) {
-  var button = document.getElementsByClassName('c4g__state-active')[0];
-  var tabId = button.getAttribute('data-tab');
-  var number = parseInt(tabId.substring(tabId.length - 1, tabId.length), 10);
-  if (mode === '+') {
-    number++;
-  } else {
-    number--;
-  }
-  if ((number < 0) || (number >= document.getElementsByClassName('c4gGuiTabLink').length)) {
-    return false;
-  }
-  var newTabId = tabId.substr(0, tabId.length - 2);
-  newTabId += '_' + number;
-  if (document.getElementsByClassName(newTabId).style.display !== "none") {
-      clickC4GTab(newTabId);
-  } else {
-     clickC4GTab(newTabId);
-     switchTab(mode);
-  }
+    var button = document.getElementsByClassName('c4g__state-active')[0];
+    var tabId = button.getAttribute('data-tab');
+    var number = parseInt(tabId.substring(tabId.length - 1, tabId.length), 10);
+    if (mode === '+') {
+        number++;
+    } else {
+        number--;
+    }
+    if ((number < 0) || (number >= document.getElementsByClassName('c4gGuiTabLink').length)) {
+        return false;
+    }
+    var newTabId = tabId.substr(0, tabId.length - 2);
+    newTabId += '_' + number;
+    if (jQuery(document.getElementsByClassName(newTabId)).css("display") !== "none") {
+        clickC4GTab(newTabId);
+    } else {
+        clickC4GTab(newTabId);
+        switchTab(mode);
+    }
 }
 
 function checkC4GTab() {
     var hide, hideElements = new Array(), showElements = new Array();
     var classname;
     var isVisible;
-    var tabElements = document.getElementsByClassName('c4gGuiTabLink');
+    var tabElements = jQuery(document.getElementsByClassName('c4gGuiTabLink'));
     var childElement;
-    if (tabElements && (tabElements.length > 0)) {
+    if (tabElements) {
         for(i=0; i<=tabElements.length; i++)
         {
             hide = true;
             classname = "c4g_tab_"+i+"_content";
-            var tabContent = document.getElementsByClassName(classname);
+            var tabContent = jQuery(document.getElementsByClassName(classname));
             if (tabContent && tabContent[0] && tabContent[0].children) {
                 isVisible = 0;
                 for(j=0; j<=tabContent[0].children.length; j++)
                 {
-                     childElement = tabContent[0].children[j];
-                     if (childElement && childElement.style.display !== "none") {
+                    childElement = tabContent[0].children[j];
+                    if (childElement && jQuery(childElement).css("display") !== "none") {
                         //isVisible++;
 
                         for(k=0; k<=childElement.children.length; k++) {
-                            childOfChildElement = childElement.children[k];
-                            if (childOfChildElement.classList.contains("formdata") || childOfChildElement.getAttribute("for")) {
-                                if (childOfChildElement && (childOfChildElement.stlye.display !== "none") &&
-                                    !childOfChildElement.classList.contains("c4g__form-group")) {
+                            childOfChildElement = jQuery(childElement.children[k]);
+                            if (jQuery(childOfChildElement).hasClass("formdata") || jQuery(childOfChildElement).attr("for")) {
+                                if (childOfChildElement && (jQuery(childOfChildElement).css("display") !== "none") &&
+                                    !jQuery(childOfChildElement).hasClass("c4g__form-group")) {
                                     isVisible++;
                                 }
                             }
@@ -893,20 +893,20 @@ function checkC4GTab() {
             }
 
             if (hide) {
-                hideElements[i] = tabElements[i];
+                hideElements[i] = jQuery(tabElements[i]);
             } else {
-                showElements[i] = tabElements[i];
+                showElements[i] = jQuery(tabElements[i]);
             }
 
         }
 
-        for (i=0; i <= hideElements.length; i++) {
-            hideElements[i].style.display = "none";
-        }
-
-        for(i=0; i <= showElements.length; i++)
+        for(i=0; i<=hideElements.length; i++)
         {
-            showElements[i].style.display = "block";
+            jQuery(hideElements[i]).hide();
+        }
+        for(i=0; i<=showElements.length; i++)
+        {
+            jQuery(showElements[i]).show();
         }
 
     }
@@ -925,42 +925,42 @@ function checkC4GTab() {
 }
 
 function replaceC4GDialog(dialogId) {
-  // check if there exists a dialog div with id and without id
-  // in that case, throw away the div without dialogId
-  if (dialogId !== -1) {
-    var oldDialog = document.getElementById('c4gGuiDialogbrickdialog');
-    var newDialog = document.getElementById('c4gGuiDialogbrickdialog' + dialogId);
-    if (oldDialog && newDialog) {
-      oldDialog.parentNode.removeChild(oldDialog);
+    // check if there exists a dialog div with id and without id
+    // in that case, throw away the div without dialogId
+    if (dialogId !== -1) {
+        var oldDialog = document.getElementById('c4gGuiDialogbrickdialog');
+        var newDialog = document.getElementById('c4gGuiDialogbrickdialog' + dialogId);
+        if (oldDialog && newDialog) {
+            oldDialog.parentNode.removeChild(oldDialog);
+        }
     }
-  }
 }
 
 function resizeChosen(fieldId) {
-  var chosenButton = document.getElementById(fieldId);
-  var firstRun = true;
-  jQuery(chosenButton).on('click', function(event) {
+    var chosenButton = document.getElementById(fieldId);
+    var firstRun = true;
+    jQuery(chosenButton).on('click', function(event) {
 
-    var chosenDrop = chosenButton.getElementsByClassName('chosen-drop')[0];
-    jQuery(this).on('mouseleave', function(event) {
-      chosenDrop.style.display = 'none';
-      chosenDrop.style.position = 'absolute';
+        var chosenDrop = chosenButton.getElementsByClassName('chosen-drop')[0];
+        jQuery(this).on('mouseleave', function(event) {
+            chosenDrop.style.display = 'none';
+            chosenDrop.style.position = 'absolute';
+        });
+        var chosenSearch = chosenButton.getElementsByClassName('chosen-search')[0];
+        jQuery(chosenSearch).on('click', function (event) {
+            event.stopPropagation();
+        });
+        chosenDrop.style.display = 'block';
+        chosenDrop.style.position = 'relative';
+        if (firstRun) {
+            jQuery(chosenDrop).on('click', function(event) {
+                this.style.display = 'none';
+                this.style.position = 'absolute';
+                event.stopPropagation();
+            });
+            firstRun = false;
+        }
     });
-    var chosenSearch = chosenButton.getElementsByClassName('chosen-search')[0];
-    jQuery(chosenSearch).on('click', function (event) {
-      event.stopPropagation();
-    });
-    chosenDrop.style.display = 'block';
-    chosenDrop.style.position = 'relative';
-    if (firstRun) {
-      jQuery(chosenDrop).on('click', function(event) {
-        this.style.display = 'none';
-        this.style.position = 'absolute';
-        event.stopPropagation();
-      });
-      firstRun = false;
-    }
-  });
 }
 
 /**

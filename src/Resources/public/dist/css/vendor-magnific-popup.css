@@ -71,6 +71,7 @@
 .mfp-preloader {
   -webkit-user-select: none;
   -moz-user-select: none;
+  -ms-user-select: none;
   user-select: none
 }
 .mfp-loading.mfp-figure {

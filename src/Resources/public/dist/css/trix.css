@@ -218,6 +218,7 @@ trix-toolbar .trix-dialog__link-fields .trix-button-group {
 trix-editor [data-trix-mutable]:not(.attachment__caption-editor) {
   -webkit-user-select: none;
   -moz-user-select: none;
+  -ms-user-select: none;
   user-select: none
 }
 trix-editor [data-trix-cursor-target]::-moz-selection,
