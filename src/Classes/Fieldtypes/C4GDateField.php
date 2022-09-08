@@ -119,7 +119,7 @@ class C4GDateField extends C4GBrickField
         $outputFormat = strtr($dateFormat, $trans);
 
         if ($this->isShowIfEmpty() || !empty($value)) {
-            $buttonId = "'" . $id . "'";
+            //$buttonId = "'" . $id . "'";
             $condition = $this->createConditionData($fieldList, $data);
             //We need to check the condition here and display the field, since the JS does not do that it seems.
             $display = true;
@@ -198,7 +198,7 @@ class C4GDateField extends C4GBrickField
                             $onLoadScript = 'C4GDatePicker(\'' . $id . '\', \'date\', \'' . $this->minDate . '\', \'' . $this->maxDate . '\', \'' . $outputFormat . '\',\'' . $pickerLanguage . '\',\'' . $this->excludeWeekdays . '\',\'' . $this->excludeDates . '\');';
                             $dialogParams->setOnloadScript($onLoadScript);
                         }
-                        $html .= '<button ' . $required . ' onclick="if (document.getElementById(' . $buttonId . ')) {document.getElementById(' . $buttonId . ')).style.display = "block";/*document.getElementById(' . $buttonId . ').focus();*/};" type="button" class="c4g__btn c4g__btn-date c4g__form-date-button-interactive"><i class="far fa-calendar-alt"></i></button>';
+                        $html .= '<button ' . $required . ' onclick="if (document.getElementById(' . $id . ')) {document.getElementById(' . $id . ').style.display = "block";jQuery(document.getElementById(' . $id . ')).focus();};" type="button" class="c4g__btn c4g__btn-date c4g__form-date-button-interactive"><i class="far fa-calendar-alt"></i></button>';
                         $html .= '<input autocomplete="off" ' . $required . ' type="text" id="' . $id . '" class="formdata c4g__form-control c4g__form-date-input ' . $id . '" ' . $changeAction . ' name="' . $fieldName . '" value="' . $value . '" ' . $condition['conditionPrepare'] . 'pattern="' . $this->pattern . '"' . '>';
                     }
                 } else {

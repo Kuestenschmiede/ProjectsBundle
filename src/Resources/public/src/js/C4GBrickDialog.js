@@ -8,6 +8,21 @@
  * @link https://www.con4gis.org
  */
 
+function ready(callback){
+    if (document.readyState!='loading') callback();
+    else if (document.addEventListener) document.addEventListener('DOMContentLoaded', callback);
+}
+
+function eventFire(el, etype){
+    if (el.fireEvent) {
+        el.fireEvent('on' + etype);
+    } else {
+        var evObj = document.createEvent('Events');
+        evObj.initEvent(etype, true, false);
+        el.dispatchEvent(evObj);
+    }
+}
+
 /**
  *
  * @param id
@@ -65,8 +80,8 @@ function C4GDatePicker(id,
             dMax = new Date(maxDate * 1000);
         }
 
-        const elem = document.querySelector("#"+id);
-        if (elem.datepicker) {
+        const elem = document.getElementById(id);
+        if (elem && elem.datepicker) {
             elem.datepicker.destroy();
         }
 
@@ -79,7 +94,7 @@ function C4GDatePicker(id,
             wd[a] = parseInt(wd[a]);
         }
 
-        if (window.Datepicker instanceof Function) {
+        if (elem && (window.Datepicker instanceof Function)) {
             const datepicker = new window.Datepicker(elem, {
                 buttonClass: 'c4g__btn',
                 language: lang || "de",
@@ -96,9 +111,9 @@ function C4GDatePicker(id,
                 autohide: true,
                 useCurrent: true
             });
-            if (elem.datepicker) {
+            if (elem && elem.datepicker) {
                 elem.addEventListener('changeDate', function (e) {
-                    jQuery("#" + id).trigger('change');
+                    eventFire(document.getElementById(id),'change');
 
                     var pickerIdx = id.indexOf("_picker");
                     if (pickerIdx && pickerIdx > 0) {
@@ -111,77 +126,6 @@ function C4GDatePicker(id,
         }
     }
 }
-
-/**
- *
- * @param id
- * @param type
- * @param min
- * @param max
- * @param format
- * @constructor
- */
-// function C4GDateRangePicker(
-//     id,type,minDate,maxDate,format,lang,weekdays,exclude)
-// {
-//     if (type == "date")
-//     {
-//         var dMin = '';
-//         if (minDate) {
-//             dMin = new Date(minDate * 1000);
-//         }
-//
-//         var dMax = '';
-//         if (maxDate) {
-//             dMax = new Date(maxDate * 1000);
-//         }
-//
-//         const elem = document.querySelector("#"+id);
-//         if (elem.datepicker) {
-//             elem.datepicker.destroy();
-//         }
-//
-//         var ed = new Array();
-//         ed = exclude.split(",");
-//
-//         var wd = new Array();
-//         wd = weekdays.split(",");
-//         for (a in wd ) {
-//             wd[a] = parseInt(wd[a]);
-//         }
-//
-//         if (window.DateRangePicker instanceof Function) {
-//             const datepicker = new window.DateRangePicker(elem, {
-//                 buttonClass: 'c4g__btn',
-//                 language: lang || "de",
-//                 format: format,
-//                 datesDisabled: ed,
-//                 daysOfWeekDisabled: wd,
-//                 minDate: dMin,
-//                 maxDate: dMax,
-//                 //calendarWeeks: true,
-//                 weekStart: 1,
-//                 //todayBtn: true,
-//                 todayHighlight: true,
-//                 orientation: 'auto left',
-//                 autohide: true,
-//                 useCurrent: true
-//             });
-//             if (elem.datepicker) {
-//                 elem.addEventListener('changeDate', function (e) {
-//                     jQuery("#" + id).trigger('change');
-//
-//                     var pickerIdx = id.indexOf("_picker");
-//                     if (pickerIdx && pickerIdx > 0) {
-//                         var dateFieldId = id.substr(0,pickerIdx);
-//                         jQuery("#" + dateFieldId).val(datepicker.getDate(format));
-//                         jQuery("#" + dateFieldId).trigger('change');
-//                     }
-//                 });
-//             }
-//         }
-//     }
-// }
 
 /**
  *
@@ -548,8 +492,8 @@ function C4GCheckFieldTypes(field) {
     var result = true;
 
     if (!field.className ||
-        jQuery(field).hasClass("noformdata") ||
-        jQuery(field).hasClass("datepicker")
+        field.classList.contains("noformdata") ||
+        field.classList.contains("datepicker")
     ) {
         return false;
     }
@@ -564,15 +508,15 @@ function C4GCheckFieldTypes(field) {
  */
 function C4GRemoveConditionClasses(field, level= 1) {
     if (C4GCheckFieldTypes(field)) {
-        jQuery(field).removeClass("formdata");
-        if (jQuery(field).hasClass('chzn-select')) {
-            jQuery(field).removeClass("chzn-select");
-            jQuery(field).addClass("chzn-select-disabled");
-            jQuery(field).style = "display:none";
+        field.classList.remove("formdata");
+        if (field.classList.contains('chzn-select')) {
+            field.classList.remove("chzn-select");
+            field.classList.add("chzn-select-disabled");
+            field.style.display = "none";
             jQuery(field).trigger('chosen:updated');
         }
-        jQuery(field).hide();
-        jQuery(field).removeAttr("selected");
+        field.style.display = "none";
+        field.removeAttribute("selected");
 
         var children = field.children;
         if (children) {
@@ -641,20 +585,20 @@ function C4GRemoveConditionSettings(field, idx) {
  */
 function C4GCheckConditionClasses(field, level= 1) {
     if (C4GCheckFieldTypes(field)) {
-        jQuery(field).show();
-        jQuery(field).addClass("formdata");
+        field.style.display = "block";
+        field.classList.add("formdata");
 
-        if (jQuery(field).hasClass("c4g_display_none")) {
-            if (jQuery(field).hasClass('chzn-select')) {
+        if (field.classList.contains("c4g_display_none")) {
+            if (field.classList.contains('chzn-select')) {
                 jQuery(field).removeClass("chzn-select");
                 jQuery(field).addClass("chzn-select-disabled");
             }
             jQuery(field).hide();
         } else {
-            if (jQuery(field).hasClass('chzn-select-disabled')) {
-                jQuery(field).removeClass("chzn-select-disabled");
-                jQuery(field).addClass("chzn-select");
-                jQuery(field).hide();
+            if (field.classList.contains('chzn-select-disabled')) {
+                field.classList.remove("chzn-select-disabled");
+                field.classList.add("chzn-select");
+                field.style.display = "none";
             }
         }
 
@@ -873,12 +817,12 @@ function showAnimation(id, callFunction) {
 
 
 function clickC4GTab(tab_id){
-    jQuery(document.getElementsByClassName('c4gGuiTabLink')).removeClass("c4g__state-active");
-    jQuery(document.getElementsByClassName('c4gGuiTabLink')).addClass("c4g__state-default");
-    jQuery(document.getElementsByClassName('c4gGuiTabContent')).removeClass('current');
-    jQuery(document.getElementsByClassName(tab_id)).removeClass("c4g__state-default");
-    jQuery(document.getElementsByClassName(tab_id)).addClass("c4g__state-active");
-    jQuery(document.getElementsByClassName(tab_id+"_content")).addClass("current");
+    document.getElementsByClassName('c4gGuiTabLink').classList.remove("c4g__state-active");
+    document.getElementsByClassName('c4gGuiTabLink').classList.add("c4g__state-default");
+    document.getElementsByClassName('c4gGuiTabContent').classList.remove('current');
+    document.getElementsByClassName(tab_id).classList.remove("c4g__state-default");
+    document.getElementsByClassName(tab_id).classList.add("c4g__state-active");
+    document.getElementsByClassName(tab_id+"_content").classList.add("current");
 }
 
 function clickNextTab() {
@@ -903,7 +847,7 @@ function switchTab(mode) {
   }
   var newTabId = tabId.substr(0, tabId.length - 2);
   newTabId += '_' + number;
-  if (jQuery(document.getElementsByClassName(newTabId)).css("display") !== "none") {
+  if (document.getElementsByClassName(newTabId).style.display !== "none") {
       clickC4GTab(newTabId);
   } else {
      clickC4GTab(newTabId);
@@ -915,27 +859,27 @@ function checkC4GTab() {
     var hide, hideElements = new Array(), showElements = new Array();
     var classname;
     var isVisible;
-    var tabElements = jQuery(document.getElementsByClassName('c4gGuiTabLink'));
+    var tabElements = document.getElementsByClassName('c4gGuiTabLink');
     var childElement;
-    if (tabElements) {
+    if (tabElements && (tabElements.length > 0)) {
         for(i=0; i<=tabElements.length; i++)
         {
             hide = true;
             classname = "c4g_tab_"+i+"_content";
-            var tabContent = jQuery(document.getElementsByClassName(classname));
+            var tabContent = document.getElementsByClassName(classname);
             if (tabContent && tabContent[0] && tabContent[0].children) {
                 isVisible = 0;
                 for(j=0; j<=tabContent[0].children.length; j++)
                 {
                      childElement = tabContent[0].children[j];
-                     if (childElement && jQuery(childElement).css("display") !== "none") {
+                     if (childElement && childElement.style.display !== "none") {
                         //isVisible++;
 
                         for(k=0; k<=childElement.children.length; k++) {
-                            childOfChildElement = jQuery(childElement.children[k]);
-                            if (jQuery(childOfChildElement).hasClass("formdata") || jQuery(childOfChildElement).attr("for")) {
-                                if (childOfChildElement && (jQuery(childOfChildElement).css("display") !== "none") &&
-                                    !jQuery(childOfChildElement).hasClass("c4g__form-group")) {
+                            childOfChildElement = childElement.children[k];
+                            if (childOfChildElement.classList.contains("formdata") || childOfChildElement.getAttribute("for")) {
+                                if (childOfChildElement && (childOfChildElement.stlye.display !== "none") &&
+                                    !childOfChildElement.classList.contains("c4g__form-group")) {
                                     isVisible++;
                                 }
                             }
@@ -949,20 +893,20 @@ function checkC4GTab() {
             }
 
             if (hide) {
-                hideElements[i] = jQuery(tabElements[i]);
+                hideElements[i] = tabElements[i];
             } else {
-                showElements[i] = jQuery(tabElements[i]);
+                showElements[i] = tabElements[i];
             }
 
         }
 
-        for(i=0; i<=hideElements.length; i++)
-        {
-            jQuery(hideElements[i]).hide();
+        for (i=0; i <= hideElements.length; i++) {
+            hideElements[i].style.display = "none";
         }
-        for(i=0; i<=showElements.length; i++)
+
+        for(i=0; i <= showElements.length; i++)
         {
-            jQuery(showElements[i]).show();
+            showElements[i].style.display = "block";
         }
 
     }
