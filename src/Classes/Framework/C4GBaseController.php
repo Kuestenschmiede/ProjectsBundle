@@ -763,7 +763,7 @@ class C4GBaseController extends AbstractFrontendModuleController
         }
         if ($this->loadChosenResources) {
             ResourceLoader::loadJavaScriptResource('bundles/con4giscore/vendor/jQuery/plugins/chosen/chosen.jquery.min.js', ResourceLoader::BODY, 'chosen-jquery');
-            ResourceLoader::loadJavaScriptResourceTag('jQuery(document).ready(function () {jQuery(".chzn-select").chosen();})');
+            ResourceLoader::loadJavaScriptResourceTag('ready(function () {jQuery(".chzn-select").chosen();})');
         }
         if ($this->loadFileUploadResources) {
             ResourceLoader::loadJavaScriptResourceTag('var uploadApiUrl = \'con4gis/api/fileUpload/\';');

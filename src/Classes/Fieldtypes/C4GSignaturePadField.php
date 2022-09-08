@@ -40,16 +40,16 @@ class C4GSignaturePadField extends C4GBrickField
 
         if (empty(trim($value))) {
             if ($this->isEditable()) {
-                $script = '<script>jQuery(document).ready(function() {jQuery(".c4g_brick_dialog").signaturePad({drawOnly:true,lineWidth:0});});</script>';
+                $script = '<script>jready(function() {jQuery(".c4g_brick_dialog").signaturePad({drawOnly:true,lineWidth:0});});</script>';
             } else {
-                $script = '<script>jQuery(document).ready(function() {jQuery(".c4g_brick_dialog").signaturePad({displayOnly:true,lineWidth:0});});</script>';
+                $script = '<script>ready(function() {jQuery(".c4g_brick_dialog").signaturePad({displayOnly:true,lineWidth:0});});</script>';
             }
         } else {
             $value = str_replace('&quot;', '"', $value);
             if ($this->isEditable()) {
-                $script = '<script>jQuery(document).ready(function() {jQuery(".c4g_brick_dialog").signaturePad({drawOnly:true,lineWidth:0}).regenerate(' . $value . ');});</script>';
+                $script = '<script>ready(function() {jQuery(".c4g_brick_dialog").signaturePad({drawOnly:true,lineWidth:0}).regenerate(' . $value . ');});</script>';
             } else {
-                $script = '<script>jQuery(document).ready(function() {jQuery(".c4g_brick_dialog").signaturePad({displayOnly:true,lineWidth:0}).regenerate(' . $value . ');});</script>';
+                $script = '<script>ready(function() {jQuery(".c4g_brick_dialog").signaturePad({displayOnly:true,lineWidth:0}).regenerate(' . $value . ');});</script>';
             }
         }
 

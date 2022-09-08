@@ -18,7 +18,7 @@ var clearBrowserUrl = function() {
     history.pushState({}, null, newHref);
   }
 };
-jQuery(document).ready(function () {
+ready(function () {
   clearBrowserUrl();
   c4g.projects = c4g.projects || {};
   c4g.projects.clearUrl = true;

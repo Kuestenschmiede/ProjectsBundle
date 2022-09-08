@@ -181,7 +181,7 @@ class C4GBrickDialog
         $view .= C4GHTMLFactory::lineBreak() .
             $field->getC4GDialogField(null, null, $dialogParams) . C4GHTMLFactory::lineBreak();
         if ($field instanceof C4GSelectField && $field->isChosen()) {
-            ResourceLoader::loadJavaScriptResourceTag('jQuery(document).ready(function () { resizeChosen("c4g_' .
+            ResourceLoader::loadJavaScriptResourceTag('ready(function () { resizeChosen("c4g_' .
                 $field->getFieldName() . '_chosen") })');
         }
 
@@ -290,7 +290,7 @@ class C4GBrickDialog
         }
 
         foreach ($GLOBALS['c4g']['brickdialog']['include']['js'] as $string) {
-            $view .= "<script>jQuery(document).ready(function () { $string })</script>";
+            $view .= "<script>ready(function () { $string })</script>";
         }
 
         $view .= '<input type="hidden" id="c4g_project_id" name="c4g_project_id" class="formdata" value="' .
@@ -422,7 +422,7 @@ class C4GBrickDialog
             $scriptArr = array_unique($scriptArr);
             $string = implode(';', $scriptArr);
 
-            $view .= "<script>jQuery(document).ready(function () { $string })</script>";
+            $view .= "<script>ready(function () { $string })</script>";
         }
         return $view;
     }

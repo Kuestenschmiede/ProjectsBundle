@@ -614,6 +614,10 @@ legend + * {
 ::-webkit-color-swatch-wrapper {
   padding: 0
 }
+::-webkit-file-upload-button {
+  font: inherit;
+  -webkit-appearance: button
+}
 ::file-selector-button {
   font: inherit;
   -webkit-appearance: button
@@ -710,11 +714,6 @@ progress {
   color: #6c757d;
   opacity: 1
 }
-.c4g_brick_dialog .c4g__form-control:-ms-input-placeholder,
-.form-control:-ms-input-placeholder {
-  color: #6c757d;
-  opacity: 1
-}
 .c4g_brick_dialog .c4g__form-control::placeholder,
 .form-control::placeholder {
   color: #6c757d;
@@ -724,6 +723,23 @@ progress {
 .form-control:disabled {
   background-color: #e9ecef;
   opacity: 1
+}
+.c4g_brick_dialog .c4g__form-control::-webkit-file-upload-button,
+.form-control::-webkit-file-upload-button {
+  padding: .375rem .75rem;
+  margin: -.375rem -.75rem;
+  -webkit-margin-end: .75rem;
+  margin-inline-end: .75rem;
+  color: #212529;
+  background-color: #e9ecef;
+  pointer-events: none;
+  border-color: inherit;
+  border-style: solid;
+  border-width: 0;
+  border-inline-end-width: 1px;
+  border-radius: 0;
+  -webkit-transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+  transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out
 }
 .c4g_brick_dialog .c4g__form-control::file-selector-button,
 .form-control::file-selector-button {
@@ -742,10 +758,19 @@ progress {
   transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out
 }
 @media (prefers-reduced-motion:reduce) {
+  .c4g_brick_dialog .c4g__form-control::-webkit-file-upload-button,
+  .form-control::-webkit-file-upload-button {
+    -webkit-transition: none;
+    transition: none
+  }
   .c4g_brick_dialog .c4g__form-control::file-selector-button,
   .form-control::file-selector-button {
     transition: none
   }
+}
+.c4g_brick_dialog .c4g__form-control:hover:not(:disabled):not([readonly])::-webkit-file-upload-button,
+.form-control:hover:not(:disabled):not([readonly])::-webkit-file-upload-button {
+  background-color: #dde0e3
 }
 .c4g_brick_dialog .c4g__form-control:hover:not(:disabled):not([readonly])::file-selector-button,
 .form-control:hover:not(:disabled):not([readonly])::file-selector-button {
@@ -776,6 +801,12 @@ progress {
   font-size: .875rem;
   border-radius: .25rem
 }
+.form-control-sm::-webkit-file-upload-button {
+  padding: .25rem .5rem;
+  margin: -.25rem -.5rem;
+  -webkit-margin-end: .5rem;
+  margin-inline-end: .5rem
+}
 .form-control-sm::file-selector-button {
   padding: .25rem .5rem;
   margin: -.25rem -.5rem;
@@ -787,6 +818,12 @@ progress {
   padding: .5rem 1rem;
   font-size: 1.25rem;
   border-radius: .5rem
+}
+.form-control-lg::-webkit-file-upload-button {
+  padding: .5rem 1rem;
+  margin: -.5rem -1rem;
+  -webkit-margin-end: 1rem;
+  margin-inline-end: 1rem
 }
 .form-control-lg::file-selector-button {
   padding: .5rem 1rem;
@@ -928,6 +965,8 @@ textarea.form-control-lg {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
+  -webkit-print-color-adjust: exact;
+  color-adjust: exact;
   print-color-adjust: exact
 }
 .c4g__form-check-input[type=checkbox],
@@ -1170,6 +1209,7 @@ textarea.form-control-lg {
   height: 100%;
   padding: 1rem .75rem;
   overflow: hidden;
+  text-align: start;
   text-overflow: ellipsis;
   white-space: nowrap;
   pointer-events: none;
@@ -1192,11 +1232,6 @@ textarea.form-control-lg {
 .form-floating > .form-control::-moz-placeholder {
   color: transparent
 }
-.c4g_brick_dialog .form-floating > .c4g__form-control:-ms-input-placeholder,
-.form-floating > .form-control-plaintext:-ms-input-placeholder,
-.form-floating > .form-control:-ms-input-placeholder {
-  color: transparent
-}
 .c4g_brick_dialog .form-floating > .c4g__form-control::placeholder,
 .form-floating > .form-control-plaintext::placeholder,
 .form-floating > .form-control::placeholder {
@@ -1205,12 +1240,6 @@ textarea.form-control-lg {
 .c4g_brick_dialog .form-floating > .c4g__form-control:not(:-moz-placeholder-shown),
 .form-floating > .form-control-plaintext:not(:-moz-placeholder-shown),
 .form-floating > .form-control:not(:-moz-placeholder-shown) {
-  padding-top: 1.625rem;
-  padding-bottom: .625rem
-}
-.c4g_brick_dialog .form-floating > .c4g__form-control:not(:-ms-input-placeholder),
-.form-floating > .form-control-plaintext:not(:-ms-input-placeholder),
-.form-floating > .form-control:not(:-ms-input-placeholder) {
   padding-top: 1.625rem;
   padding-bottom: .625rem
 }
@@ -1236,11 +1265,6 @@ textarea.form-control-lg {
 }
 .c4g_brick_dialog .form-floating > .c4g__form-control:not(:-moz-placeholder-shown) ~ label,
 .form-floating > .form-control:not(:-moz-placeholder-shown) ~ label {
-  opacity: .65;
-  transform: scale(.85) translateY(-.5rem) translateX(.15rem)
-}
-.c4g_brick_dialog .form-floating > .c4g__form-control:not(:-ms-input-placeholder) ~ label,
-.form-floating > .form-control:not(:-ms-input-placeholder) ~ label {
   opacity: .65;
   transform: scale(.85) translateY(-.5rem) translateX(.15rem)
 }
@@ -1295,7 +1319,7 @@ textarea.form-control-lg {
 .input-group > .form-control:focus,
 .input-group > .form-floating:focus-within,
 .input-group > .form-select:focus {
-  z-index: 3
+  z-index: 5
 }
 .c4g_brick_dialog .c4g__input-group .btn,
 .c4g_brick_dialog .c4g__input-group .c4g__btn,
@@ -1312,7 +1336,7 @@ textarea.form-control-lg {
 .input-group .btn:focus,
 .input-group .c4g__btn:focus,
 .input-group .ui-button:focus {
-  z-index: 3
+  z-index: 5
 }
 .c4g_brick_dialog .c4g__input-group-text,
 .input-group-text {
@@ -1391,17 +1415,20 @@ textarea.form-control-lg {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0
 }
+.c4g_brick_dialog .c4g__input-group > :not(:first-child):not(.dropdown-menu):not(.valid-tooltip):not(.valid-feedback):not(.invalid-tooltip):not(.invalid-feedback),
+.input-group > :not(:first-child):not(.dropdown-menu):not(.valid-tooltip):not(.valid-feedback):not(.invalid-tooltip):not(.invalid-feedback) {
+  margin-left: -1px;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0
+}
 .c4g_brick_dialog .c4g__input-group > .form-floating:not(:first-child) > .c4g__form-control,
 .c4g_brick_dialog .c4g__input-group > .form-floating:not(:first-child) > .form-control,
 .c4g_brick_dialog .c4g__input-group > .form-floating:not(:first-child) > .form-select,
 .c4g_brick_dialog .c4g__input-group > .form-floating:not(:first-child) > select.c4g__form-select,
-.c4g_brick_dialog .c4g__input-group > :not(:first-child):not(.dropdown-menu):not(.form-floating):not(.valid-tooltip):not(.valid-feedback):not(.invalid-tooltip):not(.invalid-feedback),
 .c4g_brick_dialog .input-group > .form-floating:not(:first-child) > .c4g__form-control,
 .c4g_brick_dialog .input-group > .form-floating:not(:first-child) > select.c4g__form-select,
 .input-group > .form-floating:not(:first-child) > .form-control,
-.input-group > .form-floating:not(:first-child) > .form-select,
-.input-group > :not(:first-child):not(.dropdown-menu):not(.form-floating):not(.valid-tooltip):not(.valid-feedback):not(.invalid-tooltip):not(.invalid-feedback) {
-  margin-left: -1px;
+.input-group > .form-floating:not(:first-child) > .form-select {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0
 }
@@ -1529,56 +1556,33 @@ textarea.form-control.is-valid {
 .form-check-inline .form-check-input ~ .valid-feedback {
   margin-left: .5em
 }
-.c4g_brick_dialog .c4g__input-group .form-control.is-valid,
-.c4g_brick_dialog .c4g__input-group .form-select.is-valid,
-.c4g_brick_dialog .c4g__input-group .is-valid.c4g__form-control,
-.c4g_brick_dialog .c4g__input-group select.is-valid.c4g__form-select,
-.c4g_brick_dialog .input-group .is-valid.c4g__form-control,
-.c4g_brick_dialog .input-group select.is-valid.c4g__form-select,
-.c4g_brick_dialog .was-validated .c4g__input-group .c4g__form-control:valid,
-.c4g_brick_dialog .was-validated .c4g__input-group .form-control:valid,
-.c4g_brick_dialog .was-validated .c4g__input-group .form-select:valid,
-.c4g_brick_dialog .was-validated .c4g__input-group select.c4g__form-select:valid,
-.c4g_brick_dialog .was-validated .input-group .c4g__form-control:valid,
-.c4g_brick_dialog .was-validated .input-group select.c4g__form-select:valid,
-.input-group .c4g_brick_dialog .is-valid.c4g__form-control,
-.input-group .c4g_brick_dialog select.is-valid.c4g__form-select,
-.input-group .form-control.is-valid,
-.input-group .form-select.is-valid,
-.was-validated .c4g_brick_dialog .c4g__input-group .c4g__form-control:valid,
-.was-validated .c4g_brick_dialog .c4g__input-group .form-control:valid,
-.was-validated .c4g_brick_dialog .c4g__input-group .form-select:valid,
-.was-validated .c4g_brick_dialog .c4g__input-group select.c4g__form-select:valid,
-.was-validated .input-group .c4g_brick_dialog .c4g__form-control:valid,
-.was-validated .input-group .c4g_brick_dialog select.c4g__form-select:valid,
-.was-validated .input-group .form-control:valid,
-.was-validated .input-group .form-select:valid {
-  z-index: 1
-}
-.c4g_brick_dialog .c4g__input-group .form-control.is-valid:focus,
-.c4g_brick_dialog .c4g__input-group .form-select.is-valid:focus,
-.c4g_brick_dialog .c4g__input-group .is-valid.c4g__form-control:focus,
-.c4g_brick_dialog .c4g__input-group select.is-valid.c4g__form-select:focus,
-.c4g_brick_dialog .input-group .is-valid.c4g__form-control:focus,
-.c4g_brick_dialog .input-group select.is-valid.c4g__form-select:focus,
-.c4g_brick_dialog .was-validated .c4g__input-group .c4g__form-control:valid:focus,
-.c4g_brick_dialog .was-validated .c4g__input-group .form-control:valid:focus,
-.c4g_brick_dialog .was-validated .c4g__input-group .form-select:valid:focus,
-.c4g_brick_dialog .was-validated .c4g__input-group select.c4g__form-select:valid:focus,
-.c4g_brick_dialog .was-validated .input-group .c4g__form-control:valid:focus,
-.c4g_brick_dialog .was-validated .input-group select.c4g__form-select:valid:focus,
-.input-group .c4g_brick_dialog .is-valid.c4g__form-control:focus,
-.input-group .c4g_brick_dialog select.is-valid.c4g__form-select:focus,
-.input-group .form-control.is-valid:focus,
-.input-group .form-select.is-valid:focus,
-.was-validated .c4g_brick_dialog .c4g__input-group .c4g__form-control:valid:focus,
-.was-validated .c4g_brick_dialog .c4g__input-group .form-control:valid:focus,
-.was-validated .c4g_brick_dialog .c4g__input-group .form-select:valid:focus,
-.was-validated .c4g_brick_dialog .c4g__input-group select.c4g__form-select:valid:focus,
-.was-validated .input-group .c4g_brick_dialog .c4g__form-control:valid:focus,
-.was-validated .input-group .c4g_brick_dialog select.c4g__form-select:valid:focus,
-.was-validated .input-group .form-control:valid:focus,
-.was-validated .input-group .form-select:valid:focus {
+.c4g_brick_dialog .c4g__input-group > .c4g__form-control:not(:focus).is-valid,
+.c4g_brick_dialog .c4g__input-group > .form-control:not(:focus).is-valid,
+.c4g_brick_dialog .c4g__input-group > .form-floating:not(:focus-within).is-valid,
+.c4g_brick_dialog .c4g__input-group > .form-select:not(:focus).is-valid,
+.c4g_brick_dialog .c4g__input-group > select.c4g__form-select:not(:focus).is-valid,
+.c4g_brick_dialog .input-group > .c4g__form-control:not(:focus).is-valid,
+.c4g_brick_dialog .input-group > select.c4g__form-select:not(:focus).is-valid,
+.c4g_brick_dialog .was-validated .c4g__input-group > .c4g__form-control:not(:focus):valid,
+.c4g_brick_dialog .was-validated .c4g__input-group > .form-control:not(:focus):valid,
+.c4g_brick_dialog .was-validated .c4g__input-group > .form-floating:not(:focus-within):valid,
+.c4g_brick_dialog .was-validated .c4g__input-group > .form-select:not(:focus):valid,
+.c4g_brick_dialog .was-validated .c4g__input-group > select.c4g__form-select:not(:focus):valid,
+.c4g_brick_dialog .was-validated .input-group > .c4g__form-control:not(:focus):valid,
+.c4g_brick_dialog .was-validated .input-group > select.c4g__form-select:not(:focus):valid,
+.input-group > .form-control:not(:focus).is-valid,
+.input-group > .form-floating:not(:focus-within).is-valid,
+.input-group > .form-select:not(:focus).is-valid,
+.was-validated .c4g_brick_dialog .c4g__input-group > .c4g__form-control:not(:focus):valid,
+.was-validated .c4g_brick_dialog .c4g__input-group > .form-control:not(:focus):valid,
+.was-validated .c4g_brick_dialog .c4g__input-group > .form-floating:not(:focus-within):valid,
+.was-validated .c4g_brick_dialog .c4g__input-group > .form-select:not(:focus):valid,
+.was-validated .c4g_brick_dialog .c4g__input-group > select.c4g__form-select:not(:focus):valid,
+.was-validated .c4g_brick_dialog .input-group > .c4g__form-control:not(:focus):valid,
+.was-validated .c4g_brick_dialog .input-group > select.c4g__form-select:not(:focus):valid,
+.was-validated .input-group > .form-control:not(:focus):valid,
+.was-validated .input-group > .form-floating:not(:focus-within):valid,
+.was-validated .input-group > .form-select:not(:focus):valid {
   z-index: 3
 }
 .invalid-feedback {
@@ -1705,57 +1709,34 @@ textarea.form-control.is-invalid {
 .form-check-inline .form-check-input ~ .invalid-feedback {
   margin-left: .5em
 }
-.c4g_brick_dialog .c4g__input-group .form-control.is-invalid,
-.c4g_brick_dialog .c4g__input-group .form-select.is-invalid,
-.c4g_brick_dialog .c4g__input-group .is-invalid.c4g__form-control,
-.c4g_brick_dialog .c4g__input-group select.is-invalid.c4g__form-select,
-.c4g_brick_dialog .input-group .is-invalid.c4g__form-control,
-.c4g_brick_dialog .input-group select.is-invalid.c4g__form-select,
-.c4g_brick_dialog .was-validated .c4g__input-group .c4g__form-control:invalid,
-.c4g_brick_dialog .was-validated .c4g__input-group .form-control:invalid,
-.c4g_brick_dialog .was-validated .c4g__input-group .form-select:invalid,
-.c4g_brick_dialog .was-validated .c4g__input-group select.c4g__form-select:invalid,
-.c4g_brick_dialog .was-validated .input-group .c4g__form-control:invalid,
-.c4g_brick_dialog .was-validated .input-group select.c4g__form-select:invalid,
-.input-group .c4g_brick_dialog .is-invalid.c4g__form-control,
-.input-group .c4g_brick_dialog select.is-invalid.c4g__form-select,
-.input-group .form-control.is-invalid,
-.input-group .form-select.is-invalid,
-.was-validated .c4g_brick_dialog .c4g__input-group .c4g__form-control:invalid,
-.was-validated .c4g_brick_dialog .c4g__input-group .form-control:invalid,
-.was-validated .c4g_brick_dialog .c4g__input-group .form-select:invalid,
-.was-validated .c4g_brick_dialog .c4g__input-group select.c4g__form-select:invalid,
-.was-validated .input-group .c4g_brick_dialog .c4g__form-control:invalid,
-.was-validated .input-group .c4g_brick_dialog select.c4g__form-select:invalid,
-.was-validated .input-group .form-control:invalid,
-.was-validated .input-group .form-select:invalid {
-  z-index: 2
-}
-.c4g_brick_dialog .c4g__input-group .form-control.is-invalid:focus,
-.c4g_brick_dialog .c4g__input-group .form-select.is-invalid:focus,
-.c4g_brick_dialog .c4g__input-group .is-invalid.c4g__form-control:focus,
-.c4g_brick_dialog .c4g__input-group select.is-invalid.c4g__form-select:focus,
-.c4g_brick_dialog .input-group .is-invalid.c4g__form-control:focus,
-.c4g_brick_dialog .input-group select.is-invalid.c4g__form-select:focus,
-.c4g_brick_dialog .was-validated .c4g__input-group .c4g__form-control:invalid:focus,
-.c4g_brick_dialog .was-validated .c4g__input-group .form-control:invalid:focus,
-.c4g_brick_dialog .was-validated .c4g__input-group .form-select:invalid:focus,
-.c4g_brick_dialog .was-validated .c4g__input-group select.c4g__form-select:invalid:focus,
-.c4g_brick_dialog .was-validated .input-group .c4g__form-control:invalid:focus,
-.c4g_brick_dialog .was-validated .input-group select.c4g__form-select:invalid:focus,
-.input-group .c4g_brick_dialog .is-invalid.c4g__form-control:focus,
-.input-group .c4g_brick_dialog select.is-invalid.c4g__form-select:focus,
-.input-group .form-control.is-invalid:focus,
-.input-group .form-select.is-invalid:focus,
-.was-validated .c4g_brick_dialog .c4g__input-group .c4g__form-control:invalid:focus,
-.was-validated .c4g_brick_dialog .c4g__input-group .form-control:invalid:focus,
-.was-validated .c4g_brick_dialog .c4g__input-group .form-select:invalid:focus,
-.was-validated .c4g_brick_dialog .c4g__input-group select.c4g__form-select:invalid:focus,
-.was-validated .input-group .c4g_brick_dialog .c4g__form-control:invalid:focus,
-.was-validated .input-group .c4g_brick_dialog select.c4g__form-select:invalid:focus,
-.was-validated .input-group .form-control:invalid:focus,
-.was-validated .input-group .form-select:invalid:focus {
-  z-index: 3
+.c4g_brick_dialog .c4g__input-group > .c4g__form-control:not(:focus).is-invalid,
+.c4g_brick_dialog .c4g__input-group > .form-control:not(:focus).is-invalid,
+.c4g_brick_dialog .c4g__input-group > .form-floating:not(:focus-within).is-invalid,
+.c4g_brick_dialog .c4g__input-group > .form-select:not(:focus).is-invalid,
+.c4g_brick_dialog .c4g__input-group > select.c4g__form-select:not(:focus).is-invalid,
+.c4g_brick_dialog .input-group > .c4g__form-control:not(:focus).is-invalid,
+.c4g_brick_dialog .input-group > select.c4g__form-select:not(:focus).is-invalid,
+.c4g_brick_dialog .was-validated .c4g__input-group > .c4g__form-control:not(:focus):invalid,
+.c4g_brick_dialog .was-validated .c4g__input-group > .form-control:not(:focus):invalid,
+.c4g_brick_dialog .was-validated .c4g__input-group > .form-floating:not(:focus-within):invalid,
+.c4g_brick_dialog .was-validated .c4g__input-group > .form-select:not(:focus):invalid,
+.c4g_brick_dialog .was-validated .c4g__input-group > select.c4g__form-select:not(:focus):invalid,
+.c4g_brick_dialog .was-validated .input-group > .c4g__form-control:not(:focus):invalid,
+.c4g_brick_dialog .was-validated .input-group > select.c4g__form-select:not(:focus):invalid,
+.input-group > .form-control:not(:focus).is-invalid,
+.input-group > .form-floating:not(:focus-within).is-invalid,
+.input-group > .form-select:not(:focus).is-invalid,
+.was-validated .c4g_brick_dialog .c4g__input-group > .c4g__form-control:not(:focus):invalid,
+.was-validated .c4g_brick_dialog .c4g__input-group > .form-control:not(:focus):invalid,
+.was-validated .c4g_brick_dialog .c4g__input-group > .form-floating:not(:focus-within):invalid,
+.was-validated .c4g_brick_dialog .c4g__input-group > .form-select:not(:focus):invalid,
+.was-validated .c4g_brick_dialog .c4g__input-group > select.c4g__form-select:not(:focus):invalid,
+.was-validated .c4g_brick_dialog .input-group > .c4g__form-control:not(:focus):invalid,
+.was-validated .c4g_brick_dialog .input-group > select.c4g__form-select:not(:focus):invalid,
+.was-validated .input-group > .form-control:not(:focus):invalid,
+.was-validated .input-group > .form-floating:not(:focus-within):invalid,
+.was-validated .input-group > .form-select:not(:focus):invalid {
+  z-index: 4
 }
 .lead {
   font-size: 1.25rem;
@@ -2894,6 +2875,7 @@ textarea.form-control.is-invalid {
   --bs-btn-border-width: 1px;
   --bs-btn-border-color: transparent;
   --bs-btn-border-radius: 0.375rem;
+  --bs-btn-hover-border-color: transparent;
   --bs-btn-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15),0 1px 1px rgba(0, 0, 0, 0.075);
   --bs-btn-disabled-opacity: 0.65;
   --bs-btn-focus-box-shadow: 0 0 0 0.25rem rgba(var(--bs-btn-focus-shadow-rgb), .5);
@@ -2910,7 +2892,6 @@ textarea.form-control.is-invalid {
   cursor: pointer;
   -webkit-user-select: none;
   -moz-user-select: none;
-  -ms-user-select: none;
   user-select: none;
   border: var(--bs-btn-border-width) solid var(--bs-btn-border-color);
   border-radius: var(--bs-btn-border-radius);
@@ -2924,74 +2905,75 @@ textarea.form-control.is-invalid {
     transition: none
   }
 }
-.btn:hover,
-.c4g__btn:hover,
-.ui-button:hover {
+.btn:first-child:hover,
+.c4g__btn:first-child:hover,
+.ui-button:first-child:hover,
+:not(.btn-check):not(.c4g__btn-check) + .btn:hover,
+:not(.btn-check):not(.c4g__btn-check) + .c4g__btn:hover,
+:not(.btn-check):not(.c4g__btn-check) + .ui-button:hover {
   color: var(--bs-btn-hover-color);
   background-color: var(--bs-btn-hover-bg);
   border-color: var(--bs-btn-hover-border-color)
 }
-.btn-check:focus + .btn,
-.btn-check:focus + .c4g__btn,
-.btn-check:focus + .ui-button,
-.btn:focus,
-.c4g__btn-check:focus + .btn,
-.c4g__btn-check:focus + .c4g__btn,
-.c4g__btn-check:focus + .ui-button,
-.c4g__btn:focus,
-.ui-button:focus {
+.btn:focus-visible,
+.c4g__btn:focus-visible,
+.ui-button:focus-visible {
   color: var(--bs-btn-hover-color);
   background-color: var(--bs-btn-hover-bg);
   border-color: var(--bs-btn-hover-border-color);
   outline: 0;
   box-shadow: var(--bs-btn-focus-box-shadow)
 }
+.btn-check:focus-visible + .btn,
+.btn-check:focus-visible + .c4g__btn,
+.btn-check:focus-visible + .ui-button,
+.c4g__btn-check:focus-visible + .btn,
+.c4g__btn-check:focus-visible + .c4g__btn,
+.c4g__btn-check:focus-visible + .ui-button {
+  border-color: var(--bs-btn-hover-border-color);
+  outline: 0;
+  box-shadow: var(--bs-btn-focus-box-shadow)
+}
 .active.c4g__btn,
 .active.ui-button,
-.btn-check:active + .btn,
-.btn-check:active + .c4g__btn,
-.btn-check:active + .ui-button,
 .btn-check:checked + .btn,
 .btn-check:checked + .c4g__btn,
 .btn-check:checked + .ui-button,
 .btn.active,
 .btn.show,
-.btn:active,
-.c4g__btn-check:active + .btn,
-.c4g__btn-check:active + .c4g__btn,
-.c4g__btn-check:active + .ui-button,
+.btn:first-child:active,
 .c4g__btn-check:checked + .btn,
 .c4g__btn-check:checked + .c4g__btn,
 .c4g__btn-check:checked + .ui-button,
-.c4g__btn:active,
+.c4g__btn:first-child:active,
 .show.c4g__btn,
 .show.ui-button,
-.ui-button:active {
+.ui-button:first-child:active,
+:not(.btn-check):not(.c4g__btn-check) + .btn:active,
+:not(.btn-check):not(.c4g__btn-check) + .c4g__btn:active,
+:not(.btn-check):not(.c4g__btn-check) + .ui-button:active {
   color: var(--bs-btn-active-color);
   background-color: var(--bs-btn-active-bg);
   border-color: var(--bs-btn-active-border-color)
 }
-.active.c4g__btn:focus,
-.active.ui-button:focus,
-.btn-check:active + .btn:focus,
-.btn-check:active + .c4g__btn:focus,
-.btn-check:active + .ui-button:focus,
-.btn-check:checked + .btn:focus,
-.btn-check:checked + .c4g__btn:focus,
-.btn-check:checked + .ui-button:focus,
-.btn.active:focus,
-.btn.show:focus,
-.btn:active:focus,
-.c4g__btn-check:active + .btn:focus,
-.c4g__btn-check:active + .c4g__btn:focus,
-.c4g__btn-check:active + .ui-button:focus,
-.c4g__btn-check:checked + .btn:focus,
-.c4g__btn-check:checked + .c4g__btn:focus,
-.c4g__btn-check:checked + .ui-button:focus,
-.c4g__btn:active:focus,
-.show.c4g__btn:focus,
-.show.ui-button:focus,
-.ui-button:active:focus {
+.active.c4g__btn:focus-visible,
+.active.ui-button:focus-visible,
+.btn-check:checked + .btn:focus-visible,
+.btn-check:checked + .c4g__btn:focus-visible,
+.btn-check:checked + .ui-button:focus-visible,
+.btn.active:focus-visible,
+.btn.show:focus-visible,
+.btn:first-child:active:focus-visible,
+.c4g__btn-check:checked + .btn:focus-visible,
+.c4g__btn-check:checked + .c4g__btn:focus-visible,
+.c4g__btn-check:checked + .ui-button:focus-visible,
+.c4g__btn:first-child:active:focus-visible,
+.show.c4g__btn:focus-visible,
+.show.ui-button:focus-visible,
+.ui-button:first-child:active:focus-visible,
+:not(.btn-check):not(.c4g__btn-check) + .btn:active:focus-visible,
+:not(.btn-check):not(.c4g__btn-check) + .c4g__btn:active:focus-visible,
+:not(.btn-check):not(.c4g__btn-check) + .ui-button:active:focus-visible {
   box-shadow: var(--bs-btn-focus-box-shadow)
 }
 .btn.disabled,
@@ -3289,9 +3271,9 @@ fieldset:disabled .ui-button {
   --bs-btn-focus-shadow-rgb: 49,132,253;
   text-decoration: underline
 }
-.btn-link:focus,
-.c4g__btn-link:focus,
-.c4g__btn-tile:focus {
+.btn-link:focus-visible,
+.c4g__btn-link:focus-visible,
+.c4g__btn-tile:focus-visible {
   color: var(--bs-btn-color)
 }
 .btn-link:hover,
@@ -3413,7 +3395,7 @@ fieldset:disabled .ui-button {
   border-bottom: var(--bs-nav-tabs-border-width) solid var(--bs-nav-tabs-border-color)
 }
 .nav-tabs .nav-link {
-  margin-bottom: calc(var(--bs-nav-tabs-border-width) * -1);
+  margin-bottom: calc(-1 * var(--bs-nav-tabs-border-width));
   background: 0 0;
   border: var(--bs-nav-tabs-border-width) solid transparent;
   border-top-left-radius: var(--bs-nav-tabs-border-radius);
@@ -3437,7 +3419,7 @@ fieldset:disabled .ui-button {
   border-color: var(--bs-nav-tabs-link-active-border-color)
 }
 .nav-tabs .dropdown-menu {
-  margin-top: calc(var(--bs-nav-tabs-border-width) * -1);
+  margin-top: calc(-1 * var(--bs-nav-tabs-border-width));
   border-top-left-radius: 0;
   border-top-right-radius: 0
 }
@@ -3592,7 +3574,7 @@ fieldset:disabled .ui-button {
 }
 .modal-header .btn-close {
   padding: calc(var(--bs-modal-header-padding-y) * .5) calc(var(--bs-modal-header-padding-x) * .5);
-  margin: calc(var(--bs-modal-header-padding-y) * -.5) calc(var(--bs-modal-header-padding-x) * -.5) calc(var(--bs-modal-header-padding-y) * -.5) auto
+  margin: calc(-.5 * var(--bs-modal-header-padding-y)) calc(-.5 * var(--bs-modal-header-padding-x)) calc(-.5 * var(--bs-modal-header-padding-y)) auto
 }
 .modal-title {
   margin-bottom: 0;
@@ -3762,7 +3744,7 @@ fieldset:disabled .ui-button {
   }
 }
 .accordion {
-  --bs-accordion-color: #000;
+  --bs-accordion-color: var(--bs-body-color);
   --bs-accordion-bg: #fff;
   --bs-accordion-transition: color 0.15s ease-in-out,background-color 0.15s ease-in-out,border-color 0.15s ease-in-out,box-shadow 0.15s ease-in-out,border-radius 0.15s ease;
   --bs-accordion-border-color: var(--bs-border-color);
@@ -3808,7 +3790,7 @@ fieldset:disabled .ui-button {
 .accordion-button:not(.collapsed) {
   color: var(--bs-accordion-active-color);
   background-color: var(--bs-accordion-active-bg);
-  box-shadow: inset 0 calc(var(--bs-accordion-border-width) * -1) 0 var(--bs-accordion-border-color)
+  box-shadow: inset 0 calc(-1 * var(--bs-accordion-border-width)) 0 var(--bs-accordion-border-color)
 }
 .accordion-button:not(.collapsed)::after {
   background-image: var(--bs-accordion-btn-active-icon);
@@ -3888,7 +3870,8 @@ fieldset:disabled .ui-button {
 .accordion-flush .accordion-item:last-child {
   border-bottom: 0
 }
-.accordion-flush .accordion-item .accordion-button {
+.accordion-flush .accordion-item .accordion-button,
+.accordion-flush .accordion-item .accordion-button.collapsed {
   border-radius: 0
 }
 .c4g__spinner-border,
@@ -4065,19 +4048,19 @@ fieldset:disabled .ui-button {
 .c4g_brick_dialog .c4g__list-group-item + .list-group-item.active,
 .c4g_brick_dialog .list-group-item + .active.c4g__list-group-item,
 .list-group-item + .list-group-item.active {
-  margin-top: calc(var(--bs-list-group-border-width) * -1);
+  margin-top: calc(-1 * var(--bs-list-group-border-width));
   border-top-width: var(--bs-list-group-border-width)
 }
 .list-group-horizontal {
   flex-direction: row
 }
-.c4g_brick_dialog .list-group-horizontal > .c4g__list-group-item:first-child,
-.list-group-horizontal > .list-group-item:first-child {
+.c4g_brick_dialog .list-group-horizontal > .c4g__list-group-item:first-child:not(:last-child),
+.list-group-horizontal > .list-group-item:first-child:not(:last-child) {
   border-bottom-left-radius: var(--bs-list-group-border-radius);
   border-top-right-radius: 0
 }
-.c4g_brick_dialog .list-group-horizontal > .c4g__list-group-item:last-child,
-.list-group-horizontal > .list-group-item:last-child {
+.c4g_brick_dialog .list-group-horizontal > .c4g__list-group-item:last-child:not(:first-child),
+.list-group-horizontal > .list-group-item:last-child:not(:first-child) {
   border-top-right-radius: var(--bs-list-group-border-radius);
   border-bottom-left-radius: 0
 }
@@ -4096,20 +4079,20 @@ fieldset:disabled .ui-button {
 .c4g_brick_dialog .list-group-horizontal > .c4g__list-group-item + .list-group-item.active,
 .c4g_brick_dialog .list-group-horizontal > .list-group-item + .active.c4g__list-group-item,
 .list-group-horizontal > .list-group-item + .list-group-item.active {
-  margin-left: calc(var(--bs-list-group-border-width) * -1);
+  margin-left: calc(-1 * var(--bs-list-group-border-width));
   border-left-width: var(--bs-list-group-border-width)
 }
 @media (min-width:576px) {
   .list-group-horizontal-sm {
     flex-direction: row
   }
-  .c4g_brick_dialog .list-group-horizontal-sm > .c4g__list-group-item:first-child,
-  .list-group-horizontal-sm > .list-group-item:first-child {
+  .c4g_brick_dialog .list-group-horizontal-sm > .c4g__list-group-item:first-child:not(:last-child),
+  .list-group-horizontal-sm > .list-group-item:first-child:not(:last-child) {
     border-bottom-left-radius: var(--bs-list-group-border-radius);
     border-top-right-radius: 0
   }
-  .c4g_brick_dialog .list-group-horizontal-sm > .c4g__list-group-item:last-child,
-  .list-group-horizontal-sm > .list-group-item:last-child {
+  .c4g_brick_dialog .list-group-horizontal-sm > .c4g__list-group-item:last-child:not(:first-child),
+  .list-group-horizontal-sm > .list-group-item:last-child:not(:first-child) {
     border-top-right-radius: var(--bs-list-group-border-radius);
     border-bottom-left-radius: 0
   }
@@ -4128,7 +4111,7 @@ fieldset:disabled .ui-button {
   .c4g_brick_dialog .list-group-horizontal-sm > .c4g__list-group-item + .list-group-item.active,
   .c4g_brick_dialog .list-group-horizontal-sm > .list-group-item + .active.c4g__list-group-item,
   .list-group-horizontal-sm > .list-group-item + .list-group-item.active {
-    margin-left: calc(var(--bs-list-group-border-width) * -1);
+    margin-left: calc(-1 * var(--bs-list-group-border-width));
     border-left-width: var(--bs-list-group-border-width)
   }
 }
@@ -4136,13 +4119,13 @@ fieldset:disabled .ui-button {
   .list-group-horizontal-md {
     flex-direction: row
   }
-  .c4g_brick_dialog .list-group-horizontal-md > .c4g__list-group-item:first-child,
-  .list-group-horizontal-md > .list-group-item:first-child {
+  .c4g_brick_dialog .list-group-horizontal-md > .c4g__list-group-item:first-child:not(:last-child),
+  .list-group-horizontal-md > .list-group-item:first-child:not(:last-child) {
     border-bottom-left-radius: var(--bs-list-group-border-radius);
     border-top-right-radius: 0
   }
-  .c4g_brick_dialog .list-group-horizontal-md > .c4g__list-group-item:last-child,
-  .list-group-horizontal-md > .list-group-item:last-child {
+  .c4g_brick_dialog .list-group-horizontal-md > .c4g__list-group-item:last-child:not(:first-child),
+  .list-group-horizontal-md > .list-group-item:last-child:not(:first-child) {
     border-top-right-radius: var(--bs-list-group-border-radius);
     border-bottom-left-radius: 0
   }
@@ -4161,7 +4144,7 @@ fieldset:disabled .ui-button {
   .c4g_brick_dialog .list-group-horizontal-md > .c4g__list-group-item + .list-group-item.active,
   .c4g_brick_dialog .list-group-horizontal-md > .list-group-item + .active.c4g__list-group-item,
   .list-group-horizontal-md > .list-group-item + .list-group-item.active {
-    margin-left: calc(var(--bs-list-group-border-width) * -1);
+    margin-left: calc(-1 * var(--bs-list-group-border-width));
     border-left-width: var(--bs-list-group-border-width)
   }
 }
@@ -4169,13 +4152,13 @@ fieldset:disabled .ui-button {
   .list-group-horizontal-lg {
     flex-direction: row
   }
-  .c4g_brick_dialog .list-group-horizontal-lg > .c4g__list-group-item:first-child,
-  .list-group-horizontal-lg > .list-group-item:first-child {
+  .c4g_brick_dialog .list-group-horizontal-lg > .c4g__list-group-item:first-child:not(:last-child),
+  .list-group-horizontal-lg > .list-group-item:first-child:not(:last-child) {
     border-bottom-left-radius: var(--bs-list-group-border-radius);
     border-top-right-radius: 0
   }
-  .c4g_brick_dialog .list-group-horizontal-lg > .c4g__list-group-item:last-child,
-  .list-group-horizontal-lg > .list-group-item:last-child {
+  .c4g_brick_dialog .list-group-horizontal-lg > .c4g__list-group-item:last-child:not(:first-child),
+  .list-group-horizontal-lg > .list-group-item:last-child:not(:first-child) {
     border-top-right-radius: var(--bs-list-group-border-radius);
     border-bottom-left-radius: 0
   }
@@ -4194,7 +4177,7 @@ fieldset:disabled .ui-button {
   .c4g_brick_dialog .list-group-horizontal-lg > .c4g__list-group-item + .list-group-item.active,
   .c4g_brick_dialog .list-group-horizontal-lg > .list-group-item + .active.c4g__list-group-item,
   .list-group-horizontal-lg > .list-group-item + .list-group-item.active {
-    margin-left: calc(var(--bs-list-group-border-width) * -1);
+    margin-left: calc(-1 * var(--bs-list-group-border-width));
     border-left-width: var(--bs-list-group-border-width)
   }
 }
@@ -4202,13 +4185,13 @@ fieldset:disabled .ui-button {
   .list-group-horizontal-xl {
     flex-direction: row
   }
-  .c4g_brick_dialog .list-group-horizontal-xl > .c4g__list-group-item:first-child,
-  .list-group-horizontal-xl > .list-group-item:first-child {
+  .c4g_brick_dialog .list-group-horizontal-xl > .c4g__list-group-item:first-child:not(:last-child),
+  .list-group-horizontal-xl > .list-group-item:first-child:not(:last-child) {
     border-bottom-left-radius: var(--bs-list-group-border-radius);
     border-top-right-radius: 0
   }
-  .c4g_brick_dialog .list-group-horizontal-xl > .c4g__list-group-item:last-child,
-  .list-group-horizontal-xl > .list-group-item:last-child {
+  .c4g_brick_dialog .list-group-horizontal-xl > .c4g__list-group-item:last-child:not(:first-child),
+  .list-group-horizontal-xl > .list-group-item:last-child:not(:first-child) {
     border-top-right-radius: var(--bs-list-group-border-radius);
     border-bottom-left-radius: 0
   }
@@ -4227,7 +4210,7 @@ fieldset:disabled .ui-button {
   .c4g_brick_dialog .list-group-horizontal-xl > .c4g__list-group-item + .list-group-item.active,
   .c4g_brick_dialog .list-group-horizontal-xl > .list-group-item + .active.c4g__list-group-item,
   .list-group-horizontal-xl > .list-group-item + .list-group-item.active {
-    margin-left: calc(var(--bs-list-group-border-width) * -1);
+    margin-left: calc(-1 * var(--bs-list-group-border-width));
     border-left-width: var(--bs-list-group-border-width)
   }
 }
@@ -4235,13 +4218,13 @@ fieldset:disabled .ui-button {
   .list-group-horizontal-xxl {
     flex-direction: row
   }
-  .c4g_brick_dialog .list-group-horizontal-xxl > .c4g__list-group-item:first-child,
-  .list-group-horizontal-xxl > .list-group-item:first-child {
+  .c4g_brick_dialog .list-group-horizontal-xxl > .c4g__list-group-item:first-child:not(:last-child),
+  .list-group-horizontal-xxl > .list-group-item:first-child:not(:last-child) {
     border-bottom-left-radius: var(--bs-list-group-border-radius);
     border-top-right-radius: 0
   }
-  .c4g_brick_dialog .list-group-horizontal-xxl > .c4g__list-group-item:last-child,
-  .list-group-horizontal-xxl > .list-group-item:last-child {
+  .c4g_brick_dialog .list-group-horizontal-xxl > .c4g__list-group-item:last-child:not(:first-child),
+  .list-group-horizontal-xxl > .list-group-item:last-child:not(:first-child) {
     border-top-right-radius: var(--bs-list-group-border-radius);
     border-bottom-left-radius: 0
   }
@@ -4260,7 +4243,7 @@ fieldset:disabled .ui-button {
   .c4g_brick_dialog .list-group-horizontal-xxl > .c4g__list-group-item + .list-group-item.active,
   .c4g_brick_dialog .list-group-horizontal-xxl > .list-group-item + .active.c4g__list-group-item,
   .list-group-horizontal-xxl > .list-group-item + .list-group-item.active {
-    margin-left: calc(var(--bs-list-group-border-width) * -1);
+    margin-left: calc(-1 * var(--bs-list-group-border-width));
     border-left-width: var(--bs-list-group-border-width)
   }
 }
@@ -4490,9 +4473,9 @@ fieldset:disabled .ui-button {
   border-radius: .375rem
 }
 .btn-group > .btn-group:not(:first-child),
-.btn-group > .btn:not(:first-child),
-.btn-group > .c4g__btn:not(:first-child),
-.btn-group > .ui-button:not(:first-child) {
+.btn-group > :not(.btn-check:first-child):not(.c4g__btn-check:first-child) + .btn,
+.btn-group > :not(.btn-check:first-child):not(.c4g__btn-check:first-child) + .c4g__btn,
+.btn-group > :not(.btn-check:first-child):not(.c4g__btn-check:first-child) + .ui-button {
   margin-left: -1px
 }
 .btn-group > .btn-group:not(:last-child) > .btn,
@@ -4621,7 +4604,6 @@ fieldset:disabled .ui-button {
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   -moz-user-select: none;
-  -ms-user-select: none;
   user-select: none
 }
 .datepicker-main {

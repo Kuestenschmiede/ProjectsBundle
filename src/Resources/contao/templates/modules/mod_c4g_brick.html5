@@ -7,12 +7,13 @@
 ?>
 
 <script>
+  function ready(callback){
+    if (document.readyState!='loading') callback();
+    else if (document.addEventListener) document.addEventListener('DOMContentLoaded', callback);
+  }
+
   (function() {
-    if (typeof(jQuery)=='undefined') {
-      window.setTimeout( "document.getElementById('<?php echo $this->c4gData['div']; ?>').innerHTML = '<h1>jQuery missing</h1>'", 500);
-      return;
-    } else {
-      jQuery(document).ready(function() {
+      ready(function() {
         <?php
           $strC4gGui = "var gui = new window.c4g.projects.c4gGui({".
             "id: ".$this->c4gData['id'].", ".
@@ -38,7 +39,6 @@
           echo $strC4gGui;
         ?>
       });
-      }
   })();
 </script>
 <div id="<?php echo $this->c4gData['div']; ?>"></div>
@@ -51,6 +51,6 @@
 </div>
 <?php
    $GLOBALS['TL_BODY']['c4gMaps' . $this->id] =
-        \Template::generateInlineScript('jQuery(document).ready(function(){
-                jQuery(document).ready(function(){})});',false);
+        \Template::generateInlineScript('ready(function(){
+                ready(function(){})});',false);
 ?>

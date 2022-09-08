@@ -119,7 +119,7 @@ class C4GRadioGroupField extends C4GBrickField
             }
             $optionAttributes = key_exists('attribtes',$option) && $option['attributes'] ? ' ' . $option['attributes'] . ' ': '';
 
-            $onClick = "jQuery('#" . $id . "').val(jQuery('input[name=_" . $id . "]:checked').val());";
+            $onClick = "document.getElementById('" . $id . "') && document.querySelector('input[name=_" . $id . "]:checked') ? document.getElementById('" . $id . "').value = document.querySelector('input[name=_" . $id . "]:checked').value : '';".$this->getCallOnChangeFunction().";";
             if ($object_id && intval($object_id) != -1) {
                 $object_class = 'class="c4g__form-check-input radio_object_' . $object_id . $additionalInputClass.'" ';
             } else {
@@ -152,7 +152,7 @@ class C4GRadioGroupField extends C4GBrickField
                     '<fieldset' . $addToFieldset . '>' .
                     $option_results .
                     '</fieldset><span class="reset_c4g__form-radio-group"></span>' .
-                    '</div><script>function resetRadioGroup(){ jQuery("input[name=\'_' . $id . '\']").removeAttr(\'checked\');jQuery("#' . $id . '").val(0); };</script>'));
+                    '</div><script>function resetRadioGroup(){ document.querySelector("input[name=\'_' . $id . '\']").removeAttribute(\'checked\');document.getElementById("' . $id . '") ? document.getElementById("' . $id . '").value = 0 : ""; };</script>'));
         }
 
         return $result;
