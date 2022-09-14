@@ -93,6 +93,7 @@ class C4GRadioGroupField extends C4GBrickField
             $options = $this->getOptions();
         }
 
+        $addToFieldset = ' class="c4g__form-radio-group radio-group-'.$fieldName.'"';
         $option_results = '';
         $object_id = -1;
         foreach ($options as $option) {
@@ -101,12 +102,10 @@ class C4GRadioGroupField extends C4GBrickField
                 $name = '_' . $id;
                 $option_name = $fieldName . $option_id;
                 $for = $fieldName . $option_id;
-                $addToFieldset = ' class="c4g__form-radio-group"';
             } else {
                 $name = $id;
                 $option_name = $option_id;
                 $for = $option_name;
-                $addToFieldset = ' class="c4g__form-radio-group"';
             }
             $type_caption = $option['name'];
 
