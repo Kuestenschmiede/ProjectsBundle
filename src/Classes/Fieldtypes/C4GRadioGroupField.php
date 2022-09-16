@@ -97,7 +97,7 @@ class C4GRadioGroupField extends C4GBrickField
         $option_results = '';
         $object_id = -1;
         foreach ($options as $option) {
-            $option_id = $option['id'];
+            $option_id = trim($option['id']);
             if ($this->addNameToId) {
                 $name = '_' . $id;
                 $option_name = $fieldName . $option_id;
