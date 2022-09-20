@@ -65,7 +65,7 @@ class C4GNotification
         $sendingResult = true;
         foreach ($notificationIds as $notificationId) {
             $notificationModel = Notification::findByPk($notificationId);
-            if ($notificationModel !== null && $notificationModel->published) {
+            if ($notificationModel !== null) {
                 if (!$notificationModel->send($this->tokens, $language)) {
                     $sendingResult = false;
                 }
