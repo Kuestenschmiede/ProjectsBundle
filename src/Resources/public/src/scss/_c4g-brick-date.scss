@@ -41,23 +41,25 @@ table.datepicker_table {
   }
 }
 
-// NEW DATEPICKER
 .datepicker-cell {
   color: var(--datepicker-day-default-color);
   background-color: var(--datepicker-day-default-bgcolor);
-}
 
-.datepicker-cell {
   &.disabled {
     color: var(--datepicker-day-disabled-color);
     background-color: var(--datepicker-day-disabled-bgcolor);
   }
-}
-
-.datepicker-cell {
-  &.today {
+  &.today:not(selected) {
     color: var(--datepicker-day-today-color);
     background-color:var(--datepicker-day-today-bgcolor);
+  }
+  &.today:not(selected).disabled {
+    color: var(--datepicker-day-today-color-disabled);
+    background-color:var(--datepicker-day-today-bgcolor-disabled);
+  }
+  &.focused:not(selected).disabled {
+    color: var(--datepicker-day-today-color-disabled);
+    background-color:var(--datepicker-day-today-bgcolor-disabled);
   }
 }
 

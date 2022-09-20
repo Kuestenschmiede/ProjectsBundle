@@ -7,6 +7,8 @@ $datepicker-day-free-color: #27ae60;
 $datepicker-day-free-bgcolor: #ffffff;
 $datepicker-day-today-color: #000000;
 $datepicker-day-today-bgcolor: #f1c40f;
+$datepicker-day-today-color-disabled: #c0392b;
+$datepicker-day-today-bgcolor-disabled: #ffffff;
 
 
 html {
@@ -18,4 +20,6 @@ html {
   --datepicker-day-free-bgcolor: #{$datepicker-day-free-bgcolor};
   --datepicker-day-today-color: #{$datepicker-day-today-color};
   --datepicker-day-today-bgcolor: #{$datepicker-day-today-bgcolor};
+  --datepicker-day-today-color-disabled: #{$datepicker-day-today-color-disabled};
+  --datepicker-day-today-bgcolor-disabled: #{$datepicker-day-today-bgcolor-disabled};
 }

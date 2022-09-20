@@ -7,7 +7,9 @@ html {
   --datepicker-day-free-color: #27ae60;
   --datepicker-day-free-bgcolor: #ffffff;
   --datepicker-day-today-color: #000000;
-  --datepicker-day-today-bgcolor: #f1c40f
+  --datepicker-day-today-bgcolor: #f1c40f;
+  --datepicker-day-today-color-disabled: #c0392b;
+  --datepicker-day-today-bgcolor-disabled: #ffffff
 }
 .clearfix::after {
   display: block;
@@ -4855,9 +4857,17 @@ table.datepicker_table {
   color: var(--datepicker-day-disabled-color);
   background-color: var(--datepicker-day-disabled-bgcolor)
 }
-.datepicker-cell.today {
+.datepicker-cell.today:not(selected) {
   color: var(--datepicker-day-today-color);
   background-color: var(--datepicker-day-today-bgcolor)
+}
+.datepicker-cell.today:not(selected).disabled {
+  color: var(--datepicker-day-today-color-disabled);
+  background-color: var(--datepicker-day-today-bgcolor-disabled)
+}
+.datepicker-cell.focused:not(selected).disabled {
+  color: var(--datepicker-day-today-color-disabled);
+  background-color: var(--datepicker-day-today-bgcolor-disabled)
 }
 .c4g__form-date span.day:before {
   font-family: inherit;
