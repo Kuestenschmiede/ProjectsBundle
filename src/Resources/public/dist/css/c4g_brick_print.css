@@ -4865,7 +4865,11 @@ table.datepicker_table {
   color: var(--datepicker-day-today-color-disabled);
   background-color: var(--datepicker-day-today-bgcolor-disabled)
 }
-.datepicker-cell.focused:not(selected).disabled {
+.datepicker-cell.focused.disabled {
+  color: var(--datepicker-day-today-color-disabled);
+  background-color: var(--datepicker-day-today-bgcolor-disabled)
+}
+.datepicker-cell.today.focused:not(.selected).disabled {
   color: var(--datepicker-day-today-color-disabled);
   background-color: var(--datepicker-day-today-bgcolor-disabled)
 }

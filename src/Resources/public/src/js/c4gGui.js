@@ -608,7 +608,6 @@ window.c4g.projects = window.c4g.projects || {};
                   var formdata = {};
                   jQuery(scope.contentDiv).find('.formdata').each(function (index, element) {
                     if (jQuery(element).attr('type') === 'checkbox') {
-                      // formdata[jQuery(element).attr('name')] = (jQuery(element).attr('checked') == 'checked');
                       formdata[jQuery(element).attr('name')] = jQuery(element).is(':checked');
                     } else {
                       formdata[jQuery(element).attr('name')] = jQuery(element).val();
