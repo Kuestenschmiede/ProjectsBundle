@@ -69,7 +69,7 @@ class C4GBrickListParams
     private $scrollX = false;
     private $autoWidth = false;
     private $responsive = true;
-    private $redirectListPage = 0;
+    private $redirectListPage = 0; //directly redirect to another page
     private $session = null;
 
     /**

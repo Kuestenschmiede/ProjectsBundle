@@ -1189,11 +1189,13 @@ class C4GBaseController extends AbstractFrontendModuleController
 
             foreach ($this->fieldList as $field) {
                 $fieldName = $field->getFieldName();
-                $putVars[$fieldName] = $field->validateFieldValue($putVars[$fieldName]);
+                if ($putVars && $fieldName && key_exists($fieldName, $putVars)) {
+                    $putVars[$fieldName] = $field->validateFieldValue($putVars[$fieldName]);
+                }
             }
 
             //id lost with button field (ONCLICK_TYPE_SERVER)
-            if ($values[2]) {
+            if ($putVars && $values[2]) {
                 $putVars['id'] = $values[2];
             }
 
