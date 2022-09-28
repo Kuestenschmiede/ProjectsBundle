@@ -310,7 +310,7 @@ window.c4g.projects = window.c4g.projects || {};
             .tooltip({
               track: false,
               delay: 0,
-              extraClass: "c4gGuiTooltipComponent ui-corner-all ui-widget-content",
+              extraClass: "c4gGuiTooltipComponent",
               showURL: true
             });
 
@@ -1118,7 +1118,7 @@ window.c4g.projects = window.c4g.projects || {};
               var titleDiv = "";
               if (dialogoptions.title) {
                 if (options.jquiEmbeddedDialogs) {
-                  titleDiv = jQuery('<div>').attr('class', 'c4gGuiDialogTitle c4gGuiDialogTitleJqui ui-widget ui-widget-header ui-corner-all');
+                  titleDiv = jQuery('<div>').attr('class', 'c4gGuiDialogTitle c4gGuiDialogTitleJqui');
                   titleDiv.html(dialogoptions.title);
                 } else {
                   titleDiv = jQuery('<div>')

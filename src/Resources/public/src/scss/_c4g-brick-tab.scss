@@ -1,8 +1,23 @@
+.c4g__tabs-nav {
+  @extend .nav-tabs;
+}
+//.c4g__tabs-tab {
+//  @extend .nav-item;
+//}
+.c4g__tabs-anchor {
+  @extend .nav-link;
+}
+.c4g__state-active {
+  @extend .active;
+}
+
 .c4gGuiTabLinks {
   list-style-type: none;
   margin: 0;
   padding: 0;
   overflow: hidden;
+  display: flex;
+  line-height: 1;
 }
 
 .c4gGuiTabLink {
