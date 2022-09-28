@@ -198,8 +198,8 @@ class C4GDateField extends C4GBrickField
                             $onLoadScript = 'C4GDatePicker(\'' . $id . '\', \'date\', \'' . $this->minDate . '\', \'' . $this->maxDate . '\', \'' . $outputFormat . '\',\'' . $pickerLanguage . '\',\'' . $this->excludeWeekdays . '\',\'' . $this->excludeDates . '\');';
                             $dialogParams->setOnloadScript($onLoadScript);
                         }
-                        $onClick = "if (document.getElementById('" . $id . "')) {document.getElementById('" . $id . "').style.display='block';document.getElementById('" . $id . "').focus();};";
-                        $html .= '<button ' . $required . ' onclick="'.$onClick.'" type=\"button\" class="c4g__btn c4g__btn-date c4g__form-date-button-interactive"><i class="far fa-calendar-alt"></i></button>';
+                        $onClick = "if (document.getElementById('" . $id . "')) {document.getElementById('" . $id . "').style.display='block';document.getElementById('" . $id  . "').focus();};";
+                        $html .= '<button ' . $required . ' onclick="'.$onClick.'" type="button" class="c4g__btn c4g__btn-date c4g__form-date-button-interactive"><i class="far fa-calendar-alt"></i></button>';
                         $html .= '<input autocomplete="off" ' . $required . ' type="text" id="' . $id . '" class="formdata c4g__form-control c4g__form-date-input ' . $id . '" ' . $changeAction . ' name="' . $fieldName . '" value="' . $value . '" ' . $condition['conditionPrepare'] . 'pattern="' . $this->pattern . '"' . '>';
                     }
                 } else {
