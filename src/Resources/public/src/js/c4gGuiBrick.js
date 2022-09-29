@@ -303,7 +303,7 @@ window.c4g.projects = window.c4g.projects || {};
             .tooltip({
               track: false,
               delay: 0,
-              extraClass: "c4gGuiTooltipComponent",
+              extraClass: "c4gGuiTooltipComponent ui-corner-all ui-widget-content",
               showURL: true
             });
 
@@ -463,7 +463,7 @@ window.c4g.projects = window.c4g.projects || {};
                           bodyHandler: function () {
                             return jQuery(nRow).attr('data-tooltip');
                           },
-                          extraClass: "c4gGuiTooltipComponent c4gGuiTooltipInTable"
+                          extraClass: "c4gGuiDialogTitle c4gGuiDialogTitleJqui ui-widget ui-widget-header ui-corner-all"
                         }
                     );
                   }
