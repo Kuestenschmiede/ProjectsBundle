@@ -312,7 +312,9 @@ class C4GShowListAction extends C4GBrickDialogAction
                         if ($parentIdField) {
                             $elements = $class::$function($parentId);
                         } else {
-                            $elements = $class::$function();
+                            if ($listParams->getModelListParams()) {
+                                $elements = $class::$function($listParams);
+                            }
                         }
 
                         if ($elements->headline) {
