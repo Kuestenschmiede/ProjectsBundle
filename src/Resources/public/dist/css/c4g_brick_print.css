@@ -2885,15 +2885,22 @@ textarea.form-control.is-invalid {
     transition: none
   }
 }
-.btn:first-child:hover,
-.c4g__btn:first-child:hover,
-.ui-button:first-child:hover,
-:not(.btn-check):not(.c4g__btn-check) + .btn:hover,
-:not(.btn-check):not(.c4g__btn-check) + .c4g__btn:hover,
-:not(.btn-check):not(.c4g__btn-check) + .ui-button:hover {
+.btn:hover,
+.c4g__btn:hover,
+.ui-button:hover {
   color: var(--bs-btn-hover-color);
   background-color: var(--bs-btn-hover-bg);
   border-color: var(--bs-btn-hover-border-color)
+}
+.btn-check + .btn:hover,
+.btn-check + .c4g__btn:hover,
+.btn-check + .ui-button:hover,
+.c4g__btn-check + .btn:hover,
+.c4g__btn-check + .c4g__btn:hover,
+.c4g__btn-check + .ui-button:hover {
+  color: var(--bs-btn-color);
+  background-color: var(--bs-btn-bg);
+  border-color: var(--bs-btn-border-color)
 }
 .btn:focus-visible,
 .c4g__btn:focus-visible,
@@ -2920,14 +2927,17 @@ textarea.form-control.is-invalid {
 .btn-check:checked + .c4g__btn,
 .btn-check:checked + .ui-button,
 .btn.active,
+.btn.c4g__state-active,
 .btn.show,
 .btn:first-child:active,
 .c4g__btn-check:checked + .btn,
 .c4g__btn-check:checked + .c4g__btn,
 .c4g__btn-check:checked + .ui-button,
+.c4g__btn.c4g__state-active,
 .c4g__btn:first-child:active,
 .show.c4g__btn,
 .show.ui-button,
+.ui-button.c4g__state-active,
 .ui-button:first-child:active,
 :not(.btn-check):not(.c4g__btn-check) + .btn:active,
 :not(.btn-check):not(.c4g__btn-check) + .c4g__btn:active,
@@ -2942,14 +2952,17 @@ textarea.form-control.is-invalid {
 .btn-check:checked + .c4g__btn:focus-visible,
 .btn-check:checked + .ui-button:focus-visible,
 .btn.active:focus-visible,
+.btn.c4g__state-active:focus-visible,
 .btn.show:focus-visible,
 .btn:first-child:active:focus-visible,
 .c4g__btn-check:checked + .btn:focus-visible,
 .c4g__btn-check:checked + .c4g__btn:focus-visible,
 .c4g__btn-check:checked + .ui-button:focus-visible,
+.c4g__btn.c4g__state-active:focus-visible,
 .c4g__btn:first-child:active:focus-visible,
 .show.c4g__btn:focus-visible,
 .show.ui-button:focus-visible,
+.ui-button.c4g__state-active:focus-visible,
 .ui-button:first-child:active:focus-visible,
 :not(.btn-check):not(.c4g__btn-check) + .btn:active:focus-visible,
 :not(.btn-check):not(.c4g__btn-check) + .c4g__btn:active:focus-visible,
@@ -3341,6 +3354,7 @@ fieldset:disabled .ui-button {
   margin-bottom: 0;
   list-style: none
 }
+.c4g__tabs-anchor,
 .nav-link {
   display: block;
   padding: var(--bs-nav-link-padding-y) var(--bs-nav-link-padding-x);
@@ -3351,19 +3365,24 @@ fieldset:disabled .ui-button {
   transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out
 }
 @media (prefers-reduced-motion:reduce) {
+  .c4g__tabs-anchor,
   .nav-link {
     transition: none
   }
 }
+.c4g__tabs-anchor:focus,
+.c4g__tabs-anchor:hover,
 .nav-link:focus,
 .nav-link:hover {
   color: var(--bs-nav-link-hover-color)
 }
+.disabled.c4g__tabs-anchor,
 .nav-link.disabled {
   color: var(--bs-nav-link-disabled-color);
   pointer-events: none;
   cursor: default
 }
+.c4g__tabs-nav,
 .nav-tabs {
   --bs-nav-tabs-border-width: 1px;
   --bs-nav-tabs-border-color: #dee2e6;
@@ -3374,6 +3393,9 @@ fieldset:disabled .ui-button {
   --bs-nav-tabs-link-active-border-color: #dee2e6 #dee2e6 #fff;
   border-bottom: var(--bs-nav-tabs-border-width) solid var(--bs-nav-tabs-border-color)
 }
+.c4g__tabs-nav .c4g__tabs-anchor,
+.c4g__tabs-nav .nav-link,
+.nav-tabs .c4g__tabs-anchor,
 .nav-tabs .nav-link {
   margin-bottom: calc(-1 * var(--bs-nav-tabs-border-width));
   background: 0 0;
@@ -3381,23 +3403,46 @@ fieldset:disabled .ui-button {
   border-top-left-radius: var(--bs-nav-tabs-border-radius);
   border-top-right-radius: var(--bs-nav-tabs-border-radius)
 }
+.c4g__tabs-nav .c4g__tabs-anchor:focus,
+.c4g__tabs-nav .c4g__tabs-anchor:hover,
+.c4g__tabs-nav .nav-link:focus,
+.c4g__tabs-nav .nav-link:hover,
+.nav-tabs .c4g__tabs-anchor:focus,
+.nav-tabs .c4g__tabs-anchor:hover,
 .nav-tabs .nav-link:focus,
 .nav-tabs .nav-link:hover {
   isolation: isolate;
   border-color: var(--bs-nav-tabs-link-hover-border-color)
 }
+.c4g__tabs-nav .c4g__tabs-anchor:disabled,
+.c4g__tabs-nav .disabled.c4g__tabs-anchor,
+.c4g__tabs-nav .nav-link.disabled,
+.c4g__tabs-nav .nav-link:disabled,
+.nav-tabs .c4g__tabs-anchor:disabled,
+.nav-tabs .disabled.c4g__tabs-anchor,
 .nav-tabs .nav-link.disabled,
 .nav-tabs .nav-link:disabled {
   color: var(--bs-nav-link-disabled-color);
   background-color: transparent;
   border-color: transparent
 }
+.c4g__tabs-nav .active.c4g__tabs-anchor,
+.c4g__tabs-nav .c4g__tabs-anchor.c4g__state-active,
+.c4g__tabs-nav .nav-item.show .c4g__tabs-anchor,
+.c4g__tabs-nav .nav-item.show .nav-link,
+.c4g__tabs-nav .nav-link.active,
+.c4g__tabs-nav .nav-link.c4g__state-active,
+.nav-tabs .active.c4g__tabs-anchor,
+.nav-tabs .c4g__tabs-anchor.c4g__state-active,
+.nav-tabs .nav-item.show .c4g__tabs-anchor,
 .nav-tabs .nav-item.show .nav-link,
-.nav-tabs .nav-link.active {
+.nav-tabs .nav-link.active,
+.nav-tabs .nav-link.c4g__state-active {
   color: var(--bs-nav-tabs-link-active-color);
   background-color: var(--bs-nav-tabs-link-active-bg);
   border-color: var(--bs-nav-tabs-link-active-border-color)
 }
+.c4g__tabs-nav .dropdown-menu,
 .nav-tabs .dropdown-menu {
   margin-top: calc(-1 * var(--bs-nav-tabs-border-width));
   border-top-left-radius: 0;
@@ -3408,40 +3453,51 @@ fieldset:disabled .ui-button {
   --bs-nav-pills-link-active-color: #fff;
   --bs-nav-pills-link-active-bg: #0d6efd
 }
+.nav-pills .c4g__tabs-anchor,
 .nav-pills .nav-link {
   background: 0 0;
   border: 0;
   border-radius: var(--bs-nav-pills-border-radius)
 }
+.nav-pills .c4g__tabs-anchor:disabled,
 .nav-pills .nav-link:disabled {
   color: var(--bs-nav-link-disabled-color);
   background-color: transparent;
   border-color: transparent
 }
+.nav-pills .active.c4g__tabs-anchor,
+.nav-pills .c4g__tabs-anchor.c4g__state-active,
 .nav-pills .nav-link.active,
+.nav-pills .nav-link.c4g__state-active,
+.nav-pills .show > .c4g__tabs-anchor,
 .nav-pills .show > .nav-link {
   color: var(--bs-nav-pills-link-active-color);
   background-color: var(--bs-nav-pills-link-active-bg)
 }
 .nav-fill .nav-item,
+.nav-fill > .c4g__tabs-anchor,
 .nav-fill > .nav-link {
   flex: 1 1 auto;
   text-align: center
 }
 .nav-justified .nav-item,
+.nav-justified > .c4g__tabs-anchor,
 .nav-justified > .nav-link {
   flex-basis: 0;
   flex-grow: 1;
   text-align: center
 }
+.nav-fill .nav-item .c4g__tabs-anchor,
 .nav-fill .nav-item .nav-link,
+.nav-justified .nav-item .c4g__tabs-anchor,
 .nav-justified .nav-item .nav-link {
   width: 100%
 }
 .tab-content > .tab-pane {
   display: none
 }
-.tab-content > .active {
+.tab-content > .active,
+.tab-content > .c4g__state-active {
   display: block
 }
 .modal {
@@ -3724,7 +3780,7 @@ fieldset:disabled .ui-button {
   }
 }
 .accordion {
-  --bs-accordion-color: var(--bs-body-color);
+  --bs-accordion-color: #212529;
   --bs-accordion-bg: #fff;
   --bs-accordion-transition: color 0.15s ease-in-out,background-color 0.15s ease-in-out,border-color 0.15s ease-in-out,box-shadow 0.15s ease-in-out,border-radius 0.15s ease;
   --bs-accordion-border-color: var(--bs-border-color);
@@ -3733,9 +3789,9 @@ fieldset:disabled .ui-button {
   --bs-accordion-inner-border-radius: calc(0.375rem - 1px);
   --bs-accordion-btn-padding-x: 1.25rem;
   --bs-accordion-btn-padding-y: 1rem;
-  --bs-accordion-btn-color: var(--bs-body-color);
+  --bs-accordion-btn-color: #212529;
   --bs-accordion-btn-bg: var(--bs-accordion-bg);
-  --bs-accordion-btn-icon: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='var%28--bs-body-color%29'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+  --bs-accordion-btn-icon: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23212529'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
   --bs-accordion-btn-icon-width: 1.25rem;
   --bs-accordion-btn-icon-transform: rotate(-180deg);
   --bs-accordion-btn-icon-transition: transform 0.2s ease-in-out;
@@ -4012,7 +4068,9 @@ fieldset:disabled .ui-button {
   background-color: var(--bs-list-group-disabled-bg)
 }
 .c4g_brick_dialog .active.c4g__list-group-item,
-.list-group-item.active {
+.c4g_brick_dialog .c4g__list-group-item.c4g__state-active,
+.list-group-item.active,
+.list-group-item.c4g__state-active {
   z-index: 2;
   color: var(--bs-list-group-active-color);
   background-color: var(--bs-list-group-active-bg);
@@ -4025,9 +4083,13 @@ fieldset:disabled .ui-button {
   border-top-width: 0
 }
 .c4g_brick_dialog .c4g__list-group-item + .active.c4g__list-group-item,
+.c4g_brick_dialog .c4g__list-group-item + .c4g__list-group-item.c4g__state-active,
 .c4g_brick_dialog .c4g__list-group-item + .list-group-item.active,
+.c4g_brick_dialog .c4g__list-group-item + .list-group-item.c4g__state-active,
 .c4g_brick_dialog .list-group-item + .active.c4g__list-group-item,
-.list-group-item + .list-group-item.active {
+.c4g_brick_dialog .list-group-item + .c4g__list-group-item.c4g__state-active,
+.list-group-item + .list-group-item.active,
+.list-group-item + .list-group-item.c4g__state-active {
   margin-top: calc(-1 * var(--bs-list-group-border-width));
   border-top-width: var(--bs-list-group-border-width)
 }
@@ -4045,7 +4107,9 @@ fieldset:disabled .ui-button {
   border-bottom-left-radius: 0
 }
 .c4g_brick_dialog .list-group-horizontal > .active.c4g__list-group-item,
-.list-group-horizontal > .list-group-item.active {
+.c4g_brick_dialog .list-group-horizontal > .c4g__list-group-item.c4g__state-active,
+.list-group-horizontal > .list-group-item.active,
+.list-group-horizontal > .list-group-item.c4g__state-active {
   margin-top: 0
 }
 .c4g_brick_dialog .list-group-horizontal > .c4g__list-group-item + .c4g__list-group-item,
@@ -4056,9 +4120,13 @@ fieldset:disabled .ui-button {
   border-left-width: 0
 }
 .c4g_brick_dialog .list-group-horizontal > .c4g__list-group-item + .active.c4g__list-group-item,
+.c4g_brick_dialog .list-group-horizontal > .c4g__list-group-item + .c4g__list-group-item.c4g__state-active,
 .c4g_brick_dialog .list-group-horizontal > .c4g__list-group-item + .list-group-item.active,
+.c4g_brick_dialog .list-group-horizontal > .c4g__list-group-item + .list-group-item.c4g__state-active,
 .c4g_brick_dialog .list-group-horizontal > .list-group-item + .active.c4g__list-group-item,
-.list-group-horizontal > .list-group-item + .list-group-item.active {
+.c4g_brick_dialog .list-group-horizontal > .list-group-item + .c4g__list-group-item.c4g__state-active,
+.list-group-horizontal > .list-group-item + .list-group-item.active,
+.list-group-horizontal > .list-group-item + .list-group-item.c4g__state-active {
   margin-left: calc(-1 * var(--bs-list-group-border-width));
   border-left-width: var(--bs-list-group-border-width)
 }
@@ -4077,7 +4145,9 @@ fieldset:disabled .ui-button {
     border-bottom-left-radius: 0
   }
   .c4g_brick_dialog .list-group-horizontal-sm > .active.c4g__list-group-item,
-  .list-group-horizontal-sm > .list-group-item.active {
+  .c4g_brick_dialog .list-group-horizontal-sm > .c4g__list-group-item.c4g__state-active,
+  .list-group-horizontal-sm > .list-group-item.active,
+  .list-group-horizontal-sm > .list-group-item.c4g__state-active {
     margin-top: 0
   }
   .c4g_brick_dialog .list-group-horizontal-sm > .c4g__list-group-item + .c4g__list-group-item,
@@ -4088,9 +4158,13 @@ fieldset:disabled .ui-button {
     border-left-width: 0
   }
   .c4g_brick_dialog .list-group-horizontal-sm > .c4g__list-group-item + .active.c4g__list-group-item,
+  .c4g_brick_dialog .list-group-horizontal-sm > .c4g__list-group-item + .c4g__list-group-item.c4g__state-active,
   .c4g_brick_dialog .list-group-horizontal-sm > .c4g__list-group-item + .list-group-item.active,
+  .c4g_brick_dialog .list-group-horizontal-sm > .c4g__list-group-item + .list-group-item.c4g__state-active,
   .c4g_brick_dialog .list-group-horizontal-sm > .list-group-item + .active.c4g__list-group-item,
-  .list-group-horizontal-sm > .list-group-item + .list-group-item.active {
+  .c4g_brick_dialog .list-group-horizontal-sm > .list-group-item + .c4g__list-group-item.c4g__state-active,
+  .list-group-horizontal-sm > .list-group-item + .list-group-item.active,
+  .list-group-horizontal-sm > .list-group-item + .list-group-item.c4g__state-active {
     margin-left: calc(-1 * var(--bs-list-group-border-width));
     border-left-width: var(--bs-list-group-border-width)
   }
@@ -4110,7 +4184,9 @@ fieldset:disabled .ui-button {
     border-bottom-left-radius: 0
   }
   .c4g_brick_dialog .list-group-horizontal-md > .active.c4g__list-group-item,
-  .list-group-horizontal-md > .list-group-item.active {
+  .c4g_brick_dialog .list-group-horizontal-md > .c4g__list-group-item.c4g__state-active,
+  .list-group-horizontal-md > .list-group-item.active,
+  .list-group-horizontal-md > .list-group-item.c4g__state-active {
     margin-top: 0
   }
   .c4g_brick_dialog .list-group-horizontal-md > .c4g__list-group-item + .c4g__list-group-item,
@@ -4121,9 +4197,13 @@ fieldset:disabled .ui-button {
     border-left-width: 0
   }
   .c4g_brick_dialog .list-group-horizontal-md > .c4g__list-group-item + .active.c4g__list-group-item,
+  .c4g_brick_dialog .list-group-horizontal-md > .c4g__list-group-item + .c4g__list-group-item.c4g__state-active,
   .c4g_brick_dialog .list-group-horizontal-md > .c4g__list-group-item + .list-group-item.active,
+  .c4g_brick_dialog .list-group-horizontal-md > .c4g__list-group-item + .list-group-item.c4g__state-active,
   .c4g_brick_dialog .list-group-horizontal-md > .list-group-item + .active.c4g__list-group-item,
-  .list-group-horizontal-md > .list-group-item + .list-group-item.active {
+  .c4g_brick_dialog .list-group-horizontal-md > .list-group-item + .c4g__list-group-item.c4g__state-active,
+  .list-group-horizontal-md > .list-group-item + .list-group-item.active,
+  .list-group-horizontal-md > .list-group-item + .list-group-item.c4g__state-active {
     margin-left: calc(-1 * var(--bs-list-group-border-width));
     border-left-width: var(--bs-list-group-border-width)
   }
@@ -4143,7 +4223,9 @@ fieldset:disabled .ui-button {
     border-bottom-left-radius: 0
   }
   .c4g_brick_dialog .list-group-horizontal-lg > .active.c4g__list-group-item,
-  .list-group-horizontal-lg > .list-group-item.active {
+  .c4g_brick_dialog .list-group-horizontal-lg > .c4g__list-group-item.c4g__state-active,
+  .list-group-horizontal-lg > .list-group-item.active,
+  .list-group-horizontal-lg > .list-group-item.c4g__state-active {
     margin-top: 0
   }
   .c4g_brick_dialog .list-group-horizontal-lg > .c4g__list-group-item + .c4g__list-group-item,
@@ -4154,9 +4236,13 @@ fieldset:disabled .ui-button {
     border-left-width: 0
   }
   .c4g_brick_dialog .list-group-horizontal-lg > .c4g__list-group-item + .active.c4g__list-group-item,
+  .c4g_brick_dialog .list-group-horizontal-lg > .c4g__list-group-item + .c4g__list-group-item.c4g__state-active,
   .c4g_brick_dialog .list-group-horizontal-lg > .c4g__list-group-item + .list-group-item.active,
+  .c4g_brick_dialog .list-group-horizontal-lg > .c4g__list-group-item + .list-group-item.c4g__state-active,
   .c4g_brick_dialog .list-group-horizontal-lg > .list-group-item + .active.c4g__list-group-item,
-  .list-group-horizontal-lg > .list-group-item + .list-group-item.active {
+  .c4g_brick_dialog .list-group-horizontal-lg > .list-group-item + .c4g__list-group-item.c4g__state-active,
+  .list-group-horizontal-lg > .list-group-item + .list-group-item.active,
+  .list-group-horizontal-lg > .list-group-item + .list-group-item.c4g__state-active {
     margin-left: calc(-1 * var(--bs-list-group-border-width));
     border-left-width: var(--bs-list-group-border-width)
   }
@@ -4176,7 +4262,9 @@ fieldset:disabled .ui-button {
     border-bottom-left-radius: 0
   }
   .c4g_brick_dialog .list-group-horizontal-xl > .active.c4g__list-group-item,
-  .list-group-horizontal-xl > .list-group-item.active {
+  .c4g_brick_dialog .list-group-horizontal-xl > .c4g__list-group-item.c4g__state-active,
+  .list-group-horizontal-xl > .list-group-item.active,
+  .list-group-horizontal-xl > .list-group-item.c4g__state-active {
     margin-top: 0
   }
   .c4g_brick_dialog .list-group-horizontal-xl > .c4g__list-group-item + .c4g__list-group-item,
@@ -4187,9 +4275,13 @@ fieldset:disabled .ui-button {
     border-left-width: 0
   }
   .c4g_brick_dialog .list-group-horizontal-xl > .c4g__list-group-item + .active.c4g__list-group-item,
+  .c4g_brick_dialog .list-group-horizontal-xl > .c4g__list-group-item + .c4g__list-group-item.c4g__state-active,
   .c4g_brick_dialog .list-group-horizontal-xl > .c4g__list-group-item + .list-group-item.active,
+  .c4g_brick_dialog .list-group-horizontal-xl > .c4g__list-group-item + .list-group-item.c4g__state-active,
   .c4g_brick_dialog .list-group-horizontal-xl > .list-group-item + .active.c4g__list-group-item,
-  .list-group-horizontal-xl > .list-group-item + .list-group-item.active {
+  .c4g_brick_dialog .list-group-horizontal-xl > .list-group-item + .c4g__list-group-item.c4g__state-active,
+  .list-group-horizontal-xl > .list-group-item + .list-group-item.active,
+  .list-group-horizontal-xl > .list-group-item + .list-group-item.c4g__state-active {
     margin-left: calc(-1 * var(--bs-list-group-border-width));
     border-left-width: var(--bs-list-group-border-width)
   }
@@ -4209,7 +4301,9 @@ fieldset:disabled .ui-button {
     border-bottom-left-radius: 0
   }
   .c4g_brick_dialog .list-group-horizontal-xxl > .active.c4g__list-group-item,
-  .list-group-horizontal-xxl > .list-group-item.active {
+  .c4g_brick_dialog .list-group-horizontal-xxl > .c4g__list-group-item.c4g__state-active,
+  .list-group-horizontal-xxl > .list-group-item.active,
+  .list-group-horizontal-xxl > .list-group-item.c4g__state-active {
     margin-top: 0
   }
   .c4g_brick_dialog .list-group-horizontal-xxl > .c4g__list-group-item + .c4g__list-group-item,
@@ -4220,9 +4314,13 @@ fieldset:disabled .ui-button {
     border-left-width: 0
   }
   .c4g_brick_dialog .list-group-horizontal-xxl > .c4g__list-group-item + .active.c4g__list-group-item,
+  .c4g_brick_dialog .list-group-horizontal-xxl > .c4g__list-group-item + .c4g__list-group-item.c4g__state-active,
   .c4g_brick_dialog .list-group-horizontal-xxl > .c4g__list-group-item + .list-group-item.active,
+  .c4g_brick_dialog .list-group-horizontal-xxl > .c4g__list-group-item + .list-group-item.c4g__state-active,
   .c4g_brick_dialog .list-group-horizontal-xxl > .list-group-item + .active.c4g__list-group-item,
-  .list-group-horizontal-xxl > .list-group-item + .list-group-item.active {
+  .c4g_brick_dialog .list-group-horizontal-xxl > .list-group-item + .c4g__list-group-item.c4g__state-active,
+  .list-group-horizontal-xxl > .list-group-item + .list-group-item.active,
+  .list-group-horizontal-xxl > .list-group-item + .list-group-item.c4g__state-active {
     margin-left: calc(-1 * var(--bs-list-group-border-width));
     border-left-width: var(--bs-list-group-border-width)
   }
@@ -4250,7 +4348,9 @@ fieldset:disabled .ui-button {
   background-color: #bacbe6
 }
 .c4g_brick_dialog .list-group-item-primary.active.c4g__list-group-item-action,
-.list-group-item-primary.list-group-item-action.active {
+.c4g_brick_dialog .list-group-item-primary.c4g__list-group-item-action.c4g__state-active,
+.list-group-item-primary.list-group-item-action.active,
+.list-group-item-primary.list-group-item-action.c4g__state-active {
   color: #fff;
   background-color: #084298;
   border-color: #084298
@@ -4267,7 +4367,9 @@ fieldset:disabled .ui-button {
   background-color: #cbccce
 }
 .c4g_brick_dialog .list-group-item-secondary.active.c4g__list-group-item-action,
-.list-group-item-secondary.list-group-item-action.active {
+.c4g_brick_dialog .list-group-item-secondary.c4g__list-group-item-action.c4g__state-active,
+.list-group-item-secondary.list-group-item-action.active,
+.list-group-item-secondary.list-group-item-action.c4g__state-active {
   color: #fff;
   background-color: #41464b;
   border-color: #41464b
@@ -4284,7 +4386,9 @@ fieldset:disabled .ui-button {
   background-color: #bcd0c7
 }
 .c4g_brick_dialog .list-group-item-success.active.c4g__list-group-item-action,
-.list-group-item-success.list-group-item-action.active {
+.c4g_brick_dialog .list-group-item-success.c4g__list-group-item-action.c4g__state-active,
+.list-group-item-success.list-group-item-action.active,
+.list-group-item-success.list-group-item-action.c4g__state-active {
   color: #fff;
   background-color: #0f5132;
   border-color: #0f5132
@@ -4301,7 +4405,9 @@ fieldset:disabled .ui-button {
   background-color: #badce3
 }
 .c4g_brick_dialog .list-group-item-info.active.c4g__list-group-item-action,
-.list-group-item-info.list-group-item-action.active {
+.c4g_brick_dialog .list-group-item-info.c4g__list-group-item-action.c4g__state-active,
+.list-group-item-info.list-group-item-action.active,
+.list-group-item-info.list-group-item-action.c4g__state-active {
   color: #fff;
   background-color: #055160;
   border-color: #055160
@@ -4318,7 +4424,9 @@ fieldset:disabled .ui-button {
   background-color: #e6dbb9
 }
 .c4g_brick_dialog .list-group-item-warning.active.c4g__list-group-item-action,
-.list-group-item-warning.list-group-item-action.active {
+.c4g_brick_dialog .list-group-item-warning.c4g__list-group-item-action.c4g__state-active,
+.list-group-item-warning.list-group-item-action.active,
+.list-group-item-warning.list-group-item-action.c4g__state-active {
   color: #fff;
   background-color: #664d03;
   border-color: #664d03
@@ -4335,7 +4443,9 @@ fieldset:disabled .ui-button {
   background-color: #dfc2c4
 }
 .c4g_brick_dialog .list-group-item-danger.active.c4g__list-group-item-action,
-.list-group-item-danger.list-group-item-action.active {
+.c4g_brick_dialog .list-group-item-danger.c4g__list-group-item-action.c4g__state-active,
+.list-group-item-danger.list-group-item-action.active,
+.list-group-item-danger.list-group-item-action.c4g__state-active {
   color: #fff;
   background-color: #842029;
   border-color: #842029
@@ -4352,7 +4462,9 @@ fieldset:disabled .ui-button {
   background-color: #e5e5e5
 }
 .c4g_brick_dialog .list-group-item-light.active.c4g__list-group-item-action,
-.list-group-item-light.list-group-item-action.active {
+.c4g_brick_dialog .list-group-item-light.c4g__list-group-item-action.c4g__state-active,
+.list-group-item-light.list-group-item-action.active,
+.list-group-item-light.list-group-item-action.c4g__state-active {
   color: #fff;
   background-color: #636464;
   border-color: #636464
@@ -4369,7 +4481,9 @@ fieldset:disabled .ui-button {
   background-color: #bebebf
 }
 .c4g_brick_dialog .list-group-item-dark.active.c4g__list-group-item-action,
-.list-group-item-dark.list-group-item-action.active {
+.c4g_brick_dialog .list-group-item-dark.c4g__list-group-item-action.c4g__state-active,
+.list-group-item-dark.list-group-item-action.active,
+.list-group-item-dark.list-group-item-action.c4g__state-active {
   color: #fff;
   background-color: #141619;
   border-color: #141619
@@ -4398,6 +4512,7 @@ fieldset:disabled .ui-button {
 .btn-group > .btn-check:focus + .c4g__btn,
 .btn-group > .btn-check:focus + .ui-button,
 .btn-group > .btn.active,
+.btn-group > .btn.c4g__state-active,
 .btn-group > .btn:active,
 .btn-group > .btn:focus,
 .btn-group > .btn:hover,
@@ -4407,9 +4522,11 @@ fieldset:disabled .ui-button {
 .btn-group > .c4g__btn-check:focus + .btn,
 .btn-group > .c4g__btn-check:focus + .c4g__btn,
 .btn-group > .c4g__btn-check:focus + .ui-button,
+.btn-group > .c4g__btn.c4g__state-active,
 .btn-group > .c4g__btn:active,
 .btn-group > .c4g__btn:focus,
 .btn-group > .c4g__btn:hover,
+.btn-group > .ui-button.c4g__state-active,
 .btn-group > .ui-button:active,
 .btn-group > .ui-button:focus,
 .btn-group > .ui-button:hover,
@@ -4422,6 +4539,7 @@ fieldset:disabled .ui-button {
 .btn-group-vertical > .btn-check:focus + .c4g__btn,
 .btn-group-vertical > .btn-check:focus + .ui-button,
 .btn-group-vertical > .btn.active,
+.btn-group-vertical > .btn.c4g__state-active,
 .btn-group-vertical > .btn:active,
 .btn-group-vertical > .btn:focus,
 .btn-group-vertical > .btn:hover,
@@ -4431,9 +4549,11 @@ fieldset:disabled .ui-button {
 .btn-group-vertical > .c4g__btn-check:focus + .btn,
 .btn-group-vertical > .c4g__btn-check:focus + .c4g__btn,
 .btn-group-vertical > .c4g__btn-check:focus + .ui-button,
+.btn-group-vertical > .c4g__btn.c4g__state-active,
 .btn-group-vertical > .c4g__btn:active,
 .btn-group-vertical > .c4g__btn:focus,
 .btn-group-vertical > .c4g__btn:hover,
+.btn-group-vertical > .ui-button.c4g__state-active,
 .btn-group-vertical > .ui-button:active,
 .btn-group-vertical > .ui-button:focus,
 .btn-group-vertical > .ui-button:hover {
@@ -4552,7 +4672,8 @@ fieldset:disabled .ui-button {
 .datepicker {
   display: none
 }
-.datepicker.active {
+.datepicker.active,
+.datepicker.c4g__state-active {
   display: block
 }
 .datepicker-dropdown {
@@ -4807,7 +4928,7 @@ fieldset:disabled .ui-button {
   margin-bottom: 1rem
 }
 .c4g_brick_dialog .c4g__form-headline {
-  font-size: 1.5rem
+  font-size: 2rem
 }
 .c4g_brick_dialog .c4g_mandatory_class {
   color: #8b0000
@@ -5270,7 +5391,9 @@ label.c4g_signature {
   list-style-type: none;
   margin: 0;
   padding: 0;
-  overflow: hidden
+  overflow: hidden;
+  display: flex;
+  line-height: 1
 }
 .c4gGuiTabLink {
   float: left;

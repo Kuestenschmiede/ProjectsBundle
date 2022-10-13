@@ -765,11 +765,15 @@ class C4GBrickMapFrontendParent
                 $arrSortedData = ArrayHelper::array_sort($arrChildData, 'name', SORT_ASC, true);
             }
 
-            foreach ($arrSortedData as $key => $arrSortedDataValue) {
-                $arrSortedData[$key]['pid'] = $arrData['id'];
-                if ($arrSortedData[$key]['content'] != null) {
-                    $arrSortedData[$key]['content'][0]['id'] = $arrSortedDataValue['id'] + 1;
-                    $arrSortedData[$key]['content'][0]['data']['position']['positionId'] = $arrSortedDataValue['id'] + 1;
+            if (is_array($arrSortedData)) {
+                foreach ($arrSortedData as $key => $arrSortedDataValue) {
+                    if ($arrSortedData[$key] && is_array($arrSortedData[$key])) {
+                        $arrSortedData[$key]['pid'] = $arrData['id'];
+                        if ($arrSortedData[$key]['content'] != null) {
+                            $arrSortedData[$key]['content'][0]['id'] = $arrSortedDataValue['id'] + 1;
+                            $arrSortedData[$key]['content'][0]['data']['position']['positionId'] = $arrSortedDataValue['id'] + 1;
+                        }
+                    }
                 }
             }
 
