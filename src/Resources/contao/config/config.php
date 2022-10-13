@@ -31,3 +31,12 @@ $GLOBALS['TL_API']['c4g_brick_ajax'] = 'C4GBrickAjaxApi';
  */
 $GLOBALS['TL_MODELS']['tl_c4g_projects'] = 'con4gis\ProjectsBundle\Classes\Models\C4gProjectsModel';
 $GLOBALS['TL_MODELS']['tl_c4g_projects_logbook'] = 'con4gis\ProjectsBundle\Classes\Models\C4gProjectsLogbookModel';
+
+//needed with upload fields
+if(TL_MODE == "FE") {
+    try {
+        // TODO replace with symfony csrf token
+        $rq = \Contao\RequestToken::get();
+        $GLOBALS['TL_HEAD'][] = "<script>var c4g_rq = '" . $rq . "';</script>";
+    } catch (\LogicException $exception) {}
+}
