@@ -345,7 +345,7 @@ class C4GBrickTiles
                             $extModel::$extCallbackFunction($element, $database);
                         }
                     }
-                    if (!$listParams->isWithModelListFunction() && ($element->$fieldName || ($column instanceof C4GGridField))) {
+                    //if (!$listParams->isWithModelListFunction() && ($element->$fieldName || ($column instanceof C4GGridField))) {
                         $view .= '<div class="c4g_tile c4g_tile_'.$fieldType.' c4g_tile_field_' . $fieldName . '">';
 
                         if ($cnt == 0) {
@@ -364,7 +364,7 @@ class C4GBrickTiles
                             }
                         }
                         $view .= '</div>';
-                    } elseif ($listParams->isWithModelListFunction()) {
+                    /*} elseif ($listParams->isWithModelListFunction()) {
                         //Check if $fieldName is a property of $element and is not the id-Field
                         if ($column->isTableColumn()) {
                             $view .= '<div class="c4g_tile_style">';
@@ -377,7 +377,7 @@ class C4GBrickTiles
                             }
                             $view .= '</div>';
                         }
-                    }
+                    }*/
                 }
                 $view .= '</a>';
             }
@@ -438,7 +438,7 @@ class C4GBrickTiles
         }
 
         //count($tableElements) ist immer 1, da $tableElements ein Objekt ist! (bei Auswertung über modellistfunction)
-        if (count($tableElements) >= $listParams->getDisplayLength()) {
+        if ((is_array($tableElements) ? count($tableElements) : 1) >= $listParams->getDisplayLength()) {
             $search = '<div class="c4g_tile_search" ><input class="c4g_filter search" type="search" name="tilesearch" onblur="C4GSearchTiles(this)" onkeyup="C4GSearchTiles(this)"><label>' . $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['LOG_ENTRY_TYPE']['search'] . '</label></div>';
             $button .= '<div class="c4g_tile_sorter"><button data-lang-asc="' . $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['LOG_ENTRY_TYPE']['asc'] . '" data-lang-desc="' . $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['LOG_ENTRY_TYPE']['desc'] . '" type="button" onclick="tileSort(this)">' . $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['LOG_ENTRY_TYPE']['asc'] . '</button></div>';
         }
