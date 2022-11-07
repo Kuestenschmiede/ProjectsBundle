@@ -71,6 +71,7 @@ class C4GBrickListParams
     private $responsive = true;
     private $redirectListPage = 0; //directly redirect to another page
     private $session = null;
+    private $additionalClasses = ''; //additional column classes
 
     /**
      * C4GBrickListParams constructor.
@@ -1039,5 +1040,21 @@ class C4GBrickListParams
     public function setModelListParams(array $modelListParams): void
     {
         $this->modelListParams = $modelListParams;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAdditionalClasses(): string
+    {
+        return $this->additionalClasses;
+    }
+
+    /**
+     * @param string $additionalClasses
+     */
+    public function setAdditionalClasses(string $additionalClasses): void
+    {
+        $this->additionalClasses = $additionalClasses;
     }
 }

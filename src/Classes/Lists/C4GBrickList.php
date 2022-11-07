@@ -352,6 +352,8 @@ class C4GBrickList
 
         $cnt = 0;
 
+        $additionalParamClasses = $listParams->getAdditionalClasses();
+
         foreach ($fieldList as $column) {
             $additionalClasses = ' c4g_list_align_left';
             if ($column->getAlign() == 'right') {
@@ -362,6 +364,9 @@ class C4GBrickList
             if ($column->isShowSum()) {
                 $additionalClasses .= ' c4g_sum';
             }
+
+            $additionalClasses = $additionalParamClasses ? $additionalClasses.' '.$additionalClasses : $additionalClasses;
+
             $priority = $cnt;
             if ($column->getTableColumnPriority() > 0) {
                 $priority = $column->getTableColumnPriority();
