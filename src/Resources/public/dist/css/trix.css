@@ -443,7 +443,7 @@ trix-editor .attachment__metadata .attachment__size {
   text-align: center
 }
 .trix-content .attachment__caption .attachment__name + .attachment__size::before {
-  content: ' · '
+  content: " · "
 }
 .trix-content .attachment--preview {
   width: 100%;

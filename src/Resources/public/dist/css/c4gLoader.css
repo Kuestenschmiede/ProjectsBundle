@@ -24,7 +24,7 @@
   -ms-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
-  content: "\0020";
+  content: " ";
   position: absolute;
   top: 0;
   left: 0;

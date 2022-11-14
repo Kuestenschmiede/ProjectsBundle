@@ -124,13 +124,13 @@ html {
   --bs-aspect-ratio: 100%
 }
 .ratio-4x3 {
-  --bs-aspect-ratio: calc(3 / 4 * 100%)
+  --bs-aspect-ratio: 75%
 }
 .ratio-16x9 {
-  --bs-aspect-ratio: calc(9 / 16 * 100%)
+  --bs-aspect-ratio: 56.25%
 }
 .ratio-21x9 {
-  --bs-aspect-ratio: calc(9 / 21 * 100%)
+  --bs-aspect-ratio: 42.8571428571%
 }
 .fixed-top {
   position: fixed;
@@ -687,11 +687,11 @@ progress {
     transition: none
   }
 }
-.c4g_brick_dialog .c4g__form-control[type=file],
+.c4g_brick_dialog [type=file].c4g__form-control,
 .form-control[type=file] {
   overflow: hidden
 }
-.c4g_brick_dialog .c4g__form-control[type=file]:not(:disabled):not([readonly]),
+.c4g_brick_dialog [type=file].c4g__form-control:not(:disabled):not([readonly]),
 .form-control[type=file]:not(:disabled):not([readonly]) {
   cursor: pointer
 }
@@ -861,8 +861,8 @@ textarea.form-control-lg {
   outline: 0;
   box-shadow: 0 0 0 .25rem rgba(13,110,253,.25)
 }
-.c4g_brick_dialog select.c4g__form-select[multiple],
-.c4g_brick_dialog select.c4g__form-select[size]:not([size="1"]),
+.c4g_brick_dialog select[multiple].c4g__form-select,
+.c4g_brick_dialog select[size].c4g__form-select:not([size="1"]),
 .form-select[multiple],
 .form-select[size]:not([size="1"]) {
   padding-right: .75rem;
@@ -932,12 +932,12 @@ textarea.form-control-lg {
   appearance: none;
   print-color-adjust: exact
 }
-.c4g__form-check-input[type=checkbox],
-.form-check-input[type=checkbox] {
+.form-check-input[type=checkbox],
+[type=checkbox].c4g__form-check-input {
   border-radius: .25em
 }
-.c4g__form-check-input[type=radio],
-.form-check-input[type=radio] {
+.form-check-input[type=radio],
+[type=radio].c4g__form-check-input {
   border-radius: 50%
 }
 .c4g__form-check-input:active,
@@ -963,8 +963,8 @@ textarea.form-control-lg {
 .form-check-input:checked[type=radio] {
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='2' fill='%23fff'/%3e%3c/svg%3e")
 }
-.c4g__form-check-input[type=checkbox]:indeterminate,
-.form-check-input[type=checkbox]:indeterminate {
+.form-check-input[type=checkbox]:indeterminate,
+[type=checkbox].c4g__form-check-input:indeterminate {
   background-color: #0d6efd;
   border-color: #0d6efd;
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='M6 10h8'/%3e%3c/svg%3e")
@@ -978,15 +978,15 @@ textarea.form-control-lg {
 .c4g__form-check-input:disabled ~ .c4g__form-check-label,
 .c4g__form-check-input:disabled ~ .c4g__form-label-multicheckbox,
 .c4g__form-check-input:disabled ~ .form-check-label,
-.c4g__form-check-input[disabled] ~ .c4g__form-check-label,
-.c4g__form-check-input[disabled] ~ .c4g__form-label-multicheckbox,
-.c4g__form-check-input[disabled] ~ .form-check-label,
 .form-check-input:disabled ~ .c4g__form-check-label,
 .form-check-input:disabled ~ .c4g__form-label-multicheckbox,
 .form-check-input:disabled ~ .form-check-label,
 .form-check-input[disabled] ~ .c4g__form-check-label,
 .form-check-input[disabled] ~ .c4g__form-label-multicheckbox,
-.form-check-input[disabled] ~ .form-check-label {
+.form-check-input[disabled] ~ .form-check-label,
+[disabled].c4g__form-check-input ~ .c4g__form-check-label,
+[disabled].c4g__form-check-input ~ .c4g__form-label-multicheckbox,
+[disabled].c4g__form-check-input ~ .form-check-label {
   cursor: default;
   opacity: .5
 }
@@ -1057,9 +1057,9 @@ textarea.form-control-lg {
 .c4g__btn-check:disabled + .btn,
 .c4g__btn-check:disabled + .c4g__btn,
 .c4g__btn-check:disabled + .ui-button,
-.c4g__btn-check[disabled] + .btn,
-.c4g__btn-check[disabled] + .c4g__btn,
-.c4g__btn-check[disabled] + .ui-button {
+[disabled].c4g__btn-check + .btn,
+[disabled].c4g__btn-check + .c4g__btn,
+[disabled].c4g__btn-check + .ui-button {
   pointer-events: none;
   filter: none;
   opacity: .65
@@ -1813,7 +1813,7 @@ textarea.form-control.is-invalid {
   color: #6c757d
 }
 .blockquote-footer::before {
-  content: "\2014\00A0"
+  content: "— "
 }
 .row {
   --bs-gutter-x: 1.5rem;
@@ -1849,7 +1849,7 @@ textarea.form-control.is-invalid {
 }
 .row-cols-3 > * {
   flex: 0 0 auto;
-  width: 33.33333%
+  width: 33.3333333333%
 }
 .row-cols-4 > * {
   flex: 0 0 auto;
@@ -1861,7 +1861,7 @@ textarea.form-control.is-invalid {
 }
 .row-cols-6 > * {
   flex: 0 0 auto;
-  width: 16.66667%
+  width: 16.6666666667%
 }
 .col-auto {
   flex: 0 0 auto;
@@ -1869,11 +1869,11 @@ textarea.form-control.is-invalid {
 }
 .col-1 {
   flex: 0 0 auto;
-  width: 8.33333%
+  width: 8.33333333%
 }
 .col-2 {
   flex: 0 0 auto;
-  width: 16.66667%
+  width: 16.66666667%
 }
 .col-3 {
   flex: 0 0 auto;
@@ -1881,11 +1881,11 @@ textarea.form-control.is-invalid {
 }
 .col-4 {
   flex: 0 0 auto;
-  width: 33.33333%
+  width: 33.33333333%
 }
 .col-5 {
   flex: 0 0 auto;
-  width: 41.66667%
+  width: 41.66666667%
 }
 .col-6 {
   flex: 0 0 auto;
@@ -1893,11 +1893,11 @@ textarea.form-control.is-invalid {
 }
 .col-7 {
   flex: 0 0 auto;
-  width: 58.33333%
+  width: 58.33333333%
 }
 .col-8 {
   flex: 0 0 auto;
-  width: 66.66667%
+  width: 66.66666667%
 }
 .col-9 {
   flex: 0 0 auto;
@@ -1905,48 +1905,48 @@ textarea.form-control.is-invalid {
 }
 .col-10 {
   flex: 0 0 auto;
-  width: 83.33333%
+  width: 83.33333333%
 }
 .col-11 {
   flex: 0 0 auto;
-  width: 91.66667%
+  width: 91.66666667%
 }
 .col-12 {
   flex: 0 0 auto;
   width: 100%
 }
 .offset-1 {
-  margin-left: 8.33333%
+  margin-left: 8.33333333%
 }
 .offset-2 {
-  margin-left: 16.66667%
+  margin-left: 16.66666667%
 }
 .offset-3 {
   margin-left: 25%
 }
 .offset-4 {
-  margin-left: 33.33333%
+  margin-left: 33.33333333%
 }
 .offset-5 {
-  margin-left: 41.66667%
+  margin-left: 41.66666667%
 }
 .offset-6 {
   margin-left: 50%
 }
 .offset-7 {
-  margin-left: 58.33333%
+  margin-left: 58.33333333%
 }
 .offset-8 {
-  margin-left: 66.66667%
+  margin-left: 66.66666667%
 }
 .offset-9 {
   margin-left: 75%
 }
 .offset-10 {
-  margin-left: 83.33333%
+  margin-left: 83.33333333%
 }
 .offset-11 {
-  margin-left: 91.66667%
+  margin-left: 91.66666667%
 }
 .g-0,
 .gx-0 {
@@ -2014,7 +2014,7 @@ textarea.form-control.is-invalid {
   }
   .row-cols-sm-3 > * {
     flex: 0 0 auto;
-    width: 33.33333%
+    width: 33.3333333333%
   }
   .row-cols-sm-4 > * {
     flex: 0 0 auto;
@@ -2026,7 +2026,7 @@ textarea.form-control.is-invalid {
   }
   .row-cols-sm-6 > * {
     flex: 0 0 auto;
-    width: 16.66667%
+    width: 16.6666666667%
   }
   .col-sm-auto {
     flex: 0 0 auto;
@@ -2034,11 +2034,11 @@ textarea.form-control.is-invalid {
   }
   .col-sm-1 {
     flex: 0 0 auto;
-    width: 8.33333%
+    width: 8.33333333%
   }
   .col-sm-2 {
     flex: 0 0 auto;
-    width: 16.66667%
+    width: 16.66666667%
   }
   .col-sm-3 {
     flex: 0 0 auto;
@@ -2046,11 +2046,11 @@ textarea.form-control.is-invalid {
   }
   .col-sm-4 {
     flex: 0 0 auto;
-    width: 33.33333%
+    width: 33.33333333%
   }
   .col-sm-5 {
     flex: 0 0 auto;
-    width: 41.66667%
+    width: 41.66666667%
   }
   .col-sm-6 {
     flex: 0 0 auto;
@@ -2058,11 +2058,11 @@ textarea.form-control.is-invalid {
   }
   .col-sm-7 {
     flex: 0 0 auto;
-    width: 58.33333%
+    width: 58.33333333%
   }
   .col-sm-8 {
     flex: 0 0 auto;
-    width: 66.66667%
+    width: 66.66666667%
   }
   .col-sm-9 {
     flex: 0 0 auto;
@@ -2070,11 +2070,11 @@ textarea.form-control.is-invalid {
   }
   .col-sm-10 {
     flex: 0 0 auto;
-    width: 83.33333%
+    width: 83.33333333%
   }
   .col-sm-11 {
     flex: 0 0 auto;
-    width: 91.66667%
+    width: 91.66666667%
   }
   .col-sm-12 {
     flex: 0 0 auto;
@@ -2084,37 +2084,37 @@ textarea.form-control.is-invalid {
     margin-left: 0
   }
   .offset-sm-1 {
-    margin-left: 8.33333%
+    margin-left: 8.33333333%
   }
   .offset-sm-2 {
-    margin-left: 16.66667%
+    margin-left: 16.66666667%
   }
   .offset-sm-3 {
     margin-left: 25%
   }
   .offset-sm-4 {
-    margin-left: 33.33333%
+    margin-left: 33.33333333%
   }
   .offset-sm-5 {
-    margin-left: 41.66667%
+    margin-left: 41.66666667%
   }
   .offset-sm-6 {
     margin-left: 50%
   }
   .offset-sm-7 {
-    margin-left: 58.33333%
+    margin-left: 58.33333333%
   }
   .offset-sm-8 {
-    margin-left: 66.66667%
+    margin-left: 66.66666667%
   }
   .offset-sm-9 {
     margin-left: 75%
   }
   .offset-sm-10 {
-    margin-left: 83.33333%
+    margin-left: 83.33333333%
   }
   .offset-sm-11 {
-    margin-left: 91.66667%
+    margin-left: 91.66666667%
   }
   .g-sm-0,
   .gx-sm-0 {
@@ -2183,7 +2183,7 @@ textarea.form-control.is-invalid {
   }
   .row-cols-md-3 > * {
     flex: 0 0 auto;
-    width: 33.33333%
+    width: 33.3333333333%
   }
   .row-cols-md-4 > * {
     flex: 0 0 auto;
@@ -2195,7 +2195,7 @@ textarea.form-control.is-invalid {
   }
   .row-cols-md-6 > * {
     flex: 0 0 auto;
-    width: 16.66667%
+    width: 16.6666666667%
   }
   .col-md-auto {
     flex: 0 0 auto;
@@ -2203,11 +2203,11 @@ textarea.form-control.is-invalid {
   }
   .col-md-1 {
     flex: 0 0 auto;
-    width: 8.33333%
+    width: 8.33333333%
   }
   .col-md-2 {
     flex: 0 0 auto;
-    width: 16.66667%
+    width: 16.66666667%
   }
   .col-md-3 {
     flex: 0 0 auto;
@@ -2215,11 +2215,11 @@ textarea.form-control.is-invalid {
   }
   .col-md-4 {
     flex: 0 0 auto;
-    width: 33.33333%
+    width: 33.33333333%
   }
   .col-md-5 {
     flex: 0 0 auto;
-    width: 41.66667%
+    width: 41.66666667%
   }
   .col-md-6 {
     flex: 0 0 auto;
@@ -2227,11 +2227,11 @@ textarea.form-control.is-invalid {
   }
   .col-md-7 {
     flex: 0 0 auto;
-    width: 58.33333%
+    width: 58.33333333%
   }
   .col-md-8 {
     flex: 0 0 auto;
-    width: 66.66667%
+    width: 66.66666667%
   }
   .col-md-9 {
     flex: 0 0 auto;
@@ -2239,11 +2239,11 @@ textarea.form-control.is-invalid {
   }
   .col-md-10 {
     flex: 0 0 auto;
-    width: 83.33333%
+    width: 83.33333333%
   }
   .col-md-11 {
     flex: 0 0 auto;
-    width: 91.66667%
+    width: 91.66666667%
   }
   .col-md-12 {
     flex: 0 0 auto;
@@ -2253,37 +2253,37 @@ textarea.form-control.is-invalid {
     margin-left: 0
   }
   .offset-md-1 {
-    margin-left: 8.33333%
+    margin-left: 8.33333333%
   }
   .offset-md-2 {
-    margin-left: 16.66667%
+    margin-left: 16.66666667%
   }
   .offset-md-3 {
     margin-left: 25%
   }
   .offset-md-4 {
-    margin-left: 33.33333%
+    margin-left: 33.33333333%
   }
   .offset-md-5 {
-    margin-left: 41.66667%
+    margin-left: 41.66666667%
   }
   .offset-md-6 {
     margin-left: 50%
   }
   .offset-md-7 {
-    margin-left: 58.33333%
+    margin-left: 58.33333333%
   }
   .offset-md-8 {
-    margin-left: 66.66667%
+    margin-left: 66.66666667%
   }
   .offset-md-9 {
     margin-left: 75%
   }
   .offset-md-10 {
-    margin-left: 83.33333%
+    margin-left: 83.33333333%
   }
   .offset-md-11 {
-    margin-left: 91.66667%
+    margin-left: 91.66666667%
   }
   .g-md-0,
   .gx-md-0 {
@@ -2352,7 +2352,7 @@ textarea.form-control.is-invalid {
   }
   .row-cols-lg-3 > * {
     flex: 0 0 auto;
-    width: 33.33333%
+    width: 33.3333333333%
   }
   .row-cols-lg-4 > * {
     flex: 0 0 auto;
@@ -2364,7 +2364,7 @@ textarea.form-control.is-invalid {
   }
   .row-cols-lg-6 > * {
     flex: 0 0 auto;
-    width: 16.66667%
+    width: 16.6666666667%
   }
   .col-lg-auto {
     flex: 0 0 auto;
@@ -2372,11 +2372,11 @@ textarea.form-control.is-invalid {
   }
   .col-lg-1 {
     flex: 0 0 auto;
-    width: 8.33333%
+    width: 8.33333333%
   }
   .col-lg-2 {
     flex: 0 0 auto;
-    width: 16.66667%
+    width: 16.66666667%
   }
   .col-lg-3 {
     flex: 0 0 auto;
@@ -2384,11 +2384,11 @@ textarea.form-control.is-invalid {
   }
   .col-lg-4 {
     flex: 0 0 auto;
-    width: 33.33333%
+    width: 33.33333333%
   }
   .col-lg-5 {
     flex: 0 0 auto;
-    width: 41.66667%
+    width: 41.66666667%
   }
   .col-lg-6 {
     flex: 0 0 auto;
@@ -2396,11 +2396,11 @@ textarea.form-control.is-invalid {
   }
   .col-lg-7 {
     flex: 0 0 auto;
-    width: 58.33333%
+    width: 58.33333333%
   }
   .col-lg-8 {
     flex: 0 0 auto;
-    width: 66.66667%
+    width: 66.66666667%
   }
   .col-lg-9 {
     flex: 0 0 auto;
@@ -2408,11 +2408,11 @@ textarea.form-control.is-invalid {
   }
   .col-lg-10 {
     flex: 0 0 auto;
-    width: 83.33333%
+    width: 83.33333333%
   }
   .col-lg-11 {
     flex: 0 0 auto;
-    width: 91.66667%
+    width: 91.66666667%
   }
   .col-lg-12 {
     flex: 0 0 auto;
@@ -2422,37 +2422,37 @@ textarea.form-control.is-invalid {
     margin-left: 0
   }
   .offset-lg-1 {
-    margin-left: 8.33333%
+    margin-left: 8.33333333%
   }
   .offset-lg-2 {
-    margin-left: 16.66667%
+    margin-left: 16.66666667%
   }
   .offset-lg-3 {
     margin-left: 25%
   }
   .offset-lg-4 {
-    margin-left: 33.33333%
+    margin-left: 33.33333333%
   }
   .offset-lg-5 {
-    margin-left: 41.66667%
+    margin-left: 41.66666667%
   }
   .offset-lg-6 {
     margin-left: 50%
   }
   .offset-lg-7 {
-    margin-left: 58.33333%
+    margin-left: 58.33333333%
   }
   .offset-lg-8 {
-    margin-left: 66.66667%
+    margin-left: 66.66666667%
   }
   .offset-lg-9 {
     margin-left: 75%
   }
   .offset-lg-10 {
-    margin-left: 83.33333%
+    margin-left: 83.33333333%
   }
   .offset-lg-11 {
-    margin-left: 91.66667%
+    margin-left: 91.66666667%
   }
   .g-lg-0,
   .gx-lg-0 {
@@ -2521,7 +2521,7 @@ textarea.form-control.is-invalid {
   }
   .row-cols-xl-3 > * {
     flex: 0 0 auto;
-    width: 33.33333%
+    width: 33.3333333333%
   }
   .row-cols-xl-4 > * {
     flex: 0 0 auto;
@@ -2533,7 +2533,7 @@ textarea.form-control.is-invalid {
   }
   .row-cols-xl-6 > * {
     flex: 0 0 auto;
-    width: 16.66667%
+    width: 16.6666666667%
   }
   .col-xl-auto {
     flex: 0 0 auto;
@@ -2541,11 +2541,11 @@ textarea.form-control.is-invalid {
   }
   .col-xl-1 {
     flex: 0 0 auto;
-    width: 8.33333%
+    width: 8.33333333%
   }
   .col-xl-2 {
     flex: 0 0 auto;
-    width: 16.66667%
+    width: 16.66666667%
   }
   .col-xl-3 {
     flex: 0 0 auto;
@@ -2553,11 +2553,11 @@ textarea.form-control.is-invalid {
   }
   .col-xl-4 {
     flex: 0 0 auto;
-    width: 33.33333%
+    width: 33.33333333%
   }
   .col-xl-5 {
     flex: 0 0 auto;
-    width: 41.66667%
+    width: 41.66666667%
   }
   .col-xl-6 {
     flex: 0 0 auto;
@@ -2565,11 +2565,11 @@ textarea.form-control.is-invalid {
   }
   .col-xl-7 {
     flex: 0 0 auto;
-    width: 58.33333%
+    width: 58.33333333%
   }
   .col-xl-8 {
     flex: 0 0 auto;
-    width: 66.66667%
+    width: 66.66666667%
   }
   .col-xl-9 {
     flex: 0 0 auto;
@@ -2577,11 +2577,11 @@ textarea.form-control.is-invalid {
   }
   .col-xl-10 {
     flex: 0 0 auto;
-    width: 83.33333%
+    width: 83.33333333%
   }
   .col-xl-11 {
     flex: 0 0 auto;
-    width: 91.66667%
+    width: 91.66666667%
   }
   .col-xl-12 {
     flex: 0 0 auto;
@@ -2591,37 +2591,37 @@ textarea.form-control.is-invalid {
     margin-left: 0
   }
   .offset-xl-1 {
-    margin-left: 8.33333%
+    margin-left: 8.33333333%
   }
   .offset-xl-2 {
-    margin-left: 16.66667%
+    margin-left: 16.66666667%
   }
   .offset-xl-3 {
     margin-left: 25%
   }
   .offset-xl-4 {
-    margin-left: 33.33333%
+    margin-left: 33.33333333%
   }
   .offset-xl-5 {
-    margin-left: 41.66667%
+    margin-left: 41.66666667%
   }
   .offset-xl-6 {
     margin-left: 50%
   }
   .offset-xl-7 {
-    margin-left: 58.33333%
+    margin-left: 58.33333333%
   }
   .offset-xl-8 {
-    margin-left: 66.66667%
+    margin-left: 66.66666667%
   }
   .offset-xl-9 {
     margin-left: 75%
   }
   .offset-xl-10 {
-    margin-left: 83.33333%
+    margin-left: 83.33333333%
   }
   .offset-xl-11 {
-    margin-left: 91.66667%
+    margin-left: 91.66666667%
   }
   .g-xl-0,
   .gx-xl-0 {
@@ -2690,7 +2690,7 @@ textarea.form-control.is-invalid {
   }
   .row-cols-xxl-3 > * {
     flex: 0 0 auto;
-    width: 33.33333%
+    width: 33.3333333333%
   }
   .row-cols-xxl-4 > * {
     flex: 0 0 auto;
@@ -2702,7 +2702,7 @@ textarea.form-control.is-invalid {
   }
   .row-cols-xxl-6 > * {
     flex: 0 0 auto;
-    width: 16.66667%
+    width: 16.6666666667%
   }
   .col-xxl-auto {
     flex: 0 0 auto;
@@ -2710,11 +2710,11 @@ textarea.form-control.is-invalid {
   }
   .col-xxl-1 {
     flex: 0 0 auto;
-    width: 8.33333%
+    width: 8.33333333%
   }
   .col-xxl-2 {
     flex: 0 0 auto;
-    width: 16.66667%
+    width: 16.66666667%
   }
   .col-xxl-3 {
     flex: 0 0 auto;
@@ -2722,11 +2722,11 @@ textarea.form-control.is-invalid {
   }
   .col-xxl-4 {
     flex: 0 0 auto;
-    width: 33.33333%
+    width: 33.33333333%
   }
   .col-xxl-5 {
     flex: 0 0 auto;
-    width: 41.66667%
+    width: 41.66666667%
   }
   .col-xxl-6 {
     flex: 0 0 auto;
@@ -2734,11 +2734,11 @@ textarea.form-control.is-invalid {
   }
   .col-xxl-7 {
     flex: 0 0 auto;
-    width: 58.33333%
+    width: 58.33333333%
   }
   .col-xxl-8 {
     flex: 0 0 auto;
-    width: 66.66667%
+    width: 66.66666667%
   }
   .col-xxl-9 {
     flex: 0 0 auto;
@@ -2746,11 +2746,11 @@ textarea.form-control.is-invalid {
   }
   .col-xxl-10 {
     flex: 0 0 auto;
-    width: 83.33333%
+    width: 83.33333333%
   }
   .col-xxl-11 {
     flex: 0 0 auto;
-    width: 91.66667%
+    width: 91.66666667%
   }
   .col-xxl-12 {
     flex: 0 0 auto;
@@ -2760,37 +2760,37 @@ textarea.form-control.is-invalid {
     margin-left: 0
   }
   .offset-xxl-1 {
-    margin-left: 8.33333%
+    margin-left: 8.33333333%
   }
   .offset-xxl-2 {
-    margin-left: 16.66667%
+    margin-left: 16.66666667%
   }
   .offset-xxl-3 {
     margin-left: 25%
   }
   .offset-xxl-4 {
-    margin-left: 33.33333%
+    margin-left: 33.33333333%
   }
   .offset-xxl-5 {
-    margin-left: 41.66667%
+    margin-left: 41.66666667%
   }
   .offset-xxl-6 {
     margin-left: 50%
   }
   .offset-xxl-7 {
-    margin-left: 58.33333%
+    margin-left: 58.33333333%
   }
   .offset-xxl-8 {
-    margin-left: 66.66667%
+    margin-left: 66.66666667%
   }
   .offset-xxl-9 {
     margin-left: 75%
   }
   .offset-xxl-10 {
-    margin-left: 83.33333%
+    margin-left: 83.33333333%
   }
   .offset-xxl-11 {
-    margin-left: 91.66667%
+    margin-left: 91.66666667%
   }
   .g-xxl-0,
   .gx-xxl-0 {
@@ -4920,7 +4920,7 @@ fieldset:disabled .ui-button {
   box-shadow: 0 0 .25em .25em rgba(109,168,254,.2)
 }
 @font-face {
-  font-family: 'Font Awesome 5 Free';
+  font-family: "Font Awesome 5 Free";
   font-weight: 900;
   font-style: normal
 }
@@ -4997,7 +4997,7 @@ table.datepicker_table {
 .c4g__form-date span.day:before {
   font-family: inherit;
   padding-right: inherit;
-  content: ''
+  content: ""
 }
 .c4g_brick_dialog .c4g_timefield {
   border: 1px solid #e2e2e2;
@@ -5327,7 +5327,7 @@ label.c4g_signature {
   z-index: 1000
 }
 .ol-control button {
-  font-family: 'Font Awesome 5 Free'
+  font-family: "Font Awesome 5 Free"
 }
 .c4g_uploadButton {
   display: block
