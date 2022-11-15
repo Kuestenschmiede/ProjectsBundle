@@ -26,7 +26,7 @@ class LinkToQRCode
             );
             $writer = new Writer($renderer);
             $writer->writeFile($link, $fileName);
-        } catch (\Throwable $exception) {
+        } catch (\Throwable $throwable) {
             C4gLogModel::addLogEntry('projects', $throwable->getMessage());
 
             return false;

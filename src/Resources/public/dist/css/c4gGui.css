@@ -1,6 +1,6 @@
 @charset "UTF-8";
 @font-face {
-  font-family: 'Font Awesome 5 Free';
+  font-family: "Font Awesome 5 Free";
   font-weight: 900;
   font-style: normal
 }
@@ -108,27 +108,27 @@ a.dt-button {
 }
 .buttons-print .ui-button-text:before {
   content: "\f02f";
-  font-family: 'Font Awesome 5 Free';
+  font-family: "Font Awesome 5 Free";
   font-weight: 900
 }
 .buttons-pdf .ui-button-text:before {
   content: "\f1c1";
-  font-family: 'Font Awesome 5 Free';
+  font-family: "Font Awesome 5 Free";
   font-weight: 900
 }
 .buttons-excel .ui-button-text:before {
   content: "\f1c3";
-  font-family: 'Font Awesome 5 Free';
+  font-family: "Font Awesome 5 Free";
   font-weight: 900
 }
 .buttons-csv .ui-button-text:before {
   content: "\f0ce";
-  font-family: 'Font Awesome 5 Free';
+  font-family: "Font Awesome 5 Free";
   font-weight: 900
 }
 .buttons-copy .ui-button-text:before {
   content: "\f0ea";
-  font-family: 'Font Awesome 5 Free';
+  font-family: "Font Awesome 5 Free";
   font-weight: 900
 }
 .dataTables_wrapper .fg-button {
