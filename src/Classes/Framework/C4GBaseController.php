@@ -156,6 +156,7 @@ class C4GBaseController extends AbstractFrontendModuleController
     protected $loadMultiColumnResources = false;
     protected $loadMiniSearchResources = false;
     protected $loadHistoryPushResources = false;
+    protected $loadHistoryBrickPushResources = true;
     protected $loadSignaturePadResources = false;
 
     //JQuery GUI Resource Params
@@ -791,7 +792,11 @@ class C4GBaseController extends AbstractFrontendModuleController
         }
 
         if ($this->loadHistoryPushResources === true) {
-            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/dist/js/historyBrickPush.js', ResourceLoader::BODY, 'history-push');
+            if ($this->loadHistoryBrickPushResources === true) {
+                ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/dist/js/historyBrickPush.js', ResourceLoader::BODY, 'history-push');
+            } else {
+                ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/dist/js/historyPush.js', ResourceLoader::BODY, 'history-push');
+            }
         }
 
         if ($this->loadSignaturePadResources === true) {
