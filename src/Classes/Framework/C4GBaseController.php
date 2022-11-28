@@ -1056,11 +1056,10 @@ class C4GBaseController extends AbstractFrontendModuleController
                 } elseif ($this->permalink_name && key_exists($this->permalink_name, $_GET) && $_GET[$this->permalink_name]) {
                     if (!$this->permalinkModelClass) {
                         $model  = $this->modelClass;
-                        $dataset = $model::findBy($permalinkField, $_GET[$this->permalink_name]);
                     } else {
                         $model = $this->permalinkModelClass;
-                        $dataset = $model::findBy($permalinkField, $_GET[$this->permalink_name]);
                     }
+                    $dataset = $model::findBy($permalinkField, $_GET[$this->permalink_name]);
                     if ($dataset) {
                         $id = $dataset->id;
                         $this->initBrickModule($id);
