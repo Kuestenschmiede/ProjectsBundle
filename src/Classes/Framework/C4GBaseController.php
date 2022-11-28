@@ -128,7 +128,7 @@ class C4GBaseController extends AbstractFrontendModuleController
     protected $isPopup = false; //needed with magnific popup
     protected $c4g_map = false; //needed for embedding con4gis maps
     protected $permalink_field = 'id'; //using another field for permalink (default: id field)
-    protected $permalink_name = null; //for setting an own get param
+    protected $permalink_name = 'item'; //for setting an own get param
     protected $permalinkModelClass = null; //if table filled by modelListFunction
     protected $withPermissionCheck = true; // can be set to false to avoid the table permission check
     protected $renewInitialValues = false; // The initial values are reset during the reload.
