@@ -128,7 +128,7 @@ class C4GBaseController extends AbstractFrontendModuleController
     protected $isPopup = false; //needed with magnific popup
     protected $c4g_map = false; //needed for embedding con4gis maps
     protected $permalink_field = 'id'; //using another field for permalink (default: id field)
-    protected $permalink_name = null; //for setting an own get param
+    protected $permalink_name = 'item'; //for setting an own get param
     protected $permalinkModelClass = null; //if table filled by modelListFunction
     protected $withPermissionCheck = true; // can be set to false to avoid the table permission check
     protected $renewInitialValues = false; // The initial values are reset during the reload.
@@ -156,6 +156,7 @@ class C4GBaseController extends AbstractFrontendModuleController
     protected $loadMultiColumnResources = false;
     protected $loadMiniSearchResources = false;
     protected $loadHistoryPushResources = false;
+    protected $loadHistoryBrickPushResources = true;
     protected $loadSignaturePadResources = false;
 
     //JQuery GUI Resource Params
@@ -791,7 +792,11 @@ class C4GBaseController extends AbstractFrontendModuleController
         }
 
         if ($this->loadHistoryPushResources === true) {
-            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/dist/js/historyBrickPush.js', ResourceLoader::BODY, 'history-push');
+            if ($this->loadHistoryBrickPushResources === true) {
+                ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/dist/js/historyBrickPush.js', ResourceLoader::BODY, 'history-push');
+            } else {
+                ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/dist/js/historyPush.js', ResourceLoader::BODY, 'history-push');
+            }
         }
 
         if ($this->loadSignaturePadResources === true) {
@@ -1051,11 +1056,10 @@ class C4GBaseController extends AbstractFrontendModuleController
                 } elseif ($this->permalink_name && key_exists($this->permalink_name, $_GET) && $_GET[$this->permalink_name]) {
                     if (!$this->permalinkModelClass) {
                         $model  = $this->modelClass;
-                        $dataset = $model::findBy($permalinkField, $_GET[$this->permalink_name]);
                     } else {
                         $model = $this->permalinkModelClass;
-                        $dataset = $model::findBy($permalinkField, $_GET[$this->permalink_name]);
                     }
+                    $dataset = $model::findBy($permalinkField, $_GET[$this->permalink_name]);
                     if ($dataset) {
                         $id = $dataset->id;
                         $this->initBrickModule($id);
