@@ -72,11 +72,12 @@ class C4GTimeField extends C4GBrickField
         $dbValue = $dbValues->$fieldname;
         $dlgvalue = $dlgValues[$this->getFieldName()];
         $result = null;
-        date_default_timezone_set($GLOBALS['TL_CONFIG']['timeZone']);
-        $date = \DateTime::createFromFormat($GLOBALS['TL_CONFIG']['timeFormat'], $dlgvalue);
+        $timezone = new \DateTimeZone($GLOBALS['TL_CONFIG']['timeZone']);
+        $date = \DateTime::createFromFormat($GLOBALS['TL_CONFIG']['timeFormat'], $dlgvalue, $timezone);
         if ($date) {
             $date->Format($GLOBALS['TL_CONFIG']['timeFormat']);
-            $dlgValue = $date->getTimestamp() - strtotime("today", $date->getTimestamp());
+            $timeDiff = date('I', $date->getTimestamp()) ? 7200 : 3600;
+            $dlgValue = $date->getTimestamp() - strtotime("today", $date->getTimestamp()) - $timeDiff;
             if (strcmp($dbValue, $dlgValue) != 0) {
                 $result = new C4GBrickFieldCompare($this, $dbValue, $dlgValue);
             }
@@ -92,11 +93,12 @@ class C4GTimeField extends C4GBrickField
     public function createFieldData($dlgValues)
     {
         $fieldData = $dlgValues[$this->getFieldName()];
-        date_default_timezone_set($GLOBALS['TL_CONFIG']['timeZone']);
-        $date = \DateTime::createFromFormat($GLOBALS['TL_CONFIG']['timeFormat'], $fieldData);
+        $timezone = new \DateTimeZone($GLOBALS['TL_CONFIG']['timeZone']);
+        $date = \DateTime::createFromFormat($GLOBALS['TL_CONFIG']['timeFormat'], $fieldData, $timezone);
         if ($date) {
             $date->Format($GLOBALS['TL_CONFIG']['timeFormat']);
-            $fieldData = $date->getTimestamp() - strtotime("today", $date->getTimestamp());
+            $timeDiff = date('I', $date->getTimestamp()) ? 7200 : 3600;
+            $fieldData = $date->getTimestamp() - strtotime("today", $date->getTimestamp()) - $timeDiff;
         } else {
             $fieldData = '';
         }
