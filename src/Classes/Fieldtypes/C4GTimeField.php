@@ -72,6 +72,7 @@ class C4GTimeField extends C4GBrickField
         $dbValue = $dbValues->$fieldname;
         $dlgvalue = $dlgValues[$this->getFieldName()];
         $result = null;
+        date_default_timezone_set($GLOBALS['TL_CONFIG']['timeZone']);
         $date = \DateTime::createFromFormat($GLOBALS['TL_CONFIG']['timeFormat'], $dlgvalue);
         if ($date) {
             $date->Format($GLOBALS['TL_CONFIG']['timeFormat']);
@@ -91,6 +92,7 @@ class C4GTimeField extends C4GBrickField
     public function createFieldData($dlgValues)
     {
         $fieldData = $dlgValues[$this->getFieldName()];
+        date_default_timezone_set($GLOBALS['TL_CONFIG']['timeZone']);
         $date = \DateTime::createFromFormat($GLOBALS['TL_CONFIG']['timeFormat'], $fieldData);
         if ($date) {
             $date->Format($GLOBALS['TL_CONFIG']['timeFormat']);
