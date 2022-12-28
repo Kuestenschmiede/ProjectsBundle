@@ -75,7 +75,7 @@ class C4GTimeField extends C4GBrickField
         $date = \DateTime::createFromFormat($GLOBALS['TL_CONFIG']['timeFormat'], $dlgvalue);
         if ($date) {
             $date->Format($GLOBALS['TL_CONFIG']['timeFormat']);
-            $dlgValue = $date->getTimestamp();
+            $dlgValue = $date->getTimestamp() - strtotime("today", $date->getTimestamp());
             if (strcmp($dbValue, $dlgValue) != 0) {
                 $result = new C4GBrickFieldCompare($this, $dbValue, $dlgValue);
             }
@@ -94,7 +94,7 @@ class C4GTimeField extends C4GBrickField
         $date = \DateTime::createFromFormat($GLOBALS['TL_CONFIG']['timeFormat'], $fieldData);
         if ($date) {
             $date->Format($GLOBALS['TL_CONFIG']['timeFormat']);
-            $fieldData = $date->getTimestamp();
+            $fieldData = $date->getTimestamp() - strtotime("today", $date->getTimestamp());
         } else {
             $fieldData = '';
         }
