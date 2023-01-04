@@ -14,6 +14,7 @@ use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldCompare;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldType;
+use Contao\Date;
 
 class C4GTimeField extends C4GBrickField
 {
@@ -76,8 +77,10 @@ class C4GTimeField extends C4GBrickField
         $date = \DateTime::createFromFormat($GLOBALS['TL_CONFIG']['timeFormat'], $dlgvalue, $timezone);
         if ($date) {
             $date->Format($GLOBALS['TL_CONFIG']['timeFormat']);
-            $timeDiff = date('I', $date->getTimestamp()) ? 7200 : 3600;
-            $dlgValue = $date->getTimestamp() - strtotime("today", $date->getTimestamp()) - $timeDiff;
+
+            $objDate = new Date(date($GLOBALS['TL_CONFIG']['timeFormat'], $date->getTimestamp()), Date::getFormatFromRgxp('time'));
+            $dlgValue = $objDate->tstamp;
+
             if (strcmp($dbValue, $dlgValue) != 0) {
                 $result = new C4GBrickFieldCompare($this, $dbValue, $dlgValue);
             }
@@ -97,8 +100,9 @@ class C4GTimeField extends C4GBrickField
         $date = \DateTime::createFromFormat($GLOBALS['TL_CONFIG']['timeFormat'], $fieldData, $timezone);
         if ($date) {
             $date->Format($GLOBALS['TL_CONFIG']['timeFormat']);
-            $timeDiff = date('I', $date->getTimestamp()) ? 7200 : 3600;
-            $fieldData = $date->getTimestamp() - strtotime("today", $date->getTimestamp()) - $timeDiff;
+
+            $objDate = new Date(date($GLOBALS['TL_CONFIG']['timeFormat'], $date->getTimestamp()), Date::getFormatFromRgxp('time'));
+            $fieldData = $objDate->tstamp;
         } else {
             $fieldData = '';
         }
