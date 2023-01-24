@@ -103,14 +103,17 @@ class C4GMultiLinkField extends C4GBrickField
         }
 
         $tags = [];
-        foreach (StringUtil::deserialize($value) as $link) {
-            if ($link['linkNewTab'] === '1') {
-                $rel = 'target="_blank" rel="noopener noreferrer" ';
-            } else {
-                $rel = '';
+        if (gettype(StringUtil::deserialize($value)) === 'array') {
+            foreach (StringUtil::deserialize($value) as $link) {
+                if ($link['linkNewTab'] === '1') {
+                    $rel = 'target="_blank" rel="noopener noreferrer" ';
+                } else {
+                    $rel = '';
+                }
+                $tags[] = '<a href="' . $link['linkHref'] . "\" $rel onclick=\"event.stopPropagation();\">" . $link['linkTitle'] . '</a>';
             }
-            $tags[] = '<a href="' . $link['linkHref'] . "\" $rel onclick=\"event.stopPropagation();\">" . $link['linkTitle'] . '</a>';
         }
+
 
         return implode('', $tags);
     }

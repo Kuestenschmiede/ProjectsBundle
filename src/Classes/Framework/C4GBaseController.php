@@ -589,8 +589,9 @@ class C4GBaseController extends AbstractFrontendModuleController
             if (property_exists($this,'notification_type')) {
                 $this->dialogParams->setNotificationType($this->notification_type);
             }
-
-            $this->dialogParams->setNotificationTypeContactRequest($this->notification_type_contact_request);
+            if (property_exists($this, 'notification_type_contact_request')) {
+                $this->dialogParams->setNotificationTypeContactRequest($this->notification_type_contact_request);
+            }
             $this->dialogParams->setWithActivationInfo($this->withActivationInfo);
             $this->dialogParams->setPopup($this->isPopup);
             $this->dialogParams->setWithBackup($this->withBackup);
@@ -727,7 +728,7 @@ class C4GBaseController extends AbstractFrontendModuleController
             // load custom themeroller-css if set
             if ($this->uiTheme) {
                 $GLOBALS['TL_CSS']['c4g_jquery_ui'] = $this->uiTheme;
-            } elseif ($this->c4g_appearance_themeroller_css) {
+            } elseif (property_exists($this, 'c4g_appearance_themeroller_css') && $this->c4g_appearance_themeroller_css) {
                 $objFile = \FilesModel::findByUuid($this->c4g_appearance_themeroller_css);
                 $GLOBALS['TL_CSS']['c4g_jquery_ui'] = $objFile->path;
             } elseif (property_exists($this, 'c4g_uitheme_css_select') && $this->c4g_uitheme_css_select) {

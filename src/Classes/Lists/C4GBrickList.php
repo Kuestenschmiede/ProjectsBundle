@@ -717,7 +717,7 @@ class C4GBrickList
             foreach ($fieldList as $field) {
                 $fieldName = $field->getFieldName();
                 //special char decode (&#40; &#41;)
-                if (!is_object($row->$fieldName)) {
+                if (property_exists($row, $fieldName) && !is_object($row->$fieldName)) {
                     $row->$fieldName = html_entity_decode($row->$fieldName);
                 }
                 $additionalParameters = [];

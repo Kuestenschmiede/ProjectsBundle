@@ -319,7 +319,7 @@ class C4GShowListAction extends C4GBrickDialogAction
                             }
                         }
 
-                        if ($elements->headline) {
+                        if (property_exists($elements, 'headline') && $elements->headline) {
                             $list_headline = '<div class="c4g_brick_headtext_highlighted">' . $elements->headline . '</div>';
                             unset($elements->headline);
                         }
