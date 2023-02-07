@@ -262,7 +262,9 @@ class C4GBrickCommon
         $maps = \ContentModel::findBy('type', 'c4g_maps');
         $resultList = [];
         foreach ($maps as $map) {
-            $map->name = C4gMapsModel::findByPk($map->c4g_map_id)->name;
+            $resultMap = C4gMapsModel::findByPk($map->c4g_map_id);
+
+            $map->name = $resultMap ? $resultMap->name : false;
             if ($map->name) {
                 $resultList[$map->id] = $map->name;
             }
