@@ -13,6 +13,7 @@ namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldType;
+use Contao\FilesModel;
 
 class C4GIconField extends C4GBrickField
 {
@@ -56,7 +57,14 @@ class C4GIconField extends C4GBrickField
     {
         $fieldName = $this->getFieldName();
         if (!$this->conditional || ($rowData->$fieldName === '1')) {
-            return '<span title="' . $this->getTitle() . '">' . $this->icon . '</span>';
+            if (strlen($this->icon) >= 5) { //
+                $file = FilesModel::findByUuid($this->icon);
+                $img = $file->path;
+                return '<img src="' . $img . '"</img>';
+            }
+            else {
+                return '<span title="' . $this->getTitle() . '">' . $this->icon . '</span>';
+            }
         }
 
         return '';
