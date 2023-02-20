@@ -154,20 +154,21 @@ class C4GLinkField extends C4GBrickField
             }
         }
 
-        if ($this->getAddStrBeforeValue()) {
-            $label = '<span>' . $this->getAddStrBeforeValue() . '</span>' . $label;
-        }
-        if ($this->getAddStrBehindValue()) {
-            $label = $label . '<span>' . $this->getAddStrBehindValue() . '</span>';
-        }
 
         if ($this->newTab) {
             $rel = 'target="_blank" rel="noopener noreferrer"';
         } else {
             $rel = '';
         }
+        $strReturn = '<a ' . $rel . ' href="' . $href . '" onclick="event.stopPropagation()">' . $label . '</a>';
 
-        return '<a ' . $rel . ' href="' . $href . '" onclick="event.stopPropagation()">' . $label . '</a>';
+        if ($this->getAddStrBeforeValue()) {
+            $strReturn = '<span>' . $this->getAddStrBeforeValue() . '</span>' . $strReturn;
+        }
+        if ($this->getAddStrBehindValue()) {
+            $strReturn = $strReturn . '<span>' . $this->getAddStrBehindValue() . '</span>';
+        }
+        return $strReturn;
     }
 
     /**
