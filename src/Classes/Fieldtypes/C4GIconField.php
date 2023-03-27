@@ -57,7 +57,7 @@ class C4GIconField extends C4GBrickField
     {
         $fieldName = $this->getFieldName();
         if (!$this->conditional || ($rowData->$fieldName === '1')) {
-            if (strlen($this->icon) >= 5) { //
+            if (strpos($this->icon, "<i") === false) {
                 $file = FilesModel::findByUuid($this->icon);
                 $img = $file->path;
                 return '<img src="' . $img . '"</img>';
