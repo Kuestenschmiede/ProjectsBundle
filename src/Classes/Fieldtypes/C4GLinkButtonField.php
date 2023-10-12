@@ -20,6 +20,7 @@ class C4GLinkButtonField extends C4GBrickField
     protected $targetMode = self::TARGET_MODE_PAGE;
     protected $targetPageId = 0;        //target page ID
     protected $targetPageUrl = '';      //target URL
+    protected $targetModifier = '';
     protected $buttonLabel = '';
     protected $newTab = false;          //true = the Link is opened in a new tab. false = the Link is opened in the same tab.
     protected $conditional = false;     //true = the Link is only shown if the field value is '1'
@@ -69,6 +70,9 @@ class C4GLinkButtonField extends C4GBrickField
             }
 
             $href = $this->createHref($rowData, $content);
+            if (!$href && $this->conditional) {
+                return '';
+            }
             $title = $this->getTitle();
 
             $label = $this->buttonLabel ?: $href;
@@ -98,7 +102,14 @@ class C4GLinkButtonField extends C4GBrickField
         } else {
             return '';
         }
-
+        if ($this->targetModifier) {
+            $targetModifier = $this->targetModifier;
+            if (!$rowData->$targetModifier) {
+                $this->conditional = true;
+                return '';
+            }
+            $href .= "?item=" . $rowData->$targetModifier;
+        }
         return $href;
     }
 
@@ -212,6 +223,16 @@ class C4GLinkButtonField extends C4GBrickField
     public function setConditional(bool $conditional = true): C4GLinkButtonField
     {
         $this->conditional = $conditional;
+
+        return $this;
+    }
+    /**
+     * @param string $targetModifier
+     * @return C4GLinkButtonField
+     */
+    public function setTargetModifier(string $targetModifier): C4GLinkButtonField
+    {
+        $this->targetModifier = $targetModifier;
 
         return $this;
     }
