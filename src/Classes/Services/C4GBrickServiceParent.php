@@ -2,13 +2,17 @@
 /*
  * This file is part of con4gis, the gis-kit for Contao CMS.
  * @package con4gis
- * @version 8
+ * @version 10
  * @author con4gis contributors (see "authors.txt")
  * @license LGPL-3.0-or-later
- * @copyright (c) 2010-2022, by Küstenschmiede GmbH Software & Design
+ * @copyright (c) 2010-2025, by Küstenschmiede GmbH Software & Design
  * @link https://www.con4gis.org
  */
 namespace con4gis\ProjectsBundle\Classes\Services;
+
+use Contao\System;
+use Contao\FrontendUser;
+use Contao\Input;
 
 class C4GBrickServiceParent extends \Controller
 {
@@ -17,20 +21,21 @@ class C4GBrickServiceParent extends \Controller
 
     public function __construct()
     {
+        $hasFrontendUser = System::getContainer()->get('contao.security.token_checker')->hasFrontendUser();
         if ($this->Input->get('debug') && ($this->Input->get('debug') == '1' || $this->Input->get('debug') == 'true')) {
             $this->blnDebugMode = true;
         }
 
-        if (FE_USER_LOGGED_IN) {
-            $this->import('FrontendUser', 'User');
+        if ($hasFrontendUser) {
+            $this->import(FrontendUser::class, 'User');
             $this->User->authenticate();
         }
     }
 
     public function generate()
     {
-        $strMethod = \Input::get('method');
-        $strId = \Input::get('id');
+        $strMethod = Input::get('method');
+        $strId = Input::get('id');
 
         if (method_exists($this, $strMethod)) {
             if ($strId) {

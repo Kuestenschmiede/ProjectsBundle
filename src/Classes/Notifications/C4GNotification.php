@@ -2,16 +2,17 @@
 /*
  * This file is part of con4gis, the gis-kit for Contao CMS.
  * @package con4gis
- * @version 8
+ * @version 10
  * @author con4gis contributors (see "authors.txt")
  * @license LGPL-3.0-or-later
- * @copyright (c) 2010-2022, by Küstenschmiede GmbH Software & Design
+ * @copyright (c) 2010-2025, by Küstenschmiede GmbH Software & Design
  * @link https://www.con4gis.org
  */
 
 namespace con4gis\ProjectsBundle\Classes\Notifications;
 
-use NotificationCenter\Model\Notification;
+// use NotificationCenter\Model\Notification;
+use Terminal42\NotificationCenterBundle\NotificationCenter;
 
 /**
  * Class C4GNotification
@@ -24,6 +25,7 @@ class C4GNotification
     protected $optionalTokens = [];
 
     public function __construct(array $notification)
+    // public function __construct(private NotificationCenter $notification)
     {
         foreach ($notification as $key => $value) {
             if (!is_array($value)) {
@@ -63,10 +65,10 @@ class C4GNotification
         }
 
         $sendingResult = true;
+        $notificationModel = new NotificationCenter();
         foreach ($notificationIds as $notificationId) {
-            $notificationModel = Notification::findByPk($notificationId);
             if ($notificationModel !== null) {
-                if (!$notificationModel->send($this->tokens, $language)) {
+                if (!$notificationModel->sendNotification($notificationId, $this->tokens, $language)) {
                     $sendingResult = false;
                 }
             } else {

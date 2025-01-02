@@ -2,10 +2,10 @@
 /*
  * This file is part of con4gis, the gis-kit for Contao CMS.
  * @package con4gis
- * @version 8
+ * @version 10
  * @author con4gis contributors (see "authors.txt")
  * @license LGPL-3.0-or-later
- * @copyright (c) 2010-2022, by Küstenschmiede GmbH Software & Design
+ * @copyright (c) 2010-2025, by Küstenschmiede GmbH Software & Design
  * @link https://www.con4gis.org
  */
 namespace con4gis\ProjectsBundle\Classes\Framework;
@@ -39,12 +39,13 @@ use Contao\Frontend;
 use Contao\FrontendUser;
 use Contao\Module;
 use Contao\System;
-use NotificationCenter\Model\Notification;
+use Terminal42\NotificationCenterBundle\NotificationCenter;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
+use Contao\FilesModel;
 
 /**
  * Class C4GBrickModuleParent
@@ -226,9 +227,10 @@ class C4GBrickModuleParent extends Module
      */
     protected function getIdByType($type)
     {
+        $hasFrontendUser = System::getContainer()->get('contao.security.token_checker')->hasFrontendUser();
         switch ($type) {
             case C4GBrickConst::ID_TYPE_MEMBER:
-                if (FE_USER_LOGGED_IN) {
+                if ($hasFrontendUser) {
                     $this->user = FrontendUser::getInstance();
                     $this->User->authenticate();
                 }
@@ -318,7 +320,7 @@ class C4GBrickModuleParent extends Module
             }
 
             if ($this->dialogParams && $this->dialogParams->getViewParams()->getLoginRedirect()) {
-                if ($this->dialogParams->getViewParams()->getLoginRedirect() && (($jumpTo = \PageModel::findByPk($this->dialogParams->getViewParams()->getLoginRedirect())) !== null)) {
+                if ($this->dialogParams->getViewParams()->getLoginRedirect() && (($jumpTo = \Contao\PageModel::findByPk($this->dialogParams->getViewParams()->getLoginRedirect())) !== null)) {
                     $return['jump_to_url'] = $jumpTo->getFrontendUrl();
 
                     return json_encode($return);
@@ -353,11 +355,11 @@ class C4GBrickModuleParent extends Module
             $GLOBALS['TL_LANGUAGE'] = $language;
         }
 
-        \System::loadLanguageFile('fe_c4g_list', $language);
-        \System::loadLanguageFile('fe_c4g_dialog', $language);
+        System::loadLanguageFile('fe_c4g_list', $language);
+        System::loadLanguageFile('fe_c4g_dialog', $language);
 
         if ($this->languageFile) {
-            \System::loadLanguageFile($this->languageFile, $language);
+            System::loadLanguageFile($this->languageFile, $language);
         }
     }
 
@@ -397,7 +399,7 @@ class C4GBrickModuleParent extends Module
             $databaseParams->setEntityNamespace($namespace);
 
             //ToDo
-            $database = \Database::getInstance();
+            $database = Database::getInstance();
             $databaseParams->setDatabase($database);
 
             if ($this->databaseType == C4GBrickDatabaseType::DCA_MODEL) {
@@ -509,7 +511,7 @@ class C4GBrickModuleParent extends Module
             //Synchronize MemberBased and PublicUuidBased view types
             if ((C4GBrickView::isMemberBased($this->viewType)) || (C4GBrickView::isPublicUUIDBased($this->viewType))) {
                 if (($this->dialogParams->getMemberID() > 0) && ($this->dialogParams->getUuid())) {
-                    $database = \Database::getInstance();
+                    $database = Database::getInstance();
                     //in case the module table does not have a member_id field (otherwise an exception will be thrown and the site won't work)
                     $query = $database->prepare("SHOW COLUMNS FROM $this->tableName LIKE 'member_id'")->execute();
                     if ($query->numRows) {
@@ -566,15 +568,15 @@ class C4GBrickModuleParent extends Module
      */
     public function generate()
     {
-        if (TL_MODE == 'BE') {
-            $objTemplate = new \BackendTemplate('be_wildcard');
+        if (System::getContainer()->get('contao.routing.scope_matcher')->isBackendRequest(System::getContainer()->get('request_stack')->getCurrentRequest() ?? Request::create(''))) {
+            $objTemplate = new \Contao\BackendTemplate('be_wildcard');
 
             $objTemplate->wildcard = '### ' . $this->name . ' ###';
             $objTemplate->title = $this->headline;
             $objTemplate->hl = $this->hl;
             $objTemplate->id = $this->id;
             $objTemplate->link = $this->name;
-            $objTemplate->href = 'contao/main.php?do=themes&amp;table=tl_module&amp;act=edit&amp;id=' . $this->id;
+            $objTemplate->href = System::getContainer()->get('router')->generate('contao_backend').'/main.php?do=themes&amp;table=tl_module&amp;act=edit&amp;id=' . $this->id;
 
             return $objTemplate->parse();
         }
@@ -668,13 +670,13 @@ class C4GBrickModuleParent extends Module
             if ($this->uiTheme) {
                 $GLOBALS['TL_CSS']['c4g_jquery_ui'] = $this->uiTheme;
             } elseif ($this->c4g_appearance_themeroller_css) {
-                $objFile = \FilesModel::findByUuid($this->c4g_appearance_themeroller_css);
+                $objFile = FilesModel::findByUuid($this->c4g_appearance_themeroller_css);
                 $GLOBALS['TL_CSS']['c4g_jquery_ui'] = $objFile->path;
             } elseif ($this->c4g_uitheme_css_select) {
                 $theme = $this->c4g_uitheme_css_select;
                 $GLOBALS['TL_CSS']['c4g_jquery_ui'] = 'bundles/con4giscore/vendor/jQuery/ui-themes/themes/' . $theme . '/jquery-ui.css';
             } elseif ($this->settings && $this->settings['c4g_appearance_themeroller_css']) {
-                $objFile = \FilesModel::findByUuid($this->settings['c4g_appearance_themeroller_css']);
+                $objFile = FilesModel::findByUuid($this->settings['c4g_appearance_themeroller_css']);
                 $GLOBALS['TL_CSS']['c4g_jquery_ui'] = $objFile->path;
             } elseif ($this->settings && $this->settings['c4g_uitheme_css_select']) {
                 $theme = $this->settings['c4g_uitheme_css_select'];
@@ -1291,21 +1293,12 @@ class C4GBrickModuleParent extends Module
     {
         if ($newId || $notifyOnChanges) {
             $notification_array = \Contao\StringUtil::deserialize($notification_type);
-            if (is_array($notification_array) && sizeof($notification_array) == 1) {
-                $objNotification = Notification::findByPk($notification_array);
+            $objNotification = new NotificationCenter();
+            foreach ($notification_array as $notification) {
                 if ($objNotification !== null) {
                     $arrTokens = C4GBrickNotification::getArrayTokens($dlgValues, $fieldList);
                     $arrTokens['admin_email'] = $GLOBALS['TL_CONFIG']['adminEmail'];
-                    $objNotification->send($arrTokens);
-                }
-            } else {
-                foreach ($notification_array as $notification) {
-                    $objNotification = Notification::findByPk($notification);
-                    if ($objNotification !== null) {
-                        $arrTokens = C4GBrickNotification::getArrayTokens($dlgValues, $fieldList);
-                        $arrTokens['admin_email'] = $GLOBALS['TL_CONFIG']['adminEmail'];
-                        $objNotification->send($arrTokens);
-                    }
+                    $objNotification->sendNotification($notification,$arrTokens);
                 }
             }
         }

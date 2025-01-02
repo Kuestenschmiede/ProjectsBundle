@@ -2,10 +2,10 @@
 /*
  * This file is part of con4gis, the gis-kit for Contao CMS.
  * @package con4gis
- * @version 8
+ * @version 10
  * @author con4gis contributors (see "authors.txt")
  * @license LGPL-3.0-or-later
- * @copyright (c) 2010-2022, by Küstenschmiede GmbH Software & Design
+ * @copyright (c) 2010-2025, by Küstenschmiede GmbH Software & Design
  * @link https://www.con4gis.org
  */
 namespace con4gis\ProjectsBundle\Classes\Fieldlist;
@@ -25,7 +25,7 @@ class C4GBrickFieldCompare
     {
         $this->field = $field;
 
-        \System::loadLanguageFile('fe_c4g_dialog');
+        \Contao\System::loadLanguageFile('fe_c4g_dialog');
 
         if ($dbValue == ''/* && $dlgValue != null && $dlgValue != '' && $dlgValue != '-1'*/) {
             $dbValue = $GLOBALS['TL_LANG']['FE_C4G_DIALOG_COMPARE']['newEntry'];

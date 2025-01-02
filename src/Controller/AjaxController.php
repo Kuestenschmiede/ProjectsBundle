@@ -2,10 +2,10 @@
 /*
  * This file is part of con4gis, the gis-kit for Contao CMS.
  * @package con4gis
- * @version 8
+ * @version 10
  * @author con4gis contributors (see "authors.txt")
  * @license LGPL-3.0-or-later
- * @copyright (c) 2010-2022, by Küstenschmiede GmbH Software & Design
+ * @copyright (c) 2010-2025, by Küstenschmiede GmbH Software & Design
  * @link https://www.con4gis.org
  */
 namespace con4gis\ProjectsBundle\Controller;
@@ -27,16 +27,20 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
 
+use Symfony\Component\HttpFoundation\RequestStack;
+
 class AjaxController extends ApiController
 {
     protected $rootDir;
     protected $session;
     protected $framework;
+    protected $requestStack;
 
-    public function __construct(string $rootDir, Session $session, ContaoFramework $framework)
+    public function __construct(string $rootDir, RequestStack $requestStack, ContaoFramework $framework)
     {
         $this->rootDir      = $rootDir;
-        $this->session      = $session;
+        // $this->session      = $session = $requestStack->getCurrentRequest()->getSession();
+        $this->requestStack = $requestStack;
         $this->framework    = $framework;
 
         $this->framework->initialize(true);
@@ -58,7 +62,8 @@ class AjaxController extends ApiController
 
                 if ($classname) {
                     if ($strClass && class_exists($strClass)) {
-                        $objModule = new $classname($this->rootDir, $this->session, $this->framework, $objModule);
+                        // $objModule = new $classname($this->rootDir, $this->session, $this->framework, $objModule);
+                        $objModule = new $classname($this->rootDir, $this->srequestStack, $this->framework, $objModule);
                         $printoutPDF = new C4GPrintoutPDF($database, $language);
                         return $printoutPDF->printAction($objModule, $arrData, $id, true);
                     }
@@ -72,13 +77,15 @@ class AjaxController extends ApiController
             }
 
             if ($classname) {
-                $returnData = $moduleManager->getC4gFrontendController($this->rootDir, $this->session, $this->framework, $module, $language, $classname, $action, $arrData);
+                // $returnData = $moduleManager->getC4gFrontendController($this->rootDir, $this->session, $this->framework, $module, $language, $classname, $action, $arrData);
+                $returnData = $moduleManager->getC4gFrontendController($this->rootDir, $this->requestStack, $this->framework, $module, $language, $classname, $action, $arrData);
             } else {
                 $returnData = $moduleManager->getC4gFrontendModule($module, $language, $action, $arrData);
             }
         } else {
             if ($classname) {
-                $returnData = $moduleManager->getC4gFrontendController($this->rootDir, $this->session, $this->framework, $module, $language, $classname, $action);
+                // $returnData = $moduleManager->getC4gFrontendController($this->rootDir, $this->session, $this->framework, $module, $language, $classname, $action);
+                $returnData = $moduleManager->getC4gFrontendController($this->rootDir, $this->requestStack, $this->framework, $module, $language, $classname, $action);
             } else {
                 $returnData = $moduleManager->getC4gFrontendModule($module, $language, $action);
             }
@@ -230,4 +237,3 @@ class AjaxController extends ApiController
         return $response;
     }
 }
-

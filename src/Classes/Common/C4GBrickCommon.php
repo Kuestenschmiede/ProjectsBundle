@@ -2,10 +2,10 @@
 /*
  * This file is part of con4gis, the gis-kit for Contao CMS.
  * @package con4gis
- * @version 8
+ * @version 10
  * @author con4gis contributors (see "authors.txt")
  * @license LGPL-3.0-or-later
- * @copyright (c) 2010-2022, by Küstenschmiede GmbH Software & Design
+ * @copyright (c) 2010-2025, by Küstenschmiede GmbH Software & Design
  * @link https://www.con4gis.org
  */
 namespace con4gis\ProjectsBundle\Classes\Common;
@@ -19,6 +19,12 @@ use con4gis\ProjectsBundle\Classes\Models\C4gProjectsModel;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use con4gis\GroupsBundle\Resources\contao\models\MemberModel;
 use con4gis\GroupsBundle\Resources\contao\models\MemberGroupModel;
+
+use Contao\ContentModel;
+use Contao\FilesModel;
+use Contao\Files;
+use Contao\Validator;
+
 
 class C4GBrickCommon
 {
@@ -49,8 +55,8 @@ class C4GBrickCommon
     public static function loadFile($uuid)
     {
         $objFile = null;
-        if (\Validator::isUuid($uuid)) {
-            $objFile = \FilesModel::findByUuid($uuid);
+        if (Validator::isUuid($uuid)) {
+            $objFile = FilesModel::findByUuid($uuid);
         }
 
         return $objFile;
@@ -61,8 +67,8 @@ class C4GBrickCommon
      */
     public static function deleteFileByUUID($uuid)
     {
-        if (\Validator::isUuid($uuid)) {
-            $objFile = \FilesModel::findByUuid($uuid);
+        if (Validator::isUuid($uuid)) {
+            $objFile = FilesModel::findByUuid($uuid);
             $file = $objFile->path;
 
             if ($objFile) {
@@ -90,7 +96,7 @@ class C4GBrickCommon
         $result = false;
         if ($path) {
             try {
-                $objFiles = \Files::getInstance();
+                $objFiles = Files::getInstance();
                 $result = $objFiles->mkdir($path);
             } catch (Exception $e) {
                 C4gLogModel::addLogEntry('projects', $e->getMessage());
@@ -105,8 +111,9 @@ class C4GBrickCommon
      */
     public static function deleteFile($file)
     {
+        $rootDir = System::getContainer()->getParameter('kernel.project_dir');
         if ($file) {
-            $file = TL_ROOT . '/' . $file;
+            $file = $rootDir . '/' . $file;
 
             try {
                 if (file_exists($file)) {

@@ -51,6 +51,6 @@
 </div>
 <?php
    $GLOBALS['TL_BODY']['c4gMaps' . $this->id] =
-        \Template::generateInlineScript('ready(function(){
+        \Contao\Template::generateInlineScript('ready(function(){
                 ready(function(){})});',false);
 ?>

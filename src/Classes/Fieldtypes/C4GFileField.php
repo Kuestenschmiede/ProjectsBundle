@@ -2,10 +2,10 @@
 /*
  * This file is part of con4gis, the gis-kit for Contao CMS.
  * @package con4gis
- * @version 8
+ * @version 10
  * @author con4gis contributors (see "authors.txt")
  * @license LGPL-3.0-or-later
- * @copyright (c) 2010-2022, by Küstenschmiede GmbH Software & Design
+ * @copyright (c) 2010-2025, by Küstenschmiede GmbH Software & Design
  * @link https://www.con4gis.org
  */
 namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
@@ -18,6 +18,9 @@ use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldCompare;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldType;
 use con4gis\ProjectsBundle\Classes\Files\C4GBrickFileType;
 use con4gis\ProjectsBundle\Classes\Views\C4GBrickViewType;
+
+use Contao\StringUtil;
+use Contao\Validator;
 
 class C4GFileField extends C4GBrickField
 {
@@ -210,7 +213,7 @@ class C4GFileField extends C4GBrickField
             }
         }
 
-        if (!empty($upload_url) && (!\Validator::isUuid($upload_url)) && (strcmp($upload_url, $old_url) != 0)) {
+        if (!empty($upload_url) && (!Validator::isUuid($upload_url)) && (strcmp($upload_url, $old_url) != 0)) {
             $new_upload_url = $upload_url;
 
             $ext = pathinfo($upload_url, PATHINFO_EXTENSION);
@@ -257,14 +260,14 @@ class C4GFileField extends C4GBrickField
 
             $fieldData = C4GBrickCommon::saveFile($fieldName, $original_filename, $new_upload_url, $upload_url);
             if ($fieldData) {
-                $fieldData = \StringUtil::binToUuid($fieldData);
+                $fieldData = StringUtil::binToUuid($fieldData);
             }
         }
 
         $delete_file = $dlgValues[$this->deleteURL];
 
         if (!empty($delete_file) && ($fieldData != $old_file)) {
-            if (!empty($old_file) && (!\Validator::isUuid($old_file))) {
+            if (!empty($old_file) && (!Validator::isUuid($old_file))) {
                 C4GBrickCommon::deleteFile($delete_file);
             } elseif (!empty($old_file)) {
                 C4GBrickCommon::deleteFileByUUID($old_file);
@@ -272,7 +275,7 @@ class C4GFileField extends C4GBrickField
 
             $fieldData = '';
         } else {
-            if (!\Validator::isUuid($fieldData)) {
+            if (!Validator::isUuid($fieldData)) {
                 $fieldData = $old_file;
             }
         }

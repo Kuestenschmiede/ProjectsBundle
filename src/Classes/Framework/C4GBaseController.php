@@ -2,10 +2,10 @@
 /*
  * This file is part of con4gis, the gis-kit for Contao CMS.
  * @package con4gis
- * @version 8
+ * @version 10
  * @author con4gis contributors (see "authors.txt")
  * @license LGPL-3.0-or-later
- * @copyright (c) 2010-2022, by Küstenschmiede GmbH Software & Design
+ * @copyright (c) 2010-2025, by Küstenschmiede GmbH Software & Design
  * @link https://www.con4gis.org
  */
 namespace con4gis\ProjectsBundle\Classes\Framework;
@@ -33,7 +33,6 @@ use con4gis\ProjectsBundle\Classes\Session\C4gBrickSession;
 use con4gis\ProjectsBundle\Classes\Views\C4GBrickView;
 use con4gis\ProjectsBundle\Classes\Views\C4GBrickViewParams;
 use con4gis\ProjectsBundle\Classes\Views\C4GBrickViewType;
-use Contao\CoreBundle\Controller\FrontendModule\AbstractFrontendModuleController;
 use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\Database;
 use Contao\FrontendUser;
@@ -41,13 +40,26 @@ use Contao\ModuleModel;
 use Contao\StringUtil;
 use Contao\System;
 use Contao\Template;
-use NotificationCenter\Model\Notification;
+use Terminal42\NotificationCenterBundle\NotificationCenter;
 use PhpParser\Node\Expr\Array_;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\Session;
+
+use Contao\Environment;
+
+use Contao\Session;
+// use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
+
+use Symfony\Component\HttpFoundation\RequestStack;
+
+// use con4gis\CoreBundle\Controller\BaseController;
+use Contao\CoreBundle\Controller\FrontendModule\AbstractFrontendModuleController;
+use Contao\Input;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+
+use Composer\InstalledVersions;
 
 /**
  * Class C4GBaseController
@@ -56,6 +68,8 @@ use Symfony\Component\Routing\Annotation\Route;
  *
  * @package c4g\projects
  */
+
+// class C4GBaseController extends BaseController
 class C4GBaseController extends AbstractFrontendModuleController
 {
     //mandatory params
@@ -184,12 +198,15 @@ class C4GBaseController extends AbstractFrontendModuleController
     protected $framework;
     protected $model;
 
-    public function __construct(string $rootDir, Session $session, ContaoFramework $framework, ModuleModel $model = null)
-    {
-        $this->rootDir      = $rootDir;
-        $this->session      = $session;
-        $this->framework    = $framework;
+    public function __construct(string $rootDir, RequestStack $requestStack, ContaoFramework $framework, ModuleModel $model = null)
+    { 
+        $session = $requestStack->getCurrentRequest()->getSession();
+        if (!$session->isStarted()) {
+            $session->start();
+        }
 
+        $this->rootDir      = $rootDir;
+        $this->framework    = $framework;
         $this->framework->initialize(true);
 
         $this->session = new C4gBrickSession($session);
@@ -198,7 +215,7 @@ class C4GBaseController extends AbstractFrontendModuleController
             $this->model = $model;
             foreach ($model->row() as $fieldName=>$value) {
                 if ($fieldName === 'headline') {
-                    $headlineArray = \Contao\StringUtil::deserialize($value);
+                    $headlineArray = StringUtil::deserialize($value);
                     $unit = $headlineArray['unit'];
                     $value = $headlineArray['value'];
                     if ($value) {
@@ -206,7 +223,7 @@ class C4GBaseController extends AbstractFrontendModuleController
                         $this->headlineTag = $unit;
                     }
                 } else if (strpos($value,'a:')) {
-                    $this->$fieldName = \Contao\StringUtil::deserialize($value);
+                    $this->$fieldName = StringUtil::deserialize($value);
                 } else {
                     $this->$fieldName = $value;
                 }
@@ -229,13 +246,13 @@ class C4GBaseController extends AbstractFrontendModuleController
      * @param Request $request
      * @return Response|null
      */
-    protected function getResponse(Template $template, ModuleModel $model, Request $request): ?Response
+    protected function getResponse(Template $template, ModuleModel $model, Request $request): Response
     {
         $this->model = $model;
 
         foreach ($model->row() as $fieldName=>$value) {
             if ($fieldName === 'headline') {
-                $headlineArray = \Contao\StringUtil::deserialize($value);
+                $headlineArray = StringUtil::deserialize($value);
                 $unit = $headlineArray['unit'];
                 $value = $headlineArray['value'];
                 if ($value) {
@@ -243,7 +260,7 @@ class C4GBaseController extends AbstractFrontendModuleController
                     $this->headlineTag = $unit;
                 }
             } else if (!is_array($value) && strpos($value,'a:')) {
-                $this->$fieldName = \Contao\StringUtil::deserialize($value);
+                $this->$fieldName = StringUtil::deserialize($value);
             } else {
                 $this->$fieldName = $value;
             }
@@ -342,9 +359,10 @@ class C4GBaseController extends AbstractFrontendModuleController
      */
     protected function getIdByType($type)
     {
+        $hasFrontendUser = System::getContainer()->get('contao.security.token_checker')->hasFrontendUser();
         switch ($type) {
             case C4GBrickConst::ID_TYPE_MEMBER:
-                if (FE_USER_LOGGED_IN) {
+                if ($hasFrontendUser) {
                     $user = FrontendUser::getInstance();
                     $user->authenticate();
                 }
@@ -427,7 +445,7 @@ class C4GBaseController extends AbstractFrontendModuleController
             }
 
             if ($this->dialogParams && $this->dialogParams->getViewParams()->getLoginRedirect()) {
-                if ($this->dialogParams->getViewParams()->getLoginRedirect() && (($jumpTo = \PageModel::findByPk($this->dialogParams->getViewParams()->getLoginRedirect())) !== null)) {
+                if ($this->dialogParams->getViewParams()->getLoginRedirect() && (($jumpTo = \Contao\PageModel::findByPk($this->dialogParams->getViewParams()->getLoginRedirect())) !== null)) {
                     $return['jump_to_url'] = $jumpTo->getFrontendUrl();
 
                     return json_encode($return);
@@ -462,11 +480,11 @@ class C4GBaseController extends AbstractFrontendModuleController
             $GLOBALS['TL_LANGUAGE'] = $language;
         }
 
-        \System::loadLanguageFile('fe_c4g_list', $language);
-        \System::loadLanguageFile('fe_c4g_dialog', $language);
+        System::loadLanguageFile('fe_c4g_list', $language);
+        System::loadLanguageFile('fe_c4g_dialog', $language);
 
         if ($this->languageFile) {
-            \System::loadLanguageFile($this->languageFile, $language);
+            System::loadLanguageFile($this->languageFile, $language);
         }
     }
 
@@ -486,7 +504,7 @@ class C4GBaseController extends AbstractFrontendModuleController
         $this->loadLanguageFiles();
 
         $authenticated = false;
-        if (FE_USER_LOGGED_IN) {
+        if (FrontendUser::getInstance()->isLoggedIn) {
             $user = FrontendUser::getInstance();
             $authenticated = $user->authenticate();
         }
@@ -516,7 +534,7 @@ class C4GBaseController extends AbstractFrontendModuleController
             $databaseParams->setEntityNamespace($namespace);
 
             //ToDo
-            $database = \Database::getInstance();
+            $database = Database::getInstance();
             $databaseParams->setDatabase($database);
 
             if ($this->databaseType == C4GBrickDatabaseType::DCA_MODEL) {
@@ -576,7 +594,7 @@ class C4GBaseController extends AbstractFrontendModuleController
             $this->dialogParams->setC4gMap($this->c4g_map);
             $contentId = property_exists($this,'contentId') ? $this->contentid : 0;
             if (!$contentId) {
-                $contentId = $this->settings['position_map'];
+                $contentId = isset($this->settings['position_map']) ? $this->settings['position_map'] : null;
             }
             $this->dialogParams->setContentId($contentId);
 
@@ -980,7 +998,10 @@ class C4GBaseController extends AbstractFrontendModuleController
             }
 
             $currentReferer = $session && key_exists('referer', $session) && is_array($session['referer']) && key_exists('current',$session['referer']) ? $session['referer']['current'] : '';
-            $this->frontendUrl = \Contao\Environment::get('url') . TL_PATH . '/' . $currentReferer;
+
+            // $path = $this->getParameter('kernel.project_dir');
+            $path = System::getContainer()->getParameter('kernel.project_dir');
+            $this->frontendUrl = Environment::get('url') . $path . '/' . $currentReferer;
 
             if (key_exists('REQUEST_METHOD', $_SERVER) && ($_SERVER['REQUEST_METHOD'] == 'PUT')) {
                 parse_str(file_get_contents('php://input'), $this->putVars);
@@ -1372,24 +1393,26 @@ class C4GBaseController extends AbstractFrontendModuleController
     public function sendNotifications($newId, $notifyOnChanges, $notification_type, $dlgValues, $fieldList, $changes)
     {
         if ($newId || $notifyOnChanges) {
-            $notification_array = \Contao\StringUtil::deserialize($notification_type);
+            $notification_array = StringUtil::deserialize($notification_type);
 
             if ($notification_array && is_array($notification_array)) {
                 if (is_array($notification_array) && sizeof($notification_array) == 1) {
-                    $objNotification = Notification::findByPk($notification_array);
-                    if ($objNotification !== null) {
+                    // $objNotification = NotificationCenter::findByPk($notification_array);
+                    // if ($objNotification !== null) {
                         $arrTokens = C4GBrickNotification::getArrayTokens($dlgValues, $fieldList);
                         $arrTokens['admin_email'] = $GLOBALS['TL_CONFIG']['adminEmail'];
-                        $objNotification->send($arrTokens);
-                    }
+                        // $objNotification->send($arrTokens);
+                        System::getContainer()->get('con4gis\ReservationBundle\Classes\Notifications\C4gNotificationCenterService')->getNotificationCenter()->sendNotification(intval($notification_array[0]), $arrTokens);
+                    // }
                 } else {
-                    foreach ($notification_array as $notification) {
-                        $objNotification = Notification::findByPk($notification);
-                        if ($objNotification !== null) {
+                    foreach ($notification_array as $key=>$notification) {
+                        // $objNotification = NotificationCenter::findByPk($notification);
+                        // if ($objNotification !== null) {
                             $arrTokens = C4GBrickNotification::getArrayTokens($dlgValues, $fieldList);
                             $arrTokens['admin_email'] = $GLOBALS['TL_CONFIG']['adminEmail'];
-                            $objNotification->send($arrTokens);
-                        }
+                            System::getContainer()->get('con4gis\ReservationBundle\Classes\Notifications\C4gNotificationCenterService')->getNotificationCenter()->sendNotification($notification_array[$key], $arrTokens);
+                            // $objNotification->send($arrTokens);
+                        // }
                     }
                 }
             }

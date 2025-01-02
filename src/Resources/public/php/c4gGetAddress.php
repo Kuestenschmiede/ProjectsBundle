@@ -2,10 +2,10 @@
 /*
  * This file is part of con4gis, the gis-kit for Contao CMS.
  * @package con4gis
- * @version 8
+ * @version 10
  * @author con4gis contributors (see "authors.txt")
  * @license LGPL-3.0-or-later
- * @copyright (c) 2010-2022, by Küstenschmiede GmbH Software & Design
+ * @copyright (c) 2010-2025, by Küstenschmiede GmbH Software & Design
  * @link https://www.con4gis.org
  */
 
@@ -26,7 +26,8 @@
     require_once($initialize);
 
     // User not logged in...
-    if (!FE_USER_LOGGED_IN) {
+    $hasFrontendUser = System::getContainer()->get('contao.security.token_checker')->hasFrontendUser();
+    if (!$hasFrontendUser) {
         header('HTTP/1.0 403 Forbidden');
         echo "Forbidden";
         die();

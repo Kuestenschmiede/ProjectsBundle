@@ -2,10 +2,10 @@
 /*
  * This file is part of con4gis, the gis-kit for Contao CMS.
  * @package con4gis
- * @version 8
+ * @version 10
  * @author con4gis contributors (see "authors.txt")
  * @license LGPL-3.0-or-later
- * @copyright (c) 2010-2022, by Küstenschmiede GmbH Software & Design
+ * @copyright (c) 2010-2025, by Küstenschmiede GmbH Software & Design
  * @link https://www.con4gis.org
  */
 namespace con4gis\ProjectsBundle\Classes\Framework;
@@ -22,6 +22,9 @@ use Contao\Module;
 use Contao\ModuleModel;
 use Contao\System;
 use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Contao\FrontendUser;
+use Contao\StringUtil;
 
 class C4GModuleManager
 {
@@ -32,8 +35,10 @@ class C4GModuleManager
      */
     private $moduleMap = [];
 
-    public function getC4gFrontendController(string $rootDir, Session $session, ContaoFramework $framework, $id, $language, $classname, $request, $putVars = [])
+    public function getC4gFrontendController(string $rootDir, RequestStack $requestStack, ContaoFramework $framework, $id, $language, $classname, $request, $putVars = [])
     {
+        $hasBackendUser = System::getContainer()->get('contao.security.token_checker')->hasBackendUser();
+        $hasFrontendUser = System::getContainer()->get('contao.security.token_checker')->hasFrontendUser();
         if (!strlen($id) || $id < 1) {
             header('HTTP/1.1 412 Precondition Failed');
 
@@ -49,22 +54,22 @@ class C4GModuleManager
         }
 
         // Show to guests only
-        if ($objModule->guests && FE_USER_LOGGED_IN && !BE_USER_LOGGED_IN && !$objModule->protected) {
+        if ($objModule->guests && $hasFrontendUser && !$hasBackendUser && !$objModule->protected) {
             header('HTTP/1.1 403 Forbidden');
 
             return 'Forbidden';
         }
 
         // Protected element
-        if (!BE_USER_LOGGED_IN && $objModule->protected) {
-            if (!FE_USER_LOGGED_IN) {
+        if (!$hasBackendUser && $objModule->protected) {
+            if (!$hasFrontendUser) {
                 header('HTTP/1.1 403 Forbidden');
 
                 return 'Forbidden';
             }
 
-            $this->import('FrontendUser', 'User');
-            $groups = \Contao\StringUtil::deserialize($objModule->groups);
+            $this-import(FrontendUser::class, 'User');
+            $groups = StringUtil::deserialize($objModule->groups);
 
             if (!is_array($groups) || count($groups) < 1 || count(array_intersect($groups, $this->User->groups)) < 1) {
                 header('HTTP/1.1 403 Forbidden');
@@ -89,7 +94,7 @@ class C4GModuleManager
 
         if ($strClass && !$this->moduleMap[$id]) {
             $objModule->typePrefix = 'mod_';
-            $controllerModule = new $classname($rootDir, $session, $framework, $objModule);
+            $controllerModule = new $classname($rootDir, $requestStack, $framework, $objModule);
             $this->moduleMap[$id] = $controllerModule;
         } else {
             $controllerModule = $this->moduleMap[$id];
@@ -149,22 +154,25 @@ class C4GModuleManager
             return 'Frontend module not found';
         }
 
+        $hasBackendUser = System::getContainer()->get('contao.security.token_checker')->hasBackendUser();
+        $hasFrontendUser = System::getContainer()->get('contao.security.token_checker')->hasFrontendUser();
+
         // Show to guests only
-        if ($objModule->guests && FE_USER_LOGGED_IN && !BE_USER_LOGGED_IN && !$objModule->protected) {
+        if ($objModule->guests && $hasFrontendUser && !$hasBackendUser && !$objModule->protected) {
             header('HTTP/1.1 403 Forbidden');
 
             return 'Forbidden';
         }
 
         // Protected element
-        if (!BE_USER_LOGGED_IN && $objModule->protected) {
-            if (!FE_USER_LOGGED_IN) {
+        if (!$hasBackendUser && $objModule->protected) {
+            if (!$hasFrontendUser) {
                 header('HTTP/1.1 403 Forbidden');
 
                 return 'Forbidden';
             }
 
-            $this->import('FrontendUser', 'User');
+            $this->import(FrontendUser::class, 'User' );
             $groups = deserialize($objModule->groups);
 
             if (!is_array($groups) || count($groups) < 1 || count(array_intersect($groups, $this->User->groups)) < 1) {

@@ -2,10 +2,10 @@
 /*
  * This file is part of con4gis, the gis-kit for Contao CMS.
  * @package con4gis
- * @version 8
+ * @version 10
  * @author con4gis contributors (see "authors.txt")
  * @license LGPL-3.0-or-later
- * @copyright (c) 2010-2022, by Küstenschmiede GmbH Software & Design
+ * @copyright (c) 2010-2025, by Küstenschmiede GmbH Software & Design
  * @link https://www.con4gis.org
  */
 
@@ -14,6 +14,9 @@
  */
 
 use con4gis\CoreBundle\Classes\C4GVersionProvider;
+use Contao\System;
+use Contao\RequestToken;
+use Symfony\Component\HttpFoundation\Request;
 
 $apiBaseUrl = 'con4gis';
 
@@ -33,10 +36,13 @@ $GLOBALS['TL_MODELS']['tl_c4g_projects'] = 'con4gis\ProjectsBundle\Classes\Model
 $GLOBALS['TL_MODELS']['tl_c4g_projects_logbook'] = 'con4gis\ProjectsBundle\Classes\Models\C4gProjectsLogbookModel';
 
 //needed with upload fields
-if(TL_MODE == "FE") {
+// if(defined('TL_MODE') && TL_MODE == "FE")
+if (System::getContainer()->get('contao.routing.scope_matcher')->isFrontendRequest(System::getContainer()->get('request_stack')->getCurrentRequest() ?? Request::create(''))) {
     try {
         // TODO replace with symfony csrf token
-        $rq = \Contao\RequestToken::get();
+        // $requestStack = System::getContainer()->get('request_stack');
+        // $rq = RequestToken::get();
+        $rq = System::getContainer()->get('contao.csrf.token_manager')->getDefaultTokenValue();  
         $GLOBALS['TL_HEAD'][] = "<script>var c4g_rq = '" . $rq . "';</script>";
     } catch (\LogicException $exception) {}
 }

@@ -1,1 +1,1 @@
-"use strict";var clearBrowserUrl=function(){var r=window.location.href,e=r.indexOf("?state");-1<e&&(r=r.substring(0,e),history.pushState({},null,r))};ready(function(){clearBrowserUrl(),c4g.projects=c4g.projects||{},c4g.projects.clearUrl=!0});
+var clearBrowserUrl=function(){var r=window.location.href,e=r.indexOf("?state");-1<e&&(r=r.substring(0,e),history.pushState({},null,r))};ready(function(){clearBrowserUrl(),c4g.projects=c4g.projects||{},c4g.projects.clearUrl=!0});

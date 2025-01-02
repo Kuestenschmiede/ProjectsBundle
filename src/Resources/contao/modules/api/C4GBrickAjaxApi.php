@@ -2,17 +2,21 @@
 /*
  * This file is part of con4gis, the gis-kit for Contao CMS.
  * @package con4gis
- * @version 8
+ * @version 10
  * @author con4gis contributors (see "authors.txt")
  * @license LGPL-3.0-or-later
- * @copyright (c) 2010-2022, by Küstenschmiede GmbH Software & Design
+ * @copyright (c) 2010-2025, by Küstenschmiede GmbH Software & Design
  * @link https://www.con4gis.org
  */
 
 use Contao\FrontendUser;
+use Contao\BackendUser;
 use Contao\Module;
+use Contao\Frontend;
+use Contao\System;
+use Contao\StringUtil;
 
-class C4GBrickAjaxApi extends \Frontend
+class C4GBrickAjaxApi extends Frontend
 {
     /**
      * generates the module
@@ -69,6 +73,9 @@ class C4GBrickAjaxApi extends \Frontend
      */
     protected function getC4gFrontendModule($intId, $req=null)
     {
+        $hasFrontendUser = System::getContainer()->get('contao.security.token_checker')->hasFrontendUser();
+        $hasBackendUser = System::getContainer()->get('contao.security.token_checker')->hasBackendUser();
+
         if (!strlen($intId) || $intId < 1)
         {
             header('HTTP/1.1 412 Precondition Failed');
@@ -86,23 +93,23 @@ class C4GBrickAjaxApi extends \Frontend
         }
 
         // Show to guests only
-        if ($objModule->guests && FE_USER_LOGGED_IN && !BE_USER_LOGGED_IN && !$objModule->protected)
+        if ($objModule->guests && $hasFrontendUser && !$hasBackendUser && !$objModule->protected)
         {
             header('HTTP/1.1 403 Forbidden');
             return 'Forbidden';
         }
 
         // Protected element
-        if (!BE_USER_LOGGED_IN && $objModule->protected)
+        if (!$hasBackendUser && $objModule->protected)
         {
-            if (!FE_USER_LOGGED_IN)
+            if (!$hasFrontendUser)
             {
                 header('HTTP/1.1 403 Forbidden');
                 return 'Forbidden';
             }
 
             $user = FrontendUser::getInstance();
-            $groups = \Contao\StringUtil::deserialize($objModule->groups);
+            $groups = StringUtil::deserialize($objModule->groups);
 
             if (!is_array($groups) || count($groups) < 1 || count(array_intersect($groups, $user->groups)) < 1)
             {

@@ -2,10 +2,10 @@
 /*
  * This file is part of con4gis, the gis-kit for Contao CMS.
  * @package con4gis
- * @version 8
+ * @version 10
  * @author con4gis contributors (see "authors.txt")
  * @license LGPL-3.0-or-later
- * @copyright (c) 2010-2022, by Küstenschmiede GmbH Software & Design
+ * @copyright (c) 2010-2025, by Küstenschmiede GmbH Software & Design
  * @link https://www.con4gis.org
  */
 namespace con4gis\ProjectsBundle\Classes\Dialogs;
@@ -46,6 +46,8 @@ use con4gis\ProjectsBundle\Classes\Views\C4GBrickView;
 use con4gis\ProjectsBundle\Classes\Views\C4GBrickViewType;
 use con4gis\CoreBundle\Classes\C4GHTMLFactory;
 use con4gis\CoreBundle\Classes\C4GUtils;
+use Contao\Database;
+use Contao\Validator;
 
 //ToDo Klassen weiter auslagern -> siehe bspw. C4gBrickSelectGroupDialog,
 //ToDo danach sollte C4GBrickDialog lediglich die Parentklasse sein.
@@ -1485,7 +1487,7 @@ class C4GBrickDialog
                                     }
                                     $deleteIds[] = $r->$id_fieldName;
                                 }
-                                $db = \Database::getInstance();
+                                $db = Database::getInstance();
                                 $table = $field->getTable();
                                 $stmt = $db->prepare("DELETE FROM $table WHERE id = ?");
                                 foreach ($deleteIds as $deleteId) {
@@ -1545,7 +1547,7 @@ class C4GBrickDialog
                                 foreach ($deleteResult as $r) {
                                     $deleteIds[] = $r->$id_fieldName;
                                 }
-                                $db = \Database::getInstance();
+                                $db = Database::getInstance();
                                 $table = $field->getTable();
                                 foreach ($deleteIds as $deleteId) {
                                     $stmt = $db->prepare("DELETE FROM $table WHERE id = ?");
@@ -1607,12 +1609,12 @@ class C4GBrickDialog
                 }
 
                 foreach ($files as $file) {
-                    if (\Validator::isUuid($file)) {
+                    if (Validator::isUuid($file)) {
                         C4GBrickCommon::deleteFileByUUID($file);
                     }
                 }
 
-                $db = \Database::getInstance();
+                $db = Database::getInstance();
                 foreach ($fieldList as $field) {
                     if ($field instanceof C4GSubDialogField) {
                         $table = $field->getTable();

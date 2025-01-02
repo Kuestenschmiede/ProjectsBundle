@@ -2,14 +2,15 @@
 /*
  * This file is part of con4gis, the gis-kit for Contao CMS.
  * @package con4gis
- * @version 8
+ * @version 10
  * @author con4gis contributors (see "authors.txt")
  * @license LGPL-3.0-or-later
- * @copyright (c) 2010-2022, by Küstenschmiede GmbH Software & Design
+ * @copyright (c) 2010-2025, by Küstenschmiede GmbH Software & Design
  * @link https://www.con4gis.org
  */
 namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
 
+use con4gis\CoreBundle\Classes\C4GUtils;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickConst;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
@@ -81,7 +82,7 @@ class C4GIncludeField extends C4GBrickField
                 $content = '<div id="' . $id . '" class="c4g_include_fields" ' . $required . '>' . $content . '</div>';
             }
 
-            $result = $this->addC4GField($condition, $dialogParams, $fieldList, $data, \Controller::replaceInsertTags($content));
+            $result = $this->addC4GField($condition, $dialogParams, $fieldList, $data, C4GUtils::replaceInsertTags($content));
         }
 
         return $result;

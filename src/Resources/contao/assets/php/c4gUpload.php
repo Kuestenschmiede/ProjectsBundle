@@ -2,12 +2,18 @@
 /*
  * This file is part of con4gis, the gis-kit for Contao CMS.
  * @package con4gis
- * @version 8
+ * @version 10
  * @author con4gis contributors (see "authors.txt")
  * @license LGPL-3.0-or-later
- * @copyright (c) 2010-2022, by Küstenschmiede GmbH Software & Design
+ * @copyright (c) 2010-2025, by Küstenschmiede GmbH Software & Design
  * @link https://www.con4gis.org
  */
+
+use Contao\System;
+
+$rootDir = System::getContainer()->getParameter('kernel.project_dir');
+$hasFrontendUser = System::getContainer()->get('contao.security.token_checker')->hasFrontendUser();
+
 if (!isset($_POST['Path']) || !isset($_FILES['File']['tmp_name'])) {
         die();
     }
@@ -25,7 +31,7 @@ if (!isset($_POST['Path']) || !isset($_FILES['File']['tmp_name'])) {
     require_once($initialize);
 
     // User not logged in...
-    if (!FE_USER_LOGGED_IN) {
+    if (!$hasFrontendUser) {
         header('HTTP/1.0 403 Forbidden');
         echo "Forbidden";
         die();
@@ -65,7 +71,7 @@ if (!isset($_POST['Path']) || !isset($_FILES['File']['tmp_name'])) {
     }
 
     if (empty($sError)) {
-        $sSystemPath = str_replace('\\','/',TL_ROOT) . "/" . trim($sDestinationPath,'/');
+        $sSystemPath = str_replace('\\','/',$rootDir) . "/" . trim($sDestinationPath,'/');
         $sDestination = $sSystemPath . "/" . $sFileName;
 
         if (!is_dir($sSystemPath)) {

@@ -2,14 +2,15 @@
 /*
  * This file is part of con4gis, the gis-kit for Contao CMS.
  * @package con4gis
- * @version 8
+ * @version 10
  * @author con4gis contributors (see "authors.txt")
  * @license LGPL-3.0-or-later
- * @copyright (c) 2010-2022, by Küstenschmiede GmbH Software & Design
+ * @copyright (c) 2010-2025, by Küstenschmiede GmbH Software & Design
  * @link https://www.con4gis.org
  */
 namespace con4gis\ProjectsBundle\Classes\Actions;
 
+use con4gis\CoreBundle\Classes\C4GUtils;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickCommon;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickConst;
 use con4gis\ProjectsBundle\Classes\Database\C4GBrickDatabase;
@@ -398,7 +399,7 @@ class C4GShowDialogAction extends C4GBrickDialogAction
         if (!$dialogParams->getC4gMap()) {
             $result = $this->withMap($this->getFieldList(), $dialogParams->getContentId());
             if ($result) {
-                $content = \Controller::replaceInsertTags('{{insert_content::' . $result . '}}');
+                $content = C4GUtils::replaceInsertTags('{{insert_content::' . $result . '}}');
             }
         } else {
             $content = $dialogParams->getC4gMap();

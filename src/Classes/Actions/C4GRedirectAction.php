@@ -2,10 +2,10 @@
 /*
  * This file is part of con4gis, the gis-kit for Contao CMS.
  * @package con4gis
- * @version 8
+ * @version 10
  * @author con4gis contributors (see "authors.txt")
  * @license LGPL-3.0-or-later
- * @copyright (c) 2010-2022, by Küstenschmiede GmbH Software & Design
+ * @copyright (c) 2010-2025, by Küstenschmiede GmbH Software & Design
  * @link https://www.con4gis.org
  */
 namespace con4gis\ProjectsBundle\Classes\Actions;
@@ -27,7 +27,7 @@ class C4GRedirectAction extends C4GBrickDialogAction
         if (!$this->redirectSite) {
             $this->redirectSite = $dialogParams->getRedirectSite();
         }
-        if ($this->redirectSite && (($jumpTo = \PageModel::findByPk($this->redirectSite)) !== null)) {
+        if ($this->redirectSite && (($jumpTo = \Contao\PageModel::findByPk($this->redirectSite)) !== null)) {
             if ($this->redirectWithSaving && $dialogParams->isRedirectWithSaving() && !$dialogParams->isRedirectWithActivation()) {
                 $action = new C4GSaveDialogAction($dialogParams, $this->getListParams(), $this->getFieldList(), $this->putVars, $this->getBrickDatabase());
                 if ($this->setParentIdAfterSave) {

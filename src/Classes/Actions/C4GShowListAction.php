@@ -2,15 +2,16 @@
 /*
  * This file is part of con4gis, the gis-kit for Contao CMS.
  * @package con4gis
- * @version 8
+ * @version 10
  * @author con4gis contributors (see "authors.txt")
  * @license LGPL-3.0-or-later
- * @copyright (c) 2010-2022, by Küstenschmiede GmbH Software & Design
+ * @copyright (c) 2010-2025, by Küstenschmiede GmbH Software & Design
  * @link https://www.con4gis.org
  */
 namespace con4gis\ProjectsBundle\Classes\Actions;
 
 use con4gis\CoreBundle\Classes\C4GHTMLFactory;
+use con4gis\CoreBundle\Classes\C4GUtils;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickConst;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldText;
 use con4gis\ProjectsBundle\Classes\Fieldtypes\C4GKeyField;
@@ -22,6 +23,8 @@ use con4gis\ProjectsBundle\Classes\Models\C4gProjectsModel;
 use con4gis\ProjectsBundle\Classes\Views\C4GBrickView;
 use con4gis\ProjectsBundle\Classes\Views\C4GBrickViewType;
 use Symfony\Component\Config\Definition\Exception\Exception;
+
+use Contao\MemberGroupModel;
 
 class C4GShowListAction extends C4GBrickDialogAction
 {
@@ -101,7 +104,7 @@ class C4GShowListAction extends C4GBrickDialogAction
             }
             $this->dialogParams->getSession()->setSessionValue('c4g_brick_group_id', $groupId);
 
-            $group = \MemberGroupModel::findByPk($groupId);
+            $group = MemberGroupModel::findByPk($groupId);
             if ($group) {
                 $group_headline = '<div class="c4g_brick_headtext">' . $GLOBALS['TL_LANG']['FE_C4G_LIST']['USERMESSAGE_ACTIVE_GROUP'] . '<b>' . $group->name . '</b></div>';
             }
@@ -470,7 +473,7 @@ class C4GShowListAction extends C4GBrickDialogAction
         if (!$dialogParams->getC4gMap()) {
             $result = $this->withMap($fieldList, $dialogParams->getContentId());
             if ($result) {
-//                $content = \Controller::replaceInsertTags('{{insert_content::'.$result.'}}');
+//                $content = C4GUtils::replaceInsertTags('{{insert_content::'.$result.'}}');
                 $content = $result;
             }
         } else {

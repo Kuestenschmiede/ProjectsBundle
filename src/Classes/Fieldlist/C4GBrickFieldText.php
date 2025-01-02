@@ -2,14 +2,15 @@
 /*
  * This file is part of con4gis, the gis-kit for Contao CMS.
  * @package con4gis
- * @version 8
+ * @version 10
  * @author con4gis contributors (see "authors.txt")
  * @license LGPL-3.0-or-later
- * @copyright (c) 2010-2022, by Küstenschmiede GmbH Software & Design
+ * @copyright (c) 2010-2025, by Küstenschmiede GmbH Software & Design
  * @link https://www.con4gis.org
  */
 namespace con4gis\ProjectsBundle\Classes\Fieldlist;
 
+use con4gis\CoreBundle\Classes\C4GUtils;
 use Contao\Controller;
 
 abstract class C4GBrickFieldText extends C4GBrickField
@@ -79,7 +80,7 @@ abstract class C4GBrickFieldText extends C4GBrickField
             }
         }
         if ($this->replaceInsertTag) {
-            $value = Controller::replaceInsertTags($value);
+            $value = C4GUtils::replaceInsertTags($value);
         }
 
         return $value;

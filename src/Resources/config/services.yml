@@ -6,7 +6,11 @@ services:
     con4gis\ProjectsBundle\Controller\AjaxController:
         arguments:
             - '%kernel.project_dir%'
-            - "@session"
+            #- "@session_interface"
+           # - "@contao.session.contao_frontend"
+            #- "@contao.session.factory"
+            #- "@session"
+            - "@request_stack"
             - "@contao.framework"
         public: true
         class: con4gis\ProjectsBundle\Controller\AjaxController
@@ -14,8 +18,12 @@ services:
     con4gis\ProjectsBundle\Controller\C4GSearchModuleController:
         arguments:
             - '%kernel.project_dir%'
-            - "@session"
+            #- "@contao.session.contao_frontend"
+            #- "@contao.session.factory"
+           # - "@session"
+            - "@request_stack"
             - "@contao.framework"
         public: true
         tags:
             - { name: contao.frontend_module,category: con4gis,template: mod_c4g_brick,type: C4GSearchModule }
+
