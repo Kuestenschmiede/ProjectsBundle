@@ -1175,8 +1175,11 @@ class C4GBaseController extends AbstractFrontendModuleController
      *
      * @param $action
      * @return array|mixed
-     * @Route("/projects-api/perform/{action}", methods={"GET"})
      */
+    #[Route(
+        path: '/projects-api/perform/{action}',
+        methods: ['GET']
+    )]
     public function getPerformAction($request, $action, $withMemberCheck = true)
     {
         $values = explode(':', $action, 5);

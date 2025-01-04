@@ -13,6 +13,7 @@
  * Kartenstrukturelemente
  */
 
+use con4gis\CoreBundle\Classes\C4GUtils;
 use con4gis\CoreBundle\Classes\C4GVersionProvider;
 use Contao\System;
 use Contao\RequestToken;
@@ -36,8 +37,7 @@ $GLOBALS['TL_MODELS']['tl_c4g_projects'] = 'con4gis\ProjectsBundle\Classes\Model
 $GLOBALS['TL_MODELS']['tl_c4g_projects_logbook'] = 'con4gis\ProjectsBundle\Classes\Models\C4gProjectsLogbookModel';
 
 //needed with upload fields
-// if(defined('TL_MODE') && TL_MODE == "FE")
-if (System::getContainer()->get('contao.routing.scope_matcher')->isFrontendRequest(System::getContainer()->get('request_stack')->getCurrentRequest() ?? Request::create(''))) {
+if (C4GUtils::isFrontend()) {
     try {
         // TODO replace with symfony csrf token
         // $requestStack = System::getContainer()->get('request_stack');
