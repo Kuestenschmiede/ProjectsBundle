@@ -33,6 +33,7 @@ use con4gis\ProjectsBundle\Classes\Session\C4gBrickSession;
 use con4gis\ProjectsBundle\Classes\Views\C4GBrickView;
 use con4gis\ProjectsBundle\Classes\Views\C4GBrickViewParams;
 use con4gis\ProjectsBundle\Classes\Views\C4GBrickViewType;
+use Contao\ArrayUtil;
 use Contao\Controller;
 use Contao\Database;
 use Contao\Frontend;
@@ -1004,7 +1005,7 @@ class C4GBrickModuleParent extends Module
                 $result = [];
                 foreach ($actions as $action) {
                     $r = $this->performHistoryAction($action);
-                    array_insert($result, 0, $r);
+                    ArrayUtil::arrayInsert($result, 0, $r);
                 }
             } else {
                 switch ($request) {
