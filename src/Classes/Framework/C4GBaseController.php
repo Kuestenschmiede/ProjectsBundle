@@ -1172,6 +1172,10 @@ class C4GBaseController extends AbstractFrontendModuleController
     }
 
     /**
+     * @Route(
+     *      path="/projects-api/perform/{action}",
+     *      methods={"GET"}
+     *  )
      * module event controller
      *
      * @param $action
