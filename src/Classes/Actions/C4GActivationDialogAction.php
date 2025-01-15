@@ -32,9 +32,7 @@ class C4GActivationDialogAction extends C4GBrickDialogAction
         }
 
         if ($dialogParams->isRedirectWithSaving() && $dialogParams->isRedirectWithActivation()) {
-//            $action = new C4GSaveDialogAction($this->getDialogParams(), $this->getListParams(), $this->getFieldList(), $this->getPutVars(), $this->getBrickDatabase());
-//            $action->setModule($this->module);
-//            $action->run();
+
             $dbValues = null;
             if ($dialogId && ($dialogId != '') && ($dialogId != '-1')) {
                 $dbValues = $this->getBrickDatabase()->findByPk($dialogId);

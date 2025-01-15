@@ -43,35 +43,12 @@ class C4GSendEmailNotificationAction extends C4GBrickDialogAction
         $dlgValues['c4g_member_id'] = $memberId;
         if ($dialogParams->isWithNotification() && $id) {
             if (is_array($notification_array) && count($notification_array) == 1) {
-                // $objNotification = NotificationCenter::findByPk($notification_array);
-                // $parcel = $this->notificationCenter->createParcelForMessage($message->id, $this->notificationCenter->createBasicStampsForNotification($message->pid, $tokens));
-                // $result = $this->notificationCenter->sendParcel($parcel);
-                // $result = $this->notificationCenter->sendNotification($notificationId, $tokens);
-                // if ($objNotification !== null) {
-
-                // System::getContainer()->get('@con4gis\ReservationBundle\Classes\Notifications\C4gNotfificationCenterService')->getNotificationCenter()->sendNotification();
-                    $arrTokens = C4GBrickNotification::getArrayTokens($dlgValues, $fieldList, true);
-                    // $email_text = $putVars['email_text'];
-                    // if ($email_text !== ' ') {
-                    //     $arrTokens['email_text'] = $email_text;
-                    // }
-                    // $objNotification->send($arrTokens);
-                    $result = System::getContainer()->get('con4gis\ReservationBundle\Classes\Notifications\C4gNotificationCenterService')->getNotificationCenter()->sendNotification(intval($notification_array[0]), $arrTokens);
-                // }
+                $arrTokens = C4GBrickNotification::getArrayTokens($dlgValues, $fieldList, true);
+                $result = System::getContainer()->get('con4gis\ReservationBundle\Classes\Notifications\C4gNotificationCenterService')->getNotificationCenter()->sendNotification(intval($notification_array[0]), $arrTokens);
             } else {
                 foreach ($notification_array as $key=>$notification) {
-                    // $objNotification = \NotificationCenter\Model\Notification::findByPk($notification);
-                    // $objNotification = NotificationCenter::findByPk($notification);
-                    // if ($objNotification !== null) {
-                        $arrTokens = C4GBrickNotification::getArrayTokens($dlgValues, $fieldList, true);
-                        //$email_text = $putVars['email_text'];
-                        //if ($email_text !== ' ') {
-                        //    $arrTokens['email_text'] = $email_text;
-                        // }
-                        // $result = $objNotification->send($arrTokens);
-                        // $result = $this->notificationCenter->sendNotification($id, $arrTokens);
-                        $result = System::getContainer()->get('con4gis\ReservationBundle\Classes\Notifications\C4gNotificationCenterService')->getNotificationCenter()->sendNotification($notification_array[$key], $arrTokens);
-                    // }
+                    $arrTokens = C4GBrickNotification::getArrayTokens($dlgValues, $fieldList, true);
+                    $result = System::getContainer()->get('con4gis\ReservationBundle\Classes\Notifications\C4gNotificationCenterService')->getNotificationCenter()->sendNotification($notification_array[$key], $arrTokens);
                 }
             }
         }

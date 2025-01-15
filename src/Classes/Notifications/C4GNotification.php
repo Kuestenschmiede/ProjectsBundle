@@ -25,7 +25,6 @@ class C4GNotification
     protected $optionalTokens = [];
 
     public function __construct(array $notification)
-    // public function __construct(private NotificationCenter $notification)
     {
         foreach ($notification as $key => $value) {
             if (!is_array($value)) {

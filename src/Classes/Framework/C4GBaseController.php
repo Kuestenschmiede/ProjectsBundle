@@ -46,16 +46,10 @@ use PhpParser\Node\Expr\Array_;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-
 use Contao\Environment;
-
 use Contao\Session;
-// use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Routing\Annotation\Route;
-
 use Symfony\Component\HttpFoundation\RequestStack;
-
-// use con4gis\CoreBundle\Controller\BaseController;
 use Contao\CoreBundle\Controller\FrontendModule\AbstractFrontendModuleController;
 use Contao\Input;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -70,7 +64,6 @@ use Composer\InstalledVersions;
  * @package c4g\projects
  */
 
-// class C4GBaseController extends BaseController
 class C4GBaseController extends AbstractFrontendModuleController
 {
     //mandatory params
