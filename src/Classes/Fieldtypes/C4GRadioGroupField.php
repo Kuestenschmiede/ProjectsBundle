@@ -52,6 +52,7 @@ class C4GRadioGroupField extends C4GBrickField
             $fieldName = $this->getFieldName() . '_' . $this->getAdditionalID();
         }
 
+        
         $id = $this->createFieldID();
 
         $changeAction = '';
@@ -93,65 +94,67 @@ class C4GRadioGroupField extends C4GBrickField
             $options = $this->getOptions();
         }
 
-        $addToFieldset = ' class="c4g__form-radio-group radio-group-'.$fieldName.'"';
-        $option_results = '';
-        $object_id = -1;
-        foreach ($options as $option) {
-            $option_id = trim($option['id']);
-            if ($this->addNameToId) {
-                $name = '_' . $id;
-                $option_name = $fieldName . $option_id;
-                $for = $fieldName . $option_id;
-            } else {
-                $name = $id;
-                $option_name = $option_id;
-                $for = $option_name;
-            }
-            $type_caption = $option['name'];
-
-            if (key_exists('objects', $option) && $option['objects'] && count($option['objects']) > 0) {
-                $cnt = 0;
-                foreach ($option['objects'] as $key => $object) {
-                    $object_id = ($cnt == 0) ? $option['objects'][$key]['id'] : $object_id . '-' . $option['objects'][$key]['id'];
-                    $cnt++;
+        if ($this->isShowIfEmpty() || (!$this->isShowIfEmpty() && count($options) > 0)) {
+            $addToFieldset = ' class="c4g__form-radio-group radio-group-' . $fieldName . '"';
+            $option_results = '';
+            $object_id = -1;
+            foreach ($options as $option) {
+                $option_id = trim($option['id']);
+                if ($this->addNameToId) {
+                    $name = '_' . $id;
+                    $option_name = $fieldName . $option_id;
+                    $for = $fieldName . $option_id;
+                } else {
+                    $name = $id;
+                    $option_name = $option_id;
+                    $for = $option_name;
                 }
-            }
-            $optionAttributes = key_exists('attribtes',$option) && $option['attributes'] ? ' ' . $option['attributes'] . ' ': '';
+                $type_caption = $option['name'];
 
-            $onClick = "document.getElementById('" . $id . "') && document.querySelector('input[name=_" . $id . "]:checked') ? document.getElementById('" . $id . "').value = document.querySelector('input[name=_" . $id . "]:checked').value : '';".$this->getCallOnChangeFunction().";";
-            if ($object_id && intval($object_id) != -1) {
-                $object_class = 'class="c4g__form-check-input radio_object_' . $object_id . $additionalInputClass.'" ';
+                if (key_exists('objects', $option) && $option['objects'] && count($option['objects']) > 0) {
+                    $cnt = 0;
+                    foreach ($option['objects'] as $key => $object) {
+                        $object_id = ($cnt == 0) ? $option['objects'][$key]['id'] : $object_id . '-' . $option['objects'][$key]['id'];
+                        $cnt++;
+                    }
+                }
+                $optionAttributes = key_exists('attribtes', $option) && $option['attributes'] ? ' ' . $option['attributes'] . ' ' : '';
+
+                $onClick = "document.getElementById('" . $id . "') && document.querySelector('input[name=_" . $id . "]:checked') ? document.getElementById('" . $id . "').value = document.querySelector('input[name=_" . $id . "]:checked').value : '';" . $this->getCallOnChangeFunction() . ";";
+                if ($object_id && intval($object_id) != -1) {
+                    $object_class = 'class="c4g__form-check-input radio_object_' . $object_id . $additionalInputClass . '" ';
+                } else {
+                    $object_class = 'class="c4g__form-check-input' . $additionalInputClass . '" ';
+                }
+
+                $option_results = $option_results . '<div class="c4g__form-check"><input type="radio" ' . $object_class . 'id="' . $option_name . '" name="' . $name . '" ' . $optionAttributes . ' ' . $changeAction . ' onclick="' . $onClick . '" data-object="" value="' . $option_id . '" ' . (($value == $option_id) ? 'checked' : '') . ' /><label class="c4g__form-check-label' . $additionalLabelClass . '" for="' . $for . '" >' . $type_caption . '</label></div>';
+            }
+
+            if (!$option_results) {
+                $option_results = '<div class="c4g__form-radio-group_clear">' . $this->clearGroupText . '</div>';
+            }
+
+            $conditionPrepare = $condition['conditionPrepare'];
+
+            $attributes = $this->getAttributes() ? ' ' . $this->getAttributes() . ' ' : '';
+
+            if ($this->withoutScripts) {
+                $result .= $this->generateC4GFieldHTML($condition, '<div class="c4g__form-radio-group_wrapper" ' . $condition['conditionPrepare'] . '>' .
+                    '<input type="hidden" name="' . $fieldName . '" value="' . $value . '" id="' . $id . '"  ' . $required . ' ' . $conditionPrepare . ' ' . 'class="formdata ' . $id . $attributes . '">' .
+                    '<label class="c4g__form-radio-group_label"' . $conditionPrepare . '>' . $this->addC4GField(null, $dialogParams, $fieldList, $data, '</label>' .
+                        '<fieldset' . $addToFieldset . '>' .
+                        $option_results .
+                        '</fieldset>' .
+                        '</div>'));
             } else {
-                $object_class = 'class="c4g__form-check-input' . $additionalInputClass.'" ';
+                $result .= $this->generateC4GFieldHTML($condition, '<div class="c4g__form-radio-group_wrapper" ' . $condition['conditionPrepare'] . '>' .
+                    '<input type="hidden" name="' . $fieldName . '" value="' . $value . '" id="' . $id . '"  ' . $required . ' ' . $conditionPrepare . ' ' . 'class="formdata ' . $id . $attributes . '">' .
+                    '<label class="c4g__form-radio-group_label"' . $conditionPrepare . '>' . $this->addC4GField(null, $dialogParams, $fieldList, $data, '</label>' .
+                        '<fieldset' . $addToFieldset . '>' .
+                        $option_results .
+                        '</fieldset><span class="reset_c4g__form-radio-group"></span>' .
+                        '</div><script>function resetRadioGroup(){ document.querySelector("input[name=\'_' . $id . '\']").removeAttribute(\'checked\');document.getElementById("' . $id . '") ? document.getElementById("' . $id . '").value = 0 : ""; };</script>'));
             }
-
-            $option_results = $option_results . '<div class="c4g__form-check"><input type="radio" ' . $object_class . 'id="' . $option_name . '" name="' . $name . '" ' . $optionAttributes . ' ' . $changeAction . ' onclick="' . $onClick . '" data-object="" value="' . $option_id . '" ' . (($value == $option_id) ? 'checked' : '') . ' /><label class="c4g__form-check-label'.$additionalLabelClass.'" for="' . $for . '" >' . $type_caption . '</label></div>';
-        }
-
-        if (!$option_results) {
-            $option_results = '<div class="c4g__form-radio-group_clear">' . $this->clearGroupText . '</div>';
-        }
-
-        $conditionPrepare = $condition['conditionPrepare'];
-
-        $attributes = $this->getAttributes() ? ' ' . $this->getAttributes() . ' ': '';
-
-        if ($this->withoutScripts) {
-            $result .= $this->generateC4GFieldHTML($condition, '<div class="c4g__form-radio-group_wrapper" ' . $condition['conditionPrepare'] . '>' .
-                '<input type="hidden" name="' . $fieldName . '" value="' . $value . '" id="' . $id . '"  ' . $required . ' ' . $conditionPrepare . ' ' . 'class="formdata ' . $id . $attributes . '">' .
-                '<label class="c4g__form-radio-group_label"' . $conditionPrepare . '>' . $this->addC4GField(null, $dialogParams, $fieldList, $data, '</label>' .
-                    '<fieldset' . $addToFieldset . '>' .
-                    $option_results .
-                    '</fieldset>' .
-                    '</div>'));
-        } else {
-            $result .= $this->generateC4GFieldHTML($condition, '<div class="c4g__form-radio-group_wrapper" ' . $condition['conditionPrepare'] . '>' .
-                '<input type="hidden" name="' . $fieldName . '" value="' . $value . '" id="' . $id . '"  ' . $required . ' ' . $conditionPrepare . ' ' . 'class="formdata ' . $id . $attributes . '">' .
-                '<label class="c4g__form-radio-group_label"' . $conditionPrepare . '>' . $this->addC4GField(null, $dialogParams, $fieldList, $data, '</label>' .
-                    '<fieldset' . $addToFieldset . '>' .
-                    $option_results .
-                    '</fieldset><span class="reset_c4g__form-radio-group"></span>' .
-                    '</div><script>function resetRadioGroup(){ document.querySelector("input[name=\'_' . $id . '\']").removeAttribute(\'checked\');document.getElementById("' . $id . '") ? document.getElementById("' . $id . '").value = 0 : ""; };</script>'));
         }
 
         return $result;
