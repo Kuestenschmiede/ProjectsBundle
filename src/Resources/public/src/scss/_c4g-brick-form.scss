@@ -32,8 +32,19 @@
   }
 
   select {
+    width: 100%;
+    white-space: normal;
+    word-wrap: break-word;
+    height: auto;
+
     &.c4g__form-select {
       @extend .form-select;
+    }
+
+    option {
+      white-space: pre-wrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
   }
 
