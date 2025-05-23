@@ -47,7 +47,7 @@
     "jquery.scrollto": "^2.1.3",
     "magnific-popup": "^1.1.0",
     "minisearch": "^3.3.0",
-    "trix": "1.3.5",
+    "trix": "2.1.15",
     "vanillajs-datepicker": "^1.3.1"
   }
 }
