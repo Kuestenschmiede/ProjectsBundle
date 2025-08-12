@@ -13,6 +13,7 @@ namespace con4gis\ProjectsBundle\Classes\Fieldtypes;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickField;
 use con4gis\ProjectsBundle\Classes\Fieldlist\C4GBrickFieldType;
+use Contao\StringUtil;
 
 /**
  * Class C4GHeadlineField
@@ -59,7 +60,7 @@ class C4GHeadlineField extends C4GBrickField
                 $fieldName = $associatedField->getFieldName();
                 if (!empty($data->$fieldName) && trim($data->$fieldName) !== '') {
                     if ($associatedField instanceof C4GMultiLinkField || $associatedField instanceof C4GMultiCheckboxField) {
-                        $arrayData = \StringUtil::deserialize($data->$fieldName);
+                        $arrayData = StringUtil::deserialize($data->$fieldName);
                         foreach ($arrayData as $row) {
                             foreach ($row as $key => $item) {
                                 if (trim($item) !== '') {
@@ -201,7 +202,7 @@ class C4GHeadlineField extends C4GBrickField
                 $fieldName = $associatedField->getFieldName();
                 if (!empty($rowData->$fieldName) && trim($rowData->$fieldName) !== '') {
                     if ($associatedField instanceof C4GMultiLinkField || $associatedField instanceof C4GMultiCheckboxField) {
-                        $arrayData = \StringUtil::deserialize($rowData->$fieldName);
+                        $arrayData = StringUtil::deserialize($rowData->$fieldName);
                         foreach ($arrayData as $row) {
                             foreach ($row as $key => $item) {
                                 if (trim($item) !== '') {

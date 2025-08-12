@@ -65,7 +65,7 @@ function trixConfig() {
     if (typeof Trix !== 'undefined') {
         delete Trix.config.blockAttributes.heading1;
 
-        <?php if ($_GET['h2'] === '1') {?>
+        <?php if (array_key_exists('h2', $_GET) && $_GET['h2'] === '1') {?>
             Trix.config.blockAttributes.heading2 = {
             tagName: "h2",
             terminal: true,
@@ -74,7 +74,7 @@ function trixConfig() {
             };
         <?php }?>
 
-        <?php if ($_GET['h3'] === '1') {?>
+        <?php if (array_key_exists('h3', $_GET) && $_GET['h3'] === '1') {?>
             Trix.config.blockAttributes.heading3 = {
             tagName: "h3",
             terminal: true,
@@ -83,7 +83,7 @@ function trixConfig() {
             };
         <?php }?>
 
-        <?php if ($_GET['attach'] !== '1') {?>
+        <?php if (array_key_exists('attach', $_GET) && $_GET['attach'] !== '1') {?>
             document.addEventListener("trix-file-accept", event => {
             event.preventDefault()
             })
@@ -114,9 +114,9 @@ function trixConfig() {
             let xhr = new XMLHttpRequest();
             let url;
             if (file.type.includes('image')) {
-            url = '<?php echo $_GET['imageuploadpath'] ?: '/con4gis/upload/image'; ?>';
+            url = '<?php echo array_key_exists('imageuploadpath', $_GET) ? $_GET['imageuploadpath'] : '/con4gis/upload/image'; ?>';
             } else {
-            url = '<?php echo $_GET['fileuploadpath'] ?: '/con4gis/upload/file'; ?>';
+            url = '<?php echo array_key_exists('fileuploadpath', $_GET)  ? $_GET['fileuploadpath'] : '/con4gis/upload/file'; ?>';
             }
 
             xhr.open('POST', url, true);
@@ -158,7 +158,7 @@ function trixConfig() {
             })();
         <?php }?>
 
-        <?php if ($_GET['href'] !== '1') {?>
+        <?php if (array_key_exists('href', $_GET) && $_GET['href'] !== '1') {?>
             delete Trix.config.textAttributes.href;
         <?php }?>
 
@@ -171,15 +171,15 @@ function trixConfig() {
                         <button type="button" class="trix-button trix-button--icon trix-button--icon-bold" data-trix-attribute="bold" data-trix-key="b" title="<?php echo $lang['bold']; ?>" tabindex="-1"><?php echo $lang['bold']; ?></button>
                         <button type="button" class="trix-button trix-button--icon trix-button--icon-italic" data-trix-attribute="italic" data-trix-key="i" title="<?php echo $lang['italic']; ?>" tabindex="-1"><?php echo $lang['italic']; ?></button>
                         <button type="button" class="trix-button trix-button--icon trix-button--icon-strike" data-trix-attribute="strike" title="<?php echo $lang['strikethrough']; ?>" tabindex="-1"><?php echo $lang['strikethrough']; ?></button>
-                        <?php if ($_GET['href'] === '1') {?>
+                        <?php if (array_key_exists('href', $_GET) && $_GET['href'] === '1') {?>
                             <button type="button" class="trix-button trix-button--icon trix-button--icon-link" data-trix-attribute="href" data-trix-action="link" data-trix-key="k" title="<?php echo $lang['href']; ?>" tabindex="-1"><?php echo $lang['href']; ?></button>
                         <?php }?>
                       </span>
             <span class="trix-button-group trix-button-group--block-tools" data-trix-button-group="block-tools">
-                        <?php if ($_GET['h2'] === '1') {?>
+                        <?php if (array_key_exists('h2', $_GET) && $_GET['h2'] === '1') {?>
                             <button type="button" class="trix-button" data-trix-attribute="heading2" title="<?php echo $lang['h2']; ?>" tabindex="-1">H2</button>
                         <?php }?>
-                <?php if ($_GET['h3'] === '1') {?>
+                <?php if (array_key_exists('h3', $_GET) && $_GET['h3'] === '1') {?>
                     <button type="button" class="trix-button" data-trix-attribute="heading3" title="<?php echo $lang['h3']; ?>" tabindex="-1">H3</button>
                 <?php }?>
                         <button type="button" class="trix-button trix-button--icon trix-button--icon-quote" data-trix-attribute="quote" title="<?php echo $lang['quote']; ?>" tabindex="-1"><?php echo $lang['quote']; ?></button>
@@ -189,7 +189,7 @@ function trixConfig() {
                         <button type="button" class="trix-button trix-button--icon trix-button--icon-decrease-nesting-level" data-trix-action="decreaseNestingLevel" title="<?php echo $lang['decrease_level']; ?>" tabindex="-1"><?php echo $lang['decrease_level']; ?></button>
                         <button type="button" class="trix-button trix-button--icon trix-button--icon-increase-nesting-level" data-trix-action="increaseNestingLevel" title="<?php echo $lang['increase_level']; ?>" tabindex="-1"><?php echo $lang['increase_level']; ?></button>
                       </span>
-            <?php if ($_GET['attach'] === '1') {?>
+            <?php if (array_key_exists('attach', $_GET) && $_GET['attach'] === '1') {?>
                 <span class="trix-button-group trix-button-group--file-tools" data-trix-button-group="file-tools">
                         <button type="button" class="trix-button trix-button--icon trix-button--icon-attach" data-trix-action="attachFiles" title="<?php echo $lang['attach']; ?>" tabindex="-1"><?php echo $lang['attach']; ?></button>
                       </span>
