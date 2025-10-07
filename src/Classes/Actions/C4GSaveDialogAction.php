@@ -115,6 +115,7 @@ class C4GSaveDialogAction extends C4GBrickDialogAction
         if ($dialogParams->isGeneratePrintoutWithSaving()) {
             $database = $brickDatabase->getParams()->getDatabase();
             $printoutPDF = new C4GPrintoutPDF($database);
+            $printoutPDF->setHeadline($dialogParams->getDocumentHeadline());
 
             $printValues = $dlgValues;
             if ($result['set']) {

@@ -86,6 +86,7 @@ class C4GBrickDialogParams
     private $savePrintoutToField = ''; //fieldname for automaticly document saving
     private $generatePrintoutWithSaving = false; //see savePrintoutToField
     private $printConditionField = ''; //only show print button if set
+    private $documentHeadline = ''; //to change document Headline
     private $passwordField = ''; //password to encrypt pdf document
     private $passwordFormat = ''; //useful with dateformat
     private $noPasswordOnButtonClick = false; //encrypt the document only on saving
@@ -2228,5 +2229,15 @@ class C4GBrickDialogParams
     public function setIgnoreChanges(bool $ignoreChanges): void
     {
         $this->ignoreChanges = $ignoreChanges;
+    }
+
+    public function getDocumentHeadline(): string
+    {
+        return $this->documentHeadline;
+    }
+
+    public function setDocumentHeadline(string $documentHeadline): void
+    {
+        $this->documentHeadline = $documentHeadline;
     }
 }

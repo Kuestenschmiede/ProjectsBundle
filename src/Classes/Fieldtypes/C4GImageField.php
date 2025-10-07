@@ -308,6 +308,8 @@ class C4GImageField extends C4GBrickField
         }
 
         if ($value) {
+            $rootDir = \Contao\System::getContainer()->getParameter('kernel.project_dir');
+            $value = $rootDir.'/'.$value;
             $value = str_replace('&quot;', '"', $value);
             $type = pathinfo($value, PATHINFO_EXTENSION);
             $data = file_get_contents($value);
@@ -315,7 +317,9 @@ class C4GImageField extends C4GBrickField
 
             $width = $this->getWidth();
             $height = $this->getHeight();
-            $result = '<br><label class="image ' . $this->getFieldName() . '">' . $this->getTitle() . '</label><br><img src="' . $base64 . '" alt="" width="' . $width . '" height="' . $height . '">';
+
+            $align = $this->getAlign();
+            $result = '<br><div class="c4g-pdf-image" style="text-align:'.$align.'"><label class="image ' . $this->getFieldName() . '">' . $this->getTitle() . '</label><br><img src="' . $base64 . '" alt="" width="' . $width . '" height="' . $height . '"></div>';
         }
 
         return $result;

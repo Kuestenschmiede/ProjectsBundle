@@ -27,7 +27,7 @@
     "doctrine/persistence": "^2|^3",
     "terminal42/notification_center": "^2.0",
     "contao-components/jquery": "^3.7",
-    "bacon/bacon-qr-code": "^2.0"
+    "bacon/bacon-qr-code": "^2"
   },
   "conflict": {
     "contao/core": "*",

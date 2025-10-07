@@ -662,6 +662,10 @@ legend + * {
   -webkit-appearance: textfield;
   outline-offset: -2px
 }
+[type=search]::-webkit-search-cancel-button {
+  cursor: pointer;
+  filter: grayscale(1)
+}
 ::-webkit-search-decoration {
   -webkit-appearance: none
 }
@@ -1271,9 +1275,9 @@ textarea.form-control-lg {
 .form-floating > .form-control::placeholder {
   color: transparent
 }
-.c4g_brick_dialog .form-floating > .c4g__form-control:not(:-moz-placeholder-shown),
-.form-floating > .form-control-plaintext:not(:-moz-placeholder-shown),
-.form-floating > .form-control:not(:-moz-placeholder-shown) {
+.c4g_brick_dialog .form-floating > .c4g__form-control:not(:-moz-placeholder),
+.form-floating > .form-control-plaintext:not(:-moz-placeholder),
+.form-floating > .form-control:not(:-moz-placeholder) {
   padding-top: 1.625rem;
   padding-bottom: .625rem
 }
@@ -1298,8 +1302,8 @@ textarea.form-control-lg {
   padding-bottom: .625rem;
   padding-left: .75rem
 }
-.c4g_brick_dialog .form-floating > .c4g__form-control:not(:-moz-placeholder-shown) ~ label,
-.form-floating > .form-control:not(:-moz-placeholder-shown) ~ label {
+.c4g_brick_dialog .form-floating > .c4g__form-control:not(:-moz-placeholder) ~ label,
+.form-floating > .form-control:not(:-moz-placeholder) ~ label {
   transform: scale(.85) translateY(-.5rem) translateX(.15rem)
 }
 .c4g_brick_dialog .form-floating > .c4g__form-control:focus ~ label,
@@ -1315,7 +1319,7 @@ textarea.form-control-lg {
 .form-floating > .form-control:-webkit-autofill ~ label {
   transform: scale(.85) translateY(-.5rem) translateX(.15rem)
 }
-.form-floating > textarea:not(:-moz-placeholder-shown) ~ label::after {
+.form-floating > textarea:not(:-moz-placeholder) ~ label::after {
   position: absolute;
   inset: 1rem .375rem;
   z-index: -1;
@@ -4030,6 +4034,7 @@ fieldset:disabled .ui-button {
 .spinner-border,
 .spinner-grow {
   display: inline-block;
+  flex-shrink: 0;
   width: var(--bs-spinner-width);
   height: var(--bs-spinner-height);
   vertical-align: var(--bs-spinner-vertical-align);
@@ -4712,7 +4717,7 @@ fieldset:disabled .ui-button {
   border-top-right-radius: 0
 }
 /*!
- * Bootstrap  v5.3.6 (https://getbootstrap.com/)
+ * Bootstrap  v5.3.8 (https://getbootstrap.com/)
  * Copyright 2011-2025 The Bootstrap Authors
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  */
@@ -5227,6 +5232,10 @@ legend + * {
 [type=search] {
   -webkit-appearance: textfield;
   outline-offset: -2px
+}
+[type=search]::-webkit-search-cancel-button {
+  cursor: pointer;
+  filter: grayscale(1)
 }
 ::-webkit-search-decoration {
   -webkit-appearance: none
@@ -7255,9 +7264,9 @@ textarea.form-control-lg {
 .form-floating > .form-control::placeholder {
   color: transparent
 }
-.c4g_brick_dialog .form-floating > .c4g__form-control:not(:-moz-placeholder-shown),
-.form-floating > .form-control-plaintext:not(:-moz-placeholder-shown),
-.form-floating > .form-control:not(:-moz-placeholder-shown) {
+.c4g_brick_dialog .form-floating > .c4g__form-control:not(:-moz-placeholder),
+.form-floating > .form-control-plaintext:not(:-moz-placeholder),
+.form-floating > .form-control:not(:-moz-placeholder) {
   padding-top: 1.625rem;
   padding-bottom: .625rem
 }
@@ -7282,8 +7291,8 @@ textarea.form-control-lg {
   padding-bottom: .625rem;
   padding-left: .75rem
 }
-.c4g_brick_dialog .form-floating > .c4g__form-control:not(:-moz-placeholder-shown) ~ label,
-.form-floating > .form-control:not(:-moz-placeholder-shown) ~ label {
+.c4g_brick_dialog .form-floating > .c4g__form-control:not(:-moz-placeholder) ~ label,
+.form-floating > .form-control:not(:-moz-placeholder) ~ label {
   transform: scale(.85) translateY(-.5rem) translateX(.15rem)
 }
 .c4g_brick_dialog .form-floating > .c4g__form-control:focus ~ label,
@@ -7299,7 +7308,7 @@ textarea.form-control-lg {
 .form-floating > .form-control:-webkit-autofill ~ label {
   transform: scale(.85) translateY(-.5rem) translateX(.15rem)
 }
-.form-floating > textarea:not(:-moz-placeholder-shown) ~ label::after {
+.form-floating > textarea:not(:-moz-placeholder) ~ label::after {
   position: absolute;
   inset: 1rem .375rem;
   z-index: -1;
@@ -11257,6 +11266,7 @@ fieldset:disabled .ui-button {
 .spinner-border,
 .spinner-grow {
   display: inline-block;
+  flex-shrink: 0;
   width: var(--bs-spinner-width);
   height: var(--bs-spinner-height);
   vertical-align: var(--bs-spinner-vertical-align);

@@ -38,6 +38,7 @@ class C4GPrintoutPDF
     private $framework;
     private $database;
     private $language;
+    private $headline = '';
 
     /**
      * C4GPrintoutPDF constructor.
@@ -141,7 +142,7 @@ class C4GPrintoutPDF
 
     public function printAction($module, $data, $id, $buttonClick = false)
     {
-        $rootDir = System::getContainer()->getParameter('kernel.project_dir');
+        $rootDir = \Contao\System::getContainer()->getParameter('kernel.project_dir');
         $pass = '';
         if (method_exists($module, 'printPdf')) {
             return $module->printPdf($id);
@@ -263,11 +264,13 @@ class C4GPrintoutPDF
         $pdfData['filename'] = '{{date::Y_m_d-H_i_s}}-' . rand(100, 999) . '_document.pdf';
         $pdfData['filepath'] = C4GBrickConst::PATH_BRICK_DOCUMENTS;
         $pdfData['Attachment'] = false;
+        $pdfData['fieldData'] = $data;
+        $pdfData['fieldList'] = $printFieldList;
 
         $pdfManager->setData($pdfData);
 
         $captionField = $module->getDialogParams()->getCaptionField();
-        $pdfManager->headline = $module->getDialogParams()->getBrickCaption() . ': ' . $data[$captionField];
+        $pdfManager->headline = $this->headline  . ': ' . $data[$captionField] ?: $module->getDialogParams()->getBrickCaption() . ': ' . $data[$captionField];
         $pdfManager->hl = 'h1';
 
         $pdfManager->content = $content;
@@ -283,7 +286,7 @@ class C4GPrintoutPDF
 
         $pdfFieldName = $module->getDialogParams()->getSavePrintoutToField();
         if ($pdfFieldName && $path) {
-            $objNew = \Dbafs::addResource($path);
+            $objNew = \Contao\Dbafs::addResource($path);
             $fileUuid = $objNew->uuid;
             $fileUuid = StringUtil::deserialize($fileUuid);
             $tableName = $module->getC4GTablePermissionTable();
@@ -297,5 +300,21 @@ class C4GPrintoutPDF
         }
 
         return $response;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getHeadline()
+    {
+        return $this->headline;
+    }
+
+    /**
+     * @param mixed $headline
+     */
+    public function setHeadline($headline): void
+    {
+        $this->headline = $headline;
     }
 }
