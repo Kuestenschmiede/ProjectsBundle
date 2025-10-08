@@ -35,6 +35,8 @@ class C4GBrickRegEx
     const YEARS = '^[1][90](\d{2})|[2][0](\d{2})$'; //Years, from 1900 to 20xx. Will also allow 29xx, so make sure to set a max value!
     const DATE_D_M_Y = '^([0-2][0-9]|[3][0-1])[.]([0][0-9]|[1][0-2])[.]([1][90](\d{2})|[2][0](\d{2}))$'; //Dates in DD.MM.YYYY format
     const DATE_Y_M_D = '(?:19|20)(?:[0-9]{2}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-8])|(?:(?!02)(?:0[1-9]|1[0-2])-(?:29|30))|(?:(?:0[13578]|1[02])-31))|(?:[13579][26]|[02468][048])-02-29)'; //Dates in YYYY-MM-DD format
+    const IBAN = '^[a-zA-Z]{2}[0-9]{2}\s?[a-zA-Z0-9]{4}\s?[0-9]{4}\s?[0-9]{3}([a-zA-Z0-9]\s?[a-zA-Z0-9]{0,4}\s?[a-zA-Z0-9]{0,4}\s?[a-zA-Z0-9]{0,4}\s?[a-zA-Z0-9]{0,3})?$';
+    const BIC = '^[A-Z]{6}[A-Z0-9]{2}([A-Z0-9]{3})?$';
 
     /**
      * Dynamic Expressions

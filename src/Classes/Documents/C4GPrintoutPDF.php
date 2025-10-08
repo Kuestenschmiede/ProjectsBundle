@@ -259,6 +259,12 @@ class C4GPrintoutPDF
         }
         $pdfManager->style = $style;
 
+        foreach ($data as $key=>$value) {
+            if (strpos($value, "\n") !== false) {
+                $data[$key] = str_replace("\n", "<br>", $value);
+            }
+        }
+
         $pdfData = [];
         $pdfData['template'] = $module->getPrintTemplate();
         $pdfData['filename'] = '{{date::Y_m_d-H_i_s}}-' . rand(100, 999) . '_document.pdf';
