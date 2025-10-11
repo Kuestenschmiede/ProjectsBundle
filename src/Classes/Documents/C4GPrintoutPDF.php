@@ -272,6 +272,8 @@ class C4GPrintoutPDF
         $pdfData['Attachment'] = false;
         $pdfData['fieldData'] = $data;
         $pdfData['fieldList'] = $printFieldList;
+        $pdfData['chroot'] = dirname($style);
+        $pdfData['style'] = $style;
 
         $pdfManager->setData($pdfData);
 
