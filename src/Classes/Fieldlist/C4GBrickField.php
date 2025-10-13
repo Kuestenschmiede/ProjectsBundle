@@ -725,13 +725,19 @@ abstract class C4GBrickField
         } else {
             $fieldName = $this->getFieldName();
 
-            if (!$data->$fieldName) {
+            if ($data && property_exists($data, $fieldName)) {
+                if (!$data->$fieldName) {
+                    if ($this->getAdditionalID()) {
+                        $fieldName .= '_' . $this->getAdditionalID();
+                    }
+                }
+            } else {
                 if ($this->getAdditionalID()) {
                     $fieldName .= '_' . $this->getAdditionalID();
                 }
             }
-            $value = $data->$fieldName; //$data && property_exists($data, $fieldName) ? $data->$fieldName : false;
 
+            $value = $data->$fieldName;
 
             if ($deserialze && $value && !intval($value)) {
                 $value = $value ? intval(StringUtil::deserialize($value)[0]) : $value;
