@@ -41,6 +41,7 @@ use Contao\ModuleModel;
 use Contao\StringUtil;
 use Contao\System;
 use Contao\Template;
+use Terminal42\NotificationCenterBundle\BulkyItem\FileItem;
 use Terminal42\NotificationCenterBundle\NotificationCenter;
 use PhpParser\Node\Expr\Array_;
 use Symfony\Component\Config\Definition\Exception\Exception;
@@ -55,6 +56,7 @@ use Contao\Input;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 use Composer\InstalledVersions;
+use Terminal42\NotificationCenterBundle\Parcel\Stamp\BulkyItemsStamp;
 
 /**
  * Class C4GBaseController
@@ -1397,23 +1399,54 @@ class C4GBaseController extends AbstractFrontendModuleController
             $notification_array = StringUtil::deserialize($notification_type);
 
             if ($notification_array && is_array($notification_array)) {
+                $arrTokens = C4GBrickNotification::getArrayTokens($dlgValues, $fieldList);
+                $arrTokens['admin_email'] = $GLOBALS['TL_CONFIG']['adminEmail'];
+
+                $notificationCenter = System::getContainer()->get('con4gis\ReservationBundle\Classes\Notifications\C4gNotificationCenterService')->getNotificationCenter();
+
+                //ToDo better solution for files with nc2
+                foreach ($dlgValues as $key => $token) {
+                    if ($key === 'uploadFile') {
+                        if ($token) {
+                            $filePath = C4GUtils::replaceInsertTags("{{file::$token}}");
+                            if ($filePath) {
+                                $rootDir = \Contao\System::getContainer()->getParameter('kernel.project_dir');
+                                $file = $rootDir.'/'.$filePath;
+                            }
+                            $voucher = $notificationCenter->getBulkyItemStorage()->store(
+                                FileItem::fromPath($file, basename($file), 'application/pdf', filesize($file))
+                            );
+                            if ($voucher) {
+                                $arrTokens['uploadFile'] = $voucher;
+                            }
+                        }
+                        break;
+                    }
+                }
+
                 if (is_array($notification_array) && sizeof($notification_array) == 1) {
-                    // $objNotification = NotificationCenter::findByPk($notification_array);
-                    // if ($objNotification !== null) {
-                        $arrTokens = C4GBrickNotification::getArrayTokens($dlgValues, $fieldList);
-                        $arrTokens['admin_email'] = $GLOBALS['TL_CONFIG']['adminEmail'];
-                        // $objNotification->send($arrTokens);
-                        System::getContainer()->get('con4gis\ReservationBundle\Classes\Notifications\C4gNotificationCenterService')->getNotificationCenter()->sendNotification(intval($notification_array[0]), $arrTokens);
-                    // }
+                    $stamps = $notificationCenter->createBasicStampsForNotification(
+                        $notification_array[0],
+                        $arrTokens,
+                    );
+                    if ($voucher) {
+                        $stamps = $stamps->with(new BulkyItemsStamp([$voucher]));
+                        $notificationCenter->sendNotificationWithStamps(intval($notification_array[0]), $stamps);
+                    } else {
+                        $notificationCenter->sendNotification(intval($notification_array[0]), $arrTokens);
+                    }
                 } else {
                     foreach ($notification_array as $key=>$notification) {
-                        // $objNotification = NotificationCenter::findByPk($notification);
-                        // if ($objNotification !== null) {
-                            $arrTokens = C4GBrickNotification::getArrayTokens($dlgValues, $fieldList);
-                            $arrTokens['admin_email'] = $GLOBALS['TL_CONFIG']['adminEmail'];
-                            System::getContainer()->get('con4gis\ReservationBundle\Classes\Notifications\C4gNotificationCenterService')->getNotificationCenter()->sendNotification($notification_array[$key], $arrTokens);
-                            // $objNotification->send($arrTokens);
-                        // }
+                        $stamps = $notificationCenter->createBasicStampsForNotification(
+                            $notification_array[$key],
+                            $arrTokens,
+                        );
+                        if ($voucher) {
+                            $stamps = $stamps->with(new BulkyItemsStamp([$voucher]));
+                            $notificationCenter->sendNotificationWithStamps($notification_array[$key], $stamps);
+                        } else {
+                            $notificationCenter->sendNotification($notification_array[$key], $arrTokens);
+                        }
                     }
                 }
             }

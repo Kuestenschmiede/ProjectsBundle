@@ -10,7 +10,9 @@
  */
 namespace con4gis\ProjectsBundle\Classes\Actions;
 
+use con4gis\CoreBundle\Classes\C4GUtils;
 use con4gis\CoreBundle\Classes\C4GVersionProvider;
+use con4gis\CoreBundle\Resources\contao\models\C4gLogModel;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickCommon;
 use con4gis\ProjectsBundle\Classes\Common\C4GBrickConst;
 use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialog;
@@ -18,6 +20,7 @@ use con4gis\ProjectsBundle\Classes\Dialogs\C4GBrickDialogParams;
 use con4gis\ProjectsBundle\Classes\Documents\C4GPrintoutPDF;
 use con4gis\ProjectsBundle\Classes\Views\C4GBrickView;
 use con4gis\ProjectsBundle\Classes\Views\C4GBrickViewType;
+use Contao\StringUtil;
 
 class C4GSaveDialogAction extends C4GBrickDialogAction
 {
@@ -121,10 +124,20 @@ class C4GSaveDialogAction extends C4GBrickDialogAction
             if ($result['set']) {
                 $printValues = $result['set'];
             }
-            $printoutPDF->printAction($module, $printValues, $dialogId);
+            $printoutResult = $printoutPDF->printAction($module, $printValues, $dialogId);
         }
 
         if ($notification_type && $withNotification) {
+
+            if ($dialogParams->isGeneratePrintoutWithSaving() && $printoutResult) {
+                $json_string = $printoutResult->getContent();
+                $data = json_decode($json_string, true);
+                $pathUuid = $data['fileUuid'];
+                if ($pathUuid) {
+                    $dlgValues['uploadFile'] = $pathUuid;
+                }
+            }
+
             $this->module->sendNotifications($newId, $notifyOnChanges, $notification_type, $dlgValues, $fieldList, $changes);
         }
 

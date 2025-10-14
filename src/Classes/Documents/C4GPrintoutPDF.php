@@ -287,10 +287,6 @@ class C4GPrintoutPDF
         $path = $pdfManager->getPdfDocument()->getPath() . $pdfManager->getPdfDocument()->getFilename();
         // cut out the local path before "files"
         $path = substr($path, strpos($path, 'files'));
-        $response = new JsonResponse([
-            'filePath' => $path,
-            'fileName' => $pdfManager->getPdfDocument()->getFilename(),
-        ]);
 
         $pdfFieldName = $module->getDialogParams()->getSavePrintoutToField();
         if ($pdfFieldName && $path) {
@@ -306,6 +302,12 @@ class C4GPrintoutPDF
                 }
             }
         }
+
+        $response = new JsonResponse([
+            'fileUuid' => $fileUuid ? StringUtil::binToUuid($fileUuid) : '',
+            'filePath' => $path,
+            'fileName' => $pdfManager->getPdfDocument()->getFilename(),
+        ]);
 
         return $response;
     }
