@@ -27,6 +27,10 @@ class C4GNotification
     protected $tokens;
     protected $optionalTokens = [];
 
+    //ToDo dynamic solution for all modules
+    public const UUID_FILE_TOKEN = ['uploadFile'];
+    public const FILENAME_TOKEN = ['icsFilename'];
+
     public function __construct(array $notification)
     {
         foreach ($notification as $key => $value) {
@@ -69,23 +73,44 @@ class C4GNotification
         $sendingResult = true;
         $notificationModel = new NotificationCenter();
 
-        //ToDo better solution for files with nc2
         foreach ($this->tokens as $key => $token) {
-            if ($key === 'uploadFile') {
-                if ($token) {
-                    $filePath = C4GUtils::replaceInsertTags("{{file::$token}}");
-                    if ($filePath) {
-                        $rootDir = \Contao\System::getContainer()->getParameter('kernel.project_dir');
-                        $file = $rootDir.'/'.$filePath;
-                    }
-                    $voucher = $notificationModel->getBulkyItemStorage()->store(
-                        FileItem::fromPath($file, basename($file), 'application/pdf', filesize($file))
-                    );
-                    if ($voucher) {
-                        $this->tokens['uploadFile'] = $voucher;
+            if ($token) {
+                foreach (C4GNotification::UUID_FILE_TOKEN as $idKey => $fieldName) {
+                    if ($key == $fieldName) {
+                        $filePath = C4GUtils::replaceInsertTags("{{file::$token}}");
+                        if ($filePath) {
+                            $rootDir = \Contao\System::getContainer()->getParameter('kernel.project_dir');
+                            $file = $rootDir . '/' . $filePath;
+                            $finfo = finfo_open(FILEINFO_MIME_TYPE);
+                            $mimeType = finfo_file($finfo, $file);
+                            finfo_close($finfo);
+                            $voucher = $notificationCenter->getBulkyItemStorage()->store(
+                                FileItem::fromPath($file, basename($file), $mimeType, filesize($file))
+                            );
+                            if ($voucher) {
+                                $this->tokens[$key] = $voucher;
+                            }
+                        }
                     }
                 }
-                break;
+                foreach (C4GNotification::FILENAME_TOKEN as $idKey => $fieldName) {
+                    if ($key == $fieldName) {
+                        $filePath = $token;
+                        if ($filePath) {
+                            $rootDir = \Contao\System::getContainer()->getParameter('kernel.project_dir');
+                            $file = $rootDir . '/' . $filePath;
+                            $finfo = finfo_open(FILEINFO_MIME_TYPE);
+                            $mimeType = finfo_file($finfo, $file);
+                            finfo_close($finfo);
+                            $voucher = $notificationCenter->getBulkyItemStorage()->store(
+                                FileItem::fromPath($file, basename($file), $mimeType, filesize($file))
+                            );
+                            if ($voucher) {
+                                $this->tokens[$key] = $voucher;
+                            }
+                        }
+                    }
+                }
             }
         }
 

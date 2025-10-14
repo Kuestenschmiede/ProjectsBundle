@@ -28,6 +28,7 @@ use con4gis\ProjectsBundle\Classes\jQuery\C4GJQueryGUI;
 use con4gis\ProjectsBundle\Classes\Lists\C4GBrickListParams;
 use con4gis\ProjectsBundle\Classes\Models\C4gProjectsModel;
 use con4gis\ProjectsBundle\Classes\Notifications\C4GBrickNotification;
+use con4gis\ProjectsBundle\Classes\Notifications\C4GNotification;
 use con4gis\ProjectsBundle\Classes\Permission\C4GTablePermission;
 use con4gis\ProjectsBundle\Classes\Session\C4gBrickSession;
 use con4gis\ProjectsBundle\Classes\Views\C4GBrickView;
@@ -1404,23 +1405,44 @@ class C4GBaseController extends AbstractFrontendModuleController
 
                 $notificationCenter = System::getContainer()->get('con4gis\ReservationBundle\Classes\Notifications\C4gNotificationCenterService')->getNotificationCenter();
 
-                //ToDo better solution for files with nc2
                 foreach ($dlgValues as $key => $token) {
-                    if ($key === 'uploadFile') {
-                        if ($token) {
-                            $filePath = C4GUtils::replaceInsertTags("{{file::$token}}");
-                            if ($filePath) {
-                                $rootDir = \Contao\System::getContainer()->getParameter('kernel.project_dir');
-                                $file = $rootDir.'/'.$filePath;
-                            }
-                            $voucher = $notificationCenter->getBulkyItemStorage()->store(
-                                FileItem::fromPath($file, basename($file), 'application/pdf', filesize($file))
-                            );
-                            if ($voucher) {
-                                $arrTokens['uploadFile'] = $voucher;
+                    if ($token) {
+                        foreach (C4GNotification::UUID_FILE_TOKEN as $idKey => $fieldName) {
+                            if ($key == $fieldName) {
+                                $filePath = C4GUtils::replaceInsertTags("{{file::$token}}");
+                                if ($filePath) {
+                                    $rootDir = \Contao\System::getContainer()->getParameter('kernel.project_dir');
+                                    $file = $rootDir . '/' . $filePath;
+                                    $finfo = finfo_open(FILEINFO_MIME_TYPE);
+                                    $mimeType = finfo_file($finfo, $file);
+                                    finfo_close($finfo);
+                                    $voucher = $notificationCenter->getBulkyItemStorage()->store(
+                                        FileItem::fromPath($file, basename($file), $mimeType, filesize($file))
+                                    );
+                                    if ($voucher) {
+                                        $arrTokens[$key] = $voucher;
+                                    }
+                                }
                             }
                         }
-                        break;
+                        foreach (C4GNotification::FILENAME_TOKEN as $idKey => $fieldName) {
+                            if ($key == $fieldName) {
+                                $filePath = $token;
+                                if ($filePath) {
+                                    $rootDir = \Contao\System::getContainer()->getParameter('kernel.project_dir');
+                                    $file = $rootDir . '/' . $filePath;
+                                    $finfo = finfo_open(FILEINFO_MIME_TYPE);
+                                    $mimeType = finfo_file($finfo, $file);
+                                    finfo_close($finfo);
+                                    $voucher = $notificationCenter->getBulkyItemStorage()->store(
+                                        FileItem::fromPath($file, basename($file), $mimeType, filesize($file))
+                                    );
+                                    if ($voucher) {
+                                        $arrTokens[$key] = $voucher;
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
 
