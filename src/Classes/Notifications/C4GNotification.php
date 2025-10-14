@@ -12,7 +12,10 @@
 namespace con4gis\ProjectsBundle\Classes\Notifications;
 
 // use NotificationCenter\Model\Notification;
+use con4gis\CoreBundle\Classes\C4GUtils;
+use Terminal42\NotificationCenterBundle\BulkyItem\FileItem;
 use Terminal42\NotificationCenterBundle\NotificationCenter;
+use Terminal42\NotificationCenterBundle\Parcel\Stamp\BulkyItemsStamp;
 
 /**
  * Class C4GNotification
@@ -65,13 +68,37 @@ class C4GNotification
 
         $sendingResult = true;
         $notificationModel = new NotificationCenter();
-        foreach ($notificationIds as $notificationId) {
-            if ($notificationModel !== null) {
-                if (!$notificationModel->sendNotification($notificationId, $this->tokens, $language)) {
-                    $sendingResult = false;
+
+        //ToDo better solution for files with nc2
+        foreach ($this->tokens as $key => $token) {
+            if ($key === 'uploadFile') {
+                if ($token) {
+                    $filePath = C4GUtils::replaceInsertTags("{{file::$token}}");
+                    if ($filePath) {
+                        $rootDir = \Contao\System::getContainer()->getParameter('kernel.project_dir');
+                        $file = $rootDir.'/'.$filePath;
+                    }
+                    $voucher = $notificationModel->getBulkyItemStorage()->store(
+                        FileItem::fromPath($file, basename($file), 'application/pdf', filesize($file))
+                    );
+                    if ($voucher) {
+                        $this->tokens['uploadFile'] = $voucher;
+                    }
                 }
+                break;
+            }
+        }
+
+        foreach ($notificationIds as $notificationId) {
+            $stamps = $notificationModel->createBasicStampsForNotification(
+                $notificationId,
+                $this->tokens,
+            );
+            if ($voucher) {
+                $stamps = $stamps->with(new BulkyItemsStamp([$voucher]));
+                $sendingResult = $notificationModel->sendNotificationWithStamps($notificationId, $stamps) ? true : false;
             } else {
-                throw new \Exception("C4GNotification: Could not find notification with id $notificationId.");
+                $sendingResult = $notificationModel->sendNotification($notificationId, $this->tokens, $language) ? true : false;
             }
         }
 
