@@ -265,9 +265,11 @@ class C4GPrintoutPDF
             }
         }
 
+        $fileName = $module->getDialogParams()->getDocumentFileName();
+
         $pdfData = [];
         $pdfData['template'] = $module->getPrintTemplate();
-        $pdfData['filename'] = date('Y_m_d-H_i_s') . rand(100, 999) . '_document.pdf'; //'{{date::Y_m_d-H_i_s}}-'
+        $pdfData['filename'] = $fileName ?: date('Y_m_d-H_i_s') . rand(100, 999) . '_document.pdf'; //'{{date::Y_m_d-H_i_s}}-'
         $pdfData['filepath'] = C4GBrickConst::PATH_BRICK_DOCUMENTS;
         $pdfData['Attachment'] = false;
         $pdfData['fieldData'] = $data;

@@ -87,6 +87,7 @@ class C4GBrickDialogParams
     private $generatePrintoutWithSaving = false; //see savePrintoutToField
     private $printConditionField = ''; //only show print button if set
     private $documentHeadline = ''; //to change document Headline
+    private $documentFilename = ''; //to change default filename generator
     private $passwordField = ''; //password to encrypt pdf document
     private $passwordFormat = ''; //useful with dateformat
     private $noPasswordOnButtonClick = false; //encrypt the document only on saving
@@ -2239,5 +2240,15 @@ class C4GBrickDialogParams
     public function setDocumentHeadline(string $documentHeadline): void
     {
         $this->documentHeadline = $documentHeadline;
+    }
+
+    public function getDocumentFilename(): string
+    {
+        return $this->documentFilename;
+    }
+
+    public function setDocumentFilename(string $documentFilename): void
+    {
+        $this->documentFilename = $documentFilename;
     }
 }
