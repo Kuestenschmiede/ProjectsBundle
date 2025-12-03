@@ -219,7 +219,7 @@ class C4GBaseController extends AbstractFrontendModuleController
                         $this->headline = $value;
                         $this->headlineTag = $unit;
                     }
-                } else if (strpos($value,'a:')) {
+                } else if (!is_array($value) && is_string($value) && strpos($value, 'a:') !== false) {
                     $this->$fieldName = StringUtil::deserialize($value);
                 } else {
                     $this->$fieldName = $value;
@@ -256,7 +256,7 @@ class C4GBaseController extends AbstractFrontendModuleController
                     $this->headline = $value;
                     $this->headlineTag = $unit;
                 }
-            } else if (!is_array($value) && strpos($value,'a:')) {
+            } else if (!is_array($value) && is_string($value) && strpos($value,'a:') !== false) {
                 $this->$fieldName = StringUtil::deserialize($value);
             } else {
                 $this->$fieldName = $value;
