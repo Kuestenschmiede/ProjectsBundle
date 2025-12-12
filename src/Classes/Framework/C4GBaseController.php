@@ -177,6 +177,19 @@ class C4GBaseController extends AbstractFrontendModuleController
     protected bool $__jqueryCompiled = false;
     protected bool $__jsCompiled = false;
     protected bool $__cssCompiled = false;
+    // Permission/misc memoization (request-scoped)
+    protected array $__permFnMemo = [];
+    protected array $__colExistsMemo = [];
+    protected array $__getTablePermMemo = [];
+    // Small per-request memo stores for common helpers
+    protected array $__deserializeFastMemo = [];
+    protected array $__insertTagsFastMemo = [];
+    // Generic per-request model memo stores
+    protected array $__modelFindByPkMemo = [];
+    protected array $__modelFindByMemo = [];
+    // Projects helper memo
+    protected array $__projectListForBrickMemo = [];
+    protected array $__checkProjectIdMemo = [];
 
     // Lightweight profiling toggle for base controller
     private function __basePerfEnabled(): bool
@@ -203,6 +216,127 @@ class C4GBaseController extends AbstractFrontendModuleController
         \con4gis\CoreBundle\Resources\contao\models\C4gLogModel::addLogEntry('projects_perf', '['.$section.'] '.implode(' | ', $out).' | total='.$total.'ms');
     }
     protected $loadSignaturePadResources = false;
+
+    // ---- Frequently used helpers (per-request memoized) -------------------
+    /**
+     * Fast wrapper for StringUtil::deserialize with simple memoization.
+     * Safe because identical input produces identical output; avoids repeated
+     * unserialize() in hot paths.
+     */
+    private function __deserializeFast(string $value, bool $forceArray = false)
+    {
+        // quick non-serialized fast-path
+        if ($value === '' || strpos($value, 'a:') !== 0) {
+            return $forceArray ? (array) $value : $value;
+        }
+        $k = $value . '|' . ($forceArray ? '1' : '0');
+        if (array_key_exists($k, $this->__deserializeFastMemo)) {
+            return $this->__deserializeFastMemo[$k];
+        }
+        $res = StringUtil::deserialize($value, $forceArray);
+        $this->__deserializeFastMemo[$k] = $res;
+        return $res;
+    }
+
+    /**
+     * Per-request memoized FilesModel::findByUuid wrapper to avoid repeated filesystem meta lookups
+     * in hot paths (e.g., theme roller CSS resolution). Return value is passed through as-is.
+     */
+    private array $__filesByUuidMemo = [];
+    private function __filesByUuidMemo(string $uuid)
+    {
+        if ($uuid === '') { return null; }
+        if (array_key_exists($uuid, $this->__filesByUuidMemo)) {
+            return $this->__filesByUuidMemo[$uuid];
+        }
+        try {
+            $val = \FilesModel::findByUuid($uuid);
+        } catch (\Throwable $t) { $val = null; }
+        $this->__filesByUuidMemo[$uuid] = $val;
+        return $val;
+    }
+
+    /**
+     * Generic per-request memoization for Contao Models findByPk.
+     * Safe because identical class+id within a single request returns the same row.
+     */
+    private function __modelFindByPkMemo(string $modelClass, $id)
+    {
+        $key = $modelClass.'|pk|'.(string)$id;
+        if (array_key_exists($key, $this->__modelFindByPkMemo)) {
+            return $this->__modelFindByPkMemo[$key];
+        }
+        try {
+            $val = $modelClass::findByPk($id);
+        } catch (\Throwable $t) { $val = null; }
+        $this->__modelFindByPkMemo[$key] = $val;
+        return $val;
+    }
+
+    /**
+     * Generic per-request memoization for Contao Models findBy(field, value).
+     */
+    private function __modelFindByMemo(string $modelClass, string $field, $value)
+    {
+        $key = $modelClass.'|by|'.$field.'|'.(string)$value;
+        if (array_key_exists($key, $this->__modelFindByMemo)) {
+            return $this->__modelFindByMemo[$key];
+        }
+        try {
+            $val = $modelClass::findBy($field, $value);
+        } catch (\Throwable $t) { $val = null; }
+        $this->__modelFindByMemo[$key] = $val;
+        return $val;
+    }
+
+    /**
+     * Load tl_c4g_settings row with short cross-request cache and per-request memoization.
+     * Provides settings used by compileJquery() to resolve UI theme URLs.
+     */
+    private bool $__settingsLoadedOnce = false;
+    private function __getSettingsCached(): ?array
+    {
+        if ($this->__settingsLoadedOnce) { return is_array($this->settings) ? $this->settings : null; }
+        $this->__settingsLoadedOnce = true;
+        // try short fragment cache first
+        $cache = null; $ttl = 900; $row = null;
+        try {
+            $container = System::getContainer();
+            if ($container && $container->has('cache.app')) { $cache = $container->get('cache.app'); }
+            if ($container && method_exists($container, 'hasParameter') && $container->hasParameter('c4g_projects_fragment_ttl')) {
+                $p = (int)$container->getParameter('c4g_projects_fragment_ttl'); if ($p > 0) { $ttl = $p; }
+            }
+        } catch (\Throwable $t) { $cache = null; }
+        $key = 'c4g_settings_row';
+        if ($cache) {
+            try { $it = $cache->getItem($key); if ($it->isHit()) { $val = $it->get(); if (is_array($val)) { $row = $val; } } } catch (\Throwable $t) {}
+        }
+        if ($row === null) {
+            try {
+                $rows = Database::getInstance()->execute('SELECT * FROM tl_c4g_settings LIMIT 1')->fetchAllAssoc();
+                if ($rows) { $row = $rows[0]; }
+            } catch (\Throwable $t) { $row = null; }
+            if ($cache && is_array($row)) {
+                try { $it = $cache->getItem($key); $it->set($row); if (method_exists($it,'expiresAfter')) { $it->expiresAfter($ttl); } $cache->save($it); } catch (\Throwable $t) {}
+            }
+        }
+        if (is_array($row)) { $this->settings = $row; }
+        return is_array($row) ? $row : null;
+    }
+
+    /**
+     * Fast wrapper for C4GUtils::replaceInsertTags() with per-request memoization.
+     */
+    private function __replaceInsertTagsFast(string $value): string
+    {
+        if ($value === '') { return ''; }
+        if (array_key_exists($value, $this->__insertTagsFastMemo)) {
+            return $this->__insertTagsFastMemo[$value];
+        }
+        $res = C4GUtils::replaceInsertTags($value);
+        $this->__insertTagsFastMemo[$value] = $res;
+        return $res;
+    }
 
     //JQuery GUI Resource Params
     protected $jQueryAddCore = true;
@@ -246,7 +380,7 @@ class C4GBaseController extends AbstractFrontendModuleController
             $this->model = $model;
             foreach ($model->row() as $fieldName=>$value) {
                 if ($fieldName === 'headline') {
-                    $headlineArray = StringUtil::deserialize($value);
+                    $headlineArray = is_string($value) ? $this->__deserializeFast($value) : $value;
                     $unit = $headlineArray['unit'];
                     $value = $headlineArray['value'];
                     if ($value) {
@@ -254,7 +388,7 @@ class C4GBaseController extends AbstractFrontendModuleController
                         $this->headlineTag = $unit;
                     }
                 } else if (!is_array($value) && is_string($value) && strpos($value, 'a:') !== false) {
-                    $this->$fieldName = StringUtil::deserialize($value);
+                    $this->$fieldName = $this->__deserializeFast($value);
                 } else {
                     $this->$fieldName = $value;
                 }
@@ -284,7 +418,7 @@ class C4GBaseController extends AbstractFrontendModuleController
 
         foreach ($model->row() as $fieldName=>$value) {
             if ($fieldName === 'headline') {
-                $headlineArray = StringUtil::deserialize($value);
+                $headlineArray = is_string($value) ? $this->__deserializeFast($value) : $value;
                 $unit = $headlineArray['unit'];
                 $value = $headlineArray['value'];
                 if ($value) {
@@ -292,7 +426,7 @@ class C4GBaseController extends AbstractFrontendModuleController
                     $this->headlineTag = $unit;
                 }
             } else if (!is_array($value) && is_string($value) && strpos($value,'a:') !== false) {
-                $this->$fieldName = StringUtil::deserialize($value);
+                $this->$fieldName = $this->__deserializeFast($value);
             } else {
                 $this->$fieldName = $value;
             }
@@ -532,7 +666,9 @@ class C4GBaseController extends AbstractFrontendModuleController
 
     public function initBrickModule($id)
     {
-        $arrHeadline = property_exists($this, 'headline') ? StringUtil::deserialize($this->headline) : '';
+        $arrHeadline = property_exists($this, 'headline') && is_string($this->headline)
+            ? $this->__deserializeFast($this->headline)
+            : (property_exists($this, 'headline') ? $this->headline : '');
         $this->headline = is_array($arrHeadline) && key_exists('value', $arrHeadline) ? $arrHeadline['value'] : $arrHeadline;
         $hl = property_exists($this,'headlineTag') ? $this->headlineTag : 'h1';
         $this->hl = is_array($arrHeadline) && key_exists('unit', $arrHeadline) ? $arrHeadline['unit'] : $hl;
@@ -603,11 +739,8 @@ class C4GBaseController extends AbstractFrontendModuleController
         }
 
         if (!$this->settings) {
-            $settings = Database::getInstance()->execute('SELECT * FROM tl_c4g_settings LIMIT 1')->fetchAllAssoc();
-
-            if ($settings) {
-                $this->settings = $settings[0];
-            }
+            // Reuse cached settings row (short fragment cache)
+            $this->__getSettingsCached();
         }
 
         //setting dialog params
@@ -706,9 +839,8 @@ class C4GBaseController extends AbstractFrontendModuleController
             if ((C4GBrickView::isMemberBased($this->viewType)) || (C4GBrickView::isPublicUUIDBased($this->viewType))) {
                 if (($this->dialogParams->getMemberID() > 0) && ($this->dialogParams->getUuid())) {
                     $database = \Database::getInstance();
-                    //in case the module table does not have a member_id field (otherwise an exception will be thrown and the site won't work)
-                    $query = $database->prepare("SHOW COLUMNS FROM $this->tableName LIKE 'member_id'")->execute();
-                    if ($query->numRows) {
+                    // in case the module table does not have a member_id field (cached per request)
+                    if ($this->__columnExistsMemo($this->tableName, 'member_id')) {
                         $query = $database->prepare('SELECT * FROM ' . $this->tableName .
                             " WHERE member_id = 0 AND uuid = '" . $this->dialogParams->getUuid() . "'")->execute();
                         if ($query) {
@@ -775,23 +907,20 @@ class C4GBaseController extends AbstractFrontendModuleController
 
         //ToDo remove jQueryUI
         if ($this->jQueryAddJqueryUI || $this->jQueryUseTable || $this->jQueryUseTree) {
-            $settings = Database::getInstance()->execute('SELECT * FROM tl_c4g_settings LIMIT 1')->fetchAllAssoc();
-
-            if ($settings) {
-                $this->settings = $settings[0];
-            }
+            // Load settings via short fragment cache + per-request memoization
+            $this->__getSettingsCached();
 
             // load custom themeroller-css if set
             if ($this->uiTheme) {
                 $GLOBALS['TL_CSS']['c4g_jquery_ui'] = $this->uiTheme;
             } elseif (property_exists($this, 'c4g_appearance_themeroller_css') && $this->c4g_appearance_themeroller_css) {
-                $objFile = \FilesModel::findByUuid($this->c4g_appearance_themeroller_css);
+                $objFile = $this->__filesByUuidMemo($this->c4g_appearance_themeroller_css);
                 $GLOBALS['TL_CSS']['c4g_jquery_ui'] = $objFile->path;
             } elseif (property_exists($this, 'c4g_uitheme_css_select') && $this->c4g_uitheme_css_select) {
                 $theme = $this->c4g_uitheme_css_select;
                 $GLOBALS['TL_CSS']['c4g_jquery_ui'] = 'bundles/con4giscore/vendor/jQuery/ui-themes/themes/' . $theme . '/jquery-ui.css';
             } elseif ($this->settings && $this->settings['c4g_appearance_themeroller_css']) {
-                $objFile = \FilesModel::findByUuid($this->settings['c4g_appearance_themeroller_css']);
+                $objFile = $this->__filesByUuidMemo($this->settings['c4g_appearance_themeroller_css']);
                 $GLOBALS['TL_CSS']['c4g_jquery_ui'] = $objFile->path;
             } elseif ($this->settings && $this->settings['c4g_uitheme_css_select']) {
                 $theme = $this->settings['c4g_uitheme_css_select'];
@@ -903,6 +1032,129 @@ class C4GBaseController extends AbstractFrontendModuleController
         $this->__cssCompiled = true;
     }
 
+    // ---- Memoized helpers (request scope) ---------------------------------
+    private function __isMemberOfGroupMemo(int $groupId, int $userId): bool
+    {
+        $k = 'mog|'.$groupId.'|'.$userId;
+        if (array_key_exists($k, $this->__permFnMemo)) { return (bool)$this->__permFnMemo[$k]; }
+
+        // Short cross-request cache (default 10 min, configurable via c4g_projects_perm_ttl)
+        $val = null; $cache = null; $ttl = 600; $cacheKey = 'c4g_mog_' . md5($groupId.'|'.$userId);
+        try {
+            $container = System::getContainer();
+            if ($container && $container->has('cache.app')) { $cache = $container->get('cache.app'); }
+            if ($container && method_exists($container,'hasParameter') && $container->hasParameter('c4g_projects_perm_ttl')) {
+                $p = (int)$container->getParameter('c4g_projects_perm_ttl'); if ($p > 0) { $ttl = $p; }
+            }
+        } catch (\Throwable $t) { $cache = null; }
+        if ($cache) {
+            try { $it = $cache->getItem($cacheKey); if ($it->isHit()) { $v = $it->get(); if ($v === true || $v === false) { $val = (bool)$v; } } } catch (\Throwable $t) {}
+        }
+        if ($val === null) { $val = MemberGroupModel::isMemberOfGroup($groupId, $userId); }
+        if ($cache) {
+            try { $it = $cache->getItem($cacheKey); $it->set((bool)$val); if (method_exists($it,'expiresAfter')) { $it->expiresAfter($ttl); } $cache->save($it); } catch (\Throwable $t) {}
+        }
+        $this->__permFnMemo[$k] = (bool)$val;
+        return (bool)$val;
+    }
+
+    private function __hasRightInGroupMemo(int $userId, int $groupId, string $brickKey): bool
+    {
+        $k = 'hrig|'.$userId.'|'.$groupId.'|'.$brickKey;
+        if (array_key_exists($k, $this->__permFnMemo)) { return (bool)$this->__permFnMemo[$k]; }
+
+        // Short cross-request cache (default 10 min, configurable via c4g_projects_perm_ttl)
+        $val = null; $cache = null; $ttl = 600; $cacheKey = 'c4g_hrig_' . md5($userId.'|'.$groupId.'|'.$brickKey);
+        try {
+            $container = System::getContainer();
+            if ($container && $container->has('cache.app')) { $cache = $container->get('cache.app'); }
+            if ($container && method_exists($container,'hasParameter') && $container->hasParameter('c4g_projects_perm_ttl')) {
+                $p = (int)$container->getParameter('c4g_projects_perm_ttl'); if ($p > 0) { $ttl = $p; }
+            }
+        } catch (\Throwable $t) { $cache = null; }
+        if ($cache) {
+            try { $it = $cache->getItem($cacheKey); if ($it->isHit()) { $v = $it->get(); if ($v === true || $v === false) { $val = (bool)$v; } } } catch (\Throwable $t) {}
+        }
+        if ($val === null) { $val = MemberModel::hasRightInGroup($userId, $groupId, $brickKey); }
+        if ($cache) {
+            try { $it = $cache->getItem($cacheKey); $it->set((bool)$val); if (method_exists($it,'expiresAfter')) { $it->expiresAfter($ttl); } $cache->save($it); } catch (\Throwable $t) {}
+        }
+        $this->__permFnMemo[$k] = (bool)$val;
+        return (bool)$val;
+    }
+
+    private function __columnExistsMemo(string $table, string $column): bool
+    {
+        $k = strtolower($table.'|'.$column);
+        if (array_key_exists($k, $this->__colExistsMemo)) { return (bool)$this->__colExistsMemo[$k]; }
+        try {
+            $database = \Database::getInstance();
+            $q = $database->prepare("SHOW COLUMNS FROM $table LIKE ?")->execute($column);
+            $exists = ($q && $q->numRows > 0);
+        } catch (\Throwable $t) {
+            $exists = false;
+        }
+        $this->__colExistsMemo[$k] = $exists;
+        return $exists;
+    }
+
+    /**
+     * Per-request memoization wrapper for getC4GTablePermission().
+     * Returns the permission object(s) exactly as provided by the module,
+     * but avoids repeated construction within the same request.
+     */
+    private function __getC4GTablePermissionMemo(string $viewType)
+    {
+        // Per-request memoization first
+        $user = \Contao\FrontendUser::getInstance();
+        $lang = (string)($GLOBALS['TL_LANGUAGE'] ?? '');
+        $uid = ($user && $user->id) ? (int)$user->id : 0;
+        $gid = (int)($this->group_id ?? 0);
+        $mid = (int)($this->id ?? 0);
+        $k = 'permobj|'.$viewType.'|'.$mid.'|'.$uid.'|'.$gid.'|'.$lang;
+        if (array_key_exists($k, $this->__getTablePermMemo)) {
+            return $this->__getTablePermMemo[$k];
+        }
+
+        // Short cross-request cache (configurable TTL)
+        $cache = null; $ttl = 600; $cacheKey = 'c4g_perm_obj_' . md5($viewType.'|'.$mid.'|'.$uid.'|'.$gid.'|'.$lang);
+        try {
+            $container = System::getContainer();
+            if ($container && $container->has('cache.app')) {
+                $cache = $container->get('cache.app');
+            }
+            if ($container && method_exists($container,'hasParameter') && $container->hasParameter('c4g_projects_perm_ttl')) {
+                $p = (int)$container->getParameter('c4g_projects_perm_ttl');
+                if ($p > 0) { $ttl = $p; }
+            }
+        } catch (\Throwable $t) { $cache = null; }
+
+        if ($cache) {
+            try {
+                $item = $cache->getItem($cacheKey);
+                if ($item->isHit()) {
+                    $val = $item->get();
+                    // Store to per-request memo and return
+                    $this->__getTablePermMemo[$k] = $val;
+                    return $val;
+                }
+            } catch (\Throwable $t) { /* ignore cache read errors */ }
+        }
+
+        // Compute live and persist
+        $perm = $this->getC4GTablePermission($viewType);
+        if ($cache) {
+            try {
+                $it = $cache->getItem($cacheKey);
+                $it->set($perm);
+                if (method_exists($it, 'expiresAfter')) { $it->expiresAfter($ttl); }
+                $cache->save($it);
+            } catch (\Throwable $t) { /* ignore cache write errors */ }
+        }
+        $this->__getTablePermMemo[$k] = $perm;
+        return $perm;
+    }
+
     /**
      * @param null $request
      * @return false|string
@@ -956,8 +1208,9 @@ class C4GBaseController extends AbstractFrontendModuleController
                     $user = FrontendUser::getInstance();
                     $uid = ($user && $user->id) ? (int)$user->id : 0;
                     $view = (string)$this->viewType;
+                    $pview = (string)$this->publicViewType;
                     $mid = (int)$this->id;
-                    $cacheKey = 'c4g_init_payload_' . md5($mid.'|'.$lang.'|'.$uid.'|'.$view);
+                    $cacheKey = 'c4g_init_payload_' . md5($mid.'|'.$lang.'|'.$uid.'|'.$view.'|'.$pview);
                     $item = $cache->getItem($cacheKey);
                     if ($item->isHit()) {
                         $val = $item->get();
@@ -990,8 +1243,8 @@ class C4GBaseController extends AbstractFrontendModuleController
             if (C4GBrickView::isGroupBased($this->viewType)) {
                 if (($this->group_id == -1) || ($this->group_id == null)) {
                     $groupId = $this->session->getSessionValue('c4g_brick_group_id');
-                    if ($groupId && MemberGroupModel::isMemberOfGroup($groupId, $user->id)) {
-                        if (MemberModel::hasRightInGroup($user->id, $groupId, $this->brickKey)) {
+                    if ($groupId && $this->__isMemberOfGroupMemo($groupId, (int)$user->id)) {
+                        if ($this->__hasRightInGroupMemo((int)$user->id, $groupId, (string)$this->brickKey)) {
                             $this->group_id = $groupId;
                         }
                     }
@@ -1017,12 +1270,21 @@ class C4GBaseController extends AbstractFrontendModuleController
                 }
 
                 if (($this->projectCount == -1) || ($this->projectCount == null)) {
-                    $this->projectCount = count(C4gProjectsModel::getProjectListForBrick($user->id, $this->group_id, $this->projectKey));
+                    // Memoize project list retrieval per request
+                    $plKey = (int)$user->id.'|'.(int)$this->group_id.'|'.(string)$this->projectKey;
+                    if (!array_key_exists($plKey, $this->__projectListForBrickMemo)) {
+                        $this->__projectListForBrickMemo[$plKey] = C4gProjectsModel::getProjectListForBrick($user->id, $this->group_id, $this->projectKey);
+                    }
+                    $this->projectCount = count($this->__projectListForBrickMemo[$plKey] ?: []);
                 }
 
                 if (($this->project_id == -1) || ($this->project_id == null)) {
                     $project_id = $this->session->getSessionValue('c4g_brick_project_id');
-                    if (C4gProjectsModel::checkProjectId($project_id, $this->projectKey, $this->session)) {
+                    $chkKey = (string)$project_id.'|'.(string)$this->projectKey;
+                    if (!array_key_exists($chkKey, $this->__checkProjectIdMemo)) {
+                        $this->__checkProjectIdMemo[$chkKey] = C4gProjectsModel::checkProjectId($project_id, $this->projectKey, $this->session);
+                    }
+                    if ($this->__checkProjectIdMemo[$chkKey]) {
                         $this->project_id = $project_id;
                         $this->project_uuid = $this->session->getSessionValue('c4g_brick_project_uuid');
                         $path = C4GBrickConst::PATH_GROUP_DATA . '/' . $this->group_id . '/' . $this->project_uuid;
@@ -1044,12 +1306,20 @@ class C4GBaseController extends AbstractFrontendModuleController
                 }
 
                 if (($this->projectCount == -1) || ($this->projectCount == null)) {
-                    $this->projectCount = count(C4gProjectsModel::getProjectListForBrick($user->id, $this->group_id, $this->projectKey));
+                    $plKey = (int)$user->id.'|'.(int)$this->group_id.'|'.(string)$this->projectKey;
+                    if (!array_key_exists($plKey, $this->__projectListForBrickMemo)) {
+                        $this->__projectListForBrickMemo[$plKey] = C4gProjectsModel::getProjectListForBrick($user->id, $this->group_id, $this->projectKey);
+                    }
+                    $this->projectCount = count($this->__projectListForBrickMemo[$plKey] ?: []);
                 }
 
                 if (($this->project_id == -1) || ($this->project_id == null)) {
                     $project_id = $this->session->getSessionValue('c4g_brick_project_id');
-                    if (C4gProjectsModel::checkProjectId($project_id, $this->projectKey, $this->session)) {
+                    $chkKey = (string)$project_id.'|'.(string)$this->projectKey;
+                    if (!array_key_exists($chkKey, $this->__checkProjectIdMemo)) {
+                        $this->__checkProjectIdMemo[$chkKey] = C4gProjectsModel::checkProjectId($project_id, $this->projectKey, $this->session);
+                    }
+                    if ($this->__checkProjectIdMemo[$chkKey]) {
                         $this->project_id = $project_id;
                         $this->project_uuid = $this->session->getSessionValue('c4g_brick_project_uuid');
                         $path = C4GBrickConst::PATH_GROUP_DATA . '/' . $this->group_id . '/' . $this->project_uuid;
@@ -1073,8 +1343,8 @@ class C4GBaseController extends AbstractFrontendModuleController
 
                     //falls die group_id über die Liste vorhanden ist, soll diese auch hier für Module geladen werden, die den viewType wechseln können.
                     $groupId = $this->session->getSessionValue('c4g_brick_group_id');
-                    if ($groupId && MemberGroupModel::isMemberOfGroup($groupId, $user->id)) {
-                        if (MemberModel::hasRightInGroup($user->id, $groupId, $this->brickKey)) {
+                    if ($groupId && $this->__isMemberOfGroupMemo($groupId, (int)$user->id)) {
+                        if ($this->__hasRightInGroupMemo((int)$user->id, $groupId, (string)$this->brickKey)) {
                             $this->group_id = $groupId;
                         }
                     }
@@ -1124,13 +1394,8 @@ class C4GBaseController extends AbstractFrontendModuleController
 //                }
 
                 if (key_exists(C4GBrickActionType::IDENTIFIER_PERMALINK, $_GET) && $_GET[C4GBrickActionType::IDENTIFIER_PERMALINK]) {
-                    if (!$this->permalinkModelClass) {
-                        $model  = $this->modelClass;
-                        $dataset = $model::findBy($permalinkField, $_GET[C4GBrickActionType::IDENTIFIER_PERMALINK]);
-                    } else {
-                        $model = $this->permalinkModelClass;
-                        $dataset = $model::findBy($permalinkField, $_GET[C4GBrickActionType::IDENTIFIER_PERMALINK]);
-                    }
+                    $model  = $this->permalinkModelClass ?: $this->modelClass;
+                    $dataset = $this->__modelFindByMemo($model, $permalinkField, $_GET[C4GBrickActionType::IDENTIFIER_PERMALINK]);
 
                     if ($dataset) {
                         $id = $dataset->id;
@@ -1142,13 +1407,8 @@ class C4GBaseController extends AbstractFrontendModuleController
                         $result = $this->getPerformAction($request, $action);
                     }
                 } elseif (key_exists($permalinkField, $_GET) && $_GET[$permalinkField]) {
-                    if (!$this->permalinkModelClass) {
-                        $model  = $this->modelClass;
-                        $dataset = $model::findBy($permalinkField, $_GET[$permalinkField]);
-                    } else {
-                        $model = $this->permalinkModelClass;
-                        $dataset = $model::findBy($permalinkField, $_GET[$permalinkField]);
-                    }
+                    $model  = $this->permalinkModelClass ?: $this->modelClass;
+                    $dataset = $this->__modelFindByMemo($model, $permalinkField, $_GET[$permalinkField]);
 
                     if ($dataset) {
                         $id = $dataset->id;
@@ -1160,12 +1420,8 @@ class C4GBaseController extends AbstractFrontendModuleController
                         $result = $this->getPerformAction($request, $action);
                     }
                 } elseif ($this->permalink_name && key_exists($this->permalink_name, $_GET) && $_GET[$this->permalink_name]) {
-                    if (!$this->permalinkModelClass) {
-                        $model  = $this->modelClass;
-                    } else {
-                        $model = $this->permalinkModelClass;
-                    }
-                    $dataset = $model::findBy($permalinkField, $_GET[$this->permalink_name]);
+                    $model  = $this->permalinkModelClass ?: $this->modelClass;
+                    $dataset = $this->__modelFindByMemo($model, $permalinkField, $_GET[$this->permalink_name]);
                     if ($dataset) {
                         $id = $dataset->id;
                         $this->initBrickModule($id);
@@ -1348,15 +1604,16 @@ class C4GBaseController extends AbstractFrontendModuleController
         } else {
             $level = 2;
         }
-        $permission = $this->getC4GTablePermission($this->viewType);
+        // Use cached permission object(s) to avoid repeated construction
+        $permission = $this->__getC4GTablePermissionMemo($this->viewType);
         if ($permission instanceof C4GTablePermission) {
             $permission->setLevel($level);
             $permission->set();
         } elseif (is_array($permission)) {
             foreach ($permission as $perm) {
                 if ($perm instanceof C4GTablePermission) {
-                    $permission->setLevel($level);
-                    $permission->set();
+                    $perm->setLevel($level);
+                    $perm->set();
                 }
             }
         }
@@ -1497,7 +1754,9 @@ class C4GBaseController extends AbstractFrontendModuleController
     public function sendNotifications($newId, $notifyOnChanges, $notification_type, $dlgValues, $fieldList, $changes)
     {
         if ($newId || $notifyOnChanges) {
-            $notification_array = StringUtil::deserialize($notification_type);
+            $notification_array = is_string($notification_type)
+                ? $this->__deserializeFast($notification_type)
+                : $notification_type;
 
             if ($notification_array && is_array($notification_array)) {
                 $arrTokens = C4GBrickNotification::getArrayTokens($dlgValues, $fieldList);
@@ -1509,7 +1768,7 @@ class C4GBaseController extends AbstractFrontendModuleController
                     if ($token) {
                         foreach (C4GNotification::UUID_FILE_TOKEN as $idKey => $fieldName) {
                             if ($key == $fieldName) {
-                                $filePath = C4GUtils::replaceInsertTags("{{file::$token}}");
+                                $filePath = $this->__replaceInsertTagsFast("{{file::$token}}");
                                 if ($filePath) {
                                     $rootDir = \Contao\System::getContainer()->getParameter('kernel.project_dir');
                                     $file = $rootDir . '/' . $filePath;
