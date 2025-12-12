@@ -168,6 +168,40 @@ class C4GBaseController extends AbstractFrontendModuleController
     protected $loadMiniSearchResources = false;
     protected $loadHistoryPushResources = false;
     protected $loadHistoryBrickPushResources = true;
+
+    // --- Performance helpers (request-scoped) ---
+    // Memoize expensive calls within the same request
+    protected array $__ajaxMemo = [];
+    protected bool $__langLoadedOnce = false;
+    // Prevent duplicate enqueues when methods are (indirectly) called twice
+    protected bool $__jqueryCompiled = false;
+    protected bool $__jsCompiled = false;
+    protected bool $__cssCompiled = false;
+
+    // Lightweight profiling toggle for base controller
+    private function __basePerfEnabled(): bool
+    {
+        try {
+            $container = System::getContainer();
+            if ($container && $container->hasParameter('kernel.debug') && (bool)$container->getParameter('kernel.debug') === true) {
+                return true;
+            }
+        } catch (\Throwable $t) { /* ignore */ }
+        $env = getenv('C4G_BASE_PROF');
+        return $env !== false && (string)$env === '1';
+    }
+
+    private function __perfMarkInit(): array { return $this->__basePerfEnabled() ? ['__t0' => microtime(true), '__marks' => []] : []; }
+    private function __perfMark(array &$ctx, string $name): void
+    { if (!$this->__basePerfEnabled() || empty($ctx)) { return; } $ctx['__marks'][] = [$name, microtime(true)]; }
+    private function __perfFlush(array &$ctx, string $section): void
+    {
+        if (!$this->__basePerfEnabled() || empty($ctx)) { return; }
+        $prev = $ctx['__t0']; $out = [];
+        foreach ($ctx['__marks'] as [$n, $t]) { $out[] = $n . ': +' . (int)round(1000*($t-$prev)) . 'ms'; $prev = $t; }
+        $total = (int)round(1000 * (microtime(true) - $ctx['__t0']));
+        \con4gis\CoreBundle\Resources\contao\models\C4gLogModel::addLogEntry('projects_perf', '['.$section.'] '.implode(' | ', $out).' | total='.$total.'ms');
+    }
     protected $loadSignaturePadResources = false;
 
     //JQuery GUI Resource Params
@@ -245,6 +279,7 @@ class C4GBaseController extends AbstractFrontendModuleController
      */
     protected function getResponse(Template $template, ModuleModel $model, Request $request): Response
     {
+        $___perf = $this->__perfMarkInit();
         $this->model = $model;
 
         foreach ($model->row() as $fieldName=>$value) {
@@ -263,10 +298,11 @@ class C4GBaseController extends AbstractFrontendModuleController
             }
         }
 
+        $this->__perfMark($___perf, 'before:compile');
         $this->compileJquery();
-
         $this->compileJavaScript();
         $this->compileCss();
+        $this->__perfMark($___perf, 'after:compile');
 
         $classname = rawurlencode(get_class($this));
 
@@ -300,7 +336,9 @@ class C4GBaseController extends AbstractFrontendModuleController
             $arrAction['initAction'] = 'C4GShowListAction:-1';
             $data['initData'] = json_encode($arrAction);
         } else {
+            $this->__perfMark($___perf, 'before:generateAjax('.$request.')');
             $initData = $this->generateAjax($request);
+            $this->__perfMark($___perf, 'after:generateAjax');
 
             if ($initData && (is_array(json_decode($initData)) && (count(json_decode($initData)) > 0) ||
                     (json_decode($initData) instanceof \stdClass) && count((array) json_decode($initData)) > 0)) {
@@ -314,7 +352,7 @@ class C4GBaseController extends AbstractFrontendModuleController
         $data['div'] = 'c4g_brick';
 
         $template->c4gData = $data;
-
+        $this->__perfFlush($___perf, 'getResponse');
         return $template->getResponse();
     }
 
@@ -470,6 +508,7 @@ class C4GBaseController extends AbstractFrontendModuleController
      */
     protected function loadLanguageFiles()
     {
+        if ($this->__langLoadedOnce) { return; }
         if ($this->language === '') {
             $language = $GLOBALS['TL_LANGUAGE'];
         } else {
@@ -483,6 +522,7 @@ class C4GBaseController extends AbstractFrontendModuleController
         if ($this->languageFile) {
             System::loadLanguageFile($this->languageFile, $language);
         }
+        $this->__langLoadedOnce = true;
     }
 
     public function beforeAction($action)
@@ -718,6 +758,7 @@ class C4GBaseController extends AbstractFrontendModuleController
 
     protected function compileJquery()
     {
+        if ($this->__jqueryCompiled) { return; }
         C4GJQueryGUI::initializeBrickLibraries(
             $this->jQueryAddCore,
             $this->jQueryAddJquery,
@@ -759,10 +800,12 @@ class C4GBaseController extends AbstractFrontendModuleController
                 $GLOBALS['TL_CSS']['c4g_jquery_ui'] = 'bundles/con4giscore/vendor/jQuery/ui-themes/themes/base/jquery-ui.css';
             }
         }
+        $this->__jqueryCompiled = true;
     }
 
     protected function compileJavaScript()
     {
+        if ($this->__jsCompiled) { return; }
         if ($this->loadDefaultResources) {
             ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/dist/js/C4GBrickDialog.js', ResourceLoader::BODY, 'c4g_brick_dialog');
         }
@@ -824,10 +867,12 @@ class C4GBaseController extends AbstractFrontendModuleController
         if ($this->loadDatePicker === true) {
             ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/dist/js/c4g-vendor-datepicker.js', ResourceLoader::BODY, 'vanillajs-datepicker');
         }
+        $this->__jsCompiled = true;
     }
 
     protected function compileCss()
     {
+        if ($this->__cssCompiled) { return; }
         if ($this->loadFontAwesomeResources) {
             ResourceLoader::loadCssResource('bundles/con4giscore/dist/css/fontawesome.min.css', 'fontawesome');
         }
@@ -855,6 +900,7 @@ class C4GBaseController extends AbstractFrontendModuleController
         if ($this->loadSignaturePadResources === true) {
             ResourceLoader::loadCssResource('bundles/con4gisprojects/vendor/signature-pad/jquery.signaturepad.css');
         }
+        $this->__cssCompiled = true;
     }
 
     /**
@@ -881,6 +927,47 @@ class C4GBaseController extends AbstractFrontendModuleController
                     ['state' => $request]);
                 // echo '<br>[CURRENT]' . $session['referer']['current'] . '<br>';
                 $this->session->getSession()->replace($session);
+            }
+        }
+
+        // Per-request memoization: avoid recomputation for the same state
+        $stateKey = is_string($request) ? $request : (isset($_GET['req']) ? (string)$_GET['req'] : '');
+        if ($stateKey !== '' && isset($this->__ajaxMemo[$stateKey])) {
+            return $this->__ajaxMemo[$stateKey];
+        }
+
+        // Short fragment cache for the initial navigation payload (initnav → LIST:-1)
+        $isInitialState = ($request === 'initnav');
+        $cache = null; $cacheKey = null; $cacheTtl = 900; // 15 minutes default
+        if ($isInitialState) {
+            try {
+                $container = System::getContainer();
+                if ($container && $container->has('cache.app')) {
+                    $cache = $container->get('cache.app');
+                }
+                if ($container && method_exists($container, 'hasParameter') && $container->hasParameter('c4g_projects_fragment_ttl')) {
+                    $val = (int)$container->getParameter('c4g_projects_fragment_ttl');
+                    if ($val > 0) { $cacheTtl = $val; }
+                }
+            } catch (\Throwable $t) { $cache = null; }
+            if ($cache) {
+                try {
+                    $lang = (string)($GLOBALS['TL_LANGUAGE'] ?? '');
+                    $user = FrontendUser::getInstance();
+                    $uid = ($user && $user->id) ? (int)$user->id : 0;
+                    $view = (string)$this->viewType;
+                    $mid = (int)$this->id;
+                    $cacheKey = 'c4g_init_payload_' . md5($mid.'|'.$lang.'|'.$uid.'|'.$view);
+                    $item = $cache->getItem($cacheKey);
+                    if ($item->isHit()) {
+                        $val = $item->get();
+                        if (is_string($val) && $val !== '') {
+                            // Memoize for this request as well
+                            if ($stateKey !== '') { $this->__ajaxMemo[$stateKey] = $val; }
+                            return $val;
+                        }
+                    }
+                } catch (\Throwable $t) { /* ignore cache read errors */ }
             }
         }
 
@@ -1164,7 +1251,20 @@ class C4GBaseController extends AbstractFrontendModuleController
             $result['dialogstate'] = str_replace('item:', $this->permalink_name.'=', $result['dialogstate']);
         }
 
-        return json_encode($result);
+        $json = json_encode($result);
+        // Store per-request memo
+        if ($stateKey !== '') { $this->__ajaxMemo[$stateKey] = $json; }
+        // Save fragment cache for initial state
+        if ($isInitialState && $cache && $cacheKey && is_string($json) && $json !== '') {
+            try {
+                $item = $cache->getItem($cacheKey);
+                $item->set($json);
+                if (method_exists($item, 'expiresAfter')) { $item->expiresAfter($cacheTtl); }
+                $cache->save($item);
+            } catch (\Throwable $t) { /* ignore cache write errors */ }
+        }
+
+        return $json;
     }
 
     /**
