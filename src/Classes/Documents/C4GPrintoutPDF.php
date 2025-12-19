@@ -171,6 +171,36 @@ class C4GPrintoutPDF
             }
         }
 
+        // Merge bereits berechnete PutVars des Moduls hinein, sodass serverseitig ermittelte Felder
+        // (z. B. priceSum inkl. Optionen, Steuern) nicht verloren gehen, wenn der Client nur Rohdaten sendet.
+        try {
+            if ($module && method_exists($module, 'getPutVars')) {
+                $modulePutVars = $module->getPutVars();
+                if (is_array($modulePutVars) && !empty($modulePutVars)) {
+                    // Werte aus getPutVars haben Vorrang vor rohen Request-Daten
+                    $data = array_merge((array) $data, $modulePutVars);
+                }
+            }
+        } catch (\Throwable $t) { /* ignore merge issues silently */ }
+
+        // Generische Erweiterungsstelle: externe Bundles können hier `fieldData` anreichern (z. B. Preise neu berechnen)
+        // ohne dass das Projects-Framework Bundle-spezifisches Wissen enthält.
+        if (isset($GLOBALS['TL_HOOKS']['c4gProjectsPreparePrintData']) && is_array($GLOBALS['TL_HOOKS']['c4gProjectsPreparePrintData'])) {
+            foreach ($GLOBALS['TL_HOOKS']['c4gProjectsPreparePrintData'] as $callback) {
+                try {
+                    $class  = $callback[0] ?? null;
+                    $method = $callback[1] ?? null;
+                    if ($class && $method) {
+                        $obj = \Contao\System::importStatic($class);
+                        // Listener dürfen $data per Referenz verändern
+                        $obj->$method($module, $data);
+                    }
+                } catch (\Throwable $t) {
+                    // Listener-Fehler dürfen den Druck nicht blockieren
+                }
+            }
+        }
+
         foreach ($fieldList as $field) {
             $field->setDescription('');
             $field->setEditable(false);
