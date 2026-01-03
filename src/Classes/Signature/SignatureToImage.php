@@ -12,7 +12,6 @@ namespace con4gis\ProjectsBundle\Classes\Signature;
  *  @link http://github.com/thomasjbradley/signature-to-image
  *  @copyright Copyright MMXI–, Thomas J Bradley
  *  @license New BSD License
- *  @version 1.1.0
  */
 class SignatureToImage
 {

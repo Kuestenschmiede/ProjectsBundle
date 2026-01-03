@@ -1,19 +1,16 @@
 /*
  * This file is part of con4gis, the gis-kit for Contao CMS.
  * @package con4gis
- * @version 10
- * @author con4gis contributors (see "authors.txt")
+ * @author con4gis contributors (see "authors.md")
  * @license LGPL-3.0-or-later
- * @copyright (c) 2010-2025, by Küstenschmiede GmbH Software & Design
+ * @copyright (c) 2010-2026, by Küstenschmiede GmbH Software & Design
  * @link https://www.con4gis.org
  */
 
 /**
  * Eden
- * @version   php 7
  * @package   eden
- * @author    eden authors (see "authors.txt")
- * @copyright Küstenschmiede GmbH Software & Design 2011 - 2018
+ * @author    eden authors (see "authors.md")
  * @link      https://www.kuestenschmiede.de
  */
 function ConditionalFieldDisplay(moduleId) {
