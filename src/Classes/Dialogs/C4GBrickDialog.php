@@ -892,7 +892,7 @@ class C4GBrickDialog
                 if ($field->getAdditionalID()) {
                     $fieldName = $fieldName . '_' . $field->getAdditionalID();
                 }
-                $dlgValue = $dlgValues[$fieldName];
+                $dlgValue = $dlgValues[$fieldName] ?? null;
 
                 if ($field instanceof C4GTelField) {
                     if ($dlgValue && (trim($dlgValue) != '')) {
@@ -1019,7 +1019,7 @@ class C4GBrickDialog
                         if (/*($viewType == C4GBrickViewType::MEMBERBOOKING) || */
                             ($field instanceof C4GMultiCheckboxField) ||
                             (
-                                ($dlgValues[$fieldName] != null) && (trim($dlgValues[$fieldName]) != '') &&
+                                isset($dlgValues[$fieldName]) && ($dlgValues[$fieldName] != null) && (trim($dlgValues[$fieldName]) != '') &&
                                 ($dlgValues[$fieldName] != 'id') && ($dlgValues[$fieldName] != 'false') &&
                                 (intval($dlgValues[$fieldName]) !== $field->getInitialValue()) &&
                                 (strval($dlgValues[$fieldName]) !== $field->getInitialValue()) &&
@@ -1075,7 +1075,7 @@ class C4GBrickDialog
                 $set['uuid'] = $uuid;
             }
         } else {
-            if ($dbValues->uuid == '' && $dialogParams->isSaveWithUuid()) {
+            if (($dbValues === null || (is_object($dbValues) && property_exists($dbValues, 'uuid') && $dbValues->uuid == '')) && $dialogParams->isSaveWithUuid()) {
                 $set['uuid'] = C4GBrickCommon::getGUID();
             }
         }
@@ -1302,8 +1302,7 @@ class C4GBrickDialog
                 $set['tstamp'] = time();
             }
 
-            $last_user = $set['last_member_id'];
-            if ($last_user !== null) {
+            if (isset($set['last_member_id'])) {
                 $set['last_member_id'] = $user_id;
             }
 
@@ -1337,7 +1336,7 @@ class C4GBrickDialog
 
             $result = false;
             if (!$abortSave) {
-                if ($set[$id_fieldName] == null) {
+                if ($id_fieldName === null || $set[$id_fieldName] == null) {
                     $result = $brickDatabase->insert($set);
                     if ($dialogParams->getSaveCallback()) {
                         $cb = $dialogParams->getSaveCallback();

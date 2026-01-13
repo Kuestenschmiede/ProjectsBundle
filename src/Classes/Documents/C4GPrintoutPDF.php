@@ -260,7 +260,8 @@ class C4GPrintoutPDF
                 $field->setDefaultValue($field->getInitialValue());
             }
 
-            if ($field->isPrintable() && ($field->getFieldName() && $data[$field->getFieldName()] && (trim($data[$field->getFieldName()])) || (($field instanceof C4GSubDialogField) || ($field instanceof C4GForeignArrayField) || ($field instanceof C4GImageField) || ($field instanceof C4GRadioGroupField) || ($field instanceof C4GGridField)))) {
+            $fieldName = $field->getFieldName();
+            if ($field->isPrintable() && ($fieldName && isset($data[$fieldName]) && $data[$fieldName] && (trim($data[$fieldName])) || (($field instanceof C4GSubDialogField) || ($field instanceof C4GForeignArrayField) || ($field instanceof C4GImageField) || ($field instanceof C4GRadioGroupField) || ($field instanceof C4GGridField)))) {
                 $resultField = C4GPrintoutPDF::checkSubFields($field, $data);
                 if ($resultField) {
                     $data[$resultField->getFieldName()] = $resultField->getInitialValue();
@@ -309,7 +310,8 @@ class C4GPrintoutPDF
         $pdfManager->setData($pdfData);
 
         $captionField = $module->getDialogParams()->getCaptionField();
-        $pdfManager->headline = $this->headline  . ': ' . $data[$captionField] ?: $module->getDialogParams()->getBrickCaption() . ': ' . $data[$captionField];
+        $captionValue = (isset($data[$captionField]) && $data[$captionField]) ? $data[$captionField] : '';
+        $pdfManager->headline = $this->headline  . ': ' . $captionValue ?: $module->getDialogParams()->getBrickCaption() . ': ' . $captionValue;
         $pdfManager->hl = 'h1';
 
         $pdfManager->content = $content;

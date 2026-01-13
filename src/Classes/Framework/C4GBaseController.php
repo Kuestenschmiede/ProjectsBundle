@@ -1498,9 +1498,9 @@ class C4GBaseController extends AbstractFrontendModuleController
             $result = $this->showException($e);
         }
 
-        if ($this->permalink_name && $permalinkField && $permalinkField !== 'id' && $this->session->getSessionValue("c4g_brick_dialog_".$permalinkField) && ($result['dialogstate'] == "item:")) {
+        if ($this->permalink_name && $permalinkField && $permalinkField !== 'id' && $this->session->getSessionValue("c4g_brick_dialog_".$permalinkField) && (isset($result['dialogstate']) && ($result['dialogstate'] == "item:"))) {
             $result['dialogstate'] = str_replace('item:', $this->permalink_name.'='. $this->session->getSessionValue("c4g_brick_dialog_".$permalinkField), $result['dialogstate']);
-        } else if ($this->permalink_name && $this->session->getSessionValue("c4g_brick_dialog_id") && ($result['dialogstate'] == "item:")) {
+        } else if ($this->permalink_name && $this->session->getSessionValue("c4g_brick_dialog_id") && (isset($result['dialogstate']) && ($result['dialogstate'] == "item:"))) {
             $result['dialogstate'] = str_replace('item:', $this->permalink_name.'='. $this->session->getSessionValue("c4g_brick_dialog_id"), $result['dialogstate']);
         } else if ($this->permalink_name && $result && key_exists('dialogstate', $result)) {
             $result['dialogstate'] = str_replace('item:', $this->permalink_name.'=', $result['dialogstate']);

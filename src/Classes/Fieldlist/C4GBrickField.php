@@ -332,11 +332,11 @@ abstract class C4GBrickField
         }
 
         if (($this instanceof C4GDecimalField || $this instanceof C4GNumberField) && $this->getThousandsSep() !== '') {
-            $value = str_replace($this->getThousandsSep(), '', $dlgValues[$fieldName]);
+            $value = str_replace($this->getThousandsSep(), '', $dlgValues[$fieldName] ?? '');
             $dlgValues[$fieldName] = $value;
         }
-
-        return $dlgValues[$fieldName];
+        
+        return $dlgValues[$fieldName] ?? null;
     }
 
     /**

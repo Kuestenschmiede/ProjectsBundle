@@ -91,7 +91,7 @@ class C4GModuleManager
             return 'Frontend controller class does not exist';
         }
 
-        if ($strClass && !$this->moduleMap[$id]) {
+        if ($strClass && !isset($this->moduleMap[$id])) {
             $objModule->typePrefix = 'mod_';
             $controllerModule = new $classname($rootDir, $requestStack, $framework, $objModule);
             $this->moduleMap[$id] = $controllerModule;

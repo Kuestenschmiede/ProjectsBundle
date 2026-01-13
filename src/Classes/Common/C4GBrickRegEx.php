@@ -19,20 +19,20 @@ class C4GBrickRegEx
     /**
      * Constant Expressions
      */
-    const DIGITS = '^[0-9](\d*)$'; //Whole numbers, from 0 to infinite, no negatives and no separators.
-    const DIGITS_NEG = '^[-]?[0-9](\d*)$'; //Digits, but allowed to go negative.
-    const NUMBERS = '^[1-9](\d*)$'; //Whole numbers, from 1 to infinite, no negatives and no separators.
-    const NUMBERS_NO_SEP = '^[-]?[0-9](\d*)$';  //Whole numbers, not allowing thousand separators.
-    const NUMBERS_DOT_SEP = '^[-]?[1-9](\d*)((.)(\d{3}))*$';  //Whole numbers, allowing dots as thousand separators.
+    const DIGITS = '^[0-9]+$'; //Whole numbers, from 0 to infinite, no negatives and no separators.
+    const DIGITS_NEG = '^-?[0-9]+$'; //Digits, but allowed to go negative.
+    const NUMBERS = '^[1-9][0-9]*$'; //Whole numbers, from 1 to infinite, no negatives and no separators.
+    const NUMBERS_NO_SEP = '^-?[0-9]+$';  //Whole numbers, not allowing thousand separators.
+    const NUMBERS_DOT_SEP = '^-?[1-9][0-9]*(?:\.[0-9]{3})*$';  //Whole numbers, allowing dots as thousand separators.
     const HEX_DEC_ID = '^[0-9A-Fa-f]*$'; //Hexadecimal IDs, e.g. 00A51B.
-    const NUMBERS_COMMA_SEP = '[-]?[1-9](\d*)((,)(\d{3}))*$';  //Whole numbers, allowing commas as thousand separators.
+    const NUMBERS_COMMA_SEP = '-?[1-9][0-9]*(?:,[0-9]{3})*$';  //Whole numbers, allowing commas as thousand separators.
     const POSTAL = '^[0-9]{4,5}$';  //Zip Codes 4 numbers for swiss
-    const EMAIL = '^[\w\-+]+(\.[\w\-+]+)*@\w+([.-]*\w+)*\.\w{2,}$'; //EMail Addresses example for longer endings .solutions
-    const PHONE = '^\+?[\d\s]{3,}$'; //Phone numbers
-    const NAME = '^[\p{L}]{1}[- \p{L}]*[\p{L}]{1}$'; //Names, allows special letters (ä, á, etc.) as well as whitespaces and (-) unless they are at the end or beginning.
-    const URL = '^(https?:\/\/)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&\/\/=]*)$'; //URL
-    const YEARS = '^[1][90](\d{2})|[2][0](\d{2})$'; //Years, from 1900 to 20xx. Will also allow 29xx, so make sure to set a max value!
-    const DATE_D_M_Y = '^([0-2][0-9]|[3][0-1])[.]([0][0-9]|[1][0-2])[.]([1][90](\d{2})|[2][0](\d{2}))$'; //Dates in DD.MM.YYYY format
+    const EMAIL = '^[a-zA-Z0-9._%+\\-]+@[a-zA-Z0-9.\\-]+\\.[a-zA-Z]{2,}$'; //EMail Addresses example for longer endings .solutions
+    const PHONE = '^\\+?[0-9\\s]{3,}$'; //Phone numbers
+    const NAME = '^[\\p{L}]{1}[- \\p{L}]*[\\p{L}]{1}$'; //Names, allows special letters (ä, á, etc.) as well as whitespaces and (-) unless they are at the end or beginning.
+    const URL = '^(https?://)?(www\\.)?[-a-zA-Z0-9@:%._+~#=]{2,256}\\.[a-z]{2,6}([-a-zA-Z0-9@:%_+.~#?&/=@]*)$'; //URL
+    const YEARS = '^(?:19|20)[0-9]{2}$'; //Years, from 1900 to 20xx. Will also allow 29xx, so make sure to set a max value!
+    const DATE_D_M_Y = '^(?:[0-2][0-9]|3[0-1])\.(?:0[0-9]|1[0-2])\.(?:19|20)[0-9]{2}$'; //Dates in DD.MM.YYYY format
     const DATE_Y_M_D = '(?:19|20)(?:[0-9]{2}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-8])|(?:(?!02)(?:0[1-9]|1[0-2])-(?:29|30))|(?:(?:0[13578]|1[02])-31))|(?:[13579][26]|[02468][048])-02-29)'; //Dates in YYYY-MM-DD format
     const IBAN = '^[a-zA-Z]{2}[0-9]{2}\s?[a-zA-Z0-9]{4}\s?[0-9]{4}\s?[0-9]{3}([a-zA-Z0-9]\s?[a-zA-Z0-9]{0,4}\s?[a-zA-Z0-9]{0,4}\s?[a-zA-Z0-9]{0,4}\s?[a-zA-Z0-9]{0,3})?$';
     const BIC = '^[A-Z]{6}[A-Z0-9]{2}([A-Z0-9]{3})?$';
@@ -51,17 +51,16 @@ class C4GBrickRegEx
      */
     public static function generateNumericRegEx($decimals = 2, $allowNegative = true, $thousandsSep = '.', $decimalPoint = ',')
     {
-        if ($allowNegative === true) {
-            $allowNegative = '[-]?';
-        } else {
-            $allowNegative = '';
-        }
+        $allowNegativeStr = $allowNegative === true ? '-?' : '';
 
         if ($decimals <= 0) {
             $decimals = 0;
             $decimalPoint = '';
         }
 
-        return '^' . $allowNegative . '(\d+)((' . $thousandsSep . ')(\d{3}))*(((' . $decimalPoint . '))(\d{0,' . $decimals . '}))?$';
+        $thousandsSepEsc = preg_quote($thousandsSep, '/');
+        $decimalPointEsc = preg_quote($decimalPoint, '/');
+
+        return '^' . $allowNegativeStr . '[0-9]+(?:(?:' . $thousandsSepEsc . ')[0-9]{3})*(?:(?:' . $decimalPointEsc . ')[0-9]{0,' . $decimals . '})?$';
     }
 }
