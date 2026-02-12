@@ -1752,6 +1752,7 @@ class C4GBaseController extends AbstractFrontendModuleController
      */
     public function sendNotifications($newId, $notifyOnChanges, $notification_type, $dlgValues, $fieldList, $changes)
     {
+        $vouchers = [];
         if ($newId || $notifyOnChanges) {
             $notification_array = is_string($notification_type)
                 ? $this->__deserializeFast($notification_type)
@@ -1779,6 +1780,7 @@ class C4GBaseController extends AbstractFrontendModuleController
                                     );
                                     if ($voucher) {
                                         $arrTokens[$key] = $voucher;
+                                        $vouchers[] = $voucher;
                                     }
                                 }
                             }
@@ -1797,6 +1799,7 @@ class C4GBaseController extends AbstractFrontendModuleController
                                     );
                                     if ($voucher) {
                                         $arrTokens[$key] = $voucher;
+                                        $vouchers[] = $voucher;
                                     }
                                 }
                             }
@@ -1809,8 +1812,8 @@ class C4GBaseController extends AbstractFrontendModuleController
                         $notification_array[0],
                         $arrTokens,
                     );
-                    if ($voucher) {
-                        $stamps = $stamps->with(new BulkyItemsStamp([$voucher]));
+                    if (!empty($vouchers)) {
+                        $stamps = $stamps->with(new BulkyItemsStamp($vouchers));
                         $notificationCenter->sendNotificationWithStamps(intval($notification_array[0]), $stamps);
                     } else {
                         $notificationCenter->sendNotification(intval($notification_array[0]), $arrTokens);
@@ -1821,8 +1824,8 @@ class C4GBaseController extends AbstractFrontendModuleController
                             $notification_array[$key],
                             $arrTokens,
                         );
-                        if ($voucher) {
-                            $stamps = $stamps->with(new BulkyItemsStamp([$voucher]));
+                        if (!empty($vouchers)) {
+                            $stamps = $stamps->with(new BulkyItemsStamp($vouchers));
                             $notificationCenter->sendNotificationWithStamps($notification_array[$key], $stamps);
                         } else {
                             $notificationCenter->sendNotification($notification_array[$key], $arrTokens);

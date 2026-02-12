@@ -20,6 +20,12 @@ class C4GBrickNotification
         $field_array = [];
         $tokensValues = [];
         $permalink_name = '';
+
+        // Pre-fill tokens with all available dialog values to ensure no manually added tokens are lost
+        if (is_array($dlgValues)) {
+            $tokensValues = $dlgValues;
+        }
+
         // filter the notifications fields
         foreach ($fieldList as $field) {
             if ($field->isNotificationField()) {
@@ -90,7 +96,7 @@ class C4GBrickNotification
             $tokensValues = $dlgValues;
         }
 
-        if ($dlgValues['c4g_member_id']) {
+        if (isset($dlgValues['c4g_member_id']) && $dlgValues['c4g_member_id']) {
             $tokensValues['c4g_member_id'] = $dlgValues['c4g_member_id'];
         }
 
@@ -120,7 +126,7 @@ class C4GBrickNotification
                     }
 
                     //Sonderlocke
-                    if ($tokensValues['email']) {
+                    if (isset($tokensValues['email']) && $tokensValues['email']) {
                         $tokensValues['user_email'] = $tokensValues['email'];
                     } elseif ($member) {
                         $tokensValues['user_email'] = $member->email;
@@ -128,7 +134,7 @@ class C4GBrickNotification
                 }
 
                 if ($name == 'permalink' && $permalink_name !== '') {
-                    if ($tokensValues[$permalink_name]) {
+                    if (isset($tokensValues[$permalink_name]) && $tokensValues[$permalink_name]) {
                         $tokensValues['permalink'] = $tokenValue . $tokensValues[$permalink_name];
                     }
                 }
