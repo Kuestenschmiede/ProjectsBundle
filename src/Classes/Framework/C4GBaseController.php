@@ -665,6 +665,17 @@ class C4GBaseController extends AbstractFrontendModuleController
 
     public function initBrickModule($id)
     {
+        // Reset request-scoped state to avoid data leakage between requests in shared processes
+        $this->putVars = null;
+        $this->fieldList = null;
+        $this->dialogParams = null;
+        $this->listParams = null;
+        $this->brickDatabase = null;
+        $this->__ajaxMemo = [];
+        $this->__permFnMemo = [];
+        $this->__colExistsMemo = [];
+        $this->__getTablePermMemo = [];
+
         $arrHeadline = property_exists($this, 'headline') && is_string($this->headline)
             ? $this->__deserializeFast($this->headline)
             : (property_exists($this, 'headline') ? $this->headline : '');
