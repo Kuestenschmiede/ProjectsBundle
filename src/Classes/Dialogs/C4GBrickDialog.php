@@ -95,7 +95,6 @@ class C4GBrickDialog
     {
     }
 
-    //Wird bisher nicht gebraucht.
     /**
      * @return string
      */
@@ -739,7 +738,12 @@ class C4GBrickDialog
                     if ($viewType && (C4GBrickView::isGroupBased($viewType))) {
                         if ($field->isUnique() || $field->isDbUnique()) {
                             $groupId = $dlgValues['c4g_group_id'];
-                            $dlgValue = $dlgValues[$fieldName];
+                            $baseKey = $field->getFieldName();
+                            $suffixedKey = $baseKey;
+                            if ($field->getAdditionalID()) {
+                                $suffixedKey .= '_' . $field->getAdditionalID();
+                            }
+                            $dlgValue = $dlgValues[$suffixedKey] ?? ($dlgValues[$baseKey] ?? null);
                             $dbValues = $brickDatabase->findBy($fieldName, $dlgValue);
 
                             $groupKeyField = $dialogParams->getViewParams()->getGroupKeyField();
@@ -762,7 +766,12 @@ class C4GBrickDialog
                     } elseif ($viewType && (C4GBrickView::isMemberBased($viewType))) {
                         if ($field->isUnique() || $field->isDbUnique()) {
                             $memberId = $dlgValues['c4g_member_id'];
-                            $dlgValue = $dlgValues[$fieldName];
+                            $baseKey = $field->getFieldName();
+                            $suffixedKey = $baseKey;
+                            if ($field->getAdditionalID()) {
+                                $suffixedKey .= '_' . $field->getAdditionalID();
+                            }
+                            $dlgValue = $dlgValues[$suffixedKey] ?? ($dlgValues[$baseKey] ?? null);
                             $dbValues = $brickDatabase->findBy($fieldName, $dlgValue);
 
                             $memberKeyField = $dialogParams->getViewParams()->getMemberKeyField();
@@ -784,7 +793,12 @@ class C4GBrickDialog
                         }
                     } elseif ($viewType && (C4GBrickView::isPublicBased($viewType))) {
                         if ($field->isUnique() || $field->isDbUnique()) {
-                            $dlgValue = $dlgValues[$fieldName];
+                            $baseKey = $field->getFieldName();
+                            $suffixedKey = $baseKey;
+                            if ($field->getAdditionalID()) {
+                                $suffixedKey .= '_' . $field->getAdditionalID();
+                            }
+                            $dlgValue = $dlgValues[$suffixedKey] ?? ($dlgValues[$baseKey] ?? null);
                             $dbValues = $brickDatabase->findBy($fieldName, $dlgValue);
                             $additionalId = $dialogParams->getAdditionalId();
                             $additionalIdField = $dialogParams->getAdditionalIdField();
@@ -818,9 +832,6 @@ class C4GBrickDialog
             }
         }
 
-        //Nur wenn der Vergleich nicht schon in der Gruppe schief geht, wird der DBUnique Vergleich gemacht.
-        //Das hat den Vorteil, dass Eindeutigkeitsprüfungen über die gesammte Datenbank nur in Ausnahmefällen
-        //kommuniziert werden müssen.
         return self::validateDBUnique($fieldList, $dlgValues, $brickDatabase, $dialogParams);
     }
 
@@ -831,13 +842,18 @@ class C4GBrickDialog
      * @param $viewType
      * @return null
      */
-    private static function validateDBUnique($fieldList, $dlgValues, $brickDatabase, $dialogParams)
+    public static function validateDBUnique($fieldList, $dlgValues, $brickDatabase, $dialogParams)
     {
         if (($fieldList) && ($dlgValues)) {
             foreach ($fieldList as $field) {
                 $fieldName = $field->getFieldName();
                 if ($field->isDbUnique() && $field->getDbUniqueResult()) {
-                    $dlgValue = $dlgValues[$fieldName];
+                    $baseKey = $field->getFieldName();
+                    $suffixedKey = $baseKey;
+                    if ($field->getAdditionalID()) {
+                        $suffixedKey .= '_' . $field->getAdditionalID();
+                    }
+                    $dlgValue = $dlgValues[$suffixedKey] ?? ($dlgValues[$baseKey] ?? null);
                     $groupId = $dlgValues['c4g_group_id'];
                     $groupKeyField = $dialogParams->getViewParams()->getGroupKeyField();
 
@@ -889,10 +905,12 @@ class C4GBrickDialog
                 }
 
                 $fieldName = $field->getFieldName();
+                $baseKey = $fieldName;
+                $suffixedKey = $baseKey;
                 if ($field->getAdditionalID()) {
-                    $fieldName = $fieldName . '_' . $field->getAdditionalID();
+                    $suffixedKey .= '_' . $field->getAdditionalID();
                 }
-                $dlgValue = $dlgValues[$fieldName] ?? null;
+                $dlgValue = $dlgValues[$suffixedKey] ?? ($dlgValues[$baseKey] ?? null);
 
                 if ($field instanceof C4GTelField) {
                     if ($dlgValue && (trim($dlgValue) != '')) {
@@ -976,8 +994,10 @@ class C4GBrickDialog
         if (($dbValues) && ($dlgValues)) {
             foreach ($fieldList as $field) {
                 $fieldName = $field->getFieldName();
+                $baseKey = $fieldName;
+                $suffixedKey = $baseKey;
                 if ($field->getAdditionalID()) {
-                    $fieldName = $fieldName . '_' . $field->getAdditionalID();
+                    $suffixedKey .= '_' . $field->getAdditionalID();
                 }
 
                 if (!$field->isComparable()) {
@@ -986,12 +1006,21 @@ class C4GBrickDialog
 
                 if (($field->isDatabaseField()) && (!$field->isFormField())) {
                     if ($field->getInitialValue()) {
-                        $dlgValues[$fieldName] = $field->getInitialValue();
+                        $dlgValues[$suffixedKey] = $field->getInitialValue();
+                        $dlgValues[$baseKey] = $field->getInitialValue();
                     }
                 }
 
                 if ($field->isDatabaseField()) {
-                    $compareResult = $field->compareWithDB($dbValues, $dlgValues);
+                    $tempDlgValues = $dlgValues;
+                    if ($field->getAdditionalID()) {
+                        if (!isset($tempDlgValues[$suffixedKey]) && isset($tempDlgValues[$baseKey])) {
+                            $tempDlgValues[$suffixedKey] = $tempDlgValues[$baseKey];
+                        } elseif (isset($tempDlgValues[$suffixedKey]) && !isset($tempDlgValues[$baseKey])) {
+                            $tempDlgValues[$baseKey] = $tempDlgValues[$suffixedKey];
+                        }
+                    }
+                    $compareResult = $field->compareWithDB($dbValues, $tempDlgValues);
                     if ($compareResult) {
                         if (is_array($compareResult) && sizeof($compareResult) > 0) {
                             $result += $compareResult;
@@ -1002,7 +1031,6 @@ class C4GBrickDialog
                 }
             }
         } else {
-            //Sonderlocke bei Neuanlage (keine dbvalues)
             if ($dlgValues) {
                 foreach ($fieldList as $field) {
                     if (!$field->isComparable()) {
@@ -1010,22 +1038,25 @@ class C4GBrickDialog
                     }
 
                     $fieldName = $field->getFieldName();
+                    $baseKey = $fieldName;
+                    $suffixedKey = $baseKey;
                     if ($field->getAdditionalID()) {
-                        $fieldName = $fieldName . '_' . $field->getAdditionalID();
+                        $suffixedKey .= '_' . $field->getAdditionalID();
                     }
+                    
+                    $dlgValue = $dlgValues[$suffixedKey] ?? ($dlgValues[$baseKey] ?? null);
 
                     if (/*($viewType == C4GBrickViewType::MEMBERBOOKING) || */(($field->isFormField()) && ($field->isDatabaseField()))) {
-                        //Muss davon ausgehen, dass boolean-Werte immer mit false vorbelegt sind. Funktioniert auch nur dann.
                         if (/*($viewType == C4GBrickViewType::MEMBERBOOKING) || */
                             ($field instanceof C4GMultiCheckboxField) ||
                             (
-                                isset($dlgValues[$fieldName]) && ($dlgValues[$fieldName] != null) && (trim($dlgValues[$fieldName]) != '') &&
-                                ($dlgValues[$fieldName] != 'id') && ($dlgValues[$fieldName] != 'false') &&
-                                (intval($dlgValues[$fieldName]) !== $field->getInitialValue()) &&
-                                (strval($dlgValues[$fieldName]) !== $field->getInitialValue()) &&
-                                ($dlgValues[$fieldName] != -1)
+                                isset($dlgValue) && ($dlgValue != null) && (trim($dlgValue) != '') &&
+                                ($dlgValue != 'id') && ($dlgValue != 'false') &&
+                                (intval($dlgValue) !== $field->getInitialValue()) &&
+                                (strval($dlgValue) !== $field->getInitialValue()) &&
+                                ($dlgValue != -1)
                             )) {
-                            $result[] = new C4GBrickFieldCompare($field, '', $dlgValues[$fieldName]);
+                            $result[] = new C4GBrickFieldCompare($field, '', $dlgValue);
                         }
                     }
                 }
@@ -1109,35 +1140,50 @@ class C4GBrickDialog
                 if ($field instanceof C4GKeyField || !$field->isDatabaseField() || (($id != null) && ($id != -1) && !$field->isEditable())) {
                     continue;
                 }
-                $fieldName = $field->getFieldName();
-                if ($field->getAdditionalID()) {
-                    $fieldName .= '_' . $field->getAdditionalId();
+                $baseFieldName = $field->getFieldName();
+                
+                $suffixedFieldName = $baseFieldName;
+                $additionalId = $field->getAdditionalId();
+                if ($additionalId) {
+                    $suffixedFieldName .= '_' . $additionalId;
                 }
 
                 if ($field->getCondition()) {
                     foreach ($field->getCondition() as $con) {
                         $conFieldName = $con->getFieldName();
-                        if (!$con->checkAgainstCondition($dlgValues[$conFieldName])) {
-                            if (!strpos($conFieldName,'--'))
+                        $conditionValue = $dlgValues[$conFieldName] ?? null;
+                        if ($conditionValue === null) {
+                            $pos = strpos($conFieldName, '_');
+                            if ($pos !== false) {
+                                $conditionValue = $dlgValues[substr($conFieldName, 0, $pos)] ?? null;
+                            }
+                        }
+                        
+                        if (!$con->checkAgainstCondition($conditionValue)) {
+                            if (!strpos($conFieldName, '--')) {
                                 continue(2);
+                            }
                         }
                     }
                 }
 
-                if ((!$field->isFormField()) && (!$fieldData) && ($field->getInitialValue() || $field->getRandomValue())) {
+                $tempDlgValues = $dlgValues;
+                if ($additionalId) {
+                    if (!isset($tempDlgValues[$suffixedFieldName]) && isset($tempDlgValues[$baseFieldName])) {
+                        $tempDlgValues[$suffixedFieldName] = $tempDlgValues[$baseFieldName];
+                    } elseif (isset($tempDlgValues[$suffixedFieldName]) && !isset($tempDlgValues[$baseFieldName])) {
+                        $tempDlgValues[$baseFieldName] = $tempDlgValues[$suffixedFieldName];
+                    }
+                }
+
+                if ((!$field->isFormField()) && (!isset($fieldData)) && ($field->getInitialValue() || $field->getRandomValue())) {
                     $fieldData = $field->getRandomValue();
                     if ($fieldData === '') {
                         $fieldData = $field->getInitialValue();
                     }
                 } elseif (($field instanceof C4GGeopickerField) || ($field instanceof C4GDateTimeLocationField)) {
-                    $loc_geox = $dlgValues['geox'];
-                    if (!$loc_geox) {
-                        $loc_geox = '';
-                    }
-                    $loc_geoy = $dlgValues['geoy'];
-                    if (!$loc_geoy) {
-                        $loc_geoy = '';
-                    }
+                    $loc_geox = $dlgValues['geox'] ?? '';
+                    $loc_geoy = $dlgValues['geoy'] ?? '';
                     // dynamic field names in the database
                     if ($field instanceof C4GGeopickerField) {
                         $geoxFieldname = $field->getLocGeoxFieldname();
@@ -1150,17 +1196,12 @@ class C4GBrickDialog
                     }
                     $fieldData = null;
                 } elseif ($field instanceof C4GFileField) {
-                    $fieldData = $field->createFieldData($dlgValues, $dbValues);
+                    $fieldData = $field->createFieldData($tempDlgValues, $dbValues);
                 } elseif ($field instanceof C4GForeignArrayField) {
-                    $fieldData = $field->createValue($dbValues, $dialogParams, $dlgValues, ($brickDatabase->getParams()->getEntityClass() !== ''));
+                    $fieldData = $field->createValue($dbValues, $dialogParams, $tempDlgValues, ($brickDatabase->getParams()->getEntityClass() !== ''));
                 } else {
-                    $fieldData = $field->createFieldData($dlgValues);
-                    if (!$field->getRandomValue()) {
-                        //generated values should not continued
-//                        if ($id == null && $field->isFormField() && $field->getInitialValue() !== '' && $fieldData !== $field->getInitialValue() && !$field->isEditable()) {
-//                            continue;
-//                        }
-                    } else {
+                    $fieldData = $field->createFieldData($tempDlgValues);
+                    if ($field->getRandomValue()) {
                         $fieldData = $field->getRandomValue();
                     }
                 }
@@ -1172,14 +1213,25 @@ class C4GBrickDialog
                             $fieldData = $array['to'];
                         }
                     }
-                    $set[$field->getFieldName()] = $fieldData;
+                    $set[$baseFieldName] = $fieldData;
                     if ($field instanceof C4GFileField && $field->getFilenameColumn() !== '' && $field->getFilename() !== '') {
                         $set[$field->getFilenameColumn()] = $field->getFilename();
                     }
                     if (!($field instanceof C4GFileField) && !($field instanceof C4GRadioGroupField) && !($field instanceof C4GMultiCheckboxField) && (!$field instanceof C4GForeignArrayField)) {
-                        $set[$field->getFieldName()] = html_entity_decode(C4GUtils::secure_ugc($fieldData));
+                        $set[$baseFieldName] = html_entity_decode(C4GUtils::secure_ugc($fieldData));
+                    }
+                } else {
+                    if (isset($tempDlgValues[$baseFieldName]) && $tempDlgValues[$baseFieldName] !== '') {
+                        $fieldData = $field->validateFieldValue($tempDlgValues[$baseFieldName]);
+                        $set[$baseFieldName] = html_entity_decode(C4GUtils::secure_ugc($fieldData));
+                        // \con4gis\CoreBundle\Resources\contao\models\C4gLogModel::addLogEntry('projects', "DEBUG: Recovered $baseFieldName from base key in tempDlgValues.");
+                    } else {
+                        $hasSuffixed = array_key_exists($suffixedFieldName, $tempDlgValues);
+                        $hasBase = array_key_exists($baseFieldName, $tempDlgValues);
+                        // \con4gis\CoreBundle\Resources\contao\models\C4gLogModel::addLogEntry('projects', "DEBUG: No value for $baseFieldName. suffixedKey: $suffixedFieldName (exists: " . ($hasSuffixed ? 'YES' : 'NO') . "), baseKey (exists: " . ($hasBase ? 'YES' : 'NO') . ")");
                     }
                 }
+                unset($fieldData);
             }
 
             $memberKeyField = $dialogParams->getViewParams()->getMemberKeyField();
@@ -1312,6 +1364,17 @@ class C4GBrickDialog
 
                 $set = $action->call($set);
                 $actionValues = array_merge($set, $dlgValues);
+            }
+
+            if (empty($set) && !empty($dlgValues)) {
+                // \con4gis\CoreBundle\Resources\contao\models\C4gLogModel::addLogEntry('projects', 'DEBUG: $set is empty but $dlgValues was not. ' . json_encode($logDetails));
+            }
+            
+            // \con4gis\CoreBundle\Resources\contao\models\C4gLogModel::addLogEntry('projects', 'DEBUG: $set constructed. Count: ' . count($set));
+
+            if ($saveInNew && count($set) <= 1 && !empty($dlgValues)) {
+                \con4gis\CoreBundle\Resources\contao\models\C4gLogModel::addLogEntry('projects', 'ERROR: $set is too small for a new record. Aborting save.');
+                return false;
             }
 
             $abortSave = false;

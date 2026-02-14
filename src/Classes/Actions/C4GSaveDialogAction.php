@@ -33,6 +33,21 @@ class C4GSaveDialogAction extends C4GBrickDialogAction
     {
         $dlgValues = $this->getPutVars();
         $fieldList = $this->getFieldList();
+        
+        if (is_array($fieldList) && count($fieldList) <= 3 && is_array($dlgValues) && count($dlgValues) > 10) {
+            $hasRealFields = false;
+            foreach ($fieldList as $field) {
+                if ($field->isDatabaseField() && $field->isEditable()) {
+                    $hasRealFields = true;
+                    break;
+                }
+            }
+            if (!$hasRealFields) {
+                \con4gis\CoreBundle\Resources\contao\models\C4gLogModel::addLogEntry('projects', 'ERROR: fieldList contains no editable database fields, but dlgValues are present. Aborting save to prevent empty records. FieldList: ' . print_r($fieldList, true));
+                return ['usermessage' => $GLOBALS['TL_LANG']['fe_c4g_reservation']['error'] ?? 'Ein technischer Fehler ist aufgetreten (Fieldlist Shrinking). Bitte versuchen Sie es erneut.'];
+            }
+        }
+
         $dialogParams = $this->getDialogParams();
         $dialogId = $dialogParams->getId();
         $memberId = $dialogParams->getMemberId();
@@ -77,7 +92,7 @@ class C4GSaveDialogAction extends C4GBrickDialogAction
 
         $changes = C4GBrickDialog::compareWithDB($this->makeRegularFieldList($fieldList), $dlgValues, $dbValues, $viewType, false);
 
-        if ($newId || count($changes) > 0) {
+        if ($newId || count($changes) > 0 || $dialogParams->isSaveInNewDataset()) {
             $validate_result = C4GBrickDialog::validateUnique($this->makeRegularFieldList($fieldList), $dlgValues, $brickDatabase, $dialogParams);
             $validate_title = $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['validate_title'];
             if ($validate_result && (!$dialogParams->isSaveWithoutMessages())) {
@@ -91,8 +106,29 @@ class C4GSaveDialogAction extends C4GBrickDialogAction
                 return ['usermessage' => $validate_result, 'title' => $validate_title];
             }
 
+            // We ensure we use the current PutVars here
+            $currentDlgValues = $this->getPutVars();
+            if (empty($currentDlgValues) && !empty($dlgValues)) {
+                $currentDlgValues = $dlgValues;
+            }
+
+            if (empty($currentDlgValues)) {
+                // \con4gis\CoreBundle\Resources\contao\models\C4gLogModel::addLogEntry('projects', 'DEBUG: currentDlgValues is empty in C4GSaveDialogAction::run before saveC4GDialog. method: ' . ($_SERVER['REQUEST_METHOD'] ?? 'UNKNOWN') . ' dialogParamsId: ' . $dialogParams->getId());
+            } else {
+                // \con4gis\CoreBundle\Resources\contao\models\C4gLogModel::addLogEntry('projects', 'DEBUG: currentDlgValues NOT empty. Count: ' . count($currentDlgValues));
+            }
+
+            if ($dialogParams->isSaveInNewDataset()) {
+                unset($dlgValues['id']);
+                if ($currentDlgValues) {
+                    unset($currentDlgValues['id']);
+                }
+                $dialogId = 0;
+                $dbValues = null; // Zwingend null, da wir einen neuen Datensatz anlegen wollen
+            }
+
             $result = C4GBrickDialog::saveC4GDialog($dialogId, '', $this->makeRegularFieldList($fieldList),
-                $dlgValues, $brickDatabase, $dbValues, $dialogParams, $memberId);
+                $currentDlgValues, $brickDatabase, $dbValues, $dialogParams, $memberId);
 
             if ($result['insertId']) {
                 if ($this->setSessionIdAfterInsert) {
@@ -141,7 +177,7 @@ class C4GSaveDialogAction extends C4GBrickDialogAction
         }
 
         if ($this->module && $result) {
-            $addition = $this->module->afterSaveAction($changes, $result['insertId']);
+            $addition = $this->module->afterSaveAction($changes, $result['insertId'] ?? null);
             if ($addition && $addition instanceof C4GBrickDialogParams) {
                 $dialogParams = $addition;
             }
@@ -180,28 +216,22 @@ class C4GSaveDialogAction extends C4GBrickDialogAction
         }
 
         if ($withBackup) {
-            //      begin C4GStreamerBackup
             if ($viewType == C4GBrickViewType::GROUPPROJECT) {
-//                    $archiv = new \c4g\projects\C4GBrickBackup($dialogId, $dlgValues["c4g_project_uuid"], $dlgValues["c4g_group_id"], $this->brickDatabase, $this->brickKey);
                 $archiv = new C4GStreamerBackup($dialogId, $dlgValues['c4g_project_uuid'], $dlgValues['c4g_group_id'], $brickDatabase, $brickKey, C4GBrickConst::PATH_GROUP_DATA);
                 $archiv->projectsBackup();
             } elseif ($viewType == C4GBrickViewType::PROJECTBASED) { // ($this->project_uuid != null)
-//                    $archiv = new \c4g\projects\C4GBrickBackup($dialogId, $this->project_uuid, $this->group_id, $this->brickDatabase, $this->brickKey);
                 $archiv = new C4GStreamerBackup($dialogId, $projectUuid, $groupId, $brickDatabase, $brickKey, C4GBrickConst::PATH_GROUP_DATA);
                 $archiv->projectsBackup();
             } else {
-//                    $archiv = new \c4g\projects\C4GBrickBackup($dialogId, $this->project_uuid, $this->group_id, $this->brickDatabase, $this->brickKey, "basedata");
                 $archiv = new C4GStreamerBackup($dialogId, $projectUuid, $groupId, $brickDatabase, $brickKey, C4GBrickConst::PATH_GROUP_DATA, 'basedata');
                 $archiv->projectsBackup();
             }
-//        end C4GStreamerBackup
         }
 
         if ((C4GBrickView::isWithoutList($viewType))) {
             if ($this->isWithRedirect() == true) {
                 if ($dialogParams->getRedirectSite() && (($jumpTo = \Contao\PageModel::findByPk($dialogParams->getRedirectSite())) !== null)) {
                     $return['jump_to_url'] = $jumpTo->getFrontendUrl();
-//xKontrollpunkt
                     return $return;
                 }
             }
@@ -339,3 +369,4 @@ class C4GSaveDialogAction extends C4GBrickDialogAction
         return true;
     }
 }
+

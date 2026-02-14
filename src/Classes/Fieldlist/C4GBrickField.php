@@ -2701,9 +2701,9 @@ abstract class C4GBrickField
      * @param string $defaultValue
      * @return C4GBrickField
      */
-    public function setDefaultValue(string $defaultValue): C4GBrickField
+    public function setDefaultValue(?string $defaultValue): C4GBrickField
     {
-        $this->defaultValue = $defaultValue;
+        $this->defaultValue = $defaultValue ?? '';
 
         return $this;
     }

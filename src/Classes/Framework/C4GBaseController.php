@@ -361,9 +361,12 @@ class C4GBaseController extends AbstractFrontendModuleController
     protected $session;
     protected $framework;
     protected $model;
+    protected $requestStack;
+    private $__lastRequest = null;
 
     public function __construct(string $rootDir, RequestStack $requestStack, ContaoFramework $framework, ModuleModel $model = null)
     { 
+        $this->requestStack = $requestStack;
         $session = $requestStack->getCurrentRequest()->getSession();
         if (!$session->isStarted()) {
             $session->start();
@@ -663,18 +666,117 @@ class C4GBaseController extends AbstractFrontendModuleController
         //use it in your module class
     }
 
+    private function resetStateIfNewRequest()
+    {
+        if ($this->requestStack) {
+            $request = $this->requestStack->getCurrentRequest();
+            if ($request && $this->__lastRequest !== $request) {
+                $this->__lastRequest = $request;
+                $this->putVars = null;
+                $this->fieldList = null;
+                $this->dialogParams = null;
+                $this->listParams = null;
+                $this->brickDatabase = null;
+                $this->__ajaxMemo = [];
+                $this->__permFnMemo = [];
+                $this->__colExistsMemo = [];
+                $this->__getTablePermMemo = [];
+                $this->__filesByUuidMemo = [];
+                $this->__modelFindByPkMemo = [];
+                $this->__modelFindByMemo = [];
+                $this->__deserializeFastMemo = [];
+                $this->__insertTagsFastMemo = [];
+                $this->__projectListForBrickMemo = [];
+                $this->__checkProjectIdMemo = [];
+                $this->__isMemberOfGroupMemo = [];
+                $this->__hasRightInGroupMemo = [];
+                $this->__jqueryCompiled = false;
+                $this->__jsCompiled = false;
+                $this->__cssCompiled = false;
+
+                // Clear Contao internal Caches/Models
+                if (class_exists(\Contao\Model\Registry::class)) {
+                    try {
+                        \Contao\Model\Registry::getInstance()->reset();
+                    } catch (\Throwable $t) {}
+                }
+                if (class_exists(\Contao\Database::class)) {
+                    try {
+                        $prop = new \ReflectionProperty(\Contao\Database::class, 'objResult');
+                        $prop->setAccessible(true);
+                        $prop->setValue(null, []);
+                    } catch (\Throwable $t) {}
+                }
+
+                // If it's a new Request, we MUST ensure the session doesn't carry over old dialog values
+                // that might be used as fallbacks instead of the fresh request body.
+                // WE ONLY DO THIS ON GET TO PREVENT DELETING CURRENT PUT DATA BEFORE IT IS PROCESSED
+                // Also we make sure we don't have a stale ID in the session that leads to empty updates
+                // NEW: We skip this for AJAX requests or when Permalink parameters are present
+                // to maintain state within a single interaction or correctly handle entry links.
+                $isAjax = $request->query->has('req') || $request->headers->get('X-Requested-With') === 'XMLHttpRequest';
+                $hasPermalink = $request->query->has($this->permalink_name ?: 'item') || $request->query->has('event') || $request->query->has('item');
+                if ($this->session && $request->getMethod() === 'GET' && !$isAjax && !$hasPermalink) {
+                    $this->session->remove('c4g_brick_dialog_values');
+                    $this->session->remove('c4g_brick_dialog_id');
+                    $this->session->remove('c4g_brick_dialog_parent_id');
+                    $this->session->remove('c4g_brick_project_id');
+                    $this->session->remove('c4g_brick_project_uuid');
+                    $this->session->remove('c4g_brick_parent_id');
+                    $this->session->remove('c4g_brick_group_id');
+
+                    // Clear Reservation specific cookies/session values
+                    $this->session->remove('reservationEventCookie');
+                    $this->session->remove('reservationSettings');
+                    $this->session->remove('reservationLangCookie');
+                    // We can't easily remove wildcard cookies like reservationInitialDateCookie_*,
+                    // but removing the main ones should force a reload.
+                }
+
+                if (class_exists(\con4gis\ReservationBundle\Classes\Utils\C4gReservationHandler::class)) {
+                    try {
+                        \con4gis\ReservationBundle\Classes\Utils\C4gReservationHandler::resetStaticCaches();
+                    } catch (\Throwable $t) {}
+                }
+
+                // Hard-Reset the brick Database connection to force new query execution
+                // and clear internal Result-Sets
+                $this->brickDatabase = null;
+            }
+        }
+    }
+
     public function initBrickModule($id)
     {
-        // Reset request-scoped state to avoid data leakage between requests in shared processes
-        $this->putVars = null;
-        $this->fieldList = null;
-        $this->dialogParams = null;
-        $this->listParams = null;
-        $this->brickDatabase = null;
-        $this->__ajaxMemo = [];
-        $this->__permFnMemo = [];
-        $this->__colExistsMemo = [];
-        $this->__getTablePermMemo = [];
+        $this->resetStateIfNewRequest();
+
+        $request = $this->requestStack ? $this->requestStack->getCurrentRequest() : null;
+        if ($request && $request->getMethod() == 'PUT') {
+            $content = $request->getContent();
+            if ($content) {
+                parse_str($content, $this->putVars);
+                if (is_array($this->putVars)) {
+                    foreach ($this->putVars as $key => $putVar) {
+                        if (is_string($putVar)) {
+                            $tmpVar = C4GUtils::secure_ugc($putVar);
+                            $tmpVar = C4GUtils::cleanHtml($tmpVar);
+                            $this->putVars[$key] = $tmpVar;
+                        }
+                    }
+                }
+            } else if (key_exists('REQUEST_METHOD', $_SERVER) && ($_SERVER['REQUEST_METHOD'] == 'PUT')) {
+                parse_str(file_get_contents('php://input'), $this->putVars);
+                if (is_array($this->putVars)) {
+                    foreach ($this->putVars as $key => $putVar) {
+                        if (is_string($putVar)) {
+                            $tmpVar = C4GUtils::secure_ugc($putVar);
+                            $tmpVar = C4GUtils::cleanHtml($tmpVar);
+                            $this->putVars[$key] = $tmpVar;
+                        }
+                    }
+                }
+            }
+        }
 
         $arrHeadline = property_exists($this, 'headline') && is_string($this->headline)
             ? $this->__deserializeFast($this->headline)
@@ -1194,7 +1296,7 @@ class C4GBaseController extends AbstractFrontendModuleController
 
         // Per-request memoization: avoid recomputation for the same state
         $stateKey = is_string($request) ? $request : (isset($_GET['req']) ? (string)$_GET['req'] : '');
-        if ($stateKey !== '' && isset($this->__ajaxMemo[$stateKey])) {
+        if ($stateKey !== '' && isset($this->__ajaxMemo[$stateKey]) && $this->requestStack->getCurrentRequest()->getMethod() !== 'PUT') {
             return $this->__ajaxMemo[$stateKey];
         }
 
@@ -1577,6 +1679,34 @@ class C4GBaseController extends AbstractFrontendModuleController
         //special event because of calling module function
         if ($values[0] == C4GBrickActionType::ACTION_BUTTONCLICK) {
             $function = strval($values[1]);
+
+            if ($this->requestStack && $this->requestStack->getCurrentRequest() && $this->requestStack->getCurrentRequest()->getMethod() == 'PUT') {
+                $request = $this->requestStack->getCurrentRequest();
+                $content = $request->getContent();
+                if ($content) {
+                    parse_str($content, $this->putVars);
+                    if (is_array($this->putVars)) {
+                        foreach ($this->putVars as $key => $putVar) {
+                            if (is_string($putVar)) {
+                                $tmpVar = C4GUtils::secure_ugc($putVar);
+                                $tmpVar = C4GUtils::cleanHtml($tmpVar);
+                                $this->putVars[$key] = $tmpVar;
+                            }
+                        }
+                    }
+                } else if (key_exists('REQUEST_METHOD', $_SERVER) && ($_SERVER['REQUEST_METHOD'] == 'PUT')) {
+                    parse_str(file_get_contents('php://input'), $this->putVars);
+                    if (is_array($this->putVars)) {
+                        foreach ($this->putVars as $key => $putVar) {
+                            if (is_string($putVar)) {
+                                $tmpVar = C4GUtils::secure_ugc($putVar);
+                                $tmpVar = C4GUtils::cleanHtml($tmpVar);
+                                $this->putVars[$key] = $tmpVar;
+                            }
+                        }
+                    }
+                }
+            }
 
             $putVars = $this->putVars;
             if (!$putVars || (count($putVars) <= 0)) {

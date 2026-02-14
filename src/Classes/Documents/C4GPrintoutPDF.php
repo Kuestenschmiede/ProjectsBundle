@@ -253,9 +253,9 @@ class C4GPrintoutPDF
                 $field->setCondition([]);
                 $field->setRemoveWithEmptyCondition(false);
                 if ($field->isSaveAsArray()) {
-                    $field->setInitialValue($dataset->$fieldName ? intvaL(StringUtil::deserialize($dataset->$fieldName)[0]) : '');
+                    $field->setInitialValue(($dataset && isset($dataset->$fieldName)) ? intvaL(StringUtil::deserialize($dataset->$fieldName)[0]) : '');
                 } else {
-                    $field->setInitialValue($dataset->$fieldName);
+                    $field->setInitialValue(($dataset && isset($dataset->$fieldName)) ? $dataset->$fieldName : '');
                 }
                 $field->setDefaultValue($field->getInitialValue());
             }
