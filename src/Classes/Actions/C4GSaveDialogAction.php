@@ -37,13 +37,22 @@ class C4GSaveDialogAction extends C4GBrickDialogAction
         if (is_array($fieldList) && count($fieldList) <= 3 && is_array($dlgValues) && count($dlgValues) > 10) {
             $hasRealFields = false;
             foreach ($fieldList as $field) {
-                if ($field->isDatabaseField() && $field->isEditable()) {
+                if ($field->isDatabaseField() && $field->isEditable() && !($field instanceof \con4gis\ProjectsBundle\Classes\Fieldtypes\C4GTextField && strpos($field->getFieldName(), 'beginDate_') === 0)) {
                     $hasRealFields = true;
                     break;
                 }
             }
+            // Allow if there are ONLY dynamic fields but they are present in dlgValues
             if (!$hasRealFields) {
-                \con4gis\CoreBundle\Resources\contao\models\C4gLogModel::addLogEntry('projects', 'ERROR: fieldList contains no editable database fields, but dlgValues are present. Aborting save to prevent empty records. FieldList: ' . print_r($fieldList, true));
+                foreach ($dlgValues as $key => $val) {
+                    if (strpos($key, 'beginDate') === 0 || strpos($key, 'beginTime') === 0 || strpos($key, 'reservation_object') === 0 || strpos($key, 'desiredCapacity') === 0) {
+                        $hasRealFields = true;
+                        break;
+                    }
+                }
+            }
+            if (!$hasRealFields) {
+                \con4gis\CoreBundle\Resources\contao\models\C4gLogModel::addLogEntry('projects', 'ERROR: fieldList contains no editable database fields, but dlgValues are present. Aborting save to prevent empty records.');
                 return ['usermessage' => $GLOBALS['TL_LANG']['fe_c4g_reservation']['error'] ?? 'Ein technischer Fehler ist aufgetreten (Fieldlist Shrinking). Bitte versuchen Sie es erneut.'];
             }
         }

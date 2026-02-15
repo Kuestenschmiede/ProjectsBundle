@@ -284,14 +284,31 @@ class C4GBrickDialog
         $view = '<div class="' . C4GBrickConst::CLASS_DIALOG .
             ' c4g__content">'/* . C4GHTMLFactory::lineBreak()*/;
 
+        // Initialize the array if not already set to prevent "Undefined index" notices
+        if (!isset($GLOBALS['c4g']['brickdialog']['include']['js'])) {
+            $GLOBALS['c4g']['brickdialog']['include']['js'] = [];
+        }
         $GLOBALS['c4g']['brickdialog']['include']['js'][] = 'replaceC4GDialog(' . $dialogParams->getId() . ');';
         if ($dialogParams->isWithTabContentCheck()) {
             $GLOBALS['c4g']['brickdialog']['include']['js'][] = 'checkC4GTab();';
         }
 
         foreach ($GLOBALS['c4g']['brickdialog']['include']['js'] as $string) {
-            $view .= "<script>ready(function () { $string })</script>";
+            $code = "
+(function() {
+    var check = function() {
+        if (typeof jQuery !== 'undefined' && (typeof replaceC4GDialog !== 'undefined' || typeof checkC4GTab !== 'undefined')) {
+            $string
+        } else {
+            setTimeout(check, 50);
         }
+    };
+    check();
+})();";
+            \con4gis\CoreBundle\Classes\ResourceLoader::loadJavaScriptResourceTag($code, \con4gis\CoreBundle\Classes\ResourceLoader::BODY);
+        }
+        // Clear the array after registering tags to avoid duplicate registration if buildDialogView is called again
+        $GLOBALS['c4g']['brickdialog']['include']['js'] = [];
 
         $view .= '<input type="hidden" id="c4g_project_id" name="c4g_project_id" class="formdata" value="' .
             $dialogParams->getProjectId() . '">';

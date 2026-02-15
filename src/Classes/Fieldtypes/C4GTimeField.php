@@ -94,7 +94,13 @@ class C4GTimeField extends C4GBrickField
      */
     public function createFieldData($dlgValues)
     {
-        $fieldData = $dlgValues[$this->getFieldName()];
+        $additionalId = $this->getAdditionalID();
+        if (!empty($additionalId)) {
+            $fieldData = $dlgValues[$this->getFieldName() . '_' . $additionalId];
+        } else {
+            $fieldData = $dlgValues[$this->getFieldName()];
+        }
+
         $timezone = new \DateTimeZone($GLOBALS['TL_CONFIG']['timeZone']);
         $date = \DateTime::createFromFormat($GLOBALS['TL_CONFIG']['timeFormat'], $fieldData, $timezone);
         if ($date) {
@@ -102,8 +108,10 @@ class C4GTimeField extends C4GBrickField
 
             $objDate = new Date(date($GLOBALS['TL_CONFIG']['timeFormat'], $date->getTimestamp()), Date::getFormatFromRgxp('time'));
             $fieldData = $objDate->tstamp;
+        } else if (is_numeric($fieldData)) {
+            $fieldData = intval($fieldData);
         } else {
-            $fieldData = '';
+            $fieldData = 0;
         }
 
         return $fieldData;

@@ -146,7 +146,13 @@ class C4GDateTimePickerField extends C4GBrickField
      */
     public function createFieldData($dlgValues)
     {
-        $fieldData = $dlgValues[$this->getFieldName()];
+        $additionalId = $this->getAdditionalID();
+        if (!empty($additionalId)) {
+            $fieldData = $dlgValues[$this->getFieldName() . '_' . $additionalId];
+        } else {
+            $fieldData = $dlgValues[$this->getFieldName()];
+        }
+
         if (strpos($fieldData, '-') === 9) {
             // special case. format "dd.mm.yy - H:i:s"
             $arrDate = explode('-', $fieldData);
@@ -176,13 +182,21 @@ class C4GDateTimePickerField extends C4GBrickField
             return $fieldData;
         }
         $date = strtotime($fieldData);
-        $datetime = new \DateTime($fieldData);
+        $datetime = false;
+        try {
+            if ($fieldData) {
+                $datetime = new \DateTime($fieldData);
+            }
+        } catch (\Exception $e) {}
+
         if ($date) {
             $fieldData = $date;
         } elseif ($datetime) {
             $fieldData = $datetime->getTimestamp();
+        } else if (is_numeric($fieldData)) {
+            $fieldData = intval($fieldData);
         } else {
-            $fieldData = '';
+            $fieldData = 0;
         }
 
         return $fieldData;

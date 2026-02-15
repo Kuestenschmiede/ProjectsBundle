@@ -46,7 +46,8 @@ class C4GJQueryGUI
                 // jQuery is already loaded by Contao, don't load again!
             } else {
                 // Include JQuery JS
-                ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/dist/js/c4g-vendor-jquery.js', ResourceLoader::JAVASCRIPT, 'c4g_jquery');
+                // Force load without defer to satisfy standard scripts and inline scripts
+                $GLOBALS['TL_HEAD']['c4g_jquery'] = '<script src="/bundles/con4gisprojects/dist/js/c4g-vendor-jquery.js"></script>' . "\n";
                 // just until the old plugins are replaced
                 // Set JQuery to noConflict mode immediately after load of jQuery
                 ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/dist/js/c4gjQueryNoConflict.js', ResourceLoader::BODY, 'c4g_jquery_noconflict');
@@ -180,7 +181,8 @@ class C4GJQueryGUI
                 // jQuery is already loaded by Contao, don't load again!
             } else {
                 // Include JQuery JS
-                ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/dist/js/c4g-vendor-jquery.js', ResourceLoader::JAVASCRIPT, 'c4g_jquery');
+                // Force load without defer to satisfy standard scripts and inline scripts
+                $GLOBALS['TL_HEAD']['c4g_jquery'] = '<script src="/bundles/con4gisprojects/dist/js/c4g-vendor-jquery.js"></script>' . "\n";
                 // just until the old plugins are replaced
                 // Set JQuery to noConflict mode immediately after load of jQuery
                 ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/dist/js/c4gjQueryNoConflict.js', ResourceLoader::BODY, 'c4g_jquery_noconflict');

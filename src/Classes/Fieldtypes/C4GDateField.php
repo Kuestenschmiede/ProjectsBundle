@@ -291,6 +291,8 @@ class C4GDateField extends C4GBrickField
             $date->format($format);
             $date->setTime(0, 0, 0);
             $fieldData = $date->getTimestamp();
+        } else if (is_numeric($fieldData)) {
+            $fieldData = intval($fieldData);
         } else {
             $fieldData = 0;
         }

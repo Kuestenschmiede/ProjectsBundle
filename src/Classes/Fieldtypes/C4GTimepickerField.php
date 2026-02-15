@@ -98,13 +98,21 @@ class C4GTimepickerField extends C4GBrickField
      */
     public function createFieldData($dlgValues)
     {
-        $fieldData = $dlgValues[$this->getFieldName()];
+        $additionalId = $this->getAdditionalID();
+        if (!empty($additionalId)) {
+            $fieldData = $dlgValues[$this->getFieldName() . '_' . $additionalId];
+        } else {
+            $fieldData = $dlgValues[$this->getFieldName()];
+        }
+
         $date = \DateTime::createFromFormat($GLOBALS['TL_CONFIG']['timeFormat'], $fieldData);
         if ($date) {
             $date->Format($GLOBALS['TL_CONFIG']['timeFormat']);
             $fieldData = $date->getTimestamp();
+        } else if (is_numeric($fieldData)) {
+            $fieldData = intval($fieldData);
         } else {
-            $fieldData = '';
+            $fieldData = 0;
         }
 
         return $fieldData;
