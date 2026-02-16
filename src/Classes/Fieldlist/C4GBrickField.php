@@ -431,9 +431,11 @@ abstract class C4GBrickField
                                 //Ist das das schaltende Feld?
                                 if ($listField->getAdditionalID()) {
                                     if ($conditionField == $listField->getFieldName() . '_' . $listField->getAdditionalID()) {
-                                        if ($data && /*property_exists($data,$conditionField) && (*/$data->$conditionField) {
+                                        if (is_object($data) && $data->$conditionField) {
                                             //der aktuelle Wert aus der Datenbank
                                             $conditionFieldData = $data->$conditionField;
+                                        } elseif (is_array($data) && isset($data[$conditionField])) {
+                                            $conditionFieldData = $data[$conditionField];
                                         } else {
                                             //der initial Wert, falls (noch) kein Datenbankwert vorhanden ist
                                             $conditionFieldData = $listField->getInitialValue();
@@ -450,9 +452,11 @@ abstract class C4GBrickField
                                 } else {
                                     //Ist das das schaltende Feld?
                                     if ($conditionField == $listField->getFieldName()) {
-                                        if ($data && /*property_exists($data,$conditionField) && (*/$data->$conditionField) {
+                                        if (is_object($data) && $data->$conditionField) {
                                             //der aktuelle Wert aus der Datenbank
                                             $conditionFieldData = $data->$conditionField;
+                                        } elseif (is_array($data) && isset($data[$conditionField])) {
+                                            $conditionFieldData = $data[$conditionField];
                                         } else {
                                             //der initial Wert, falls (noch) kein Datenbankwert vorhanden ist
                                             $conditionFieldData = $listField->getInitialValue();
