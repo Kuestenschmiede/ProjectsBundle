@@ -42,7 +42,7 @@ class C4GCheckboxField extends C4GBrickField
         $checked = '';
 
         if (C4GBrickCommon::strToBool($value)) {
-            $checked = 'checked';
+            $checked = 'checked="checked"';
         }
 
         $elementId = null;
@@ -183,7 +183,7 @@ class C4GCheckboxField extends C4GBrickField
     {
         if ($data[$this->getFieldName()]) {
             $styleClass = $this->getStyleClass();
-            $checked = 'checked';
+            $checked = 'checked="checked"';
 
             return '<p class=' . $styleClass . '><b>' . $this->getTitle() . '</b>: ' . '<input type="checkbox" name="' . $this->getFieldName() . '" value="' . $this->getFieldName() . '" ' . $checked . '>' . '</p>';
         }

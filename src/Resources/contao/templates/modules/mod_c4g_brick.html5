@@ -21,7 +21,7 @@
             "width: '" . $this->c4gData['width'] ."', ".
             "ajaxUrl: '" . $this->c4gData['ajaxUrl'] . "', ".
             "ajaxData: '" . $this->c4gData['ajaxData'] ."', ".
-            "initData: " . $this->c4gData['initData'] .", ".
+            "initData: " . json_encode(json_decode($this->c4gData['initData'])) .", ".
             "jquiBreadcrumb: '" . $this->c4gData['jquiBreadcrumb'] ."', ".
             "mainDiv: jQuery('div#". $this->c4gData['div']."' ),".
             "jquiButtons: '" . $this->c4gData['jquiButtons'] ."', ".
