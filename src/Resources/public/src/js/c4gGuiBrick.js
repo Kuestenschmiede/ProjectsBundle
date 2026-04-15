@@ -1296,13 +1296,23 @@ window.c4g.projects = window.c4g.projects || {};
         //ToDO Language
         var ah = new window.AlertHandler();
         if (callback && messageJump) {
-          ah.showConfirmDialog(title,content.usermessage,messageJump,callback,'Ja', 'Nein', 'c4g__message_confirm_select');
+          if (typeof callback === 'function') {
+            ah.showConfirmDialog(title, content.usermessage, messageJump, callback, 'Ja', 'Nein', 'c4g__message_confirm_select');
+          } else {
+            ah.showInfoActionDialog(title, content.usermessage, messageJump, 'c4g__message_confirm_redirect');
+          }
         } else if (callback) {
-          ah.showInfoActionDialog(title,content.usermessage,callback,'c4g__message_confirm_simple');
+          if (typeof callback === 'function') {
+            ah.showInfoActionDialog(title, content.usermessage, callback, 'c4g__message_confirm_simple');
+          } else {
+            ah.showInfoDialog(title, content.usermessage, 'c4g__message_confirm_info');
+          }
         } else if (messageJump) {
-          ah.showInfoActionDialog(title,content.usermessage,messageJump,'c4g__message_confirm_redirect');
+          ah.showInfoActionDialog(title, content.usermessage, function() {
+            fnJumpToLink(messageJump);
+          }, 'c4g__message_confirm_redirect');
         } else {
-          ah.showInfoDialog(title,content.usermessage,'c4g__message_confirm_info');
+          ah.showInfoDialog(title, content.usermessage, 'c4g__message_confirm_info');
         }
       }
 

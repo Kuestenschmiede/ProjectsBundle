@@ -1048,6 +1048,7 @@ class C4GBaseController extends AbstractFrontendModuleController
     {
         if ($this->__jsCompiled) { return; }
         if ($this->loadDefaultResources) {
+            ResourceLoader::loadJavaScriptResource('bundles/con4giscore/dist/js/AlertHandler.js', ResourceLoader::BODY, 'alert_handler');
             ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/dist/js/C4GBrickDialog.js', ResourceLoader::BODY, 'c4g_brick_dialog');
         }
         if ($this->loadConditionalFieldDisplayResources) {
