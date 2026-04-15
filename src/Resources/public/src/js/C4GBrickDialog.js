@@ -108,7 +108,7 @@ function C4GDatePicker(id,
                 todayHighlight: true,
                 orientation: 'auto left',
                 autohide: true,
-                useCurrent: true
+                useCurrent: false
             });
             if (elem && elem.datepicker) {
                 elem.addEventListener('changeDate', function (e) {
