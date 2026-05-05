@@ -42,12 +42,17 @@ class C4GNotification
         }
     }
 
-    public function setTokenValue(string $token, string $value)
+    public function setTokenValue(string $token, $value)
     {
-        if (is_string($this->tokens[$token]) === true) {
-            $this->tokens[$token] = $value;
+        if ($value === null) {
+            $value = '';
+        }
+        if (isset($this->tokens[$token])) {
+            $this->tokens[$token] = (string)$value;
         } else {
-            throw new \Exception("C4GNotification: Unknown token '$token'.");
+            // throw new \Exception("C4GNotification: Unknown token '$token'.");
+            // If the token is unknown, we just ignore it to avoid crashes if someone tries to set a token that wasn't in the initial config
+            $this->tokens[$token] = (string)$value;
         }
     }
 
@@ -63,14 +68,20 @@ class C4GNotification
 
     public function send(array $notificationIds, string $language = '')
     {
+        \con4gis\CoreBundle\Resources\contao\models\C4gLogModel::addLogEntry('C4GNotification', 'Send started for IDs: ' . implode(',', $notificationIds));
         foreach ($this->tokens as $key => $token) {
             if ($token === '' && !in_array($key, $this->optionalTokens)) {
-                throw new \Exception("C4GNotification: The token '$key' has not been defined.");
+                // throw new \Exception("C4GNotification: The token '$key' has not been defined.");
+                \con4gis\CoreBundle\Resources\contao\models\C4gLogModel::addLogEntry('C4GNotification', "Warning: The token '$key' is empty and not marked as optional. Setting to empty string.");
+                $this->tokens[$key] = '';
             }
         }
 
-        $sendingResult = true;
-        $notificationModel = new NotificationCenter();
+        try {
+            $notificationModel = \Contao\System::getContainer()->get('con4gis\ReservationBundle\Classes\Notifications\C4gNotificationCenterService')->getNotificationCenter();
+        } catch (\Exception $e) {
+            $notificationModel = \Contao\System::getContainer()->get(NotificationCenter::class);
+        }
 
         foreach ($this->tokens as $key => $token) {
             if ($token) {
@@ -83,7 +94,7 @@ class C4GNotification
                             $finfo = finfo_open(FILEINFO_MIME_TYPE);
                             $mimeType = finfo_file($finfo, $file);
                             finfo_close($finfo);
-                            $voucher = $notificationCenter->getBulkyItemStorage()->store(
+                            $voucher = $notificationModel->getBulkyItemStorage()->store(
                                 FileItem::fromPath($file, basename($file), $mimeType, filesize($file))
                             );
                             if ($voucher) {
@@ -101,7 +112,7 @@ class C4GNotification
                             $finfo = finfo_open(FILEINFO_MIME_TYPE);
                             $mimeType = finfo_file($finfo, $file);
                             finfo_close($finfo);
-                            $voucher = $notificationCenter->getBulkyItemStorage()->store(
+                            $voucher = $notificationModel->getBulkyItemStorage()->store(
                                 FileItem::fromPath($file, basename($file), $mimeType, filesize($file))
                             );
                             if ($voucher) {
@@ -115,15 +126,17 @@ class C4GNotification
 
         foreach ($notificationIds as $notificationId) {
             $stamps = $notificationModel->createBasicStampsForNotification(
-                $notificationId,
+                (int)$notificationId,
                 $this->tokens,
             );
-            if ($voucher) {
+            if (!empty($voucher)) {
                 $stamps = $stamps->with(new BulkyItemsStamp([$voucher]));
-                $sendingResult = $notificationModel->sendNotificationWithStamps($notificationId, $stamps) ? true : false;
-            } else {
-                $sendingResult = $notificationModel->sendNotification($notificationId, $this->tokens, $language) ? true : false;
             }
+            $sendingResult = $notificationModel->sendNotificationWithStamps((int)$notificationId, $stamps) ? true : false;
+            if (!$sendingResult) {
+                \con4gis\CoreBundle\Resources\contao\models\C4gLogModel::addLogEntry('C4GNotification', 'Notification ' . $notificationId . ' could not be sent. Check Symfony Messenger/Queue or Mailer settings.');
+            }
+            \con4gis\CoreBundle\Resources\contao\models\C4gLogModel::addLogEntry('C4GNotification', 'Sent notification ' . $notificationId . ' with result: ' . ($sendingResult ? 'true' : 'false'));
         }
 
         return $sendingResult;
