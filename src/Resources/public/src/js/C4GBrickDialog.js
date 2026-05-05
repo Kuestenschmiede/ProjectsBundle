@@ -12,13 +12,15 @@ function ready(callback){
     else if (document.addEventListener) document.addEventListener('DOMContentLoaded', callback);
 }
 
-function eventFire(el, etype){
-    if (el.fireEvent) {
-        el.fireEvent('on' + etype);
-    } else {
-        var evObj = document.createEvent('Events');
-        evObj.initEvent(etype, true, false);
-        el.dispatchEvent(evObj);
+function eventFire(el, etype) {
+    if (el && typeof el.dispatchEvent === 'function' && typeof etype === 'string') {
+        try {
+            var evObj = document.createEvent('Events');
+            evObj.initEvent(etype, true, false);
+            el.dispatchEvent(evObj);
+        } catch (e) {
+            // Silently fail
+        }
     }
 }
 
