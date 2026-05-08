@@ -112,6 +112,7 @@ function C4GDatePicker(id,
                 autohide: true,
                 useCurrent: false
             });
+            elem.datepicker = datepicker;
             if (elem && elem.datepicker) {
                 elem.addEventListener('changeDate', function (e) {
                     eventFire(document.getElementById(id),'change');
