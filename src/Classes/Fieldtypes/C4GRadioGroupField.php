@@ -56,7 +56,7 @@ class C4GRadioGroupField extends C4GBrickField
 
         $changeAction = '';
         if ($this->isCallOnChange()) {
-            $changeAction = ' onchange="' . $this->getCallOnChangeFunction() . '" ';
+            $changeAction = ' onchange="' . htmlspecialchars($this->getCallOnChangeFunction(), ENT_QUOTES, 'UTF-8') . '" ';
         }
 
         $condition = $this->createConditionData($fieldList, $data);
@@ -152,7 +152,7 @@ class C4GRadioGroupField extends C4GBrickField
                         '<fieldset' . $addToFieldset . '>' .
                         $option_results .
                         '</fieldset><span class="reset_c4g__form-radio-group"></span>' .
-                        '</div><script>function resetRadioGroup(){ document.querySelector("input[name=\'_' . $id . '\']").removeAttribute(\'checked\');document.getElementById("' . $id . '") ? document.getElementById("' . $id . '").value = 0 : ""; };</script>'));
+                        '</div><script>(function(){window.resetRadioGroup=function(){var el=document.querySelector("input[name=\'_' . $id . '\']");if(el)el.removeAttribute(\'checked\');var idEl=document.getElementById("' . $id . '");if(idEl)idEl.value=0;};})();</script>'));
             }
         }
 

@@ -79,7 +79,7 @@ class C4GLinkField extends C4GBrickField
             if ($this->newTab) {
                 $rel = "target='_blank' rel='noopener noreferrer' ";
             } else {
-                $rel = '';
+                $rel = "target='_self' ";
             }
 
             if ($this->labelField !== '') {
@@ -157,7 +157,7 @@ class C4GLinkField extends C4GBrickField
         if ($this->newTab) {
             $rel = 'target="_blank" rel="noopener noreferrer"';
         } else {
-            $rel = '';
+            $rel = 'target="_self"';
         }
         $strReturn = '<a ' . $rel . ' href="' . $href . '" onclick="event.stopPropagation()">' . $label . '</a>';
 

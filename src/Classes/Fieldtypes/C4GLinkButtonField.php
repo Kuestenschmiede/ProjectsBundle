@@ -65,7 +65,7 @@ class C4GLinkButtonField extends C4GBrickField
             if ($this->newTab) {
                 $rel = "target='_blank' rel='noopener noreferrer'";
             } else {
-                $rel = '';
+                $rel = "target='_self'";
             }
 
             $href = $this->createHref($rowData, $content);

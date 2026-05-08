@@ -39,16 +39,16 @@ class C4GSignaturePadField extends C4GBrickField
 
         if (empty(trim($value))) {
             if ($this->isEditable()) {
-                $script = '<script>jready(function() {jQuery(".c4g_brick_dialog").signaturePad({drawOnly:true,lineWidth:0});});</script>';
+                $script = '<script>(function(){var ready=function(f){if(document.readyState!=="loading"){f();}else{document.addEventListener("DOMContentLoaded",f);}};var jready=function(f){if(typeof jQuery!=="undefined"){f();}else{setTimeout(function(){jready(f);},50);}};jready(function(){jQuery(".c4g_brick_dialog").signaturePad({drawOnly:true,lineWidth:0});});})();</script>';
             } else {
-                $script = '<script>ready(function() {jQuery(".c4g_brick_dialog").signaturePad({displayOnly:true,lineWidth:0});});</script>';
+                $script = '<script>(function(){var ready=function(f){if(document.readyState!=="loading"){f();}else{document.addEventListener("DOMContentLoaded",f);}};ready(function(){jQuery(".c4g_brick_dialog").signaturePad({displayOnly:true,lineWidth:0});});})();</script>';
             }
         } else {
             $value = str_replace('&quot;', '"', $value);
             if ($this->isEditable()) {
-                $script = '<script>ready(function() {jQuery(".c4g_brick_dialog").signaturePad({drawOnly:true,lineWidth:0}).regenerate(' . $value . ');});</script>';
+                $script = '<script>(function(){var ready=function(f){if(document.readyState!=="loading"){f();}else{document.addEventListener("DOMContentLoaded",f);}};ready(function(){jQuery(".c4g_brick_dialog").signaturePad({drawOnly:true,lineWidth:0}).regenerate(' . $value . ');});})();</script>';
             } else {
-                $script = '<script>ready(function() {jQuery(".c4g_brick_dialog").signaturePad({displayOnly:true,lineWidth:0}).regenerate(' . $value . ');});</script>';
+                $script = '<script>(function(){var ready=function(f){if(document.readyState!=="loading"){f();}else{document.addEventListener("DOMContentLoaded",f);}};ready(function(){jQuery(".c4g_brick_dialog").signaturePad({displayOnly:true,lineWidth:0}).regenerate(' . $value . ');});})();</script>';
             }
         }
 

@@ -70,7 +70,7 @@ class C4GNumberField extends C4GBrickFieldNumeric
 
             if ($this->isCallOnChange()) {
                 if ($this->getCallOnChangeFunction()) {
-                    $changeAction = 'onchange="' . $this->getCallOnChangeFunction() . '"';
+                    $changeAction = 'onchange="' . htmlspecialchars($this->getCallOnChangeFunction(), ENT_QUOTES, 'UTF-8') . '"';
                 } else {
                     $changeAction = 'onchange="handleBrickConditions();"';
                 }

@@ -48,6 +48,11 @@ class C4GCheckboxField extends C4GBrickField
         $elementId = null;
         $result = '';
         $boolswitch = '';
+        $changeAction = '';
+        if ($this->isCallOnChange()) {
+            $changeAction = ' onchange="' . htmlspecialchars($this->getCallOnChangeFunction(), ENT_QUOTES, 'UTF-8') . '" ';
+        }
+
         if ($this->isShowIfEmpty() || !empty($value)) {
             $condition = $this->createConditionData($fieldList, $data);
 
@@ -65,7 +70,7 @@ class C4GCheckboxField extends C4GBrickField
             }
 
             $result = $this->addC4GField($condition, $dialogParams, $fieldList, $data,
-                '<input ' . $required . $condition['conditionPrepare'] . ' type="checkbox" id="' . $id . '" class="formdata c4g__form-check-input ' . $id . '" name="' . $this->getFieldName() . '" value="' . $this->getFieldName() . '" ' . $checked . '>');
+                '<input ' . $required . $condition['conditionPrepare'] . ' type="checkbox" id="' . $id . '" class="formdata c4g__form-check-input ' . $id . '" ' . $changeAction . ' name="' . $this->getFieldName() . '" value="' . $this->getFieldName() . '" ' . $checked . '>');
         }
 
         return $result;

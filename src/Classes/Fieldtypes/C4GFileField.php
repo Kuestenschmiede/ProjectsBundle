@@ -108,7 +108,7 @@ class C4GFileField extends C4GBrickField
         }
 
         $file_link = '<label id="c4g_uploadLink_' . $fieldName . '" class="c4g_uploadLink"></label>' .
-            '<button id="c4g_deleteButton_' . $fieldName . '" class="c4g_deleteButton c4g__btn"' . $buttonRequired . ' onClick="deleteC4GBrickFile(this)" style="display:none"><i class="fa-solid fa-trash"></i></button>';
+            '<button id="c4g_deleteButton_' . $fieldName . '" class="c4g_deleteButton c4g__btn"' . $buttonRequired . ' onClick="(function(e){if(typeof deleteC4GBrickFile===\'function\'){deleteC4GBrickFile(e);}})(this)" style="display:none"><i class="fa-solid fa-trash"></i></button>';
 
         if ($fileObject) {
             $file_uuid = $fileObject->uuid;
@@ -137,7 +137,7 @@ class C4GFileField extends C4GBrickField
             }
             $file_link =
                 '<label id="c4g_uploadLink_' . $fieldName . '" class="c4g_uploadLink">' . $linkTag .
-                '<button id="c4g_deleteButton_' . $fieldName . '" class="c4g_deleteButton c4g__btn"' . $buttonRequired . ' onClick="deleteC4GBrickImage(this)"><i class="fa-solid fa-trash"></i></button></label>';
+                '<button id="c4g_deleteButton_' . $fieldName . '" class="c4g_deleteButton c4g__btn"' . $buttonRequired . ' onClick="(function(e){if(typeof deleteC4GBrickImage===\'function\'){deleteC4GBrickImage(e);}})(this)"><i class="fa-solid fa-trash"></i></button></label>';
         }
 
         $result = '';
@@ -146,13 +146,13 @@ class C4GFileField extends C4GBrickField
             $condition = $this->createConditionData($fieldList, $data);
             $result =
                 $this->addC4GField($condition,$dialogParams,$fieldList,$data,
-                    '<button id="c4g_uploadButton_' . $fieldName . '" class="c4g_uploadButton c4g__btn-primary"' . $buttonRequired . ' ' . $condition['conditionPrepare'] . ' onClick="document.getElementById(\'' . $id . '\').click()">' . $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['FILE_UPLOAD'] . '</button>' .
+                    '<button id="c4g_uploadButton_' . $fieldName . '" class="c4g_uploadButton c4g__btn-primary"' . $buttonRequired . ' ' . $condition['conditionPrepare'] . ' onClick="(function(i){var e=document.getElementById(i);if(e){e.click();}})(\'' . $id . '\')">' . $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['FILE_UPLOAD'] . '</button>' .
                     $file_link . C4GHTMLFactory::lineBreak() .
                     '<input type="hidden" id="' . $this->uploadURL . '_' . $fieldName . '" name="' . $this->uploadURL . '" class="formdata" ' . $condition['conditionPrepare'] . ' value="' . $file_url . '">' .
                     '<input type="hidden" id="' . $this->deleteURL . '_' . $fieldName . '" name="' . $this->deleteURL . '" class="formdata" ' . $condition['conditionPrepare'] . ' value="">' .
                     '<input type="file" id="' . $id . '"  class="formdata ' . $id . '" ' . $condition['conditionPrepare'] . ' name="' . $fieldName . '"' .
                     ' multiple="false" accept="' . $fileTypes . '" maxlength="' . $this->maxFileSize . '"' .
-                    'onchange="handleC4GBrickFile(this.files,\'' . $homeDir . '\',\'' . $this->uploadURL . '_' . '\',\'' . $this->deleteURL . '_' . '\',\'' . $fieldName . '\',\'' . $targetField . '\',\'' . $fileTypes . '\');" value="' . $file_url . '" ' . $required . ' style="display:none">');
+                    'onchange="(function(e,f,h,u,d,n,t,y){if(typeof handleC4GBrickFile===\'function\'){handleC4GBrickFile(f,h,u,d,n,t,y);}})(this,this.files,\'' . $homeDir . '\',\'' . $this->uploadURL . '_' . '\',\'' . $this->deleteURL . '_' . '\',\'' . $fieldName . '\',\'' . $targetField . '\',\'' . $fileTypes . '\');" value="' . $file_url . '" ' . $required . ' style="display:none">');
         }
 
         return $result;

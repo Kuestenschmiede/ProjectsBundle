@@ -82,7 +82,7 @@ class C4GDateField extends C4GBrickField
         $value = $this->generateInitialValue($data);
         $changeAction = '';
         if ($this->isCallOnChange()) {
-            $changeAction = ' onchange="' . $this->getCallOnChangeFunction() . '"';
+            $changeAction = ' onchange="' . htmlspecialchars($this->getCallOnChangeFunction(), ENT_QUOTES, 'UTF-8') . '"';
         }
 
         if (!$this->minDate || ($this->minDate == '') || ($this->minDate == 0)) {

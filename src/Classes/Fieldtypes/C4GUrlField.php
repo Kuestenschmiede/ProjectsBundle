@@ -21,6 +21,7 @@ class C4GUrlField extends C4GBrickField
     private $addProtocol = true;
     private $linkType = self::LINK_TYPE_DEFAULT;
     private $url = ''; //optional additional to initial value
+    private $target = '_self';
 
     const LINK_TYPE_DEFAULT = 10;
     const LINK_TYPE_PHONE = 20;
@@ -72,7 +73,8 @@ class C4GUrlField extends C4GBrickField
                         break;
                 }
                 $conditionPrepare = '';
-                $fieldDataBefore = '<a' . $conditionPrepare . ' href="' . $url . '" target="_blank" rel="noopener" class="noformdata">';
+                $target = $this->target ? ' target="' . $this->target . '"' : ' target="_self"';
+                $fieldDataBefore = '<a' . $conditionPrepare . ' href="' . $url . '"' . $target . ' rel="noopener" class="noformdata">';
                 $fieldDataAfter = '</a>';
 
 
@@ -172,5 +174,21 @@ class C4GUrlField extends C4GBrickField
     public function setLinkType(int $linkType): void
     {
         $this->linkType = $linkType;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTarget(): string
+    {
+        return $this->target;
+    }
+
+    /**
+     * @param string $target
+     */
+    public function setTarget(string $target): void
+    {
+        $this->target = $target;
     }
 }

@@ -294,17 +294,7 @@ class C4GBrickDialog
         }
 
         foreach ($GLOBALS['c4g']['brickdialog']['include']['js'] as $string) {
-            $code = "
-(function() {
-    var check = function() {
-        if (typeof jQuery !== 'undefined' && (typeof replaceC4GDialog !== 'undefined' || typeof checkC4GTab !== 'undefined')) {
-            $string
-        } else {
-            setTimeout(check, 50);
-        }
-    };
-    check();
-})();";
+            $code = "(function() { var check = function() { if (typeof jQuery !== 'undefined' && (typeof replaceC4GDialog !== 'undefined' || typeof checkC4GTab !== 'undefined')) { $string } else { setTimeout(check, 50); } }; check(); })();";
             \con4gis\CoreBundle\Classes\ResourceLoader::loadJavaScriptResourceTag($code, \con4gis\CoreBundle\Classes\ResourceLoader::BODY);
         }
         // Clear the array after registering tags to avoid duplicate registration if buildDialogView is called again
@@ -439,7 +429,7 @@ class C4GBrickDialog
             $scriptArr = array_unique($scriptArr);
             $string = implode(';', $scriptArr);
 
-            $view .= "<script>ready(function () { $string })</script>";
+            $view .= "<script>(function(){var ready=function(f){if(document.readyState!=='loading'){f();}else{document.addEventListener('DOMContentLoaded',f);}};ready(function(){ $string })})();</script>";
         }
         return $view;
     }

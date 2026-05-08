@@ -183,10 +183,10 @@ window.c4g.projects = window.c4g.projects || {};
             dataType: "json",
             type: "GET"
           }).done(function(data) {
-            scope.fnHandleAjaxResponse( data, scope.internalId );
+            scope.fnHandleAjaxResponse( data, internalId );
           }).fail(function(data) {
             scope.fnInitContentDiv();
-            jQuery(this.contentDiv).text('Error1: could not update history');
+            jQuery(scope.contentDiv).text('Error1: could not update history');
           });
         }
         if (history != null) {
@@ -205,7 +205,7 @@ window.c4g.projects = window.c4g.projects || {};
                     dataType: "json",
                     type: "GET"
                   }).done(function(data) {
-                    scope.fnHandleAjaxResponse( data, this.internalId );
+                    scope.fnHandleAjaxResponse( data, internalId );
                   }).fail(function(data) {
                     jQuery(scope.contentDiv).text('Error2: could not update history');
                   });
@@ -231,8 +231,10 @@ window.c4g.projects = window.c4g.projects || {};
     fnHandleAjaxResponse: function (data, internalId) {
       // TODO: Request Token Handling
       var navDiv = '#c4gGuiNavigation' + internalId;
-      this.contentWrapperDiv = '#c4gGuiContentWrapper' + internalId;
-      this.contentDiv = '#c4gGuiContent' + internalId;
+      var contentWrapperDiv = '#c4gGuiContentWrapper' + internalId;
+      var contentDiv = '#c4gGuiContent' + internalId;
+      this.contentWrapperDiv = contentWrapperDiv;
+      this.contentDiv = contentDiv;
       var dialogDiv = '#c4gGuiDialog' + internalId;
       var breadcrumbDiv = '#c4gGuiBreadcrumb' + internalId;
       var headlineDiv = '#c4gGuiHeadline' + internalId;
@@ -256,9 +258,9 @@ window.c4g.projects = window.c4g.projects || {};
         }).done(function(data) {
           if (data.filePath && data.fileName) {
             // check if it is a pdf response
-            scope.handlePdfResponse(data, this.internalId);
+            scope.handlePdfResponse(data, internalId);
           } else {
-            scope.fnHandleAjaxResponse(data, this.internalId);
+            scope.fnHandleAjaxResponse(data, internalId);
             if (scrollBottom) {
               var length = jQuery('.c4gForumPost').length;
               if (length > 0) {
@@ -334,7 +336,7 @@ window.c4g.projects = window.c4g.projects || {};
       };
 
       var fnMakeCollapsible = function (element) {
-        let slide = element.find('.c4gGuiCollapsible_hide');
+        var slide = element.find('.c4gGuiCollapsible_hide');
         if (typeof slide.slideUp === 'function') {
           slide.slideUp(0);
         }
@@ -404,7 +406,10 @@ window.c4g.projects = window.c4g.projects || {};
         }
       };
 
-      var fnAddContent = function (content, appendTo = null) {
+      var fnAddContent = function (content, appendTo) {
+        if (typeof appendTo === 'undefined') {
+          appendTo = null;
+        }
         var contenttype = content.contenttype;
         var contentoptions = content.contentoptions;
         var contentdata = content.contentdata;
@@ -420,8 +425,13 @@ window.c4g.projects = window.c4g.projects || {};
                 .attr('cellpadding', '0')
                 .attr('cellspacing', '0')
                 .attr('border', '0')
-                .attr('class', 'display c4gGuiDataTable')
-                .appendTo(appendTo || scope.contentDiv);
+                .attr('class', 'display c4gGuiDataTable');
+
+            if (appendTo) {
+              tableDiv.appendTo(appendTo);
+            } else {
+              tableDiv.appendTo(scope.contentDiv);
+            }
 
             var actioncol = -1;
             var selectrow = -1;
@@ -564,9 +574,14 @@ window.c4g.projects = window.c4g.projects || {};
           }
           var aHtmlDiv = jQuery('<div />')
               .attr('id', 'c4gGuiHtml' + internalId)
-              .attr('class', aClass)
-              .appendTo(scope.contentDiv)
-              .html(contentdata);
+              .attr('class', aClass);
+
+          if (appendTo) {
+            aHtmlDiv.appendTo(appendTo);
+          } else {
+            aHtmlDiv.appendTo(scope.contentDiv);
+          }
+          aHtmlDiv.html(contentdata);
 
           aHtmlDiv
               .find('.c4gGuiAction')
@@ -596,7 +611,7 @@ window.c4g.projects = window.c4g.projects || {};
                 }
 
                 if ((typeof ckeditor5instances !== 'undefined') && (ckeditor5instances)) {
-                  let i = Object.keys(ckeditor5instances).length;
+                  var i = Object.keys(ckeditor5instances).length;
                   while (i > 0) {
                     i -= 1;
                     ckeditor5instances[i].updateSourceElement();
@@ -1306,7 +1321,7 @@ window.c4g.projects = window.c4g.projects || {};
 
       // show map
       if ((typeof(content.mapdata) !== 'undefined')) {
-        for (let i in content.mapdata) {
+        for (var i in content.mapdata) {
           if (content.mapdata.hasOwnProperty(i)) {
             content.mapdata[i].mapDiv = content.mapdata[i].div;
             content.mapdata[i].addIdToDiv = false;
@@ -1495,7 +1510,7 @@ window.c4g.projects = window.c4g.projects || {};
       // TODO callHookFunctions aus maps in den core auslagern, dann kann das auch hier verwendet werden
 
       if (c4g.projects.hook && c4g.projects.hook.responseHandled && c4g.projects.hook.responseHandled.length > 0) {
-        for (let j = 0; j < c4g.projects.hook.responseHandled.length; j++) {
+        for (var j = 0; j < c4g.projects.hook.responseHandled.length; j++) {
           if (typeof c4g.projects.hook.responseHandled[j] === 'function') {
             if (content.searchValue) {
               c4g.projects.hook.responseHandled[j]({searchValue: content.searchValue});

@@ -67,7 +67,7 @@ class C4GStopwatchField extends C4GBrickField
 
             $html =
                 '<div id="' . $id . '" class="c4g_brick_stopwatch c4gGuiDialogButtonsJqui" onClick="stopwatch(\'' . $id . '\',\'' . $seconds . '\',\'' . $overlay_id . '\',\'' . $overlay_link . '\')">' .
-                '</div><script>jQuery("#' . $id . '").click();</script>' . $action . $overlay_html;
+                '</div><script>(function(){var ready=function(f){if(document.readyState!=="loading"){f();}else{document.addEventListener("DOMContentLoaded",f);}};ready(function(){var el=jQuery("#' . $id . '");if(el.length)el.click();});})();</script>' . $action . $overlay_html;
 
             $result = $this->addC4GField($condition, $dialogParams, $fieldList, $data, $html);
         }
