@@ -1406,7 +1406,7 @@ class C4GBrickDialog
 
             $result = false;
             if (!$abortSave) {
-                if ($id_fieldName === null || $set[$id_fieldName] == null) {
+                if ($id_fieldName === null || !isset($set[$id_fieldName]) || $set[$id_fieldName] == null) {
                     $result = $brickDatabase->insert($set);
                     if ($dialogParams->getSaveCallback()) {
                         $cb = $dialogParams->getSaveCallback();

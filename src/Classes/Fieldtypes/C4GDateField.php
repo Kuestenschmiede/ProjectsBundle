@@ -276,7 +276,7 @@ class C4GDateField extends C4GBrickField
         // if the year is only two characters long, check the current year
         // if given year is greater, it will be seen as 20th century
         // else it will be seen as 21st century
-        if (strlen($arrParts[2]) == 2 && (($GLOBALS['TL_CONFIG']['dateFormat'] == 'd.m.Y') || ($GLOBALS['TL_CONFIG']['dateFormat'] == 'd.m.y'))) {
+        if (isset($arrParts[2]) && strlen($arrParts[2]) == 2 && (($GLOBALS['TL_CONFIG']['dateFormat'] == 'd.m.Y') || ($GLOBALS['TL_CONFIG']['dateFormat'] == 'd.m.y'))) {
             $currentYear = (new \DateTime())->format('y');
             if ($arrParts[2] > intval($currentYear)) {
                 $fieldData = $arrParts[0] . '.' . $arrParts[1] . '.19' . $arrParts[2];
@@ -286,12 +286,27 @@ class C4GDateField extends C4GBrickField
         } else if ($GLOBALS['TL_CONFIG']['dateFormat'] == 'd/m/Y') {
             $fieldData = str_replace('/','.',$fieldData);
         }
-        $date = $fieldData ? new \DateTime($fieldData) : false;
+        $date = false;
+        if ($fieldData) {
+            try {
+                if (is_numeric($fieldData)) {
+                    $date = new \DateTime();
+                    $date->setTimestamp(intval($fieldData));
+                } else {
+                    $dateFormat = $GLOBALS['TL_CONFIG']['dateFormat'] ?: 'd.m.Y';
+                    $date = \DateTime::createFromFormat($dateFormat, $fieldData);
+                    if (!$date) {
+                        $date = new \DateTime($fieldData);
+                    }
+                }
+            } catch (\Exception $e) {
+                $date = false;
+            }
+        }
         if ($date) {
-            $date->format($format);
             $date->setTime(0, 0, 0);
             $fieldData = $date->getTimestamp();
-        } else if (is_numeric($fieldData)) {
+        } else if (is_numeric($fieldData) && $fieldData !== '' && $fieldData !== null && intval($fieldData) > 0) {
             $fieldData = intval($fieldData);
         } else {
             $fieldData = 0;

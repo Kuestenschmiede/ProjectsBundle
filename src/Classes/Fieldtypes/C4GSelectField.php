@@ -367,16 +367,17 @@ class C4GSelectField extends C4GBrickField
                 if ($this->getAdditionalID()) {
                     $fieldName = $fieldName . '_' . $this->getAdditionalID(); //ToDo
                 }
-                if (!$con->checkAgainstCondition($dlgValues[$fieldName])) {
+                $fieldValue = $dlgValues[$fieldName] ?? null;
+                if (!$con->checkAgainstCondition($fieldValue)) {
                     return false;
                 }
             }
         }
         $fieldName = $this->getFieldName();
-        $fieldData = $dlgValues[$fieldName];
+        $fieldData = $dlgValues[$fieldName] ?? null;
         $additionalId = $this->getAdditionalID();
         if (!empty($additionalId)) {
-            $fieldData = $dlgValues[$fieldName . '_' . $additionalId];
+            $fieldData = $dlgValues[$fieldName . '_' . $additionalId] ?? null;
         }
         if (($fieldData == '-1') || ($fieldData == '')) {
             return $this;

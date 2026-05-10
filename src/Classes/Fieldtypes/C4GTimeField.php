@@ -96,22 +96,28 @@ class C4GTimeField extends C4GBrickField
     {
         $additionalId = $this->getAdditionalID();
         if (!empty($additionalId)) {
-            $fieldData = $dlgValues[$this->getFieldName() . '_' . $additionalId];
+            $inputData = $dlgValues[$this->getFieldName() . '_' . $additionalId];
         } else {
-            $fieldData = $dlgValues[$this->getFieldName()];
+            $inputData = $dlgValues[$this->getFieldName()];
         }
 
-        $timezone = new \DateTimeZone($GLOBALS['TL_CONFIG']['timeZone']);
-        $date = \DateTime::createFromFormat($GLOBALS['TL_CONFIG']['timeFormat'], $fieldData, $timezone);
-        if ($date) {
-            $date->Format($GLOBALS['TL_CONFIG']['timeFormat']);
-
-            $objDate = new Date(date($GLOBALS['TL_CONFIG']['timeFormat'], $date->getTimestamp()), Date::getFormatFromRgxp('time'));
-            $fieldData = $objDate->tstamp;
-        } else if (is_numeric($fieldData)) {
-            $fieldData = intval($fieldData);
-        } else {
-            $fieldData = 0;
+        $fieldData = 0;
+        if ($inputData) {
+            try {
+                if (is_numeric($inputData)) {
+                    $fieldData = intval($inputData);
+                } else {
+                    $timezone = new \DateTimeZone($GLOBALS['TL_CONFIG']['timeZone']);
+                    $timeFormat = $GLOBALS['TL_CONFIG']['timeFormat'] ?: 'H:i';
+                    $date = \DateTime::createFromFormat($timeFormat, $inputData, $timezone);
+                    if ($date) {
+                        $objDate = new Date($date->format($timeFormat), Date::getFormatFromRgxp('time'));
+                        $fieldData = $objDate->tstamp;
+                    }
+                }
+            } catch (\Exception $e) {
+                $fieldData = 0;
+            }
         }
 
         return $fieldData;
