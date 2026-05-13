@@ -1,5 +1,5 @@
 <?php
-    echo '<div class="'.$this->class.' block"'.$this->cssID;
+    echo '<div id="c4g_reservation_form" class="'.$this->class.' block"'.$this->cssID;
     if ($this->style):
         echo 'style="'.$this->style.'"';
     endif;
@@ -14,6 +14,40 @@
 
   (function() {
       ready(function() {
+        var storageKey = 'c4g_brick_anchor_' + <?php echo $this->c4gData['id']; ?>;
+
+        function scrollToAnchor(hash) {
+            if (!hash) return;
+            setTimeout(function() {
+                var target = jQuery(hash);
+                if (target.length) {
+                    jQuery('html, body').animate({
+                        scrollTop: target.offset().top
+                    }, 500);
+                }
+            }, 100);
+        }
+
+        // Handle initial load with hash
+        if (window.location.hash) {
+            scrollToAnchor(window.location.hash);
+        }
+
+        // Handle stored anchor after reload
+        var storedAnchor = sessionStorage.getItem(storageKey);
+        if (storedAnchor) {
+            scrollToAnchor(storedAnchor);
+            sessionStorage.removeItem(storageKey);
+        }
+
+        // Delegate click events for links with data-anchor
+        jQuery(document).on('click', 'a[data-anchor]', function(e) {
+            var anchor = jQuery(this).data('anchor');
+            if (anchor) {
+                sessionStorage.setItem(storageKey, anchor);
+            }
+        });
+
         <?php
           $strC4gGui = "var gui = new window.c4g.projects.c4gGui({".
             "id: ".$this->c4gData['id'].", ".
@@ -35,7 +69,21 @@
           }
           $strC4gGui .= "});";
 
-          $strC4gGui .= "if (gui) { gui.setup(); }; if (window.c4g && window.c4g.projects) {window.c4g.projects.C4GGui = gui;};";
+          $strC4gGui .= "if (gui) { 
+              gui.setup(); 
+              // Add listener for AJAX reloads
+              if (typeof gui.on === 'function') {
+                  gui.on('afterLoad', function() {
+                      var anchor = sessionStorage.getItem(storageKey);
+                      if (anchor) {
+                          scrollToAnchor(anchor);
+                          sessionStorage.removeItem(storageKey);
+                      } else if (window.location.hash) {
+                          scrollToAnchor(window.location.hash);
+                      }
+                  });
+              }
+          }; if (window.c4g && window.c4g.projects) {window.c4g.projects.C4GGui = gui;};";
           echo $strC4gGui;
         ?>
       });
