@@ -374,15 +374,20 @@ class C4GBrickCommon
 
     public static function translateSelectOption($id, $options)
     {
+        $id = \con4gis\ForumBundle\Classes\C4GForumHelper::deserializeIds($id);
         if ($options) {
+            $names = [];
             foreach ($options as $option) {
-                if ($option['id'] == $id) {
-                    return $option['name'];
+                if (in_array($option['id'], $id)) {
+                    $names[] = $option['name'];
                 }
+            }
+            if (!empty($names)) {
+                return implode(', ', $names);
             }
         }
 
-        return $id;
+        return is_array($id) ? implode(', ', $id) : $id;
     }
 
     public static function cutText($string, $lenght)
@@ -399,12 +404,15 @@ class C4GBrickCommon
     //ToDo zur Auswertung des Displaynames in das Gruppenmodul bringen
     public static function getNameForMember($memberId)
     {
-        if (!is_numeric($memberId)) {
-            return;
+        $memberId = \con4gis\ForumBundle\Classes\C4GForumHelper::deserializeIds($memberId);
+        if (empty($memberId) || !is_numeric($memberId[0])) {
+            return '';
         }
-        $member = MemberModel::findByPk($memberId);
-
-        return $member->firstname . ' ' . $member->lastname;
+        $member = MemberModel::findByPk($memberId[0]);
+        if ($member) {
+            return $member->firstname . ' ' . $member->lastname;
+        }
+        return '';
     }
 
     /**

@@ -127,14 +127,14 @@ class C4GBrickMatching
     private static function radiusSearchList($latitude, $longitude, $radius, $database, $table, $entryId = null)
     {
         if (isset($entryId)) {
-            $query = $database->prepare("SELECT id,(6371 * acos(cos(radians($latitude)) * cos(radians(loc_geoy)) * cos(radians(loc_geox) - radians($longitude)) + sin(radians($latitude)) * sin(radians(loc_geoy)))) AS distance FROM (SELECT * FROM $table WHERE id=$entryId) AS list HAVING distance <= $radius ORDER BY distance ASC")->execute();
+            $query = $database->prepare("SELECT id,(6371 * acos(cos(radians(?)) * cos(radians(loc_geoy)) * cos(radians(loc_geox) - radians(?)) + sin(radians(?)) * sin(radians(loc_geoy)))) AS distance FROM (SELECT * FROM $table WHERE id=?) AS list HAVING distance <= ? ORDER BY distance ASC")->execute($latitude, $longitude, $latitude, $entryId, $radius);
             if ($query->numRows > 0) {
                 return true;
             }
 
             return false;
         }
-        $query = $database->prepare("SELECT id,loc_geox,loc_geoy,(6371 * acos(cos(radians($latitude)) * cos(radians(loc_geoy)) * cos(radians(loc_geox) - radians($longitude)) + sin(radians($latitude)) * sin(radians(loc_geoy)))) AS distance FROM $table HAVING distance <= $radius ORDER BY distance ASC")->execute();
+        $query = $database->prepare("SELECT id,loc_geox,loc_geoy,(6371 * acos(cos(radians(?)) * cos(radians(loc_geoy)) * cos(radians(loc_geox) - radians(?)) + sin(radians(?)) * sin(radians(loc_geoy)))) AS distance FROM $table HAVING distance <= ? ORDER BY distance ASC")->execute($latitude, $longitude, $latitude, $radius);
 
         return $query->fetchAllAssoc();
     }

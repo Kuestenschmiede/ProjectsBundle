@@ -445,6 +445,10 @@ class C4GBrickList
                         $extIdFieldName = $column->getExternalIdField();
                         $extFieldName = $column->getExternalFieldName();
                         $extId = $element->$extIdFieldName;
+                        if (!is_numeric($extId) && $extId !== null && $extId !== '') {
+                            $deserialized = \con4gis\ForumBundle\Classes\C4GForumHelper::deserializeIds($extId);
+                            $extId = $deserialized[0] ?? 0;
+                        }
                         $extCallbackFunction = $column->getExternalCallBackFunction();
                         if ($extModel && $extId && ($extId > 0)) {
                             if ($extFieldName && ($extFieldName != '')) {
@@ -453,7 +457,7 @@ class C4GBrickList
                                     $tableName = $extModel::getTableName();
                                     $fieldName = $column->getFieldName();
                                     $sortField = $column->getExternalSortField();
-                                    $row_data = $database->prepare("SELECT * FROM `$tableName` WHERE `$extFieldName`='$extSearchValue' AND `$fieldName`='$extId' ORDER BY `$tableName`.`$sortField` DESC LIMIT 1 ")->execute();
+                                    $row_data = $database->prepare("SELECT * FROM `$tableName` WHERE `$extFieldName`=? AND `$fieldName`=? ORDER BY `$sortField` DESC LIMIT 1 ")->execute($extSearchValue, $extId);
                                 } else {
                                     $row_data = $extModel::findBy($extFieldName, $extId);
                                 }

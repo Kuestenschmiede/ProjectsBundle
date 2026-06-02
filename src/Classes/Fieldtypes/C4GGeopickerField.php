@@ -181,7 +181,7 @@ class C4GGeopickerField extends C4GBrickField
         $profile_id = null;
         $withoutAddressRow = $this->isWithoutAddressRow();
         $db = Database::getInstance();
-        $settings = $db->execute('SELECT * FROM tl_c4g_settings LIMIT 1')->fetchAssoc();
+        $settings = $db->prepare('SELECT * FROM tl_c4g_settings LIMIT 1')->execute()->fetchAssoc();
         if ($settings['defaultprofile']) {
             $profile_id = $settings['defaultprofile'];
         } else {

@@ -954,15 +954,13 @@ class C4GBaseController extends AbstractFrontendModuleController
                     // in case the module table does not have a member_id field (cached per request)
                     if ($this->__columnExistsMemo($this->tableName, 'member_id')) {
                         $query = $database->prepare('SELECT * FROM ' . $this->tableName .
-                            " WHERE member_id = 0 AND uuid = '" . $this->dialogParams->getUuid() . "'")->execute();
+                            ' WHERE member_id = 0 AND uuid = ?')->execute($this->dialogParams->getUuid());
                         if ($query) {
-                            $stmt = $database->prepare('UPDATE ' . $this->tableName . ' SET member_id = ' . $this->dialogParams->getMemberID()
-                                . " WHERE member_id = 0 AND uuid = '" . $this->dialogParams->getUuid() . "'");
-                            $stmt->execute();
+                            $stmt = $database->prepare('UPDATE ' . $this->tableName . ' SET member_id = ? WHERE member_id = 0 AND uuid = ?');
+                            $stmt->execute($this->dialogParams->getMemberID(), $this->dialogParams->getUuid());
                             if (($this->dialogParams->getMemberID() !== 0) && ($this->dialogParams->getMemberID() !== '0')) {
-                                $stmt = $database->prepare('UPDATE ' . $this->tableName . " SET uuid = '" . $this->dialogParams->getUuid()
-                                    . "' WHERE member_id = '" . $this->dialogParams->getMemberID() . "'");
-                                $stmt->execute();
+                                $stmt = $database->prepare('UPDATE ' . $this->tableName . ' SET uuid = ? WHERE member_id = ?');
+                                $stmt->execute($this->dialogParams->getUuid(), $this->dialogParams->getMemberID());
                             }
                         }
                     }

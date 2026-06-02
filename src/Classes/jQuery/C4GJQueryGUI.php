@@ -50,7 +50,7 @@ class C4GJQueryGUI
                 $GLOBALS['TL_HEAD']['c4g_jquery'] = '<script src="/bundles/con4gisprojects/dist/js/c4g-vendor-jquery.js"></script>' . "\n";
                 // just until the old plugins are replaced
                 // Set JQuery to noConflict mode immediately after load of jQuery
-                ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/dist/js/c4gjQueryNoConflict.js', ResourceLoader::BODY, 'c4g_jquery_noconflict');
+                $GLOBALS['TL_HEAD']['c4g_jquery_noconflict'] = '<script src="/bundles/con4gisprojects/dist/js/c4gjQueryNoConflict.js"></script>' . "\n";
             }
         }
 
@@ -129,7 +129,7 @@ class C4GJQueryGUI
         }
 
         if ($addCore) {
-            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/dist/js/c4gGui.js?v=' . time(), ResourceLoader::BODY, 'c4g_jquery_gui');
+            $GLOBALS['TL_HEAD']['c4g_jquery_gui'] = '<script src="/bundles/con4gisprojects/dist/js/c4gGui.js?v=' . time() . '"></script>' . "\n";
             ResourceLoader::loadCssResourceDeferred('bundles/con4gisprojects/dist/css/c4gGui.min.css');
             ResourceLoader::loadCssResourceDeferred('bundles/con4gisprojects/dist/css/c4gLoader.min.css');
         }
@@ -185,7 +185,7 @@ class C4GJQueryGUI
                 $GLOBALS['TL_HEAD']['c4g_jquery'] = '<script src="/bundles/con4gisprojects/dist/js/c4g-vendor-jquery.js"></script>' . "\n";
                 // just until the old plugins are replaced
                 // Set JQuery to noConflict mode immediately after load of jQuery
-                ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/dist/js/c4gjQueryNoConflict.js', ResourceLoader::BODY, 'c4g_jquery_noconflict');
+                $GLOBALS['TL_HEAD']['c4g_jquery_noconflict'] = '<script src="/bundles/con4gisprojects/dist/js/c4gjQueryNoConflict.js"></script>' . "\n";
             }
         }
 
@@ -264,7 +264,7 @@ class C4GJQueryGUI
         }
 
         if ($addCore) {
-            ResourceLoader::loadJavaScriptResource('bundles/con4gisprojects/dist/js/c4gGuiBrick.js?v=' . time(), ResourceLoader::BODY, 'c4g_jquery_gui');
+            $GLOBALS['TL_HEAD']['c4g_jquery_gui_brick'] = '<script src="/bundles/con4gisprojects/dist/js/c4gGuiBrick.js?v=' . time() . '"></script>' . "\n";
             ResourceLoader::loadCssResourceDeferred('bundles/con4gisprojects/dist/css/c4gGui.min.css');
             ResourceLoader::loadCssResourceDeferred('bundles/con4gisprojects/dist/css/c4gLoader.min.css');
         }

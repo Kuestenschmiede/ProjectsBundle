@@ -324,6 +324,11 @@ class C4GBrickDialog
                 $extFieldName = $field->getExternalFieldName();
                 $extId = $dataset->$extIdFieldName;
 
+                if (!is_numeric($extId) && $extId !== null && $extId !== '') {
+                    $deserialized = \con4gis\ForumBundle\Classes\C4GForumHelper::deserializeIds($extId);
+                    $extId = $deserialized[0] ?? 0;
+                }
+
                 if ($extId && ($extId > 0)) {
                     if ($extFieldName && ($extFieldName != '')) {
                         $extSearchValue = $field->getExternalSearchValue();
@@ -332,10 +337,10 @@ class C4GBrickDialog
                             $fieldName = $field->getFieldName();
                             $sortField = $field->getExternalSortField();
                             $dbValues = $database->prepare(
-                                "SELECT * FROM `$tableName` WHERE `$extFieldName`='$extSearchValue' " .
-                                "AND `$fieldName`='$extId' ORDER BY `$tableName`.`$sortField` " .
+                                "SELECT * FROM `$tableName` WHERE `$extFieldName`=? " .
+                                "AND `$fieldName`=? ORDER BY `$sortField` " .
                                 'DESC LIMIT 1 '
-                            )->execute();
+                            )->execute($extSearchValue, $extId);
                         } else {
                             $dbValues = $extModel::findBy($extFieldName, $extId);
                         }
@@ -866,13 +871,13 @@ class C4GBrickDialog
 
                     $t = $brickDatabase->getParams()->getTableName();
 
-                    $columns = "$t.$fieldName='" . $dlgValue . "'";
+                    $columns = "$t.$fieldName=?";
                     if ($field->getDbUniqueAdditionalCondition()) {
                         $columns = $columns . ' AND ' . $field->getDbUniqueAdditionalCondition();
                     }
 
                     $arrColumns = [$columns];
-                    $arrValues = [];
+                    $arrValues = [\con4gis\ForumBundle\Classes\C4GForumHelper::deserializeIds($dlgValue)];
                     $arrOptions = [];
 
                     $dbValues = $brickDatabase->findBy($arrColumns, $arrValues, $arrOptions);

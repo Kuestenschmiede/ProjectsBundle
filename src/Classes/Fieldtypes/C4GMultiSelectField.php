@@ -141,11 +141,13 @@ class C4GMultiSelectField extends C4GBrickField
     {
         $fieldname = $this->getFieldName();
         $dbValue = $dbValues->$fieldname;
-        $dlgvalue = $dlgValues[$this->getFieldName()];
-        $dbValue = trim($dbValue);
-        $dlgValue = trim($dlgvalue);
+        $dlgValue = $dlgValues[$fieldname];
+
+        $dbValueArr = \con4gis\ForumBundle\Classes\C4GForumHelper::deserializeIds($dbValue);
+        $dlgValueArr = \con4gis\ForumBundle\Classes\C4GForumHelper::deserializeIds($dlgValue);
+
         $result = null;
-        if (strcmp($dbValue, $dlgValue) != 0) {
+        if ($dbValueArr != $dlgValueArr) {
             $result = new C4GBrickFieldCompare($this, $dbValue, $dlgValue);
         }
 

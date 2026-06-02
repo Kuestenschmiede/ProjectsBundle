@@ -38,7 +38,7 @@ class C4GMaintenance
         $db = Database::getInstance();
         if ($user instanceof \FrontendUser) {
             $userId = $user->id;
-            $db->execute("UPDATE tl_member SET session = DEFAULT WHERE id = $userId");
+            $db->prepare("UPDATE tl_member SET session = DEFAULT WHERE id = ?")->execute($userId);
         }
     }
 
@@ -58,7 +58,7 @@ class C4GMaintenance
         $db = Database::getInstance();
         if ($user instanceof \FrontendUser) {
             $userId = $user->id;
-            $db->execute("UPDATE tl_member SET session = DEFAULT WHERE id = $userId");
+            $db->prepare("UPDATE tl_member SET session = DEFAULT WHERE id = ?")->execute($userId);
         }
     }
 }

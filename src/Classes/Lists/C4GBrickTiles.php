@@ -154,11 +154,20 @@ class C4GBrickTiles
                     $fieldName = $field->getFieldName();
                     $otherFieldName = $field->getTileClassField();
                     $db = Database::getInstance();
-                    $dbResult = $db->prepare("SELECT $otherFieldName FROM $tablename WHERE id = ?")
-                        ->execute($values->$fieldName)
-                        ->fetchAllAssoc();
-                    $dataset = $dbResult[0];
-                    $result .= $dataset[$otherFieldName] . ' ';
+                    $val = $values->$fieldName;
+                    if (!is_numeric($val) && $val !== null && $val !== '') {
+                        $deserialized = \con4gis\ForumBundle\Classes\C4GForumHelper::deserializeIds($val);
+                        $val = $deserialized[0] ?? 0;
+                    }
+                    if (is_numeric($val) && $val > 0) {
+                        $dbResult = $db->prepare("SELECT $otherFieldName FROM $tablename WHERE id = ?")
+                            ->execute($val)
+                            ->fetchAllAssoc();
+                        if (!empty($dbResult)) {
+                            $dataset = $dbResult[0];
+                            $result .= $dataset[$otherFieldName] . ' ';
+                        }
+                    }
                 } else {
                     $fieldName = $field->getFieldName();
                     $result .= $values->$fieldName . ' ';
@@ -322,6 +331,10 @@ class C4GBrickTiles
                         $extIdFieldName = $column->getExternalIdField();
                         $extFieldName = $column->getExternalFieldName();
                         $extId = $element->$extIdFieldName;
+                        if ($extId !== null && $extId !== '') {
+                            $deserialized = \con4gis\ForumBundle\Classes\C4GForumHelper::deserializeIds($extId);
+                            $extId = $deserialized[0] ?? 0;
+                        }
                         $extCallbackFunction = $column->getExternalCallBackFunction();
                         if ($extId && ($extId > 0)) {
                             if ($extFieldName && ($extFieldName != '')) {
@@ -330,9 +343,8 @@ class C4GBrickTiles
                                     $tableName = $extModel::getTableName();
                                     $fieldName = $column->getFieldName();
                                     $sortField = $column->getExternalSortField();
-                                    $element = $database->prepare("SELECT * FROM `$tableName` WHERE " .
-                                        "`$extFieldName`='$extSearchValue' AND `$fieldName`='$extId' ORDER BY " .
-                                        " `$tableName`.`$sortField` DESC LIMIT 1 ")->execute();
+                                    $element = $database->prepare("SELECT * FROM `$tableName` WHERE `$extFieldName`=? AND `$fieldName`=? ORDER BY `$sortField` DESC LIMIT 1")
+                                        ->execute($extSearchValue, $extId);
                                 } else {
                                     $element = $extModel::findBy($extFieldName, $extId);
                                 }

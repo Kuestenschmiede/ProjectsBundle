@@ -89,6 +89,7 @@ class C4GBrickDatabase
      */
     public function findBy($fieldname, $value, $arrOptions = [])
     {
+        $value = \con4gis\ForumBundle\Classes\C4GForumHelper::deserializeIds($value);
         if ($this->params->getType() == C4GBrickDatabaseType::DOCTRINE) {
             $entityClass = $this->params->getEntityNamespace() . '\\' . $this->params->getEntityClass();
 
@@ -150,6 +151,7 @@ class C4GBrickDatabase
      */
     public function findOneBy($fieldname, $value, $arrOptions = [])
     {
+        $value = \con4gis\ForumBundle\Classes\C4GForumHelper::deserializeIds($value);
         if ($this->params->getType() == C4GBrickDatabaseType::DOCTRINE) {
             //ToDo arrOptions abbilden
 
@@ -183,9 +185,14 @@ class C4GBrickDatabase
                 unset($set[$key]);
             }
         }
-        $objInsertStmt = $database->prepare("INSERT INTO $tableName %s")
-                ->set($set)
-                ->execute();
+        $sqlSet = [];
+        $params = [];
+        foreach ($set as $k => $v) {
+            $sqlSet[] = "`$k`=?";
+            $params[] = $v;
+        }
+        $objInsertStmt = $database->prepare("INSERT INTO $tableName SET " . implode(', ', $sqlSet))
+            ->execute(...$params);
 
         if (!$objInsertStmt->affectedRows) {
             return false;
@@ -210,9 +217,15 @@ class C4GBrickDatabase
         $database = $this->params->getDatabase();
 
         if (($id) && ($id_fieldName)) {
-            $objInsertStmt = $database->prepare("UPDATE $tableName %s WHERE $id_fieldName=?")
-                    ->set($set)
-                    ->execute($id);
+            $sqlSet = [];
+        $params = [];
+        foreach ($set as $k => $v) {
+            $sqlSet[] = "`$k`=?";
+            $params[] = $v;
+        }
+        $params[] = $id;
+        $objInsertStmt = $database->prepare("UPDATE $tableName SET " . implode(', ', $sqlSet) . " WHERE $id_fieldName=?")
+            ->execute(...$params);
         }
 
         if (!$objInsertStmt->affectedRows) {
