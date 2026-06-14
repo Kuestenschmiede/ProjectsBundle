@@ -34,7 +34,7 @@ trait C4GTraitCheckMandatoryFields
                         $callbackParams = 'c4g_' . $mandatoryCheckResult->getFieldName();
                     }
 
-                    return ['usermessage' => $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_MANDATORY_FIELD'] . '"' . strip_tags($mandatoryCheckResult->getTitle()) . '".',
+                    return ['usermessage' => $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_MANDATORY_FIELD'] . '"' . str_replace("\xE2\x80\x8B", '', html_entity_decode(strip_tags($mandatoryCheckResult->getTitle()), ENT_QUOTES | ENT_HTML5, 'UTF-8')) . '".',
                         'title' => $GLOBALS['TL_LANG']['FE_C4G_DIALOG']['USERMESSAGE_MANDATORY_TITLE'],
                         'callback' => ['function' => $callback, 'params' => $callbackParams], ];
                 }
