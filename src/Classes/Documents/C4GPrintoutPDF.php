@@ -72,7 +72,7 @@ class C4GPrintoutPDF
                         $subField->setInitialValue($data[$field->getFieldName()]);
                         $subField->setPrintableTableRow(true);
                     }
-                    if ($subField->isPrintable() && (trim($data[$subField->getFieldName()]) || (($field instanceof C4GSubDialogField) || ($field instanceof C4GForeignArrayField) || ($field instanceof C4GGridField)))) {
+                    if ($subField->isPrintable() && (isset($data[$subField->getFieldName()]) && $data[$subField->getFieldName()] !== null && $data[$subField->getFieldName()] !== '' || (($field instanceof C4GSubDialogField) || ($field instanceof C4GForeignArrayField) || ($field instanceof C4GGridField)))) {
                         $resultField = C4GPrintoutPDF::checkSubFields($subField, $data);
                         $subFieldList[] =  $resultField ?: $subField;
                     }
@@ -104,7 +104,7 @@ class C4GPrintoutPDF
                         $subField->setInitialValue($data[$field->getFieldName()]);
                         $subField->setPrintableTableRow(true);
                     }
-                    if ($subField->isPrintable() && (trim($data[$subField->getFieldName()]) || (($field instanceof C4GSubDialogField) || ($field instanceof C4GForeignArrayField) || ($field instanceof C4GGridField)))) {
+                    if ($subField->isPrintable() && (isset($data[$subField->getFieldName()]) && $data[$subField->getFieldName()] !== null && $data[$subField->getFieldName()] !== '' || (($field instanceof C4GSubDialogField) || ($field instanceof C4GForeignArrayField) || ($field instanceof C4GGridField)))) {
                         $resultField = C4GPrintoutPDF::checkSubFields($subField, $data);
                         $subFieldList[] = $resultField ?: $subField;
                     }
@@ -170,20 +170,7 @@ class C4GPrintoutPDF
             }
         }
 
-        // Merge bereits berechnete PutVars des Moduls hinein, sodass serverseitig ermittelte Felder
-        // (z. B. priceSum inkl. Optionen, Steuern) nicht verloren gehen, wenn der Client nur Rohdaten sendet.
-        try {
-            if ($module && method_exists($module, 'getPutVars')) {
-                $modulePutVars = $module->getPutVars();
-                if (is_array($modulePutVars) && !empty($modulePutVars)) {
-                    // Werte aus getPutVars haben Vorrang vor rohen Request-Daten
-                    $data = array_merge((array) $data, $modulePutVars);
-                }
-            }
-        } catch (\Throwable $t) { /* ignore merge issues silently */ }
-
-        // Generische Erweiterungsstelle: externe Bundles können hier `fieldData` anreichern (z. B. Preise neu berechnen)
-        // ohne dass das Projects-Framework Bundle-spezifisches Wissen enthält.
+        // Generic hook for preparing print data
         if (isset($GLOBALS['TL_HOOKS']['c4gProjectsPreparePrintData']) && is_array($GLOBALS['TL_HOOKS']['c4gProjectsPreparePrintData'])) {
             foreach ($GLOBALS['TL_HOOKS']['c4gProjectsPreparePrintData'] as $callback) {
                 try {
@@ -191,11 +178,9 @@ class C4GPrintoutPDF
                     $method = $callback[1] ?? null;
                     if ($class && $method) {
                         $obj = \Contao\System::importStatic($class);
-                        // Listener dürfen $data per Referenz verändern
                         $obj->$method($module, $data);
                     }
                 } catch (\Throwable $t) {
-                    // Listener-Fehler dürfen den Druck nicht blockieren
                 }
             }
         }
@@ -261,7 +246,7 @@ class C4GPrintoutPDF
             }
 
             $fieldName = $field->getFieldName();
-            if ($field->isPrintable() && ($fieldName && isset($data[$fieldName]) && $data[$fieldName] && (trim($data[$fieldName])) || (($field instanceof C4GSubDialogField) || ($field instanceof C4GForeignArrayField) || ($field instanceof C4GImageField) || ($field instanceof C4GRadioGroupField) || ($field instanceof C4GGridField)))) {
+            if ($field->isPrintable() && ($fieldName && isset($data[$fieldName]) && ($data[$fieldName] !== null && $data[$fieldName] !== '') || (($field instanceof C4GSubDialogField) || ($field instanceof C4GForeignArrayField) || ($field instanceof C4GImageField) || ($field instanceof C4GRadioGroupField) || ($field instanceof C4GGridField)))) {
                 $resultField = C4GPrintoutPDF::checkSubFields($field, $data);
                 if ($resultField) {
                     $data[$resultField->getFieldName()] = $resultField->getInitialValue();
@@ -289,8 +274,8 @@ class C4GPrintoutPDF
         }
         $pdfManager->style = $style;
 
-        foreach ($data as $key=>$value) {
-            if (strpos($value, "\n") !== false) {
+        foreach ($data as $key => $value) {
+            if (is_string($value) && strpos($value, "\n") !== false) {
                 $data[$key] = str_replace("\n", "<br>", $value);
             }
         }
@@ -299,7 +284,7 @@ class C4GPrintoutPDF
 
         $pdfData = [];
         $pdfData['template'] = $module->getPrintTemplate();
-        $pdfData['filename'] = $fileName ?: date('Y_m_d-H_i_s') . rand(100, 999) . '_document.pdf'; //'{{date::Y_m_d-H_i_s}}-'
+        $pdfData['filename'] = $fileName ?: date('Y_m_d-H_i_s') . rand(100, 999) . '_document.pdf';
         $pdfData['filepath'] = C4GBrickConst::PATH_BRICK_DOCUMENTS;
         $pdfData['Attachment'] = false;
         $pdfData['fieldData'] = $data;
@@ -318,7 +303,6 @@ class C4GPrintoutPDF
         $pdfManager->save();
 
         $path = $pdfManager->getPdfDocument()->getPath() . $pdfManager->getPdfDocument()->getFilename();
-        // cut out the local path before "files"
         $path = substr($path, strpos($path, 'files'));
 
         $pdfFieldName = $module->getDialogParams()->getSavePrintoutToField();

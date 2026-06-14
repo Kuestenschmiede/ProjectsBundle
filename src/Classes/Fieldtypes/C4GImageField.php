@@ -299,9 +299,12 @@ class C4GImageField extends C4GBrickField
     {
         $fieldName = $this->getFieldName();
         $result = '';
+        $value = '';
 
-        if ($data && $data->$fieldName) {
+        if (is_object($data) && isset($data->$fieldName)) {
             $value = $data->$fieldName;
+        } elseif (is_array($data) && isset($data[$fieldName])) {
+            $value = $data[$fieldName];
         } elseif ($this->getInitialValue()) {
             $value = $this->getInitialValue();
         }
@@ -311,14 +314,16 @@ class C4GImageField extends C4GBrickField
             $value = $rootDir.'/'.$value;
             $value = str_replace('&quot;', '"', $value);
             $type = pathinfo($value, PATHINFO_EXTENSION);
-            $data = file_get_contents($value);
-            $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
+            if (file_exists($value)) {
+                $fileData = file_get_contents($value);
+                $base64 = 'data:image/' . $type . ';base64,' . base64_encode($fileData);
 
-            $width = $this->getWidth();
-            $height = $this->getHeight();
+                $width = $this->getWidth();
+                $height = $this->getHeight();
 
-            $align = $this->getAlign();
-            $result = '<br><div class="c4g-pdf-image" style="text-align:'.$align.'"><label class="image ' . $this->getFieldName() . '">' . $this->getTitle() . '</label><br><img src="' . $base64 . '" alt="" width="' . $width . '" height="' . $height . '"></div>';
+                $align = $this->getAlign();
+                $result = '<br><div class="c4g-pdf-image" style="text-align:'.$align.'"><label class="image ' . $this->getFieldName() . '">' . $this->getTitle() . '</label><br><img src="' . $base64 . '" alt="" width="' . $width . '" height="' . $height . '"></div>';
+            }
         }
 
         return $result;
