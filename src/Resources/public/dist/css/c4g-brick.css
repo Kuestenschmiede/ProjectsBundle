@@ -17543,7 +17543,10 @@ table.dataTable.display tbody {
   font-size: .9rem
 }
 .dataTables_wrapper tr {
-  cursor: pointer!important
+  cursor: pointer
+}
+.cursor_pointer {
+  cursor: pointer
 }
 .dt-buttons .ui-button-text {
   visibility: hidden
@@ -17907,7 +17910,7 @@ th.nomouseevents .DataTables_sort_icon {
   font-weight: 700
 }
 .c4g__btn-tile {
-  cursor: pointer!important
+  cursor: pointer
 }
 a.c4g__btn-tile:hover {
   cursor: default
