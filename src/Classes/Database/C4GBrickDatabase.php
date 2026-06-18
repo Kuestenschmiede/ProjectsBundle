@@ -89,7 +89,7 @@ class C4GBrickDatabase
      */
     public function findBy($fieldname, $value, $arrOptions = [])
     {
-        $value = \con4gis\ForumBundle\Classes\C4GForumHelper::deserializeIds($value);
+        $value = \con4gis\CoreBundle\Classes\C4GUtils::deserializeIds($value);
         if ($this->params->getType() == C4GBrickDatabaseType::DOCTRINE) {
             $entityClass = $this->params->getEntityNamespace() . '\\' . $this->params->getEntityClass();
 
@@ -151,7 +151,7 @@ class C4GBrickDatabase
      */
     public function findOneBy($fieldname, $value, $arrOptions = [])
     {
-        $value = \con4gis\ForumBundle\Classes\C4GForumHelper::deserializeIds($value);
+        $value = \con4gis\CoreBundle\Classes\C4GUtils::deserializeIds($value);
         if ($this->params->getType() == C4GBrickDatabaseType::DOCTRINE) {
             //ToDo arrOptions abbilden
 

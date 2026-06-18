@@ -303,7 +303,7 @@ abstract class C4GBrickField
      */
     public function translateFieldValue($value)
     {
-        $value = \con4gis\ForumBundle\Classes\C4GForumHelper::deserializeIds($value);
+        $value = \con4gis\CoreBundle\Classes\C4GUtils::deserializeIds($value);
         if (is_array($value)) {
             $value = implode(', ', $value);
         }

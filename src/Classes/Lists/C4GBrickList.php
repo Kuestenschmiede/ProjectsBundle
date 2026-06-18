@@ -446,7 +446,7 @@ class C4GBrickList
                         $extFieldName = $column->getExternalFieldName();
                         $extId = $element->$extIdFieldName;
                         if (!is_numeric($extId) && $extId !== null && $extId !== '') {
-                            $deserialized = \con4gis\ForumBundle\Classes\C4GForumHelper::deserializeIds($extId);
+                            $deserialized = \con4gis\CoreBundle\Classes\C4GUtils::deserializeIds($extId);
                             $extId = $deserialized[0] ?? 0;
                         }
                         $extCallbackFunction = $column->getExternalCallBackFunction();

@@ -140,7 +140,7 @@ class C4GSelectField extends C4GBrickField
             $nameField = $this->getNameField();
 
             $id = $data->id;
-            $id = \con4gis\ForumBundle\Classes\C4GForumHelper::deserializeIds($id);
+            $id = \con4gis\CoreBundle\Classes\C4GUtils::deserializeIds($id);
             $elements = $model::findby($keyField, $id);
 
             if ($this->isSort()) {
@@ -270,7 +270,7 @@ class C4GSelectField extends C4GBrickField
         //compare for C4GMatching
         if ($this->isSearchField()) {
             if ($dbValue != $dlgValue) {
-                $tmpValue = \con4gis\ForumBundle\Classes\C4GForumHelper::deserializeIds($dlgValue);
+                $tmpValue = \con4gis\CoreBundle\Classes\C4GUtils::deserializeIds($dlgValue);
                 if (!empty($tmpValue) && is_numeric($tmpValue[0])) {
                     $dlgValue = $tmpValue[0];
                 } else {

@@ -325,7 +325,7 @@ class C4GBrickDialog
                 $extId = $dataset->$extIdFieldName;
 
                 if (!is_numeric($extId) && $extId !== null && $extId !== '') {
-                    $deserialized = \con4gis\ForumBundle\Classes\C4GForumHelper::deserializeIds($extId);
+                    $deserialized = \con4gis\CoreBundle\Classes\C4GUtils::deserializeIds($extId);
                     $extId = $deserialized[0] ?? 0;
                 }
 
@@ -877,7 +877,7 @@ class C4GBrickDialog
                     }
 
                     $arrColumns = [$columns];
-                    $arrValues = [\con4gis\ForumBundle\Classes\C4GForumHelper::deserializeIds($dlgValue)];
+                    $arrValues = [\con4gis\CoreBundle\Classes\C4GUtils::deserializeIds($dlgValue)];
                     $arrOptions = [];
 
                     $dbValues = $brickDatabase->findBy($arrColumns, $arrValues, $arrOptions);

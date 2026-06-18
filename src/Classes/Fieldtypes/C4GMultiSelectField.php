@@ -143,8 +143,8 @@ class C4GMultiSelectField extends C4GBrickField
         $dbValue = $dbValues->$fieldname;
         $dlgValue = $dlgValues[$fieldname];
 
-        $dbValueArr = \con4gis\ForumBundle\Classes\C4GForumHelper::deserializeIds($dbValue);
-        $dlgValueArr = \con4gis\ForumBundle\Classes\C4GForumHelper::deserializeIds($dlgValue);
+        $dbValueArr = \con4gis\CoreBundle\Classes\C4GUtils::deserializeIds($dbValue);
+        $dlgValueArr = \con4gis\CoreBundle\Classes\C4GUtils::deserializeIds($dlgValue);
 
         $result = null;
         if ($dbValueArr != $dlgValueArr) {

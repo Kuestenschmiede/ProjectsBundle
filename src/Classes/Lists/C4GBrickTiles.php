@@ -156,7 +156,7 @@ class C4GBrickTiles
                     $db = Database::getInstance();
                     $val = $values->$fieldName;
                     if (!is_numeric($val) && $val !== null && $val !== '') {
-                        $deserialized = \con4gis\ForumBundle\Classes\C4GForumHelper::deserializeIds($val);
+                        $deserialized = \con4gis\CoreBundle\Classes\C4GUtils::deserializeIds($val);
                         $val = $deserialized[0] ?? 0;
                     }
                     if (is_numeric($val) && $val > 0) {
@@ -332,7 +332,7 @@ class C4GBrickTiles
                         $extFieldName = $column->getExternalFieldName();
                         $extId = $element->$extIdFieldName;
                         if ($extId !== null && $extId !== '') {
-                            $deserialized = \con4gis\ForumBundle\Classes\C4GForumHelper::deserializeIds($extId);
+                            $deserialized = \con4gis\CoreBundle\Classes\C4GUtils::deserializeIds($extId);
                             $extId = $deserialized[0] ?? 0;
                         }
                         $extCallbackFunction = $column->getExternalCallBackFunction();

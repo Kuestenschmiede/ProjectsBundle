@@ -374,7 +374,7 @@ class C4GBrickCommon
 
     public static function translateSelectOption($id, $options)
     {
-        $id = \con4gis\ForumBundle\Classes\C4GForumHelper::deserializeIds($id);
+        $id = \con4gis\CoreBundle\Classes\C4GUtils::deserializeIds($id);
         if ($options) {
             $names = [];
             foreach ($options as $option) {
@@ -404,7 +404,7 @@ class C4GBrickCommon
     //ToDo zur Auswertung des Displaynames in das Gruppenmodul bringen
     public static function getNameForMember($memberId)
     {
-        $memberId = \con4gis\ForumBundle\Classes\C4GForumHelper::deserializeIds($memberId);
+        $memberId = \con4gis\CoreBundle\Classes\C4GUtils::deserializeIds($memberId);
         if (empty($memberId) || !is_numeric($memberId[0])) {
             return '';
         }
