@@ -364,7 +364,7 @@ class C4GBaseController extends AbstractFrontendModuleController
     protected $requestStack;
     private $__lastRequest = null;
 
-    public function __construct(string $rootDir, RequestStack $requestStack, ContaoFramework $framework, ModuleModel $model = null)
+    public function __construct(string $rootDir, RequestStack $requestStack, ContaoFramework $framework, ?ModuleModel $model = null)
     { 
         $this->requestStack = $requestStack;
         $session = $requestStack->getCurrentRequest()->getSession();

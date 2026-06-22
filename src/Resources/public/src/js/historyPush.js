@@ -10,26 +10,36 @@
 
 function historyPush(state, history, gui) {
     gui.pushingState = true;
-    let newHref = window.location.href;
-    let index = newHref.indexOf('?state=');
-    if (index !== -1) {
-        newHref = newHref.substr(0, index);
+    let url = new URL(window.location.href);
+    let params = new URLSearchParams(url.search);
+    
+    // update state in search params
+    if (state) {
+        params.set('state', state);
+    } else {
+        params.delete('state');
     }
-    let queryString = '';
-    if (newHref.indexOf('?') !== -1) {
-        queryString = '&state=';
-        index = newHref.indexOf('&state=');
-        if (index !== -1) {
-            newHref = newHref.substr(0, index);
+    
+    url.search = params.toString();
+    
+    // Contao 5 / Routing often uses fragments for state if configured or via specific JS.
+    // If the user sees "#?state=", it means the state is in the hash.
+    if (url.hash && url.hash.indexOf('state=') !== -1) {
+        let hashPart = url.hash.substring(1); // remove #
+        if (hashPart.indexOf('?') === 0) {
+            hashPart = hashPart.substring(1);
         }
-    } else {
-        queryString = '?state='
+        let hashParams = new URLSearchParams(hashPart);
+        if (state) {
+            hashParams.set('state', state);
+        } else {
+            hashParams.delete('state');
+        }
+        let newHash = hashParams.toString();
+        url.hash = newHash ? '?' + newHash : '';
     }
-    if (document.location.hash) {
-        history.pushState(null, document.title, newHref + queryString + state + document.location.hash);
-    } else {
-        history.pushState(null, document.title, newHref + queryString + state);
-    }
+
+    history.pushState(null, document.title, url.toString());
 
     // strange workaround for Opera >= 11.60 bug
     // TODO kann raus ?

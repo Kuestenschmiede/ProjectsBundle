@@ -64,6 +64,43 @@ window.c4g.projects = window.c4g.projects || {};
   jQuery.extend(c4g.projects.c4gGui.prototype, {
     setup: function () {
       var scope = this;
+      if (typeof window.getSelection === "function") {
+        var selection = window.getSelection();
+        var selProto = (window.Selection && window.Selection.prototype) || Object.getPrototypeOf(selection);
+        var originalAddRange = selProto.addRange || selection.addRange;
+        if (typeof originalAddRange === "function" && !originalAddRange.isPatched) {
+          var patchedAddRange = function(range) {
+            try {
+              if (range && range.startContainer && !document.contains(range.startContainer)) {
+                return;
+              }
+              return originalAddRange.apply(this, arguments);
+            } catch (e) {
+              var eStr = e ? e.toString() : "";
+              var eName = e ? e.name : "";
+              var eMsg = e ? e.message : "";
+              var isTrixError = eName === "NotFoundError" ||
+                (eMsg && eMsg.indexOf("The given range isn't in document") !== -1) ||
+                (eStr && eStr.indexOf("The given range isn't in document") !== -1) ||
+                (eStr && eStr.indexOf("NotFoundError") !== -1) ||
+                (eStr && eStr.indexOf("addRange") !== -1 && eStr.indexOf("document") !== -1);
+              if (!isTrixError) {
+                throw e;
+              }
+            }
+          };
+          patchedAddRange.isPatched = true;
+          // For minified environments, we sometimes see 't' or other letters in stack traces.
+          // The error "addRange(): ..." is actually coming from the browser, but Trix triggers it.
+          if (selProto.hasOwnProperty && selProto.hasOwnProperty('addRange')) {
+            selProto.addRange = patchedAddRange;
+          } else if (selProto.addRange) {
+            selProto.addRange = patchedAddRange;
+          } else {
+            selection.addRange = patchedAddRange;
+          }
+        }
+      }
       return this.mainDiv.each(function() {
         var options = scope.options;
         // if no ID is provided then initialize internal ID for DIVs
@@ -1573,6 +1610,15 @@ window.c4g.projects = window.c4g.projects || {};
     }, // end of fnCenterDiv
 
     fnInitContentDiv: function () {
+      if (typeof window.getSelection === "function") {
+        var selection = window.getSelection();
+        if (selection.rangeCount > 0) {
+          var range = selection.getRangeAt(0);
+          if (jQuery(this.contentDiv).has(range.commonAncestorContainer).length > 0) {
+            selection.removeAllRanges();
+          }
+        }
+      }
       jQuery(this.contentDiv).empty();
       jQuery(this.contentWrapperDiv + ' div:not(' + this.contentDiv + ')').remove();
       jQuery(this.contentDiv).show();

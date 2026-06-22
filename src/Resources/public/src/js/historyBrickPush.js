@@ -23,68 +23,20 @@ function historyPush(state, history, gui) {
     if (gui) {
         gui.pushingState = true;
     }
-    let newHref = window.location.href;
-    let removeGetParam = false;
+    let url = new URL(window.location.href);
+    let originalHash = url.hash;
 
-    if ((state == 'list-1') || (state == 'list:-1')) {
-        let idx = newHref.indexOf('?');
-        if (idx !== -1) {
-            newHref = newHref.substr(0, idx);
-        }
-        removeGetParam = true;
+    if ((state === 'list-1') || (state === 'list:-1')) {
+        url.search = '';
+    } else if (state) {
+        // historyBrickPush seems to use state as a direct query key or value
+        // based on existing logic: param = '?'+state
+        // If it's not a key=value pair, URLSearchParams might handle it differently.
+        // But the original code just appended it.
+        url.search = '?' + state;
     }
 
-    let indexList = newHref.indexOf('?list-1') ? newHref.indexOf('?list-1') : newHref.indexOf('?list:-1');
-    if (indexList !== -1) {
-        newHref = newHref.substr(0, indexList);
-    }
-
-    let param = '?'+state;
-
-    let index = newHref.indexOf('?state=');
-    let indexState = newHref.indexOf('?'+state);
-
-    if (index !== -1) {
-        newHref = newHref.substr(0, index);
-    } else if (indexState !== -1) {
-        newHref = newHref.substr(0, indexState);
-    }
-
-    let queryString = '';
-    if (newHref.indexOf('?') !== -1) {
-        queryString = param;
-        let index = newHref.indexOf('&state=');
-        let indexState = newHref.indexOf('&'+state);
-        if (index !== -1) {
-            newHref = newHref.substr(0, index);
-        } else if (indexState !== -1) {
-            newHref = newHref.substr(0, indexState);
-        }
-    } else {
-        queryString = param;
-    }
-
-    if (document.location.hash) {
-        history.pushState(null, document.title, newHref + queryString + document.location.hash);
-    } else {
-        history.pushState(null, document.title, newHref + queryString);
-    }
-
-    if (removeGetParam) {
-        if ((state == 'list-1') || (state == 'list:-1')) {
-            let idx = newHref.indexOf('?list-1') ? newHref.indexOf('?list-1') : idx = newHref.indexOf('?list:-1');
-            if (idx !== -1) {
-                newHref = newHref.substr(0, idx);
-            }
-            let removeGetParam = true;
-        }
-
-        if (document.location.hash) {
-            history.pushState(null, document.title, newHref + document.location.hash);
-        } else {
-            history.pushState(null, document.title, newHref);
-        }
-    }
+    history.pushState(null, document.title, url.toString());
 
     if (gui) {
         gui.pushingState = false;
