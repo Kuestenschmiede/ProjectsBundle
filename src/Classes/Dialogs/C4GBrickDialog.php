@@ -235,7 +235,7 @@ class C4GBrickDialog
         $additionalField = null
     ) {
         //Werte durchreichen
-        $c4g_uploadURL = $dlgValues['c4g_uploadURL'];
+        $c4g_uploadURL = $dlgValues['c4g_uploadURL'] ?? '';
 
         $view = '<div class="' . C4GBrickConst::CLASS_MESSAGE_DIALOG .
             ' c4g__content">';
@@ -1094,7 +1094,8 @@ class C4GBrickDialog
     {
         if ($dialogParams->getSaveInNewDatasetIfCondition()) {
             $condition = $dialogParams->getSaveInNewDataSetIfCondition();
-            if ($condition->checkAgainstCondition($dlgValues[$condition->getFieldName()])) {
+            $fieldName = $condition->getFieldName();
+            if (isset($dlgValues[$fieldName]) && $condition->checkAgainstCondition($dlgValues[$fieldName])) {
                 $saveInNew = true;
             } else {
                 $saveInNew = false;
@@ -1113,7 +1114,7 @@ class C4GBrickDialog
         $set = [];
 
         if ($viewType == C4GBrickViewType::GROUPPROJECT) {
-            $uuid = $dlgValues['c4g_project_uuid'];
+            $uuid = $dlgValues['c4g_project_uuid'] ?? null;
             if ($uuid) {
                 $set['uuid'] = $uuid;
             }
@@ -1129,7 +1130,7 @@ class C4GBrickDialog
             foreach ($fieldList as $field) {
                 if ($field instanceof C4GKeyField) {
                     $fieldName = $field->getFieldName();
-                    $fieldData = $field->validateFieldValue($dlgValues[$fieldName]);
+                    $fieldData = $field->validateFieldValue($dlgValues[$fieldName] ?? null);
                     if ($fieldData == 0) {
                         $fieldData = null;
                     }
@@ -1258,41 +1259,41 @@ class C4GBrickDialog
                 }
             }
 
-            if (C4GBrickView::isWithGroup($viewType)) {
-                $groupId = $dlgValues['c4g_group_id'];
-                if (($groupId) && ($groupId > 0)) {
-                    $set[$groupKeyField] = $groupId;
-                }
+        if (C4GBrickView::isWithGroup($viewType)) {
+            $groupId = $dlgValues['c4g_group_id'] ?? null;
+            if (($groupId) && ($groupId > 0)) {
+                $set[$groupKeyField] = $groupId;
+            }
+        }
+
+        if (C4GBrickView::isWithProject($viewType)) {
+            $projectId = $dlgValues['c4g_project_id'] ?? null;
+            if (($projectId) && ($projectId > 0)) {
+                $set[$projectKeyField] = $projectId;
+            }
+        }
+
+        if (C4GBrickView::isWithParent($viewType)) {
+            $parentId = $dlgValues['c4g_parent_id'] ?? null;
+            if (($parentId) && ($parentId > 0)) {
+                $set['pid'] = $parentId;
+            }
+        }
+
+        //ToDo Sonderlocke
+        if ($viewType == C4GBrickViewType::MEMBERBOOKING) {
+            $memberId = $dlgValues['c4g_member_id'] ?? null;
+            if (($memberId) && ($memberId > 0)) {
+                $set[$memberKeyField] = $memberId;
             }
 
-            if (C4GBrickView::isWithProject($viewType)) {
-                $projectId = $dlgValues['c4g_project_id'];
-                if (($projectId) && ($projectId > 0)) {
-                    $set[$projectKeyField] = $projectId;
-                }
+            $group_type = null;
+            $group_type_id = 3;//$dlgValues['group_type_id'];
+            if ($group_type_id) {
+                $group_type = \con4gis\BookingBundle\Resources\contao\models\C4gBookingGroupTypesModel::findById($group_type_id);
             }
 
-            if (C4GBrickView::isWithParent($viewType)) {
-                $parentId = $dlgValues['c4g_parent_id'];
-                if (($parentId) && ($parentId > 0)) {
-                    $set['pid'] = $parentId;
-                }
-            }
-
-            //ToDo Sonderlocke
-            if ($viewType == C4GBrickViewType::MEMBERBOOKING) {
-                $memberId = $dlgValues['c4g_member_id'];
-                if (($memberId) && ($memberId > 0)) {
-                    $set[$memberKeyField] = $memberId;
-                }
-
-                $group_type = null;
-                $group_type_id = 3;//$dlgValues['group_type_id'];
-                if ($group_type_id) {
-                    $group_type = \con4gis\BookingBundle\Resources\contao\models\C4gBookingGroupTypesModel::findById($group_type_id);
-                }
-
-                $groupId = $dlgValues['group_id'];
+            $groupId = $dlgValues['group_id'] ?? null;
                 $applicationgroup = null;
                 if (!$groupId || $groupId <= 0) {
                     $group = new MemberGroupModel();
@@ -1315,12 +1316,12 @@ class C4GBrickDialog
                 }
 
                 if ($group_type) {
-                    $group->name = C4GUtils::secure_ugc($dlgValues['caption']);
+                    $group->name = C4GUtils::secure_ugc($dlgValues['caption'] ?? '');
                     $date = new \DateTime();
                     $group->tstamp = $date->getTimestamp();
                     $group->cg_max_member = $group_type->max_member_count;
 
-                    if (($dlgValues['group_owner_id']) && ($dlgValues['group_owner_id'] > 0)) {
+                    if (isset($dlgValues['group_owner_id']) && ($dlgValues['group_owner_id'] > 0)) {
                         $owner_member_id = $dlgValues['group_owner_id'];
                         $set['group_owner_id'] = $owner_member_id;
                     } else {

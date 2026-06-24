@@ -186,7 +186,7 @@ abstract class C4GBrickAction
         } elseif ($brickAction == C4GBrickActionType::IDENTIFIER_MESSAGE) {
             $brickAction = C4GBrickActionType::IDENTIFIER_MESSAGE_ACTION;
         }
-        $id = $values[1];
+        $id = $values[1] ?? -1;
 
         if ($id == null) {
             $id = -1;

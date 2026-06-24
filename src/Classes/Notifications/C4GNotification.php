@@ -44,16 +44,8 @@ class C4GNotification
 
     public function setTokenValue(string $token, $value)
     {
-        if ($value === null) {
-            $value = '';
-        }
-        if (isset($this->tokens[$token])) {
-            $this->tokens[$token] = (string)$value;
-        } else {
-            // throw new \Exception("C4GNotification: Unknown token '$token'.");
-            // If the token is unknown, we just ignore it to avoid crashes if someone tries to set a token that wasn't in the initial config
-            $this->tokens[$token] = (string)$value;
-        }
+        // Don't convert to empty string here, let the Gateway handle it if needed
+        $this->tokens[$token] = $value;
     }
 
     public function setOptionalToken(string $token)

@@ -1669,13 +1669,14 @@ class C4GBaseController extends AbstractFrontendModuleController
     public function getPerformAction($request, $action, $withMemberCheck = true)
     {
         $values = explode(':', $action, 5);
-        if (is_numeric($values[1])) {
-            $this->initBrickModule($values[1]);
-        } elseif ($values[0] == C4GBrickActionType::ACTION_BUTTONCLICK && is_numeric($values[2])) {
+        $moduleId = $values[1] ?? -1;
+        if (is_numeric($moduleId)) {
+            $this->initBrickModule($moduleId);
+        } elseif ($values[0] == C4GBrickActionType::ACTION_BUTTONCLICK && isset($values[2]) && is_numeric($values[2])) {
             // this case is needed for the ACTION_BUTTONCLICK action
             $this->initBrickModule($values[2]);
         } else {
-            $this->initBrickModule($values[1]);
+            $this->initBrickModule($moduleId);
         }
         if ($this->withPermissionCheck) {
             $this->initPermissions();

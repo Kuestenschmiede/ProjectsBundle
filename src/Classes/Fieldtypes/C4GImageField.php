@@ -106,9 +106,9 @@ class C4GImageField extends C4GBrickField
                     $width = $this->getWidth();
                     $height = $this->getHeight();
                     $maxWidth = $this->getFieldName() . 'MaxWidth';
-                    $maxWidth = $data ? $data->$maxWidth : $width;
+                    $maxWidth = ($data && isset($data->$maxWidth)) ? $data->$maxWidth : $width;
                     $maxheight = $this->getFieldName() . 'MaxHeight';
-                    $maxheight = $data ? $data->$maxheight : $height;
+                    $maxheight = ($data && isset($data->$maxheight)) ? $data->$maxheight : $height;
 
                     if ($width && $height) {
                         $size = 'width="' . $width . '" height="' . $height . '"';
@@ -127,12 +127,12 @@ class C4GImageField extends C4GBrickField
 
                 $img = "<img src=\"$path\" title=\"" . $this->getTitle() . "\" $size/>";
                 $i = $this->getFieldName() . 'Link';
-                $link = $data ? $data->$i : '';
+                $link = ($data && isset($data->$i)) ? $data->$i : '';
 
                 $lightBoxField = $this->lightBoxField;
                 if ($link) {
                     $img = '<a href="' . $link . "\" target=\"_blank\" rel=\"noopener noreferrer\">$img</a>";
-                } elseif ($lightBoxField !== '' || $data->$lightBoxField) {
+                } elseif ($lightBoxField !== '' && $data && isset($data->$lightBoxField) && $data->$lightBoxField) {
                     $img = "<a href=\"$path\" data-lightbox=\"c4g_image\">$img</a>";
                 }
 
@@ -198,9 +198,9 @@ class C4GImageField extends C4GBrickField
         }
 
         $width = $this->getFieldName() . 'MaxWidth';
-        $width = $rowData->$width;
+        $width = ($rowData && isset($rowData->$width)) ? $rowData->$width : null;
         $height = $this->getFieldName() . 'MaxHeight';
-        $height = $rowData->$height;
+        $height = ($rowData && isset($rowData->$height)) ? $rowData->$height : null;
 
         if ($width && $height) {
             $size = 'width="' . $width . '" height="' . $height . '"';
