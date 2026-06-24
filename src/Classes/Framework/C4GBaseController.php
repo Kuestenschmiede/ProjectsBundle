@@ -1332,7 +1332,14 @@ class C4GBaseController extends AbstractFrontendModuleController
                     $view = (string)$this->viewType;
                     $pview = (string)$this->publicViewType;
                     $mid = (int)$this->id;
-                    $cacheKey = 'c4g_init_payload_' . md5($mid.'|'.$lang.'|'.$uid.'|'.$view.'|'.$pview);
+                    $extra = '';
+                    $request = $this->requestStack->getCurrentRequest();
+                    if ($request) {
+                        $params = $request->query->all();
+                        ksort($params);
+                        $extra = http_build_query($params);
+                    }
+                    $cacheKey = 'c4g_init_payload_' . md5($mid.'|'.$lang.'|'.$uid.'|'.$view.'|'.$pview.'|'.$extra);
                     $item = $cache->getItem($cacheKey);
                     if ($item->isHit()) {
                         $val = $item->get();
