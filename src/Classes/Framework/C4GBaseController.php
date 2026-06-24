@@ -1917,21 +1917,26 @@ class C4GBaseController extends AbstractFrontendModuleController
 
                 foreach ($dlgValues as $key => $token) {
                     if ($token) {
-                        foreach (C4GNotification::UUID_FILE_TOKEN as $idKey => $fieldName) {
+                                foreach (C4GNotification::UUID_FILE_TOKEN as $idKey => $fieldName) {
                             if ($key == $fieldName) {
                                 $filePath = $this->__replaceInsertTagsFast("{{file::$token}}");
                                 if ($filePath) {
                                     $rootDir = \Contao\System::getContainer()->getParameter('kernel.project_dir');
                                     $file = $rootDir . '/' . $filePath;
-                                    $finfo = finfo_open(FILEINFO_MIME_TYPE);
-                                    $mimeType = finfo_file($finfo, $file);
-                                    finfo_close($finfo);
-                                    $voucher = $notificationCenter->getBulkyItemStorage()->store(
-                                        FileItem::fromPath($file, basename($file), $mimeType, filesize($file))
-                                    );
-                                    if ($voucher) {
-                                        $arrTokens[$key] = $voucher;
-                                        $vouchers[] = $voucher;
+                                    if (!file_exists($file)) {
+                                        $file = $rootDir . '/' . urldecode($filePath);
+                                    }
+                                    if (file_exists($file)) {
+                                        $finfo = finfo_open(FILEINFO_MIME_TYPE);
+                                        $mimeType = finfo_file($finfo, $file);
+                                        finfo_close($finfo);
+                                        $voucher = $notificationCenter->getBulkyItemStorage()->store(
+                                            FileItem::fromPath($file, basename($file), $mimeType, filesize($file))
+                                        );
+                                        if ($voucher) {
+                                            $arrTokens[$key] = $voucher;
+                                            $vouchers[] = $voucher;
+                                        }
                                     }
                                 }
                             }
@@ -1942,15 +1947,20 @@ class C4GBaseController extends AbstractFrontendModuleController
                                 if ($filePath) {
                                     $rootDir = \Contao\System::getContainer()->getParameter('kernel.project_dir');
                                     $file = $rootDir . '/' . $filePath;
-                                    $finfo = finfo_open(FILEINFO_MIME_TYPE);
-                                    $mimeType = finfo_file($finfo, $file);
-                                    finfo_close($finfo);
-                                    $voucher = $notificationCenter->getBulkyItemStorage()->store(
-                                        FileItem::fromPath($file, basename($file), $mimeType, filesize($file))
-                                    );
-                                    if ($voucher) {
-                                        $arrTokens[$key] = $voucher;
-                                        $vouchers[] = $voucher;
+                                    if (!file_exists($file)) {
+                                        $file = $rootDir . '/' . urldecode($filePath);
+                                    }
+                                    if (file_exists($file)) {
+                                        $finfo = finfo_open(FILEINFO_MIME_TYPE);
+                                        $mimeType = finfo_file($finfo, $file);
+                                        finfo_close($finfo);
+                                        $voucher = $notificationCenter->getBulkyItemStorage()->store(
+                                            FileItem::fromPath($file, basename($file), $mimeType, filesize($file))
+                                        );
+                                        if ($voucher) {
+                                            $arrTokens[$key] = $voucher;
+                                            $vouchers[] = $voucher;
+                                        }
                                     }
                                 }
                             }

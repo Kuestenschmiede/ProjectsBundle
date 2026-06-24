@@ -744,9 +744,13 @@ abstract class C4GBrickField
                 }
             }
 
-            $value = $data->$fieldName;
+            if ($data && property_exists($data, $fieldName)) {
+                $value = $data->$fieldName;
+            } else {
+                $value = $this->getInitialValue();
+            }
 
-            if ($deserialze && $value && !intval($value)) {
+            if ($deserialze && $value && !is_array($value) && !intval($value)) {
                 $value = $value ? intval(StringUtil::deserialize($value)[0]) : $value;
             }
         }
