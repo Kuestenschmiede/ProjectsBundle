@@ -1919,7 +1919,7 @@ class C4GBaseController extends AbstractFrontendModuleController
 
             if ($notification_array && is_array($notification_array)) {
                 $arrTokens = C4GBrickNotification::getArrayTokens($dlgValues, $fieldList);
-                $arrTokens['admin_email'] = $GLOBALS['TL_CONFIG']['adminEmail'];
+                $arrTokens['admin_email'] = \Contao\Config::get('adminEmail');
 
                 $notificationCenter = System::getContainer()->get('con4gis\ReservationBundle\Classes\Notifications\C4gNotificationCenterService')->getNotificationCenter();
 

@@ -32,6 +32,7 @@ class C4GNotification
 
     public function __construct(array $notification)
     {
+        $this->tokens = [];
         foreach ($notification as $key => $value) {
             if (!is_array($value)) {
                 throw new \Exception("C4GNotification: Incorrect configuration, '$key' must be an array.");
@@ -48,6 +49,11 @@ class C4GNotification
         $this->tokens[$token] = $value;
     }
 
+    public function getTokenValue(string $token)
+    {
+        return $this->tokens[$token] ?? null;
+    }
+
     public function setOptionalToken(string $token)
     {
         $this->optionalTokens[] = $token;
@@ -61,6 +67,20 @@ class C4GNotification
     public function send(array $notificationIds, string $language = '')
     {
         \con4gis\CoreBundle\Resources\contao\models\C4gLogModel::addLogEntry('C4GNotification', 'Send started for IDs: ' . implode(',', $notificationIds));
+        
+        $adminEmail = \Contao\Config::get('adminEmail') ?? '';
+        // Fallback for admin_email if it's empty or still the placeholder string
+        if (isset($this->tokens['admin_email'])) {
+            if ($this->tokens['admin_email'] === '' || $this->tokens['admin_email'] === '##admin_email##') {
+                $this->tokens['admin_email'] = $adminEmail;
+                \con4gis\CoreBundle\Resources\contao\models\C4gLogModel::addLogEntry('C4GNotification', "Applied fallback for 'admin_email': " . $this->tokens['admin_email']);
+            }
+        } else {
+            // Force admin_email token even if not defined in constructor
+            $this->tokens['admin_email'] = $adminEmail;
+            \con4gis\CoreBundle\Resources\contao\models\C4gLogModel::addLogEntry('C4GNotification', "Forced 'admin_email' token: " . $this->tokens['admin_email']);
+        }
+
         foreach ($this->tokens as $key => $token) {
             if ($token === '' && !in_array($key, $this->optionalTokens)) {
                 // throw new \Exception("C4GNotification: The token '$key' has not been defined.");
@@ -117,9 +137,30 @@ class C4GNotification
         }
 
         foreach ($notificationIds as $notificationId) {
+            $tokens = $this->tokens;
+            $adminEmail = $tokens['admin_email'] ?? \Contao\Config::get('adminEmail');
+            foreach ($tokens as $key => $val) {
+                if (is_string($val)) {
+                    $tokens[$key] = str_replace('##admin_email##', $adminEmail, $val);
+                }
+            }
+
+            // Fallback for fields that might contain the placeholder but are not in tokens
+            // (e.g. if the notification center configuration has it statically)
+            $request = \Contao\System::getContainer()->get('request_stack')->getCurrentRequest();
+            if ($request) {
+                $request->attributes->set('_c4g_admin_email', $adminEmail);
+                foreach ($tokens as $key => $val) {
+                    if (is_string($val)) {
+                        $tokens[$key] = \Contao\Controller::replaceInsertTags($val);
+                        $tokens[$key] = str_replace('##admin_email##', $adminEmail, $tokens[$key]);
+                    }
+                }
+            }
+
             $stamps = $notificationModel->createBasicStampsForNotification(
                 (int)$notificationId,
-                $this->tokens,
+                $tokens,
             );
             if (!empty($voucher)) {
                 $stamps = $stamps->with(new BulkyItemsStamp([$voucher]));
