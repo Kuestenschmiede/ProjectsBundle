@@ -68,24 +68,24 @@ class C4GNotification
     {
         \con4gis\CoreBundle\Resources\contao\models\C4gLogModel::addLogEntry('C4GNotification', 'Send started for IDs: ' . implode(',', $notificationIds));
         
-        $adminEmail = \Contao\Config::get('adminEmail') ?? '';
+        $adminEmail = \Contao\Config::get('adminEmail') ?: ($GLOBALS['TL_CONFIG']['adminEmail'] ?? '');
         // Fallback for admin_email if it's empty or still the placeholder string
         if (isset($this->tokens['admin_email'])) {
-            if ($this->tokens['admin_email'] === '' || $this->tokens['admin_email'] === '##admin_email##') {
+            if ($this->tokens['admin_email'] === '' || $this->tokens['admin_email'] === '##admin_email##' || $this->tokens['admin_email'] === false) {
                 $this->tokens['admin_email'] = $adminEmail;
                 \con4gis\CoreBundle\Resources\contao\models\C4gLogModel::addLogEntry('C4GNotification', "Applied fallback for 'admin_email': " . $this->tokens['admin_email']);
             }
         } else {
             // Force admin_email token even if not defined in constructor
             $this->tokens['admin_email'] = $adminEmail;
-            \con4gis\CoreBundle\Resources\contao\models\C4gLogModel::addLogEntry('C4GNotification', "Forced 'admin_email' token: " . $this->tokens['admin_email']);
+            \con4gis\CoreBundle\Resources\contao\models\C4GLogModel::addLogEntry('C4GNotification', "Forced 'admin_email' token: " . $this->tokens['admin_email']);
         }
 
         foreach ($this->tokens as $key => $token) {
-            if ($token === '' && !in_array($key, $this->optionalTokens)) {
+            if (($token === '' || $token === null || $token === false) && !in_array($key, $this->optionalTokens)) {
                 // throw new \Exception("C4GNotification: The token '$key' has not been defined.");
-                \con4gis\CoreBundle\Resources\contao\models\C4gLogModel::addLogEntry('C4GNotification', "Warning: The token '$key' is empty and not marked as optional. Setting to empty string.");
-                $this->tokens[$key] = '';
+                \con4gis\CoreBundle\Resources\contao\models\C4gLogModel::addLogEntry('C4GNotification', "Warning: The token '$key' is empty and not marked as optional. Setting to space string.");
+                $this->tokens[$key] = ' ';
             }
         }
 
@@ -138,7 +138,8 @@ class C4GNotification
 
         foreach ($notificationIds as $notificationId) {
             $tokens = $this->tokens;
-            $adminEmail = $tokens['admin_email'] ?? \Contao\Config::get('adminEmail');
+            $adminEmail = $tokens['admin_email'] ?: (\Contao\Config::get('adminEmail') ?: ($GLOBALS['TL_CONFIG']['adminEmail'] ?? ''));
+            \con4gis\CoreBundle\Resources\contao\models\C4GLogModel::addLogEntry('C4GNotification', "Final Replacement Admin Email: " . $adminEmail);
             foreach ($tokens as $key => $val) {
                 if (is_string($val)) {
                     $tokens[$key] = str_replace('##admin_email##', $adminEmail, $val);
@@ -162,6 +163,66 @@ class C4GNotification
                 (int)$notificationId,
                 $tokens,
             );
+
+            // Re-fetch admin email in case it changed in tokens
+            $adminEmail = $tokens['admin_email'] ?: (\Contao\Config::get('adminEmail') ?: ($GLOBALS['TL_CONFIG']['adminEmail'] ?? ''));
+
+            $stampsArr = $stamps->toArray();
+            $stampsChanged = false;
+            foreach ($stampsArr as $index => $stamp) {
+                if (method_exists($stamp, 'getTokens')) {
+                    $stampTokens = $stamp->getTokens();
+                    $tokensChanged = false;
+                    foreach ($stampTokens as $tKey => $tVal) {
+                        if (is_string($tVal)) {
+                            $replaced = str_replace('##admin_email##', $adminEmail, $tVal);
+                            if ($replaced !== $tVal) {
+                                $stampTokens[$tKey] = $replaced;
+                                $tokensChanged = true;
+                            }
+                        }
+                    }
+                    if ($tokensChanged) {
+                        $reflection = new \ReflectionClass(get_class($stamp));
+                        if ($reflection->hasMethod('withTokens')) {
+                            $stampsArr[$index] = $stamp->withTokens($stampTokens);
+                            $stampsChanged = true;
+                        }
+                    }
+                }
+                
+                // Always check getValues/withValues too, as some stamps use it
+                if (method_exists($stamp, 'getValues')) {
+                    $stampValues = $stamp->getValues();
+                    $valuesChanged = false;
+                    foreach ($stampValues as $vKey => $vVal) {
+                        if (is_string($vVal)) {
+                            $replaced = str_replace('##admin_email##', $adminEmail, $vVal);
+                            if ($replaced !== $vVal) {
+                                $stampValues[$vKey] = $replaced;
+                                $valuesChanged = true;
+                            }
+                        }
+                    }
+                    if ($valuesChanged) {
+                        $reflection = new \ReflectionClass(get_class($stamp));
+                        if ($reflection->hasMethod('withValues')) {
+                            $stampsArr[$index] = $stamp->withValues($stampValues);
+                            $stampsChanged = true;
+                        }
+                    }
+                }
+            }
+
+            if ($stampsChanged) {
+                $stamps = new \Terminal42\NotificationCenterBundle\Parcel\StampCollection($stampsArr);
+            }
+            
+            // The stamps created above might still contain placeholders in their values 
+            // because the Notification Center might have its own logic or fallback.
+            // We ensure that the admin_email is replaced in the stamp collection if possible.
+            // However, createBasicStampsForNotification already uses our $tokens.
+            
             if (!empty($voucher)) {
                 $stamps = $stamps->with(new BulkyItemsStamp([$voucher]));
             }
