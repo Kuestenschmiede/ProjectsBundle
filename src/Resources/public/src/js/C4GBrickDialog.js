@@ -436,18 +436,65 @@ function C4GBrickFileUpload( file, path, uploadURL, deleteURL, fieldName, target
  * @constructor
  */
 function C4GCheckConditionFields(fields) {
+    if (!fields) return;
     for (var i = 0; i < fields.length; i++) {
         var field = fields[i];
-        if (field.dataset.conditionName) {
+        
+        // Skip text nodes and script tags
+        if (!field || field.nodeType !== 1 || field.tagName === 'SCRIPT') continue;
+
+        if (field.dataset && field.dataset.conditionName && field.dataset.conditionType) {
             var fieldNames = field.dataset.conditionName.split("~");
             var result = true;
             for (var idx = 0; idx < fieldNames.length; idx++) {
-                C4GRemoveConditionSettings(field, idx);
                 if (result) {
                     result = C4GCheckConditionSettings(field, idx);
                 }
             }
+            if (result) {
+                C4GCheckConditionClasses(field);
+            } else {
+                C4GRemoveConditionClasses(field);
+            }
         }
+        
+        // Recursively check children
+        if (field.children && field.children.length > 0) {
+            C4GCheckConditionFields(field.children);
+        }
+    }
+}
+
+/**
+ *
+ * @constructor
+ */
+function C4GCheckConditionField(field) {
+    if (!field || field.nodeType !== 1 || field.tagName === 'SCRIPT') return;
+    
+    var hasConditions = field.dataset && field.dataset.conditionName && field.dataset.conditionType;
+    
+    // Safety check: if this field has conditions, and it is hidden but should be visible, show it.
+    // This addresses the issue where fields might be rendered with 'display: none' but not correctly updated.
+    
+    if (hasConditions) {
+        var fieldNames = field.dataset.conditionName.split("~");
+        var result = true;
+        for (var idx = 0; idx < fieldNames.length; idx++) {
+            if (result) {
+                result = C4GCheckConditionSettings(field, idx);
+            }
+        }
+        if (result) {
+            C4GCheckConditionClasses(field);
+        } else {
+            C4GRemoveConditionClasses(field);
+        }
+    }
+    
+    // Also check children for conditions
+    if (field.children && field.children.length > 0) {
+        C4GCheckConditionFields(field.children);
     }
 }
 
@@ -458,26 +505,66 @@ function C4GCheckConditionFields(fields) {
  */
 function handleBrickConditions() {
     var result = true;
-    var dialogs = document.getElementsByClassName("c4g_brick_dialog");
-    for (var i=0; i< dialogs.length; i++) {
-        var fields = dialogs[i].children;
-        if (fields) {
-            C4GCheckConditionFields(fields);
+    
+    // Process all elements that could have conditions
+    var allElements = document.querySelectorAll('[data-condition-name]');
+    for (var i = 0; i < allElements.length; i++) {
+        C4GCheckConditionField(allElements[i]);
+    }
+
+    // Process top-level dialog containers to catch nested conditions that might not be in allElements
+    // (though querySelectorAll should find them, a top-down pass ensures parent-child visibility is synced)
+    var dialogs = document.querySelectorAll(".c4g_brick_dialog, .c4g_brick_sub_dialog");
+    for (var i = 0; i < dialogs.length; i++) {
+        C4GCheckConditionField(dialogs[i]);
+    }
+    
+    // safety check for participant fields specifically if they are missing
+    var participantSubDialogs = document.querySelectorAll('.c4gGuiSubDialog[id*="reservationParticipants"], .c4g_sub_dialog_container[id*="reservationParticipants"]');
+    if (participantSubDialogs.length > 0) {
+        for (var j = 0; j < participantSubDialogs.length; j++) {
+            C4GCheckConditionField(participantSubDialogs[j]);
+            // Force display if it should be visible
+            if (participantSubDialogs[j].style.display === 'none' && !participantSubDialogs[j].classList.contains('c4g_display_none')) {
+                // If C4GCheckConditionField didn't show it but it has no explicit hide class,
+                // re-evaluate the conditions very carefully.
+                var names = participantSubDialogs[j].dataset.conditionName ? participantSubDialogs[j].dataset.conditionName.split('~') : [];
+                if (names.length > 0) {
+                     C4GCheckConditionField(participantSubDialogs[j]);
+                }
+            }
+        }
+    } else {
+        // Broaden search if IDs don't match exactly
+        var moreSubDialogs = document.querySelectorAll('.c4gGuiSubDialog, .c4g_sub_dialog_container');
+        for (var k = 0; k < moreSubDialogs.length; k++) {
+            if (moreSubDialogs[k].id && (String(moreSubDialogs[k].id).indexOf('reservationParticipants') !== -1)) {
+                C4GCheckConditionField(moreSubDialogs[k]);
+            }
         }
     }
 
-    var accordion_fields = document.getElementsByClassName("c4gGuiCollapsible_target");
-    if (accordion_fields) {
-        C4GCheckConditionFields(accordion_fields);
+    // New: If still nothing seems to have worked for participants, try a very broad pass on subdialog containers
+    var subDialogContainers = document.querySelectorAll('.c4g_sub_dialog_container, .c4g_sub_dialog_set');
+    for (var l = 0; l < subDialogContainers.length; l++) {
+        C4GCheckConditionField(subDialogContainers[l]);
     }
 
     var tab_content = document.getElementsByClassName("c4gGuiTabContent");
     if (tab_content) {
         for(var i = 0; i < tab_content.length; i++) {
-            var content_field = tab_content[i];
-            var fields = content_field.children;
-            C4GCheckConditionFields(fields);
             checkC4GTab();
+        }
+    }
+    
+    // Fallback: If no elements with data-condition-name found, try processing dialogs manually
+    if (allElements.length === 0) {
+        var dialogs = document.getElementsByClassName("c4g_brick_dialog");
+        for (var i = 0; i < dialogs.length; i++) {
+            var fields = dialogs[i].children;
+            if (fields) {
+                C4GCheckConditionFields(fields);
+            }
         }
     }
 
@@ -492,10 +579,14 @@ function handleBrickConditions() {
  */
 function C4GCheckFieldTypes(field) {
     var result = true;
+    
+    // Check if it's a valid element first
+    if (!field || field.nodeType !== 1 || field.tagName === 'SCRIPT') {
+        return false;
+    }
 
-    if (!field.className ||
-        field.classList.contains("noformdata") ||
-        field.classList.contains("datepicker")
+    if (field.classList && (field.classList.contains("noformdata") ||
+        field.classList.contains("datepicker"))
     ) {
         return false;
     }
@@ -509,24 +600,35 @@ function C4GCheckFieldTypes(field) {
  * @constructor
  */
 function C4GRemoveConditionClasses(field, level= 1) {
+    if (field.nodeType !== 1 || field.tagName === 'SCRIPT') return;
     if (C4GCheckFieldTypes(field)) {
         jQuery(field).removeClass("formdata");
         if (jQuery(field).hasClass('chzn-select')) {
             jQuery(field).removeClass("chzn-select");
             jQuery(field).addClass("chzn-select-disabled");
-            jQuery(field).style = "display:none";
+            jQuery(field).hide();
             jQuery(field).trigger('chosen:updated');
+        } else {
+            jQuery(field).hide();
         }
-        jQuery(field).hide();
         jQuery(field).removeAttr("selected");
 
         var children = field.children;
         if (children) {
-            if (level < 5) {
+            if (level < 10) {
                 level = level +1;
                 for (var i = 0; i < children.length; i++) {
                     C4GRemoveConditionClasses(children[i], level);
                 }
+            }
+        }
+    } else {
+        // If the field type check fails (e.g. it's a container), still process its children
+        var children = field.children;
+        if (children && level < 10) {
+            level = level + 1;
+            for (var i = 0; i < children.length; i++) {
+                C4GRemoveConditionClasses(children[i], level);
             }
         }
     }
@@ -538,7 +640,7 @@ function C4GRemoveConditionClasses(field, level= 1) {
  * @constructor
  */
 function C4GRemoveConditionSettings(field, idx) {
-    if (field.dataset.conditionName && field.dataset.conditionType && ((field.dataset.conditionValue && field.dataset.conditionType.split("~").includes("value")) || (field.dataset.conditionFunction && field.dataset.conditionType.split("~").includes("method")))) {
+    if (field.dataset.conditionName && field.dataset.conditionType && ((field.dataset.conditionValue && field.dataset.conditionType.split("~").includes("value")) || (field.dataset.conditionValue && field.dataset.conditionType.split("~").includes("greaterequal")) || (field.dataset.conditionFunction && field.dataset.conditionType.split("~").includes("method")))) {
         var fieldNames = field.dataset.conditionName.split("~");
         var fieldValues = field.dataset.conditionValue ? field.dataset.conditionValue.split("~") : [];
         var fieldFunction = field.dataset.conditionFunction ? field.dataset.conditionFunction.split("~") : [];
@@ -554,13 +656,37 @@ function C4GRemoveConditionSettings(field, idx) {
         if (currentType == 'value') {
             currentName = "c4g_" + fieldNames[idx];
             currentValue = fieldValues[idx];
-            checkValue = document.getElementById(currentName) ? document.getElementById(currentName).value : false;
+            var fieldElem = document.getElementById(currentName);
+            if (!fieldElem) {
+                // Try searching by name if ID fails
+                fieldElem = document.querySelector('[name="' + fieldNames[idx] + '"]');
+            }
+            checkValue = fieldElem ? fieldElem.value : false;
             checkValue = (checkValue === currentValue);
+        } else if (currentType == 'greaterequal') {
+            currentName = "c4g_" + fieldNames[idx];
+            currentValue = fieldValues[idx];
+            var fieldElem = document.getElementById(currentName);
+            if (!fieldElem) {
+                // Try searching by name if ID fails
+                fieldElem = document.querySelector('[name="' + fieldNames[idx] + '"]');
+            }
+            var checkValueRaw = fieldElem ? fieldElem.value : false;
+            if (checkValueRaw !== false && checkValueRaw !== null && checkValueRaw !== "" && !isNaN(checkValueRaw) && !isNaN(currentValue)) {
+                checkValue = parseInt(checkValueRaw) >= parseInt(currentValue);
+            } else {
+                checkValue = (checkValueRaw == currentValue);
+            }
         } else if (currentType == 'method') {
             var nameWithParams = fieldNames[idx].split('--');
             currentName = "c4g_" + nameWithParams[0];
             currentFunction = window[fieldFunction[idx]];
-            checkValue = document.getElementById(currentName) ? document.getElementById(currentName).value : false;
+            var fieldElem = document.getElementById(currentName);
+            if (!fieldElem) {
+                // Try searching by name if ID fails
+                fieldElem = document.querySelector('[name="' + nameWithParams[0] + '"]');
+            }
+            checkValue = fieldElem ? fieldElem.value : false;
 
             if (currentFunction instanceof Function) {
                 if (nameWithParams[1]) {
@@ -573,10 +699,6 @@ function C4GRemoveConditionSettings(field, idx) {
                 checkVlaue = false;
             }
         }
-
-        if (!checkValue) {
-            C4GRemoveConditionClasses(field);
-        }
     }
 }
 
@@ -586,6 +708,7 @@ function C4GRemoveConditionSettings(field, idx) {
  * @constructor
  */
 function C4GCheckConditionClasses(field, level= 1) {
+    if (field.nodeType !== 1 || field.tagName === 'SCRIPT') return;
     if (C4GCheckFieldTypes(field)) {
         jQuery(field).show();
         jQuery(field).addClass("formdata");
@@ -606,12 +729,20 @@ function C4GCheckConditionClasses(field, level= 1) {
 
         var children = field.children;
         if (children) {
-            if (level < 5) {
+            if (level < 10) {
                 level = level+1;
-
                 for (var i=0; i < children.length; i++) {
                     C4GCheckConditionClasses(children[i], level);
                 }
+            }
+        }
+    } else {
+        // If the field type check fails (e.g. it's a container), still process its children
+        var children = field.children;
+        if (children && level < 10) {
+            level = level + 1;
+            for (var i = 0; i < children.length; i++) {
+                C4GCheckConditionClasses(children[i], level);
             }
         }
     }
@@ -626,14 +757,12 @@ function C4GCheckConditionClasses(field, level= 1) {
  */
 function C4GCheckConditionSettings(field, idx)
 {
-    var result = true;
-    if (field.dataset.conditionName && field.dataset.conditionType && ((field.dataset.conditionValue && field.dataset.conditionType.split("~").includes("value")) || (field.dataset.conditionFunction && field.dataset.conditionType.split("~").includes("method")))) {
+    var result = false;
+    if (field.dataset.conditionName && field.dataset.conditionType && ((field.dataset.conditionValue && field.dataset.conditionType.split("~").includes("value")) || (field.dataset.conditionValue && field.dataset.conditionType.split("~").includes("greaterequal")) || (field.dataset.conditionFunction && field.dataset.conditionType.split("~").includes("method")))) {
         var fieldNames = field.dataset.conditionName.split("~");
         var fieldValues = field.dataset.conditionValue ? field.dataset.conditionValue.split("~") : [];
         var fieldFunction = field.dataset.conditionFunction ? field.dataset.conditionFunction.split("~") : [];
         var fieldType = field.dataset.conditionType.split("~");
-
-        var result = false;
 
         var currentName;
         var currentValue;
@@ -644,13 +773,37 @@ function C4GCheckConditionSettings(field, idx)
         if (currentType == 'value') {
             currentName = "c4g_" + fieldNames[idx];
             currentValue = fieldValues[idx];
-            checkValue = document.getElementById(currentName) ? document.getElementById(currentName).value : false;
+            var fieldElem = document.getElementById(currentName);
+            if (!fieldElem) {
+                // Try searching by name if ID fails
+                fieldElem = document.querySelector('[name="' + fieldNames[idx] + '"]');
+            }
+            checkValue = fieldElem ? fieldElem.value : false;
             checkValue = (checkValue === currentValue);
+        } else if (currentType == 'greaterequal') {
+            currentName = "c4g_" + fieldNames[idx];
+            currentValue = fieldValues[idx];
+            var fieldElem = document.getElementById(currentName);
+            if (!fieldElem) {
+                // Try searching by name if ID fails
+                fieldElem = document.querySelector('[name="' + fieldNames[idx] + '"]');
+            }
+            var checkValueRaw = fieldElem ? fieldElem.value : false;
+            if (checkValueRaw !== false && checkValueRaw !== null && checkValueRaw !== "" && !isNaN(checkValueRaw) && !isNaN(currentValue)) {
+                checkValue = parseInt(checkValueRaw) >= parseInt(currentValue);
+            } else {
+                checkValue = (checkValueRaw == currentValue);
+            }
         } else if (currentType == 'method') {
             var nameWithParams = fieldNames[idx].split('--');
             currentName = "c4g_" + nameWithParams[0];
             currentFunction = window[fieldFunction[idx]];
-            checkValue = document.getElementById(currentName) ? document.getElementById(currentName).value : false;
+            var fieldElem = document.getElementById(currentName);
+            if (!fieldElem) {
+                // Try searching by name if ID fails
+                fieldElem = document.querySelector('[name="' + nameWithParams[0] + '"]');
+            }
+            checkValue = fieldElem ? fieldElem.value : false;
 
             if (currentFunction instanceof Function) {
                 if (nameWithParams[1]) {
@@ -666,7 +819,6 @@ function C4GCheckConditionSettings(field, idx)
 
         if (checkValue) {
             result = true;
-            C4GCheckConditionClasses(field);
         }
     }
     return result;

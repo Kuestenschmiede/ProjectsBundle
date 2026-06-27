@@ -255,6 +255,15 @@ window.c4g.projects = window.c4g.projects || {};
         // set next Id in case there is more than one element to be set
         options.id++;
         nextId = options.id;
+
+        if (initData) {
+            jQuery(document).trigger('c4g:afterAjaxLoad', [initData, options.id - 1]);
+            // Also call handleBrickConditions directly as a fallback
+            if (typeof handleBrickConditions === 'function') {
+                setTimeout(handleBrickConditions, 50);
+                setTimeout(handleBrickConditions, 250);
+            }
+        }
       });
     }, // end of setup
 
@@ -1555,6 +1564,8 @@ window.c4g.projects = window.c4g.projects || {};
           }
         }
       }
+
+      jQuery(document).trigger('c4g:afterAjaxLoad', [content, internalId]);
     }, // end of fnHandleAjaxResponse
 
     fnDataTableColumnVis: function(dataTable) {

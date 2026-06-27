@@ -71,7 +71,7 @@ class C4GNotification
         $adminEmail = \Contao\Config::get('adminEmail') ?: ($GLOBALS['TL_CONFIG']['adminEmail'] ?? '');
         // Fallback for admin_email if it's empty or still the placeholder string
         if (isset($this->tokens['admin_email'])) {
-            if ($this->tokens['admin_email'] === '' || $this->tokens['admin_email'] === '##admin_email##' || $this->tokens['admin_email'] === false) {
+            if ($this->tokens['admin_email'] === '' || $this->tokens['admin_email'] === '##admin_email##' || $this->tokens['admin_email'] === false || $this->tokens['admin_email'] === ' ') {
                 $this->tokens['admin_email'] = $adminEmail;
                 \con4gis\CoreBundle\Resources\contao\models\C4gLogModel::addLogEntry('C4GNotification', "Applied fallback for 'admin_email': " . $this->tokens['admin_email']);
             }

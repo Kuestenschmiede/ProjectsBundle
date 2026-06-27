@@ -44,6 +44,9 @@ class C4GBrickCondition
                 return $model::$function($Value);
             }
         }
+        if ($this->type === C4GBrickConditionType::GREATEREQUALSWITCH) {
+            return (int)$Value >= (int)$this->value;
+        }
         if ($Value == $this->value) {
             return true;
         }
