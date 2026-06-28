@@ -217,6 +217,11 @@ class C4GBrickDatabase
         $database = $this->params->getDatabase();
 
         if (($id) && ($id_fieldName)) {
+            foreach ($set as $key => $value) {
+                if (!$database->fieldExists($key, $tableName)) {
+                    unset($set[$key]);
+                }
+            }
             $sqlSet = [];
         $params = [];
         foreach ($set as $k => $v) {

@@ -82,10 +82,36 @@ class C4GNotification
         }
 
         foreach ($this->tokens as $key => $token) {
-            if (($token === '' || $token === null || $token === false) && !in_array($key, $this->optionalTokens)) {
+            if (($token === '' || $token === null || $token === false || $token === ' ') && !in_array($key, $this->optionalTokens)) {
                 // throw new \Exception("C4GNotification: The token '$key' has not been defined.");
                 \con4gis\CoreBundle\Resources\contao\models\C4gLogModel::addLogEntry('C4GNotification', "Warning: The token '$key' is empty and not marked as optional. Setting to space string.");
                 $this->tokens[$key] = ' ';
+            }
+        }
+
+        $adminEmail = $this->tokens['admin_email'] ?: (\Contao\Config::get('adminEmail') ?: ($GLOBALS['TL_CONFIG']['adminEmail'] ?? 'info@kuestenschmiede.de'));
+        if (!$adminEmail || $adminEmail === '##admin_email##') {
+            $adminEmail = 'info@kuestenschmiede.de';
+        }
+        $this->tokens['admin_email'] = $adminEmail;
+        
+        $recursiveReplace = function (&$array) use ($adminEmail, &$recursiveReplace) {
+            foreach ($array as $key => &$val) {
+                if (is_string($val)) {
+                    $val = str_replace(['##admin_email##', '%23%23admin_email%23%23', '##admin_email_url##'], $adminEmail, $val);
+                } elseif (is_array($val)) {
+                    $recursiveReplace($val);
+                }
+            }
+        };
+        $recursiveReplace($this->tokens);
+        
+        // Also ensure it is in the request for some gateways that might pick it up from there
+        if (\Contao\System::getContainer()->has('request_stack')) {
+            $request = \Contao\System::getContainer()->get('request_stack')->getCurrentRequest();
+            if ($request) {
+                $request->attributes->set('_c4g_admin_email', $adminEmail);
+                $request->attributes->set('admin_email', $adminEmail);
             }
         }
 
@@ -138,13 +164,13 @@ class C4GNotification
 
         foreach ($notificationIds as $notificationId) {
             $tokens = $this->tokens;
-            $adminEmail = $tokens['admin_email'] ?: (\Contao\Config::get('adminEmail') ?: ($GLOBALS['TL_CONFIG']['adminEmail'] ?? ''));
-            \con4gis\CoreBundle\Resources\contao\models\C4GLogModel::addLogEntry('C4GNotification', "Final Replacement Admin Email: " . $adminEmail);
-            foreach ($tokens as $key => $val) {
-                if (is_string($val)) {
-                    $tokens[$key] = str_replace('##admin_email##', $adminEmail, $val);
-                }
+            $adminEmail = $tokens['admin_email'] ?: (\Contao\Config::get('adminEmail') ?: ($GLOBALS['TL_CONFIG']['adminEmail'] ?? 'info@kuestenschmiede.de'));
+            if (!$adminEmail || $adminEmail === '##admin_email##') {
+                $adminEmail = 'info@kuestenschmiede.de';
             }
+            $tokens['admin_email'] = $adminEmail;
+            
+            $recursiveReplace($tokens);
 
             // Fallback for fields that might contain the placeholder but are not in tokens
             // (e.g. if the notification center configuration has it statically)
@@ -154,7 +180,11 @@ class C4GNotification
                 foreach ($tokens as $key => $val) {
                     if (is_string($val)) {
                         $tokens[$key] = \Contao\Controller::replaceInsertTags($val);
-                        $tokens[$key] = str_replace('##admin_email##', $adminEmail, $tokens[$key]);
+                        $tokens[$key] = str_replace(['##admin_email##', '%23%23admin_email%23%23', '##admin_email_url##'], $adminEmail, (string)$tokens[$key]);
+                        // Fix: If it's still a raw placeholder, try to replace it with the admin email from GLOBALS or Config
+                        if (strpos($tokens[$key], '##admin_email##') !== false) {
+                            $tokens[$key] = str_replace('##admin_email##', $adminEmail, $tokens[$key]);
+                        }
                     }
                 }
             }
@@ -175,10 +205,23 @@ class C4GNotification
                     $tokensChanged = false;
                     foreach ($stampTokens as $tKey => $tVal) {
                         if (is_string($tVal)) {
-                            $replaced = str_replace('##admin_email##', $adminEmail, $tVal);
+                            $replaced = str_replace(['##admin_email##', '%23%23admin_email%23%23', '##admin_email_url##'], $adminEmail, $tVal);
                             if ($replaced !== $tVal) {
                                 $stampTokens[$tKey] = $replaced;
                                 $tokensChanged = true;
+                            }
+                        } elseif (is_array($tVal)) {
+                            foreach ($tVal as $tk => $tv) {
+                                if (is_string($tv)) {
+                                    $replaced = str_replace(['##admin_email##', '%23%23admin_email%23%23', '##admin_email_url##'], $adminEmail, $tv);
+                                    if ($replaced !== $tv) {
+                                        $tVal[$tk] = $replaced;
+                                        $tokensChanged = true;
+                                    }
+                                }
+                            }
+                            if ($tokensChanged) {
+                                $stampTokens[$tKey] = $tVal;
                             }
                         }
                     }
@@ -197,10 +240,23 @@ class C4GNotification
                     $valuesChanged = false;
                     foreach ($stampValues as $vKey => $vVal) {
                         if (is_string($vVal)) {
-                            $replaced = str_replace('##admin_email##', $adminEmail, $vVal);
+                            $replaced = str_replace(['##admin_email##', '%23%23admin_email%23%23', '##admin_email_url##'], $adminEmail, $vVal);
                             if ($replaced !== $vVal) {
                                 $stampValues[$vKey] = $replaced;
                                 $valuesChanged = true;
+                            }
+                        } elseif (is_array($vVal)) {
+                            foreach ($vVal as $vk => $vv) {
+                                if (is_string($vv)) {
+                                    $replaced = str_replace(['##admin_email##', '%23%23admin_email%23%23', '##admin_email_url##'], $adminEmail, $vv);
+                                    if ($replaced !== $vv) {
+                                        $vVal[$vk] = $replaced;
+                                        $valuesChanged = true;
+                                    }
+                                }
+                            }
+                            if ($valuesChanged) {
+                                $stampValues[$vKey] = $vVal;
                             }
                         }
                     }

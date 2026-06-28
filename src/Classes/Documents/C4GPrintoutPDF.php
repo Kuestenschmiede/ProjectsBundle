@@ -246,7 +246,7 @@ class C4GPrintoutPDF
             }
 
             $fieldName = $field->getFieldName();
-            if ($field->isPrintable() && ($fieldName && isset($data[$fieldName]) && ($data[$fieldName] !== null && $data[$fieldName] !== '') || (($field instanceof C4GSubDialogField) || ($field instanceof C4GForeignArrayField) || ($field instanceof C4GImageField) || ($field instanceof C4GRadioGroupField) || ($field instanceof C4GGridField)))) {
+            if ($field->isPrintable() && ($fieldName && (isset($data[$fieldName]) || (isset($dataset) && isset($dataset->$fieldName))) && (($data[$fieldName] !== null && $data[$fieldName] !== '') || (isset($dataset->$fieldName) && $dataset->$fieldName !== null && $dataset->$fieldName !== '')) || (($field instanceof C4GSubDialogField) || ($field instanceof C4GForeignArrayField) || ($field instanceof C4GImageField) || ($field instanceof C4GRadioGroupField) || ($field instanceof C4GGridField)))) {
                 $resultField = C4GPrintoutPDF::checkSubFields($field, $data);
                 if ($resultField) {
                     $data[$resultField->getFieldName()] = $resultField->getInitialValue();
@@ -287,7 +287,7 @@ class C4GPrintoutPDF
         $pdfData['filename'] = $fileName ?: date('Y_m_d-H_i_s') . rand(100, 999) . '_document.pdf';
         $pdfData['filepath'] = C4GBrickConst::PATH_BRICK_DOCUMENTS;
         $pdfData['Attachment'] = false;
-        $pdfData['fieldData'] = $data;
+        $pdfData['fieldData'] = array_merge($dataset ? $dataset->row() : [], $data);
         $pdfData['fieldList'] = $printFieldList;
         $pdfData['chroot'] = dirname($style);
         $pdfData['style'] = $style;
