@@ -1,1 +1,1436 @@
-function ready(e){"loading"!=document.readyState?e():document.addEventListener&&document.addEventListener("DOMContentLoaded",e)}function eventFire(e,t){if(e&&"function"==typeof e.dispatchEvent&&"string"==typeof t)try{var n=document.createEvent("Events");n.initEvent(t,!0,!1),e.dispatchEvent(n)}catch(e){}}function C4GTimePicker(e,t,n){var a=new Date,i=String(a.getMinutes()),a=String(a.getHours()),e=document.getElementById(e),n=n.previousSibling;1==i.length&&(i="0"+i),1==a.length&&(a="0"+a),"gettime"==t&&(e.value=a+":"+i,n.value=a+":"+i)}function C4GDatePicker(i,e,t,o,d,l,n,s){if("date"==e){var e="",t=(t&&(e=new Date(1e3*t)),""),o=(o&&(t=new Date(1e3*o)),document.getElementById(i)),s=(o&&o.datepicker&&o.datepicker.destroy(),new Array,s.split(",")),r=new Array;for(a in r=n.split(","))r[a]=parseInt(r[a]);if(o&&window.Datepicker instanceof Function){let n=new window.Datepicker(o,{buttonClass:"c4g__btn",language:l||"de",format:d,datesDisabled:s,daysOfWeekDisabled:r,minDate:e,maxDate:t,weekStart:1,todayHighlight:!0,orientation:"auto left",autohide:!0,useCurrent:!1});o.datepicker=n,o&&o.datepicker&&o.addEventListener("changeDate",function(e){eventFire(document.getElementById(i),"change");var t=i.indexOf("_picker");t&&0<t&&(t=i.substr(0,t),jQuery("#"+t).val(n.getDate(d)),jQuery("#"+t).trigger("change"))})}}}function C4GDateTimePicker(e){jQuery("#"+e).appendDtpicker({dateFormat:"DD.MM.YY - hh:mm",locale:"de",closeOnSelected:"true",todayButton:!1})}function C4GFilterButtonTiles(e){document.getElementsByClassName("c4g__btn-tile"),e.value}function C4GSearchTiles(e){var t,n,a=document.getElementsByClassName("c4g__btn-tile"),i=e.value.toLowerCase();if(i)for(var o=0;o<a.length;o+=1){n=!1,fields=a[o].children[0].children;for(var d=0;d<fields.length;d+=1)fields[d].innerHTML&&(t=fields[d].innerHTML.toLowerCase(),"-1"!=(searchedStatus=t.search(i)))&&(n=!0);a[o].style.display=1==n?"":"none"}else for(cTimer=0;cTimer<a.length;cTimer+=1)a[cTimer].style.display=""}function tileSort(e){var t=document.getElementsByClassName("c4g_brick_tiles")[0];"row wrap"==t.style.flexFlow?(t.style.flexFlow="row-reverse wrap-reverse",e.textContent=e.dataset.langDesc):(t.style.flexFlow="row wrap",e.textContent=e.dataset.langAsc)}function createNewPopupWindow(e){return jQuery.magnificPopup.open({items:{src:e.dataset.linkHref},type:"iframe"},0),!1}function closePopupWindow(){jQuery.magnificPopup.close()}function handleBoolSwitch(e,t,n){e&&t&&(e=e.id,t=t.id,e="checkbox"==document.getElementById(e).type?document.getElementById(e).checked:document.getElementById(e).value,document.getElementById(t).disabled="1"==n?e:!e)}function handleC4GBrickFile(e,t,n,a,i,o,d){if(document.getElementById("c4g_file")&&document.getElementById("c4g_file").getAttribute("dataURL")){e=[];for(var l=atob(document.getElementById("c4g_file").getAttribute("dataURL").split(",")[1]),s=[],r=0,r=0;r<l.length;r++)s.push(l.charCodeAt(r));var c=new Blob([new Uint8Array(s)],{type:"image/png"});c.name=i+".png",e[0]=c}var u,m;e&&e[0]&&document.getElementById(n+i).value!==e[0]&&((c=document.createElement("img")).file=e[0],c.name="img_0",c.classList.add("obj"),(u=new FileReader).onload=(m=c,function(e){m.src=e.target.result}),u.readAsDataURL(e[0]),C4GBrickFileUpload(e[0],t,n,a,i,o,d))}function deleteC4GBrickFile(e){var t=e.parentNode.getElementsByTagName("input"),n=t.item(0),t=t.item(1),a=e.parentNode.getElementsByClassName("c4g_uploadLink").item(0);t.value=n.value,n.value="",a.innerHTML="",e.style.display="none"}function deleteC4GBrickImage(e){var t,n=e.id;n&&0==n.indexOf("c4g_deleteButton_")&&(t="c4g_uploadLink_"+(n=n.substr(17)),(t=document.getElementById(t)).innerHTML="",(n=document.getElementById("c4g_"+n)).value="",n.defaultValue="",jQuery(n).trigger("change"),t.style.display="none",e.style.display="none")}function C4GBrickFileUpload(t,e,n,a,i,o,d){var l=new XMLHttpRequest,s=new FormData;s.append("File",t),s.append("Path",e),s.append("MimeTypes",d),s.append("REQUEST_TOKEN",c4g_rq),s.append("name",t.name),l.onreadystatechange=function(){var e;4===l.readyState&&200===l.status&&(e=JSON.parse(l.responseText)[0],document.getElementById(n+i).value=e,document.getElementById("c4g_uploadLink_"+i).innerHTML="<a href='"+e+"' target='_blank'>"+t.name.replace("C:\\fakepath\\","")+"</a>",document.getElementById("c4g_deleteButton_"+i)&&(document.getElementById("c4g_deleteButton_"+i).style="display:inline"),""!==a&&(document.getElementById(a+i).value=""),o)&&document.getElementsByClassName("c4g_"+o+"_src")[0]&&(document.getElementsByClassName("c4g_"+o+"_src")[0].getElementsByTagName("img")[0].src=e)},l.open("POST","con4gis/upload_file",!0),l.overrideMimeType("text/plain; charset=x-user-defined-binary"),l.send(s)}function C4GCheckConditionFields(e){if(e)for(var t=0;t<e.length;t++){var n=e[t];if(n&&1===n.nodeType&&"SCRIPT"!==n.tagName){if(n.dataset&&n.dataset.conditionName&&n.dataset.conditionType){for(var a=n.dataset.conditionName.split("~"),i=!0,o=0;o<a.length;o++)i=i&&C4GCheckConditionSettings(n,o);(i?C4GCheckConditionClasses:C4GRemoveConditionClasses)(n)}n.children&&0<n.children.length&&C4GCheckConditionFields(n.children)}}}function C4GCheckConditionField(e){if(e&&1===e.nodeType&&"SCRIPT"!==e.tagName){if(e.dataset&&e.dataset.conditionName&&e.dataset.conditionType){for(var t=e.dataset.conditionName.split("~"),n=!0,a=0;a<t.length;a++)n=n&&C4GCheckConditionSettings(e,a);(n?C4GCheckConditionClasses:C4GRemoveConditionClasses)(e)}e.children&&0<e.children.length&&C4GCheckConditionFields(e.children)}}function handleBrickConditions(){for(var e=document.querySelectorAll("[data-condition-name]"),t=0;t<e.length;t++)C4GCheckConditionField(e[t]);for(var n=document.querySelectorAll(".c4g_brick_dialog, .c4g_brick_sub_dialog"),t=0;t<n.length;t++)C4GCheckConditionField(n[t]);var a=document.querySelectorAll('.c4gGuiSubDialog[id*="reservationParticipants"], .c4g_sub_dialog_container[id*="reservationParticipants"]');if(0<a.length)for(var i=0;i<a.length;i++)C4GCheckConditionField(a[i]),"none"!==a[i].style.display||a[i].classList.contains("c4g_display_none")||0<(a[i].dataset.conditionName?a[i].dataset.conditionName.split("~"):[]).length&&C4GCheckConditionField(a[i]);else for(var o=document.querySelectorAll(".c4gGuiSubDialog, .c4g_sub_dialog_container"),d=0;d<o.length;d++)o[d].id&&-1!==String(o[d].id).indexOf("reservationParticipants")&&C4GCheckConditionField(o[d]);for(var l=document.querySelectorAll(".c4g_sub_dialog_container, .c4g_sub_dialog_set"),s=0;s<l.length;s++)C4GCheckConditionField(l[s]);var r=document.getElementsByClassName("c4gGuiTabContent");if(r)for(t=0;t<r.length;t++)checkC4GTab();if(0===e.length)for(n=document.getElementsByClassName("c4g_brick_dialog"),t=0;t<n.length;t++){var c=n[t].children;c&&C4GCheckConditionFields(c)}return!0}function C4GCheckFieldTypes(e){return!(!e||1!==e.nodeType||"SCRIPT"===e.tagName||e.classList&&(e.classList.contains("noformdata")||e.classList.contains("datepicker")))}function C4GRemoveConditionClasses(e,t=1){if(1===e.nodeType&&"SCRIPT"!==e.tagName)if(C4GCheckFieldTypes(e)){jQuery(e).removeClass("formdata"),jQuery(e).hasClass("chzn-select")?(jQuery(e).removeClass("chzn-select"),jQuery(e).addClass("chzn-select-disabled"),jQuery(e).hide(),jQuery(e).trigger("chosen:updated")):jQuery(e).hide(),jQuery(e).removeAttr("selected");var n=e.children;if(n&&t<10){t+=1;for(var a=0;a<n.length;a++)C4GRemoveConditionClasses(n[a],t)}}else if((n=e.children)&&t<10){t+=1;for(a=0;a<n.length;a++)C4GRemoveConditionClasses(n[a],t)}}function C4GRemoveConditionSettings(e,t){var n,a,i,o,d,l,s;e.dataset.conditionName&&e.dataset.conditionType&&(e.dataset.conditionValue&&e.dataset.conditionType.split("~").includes("value")||e.dataset.conditionValue&&e.dataset.conditionType.split("~").includes("greaterequal")||e.dataset.conditionFunction&&e.dataset.conditionType.split("~").includes("method"))&&(n=e.dataset.conditionName.split("~"),l=e.dataset.conditionValue?e.dataset.conditionValue.split("~"):[],a=e.dataset.conditionFunction?e.dataset.conditionFunction.split("~"):[],d=!1,"value"==(e=e.dataset.conditionType.split("~")[t])?(i="c4g_"+n[t],o=l[t],(s=(s=document.getElementById(i))||document.querySelector('[name="'+n[t]+'"]'))&&s.value):"greaterequal"==e?(i="c4g_"+n[t],o=l[t],!1===(l=!!(s=(s=document.getElementById(i))||document.querySelector('[name="'+n[t]+'"]'))&&s.value)||null===l||""===l||isNaN(l)||isNaN(o)||(parseInt(l),parseInt(o))):"method"==e&&(i="c4g_"+(l=n[t].split("--"))[0],o=window[a[t]],d=!!(s=(s=document.getElementById(i))||document.querySelector('[name="'+l[0]+'"]'))&&s.value,o instanceof Function?l[1]?o(d=d+"--"+l[1]):o(d):checkVlaue=!1))}function C4GCheckConditionClasses(e,t=1){if(1===e.nodeType&&"SCRIPT"!==e.tagName)if(C4GCheckFieldTypes(e)){jQuery(e).show(),jQuery(e).addClass("formdata"),jQuery(e).hasClass("c4g_display_none")?(jQuery(e).hasClass("chzn-select")&&(jQuery(e).removeClass("chzn-select"),jQuery(e).addClass("chzn-select-disabled")),jQuery(e).hide()):jQuery(e).hasClass("chzn-select-disabled")&&(jQuery(e).removeClass("chzn-select-disabled"),jQuery(e).addClass("chzn-select"),jQuery(e).hide());var n=e.children;if(n&&t<10){t+=1;for(var a=0;a<n.length;a++)C4GCheckConditionClasses(n[a],t)}}else if((n=e.children)&&t<10){t+=1;for(a=0;a<n.length;a++)C4GCheckConditionClasses(n[a],t)}}function C4GCheckConditionSettings(e,t){var n,a,i,o,d,l,s,r=!1;return r=e.dataset.conditionName&&e.dataset.conditionType&&(e.dataset.conditionValue&&e.dataset.conditionType.split("~").includes("value")||e.dataset.conditionValue&&e.dataset.conditionType.split("~").includes("greaterequal")||e.dataset.conditionFunction&&e.dataset.conditionType.split("~").includes("method"))&&(n=e.dataset.conditionName.split("~"),l=e.dataset.conditionValue?e.dataset.conditionValue.split("~"):[],a=e.dataset.conditionFunction?e.dataset.conditionFunction.split("~"):[],d=!1,"value"==(e=e.dataset.conditionType.split("~")[t])?(i="c4g_"+n[t],o=l[t],d=(d=!!(s=(s=document.getElementById(i))||document.querySelector('[name="'+n[t]+'"]'))&&s.value)===o):"greaterequal"==e?(i="c4g_"+n[t],o=l[t],d=!1===(l=!!(s=(s=document.getElementById(i))||document.querySelector('[name="'+n[t]+'"]'))&&s.value)||null===l||""===l||isNaN(l)||isNaN(o)?l==o:parseInt(l)>=parseInt(o)):"method"==e&&(i="c4g_"+(l=n[t].split("--"))[0],o=window[a[t]],d=!!(s=(s=document.getElementById(i))||document.querySelector('[name="'+l[0]+'"]'))&&s.value,d=o instanceof Function&&(l[1]?o(d=d+"--"+l[1]):o(d))),d)?!0:r}function C4GGeopickerAddress(e){var t,n,a,i;e&&(t=document.getElementById("c4g_brick_geopicker_geoy"),n=document.getElementById("c4g_brick_geopicker_geox"),t&&n?(t=document.getElementById("c4g_brick_geopicker_geoy").value,n=document.getElementById("c4g_brick_geopicker_geox").value,a=new XMLHttpRequest,(i=new FormData).append("Lat",t),i.append("Lon",n),i.append("Profile",e),i.append("REQUEST_TOKEN",c4g_rq),a.onreadystatechange=function(){4==a.readyState&&200==a.status&&(""!=a.responseText?document.getElementById("c4g_brick_geopicker_address").value=JSON.parse(a.responseText):document.getElementById("c4g_brick_geopicker_address").value="Adresse nicht ermittelbar.")},a.open("GET","/con4gis/get_address/"+e+"/"+t+"/"+n,!0),a.overrideMimeType("text/plain; charset=utf-8"),a.send()):(i=document.getElementById("c4g_brick_geopicker_address"))&&i.remove())}function stopwatch(n,a,i,o){var d=document.getElementById(n),l=setInterval(function(){var e=Math.round((a-30)/60),t=a%60;d.innerHTML=e+":"+(t=t<10?"0"+t:t),0==a?(clearInterval(l),""!=i&&""!=o&&(document.getElementById("c4g_brick_overlay_content").innerHTML="<video id='"+i+"_animation' autoplay><source src='"+o+"' type='video/mp4'></video>",jQuery("#"+i).click()),jQuery("#"+n+"_action").click()):a--},1e3)}function changeNumberFormat(e,t){for(var n="",a=t.replace(/\./,"").split(","),i=Math.floor(a[0].length/3),o=a[0].length-3*i,n=a[0].substr(0,o),d=1;d<=i;d++)1==d&&0==o||(n+="."),anfang=o+3*(d-1),n+=a[0].substr(anfang,3);1<a.length&&(n+=","+a[1]),document.getElementById(e).value=n}function C4GPopupHandler(e){jQuery.magnificPopup.close()}function showAnimation(e,t){var n,a,i,o,d,l,s=apiBaseUrl+"/c4g_brick_ajax";jQuery.ajax({dataType:"json",url:s+"/"+e+"/buttonclick:"+t+"?id=0",done:function(e){n=e.animation_name+"_animation",a=e.animation_source,i=e.animation_function,o=e.animation_param1,d=e.animation_param2,l=e.animation_param3,jQuery.magnificPopup.open({items:{src:"<video id="+n+" autoplay><source src="+a+" type=video/mp4></video>"},type:"inline"},0),document.getElementById(n).addEventListener("ended",C4GPopupHandler,!1),i&&(e=window[i],o&&d&&l?e(o,d,l):o&&d?e(o,d):o?e(o):e())}})}function clickC4GTab(e){jQuery(document.getElementsByClassName("c4gGuiTabLink")).removeClass("c4g__state-active"),jQuery(document.getElementsByClassName("c4gGuiTabLink")).addClass("c4g__state-default"),jQuery(document.getElementsByClassName("c4gGuiTabContent")).removeClass("current"),jQuery(document.getElementsByClassName(e)).removeClass("c4g__state-default"),jQuery(document.getElementsByClassName(e)).addClass("c4g__state-active"),jQuery(document.getElementsByClassName(e+"_content")).addClass("current")}function clickNextTab(){switchTab("+")}function clickPreviousTab(){switchTab("-")}function switchTab(e){var t=document.getElementsByClassName("c4g__state-active")[0].getAttribute("data-tab"),n=parseInt(t.substring(t.length-1,t.length),10);if("+"===e?n++:n--,n<0||n>=document.getElementsByClassName("c4gGuiTabLink").length)return!1;t=t.substr(0,t.length-2);t+="_"+n,"none"!==jQuery(document.getElementsByClassName(t)).css("display")?clickC4GTab(t):(clickC4GTab(t),switchTab(e))}function checkC4GTab(){var e,t,n=new Array,a=new Array,o=jQuery(document.getElementsByClassName("c4gGuiTabLink"));if(o){for(i=0;i<=o.length;i++){var d=!0,l="c4g_tab_"+i+"_content",s=jQuery(document.getElementsByClassName(l));if(s&&s[0]&&s[0].children){for(j=e=0;j<=s[0].children.length;j++)if((t=s[0].children[j])&&"none"!==jQuery(t).css("display"))for(k=0;k<=t.children.length;k++)childOfChildElement=jQuery(t.children[k]),(jQuery(childOfChildElement).hasClass("formdata")||jQuery(childOfChildElement).attr("for"))&&childOfChildElement&&"none"!==jQuery(childOfChildElement).css("display")&&!jQuery(childOfChildElement).hasClass("c4g__form-group")&&e++;0<e&&(d=!1)}d?n[i]=jQuery(o[i]):a[i]=jQuery(o[i])}for(i=0;i<=n.length;i++)jQuery(n[i]).hide();for(i=0;i<=a.length;i++)jQuery(a[i]).show()}if($chosenContainer=document.getElementsByClassName("chosen-container"))for(i=0;i<$chosenContainer.length;i++)"0px"!=$chosenContainer[i].style.width?jQuery($chosenContainer[i]).show():jQuery($chosenContainer[i]).hide()}function replaceC4GDialog(e){var t;-1!==e&&(t=document.getElementById("c4gGuiDialogbrickdialog"),e=document.getElementById("c4gGuiDialogbrickdialog"+e),t)&&e&&t.parentNode.removeChild(t)}function resizeChosen(e){var a=document.getElementById(e),i=!0;jQuery(a).on("click",function(e){var t=a.getElementsByClassName("chosen-drop")[0],n=(jQuery(this).on("mouseleave",function(e){t.style.display="none",t.style.position="absolute"}),a.getElementsByClassName("chosen-search")[0]);jQuery(n).on("click",function(e){e.stopPropagation()}),t.style.display="block",t.style.position="relative",i&&(jQuery(t).on("click",function(e){this.style.display="none",this.style.position="absolute",e.stopPropagation()}),i=!1)})}function focusOnElement(e){""!==e&&null!==(e=document.getElementById(e))&&(e.focus(),e.scrollIntoView(!1))}function callActionViaAjax(e){var t=c4g.projects.C4GGui,e=t.options.ajaxUrl+"/"+t.options.moduleId+"/"+e;jQuery.ajax({url:e}).done(function(e){t.fnHandleAjaxResponse(e,t.options.moduleId)})}function removeAccordionIcons(){var e=document.getElementsByClassName("c4g__accordion-header-icon");if(0<e.length)for(var t=e.length;0<t;){--t,e.item(t).remove();e.item(t)}else setTimeout(function(){removeAccordionIcons()},200)}function openAccordion(n){"all"===n?setTimeout(function(){for(var e=document.getElementsByClassName("c4g__form-headline"),t=new MouseEvent("click",{view:window,bubbles:!0,cancelable:!0}),n=e.length;0<n;)e[--n].dispatchEvent(t)},100):setTimeout(function(){var e=document.getElementsByClassName("c4g__form-headline")[n],t=new MouseEvent("click",{view:window,bubbles:!0,cancelable:!0});e.dispatchEvent(t)},100)}function removeSubDialog(e,t){void 0!==t&&t.stopPropagation(),(new window.AlertHandler).showConfirmDialog("Bestätigung",e.dataset.message,function(){for(;e&&e.parentNode&&e.parentNode.firstChild;)e.parentNode.removeChild(e.parentNode.firstChild)},function(){},"Ja","Nein","c4g__message_confirm")}function confirmRemoveSubDialog(e){for(;e&&e.parentNode&&e.parentNode.firstChild;)e.parentNode.removeChild(e.parentNode.firstChild)}function addSubDialog(e,t,n){void 0!==t&&t.stopPropagation();var t=document.getElementById(e.dataset.target),a=(e.dataset.index=parseInt(e.dataset.index,10)+1,document.getElementById(e.dataset.template).innerHTML.split(e.dataset.wildcard).join(e.dataset.index)),i=document.createElement("div");if(i.classList.add("c4g_sub_dialog_set"),i.classList.add("c4g_sub_dialog_set_new"),i.innerHTML=a,t.children.length<n){for(var o=(a=null!==t.firstChild&&"before"===e.dataset.insert?t.insertBefore(i,t.firstChild):t.appendChild(i)).getElementsByTagName("input"),d=0;d<o.length;)void 0!==o[d]&&(!0===o[d].disabled&&(o[d].disabled=!1),!0===o[d].readOnly)&&(o[d].readOnly=!1),d+=1;for(var l=a.getElementsByTagName("textarea"),s=0;s<l.length;)void 0!==l[s]&&(!0===l[s].disabled&&(l[s].disabled=!1),!0===l[s].readOnly)&&(l[s].readOnly=!1),s+=1;for(var r=a.getElementsByClassName("js-sub-dialog-button"),c=0;c<r.length;)void 0!==r[c]&&(!0===r[c].disabled&&(r[c].disabled=!1),!0===r[c].readOnly&&(r[c].readOnly=!1),"none"===r[c].style.display)&&(r[c].style.display="unset"),c+=1}}function editSubDialog(e,t){void 0!==t&&t.stopPropagation();for(var n=e.dataset.fields.split(","),a=0;a<n.length;){for(var i=document.getElementById("c4g_"+n[a]),i=(void 0!==i&&(i.hasAttribute("disabled")?i.removeAttribute("disabled"):i.setAttribute("disabled",""),i.hasAttribute("readonly")?i.removeAttribute("readonly"):i.setAttribute("readonly","")),document.getElementById("c4g_uploadButton_"+n[a])),o=(null!=i&&"BUTTON"===i.tagName&&(i.hasAttribute("disabled")?i.removeAttribute("disabled"):i.setAttribute("disabled",""),i.hasAttribute("readonly")?i.removeAttribute("readonly"):i.setAttribute("readonly",""),"none"===i.style.display?i.style.display="unset":i.style.display="none"),document.getElementById("c4g_deleteButton_"+n[a])),d=(null!=o&&"BUTTON"===i.tagName&&(o.hasAttribute("disabled")?o.removeAttribute("disabled"):o.setAttribute("disabled",""),o.hasAttribute("readonly")?o.removeAttribute("readonly"):o.setAttribute("readonly",""),"none"===o.style.display?o.style.display="unset":o.style.display="none"),e.parentNode.getElementsByClassName(n[a])),l=0;l<d.length;){for(var s=d[l].getElementsByTagName("input"),r=0;r<s.length;)void 0!==s[r]&&(s[r].hasAttribute("disabled")?s[r].removeAttribute("disabled"):s[r].setAttribute("disabled",""),s[r].hasAttribute("readonly")?s[r].removeAttribute("readonly"):s[r].setAttribute("readonly","")),r+=1;for(var c=d[l].getElementsByTagName("textarea"),u=0;u<c.length;)void 0!==c[u]&&(c[u].hasAttribute("disabled")?c[u].removeAttribute("disabled"):c[u].setAttribute("disabled",""),c[u].hasAttribute("readonly")?c[u].removeAttribute("readonly"):c[u].setAttribute("readonly","")),u+=1;for(var m=d[l].getElementsByTagName("button"),g=0;g<m.length;)void 0!==m[g]&&(m[u].removeAttribute("disabled"),m[u].removeAttribute("readonly"),"none"===m[g].style.display?m[g].style.display="unset":m[g].style.display="none"),g+=1;l+=1}a+=1}t=e.parentNode;t.classList.contains("c4g_sub_dialog_set_uneditable")?(t.classList.remove("c4g_sub_dialog_set_uneditable"),e.innerHTML=e.dataset.captionfinishediting):(t.classList.add("c4g_sub_dialog_set_uneditable"),e.innerHTML=e.dataset.captionbeginediting)}
+/*
+ * This file is part of con4gis, the gis-kit for Contao CMS.
+ * @package con4gis
+ * @author con4gis contributors (see "authors.md")
+ * @license LGPL-3.0-or-later
+ * @copyright (c) 2010-2026, by Küstenschmiede GmbH Software & Design
+ * @link https://www.con4gis.org
+ */
+
+function ready(callback){
+    if (document.readyState!='loading') callback();
+    else if (document.addEventListener) document.addEventListener('DOMContentLoaded', callback);
+}
+
+function eventFire(el, etype) {
+    if (el && typeof el.dispatchEvent === 'function' && typeof etype === 'string') {
+        try {
+            var evObj = document.createEvent('Events');
+            evObj.initEvent(etype, true, false);
+            el.dispatchEvent(evObj);
+        } catch (e) {
+            // Silently fail
+        }
+    }
+}
+
+/**
+ *
+ * @param id
+ * @param command
+ * @param object
+ * @constructor
+ */
+function C4GTimePicker(id, command, object) {
+    var d = new Date();
+    var m = String(d.getMinutes());
+    var h = String(d.getHours());
+    var hf = document.getElementById(id);
+    var i = object.previousSibling;
+
+    if (m.length == 1) {
+        m = "0" + m;
+    }
+    if (h.length == 1) {
+        h = "0" + h;
+    }
+    if (command == "gettime") {
+        hf.value = h+":"+m;
+        i.value = h+":"+m;
+    }
+}
+
+/**
+ *
+ * @param id
+ * @param type
+ * @param min
+ * @param max
+ * @param format
+ * @constructor
+ */
+function C4GDatePicker(id,
+                       type,
+                       minDate,
+                       maxDate,
+                       format,
+                       lang,
+                       weekdays,
+                       exclude)
+{
+
+    if (type == "date")
+    {
+        var dMin = '';
+        if (minDate) {
+            dMin = new Date(minDate * 1000);
+        }
+
+        var dMax = '';
+        if (maxDate) {
+            dMax = new Date(maxDate * 1000);
+        }
+
+        const elem = document.getElementById(id);
+        if (elem && elem.datepicker) {
+            elem.datepicker.destroy();
+        }
+
+        var ed = new Array();
+        ed = exclude.split(",");
+
+        var wd = new Array();
+        wd = weekdays.split(",");
+        for (a in wd ) {
+            wd[a] = parseInt(wd[a]);
+        }
+
+        if (elem && (window.Datepicker instanceof Function)) {
+            const datepicker = new window.Datepicker(elem, {
+                buttonClass: 'c4g__btn',
+                language: lang || "de",
+                format: format,
+                datesDisabled: ed,
+                daysOfWeekDisabled: wd,
+                minDate: dMin,
+                maxDate: dMax,
+                //calendarWeeks: true,
+                weekStart: 1,
+                //todayBtn: true,
+                todayHighlight: true,
+                orientation: 'auto left',
+                autohide: true,
+                useCurrent: false
+            });
+            elem.datepicker = datepicker;
+            if (elem && elem.datepicker) {
+                elem.addEventListener('changeDate', function (e) {
+                    eventFire(document.getElementById(id),'change');
+
+                    var pickerIdx = id.indexOf("_picker");
+                    if (pickerIdx && pickerIdx > 0) {
+                        var dateFieldId = id.substr(0,pickerIdx);
+                        jQuery("#" + dateFieldId).val(datepicker.getDate(format));
+                        jQuery("#" + dateFieldId).trigger('change');
+                    }
+                });
+            }
+        }
+    }
+}
+
+/**
+ *
+ * @param id
+ * @constructor
+ */
+function C4GDateTimePicker(id)
+{
+    var dateTimePickerOptions = {
+        "dateFormat":"DD.MM.YY - hh:mm",
+        "locale":"de",
+        "closeOnSelected": "true",
+
+        "todayButton":false,
+        //"futureOnly":true,
+        //"minuteInterval": 15,
+        //"allowWdays": [1, 2, 3, 4, 5],
+        //"minTime":"09:15",
+        //"maxTime":"12:45"
+    };
+    jQuery("#"+id).appendDtpicker(dateTimePickerOptions);
+}
+
+/**
+ *
+ * @param filter
+ * @constructor
+ */
+function C4GFilterButtonTiles(filter)
+{
+    var tiles = document.getElementsByClassName("c4g__btn-tile");
+    var value = filter.value;
+
+    //ToDO implementation
+}
+
+/**
+ *
+ * @param search
+ * @constructor
+ */
+function C4GSearchTiles(search)
+{
+    var tiles = document.getElementsByClassName("c4g__btn-tile");
+    var text;
+    var value = search.value.toLowerCase();
+    var founded;
+
+    if (value)
+    {
+        for (var aTimer = 0; aTimer < tiles.length; aTimer+=1)
+        {
+            founded = false;
+
+            fields = tiles[aTimer].children[0].children;
+
+            for (var fTimer = 0; fTimer < fields.length; fTimer+=1)
+            {
+                if(fields[fTimer].innerHTML)
+                {
+                    text = fields[fTimer].innerHTML.toLowerCase();
+
+                    searchedStatus = text.search(value);
+                    if(searchedStatus == "-1") {
+                        //ToDo implementation
+                    }
+                    else
+                    {
+                        founded = true;
+                    }
+                }
+            }
+
+            if(founded == true)
+            {
+                tiles[aTimer].style.display = "";
+            }
+            else
+            {
+                tiles[aTimer].style.display = "none";
+            }
+        }
+    }
+    else
+    {
+        for(cTimer = 0; cTimer < tiles.length; cTimer +=1)
+        {
+            tiles[cTimer].style.display = "";
+        }
+    }
+}
+
+/**
+ *
+ * @param button
+ */
+function tileSort(button) // '<button type="button" onclick="tileSort(this)">ASC</button>'
+{
+    var wrapper = document.getElementsByClassName("c4g_brick_tiles")[0];
+
+    if(wrapper.style.flexFlow == "row wrap")
+    {
+        wrapper.style.flexFlow = "row-reverse wrap-reverse";
+        button.textContent = button.dataset["langDesc"];
+
+    }
+    else
+    {
+        wrapper.style.flexFlow = "row wrap";
+        button.textContent = button.dataset["langAsc"];
+    }
+}
+
+/**
+ *
+ * @param object
+ * @returns {boolean}
+ */
+function createNewPopupWindow(object)
+{
+    //jQuery.magnificPopup.open({ items: { src: object.dataset.linkHref }, type: 'iframe' });
+    jQuery.magnificPopup.open({ items: { src: object.dataset.linkHref }, type:  "iframe" }, 0);
+
+    return false;
+}
+
+/**
+ *
+ */
+function closePopupWindow()
+{
+    jQuery.magnificPopup.close();
+}
+
+/**
+ *
+ * @param checkbox
+ * @param element
+ */
+function handleBoolSwitch(checkbox, element, reverse) {
+    if (checkbox && element) {
+        var checkboxId = checkbox.id;
+        var elementId = element.id;
+
+        if (document.getElementById(checkboxId).type == "checkbox") {
+            var checked = document.getElementById(checkboxId).checked;
+
+            if (reverse == '1') {
+                document.getElementById(elementId).disabled = checked;
+            } else {
+                document.getElementById(elementId).disabled = !checked;
+            }
+        } else {
+            var checked = document.getElementById(checkboxId).value;
+
+            if (reverse == '1') {
+                document.getElementById(elementId).disabled = checked;
+            } else {
+                document.getElementById(elementId).disabled = !checked;
+            }
+
+        }
+    }
+
+}
+
+/**
+ * @param fileList
+ * @param path
+ * @param uploadURL
+ * @param deleteURL
+ * @param fieldName
+ * @param targetField
+ * @param mimeTypes
+ */
+function handleC4GBrickFile(fileList, path, uploadURL, deleteURL, fieldName, targetField, mimeTypes) {
+    //useful for canvas saving
+    if (document.getElementById("c4g_file") && document.getElementById("c4g_file").getAttribute("dataURL")) {
+        fileList = [];
+        var blobBin = atob(document.getElementById("c4g_file").getAttribute("dataURL").split(',')[1]);
+        var array = [];
+        var i = 0;
+        for(var i = 0; i < blobBin.length; i++) {
+            array.push(blobBin.charCodeAt(i));
+        }
+        var file = new Blob([new Uint8Array(array)], {type: 'image/png'});
+        file.name = fieldName+'.png';
+        fileList[0] = file;
+    }
+    if (fileList && fileList[0]) {
+        if (document.getElementById(uploadURL+fieldName).value !== fileList[0]) {
+            var img = document.createElement("img");
+            img.file = fileList[0];
+            img.name = "img_" + 0;
+            img.classList.add("obj");
+            var reader = new FileReader();
+            reader.onload = (function (aImg) {
+                return function (e) {
+                    aImg.src = e.target.result;
+                };
+            })(img);
+            reader.readAsDataURL(fileList[0]);
+
+            C4GBrickFileUpload(fileList[0], path, uploadURL, deleteURL, fieldName, targetField, mimeTypes);
+        }
+    }
+}
+
+/**
+ * @param button
+ */
+function deleteC4GBrickFile(button) {
+    var inputFields = button.parentNode.getElementsByTagName('input');
+    var upload = inputFields.item(0);
+    var del = inputFields.item(1);
+    /*var file = inputFields.item(2);*/
+    var link = button.parentNode.getElementsByClassName('c4g_uploadLink').item(0);
+    del.value = upload.value;
+    upload.value = "";
+    link.innerHTML = "";
+    button.style.display = "none";
+
+    /*if (targetField) {
+        if (document.getElementsByClassName("c4g_"+targetField+"_src")[0]) {
+            document.getElementsByClassName("c4g_"+targetField+"_src")[0].getElementsByTagName("img")[0].src = xhr.responseText;
+        }
+    }*/
+}
+
+/**
+ * @param button
+ */
+function deleteC4GBrickImage(button) {
+    var id = button.id;
+    if (id) {
+        var idx = id.indexOf("c4g_deleteButton_");
+        if (idx == 0) {
+            id = id.substr(17);
+
+            var link = "c4g_uploadLink_" + id;
+            link = document.getElementById(link);
+            link.innerHTML = "";
+
+            var handle = document.getElementById("c4g_"+id);
+            handle.value = "";
+            handle.defaultValue = "";
+            jQuery(handle).trigger('change');
+
+            link.style.display = "none";
+            button.style.display = "none";
+        }
+    }
+    //button.parentNode.removeChild(button.parentNode.firstChild);
+}
+
+/**
+ *
+ * @param file
+ * @param path
+ * @param uploadURL
+ * @param deleteURL
+ * @param fieldName
+ * @param targetField
+ * @param mimeTypes
+ */
+function C4GBrickFileUpload( file, path, uploadURL, deleteURL, fieldName, targetField, mimeTypes )
+{
+    var xhr = new XMLHttpRequest();
+
+    var fd = new FormData();
+    fd.append("File", file);
+    fd.append("Path", path);
+    fd.append("MimeTypes", mimeTypes);
+    fd.append("REQUEST_TOKEN", c4g_rq);
+    fd.append("name", file.name);
+
+    xhr.onreadystatechange = function(){
+        if (xhr.readyState===4 && xhr.status===200) {
+            var filename = JSON.parse(xhr.responseText)[0];
+            var field = document.getElementById(uploadURL+fieldName);
+            field.value = filename;
+            document.getElementById("c4g_uploadLink_"+fieldName).innerHTML = "<a href='" + filename + "' target='_blank'>" + file.name.replace("C:\\fakepath\\", "") + "</a>";
+            if (document.getElementById("c4g_deleteButton_"+fieldName)) {
+                document.getElementById("c4g_deleteButton_"+fieldName).style = "display:inline";
+            }
+            if (deleteURL !== '') {
+                document.getElementById(deleteURL+fieldName).value = "";
+            }
+            if (targetField) {
+                if (document.getElementsByClassName("c4g_"+targetField+"_src")[0]) {
+                    document.getElementsByClassName("c4g_"+targetField+"_src")[0].getElementsByTagName("img")[0].src = filename;
+                }
+            }
+        }
+    };
+
+    xhr.open("POST", "con4gis/upload_file", true);
+    xhr.overrideMimeType("text/plain; charset=x-user-defined-binary");
+
+    xhr.send(fd);
+}
+
+/**
+ *
+ * @param fields
+ * @constructor
+ */
+function C4GCheckConditionFields(fields) {
+    if (!fields) return;
+    for (var i = 0; i < fields.length; i++) {
+        var field = fields[i];
+        
+        // Skip text nodes and script tags
+        if (!field || field.nodeType !== 1 || field.tagName === 'SCRIPT') continue;
+
+        if (field.dataset && field.dataset.conditionName && field.dataset.conditionType) {
+            var fieldNames = field.dataset.conditionName.split("~");
+            var result = true;
+            for (var idx = 0; idx < fieldNames.length; idx++) {
+                if (result) {
+                    result = C4GCheckConditionSettings(field, idx);
+                }
+            }
+            if (result) {
+                C4GCheckConditionClasses(field);
+            } else {
+                C4GRemoveConditionClasses(field);
+            }
+        }
+        
+        // Recursively check children
+        if (field.children && field.children.length > 0) {
+            C4GCheckConditionFields(field.children);
+        }
+    }
+}
+
+/**
+ *
+ * @constructor
+ */
+function C4GCheckConditionField(field) {
+    if (!field || field.nodeType !== 1 || field.tagName === 'SCRIPT') return;
+    
+    var hasConditions = field.dataset && field.dataset.conditionName && field.dataset.conditionType;
+    
+    // Safety check: if this field has conditions, and it is hidden but should be visible, show it.
+    // This addresses the issue where fields might be rendered with 'display: none' but not correctly updated.
+    
+    if (hasConditions) {
+        var fieldNames = field.dataset.conditionName.split("~");
+        var result = true;
+        for (var idx = 0; idx < fieldNames.length; idx++) {
+            if (result) {
+                result = C4GCheckConditionSettings(field, idx);
+            }
+        }
+        if (result) {
+            C4GCheckConditionClasses(field);
+        } else {
+            C4GRemoveConditionClasses(field);
+        }
+    }
+    
+    // Also check children for conditions
+    if (field.children && field.children.length > 0) {
+        C4GCheckConditionFields(field.children);
+    }
+}
+
+/**
+ *
+ * @returns {boolean}
+ * @constructor
+ */
+function handleBrickConditions() {
+    var result = true;
+    
+    // Process all elements that could have conditions
+    var allElements = document.querySelectorAll('[data-condition-name]');
+    for (var i = 0; i < allElements.length; i++) {
+        C4GCheckConditionField(allElements[i]);
+    }
+
+    // Process top-level dialog containers to catch nested conditions that might not be in allElements
+    // (though querySelectorAll should find them, a top-down pass ensures parent-child visibility is synced)
+    var dialogs = document.querySelectorAll(".c4g_brick_dialog, .c4g_brick_sub_dialog");
+    for (var i = 0; i < dialogs.length; i++) {
+        C4GCheckConditionField(dialogs[i]);
+    }
+    
+    // safety check for participant fields specifically if they are missing
+    var participantSubDialogs = document.querySelectorAll('.c4gGuiSubDialog[id*="reservationParticipants"], .c4g_sub_dialog_container[id*="reservationParticipants"]');
+    if (participantSubDialogs.length > 0) {
+        for (var j = 0; j < participantSubDialogs.length; j++) {
+            C4GCheckConditionField(participantSubDialogs[j]);
+            // Force display if it should be visible
+            if (participantSubDialogs[j].style.display === 'none' && !participantSubDialogs[j].classList.contains('c4g_display_none')) {
+                // If C4GCheckConditionField didn't show it but it has no explicit hide class,
+                // re-evaluate the conditions very carefully.
+                var names = participantSubDialogs[j].dataset.conditionName ? participantSubDialogs[j].dataset.conditionName.split('~') : [];
+                if (names.length > 0) {
+                     C4GCheckConditionField(participantSubDialogs[j]);
+                }
+            }
+        }
+    } else {
+        // Broaden search if IDs don't match exactly
+        var moreSubDialogs = document.querySelectorAll('.c4gGuiSubDialog, .c4g_sub_dialog_container');
+        for (var k = 0; k < moreSubDialogs.length; k++) {
+            if (moreSubDialogs[k].id && (String(moreSubDialogs[k].id).indexOf('reservationParticipants') !== -1)) {
+                C4GCheckConditionField(moreSubDialogs[k]);
+            }
+        }
+    }
+
+    // New: If still nothing seems to have worked for participants, try a very broad pass on subdialog containers
+    var subDialogContainers = document.querySelectorAll('.c4g_sub_dialog_container, .c4g_sub_dialog_set');
+    for (var l = 0; l < subDialogContainers.length; l++) {
+        C4GCheckConditionField(subDialogContainers[l]);
+    }
+
+    var tab_content = document.getElementsByClassName("c4gGuiTabContent");
+    if (tab_content) {
+        for(var i = 0; i < tab_content.length; i++) {
+            checkC4GTab();
+        }
+    }
+    
+    // Fallback: If no elements with data-condition-name found, try processing dialogs manually
+    if (allElements.length === 0) {
+        var dialogs = document.getElementsByClassName("c4g_brick_dialog");
+        for (var i = 0; i < dialogs.length; i++) {
+            var fields = dialogs[i].children;
+            if (fields) {
+                C4GCheckConditionFields(fields);
+            }
+        }
+    }
+
+    return result;
+}
+
+/**
+ *
+ * @param field
+ * @returns {boolean}
+ * @constructor
+ */
+function C4GCheckFieldTypes(field) {
+    var result = true;
+    
+    // Check if it's a valid element first
+    if (!field || field.nodeType !== 1 || field.tagName === 'SCRIPT') {
+        return false;
+    }
+
+    if (field.classList && (field.classList.contains("noformdata") ||
+        field.classList.contains("datepicker") ||
+        (field.id && (field.id.indexOf("participants") !== -1 || field.id.indexOf("desiredCapacity") !== -1)) ||
+        (field.className && (field.className.indexOf("participants") !== -1 || field.className.indexOf("desiredCapacity") !== -1)))
+    ) {
+        return false;
+    }
+
+    return result;
+}
+
+/**
+ *
+ * @param field
+ * @constructor
+ */
+function C4GRemoveConditionClasses(field, level= 1) {
+    if (field.nodeType !== 1 || field.tagName === 'SCRIPT') return;
+    if (C4GCheckFieldTypes(field)) {
+        jQuery(field).removeClass("formdata");
+        if (jQuery(field).hasClass('chzn-select')) {
+            jQuery(field).removeClass("chzn-select");
+            jQuery(field).addClass("chzn-select-disabled");
+            jQuery(field).hide();
+            jQuery(field).trigger('chosen:updated');
+        } else {
+            jQuery(field).hide();
+        }
+        jQuery(field).removeAttr("selected");
+
+        var children = field.children;
+        if (children) {
+            if (level < 10) {
+                level = level +1;
+                for (var i = 0; i < children.length; i++) {
+                    C4GRemoveConditionClasses(children[i], level);
+                }
+            }
+        }
+    } else {
+        // If the field type check fails (e.g. it's a container), still process its children
+        var children = field.children;
+        if (children && level < 10) {
+            level = level + 1;
+            for (var i = 0; i < children.length; i++) {
+                C4GRemoveConditionClasses(children[i], level);
+            }
+        }
+    }
+}
+
+/**
+ *
+ * @param field
+ * @constructor
+ */
+function C4GRemoveConditionSettings(field, idx) {
+    if (field.dataset.conditionName && field.dataset.conditionType && ((field.dataset.conditionValue && (field.dataset.conditionType.split("~").includes("value") || field.dataset.conditionType.split("~").includes("greaterequal") || field.dataset.conditionType.split("~").includes("greaterequalswitch"))) || (field.dataset.conditionFunction && field.dataset.conditionType.split("~").includes("method")))) {
+        var fieldNames = field.dataset.conditionName.split("~");
+        var fieldValues = field.dataset.conditionValue ? field.dataset.conditionValue.split("~") : [];
+        var fieldFunction = field.dataset.conditionFunction ? field.dataset.conditionFunction.split("~") : [];
+        var fieldType = field.dataset.conditionType.split("~");
+
+        var currentName;
+        var currentValue;
+        var currentFunction;
+        var currentType;
+        var checkValue = false;
+
+        currentType = fieldType[idx];
+        if (currentType == 'value') {
+            currentName = "c4g_" + fieldNames[idx];
+            currentValue = fieldValues[idx];
+            var fieldElem = document.getElementById(currentName);
+            if (!fieldElem) {
+                // Try searching by name if ID fails
+                fieldElem = document.querySelector('[name="' + fieldNames[idx] + '"]');
+            }
+            checkValue = fieldElem ? fieldElem.value : false;
+            checkValue = (checkValue === currentValue);
+        } else if (currentType == 'greaterequal' || currentType == 'greaterequalswitch') {
+            currentName = "c4g_" + fieldNames[idx];
+            currentValue = fieldValues[idx];
+            var fieldElem = document.getElementById(currentName);
+            if (!fieldElem) {
+                // Try searching by name if ID fails
+                fieldElem = document.querySelector('[name="' + fieldNames[idx] + '"]');
+            }
+            var checkValueRaw = fieldElem ? fieldElem.value : false;
+            if (checkValueRaw !== false && checkValueRaw !== null && checkValueRaw !== "" && !isNaN(checkValueRaw) && !isNaN(currentValue)) {
+                checkValue = parseInt(checkValueRaw) >= parseInt(currentValue);
+            } else {
+                checkValue = (checkValueRaw == currentValue);
+            }
+        } else if (currentType == 'method') {
+            var nameWithParams = fieldNames[idx].split('--');
+            currentName = "c4g_" + nameWithParams[0];
+            currentFunction = window[fieldFunction[idx]];
+            var fieldElem = document.getElementById(currentName);
+            if (!fieldElem) {
+                // Try searching by name if ID fails
+                fieldElem = document.querySelector('[name="' + nameWithParams[0] + '"]');
+            }
+            checkValue = fieldElem ? fieldElem.value : false;
+
+            if (currentFunction instanceof Function) {
+                if (nameWithParams[1]) {
+                    checkValue = checkValue + '--' + nameWithParams[1];
+                    checkValue = currentFunction(checkValue);
+                } else {
+                    checkValue = currentFunction(checkValue);
+                }
+            } else {
+                checkVlaue = false;
+            }
+        }
+    }
+}
+
+/**
+ *
+ * @param field
+ * @constructor
+ */
+function C4GCheckConditionClasses(field, level= 1) {
+    if (field.nodeType !== 1 || field.tagName === 'SCRIPT') return;
+    if (C4GCheckFieldTypes(field)) {
+        jQuery(field).show();
+        jQuery(field).addClass("formdata");
+
+        if (jQuery(field).hasClass("c4g_display_none")) {
+            if (jQuery(field).hasClass('chzn-select')) {
+                jQuery(field).removeClass("chzn-select");
+                jQuery(field).addClass("chzn-select-disabled");
+            }
+            jQuery(field).hide();
+        } else {
+            if (jQuery(field).hasClass('chzn-select-disabled')) {
+                jQuery(field).removeClass("chzn-select-disabled");
+                jQuery(field).addClass("chzn-select");
+                jQuery(field).hide();
+            }
+        }
+
+        var children = field.children;
+        if (children) {
+            if (level < 10) {
+                level = level+1;
+                for (var i=0; i < children.length; i++) {
+                    C4GCheckConditionClasses(children[i], level);
+                }
+            }
+        }
+    } else {
+        // If the field type check fails (e.g. it's a container), still process its children
+        var children = field.children;
+        if (children && level < 10) {
+            level = level + 1;
+            for (var i = 0; i < children.length; i++) {
+                C4GCheckConditionClasses(children[i], level);
+            }
+        }
+    }
+}
+
+/**
+ *
+ * @param field
+ * @param idx
+ * @returns {boolean}
+ * @constructor
+ */
+function C4GCheckConditionSettings(field, idx)
+{
+    var result = false;
+    if (field.dataset.conditionName && field.dataset.conditionType && ((field.dataset.conditionValue && (field.dataset.conditionType.split("~").includes("value") || field.dataset.conditionType.split("~").includes("greaterequal") || field.dataset.conditionType.split("~").includes("greaterequalswitch"))) || (field.dataset.conditionFunction && field.dataset.conditionType.split("~").includes("method")))) {
+        var fieldNames = field.dataset.conditionName.split("~");
+        var fieldValues = field.dataset.conditionValue ? field.dataset.conditionValue.split("~") : [];
+        var fieldFunction = field.dataset.conditionFunction ? field.dataset.conditionFunction.split("~") : [];
+        var fieldType = field.dataset.conditionType.split("~");
+
+        var currentName;
+        var currentValue;
+        var currentFunction;
+        var currentType= fieldType[idx];
+        var checkValue = false;
+
+        if (currentType == 'value') {
+            currentName = "c4g_" + fieldNames[idx];
+            currentValue = fieldValues[idx];
+            var fieldElem = document.getElementById(currentName);
+            if (!fieldElem) {
+                // Try searching by name if ID fails
+                fieldElem = document.querySelector('[name="' + fieldNames[idx] + '"]');
+            }
+            checkValue = fieldElem ? fieldElem.value : false;
+            checkValue = (checkValue === currentValue);
+        } else if (currentType == 'greaterequal' || currentType == 'greaterequalswitch') {
+            currentName = "c4g_" + fieldNames[idx];
+            currentValue = fieldValues[idx];
+            var fieldElem = document.getElementById(currentName);
+            if (!fieldElem) {
+                // Try searching by name if ID fails
+                fieldElem = document.querySelector('[name="' + fieldNames[idx] + '"]');
+            }
+            var checkValueRaw = fieldElem ? fieldElem.value : false;
+            if (checkValueRaw !== false && checkValueRaw !== null && checkValueRaw !== "" && !isNaN(checkValueRaw) && !isNaN(currentValue)) {
+                checkValue = parseInt(checkValueRaw) >= parseInt(currentValue);
+            } else {
+                checkValue = (checkValueRaw == currentValue);
+            }
+        } else if (currentType == 'method') {
+            var nameWithParams = fieldNames[idx].split('--');
+            currentName = "c4g_" + nameWithParams[0];
+            currentFunction = window[fieldFunction[idx]];
+            var fieldElem = document.getElementById(currentName);
+            if (!fieldElem) {
+                // Try searching by name if ID fails
+                fieldElem = document.querySelector('[name="' + nameWithParams[0] + '"]');
+            }
+            checkValue = fieldElem ? fieldElem.value : false;
+
+            if (currentFunction instanceof Function) {
+                if (nameWithParams[1]) {
+                    checkValue = checkValue + '--' + nameWithParams[1];
+                    checkValue = currentFunction(checkValue);
+                } else {
+                    checkValue = currentFunction(checkValue);
+                }
+            } else {
+                checkValue = false;
+            }
+        }
+
+        if (checkValue) {
+            result = true;
+        }
+    }
+    return result;
+}
+
+/**
+ *
+ * @param profile_id
+ * @constructor
+ */
+function C4GGeopickerAddress(profile_id)
+{
+    if (profile_id) {
+
+        var latElem = document.getElementById("c4g_brick_geopicker_geoy");
+        var lonElem = document.getElementById("c4g_brick_geopicker_geox");
+
+        if (latElem && lonElem) {
+            var lat = document.getElementById("c4g_brick_geopicker_geoy").value;
+            var lon = document.getElementById("c4g_brick_geopicker_geox").value;
+
+            var xhr = new XMLHttpRequest();
+
+            var fd = new FormData;
+            fd.append("Lat", lat);
+            fd.append("Lon", lon);
+            fd.append("Profile", profile_id);
+            fd.append("REQUEST_TOKEN", c4g_rq);
+
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState==4 && xhr.status==200){
+                    if (xhr.responseText != "") {
+                        document.getElementById("c4g_brick_geopicker_address").value = JSON.parse(xhr.responseText);
+                    } else {
+                        document.getElementById("c4g_brick_geopicker_address").value = "Adresse nicht ermittelbar."; //ToDo Language
+                    }
+                }
+            };
+            var url = "/con4gis/get_address/" + profile_id + '/' + lat + '/' + lon;
+            xhr.open("GET", url, true);
+            xhr.overrideMimeType("text/plain; charset=utf-8");
+            xhr.send();
+        } else {
+            var addrElem = document.getElementById("c4g_brick_geopicker_address");
+            if (addrElem) {
+                addrElem.remove();
+            }
+        }
+    }
+}
+
+function stopwatch(id, seconds, overlay_id, link) {
+
+    var element = document.getElementById(id);
+
+    var secondPassed = function secondPassed() {
+        var minutes = Math.round((seconds - 30)/60);
+        var remainingSeconds = seconds % 60;
+        if (remainingSeconds < 10) {
+            remainingSeconds = "0" + remainingSeconds;
+        }
+        element.innerHTML = minutes + ":" + remainingSeconds;
+        if (seconds == 0) {
+            clearInterval(countdownTimer);
+            if ( (overlay_id != "") && (link != "")) {
+                document.getElementById("c4g_brick_overlay_content").innerHTML = "<video id='"+overlay_id+"_animation' autoplay><source src='"+link+"' type='video/mp4'></video>";
+                jQuery("#"+overlay_id).click();
+            }
+
+            jQuery("#"+id+"_action").click();
+        } else {
+            seconds--;
+        }
+    }
+
+    var countdownTimer = setInterval(secondPassed, 1000);
+}
+
+function changeNumberFormat(id,number)
+{
+    var withoutpoints;
+    var cutted;
+    var count;
+    var start;
+    var completed="";
+    var i;
+    withoutpoints = number.replace(/\./, "");
+    cutted = withoutpoints.split(",");
+    count = Math.floor(cutted[0].length/3);
+    start = cutted[0].length-count*3;
+    completed = cutted[0].substr(0, start);
+    for(i=1; i<=count; i++)
+    {
+        if(!(i==1 && start==0))
+            completed += ".";
+        anfang = start+(i-1)*3;
+        completed += cutted[0].substr(anfang, 3);
+    }
+    if(cutted.length>1) {
+        completed += ","+cutted[1];
+    }
+    document.getElementById(id).value = completed;
+}
+
+function C4GPopupHandler(e) {
+    jQuery.magnificPopup.close()
+};
+
+function showAnimation(id, callFunction) {
+    var brick_api = apiBaseUrl+"/c4g_brick_ajax",
+        animation_id,
+        animation_source,
+        animation_type = "video/mp4",
+        animation_function,
+        animation_param1,
+        animation_param2,
+        animation_param3;
+
+    jQuery.ajax({
+        dataType: "json",
+        url: brick_api + "/"+id+"/" + "buttonclick:" + callFunction + "?id=0",
+        done: function (data) {
+            animation_id = data["animation_name"] + "_animation";
+            animation_source = data["animation_source"];
+            animation_function = data["animation_function"];
+            animation_param1 = data["animation_param1"];
+            animation_param2 = data["animation_param2"];
+            animation_param3 = data["animation_param3"];
+            jQuery.magnificPopup.open({
+                items: {src: "<video id=" + animation_id + " autoplay><source src=" + animation_source + " type=" + animation_type + "></video>"},
+                type: "inline"
+            }, 0);
+            document.getElementById(animation_id).addEventListener("ended", C4GPopupHandler, false);
+
+            if (animation_function) {
+                var fn = window[animation_function];
+                if (animation_param1 && animation_param2 && animation_param3) {
+                    fn(animation_param1, animation_param2, animation_param3);
+                } else if (animation_param1 && animation_param2) {
+                    fn(animation_param1, animation_param2);
+                } else if (animation_param1) {
+                    fn(animation_param1);
+                } else {
+                    fn();
+                }
+            }
+        }
+    });
+}
+
+
+function clickC4GTab(tab_id){
+    jQuery(document.getElementsByClassName('c4gGuiTabLink')).removeClass("c4g__state-active");
+    jQuery(document.getElementsByClassName('c4gGuiTabLink')).addClass("c4g__state-default");
+    jQuery(document.getElementsByClassName('c4gGuiTabContent')).removeClass('current');
+    jQuery(document.getElementsByClassName(tab_id)).removeClass("c4g__state-default");
+    jQuery(document.getElementsByClassName(tab_id)).addClass("c4g__state-active");
+    jQuery(document.getElementsByClassName(tab_id+"_content")).addClass("current");
+}
+
+function clickNextTab() {
+    switchTab('+');
+}
+
+function clickPreviousTab() {
+    switchTab('-');
+}
+
+function switchTab(mode) {
+    var button = document.getElementsByClassName('c4g__state-active')[0];
+    var tabId = button.getAttribute('data-tab');
+    var number = parseInt(tabId.substring(tabId.length - 1, tabId.length), 10);
+    if (mode === '+') {
+        number++;
+    } else {
+        number--;
+    }
+    if ((number < 0) || (number >= document.getElementsByClassName('c4gGuiTabLink').length)) {
+        return false;
+    }
+    var newTabId = tabId.substr(0, tabId.length - 2);
+    newTabId += '_' + number;
+    if (jQuery(document.getElementsByClassName(newTabId)).css("display") !== "none") {
+        clickC4GTab(newTabId);
+    } else {
+        clickC4GTab(newTabId);
+        switchTab(mode);
+    }
+}
+
+function checkC4GTab() {
+    var hide, hideElements = new Array(), showElements = new Array();
+    var classname;
+    var isVisible;
+    var tabElements = jQuery(document.getElementsByClassName('c4gGuiTabLink'));
+    var childElement;
+    if (tabElements) {
+        for(i=0; i<=tabElements.length; i++)
+        {
+            hide = true;
+            classname = "c4g_tab_"+i+"_content";
+            var tabContent = jQuery(document.getElementsByClassName(classname));
+            if (tabContent && tabContent[0] && tabContent[0].children) {
+                isVisible = 0;
+                for(j=0; j<=tabContent[0].children.length; j++)
+                {
+                    childElement = tabContent[0].children[j];
+                    if (childElement && jQuery(childElement).css("display") !== "none") {
+                        //isVisible++;
+
+                        for(k=0; k<=childElement.children.length; k++) {
+                            childOfChildElement = jQuery(childElement.children[k]);
+                            if (jQuery(childOfChildElement).hasClass("formdata") || jQuery(childOfChildElement).attr("for")) {
+                                if (childOfChildElement && (jQuery(childOfChildElement).css("display") !== "none") &&
+                                    !jQuery(childOfChildElement).hasClass("c4g__form-group")) {
+                                    isVisible++;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if (isVisible > 0) {
+                    hide = false;
+                }
+            }
+
+            if (hide) {
+                hideElements[i] = jQuery(tabElements[i]);
+            } else {
+                showElements[i] = jQuery(tabElements[i]);
+            }
+
+        }
+
+        for(i=0; i<=hideElements.length; i++)
+        {
+            jQuery(hideElements[i]).hide();
+        }
+        for(i=0; i<=showElements.length; i++)
+        {
+            jQuery(showElements[i]).show();
+        }
+
+    }
+
+    $chosenContainer = document.getElementsByClassName("chosen-container");
+    if ($chosenContainer) {
+        for(i = 0; i < $chosenContainer.length; i++)
+        {
+            if ($chosenContainer[i].style.width != "0px") {
+                jQuery($chosenContainer[i]).show();
+            } else {
+                jQuery($chosenContainer[i]).hide();
+            }
+        }
+    }
+}
+
+function replaceC4GDialog(dialogId) {
+    // check if there exists a dialog div with id and without id
+    // in that case, throw away the div without dialogId
+    if (dialogId !== -1) {
+        var oldDialog = document.getElementById('c4gGuiDialogbrickdialog');
+        var newDialog = document.getElementById('c4gGuiDialogbrickdialog' + dialogId);
+        if (oldDialog && newDialog) {
+            oldDialog.parentNode.removeChild(oldDialog);
+        }
+    }
+}
+
+function resizeChosen(fieldId) {
+    var chosenButton = document.getElementById(fieldId);
+    var firstRun = true;
+    jQuery(chosenButton).on('click', function(event) {
+
+        var chosenDrop = chosenButton.getElementsByClassName('chosen-drop')[0];
+        jQuery(this).on('mouseleave', function(event) {
+            chosenDrop.style.display = 'none';
+            chosenDrop.style.position = 'absolute';
+        });
+        var chosenSearch = chosenButton.getElementsByClassName('chosen-search')[0];
+        jQuery(chosenSearch).on('click', function (event) {
+            event.stopPropagation();
+        });
+        chosenDrop.style.display = 'block';
+        chosenDrop.style.position = 'relative';
+        if (firstRun) {
+            jQuery(chosenDrop).on('click', function(event) {
+                this.style.display = 'none';
+                this.style.position = 'absolute';
+                event.stopPropagation();
+            });
+            firstRun = false;
+        }
+    });
+}
+
+/**
+ * Focuses ("selects") and scrolls to the element with the given id. The element must be visible, i.e. not hidden under an accordion, etc.
+ * @param elementId
+ */
+
+function focusOnElement(elementId) {
+    if (elementId === '') {
+        return
+    }
+    elementId = document.getElementById(elementId);
+    if (elementId === null) {
+        return
+    }
+    elementId.focus();
+    elementId.scrollIntoView(false);
+}
+
+function callActionViaAjax(action) {
+    var gui = c4g.projects.C4GGui;
+    var url = gui.options.ajaxUrl + '/' + gui.options.moduleId + '/' + action;
+    jQuery.ajax({
+        url: url
+    }).done(function (data) {
+        gui.fnHandleAjaxResponse(data, gui.options.moduleId);
+    });
+}
+
+/**
+ * Function that removes all the default accordion icons. Use it as an onLoadScript in DialogParams.
+ */
+
+function removeAccordionIcons() {
+    var icons = document.getElementsByClassName('c4g__accordion-header-icon');
+    if (icons.length > 0) {
+        var index = icons.length;
+        while (index > 0) {
+            index -= 1;
+            icons.item(index).remove();
+            var icon = icons.item(index);
+        }
+    } else {
+        setTimeout(function(){removeAccordionIcons();}, 200);
+    }
+}
+
+/**
+ * Opens the accordion with the given index. Use 'all' to open all accordions.
+ * @param index
+ */
+
+function openAccordion(index) {
+    if (index === 'all') {
+        setTimeout(function () {
+            var accordions = document.getElementsByClassName('c4g__form-headline');
+            var event = new MouseEvent('click', {
+                view: window,
+                bubbles: true,
+                cancelable: true
+            });
+            var length = accordions.length;
+            while (length > 0) {
+                length -= 1;
+                accordions[length].dispatchEvent(event);
+                // console.log('clicked ' + length);
+            }
+        }, 100);
+    } else {
+        setTimeout(function () {
+            var accordions = document.getElementsByClassName('c4g__form-headline');
+            var target = accordions[index];
+            var event = new MouseEvent('click', {
+                view: window,
+                bubbles: true,
+                cancelable: true
+            });
+            target.dispatchEvent(event);
+            // console.log('clicked ' + index);
+        }, 100);
+    }
+}
+
+/**
+ * Method to remove data sets from the sub dialog (C4GSubDialogField)
+ * @param button
+ * @param event
+ * @param event
+ */
+
+
+function removeSubDialog(button, event) {
+    if (typeof(event) !== 'undefined') {
+        event.stopPropagation();
+    }
+
+    //ToDo language
+    var alertBox = new window.AlertHandler();
+    alertBox.showConfirmDialog('Bestätigung', button.dataset.message, function() {
+        while ((button) && (button.parentNode) && (button.parentNode.firstChild)) {
+            button.parentNode.removeChild(button.parentNode.firstChild);
+        }
+    }, function() { },'Ja', 'Nein', 'c4g__message_confirm');
+
+    //showConfirmationDialog(button.dataset.message, 'Bestätigung', 'Ja', 'Nein', confirmRemoveSubDialog(button));
+
+}
+
+function confirmRemoveSubDialog(button) {
+    while ((button) && (button.parentNode) && (button.parentNode.firstChild)) {
+        button.parentNode.removeChild(button.parentNode.firstChild);
+    }
+}
+
+/**
+ * Method to add data sets to the sub dialog (C4GSubDialogField)
+ * @param button
+ * @param event
+ */
+function addSubDialog(button, event, max) {
+    if (typeof(event) !== 'undefined') {
+        event.stopPropagation();
+    }
+    var target = document.getElementById(button.dataset.target);
+    button.dataset.index = parseInt(button.dataset.index, 10) + 1;
+    var string = document.getElementById(button.dataset.template).innerHTML.split(button.dataset.wildcard).join(button.dataset.index);
+    var newElement = document.createElement('div');
+    newElement.classList.add('c4g_sub_dialog_set');
+    newElement.classList.add('c4g_sub_dialog_set_new');
+    newElement.innerHTML = string;
+    var child;
+    var count = target.children.length;
+    if (count < max) {
+        if ((target.firstChild !== null) && (button.dataset.insert === 'before')) {
+            child = target.insertBefore(newElement, target.firstChild);
+        } else {
+            child = target.appendChild(newElement);
+        }
+        var inputs = child.getElementsByTagName('input');
+        // console.log(inputs);
+        var j = 0;
+        while (j < inputs.length) {
+            if (typeof(inputs[j]) !== 'undefined') {
+                if (inputs[j].disabled === true) {
+                    inputs[j].disabled = false;
+                }
+                if (inputs[j].readOnly === true) {
+                    inputs[j].readOnly = false;
+                }
+            }
+            j += 1;
+        }
+        var textareas = child.getElementsByTagName('textarea');
+        // console.log(inputs);
+        var k = 0;
+        while (k < textareas.length) {
+            if (typeof(textareas[k]) !== 'undefined') {
+                if (textareas[k].disabled === true) {
+                    textareas[k].disabled = false;
+                }
+                if (textareas[k].readOnly === true) {
+                    textareas[k].readOnly = false;
+                }
+            }
+            k += 1;
+        }
+
+        var butts = child.getElementsByClassName('js-sub-dialog-button');
+        // console.log(inputs);
+        var l = 0;
+        while (l < butts.length) {
+            if (typeof(butts[l]) !== 'undefined') {
+                if (butts[l].disabled === true) {
+                    butts[l].disabled = false;
+                }
+                if (butts[l].readOnly === true) {
+                    butts[l].readOnly = false;
+                }
+                if (butts[l].style.display === 'none') {
+                    butts[l].style.display = 'unset';
+                }
+            }
+            l += 1;
+        }
+    }
+}
+
+function editSubDialog(button, event) {
+    if (typeof(event) !== 'undefined') {
+        event.stopPropagation();
+    }
+    var ids = button.dataset.fields.split(',');
+    var index = 0;
+    while (index < ids.length) {
+        var element = document.getElementById('c4g_' + ids[index]);
+        //console.log(element);
+        if ((typeof(element) !== 'undefined')) {
+            if (element.hasAttribute('disabled')) {
+                element.removeAttribute('disabled');
+            } else {
+                element.setAttribute('disabled', '')
+            }
+            if (element.hasAttribute('readonly')) {
+                element.removeAttribute('readonly');
+            } else {
+                element.setAttribute('readonly', '')
+            }
+        }
+        var element2 = document.getElementById('c4g_uploadButton_' + ids[index]);
+        //console.log(element);
+        if ((typeof(element2) !== 'undefined') && element2 !== null) {
+            if (element2.tagName === 'BUTTON') {
+                if (element2.hasAttribute('disabled')) {
+                    element2.removeAttribute('disabled');
+                } else {
+                    element2.setAttribute('disabled', '')
+                }
+                if (element2.hasAttribute('readonly')) {
+                    element2.removeAttribute('readonly');
+                } else {
+                    element2.setAttribute('readonly', '')
+                }
+                if (element2.style.display === 'none') {
+                    element2.style.display = 'unset';
+                } else {
+                    element2.style.display = 'none';
+                }
+            }
+        }
+        var element3 = document.getElementById('c4g_deleteButton_' + ids[index]);
+        //console.log(element);
+        if ((typeof(element3) !== 'undefined') && element3 !== null) {
+            if (element2.tagName === 'BUTTON') {
+                if (element3.hasAttribute('disabled')) {
+                    element3.removeAttribute('disabled');
+                } else {
+                    element3.setAttribute('disabled', '')
+                }
+                if (element3.hasAttribute('readonly')) {
+                    element3.removeAttribute('readonly');
+                } else {
+                    element3.setAttribute('readonly', '')
+                }
+                if (element3.style.display === 'none') {
+                    element3.style.display = 'unset';
+                } else {
+                    element3.style.display = 'none';
+                }
+            }
+        }
+        // console.log(ids[index]);
+        var elements = button.parentNode.getElementsByClassName(ids[index]);
+        //console.log(elements);
+        var i = 0;
+        while (i < elements.length) {
+            var inputs = elements[i].getElementsByTagName('input');
+            var j = 0;
+            while (j < inputs.length) {
+                if (typeof(inputs[j]) !== 'undefined') {
+                    if (inputs[j].hasAttribute('disabled')) {
+                        inputs[j].removeAttribute('disabled');
+                    } else {
+                        inputs[j].setAttribute('disabled', '')
+                    }
+                    if (inputs[j].hasAttribute('readonly')) {
+                        inputs[j].removeAttribute('readonly');
+                    } else {
+                        inputs[j].setAttribute('readonly', '')
+                    }
+                }
+                j += 1;
+            }
+            var textareas = elements[i].getElementsByTagName('textarea');
+            var k = 0;
+            while (k < textareas.length) {
+                if (typeof(textareas[k]) !== 'undefined') {
+                    if (textareas[k].hasAttribute('disabled')) {
+                        textareas[k].removeAttribute('disabled');
+                    } else {
+                        textareas[k].setAttribute('disabled', '')
+                    }
+                    if (textareas[k].hasAttribute('readonly')) {
+                        textareas[k].removeAttribute('readonly');
+                    } else {
+                        textareas[k].setAttribute('readonly', '')
+                    }
+                }
+                k += 1;
+            }
+            var butts = elements[i].getElementsByTagName('button');
+            //console.log(butts);
+            var l = 0;
+            while (l < butts.length) {
+                if (typeof(butts[l]) !== 'undefined') {
+                    butts[k].removeAttribute('disabled');
+                    butts[k].removeAttribute('readonly');
+                    if (butts[l].style.display === 'none') {
+                        butts[l].style.display = 'unset';
+                    } else {
+                        butts[l].style.display = 'none';
+                    }
+                }
+                l += 1;
+            }
+            i += 1;
+        }
+        index += 1;
+    }
+    var parent = button.parentNode;
+    if (parent.classList.contains('c4g_sub_dialog_set_uneditable')) {
+        parent.classList.remove('c4g_sub_dialog_set_uneditable');
+        button.innerHTML = button.dataset.captionfinishediting;
+    } else {
+        parent.classList.add('c4g_sub_dialog_set_uneditable');
+        button.innerHTML = button.dataset.captionbeginediting;
+    }
+}

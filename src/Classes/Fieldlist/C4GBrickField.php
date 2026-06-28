@@ -479,6 +479,42 @@ abstract class C4GBrickField
                         }
 
                         break;
+                    case C4GBrickConditionType::GREATEREQUALSWITCH:
+                        if ($fieldList) {
+                            foreach ($fieldList as $listField) {
+                                if ($listField->getAdditionalID()) {
+                                    if ($conditionField == $listField->getFieldName() . '_' . $listField->getAdditionalID()) {
+                                        if (is_object($data) && property_exists($data, $conditionField) && $data->$conditionField) {
+                                            $conditionFieldData = $data->$conditionField;
+                                        } elseif (is_array($data) && isset($data[$conditionField])) {
+                                            $conditionFieldData = $data[$conditionField];
+                                        } else {
+                                            $conditionFieldData = $listField->getInitialValue();
+                                        }
+
+                                        if (intval($conditionFieldData) >= intval($conditionValue)) {
+                                            return true;
+                                        }
+                                    }
+                                } else {
+                                    if ($conditionField == $listField->getFieldName()) {
+                                        if (is_object($data) && property_exists($data, $conditionField) && $data->$conditionField) {
+                                            $conditionFieldData = $data->$conditionField;
+                                        } elseif (is_array($data) && isset($data[$conditionField])) {
+                                            $conditionFieldData = $data[$conditionField];
+                                        } else {
+                                            $conditionFieldData = $listField->getInitialValue();
+                                        }
+
+                                        if (intval($conditionFieldData) >= intval($conditionValue)) {
+                                            return true;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        break;
                     case C4GBrickConditionType::METHODSWITCH:
                         $conditionField = $condition->getFieldName() ?: -1;
                         //$conditionValue = $condition->getValue();
@@ -582,6 +618,16 @@ abstract class C4GBrickField
             if (!$conditionResult) {
                 $conditionPrepare = ' style="display: none;"';
             }
+            
+            // Safety check for reservation participants
+            if (isset($_GET['event']) && intval($_GET['event']) > 0) {
+                 if (strpos($this->getFieldName(), 'participants') !== false || strpos($this->getFieldName(), 'desiredCapacity') !== false) {
+                      $conditionPrepare = ' style="display: block !important;"';
+                      $conditionResult = true; // NEW: Force result to true for events
+                 }
+            } else if ($this->isInitInvisible()) {
+                 $conditionPrepare = ' style="display: none;"';
+            }
 
             foreach ($conditions as $condition) {
                 if (empty($condition)) {
@@ -674,7 +720,13 @@ abstract class C4GBrickField
         }
 
         $styleClass = 'c4g__form-'.$this->type.' '.'c4g__form-'.$this->type.'--'.$this->getFieldName().' '.$this->styleClass;
-        $class = 'class="c4g__form-group ' . $styleClass . '" ';
+        $classValue = 'c4g__form-group ' . $styleClass;
+        if (isset($_GET['event']) && intval($_GET['event']) > 0) {
+            if (strpos($this->getFieldName(), 'participants') !== false || strpos($this->getFieldName(), 'desiredCapacity') !== false) {
+                $classValue = str_replace('c4g_brick_hidden_field', '', $classValue);
+            }
+        }
+        $class = 'class="' . trim($classValue) . '" ';
 
         $fieldLabel = $this->addC4GFieldLabel($id, $this->getTitle(), $this->isMandatory(), $condition, $fieldList, $data, $dialogParams, true, $this->isSwitchTitleLabel());
 
@@ -695,8 +747,15 @@ abstract class C4GBrickField
         }
 
         if ($this->isPrintableTableRow()) {
+            $style = $condition['conditionPrepare'] ?: '';
+            if (isset($_GET['event']) && intval($_GET['event']) > 0) {
+                if (strpos($this->getFieldName(), 'participants') !== false || strpos($this->getFieldName(), 'desiredCapacity') !== false) {
+                    $style = ' style="display: block !important;" ';
+                }
+            }
             return '<div '
                 . $class
+                . ' ' . $style . ' '
                 . $condition['conditionName']
                 . $condition['conditionType']
                 . $condition['conditionValue']
@@ -706,8 +765,15 @@ abstract class C4GBrickField
                 $tdo . $fieldData . $tdc . $trc . $tablec .
                 $description . '</div>';
         } else {
+            $style = $condition['conditionPrepare'] ?: '';
+            if (isset($_GET['event']) && intval($_GET['event']) > 0) {
+                if (strpos($this->getFieldName(), 'participants') !== false || strpos($this->getFieldName(), 'desiredCapacity') !== false) {
+                    $style = ' style="display: block !important;" ';
+                }
+            }
             return '<div '
                 . $class
+                . ' ' . $style . ' '
                 . $condition['conditionName']
                 . $condition['conditionType']
                 . $condition['conditionValue']

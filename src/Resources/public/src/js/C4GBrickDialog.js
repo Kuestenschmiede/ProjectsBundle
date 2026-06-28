@@ -586,7 +586,9 @@ function C4GCheckFieldTypes(field) {
     }
 
     if (field.classList && (field.classList.contains("noformdata") ||
-        field.classList.contains("datepicker"))
+        field.classList.contains("datepicker") ||
+        (field.id && (field.id.indexOf("participants") !== -1 || field.id.indexOf("desiredCapacity") !== -1)) ||
+        (field.className && (field.className.indexOf("participants") !== -1 || field.className.indexOf("desiredCapacity") !== -1)))
     ) {
         return false;
     }
@@ -640,7 +642,7 @@ function C4GRemoveConditionClasses(field, level= 1) {
  * @constructor
  */
 function C4GRemoveConditionSettings(field, idx) {
-    if (field.dataset.conditionName && field.dataset.conditionType && ((field.dataset.conditionValue && field.dataset.conditionType.split("~").includes("value")) || (field.dataset.conditionValue && field.dataset.conditionType.split("~").includes("greaterequal")) || (field.dataset.conditionFunction && field.dataset.conditionType.split("~").includes("method")))) {
+    if (field.dataset.conditionName && field.dataset.conditionType && ((field.dataset.conditionValue && (field.dataset.conditionType.split("~").includes("value") || field.dataset.conditionType.split("~").includes("greaterequal") || field.dataset.conditionType.split("~").includes("greaterequalswitch"))) || (field.dataset.conditionFunction && field.dataset.conditionType.split("~").includes("method")))) {
         var fieldNames = field.dataset.conditionName.split("~");
         var fieldValues = field.dataset.conditionValue ? field.dataset.conditionValue.split("~") : [];
         var fieldFunction = field.dataset.conditionFunction ? field.dataset.conditionFunction.split("~") : [];
@@ -663,7 +665,7 @@ function C4GRemoveConditionSettings(field, idx) {
             }
             checkValue = fieldElem ? fieldElem.value : false;
             checkValue = (checkValue === currentValue);
-        } else if (currentType == 'greaterequal') {
+        } else if (currentType == 'greaterequal' || currentType == 'greaterequalswitch') {
             currentName = "c4g_" + fieldNames[idx];
             currentValue = fieldValues[idx];
             var fieldElem = document.getElementById(currentName);
@@ -758,7 +760,7 @@ function C4GCheckConditionClasses(field, level= 1) {
 function C4GCheckConditionSettings(field, idx)
 {
     var result = false;
-    if (field.dataset.conditionName && field.dataset.conditionType && ((field.dataset.conditionValue && field.dataset.conditionType.split("~").includes("value")) || (field.dataset.conditionValue && field.dataset.conditionType.split("~").includes("greaterequal")) || (field.dataset.conditionFunction && field.dataset.conditionType.split("~").includes("method")))) {
+    if (field.dataset.conditionName && field.dataset.conditionType && ((field.dataset.conditionValue && (field.dataset.conditionType.split("~").includes("value") || field.dataset.conditionType.split("~").includes("greaterequal") || field.dataset.conditionType.split("~").includes("greaterequalswitch"))) || (field.dataset.conditionFunction && field.dataset.conditionType.split("~").includes("method")))) {
         var fieldNames = field.dataset.conditionName.split("~");
         var fieldValues = field.dataset.conditionValue ? field.dataset.conditionValue.split("~") : [];
         var fieldFunction = field.dataset.conditionFunction ? field.dataset.conditionFunction.split("~") : [];
@@ -780,7 +782,7 @@ function C4GCheckConditionSettings(field, idx)
             }
             checkValue = fieldElem ? fieldElem.value : false;
             checkValue = (checkValue === currentValue);
-        } else if (currentType == 'greaterequal') {
+        } else if (currentType == 'greaterequal' || currentType == 'greaterequalswitch') {
             currentName = "c4g_" + fieldNames[idx];
             currentValue = fieldValues[idx];
             var fieldElem = document.getElementById(currentName);

@@ -136,7 +136,7 @@ class C4GSubDialogField extends C4GBrickField
                 /* We break manually if the condition is not met. */
                 $numLoadedDataSets += 1;
                 $propertyName = $name . $this->delimiter . $keyFieldName . $this->delimiter . $numLoadedDataSets;
-                if ($data->$propertyName) {
+                if (property_exists($data, $propertyName) && $data->$propertyName) {
                     /* skip data sets where any where clause is not met  */
                     foreach ($this->where as $key => $clause) {
                         $field = $name . $this->delimiter . $clause[0] . $this->delimiter . $numLoadedDataSets;
@@ -251,7 +251,9 @@ class C4GSubDialogField extends C4GBrickField
                     break;
                 }
             }
-        } elseif ($this->showDataSetsByCountField || $this->showDataSetsByCount || $this->showFirstDataSet) {
+        }
+        
+        if (($loadedDataHtml === '') && ($this->showDataSetsByCountField || $this->showDataSetsByCount || $this->showFirstDataSet)) {
             $initialCount = $this->showDataSetsByCount ?: 1;
 
             if ($this->showDataSetsByCountField) {
@@ -274,9 +276,9 @@ class C4GSubDialogField extends C4GBrickField
                     } else {
                         $dataSetClass = 'c4g_sub_dialog_set';
                     }
-                    $loadedDataHtml .= "<div class='$dataSetClass'>";
+                    $loadedDataHtml .= "<div class='$dataSetClass' style='display: block !important;'>";
                     $fieldName = $keyFieldName;
-                    $this->keyField->setFieldName($name . $this->delimiter . $fieldName . $this->delimiter . $i);
+                    $this->keyField->setFieldName($name . $this->delimiter . $fieldName . $this->delimiter . ($i + 1));
                     $loadedDataHtml .= $this->keyField->getC4GDialogField($this->getFieldList(), $data, $dialogParams, $additionalParams = []);
                     $this->keyField->setFieldName($fieldName);
                     $dataFieldNamesArray = [];
@@ -293,11 +295,11 @@ class C4GSubDialogField extends C4GBrickField
                             $uploadURL = $field->getUploadURL();
                             $deleteURL = $field->getDeleteURL();
                             $filenameColumn = $field->getFilenameColumn();
-                            $field->setUploadURL($name . $this->delimiter . $uploadURL . $this->delimiter . $i);
-                            $field->setDeleteURL($name . $this->delimiter . $deleteURL . $this->delimiter . $i);
-                            $field->setFilenameColumn($name . $this->delimiter . $filenameColumn . $this->delimiter . $i);
+                            $field->setUploadURL($name . $this->delimiter . $uploadURL . $this->delimiter . ($i + 1));
+                            $field->setDeleteURL($name . $this->delimiter . $deleteURL . $this->delimiter . ($i + 1));
+                            $field->setFilenameColumn($name . $this->delimiter . $filenameColumn . $this->delimiter . ($i + 1));
                         }
-                        $field->setFieldName($name . $this->delimiter . $fieldName . $this->delimiter . $i);
+                        $field->setFieldName($name . $this->delimiter . $fieldName . $this->delimiter . ($i + 1));
                         if (!$field instanceof C4GForeignArrayField) {
                             if ((!$editButton) || ($editable)) {
                                 $dataFieldNamesArray[] = $fieldName;
@@ -341,21 +343,32 @@ class C4GSubDialogField extends C4GBrickField
             }
         }
 
-        if ((($this->showButtons || ($this->showDataSetsByCount && $loadedDataHtml)) && !C4GBrickView::isWithoutEditing($dialogParams->getViewType())) || $loadedDataHtml) {
+        if ((($this->showButtons || (($this->showDataSetsByCount || $this->showFirstDataSet) && $loadedDataHtml)) && !C4GBrickView::isWithoutEditing($dialogParams->getViewType())) || $loadedDataHtml) {
             $condition = $this->createConditionData($fieldList, $data);
             $styleClass = 'c4g__form-'.$this->getType().' '.'c4g__form-'.$this->getType().'--'.$this->getFieldName();
             $class = 'class="c4g__form-group formdata '.$styleClass.'"';
 
+            $conditionPrepare = $condition['conditionPrepare'] ?: '';
+            if (isset($_GET['event']) && intval($_GET['event']) > 0) {
+                 if (strpos($name, 'participants') !== false || strpos($name, 'Participants') !== false) {
+                     $conditionPrepare = ' style="display: block !important;"';
+                 }
+            } else if ($this->isInitInvisible()) {
+                 $conditionPrepare = ' style="display: none;"';
+            }
+
             $conditionStart =
                 '<div '
                 . $class
+                . ' ' . $conditionPrepare . ' '
                 . $condition['conditionName']
                 . $condition['conditionType']
                 . $condition['conditionValue']
                 . $condition['conditionDisable']
+                . " data-debug-name='$name' "
                 . '>';
 
-            $html = $conditionStart . "<div class='c4g_sub_dialog_container formdata' " . $condition['conditionPrepare'] . " id='c4g_$name'>";
+            $html = $conditionStart . "<div class='c4g_sub_dialog_container formdata' " . $conditionPrepare . " id='c4g_$name'>";
             $html .= "<template id='c4g_$name" . '_template' . "'>$fieldsHtml</template>";
             $html .= $this->addC4GFieldLabel("c4g_$name", $title, $this->isMandatory(), '', $fieldList, $data, $dialogParams);
             if ($this->showButtons && !C4GBrickView::isWithoutEditing($dialogParams->getViewType())) {

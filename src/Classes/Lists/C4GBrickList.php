@@ -673,7 +673,13 @@ class C4GBrickList
                 }
                 $beforeDiv = '<li class="c4g_brick_list_column c4g_brick_list_header_column ' . $field->getFieldName() . '">';
                 $afterDiv = '</li>';
-                if ($field->isHidden()) {
+                $forceVisible = false;
+                if (isset($_GET['event']) && intval($_GET['event']) > 0) {
+                    if (strpos($field->getFieldName(), 'participants') !== false || strpos($field->getFieldName(), 'desiredCapacity') !== false) {
+                        $forceVisible = true;
+                    }
+                }
+                if ($field->isHidden() && !$forceVisible) {
                     $beforeDiv .= '<div class="c4g_brick_hidden_field" style="display:none">';
                     $afterDiv = "</div>$afterDiv";
                 }
@@ -741,7 +747,13 @@ class C4GBrickList
                     $beforeDiv = '<li class="c4g_brick_list_column c4g_brick_list_row_column ' . $field->getFieldName() .
                         '"' . $itemprop . $itemType . '>';
                     $afterDiv = '</li>';
-                    if ($field->isHidden()) {
+                    $forceVisible = false;
+                    if (isset($_GET['event']) && intval($_GET['event']) > 0) {
+                        if (strpos($field->getFieldName(), 'participants') !== false || strpos($field->getFieldName(), 'desiredCapacity') !== false) {
+                            $forceVisible = true;
+                        }
+                    }
+                    if ($field->isHidden() && !$forceVisible) {
                         $beforeDiv .= '<div class="c4g_brick_hidden_field" style="display:none">';
                         $afterDiv = "</div>$afterDiv";
                     }
