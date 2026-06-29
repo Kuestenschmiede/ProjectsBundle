@@ -232,23 +232,35 @@ class C4GNotification
                     }
                 }
                 
-                if ($reflection->getName() === 'Terminal42\NotificationCenterBundle\Stamp\EmailStamp' || $reflection->getName() === 'Terminal42\NotificationCenterBundle\Stamp\RecipientEmailStamp') {
-                    try {
-                        $pEmail = $reflection->getProperty('email');
-                        $pEmail->setAccessible(true);
-                        $emailValue = $pEmail->getValue($stamp);
-                        if (is_string($emailValue) && (strpos($emailValue, '##admin_email##') !== false || strpos($emailValue, '%23%23admin_email%23%23') !== false)) {
-                            $emailValue = str_replace(['##admin_email##', '%23%23admin_email%23%23', '##admin_email_url##'], $adminEmail, $emailValue);
-                            if ($reflection->getName() === 'Terminal42\NotificationCenterBundle\Stamp\RecipientEmailStamp') {
-                                $stamp = new \Terminal42\NotificationCenterBundle\Stamp\RecipientEmailStamp($emailValue);
-                            } elseif ($reflection->getName() === 'Terminal42\NotificationCenterBundle\Stamp\EmailStamp') {
-                                $stamp = new \Terminal42\NotificationCenterBundle\Stamp\EmailStamp($emailValue);
-                            } else {
-                                $pEmail->setValue($stamp, $emailValue);
+                if ($reflection->getName() === 'Terminal42\NotificationCenterBundle\Stamp\EmailStamp' ||
+                    $reflection->getName() === 'Terminal42\NotificationCenterBundle\Stamp\RecipientEmailStamp' ||
+                    $reflection->getName() === 'Terminal42\NotificationCenterBundle\Parcel\Stamp\Mailer\EmailStamp') {
+                    $properties = ['email', 'from', 'to', 'cc', 'bcc', 'replyTo', 'subject', 'text', 'html'];
+                    foreach ($properties as $propName) {
+                        try {
+                            $val = null;
+                            if ($reflection->hasProperty($propName)) {
+                                $p = $reflection->getProperty($propName);
+                                $p->setAccessible(true);
+                                $val = $p->getValue($stamp);
+                            } elseif ($reflection->hasMethod('get' . ucfirst($propName))) {
+                                $val = $stamp->{'get' . ucfirst($propName)}();
                             }
-                            $dataChanged = true;
-                        }
-                    } catch (\Exception $e) {}
+
+                            if (is_string($val) && (strpos($val, '##admin_email##') !== false || strpos($val, '%23%23admin_email%23%23') !== false)) {
+                                $val = str_replace(['##admin_email##', '%23%23admin_email%23%23', '##admin_email_url##'], $adminEmail, $val);
+                                $methodName = 'with' . ucfirst($propName);
+                                if ($reflection->hasMethod($methodName)) {
+                                    $stamp = $stamp->$methodName($val);
+                                } elseif ($reflection->hasProperty($propName)) {
+                                    $p = $reflection->getProperty($propName);
+                                    $p->setAccessible(true);
+                                    $p->setValue($stamp, $val);
+                                }
+                                $dataChanged = true;
+                            }
+                        } catch (\Exception $e) {}
+                    }
                 }
                 
                 if ($dataChanged) {
