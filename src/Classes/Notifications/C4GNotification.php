@@ -71,7 +71,7 @@ class C4GNotification
         $adminEmail = \Contao\Config::get('adminEmail') ?: ($GLOBALS['TL_CONFIG']['adminEmail'] ?? '');
         // Fallback for admin_email if it's empty or still the placeholder string
         if (isset($this->tokens['admin_email'])) {
-            if ($this->tokens['admin_email'] === '' || $this->tokens['admin_email'] === '##admin_email##' || $this->tokens['admin_email'] === false || $this->tokens['admin_email'] === ' ') {
+            if ($this->tokens['admin_email'] === '' || $this->tokens['admin_email'] === '##admin_email##' || $this->tokens['admin_email'] === false || $this->tokens['admin_email'] === ' ' || $this->tokens['admin_email'] === null) {
                 $this->tokens['admin_email'] = $adminEmail;
                 \con4gis\CoreBundle\Resources\contao\models\C4gLogModel::addLogEntry('C4GNotification', "Applied fallback for 'admin_email': " . $this->tokens['admin_email']);
             }
@@ -82,16 +82,16 @@ class C4GNotification
         }
 
         foreach ($this->tokens as $key => $token) {
-            if (($token === '' || $token === null || $token === false || $token === ' ') && !in_array($key, $this->optionalTokens)) {
+            if (($token === '' || $token === null || $token === false) && !in_array($key, $this->optionalTokens)) {
                 // throw new \Exception("C4GNotification: The token '$key' has not been defined.");
-                \con4gis\CoreBundle\Resources\contao\models\C4gLogModel::addLogEntry('C4GNotification', "Warning: The token '$key' is empty and not marked as optional. Setting to space string.");
-                $this->tokens[$key] = ' ';
+                \con4gis\CoreBundle\Resources\contao\models\C4gLogModel::addLogEntry('C4GNotification', "Warning: The token '$key' is empty and not marked as optional. Setting to empty string.");
+                $this->tokens[$key] = '';
             }
         }
 
-        $adminEmail = $this->tokens['admin_email'] ?: (\Contao\Config::get('adminEmail') ?: ($GLOBALS['TL_CONFIG']['adminEmail'] ?? 'info@kuestenschmiede.de'));
-        if (!$adminEmail || $adminEmail === '##admin_email##') {
-            $adminEmail = 'info@kuestenschmiede.de';
+        $adminEmail = $this->tokens['admin_email'] ?: (\Contao\Config::get('adminEmail') ?: ($GLOBALS['TL_CONFIG']['adminEmail'] ?? ''));
+        if (!$adminEmail || $adminEmail === '##admin_email##' || $adminEmail === ' ') {
+            $adminEmail = '';
         }
         $this->tokens['admin_email'] = $adminEmail;
         
@@ -112,6 +112,14 @@ class C4GNotification
             if ($request) {
                 $request->attributes->set('_c4g_admin_email', $adminEmail);
                 $request->attributes->set('admin_email', $adminEmail);
+            }
+        }
+
+        // Clean up tokens that are just a space (from constructor or earlier logic)
+        // Symfony Mailer / Contao 5 is strict about email addresses.
+        foreach ($this->tokens as $key => $token) {
+            if ($token === ' ' || $token === null || $token === false) {
+                $this->tokens[$key] = '';
             }
         }
 
@@ -164,13 +172,20 @@ class C4GNotification
 
         foreach ($notificationIds as $notificationId) {
             $tokens = $this->tokens;
-            $adminEmail = $tokens['admin_email'] ?: (\Contao\Config::get('adminEmail') ?: ($GLOBALS['TL_CONFIG']['adminEmail'] ?? 'info@kuestenschmiede.de'));
-            if (!$adminEmail || $adminEmail === '##admin_email##') {
-                $adminEmail = 'info@kuestenschmiede.de';
+            $adminEmail = $tokens['admin_email'] ?: (\Contao\Config::get('adminEmail') ?: ($GLOBALS['TL_CONFIG']['adminEmail'] ?? ''));
+            if (!$adminEmail || $adminEmail === '##admin_email##' || $adminEmail === ' ') {
+                $adminEmail = '';
             }
             $tokens['admin_email'] = $adminEmail;
             
             $recursiveReplace($tokens);
+
+            // Clean up tokens that are just a space
+            foreach ($tokens as $key => $val) {
+                if ($val === ' ' || $val === null || $val === false) {
+                    $tokens[$key] = '';
+                }
+            }
 
             // Fallback for fields that might contain the placeholder but are not in tokens
             // (e.g. if the notification center configuration has it statically)
@@ -195,6 +210,9 @@ class C4GNotification
             );
 
             $adminEmail = $tokens['admin_email'] ?: (\Contao\Config::get('adminEmail') ?: ($GLOBALS['TL_CONFIG']['adminEmail'] ?? ''));
+            if (!$adminEmail || $adminEmail === '##admin_email##' || $adminEmail === ' ') {
+                $adminEmail = '';
+            }
 
             $stampsArr = $stamps->toArray();
             $stampsChanged = false;
