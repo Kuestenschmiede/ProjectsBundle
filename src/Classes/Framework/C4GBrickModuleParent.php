@@ -1338,35 +1338,26 @@ class C4GBrickModuleParent extends Module
                     foreach ($stampsArr as $index => $stamp) {
                         $reflection = new \ReflectionClass(get_class($stamp));
                         $dataChanged = false;
+
+                        // Recursive replace function for stamps that have tokens or values
+                        $stampReplace = function ($data) use ($adminEmail, &$stampReplace) {
+                            if (is_array($data)) {
+                                foreach ($data as $k => &$v) {
+                                    $v = $stampReplace($v);
+                                }
+                                return $data;
+                            } elseif (is_string($data)) {
+                                return str_replace(['##admin_email##', '%23%23admin_email%23%23', '##admin_email_url##'], $adminEmail, $data);
+                            }
+                            return $data;
+                        };
                         
                         // Handle TokenStamp
                         if ($reflection->hasMethod('getTokens') && $reflection->hasMethod('withTokens')) {
                             $stampTokens = $stamp->getTokens();
-                            $tokensChanged = false;
-                            foreach ($stampTokens as $tKey => $tVal) {
-                                if (is_string($tVal)) {
-                                    $replaced = str_replace(['##admin_email##', '%23%23admin_email%23%23', '##admin_email_url##'], $adminEmail, $tVal);
-                                    if ($replaced !== $tVal) {
-                                        $stampTokens[$tKey] = $replaced;
-                                        $tokensChanged = true;
-                                    }
-                                } elseif (is_array($tVal)) {
-                                    foreach ($tVal as $tk => $tv) {
-                                        if (is_string($tv)) {
-                                            $replaced = str_replace(['##admin_email##', '%23%23admin_email%23%23', '##admin_email_url##'], $adminEmail, $tv);
-                                            if ($replaced !== $tv) {
-                                                $tVal[$tk] = $replaced;
-                                                $tokensChanged = true;
-                                            }
-                                        }
-                                    }
-                                    if ($tokensChanged) {
-                                        $stampTokens[$tKey] = $tVal;
-                                    }
-                                }
-                            }
-                            if ($tokensChanged) {
-                                $stamp = $stamp->withTokens($stampTokens);
+                            $newTokens = $stampReplace($stampTokens);
+                            if ($newTokens !== $stampTokens) {
+                                $stamp = $stamp->withTokens($newTokens);
                                 $dataChanged = true;
                             }
                         }
@@ -1374,36 +1365,14 @@ class C4GBrickModuleParent extends Module
                         // Handle subject, from, etc stamps that might use getValues/withValues
                         if ($reflection->hasMethod('getValues') && $reflection->hasMethod('withValues')) {
                             $stampValues = $stamp->getValues();
-                            $valuesChanged = false;
-                            foreach ($stampValues as $vKey => $vVal) {
-                                if (is_string($vVal)) {
-                                    $replaced = str_replace(['##admin_email##', '%23%23admin_email%23%23', '##admin_email_url##'], $adminEmail, $vVal);
-                                    if ($replaced !== $vVal) {
-                                        $stampValues[$vKey] = $replaced;
-                                        $valuesChanged = true;
-                                    }
-                                } elseif (is_array($vVal)) {
-                                    foreach ($vVal as $vk => $vv) {
-                                        if (is_string($vv)) {
-                                            $replaced = str_replace(['##admin_email##', '%23%23admin_email%23%23', '##admin_email_url##'], $adminEmail, $vv);
-                                            if ($replaced !== $vv) {
-                                                $vVal[$vk] = $replaced;
-                                                $valuesChanged = true;
-                                            }
-                                        }
-                                    }
-                                    if ($valuesChanged) {
-                                        $stampValues[$vKey] = $vVal;
-                                    }
-                                }
-                            }
-                            if ($valuesChanged) {
-                                $stamp = $stamp->withValues($stampValues);
+                            $newValues = $stampReplace($stampValues);
+                            if ($newValues !== $stampValues) {
+                                $stamp = $stamp->withValues($newValues);
                                 $dataChanged = true;
                             }
                         }
                         
-                        // Handle EmailStamp specifically if needed (it might not have getValues/getTokens)
+                        // Handle EmailStamp specifically (it might not have getValues/getTokens)
                         if ($reflection->getName() === 'Terminal42\NotificationCenterBundle\Stamp\EmailStamp' || $reflection->getName() === 'Terminal42\NotificationCenterBundle\Stamp\RecipientEmailStamp') {
                             try {
                                 $pEmail = $reflection->getProperty('email');
@@ -1411,8 +1380,6 @@ class C4GBrickModuleParent extends Module
                                 $emailValue = $pEmail->getValue($stamp);
                                 if (is_string($emailValue) && (strpos($emailValue, '##admin_email##') !== false || strpos($emailValue, '%23%23admin_email%23%23') !== false)) {
                                     $emailValue = str_replace(['##admin_email##', '%23%23admin_email%23%23', '##admin_email_url##'], $adminEmail, $emailValue);
-                                    // Recreation of the stamp with corrected email address
-                                    // RecipientEmailStamp is final and doesn't have a setter, but it has a constructor
                                     if ($reflection->getName() === 'Terminal42\NotificationCenterBundle\Stamp\RecipientEmailStamp') {
                                         $stamp = new \Terminal42\NotificationCenterBundle\Stamp\RecipientEmailStamp($emailValue);
                                     } elseif ($reflection->getName() === 'Terminal42\NotificationCenterBundle\Stamp\EmailStamp') {

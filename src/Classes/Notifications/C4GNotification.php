@@ -194,79 +194,66 @@ class C4GNotification
                 $tokens,
             );
 
-            // Re-fetch admin email in case it changed in tokens
             $adminEmail = $tokens['admin_email'] ?: (\Contao\Config::get('adminEmail') ?: ($GLOBALS['TL_CONFIG']['adminEmail'] ?? ''));
 
             $stampsArr = $stamps->toArray();
             $stampsChanged = false;
             foreach ($stampsArr as $index => $stamp) {
-                if (method_exists($stamp, 'getTokens')) {
-                    $stampTokens = $stamp->getTokens();
-                    $tokensChanged = false;
-                    foreach ($stampTokens as $tKey => $tVal) {
-                        if (is_string($tVal)) {
-                            $replaced = str_replace(['##admin_email##', '%23%23admin_email%23%23', '##admin_email_url##'], $adminEmail, $tVal);
-                            if ($replaced !== $tVal) {
-                                $stampTokens[$tKey] = $replaced;
-                                $tokensChanged = true;
-                            }
-                        } elseif (is_array($tVal)) {
-                            foreach ($tVal as $tk => $tv) {
-                                if (is_string($tv)) {
-                                    $replaced = str_replace(['##admin_email##', '%23%23admin_email%23%23', '##admin_email_url##'], $adminEmail, $tv);
-                                    if ($replaced !== $tv) {
-                                        $tVal[$tk] = $replaced;
-                                        $tokensChanged = true;
-                                    }
-                                }
-                            }
-                            if ($tokensChanged) {
-                                $stampTokens[$tKey] = $tVal;
-                            }
+                $reflection = new \ReflectionClass(get_class($stamp));
+                $dataChanged = false;
+                
+                $stampReplace = function ($data) use ($adminEmail, &$stampReplace) {
+                    if (is_array($data)) {
+                        foreach ($data as $k => &$v) {
+                            $v = $stampReplace($v);
                         }
+                        return $data;
+                    } elseif (is_string($data)) {
+                        return str_replace(['##admin_email##', '%23%23admin_email%23%23', '##admin_email_url##'], $adminEmail, $data);
                     }
-                    if ($tokensChanged) {
-                        $reflection = new \ReflectionClass(get_class($stamp));
-                        if ($reflection->hasMethod('withTokens')) {
-                            $stampsArr[$index] = $stamp->withTokens($stampTokens);
-                            $stampsChanged = true;
-                        }
+                    return $data;
+                };
+
+                if ($reflection->hasMethod('getTokens') && $reflection->hasMethod('withTokens')) {
+                    $stampTokens = $stamp->getTokens();
+                    $newTokens = $stampReplace($stampTokens);
+                    if ($newTokens !== $stampTokens) {
+                        $stamp = $stamp->withTokens($newTokens);
+                        $dataChanged = true;
                     }
                 }
                 
-                // Always check getValues/withValues too, as some stamps use it
-                if (method_exists($stamp, 'getValues')) {
+                if ($reflection->hasMethod('getValues') && $reflection->hasMethod('withValues')) {
                     $stampValues = $stamp->getValues();
-                    $valuesChanged = false;
-                    foreach ($stampValues as $vKey => $vVal) {
-                        if (is_string($vVal)) {
-                            $replaced = str_replace(['##admin_email##', '%23%23admin_email%23%23', '##admin_email_url##'], $adminEmail, $vVal);
-                            if ($replaced !== $vVal) {
-                                $stampValues[$vKey] = $replaced;
-                                $valuesChanged = true;
-                            }
-                        } elseif (is_array($vVal)) {
-                            foreach ($vVal as $vk => $vv) {
-                                if (is_string($vv)) {
-                                    $replaced = str_replace(['##admin_email##', '%23%23admin_email%23%23', '##admin_email_url##'], $adminEmail, $vv);
-                                    if ($replaced !== $vv) {
-                                        $vVal[$vk] = $replaced;
-                                        $valuesChanged = true;
-                                    }
-                                }
-                            }
-                            if ($valuesChanged) {
-                                $stampValues[$vKey] = $vVal;
-                            }
-                        }
+                    $newValues = $stampReplace($stampValues);
+                    if ($newValues !== $stampValues) {
+                        $stamp = $stamp->withValues($newValues);
+                        $dataChanged = true;
                     }
-                    if ($valuesChanged) {
-                        $reflection = new \ReflectionClass(get_class($stamp));
-                        if ($reflection->hasMethod('withValues')) {
-                            $stampsArr[$index] = $stamp->withValues($stampValues);
-                            $stampsChanged = true;
+                }
+                
+                if ($reflection->getName() === 'Terminal42\NotificationCenterBundle\Stamp\EmailStamp' || $reflection->getName() === 'Terminal42\NotificationCenterBundle\Stamp\RecipientEmailStamp') {
+                    try {
+                        $pEmail = $reflection->getProperty('email');
+                        $pEmail->setAccessible(true);
+                        $emailValue = $pEmail->getValue($stamp);
+                        if (is_string($emailValue) && (strpos($emailValue, '##admin_email##') !== false || strpos($emailValue, '%23%23admin_email%23%23') !== false)) {
+                            $emailValue = str_replace(['##admin_email##', '%23%23admin_email%23%23', '##admin_email_url##'], $adminEmail, $emailValue);
+                            if ($reflection->getName() === 'Terminal42\NotificationCenterBundle\Stamp\RecipientEmailStamp') {
+                                $stamp = new \Terminal42\NotificationCenterBundle\Stamp\RecipientEmailStamp($emailValue);
+                            } elseif ($reflection->getName() === 'Terminal42\NotificationCenterBundle\Stamp\EmailStamp') {
+                                $stamp = new \Terminal42\NotificationCenterBundle\Stamp\EmailStamp($emailValue);
+                            } else {
+                                $pEmail->setValue($stamp, $emailValue);
+                            }
+                            $dataChanged = true;
                         }
-                    }
+                    } catch (\Exception $e) {}
+                }
+                
+                if ($dataChanged) {
+                    $stampsArr[$index] = $stamp;
+                    $stampsChanged = true;
                 }
             }
 

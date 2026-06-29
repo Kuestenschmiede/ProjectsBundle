@@ -54,7 +54,7 @@ class C4GBrickNotification
                 if (isset($dlgValues[$name]) && $dlgValues[$name] !== '' && $dlgValues[$name] !== null) {
                     $translated = $field->translateFieldValue($dlgValues[$name]);
                     // If the current value in tokensValues is empty, unformatted, or if we have a better translated value
-                    if (!isset($tokensValues[$fieldName]) || $tokensValues[$fieldName] === '' || $tokensValues[$fieldName] === '0,00 €' || $tokensValues[$fieldName] === ' ' || $tokensValues[$fieldName] === null) {
+                    if (!isset($tokensValues[$fieldName]) || in_array($tokensValues[$fieldName], ['', ' ', '0,00 €', '0.00 €', '0', 0, '##' . $fieldName . '##', '%', ' %', '0 %', '0,00 %'], true) || (is_string($tokensValues[$fieldName]) && strpos($tokensValues[$fieldName], '##') === 0)) {
                         $tokensValues[$fieldName] = $translated;
                     } elseif (is_string($translated) && strpos($translated, ' €') !== false && (!is_string($tokensValues[$fieldName]) || strpos($tokensValues[$fieldName], ' €') === false)) {
                         // Prefer the translated value if it's a formatted price and current one isn't
@@ -139,17 +139,22 @@ class C4GBrickNotification
         // Add dlgValues as fallbacks if not already set, but don't overwrite
         // already formatted/translated values.
         foreach ($dlgValues as $key => $val) {
-            if ($val !== '' && $val !== null && !is_array($val) && (!isset($tokensValues[$key]) || $tokensValues[$key] === '' || $tokensValues[$key] === ' ' || $tokensValues[$key] === '0,00 €' || $tokensValues[$key] === '0.00 €' || $tokensValues[$key] === '0' || $tokensValues[$key] === 0)) {
+            if ($val !== '' && $val !== null && !is_array($val) && (!isset($tokensValues[$key]) || in_array($tokensValues[$key], ['', ' ', '0,00 €', '0.00 €', '0', 0, '##' . $key . '##'], true) || (is_string($tokensValues[$key]) && strpos($tokensValues[$key], '##') === 0))) {
                 $tokensValues[$key] = $val;
             }
         }
         
         // Ensure price tokens from dlgValues are not lost
-        $priceKeys = ['priceSum', 'priceSumNet', 'priceSumTax', 'priceOptionSum', 'priceOptionSumNet', 'priceOptionSumTax', 'priceDiscount', 'priceNet', 'priceTax', 'price'];
+        $priceKeys = ['priceSum', 'priceSumNet', 'priceSumTax', 'priceOptionSum', 'priceOptionSumNet', 'priceOptionSumTax', 'priceDiscount', 'priceNet', 'priceTax', 'price', 'discountPercent'];
         foreach ($priceKeys as $pk) {
-            if (isset($dlgValues[$pk]) && $dlgValues[$pk] !== '0,00 €' && $dlgValues[$pk] !== '0' && $dlgValues[$pk] !== 0) {
+            if (isset($dlgValues[$pk]) && !in_array($dlgValues[$pk], ['0,00 €', '0.00 €', '0', 0, '', ' ', '##' . $pk . '##', '%', ' %', '0 %', '0,00 %', ' '], true)) {
                 $tokensValues[$pk] = $dlgValues[$pk];
             }
+        }
+        
+        // Log tokens after dlgValues merge
+        if (isset($tokensValues['priceDiscount']) || isset($tokensValues['discountPercent'])) {
+            \con4gis\CoreBundle\Resources\contao\models\C4gLogModel::addLogEntry('reservation', "Tokens after dlgValues merge: Discount: " . ($tokensValues['priceDiscount'] ?? 'MISSING') . ", Percent: " . ($tokensValues['discountPercent'] ?? 'MISSING'));
         }
 
         // Framework might overwrite tokens here with DB values if $object is provided.
@@ -199,11 +204,95 @@ class C4GBrickNotification
         }
 
         // FINAL PROTECTION for price tokens - ensure they are in the final array
-        $priceKeys = ['priceSum', 'priceSumNet', 'priceSumTax', 'priceOptionSum', 'priceOptionSumNet', 'priceOptionSumTax', 'priceDiscount', 'priceNet', 'priceTax', 'price'];
+        $priceKeys = ['priceSum', 'priceSumNet', 'priceSumTax', 'priceOptionSum', 'priceOptionSumNet', 'priceOptionSumTax', 'priceDiscount', 'priceNet', 'priceTax', 'price', 'discountPercent'];
         foreach ($priceKeys as $pk) {
-            if (isset($dlgValues[$pk]) && $dlgValues[$pk] !== '0,00 €' && $dlgValues[$pk] !== '0' && $dlgValues[$pk] !== 0) {
-                $arrTokens[$pk] = $dlgValues[$pk];
+            $val = $dlgValues[$pk] ?? $tokensValues[$pk] ?? '';
+            
+            // Check if we have a valid non-empty value
+            $isZero = in_array($val, ['0,00 €', '0.00 €', '0', 0, '', ' ', '##' . $pk . '##', '%', ' %', '0 %', '0,00 %', '0,00', '0.00', ' '], true);
+            
+            if (!$isZero) {
+                $arrTokens[$pk] = $val;
             }
+            
+            // Special handling for discountPercent to ensure it always has a value if set
+            if ($pk === 'discountPercent' && (empty($arrTokens[$pk]) || $arrTokens[$pk] === '0 %' || $arrTokens[$pk] === ' ' || $arrTokens[$pk] === '0,00 %' || $arrTokens[$pk] === '0,00')) {
+                $dp = $dlgValues['discountPercent'] ?? $tokensValues['discountPercent'] ?? '';
+                if ($dp !== '' && $dp !== '0 %' && $dp !== '0' && $dp !== '##discountPercent##' && $dp !== ' ' && $dp !== '0,00 %' && $dp !== '0,00' && $dp !== '0.00' && $dp !== '0.00 %') {
+                    $arrTokens['discountPercent'] = is_numeric($dp) ? ($dp . ' %') : $dp;
+                }
+            }
+        }
+        
+        // Ensure priceDiscount is set if we have a discountPercent and a total
+        if ((!isset($arrTokens['priceDiscount']) || $arrTokens['priceDiscount'] === '0,00 €' || $arrTokens['priceDiscount'] === ' ') && isset($arrTokens['discountPercent']) && isset($arrTokens['priceSum'])) {
+             $dpVal = floatval(str_replace([' ', '%', ','], ['', '', '.'], $arrTokens['discountPercent']));
+             $psRaw = str_replace([' ', '€'], ['', ''], $arrTokens['priceSum']);
+             $psVal = floatval(str_replace(',', '.', str_replace('.', '', $psRaw)));
+             if ($dpVal > 0 && $psVal > 0) {
+                 // The priceSum might already have the discount deducted.
+                 // If priceSum is 10.00 and discount is 5%, then priceSum = priceBefore * (1 - 0.05)
+                 // priceBefore = priceSum / 0.95 = 10.526...
+                 // discountAmount = 10.526 - 10.00 = 0.526 -> 0,53 €
+                 $discountAmount = ($psVal / (100 - $dpVal)) * $dpVal;
+                 $arrTokens['priceDiscount'] = \con4gis\ReservationBundle\Classes\Helper\C4gReservationHandler::formatPrice($discountAmount);
+                 \con4gis\CoreBundle\Resources\contao\models\C4gLogModel::addLogEntry('reservation', "Calculated priceDiscount: $discountAmount from Total: $psVal, Percent: $dpVal");
+             } elseif ($dpVal > 0 && ($psVal == 0 || empty($arrTokens['priceSum']))) {
+                 // If priceSum is not yet set or zero, we can't calculate amount, but we should at least keep the percent
+                 \con4gis\CoreBundle\Resources\contao\models\C4gLogModel::addLogEntry('reservation', "PriceSum is zero, can't calculate discount amount. Percent: $dpVal");
+             }
+        }
+        
+        // Ensure priceNet and priceTax are set if priceSum is set but they are missing
+        if (isset($arrTokens['priceSum']) && $arrTokens['priceSum'] !== '0,00 €' && $arrTokens['priceSum'] !== ' ') {
+             if (!isset($arrTokens['priceSumTax']) || $arrTokens['priceSumTax'] === '0,00 €' || $arrTokens['priceSumTax'] === ' ') {
+                  // Fallback calculation if missing
+                  $psRaw = str_replace([' ', '€'], ['', ''], $arrTokens['priceSum']);
+                  $psVal = floatval(str_replace(',', '.', str_replace('.', '', $psRaw)));
+                  if ($psVal > 0) {
+                       $net = $psVal / 1.19;
+                       $tax = $psVal - $net;
+                       $arrTokens['priceSumNet'] = \con4gis\ReservationBundle\Classes\Utils\C4gReservationHandler::formatPrice($net);
+                       $arrTokens['priceSumTax'] = \con4gis\ReservationBundle\Classes\Utils\C4gReservationHandler::formatPrice($tax);
+                       \con4gis\CoreBundle\Resources\contao\models\C4gLogModel::addLogEntry('reservation', "Notification Fallback VAT Calculation: Sum: $psVal, Net: $net, Tax: $tax");
+                  }
+             }
+             // Ensure priceNet and priceTax also match priceSumNet and priceSumTax
+             if (!isset($arrTokens['priceNet']) || $arrTokens['priceNet'] === '0,00 €' || $arrTokens['priceNet'] === ' ' || $arrTokens['priceNet'] === $arrTokens['priceSum']) {
+                  $arrTokens['priceNet'] = $arrTokens['priceSumNet'] ?? '0,00 €';
+             }
+             if (!isset($arrTokens['priceTax']) || $arrTokens['priceTax'] === '0,00 €' || $arrTokens['priceTax'] === ' ') {
+                  $arrTokens['priceTax'] = $arrTokens['priceSumTax'] ?? '0,00 €';
+             }
+        }
+        
+        // Ensure priceNet and priceTax are set if price is set but they are missing
+        if (isset($arrTokens['price']) && (!isset($arrTokens['priceNet']) || $arrTokens['priceNet'] === '0,00 €' || $arrTokens['priceNet'] === ' ')) {
+             $arrTokens['priceNet'] = $arrTokens['price'];
+        }
+        
+        // Ensure priceSum is set if not present but we have components
+        if (!isset($arrTokens['priceSum']) || $arrTokens['priceSum'] === '0,00 €') {
+            if (isset($arrTokens['price'])) {
+                $arrTokens['priceSum'] = $arrTokens['price'];
+            }
+        }
+        
+        // Log final tokens for debugging
+        if (isset($arrTokens['priceDiscount']) || isset($arrTokens['discountPercent']) || isset($arrTokens['priceSum'])) {
+            $msg = "Notification Tokens: Discount: " . ($arrTokens['priceDiscount'] ?? 'MISSING') . ", Percent: " . ($arrTokens['discountPercent'] ?? 'MISSING') . ", Total: " . ($arrTokens['priceSum'] ?? 'MISSING');
+            if (isset($dlgValues['discountPercent'])) {
+                $msg .= " | dlgPercent: " . $dlgValues['discountPercent'];
+            }
+            if (isset($tokensValues['discountPercent'])) {
+                $msg .= " | tokensPercent: " . $tokensValues['discountPercent'];
+            }
+            if (isset($dlgValues['discountCode'])) {
+                $msg .= " | dlgCode: " . $dlgValues['discountCode'];
+            }
+            $msg .= " | Keys: " . implode(', ', array_keys($arrTokens));
+            $msg .= " | dlgValuesKeys: " . implode(', ', array_keys($dlgValues));
+            \con4gis\CoreBundle\Resources\contao\models\C4gLogModel::addLogEntry('reservation', $msg);
         }
 
         // Ensure critical fallback for admin_email even if it wasn't in any array yet
@@ -211,16 +300,55 @@ class C4GBrickNotification
             $arrTokens['admin_email'] = $adminEmail;
         }
 
+        // Final protection: if we have a price sum but no tax, and we didn't calculate it above
+        if (isset($arrTokens['priceSum']) && (!isset($arrTokens['priceSumTax']) || $arrTokens['priceSumTax'] === '0,00 €' || $arrTokens['priceSumTax'] === ' ')) {
+             $psRaw = str_replace([' ', '€'], ['', ''], $arrTokens['priceSum']);
+             $psVal = floatval(str_replace(',', '.', str_replace('.', '', $psRaw)));
+             if ($psVal > 0) {
+                  $tax = $psVal - ($psVal / 1.19);
+                  $arrTokens['priceSumTax'] = \con4gis\ReservationBundle\Classes\Utils\C4gReservationHandler::formatPrice($tax);
+                  if (!isset($arrTokens['priceTax']) || $arrTokens['priceTax'] === '0,00 €') {
+                       $arrTokens['priceTax'] = $arrTokens['priceSumTax'];
+                  }
+             }
+        }
+        
+        // Final cleanup for unreplaced tokens
+        foreach ($arrTokens as $key => $value) {
+            if (is_string($value) && strpos($value, '##' . $key . '##') !== false) {
+                // If it's a critical price/discount token, prefer a zero-value instead of empty space
+                if (in_array($key, ['priceSum', 'priceSumNet', 'priceSumTax', 'priceOptionSum', 'priceOptionSumNet', 'priceOptionSumTax', 'priceDiscount', 'priceNet', 'priceTax', 'price'])) {
+                    $arrTokens[$key] = '0,00 €';
+                } elseif ($key === 'discountPercent') {
+                    $arrTokens[$key] = '0 %';
+                } elseif ($key === 'admin_email' && (!$value || $value === '##admin_email##' || strpos($value, '##admin_email##') !== false || strpos($value, '%23%23admin_email%23%23') !== false)) {
+                     $arrTokens[$key] = 'info@kuestenschmiede.de';
+                } else {
+                    $arrTokens[$key] = ' ';
+                }
+            }
+        }
+        
+        // Ensure admin_email is never a placeholder in the final collection
+        if (isset($arrTokens['admin_email']) && (strpos($arrTokens['admin_email'], '##') !== false || strpos($arrTokens['admin_email'], '%23%23') !== false)) {
+             $arrTokens['admin_email'] = 'info@kuestenschmiede.de';
+        }
+
         if ($arrTokens) {
             $raw_data = '';
+            $adminEmailForReplacement = $arrTokens['admin_email'] ?? 'info@kuestenschmiede.de';
             foreach ($arrTokens as $key => $value) {
                 if (is_string($value)) {
-                    $arrTokens[$key] = str_replace(['##admin_email##', '%23%23admin_email%23%23', '##admin_email_url##'], $adminEmail, $value);
+                    $arrTokens[$key] = str_replace(['##admin_email##', '%23%23admin_email%23%23', '##admin_email_url##'], $adminEmailForReplacement, $value);
                 }
-                if (is_array($value)) {
-                    $value = json_encode($value);
+                $valForRaw = $arrTokens[$key];
+                if (is_array($valForRaw)) {
+                    $valForRaw = json_encode($valForRaw);
                 }
-                $raw_data = $raw_data ? $raw_data . ', ' . $key . '=>' . $value : $key . '=>' . $value;
+                if (is_string($valForRaw)) {
+                     $valForRaw = str_replace(['##admin_email##', '%23%23admin_email%23%23', '##admin_email_url##'], $adminEmailForReplacement, $valForRaw);
+                }
+                $raw_data = $raw_data ? $raw_data . ', ' . $key . '=>' . $valForRaw : $key . '=>' . $valForRaw;
             }
 
             $arrTokens['raw_data'] = $raw_data;
