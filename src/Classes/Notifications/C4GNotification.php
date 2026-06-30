@@ -64,7 +64,7 @@ class C4GNotification
         $this->optionalTokens = $token;
     }
 
-    public function send(array $notificationIds, string $language = '')
+    public function send(array $notificationIds, string $language = '', array $vouchers = [])
     {
         \con4gis\CoreBundle\Resources\contao\models\C4gLogModel::addLogEntry('C4GNotification', 'Send started for IDs: ' . implode(',', $notificationIds));
         
@@ -124,9 +124,10 @@ class C4GNotification
         }
 
         try {
-            $notificationModel = \Contao\System::getContainer()->get('con4gis\ReservationBundle\Classes\Notifications\C4gNotificationCenterService')->getNotificationCenter();
-        } catch (\Exception $e) {
             $notificationModel = \Contao\System::getContainer()->get(NotificationCenter::class);
+        } catch (\Exception $e) {
+            // Fallback for older versions or specific setups where the class is not directly available via type-hint
+            $notificationModel = \Contao\System::getContainer()->get('terminal42_notification_center');
         }
 
         foreach ($this->tokens as $key => $token) {
@@ -170,6 +171,7 @@ class C4GNotification
             }
         }
 
+        \con4gis\CoreBundle\Resources\contao\models\C4gLogModel::addLogEntry('C4GNotification', "Starting send for notification IDs: " . implode(',', $notificationIds));
         foreach ($notificationIds as $notificationId) {
             $tokens = $this->tokens;
             $adminEmail = $tokens['admin_email'] ?: (\Contao\Config::get('adminEmail') ?: ($GLOBALS['TL_CONFIG']['adminEmail'] ?? ''));
@@ -296,14 +298,19 @@ class C4GNotification
             // We ensure that the admin_email is replaced in the stamp collection if possible.
             // However, createBasicStampsForNotification already uses our $tokens.
             
-            if (!empty($voucher)) {
+            if (!empty($vouchers)) {
+                $stamps = $stamps->with(new BulkyItemsStamp($vouchers));
+            } elseif (!empty($voucher)) {
                 $stamps = $stamps->with(new BulkyItemsStamp([$voucher]));
+            } elseif ($this->voucher) {
+                $stamps = $stamps->with(new BulkyItemsStamp([$this->voucher]));
             }
             $sendingResult = $notificationModel->sendNotificationWithStamps((int)$notificationId, $stamps) ? true : false;
             if (!$sendingResult) {
                 \con4gis\CoreBundle\Resources\contao\models\C4gLogModel::addLogEntry('C4GNotification', 'Notification ' . $notificationId . ' could not be sent. Check Symfony Messenger/Queue or Mailer settings.');
+            } else {
+                \con4gis\CoreBundle\Resources\contao\models\C4gLogModel::addLogEntry('C4GNotification', 'Successfully sent notification ' . $notificationId);
             }
-            \con4gis\CoreBundle\Resources\contao\models\C4gLogModel::addLogEntry('C4GNotification', 'Sent notification ' . $notificationId . ' with result: ' . ($sendingResult ? 'true' : 'false'));
         }
 
         return $sendingResult;

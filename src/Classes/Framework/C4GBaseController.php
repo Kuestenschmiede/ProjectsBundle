@@ -1919,9 +1919,28 @@ class C4GBaseController extends AbstractFrontendModuleController
 
             if ($notification_array && is_array($notification_array)) {
                 $arrTokens = C4GBrickNotification::getArrayTokens($dlgValues, $fieldList);
-                $arrTokens['admin_email'] = \Contao\Config::get('adminEmail');
+                $adminEmail = \Contao\Config::get('adminEmail') ?: ($GLOBALS['TL_CONFIG']['adminEmail'] ?? '');
+                $arrTokens['admin_email'] = $adminEmail;
 
-                $notificationCenter = System::getContainer()->get('con4gis\ReservationBundle\Classes\Notifications\C4gNotificationCenterService')->getNotificationCenter();
+                // Clean up tokens to be RFC compliant for Symfony Mailer / Contao 5
+                foreach ($arrTokens as $key => $val) {
+                    if ($val === ' ' || $val === null || $val === false || $val === '##admin_email##') {
+                        if ($key === 'admin_email' && ($val === '##admin_email##' || $val === ' ' || !$val)) {
+                            $arrTokens[$key] = $adminEmail;
+                        } else {
+                            $arrTokens[$key] = '';
+                        }
+                    }
+                    if (is_string($arrTokens[$key])) {
+                        $arrTokens[$key] = str_replace(['##admin_email##', '%23%23admin_email%23%23'], $adminEmail, $arrTokens[$key]);
+                    }
+                }
+
+                try {
+                    $notificationCenter = System::getContainer()->get(NotificationCenter::class);
+                } catch (\Exception $e) {
+                    $notificationCenter = System::getContainer()->get('terminal42_notification_center');
+                }
 
                 foreach ($dlgValues as $key => $token) {
                     if ($token) {
