@@ -128,6 +128,8 @@ class C4GNotification
         } catch (\Exception $e) {
             // Fallback for older versions or specific setups where the class is not directly available via type-hint
             $notificationModel = \Contao\System::getContainer()->get('terminal42_notification_center');
+        } catch (\Throwable $e) {
+            $notificationModel = \Contao\System::getContainer()->get('terminal42_notification_center');
         }
 
         foreach ($this->tokens as $key => $token) {

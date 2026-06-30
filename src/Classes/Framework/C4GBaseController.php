@@ -1940,6 +1940,8 @@ class C4GBaseController extends AbstractFrontendModuleController
                     $notificationCenter = System::getContainer()->get(NotificationCenter::class);
                 } catch (\Exception $e) {
                     $notificationCenter = System::getContainer()->get('terminal42_notification_center');
+                } catch (\Throwable $e) {
+                    $notificationCenter = System::getContainer()->get('terminal42_notification_center');
                 }
 
                 foreach ($dlgValues as $key => $token) {
