@@ -307,11 +307,12 @@ class C4GNotification
             } elseif ($this->voucher) {
                 $stamps = $stamps->with(new BulkyItemsStamp([$this->voucher]));
             }
+            \con4gis\CoreBundle\Resources\contao\models\C4gLogModel::addLogEntry('C4GNotification', "Attempting to send notification ID $notificationId to Notification Center");
             $sendingResult = $notificationModel->sendNotificationWithStamps((int)$notificationId, $stamps) ? true : false;
             if (!$sendingResult) {
                 \con4gis\CoreBundle\Resources\contao\models\C4gLogModel::addLogEntry('C4GNotification', 'Notification ' . $notificationId . ' could not be sent. Check Symfony Messenger/Queue or Mailer settings.');
             } else {
-                \con4gis\CoreBundle\Resources\contao\models\C4gLogModel::addLogEntry('C4GNotification', 'Successfully sent notification ' . $notificationId);
+                \con4gis\CoreBundle\Resources\contao\models\C4gLogModel::addLogEntry('C4GNotification', 'Successfully handed over notification ' . $notificationId . ' to Notification Center.');
             }
         }
 

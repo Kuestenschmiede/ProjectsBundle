@@ -1933,6 +1933,10 @@ class C4GBaseController extends AbstractFrontendModuleController
                     }
                     if (is_string($arrTokens[$key])) {
                         $arrTokens[$key] = str_replace(['##admin_email##', '%23%23admin_email%23%23'], $adminEmail, $arrTokens[$key]);
+                        // Ensure no single space remains in email fields which causes RFC issues in Symfony Mailer
+                        if (str_contains($key, 'email') && $arrTokens[$key] === ' ') {
+                            $arrTokens[$key] = '';
+                        }
                     }
                 }
 
