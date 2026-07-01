@@ -95,7 +95,16 @@ class C4GNotification
         try {
             $notificationModel = \Contao\System::getContainer()->get(NotificationCenter::class);
         } catch (\Throwable $e) {
-            $notificationModel = \Contao\System::getContainer()->get('terminal42_notification_center');
+            try {
+                $notificationModel = \Contao\System::getContainer()->get('terminal42_notification_center');
+            } catch (\Throwable $e2) {
+                try {
+                    $notificationModel = \Contao\System::getContainer()->get('notification_center');
+                } catch (\Throwable $e3) {
+                    \con4gis\CoreBundle\Resources\contao\models\C4gLogModel::addLogEntry('C4GNotification', 'Could not find NotificationCenter service (tried class, terminal42_notification_center, and notification_center). Error: ' . $e2->getMessage());
+                    return false;
+                }
+            }
         }
 
         // Handle file attachments

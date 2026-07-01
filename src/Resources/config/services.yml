@@ -27,3 +27,7 @@ services:
         tags:
             - { name: contao.frontend_module,category: con4gis,template: mod_c4g_brick,type: C4GSearchModule }
 
+    terminal42_notification_center:
+        alias: 'Terminal42\NotificationCenterBundle\NotificationCenter'
+        public: true
+
