@@ -168,7 +168,7 @@ class C4GRadioGroupField extends C4GBrickField
     public function compareWithDB($dbValues, $dlgValues)
     {
         $fieldname = $this->getFieldName();
-        $dbValue = $dbValues->$fieldname;
+        $dbValue = is_object($dbValues) ? ($dbValues->$fieldname ?? '') : ($dbValues[$fieldname] ?? '');
 
         $result = null;
         $conditions = $this->getCondition();
@@ -179,7 +179,7 @@ class C4GRadioGroupField extends C4GBrickField
                     $conditionField = $condition->getFieldName();
                     $conditionValue = $condition->getValue();
 
-                    $conFieldValue = $dlgValues[$conditionField];
+                    $conFieldValue = $dlgValues[$conditionField] ?? '';
                     if ($conditionValue == $conFieldValue) {
                         $found = true;
 
@@ -192,8 +192,9 @@ class C4GRadioGroupField extends C4GBrickField
                         $conditionModel = $condition->getModel();
 
                         if ($conditionField && $conditionModel && $conditionFunction) {
-                            if ($this->timeButtonSpecial) {
-                                $conFieldValue = strtotime($dlgValues[$conditionField]);
+                            $conFieldValue = $dlgValues[$conditionField] ?? '';
+                            if ($this->timeButtonSpecial && $conFieldValue) {
+                                $conFieldValue = strtotime($conFieldValue);
                             }
                             $found = $conditionModel::$conditionFunction($conFieldValue);
                             if ($found) {
@@ -210,9 +211,9 @@ class C4GRadioGroupField extends C4GBrickField
 
         $additionalId = $this->getAdditionalID();
         if (!empty($additionalId)) {
-            $dlgValue = $dlgValues[$this->getFieldName() . '_' . $additionalId];
+            $dlgValue = $dlgValues[$this->getFieldName() . '_' . $additionalId] ?? '';
         } else {
-            $dlgValue = $dlgValues[$this->getFieldName()];
+            $dlgValue = $dlgValues[$this->getFieldName()] ?? '';
         }
 
         //compare for C4GMatching

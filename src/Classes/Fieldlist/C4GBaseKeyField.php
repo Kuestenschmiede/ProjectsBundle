@@ -52,10 +52,10 @@ abstract class C4GBaseKeyField extends C4GBrickField
     public function compareWithDB($dbValues, $dlgValues)
     {
         $fieldname = $this->getFieldName();
-        $dbValue = $dbValues->$fieldname;
-        $dlgvalue = $dlgValues[$this->getFieldName()];
-        $dbValue = trim($dbValue);
-        $dlgValue = trim($dlgvalue);
+        $dbValue = is_object($dbValues) ? ($dbValues->$fieldname ?? '') : ($dbValues[$fieldname] ?? '');
+        $dlgvalue = $dlgValues[$fieldname] ?? '';
+        $dbValue = trim(strval($dbValue));
+        $dlgValue = trim(strval($dlgvalue));
         $result = null;
         if (strcmp($dbValue, $dlgValue) != 0) {
             $result = new C4GBrickFieldCompare($this, $dbValue, $dlgValue);

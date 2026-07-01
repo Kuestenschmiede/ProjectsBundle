@@ -78,10 +78,10 @@ class C4GTextField extends C4GBrickFieldText
     public function compareWithDB($dbValues, $dlgValues)
     {
         $fieldname = $this->getFieldName();
-        $dbValue = $dbValues->$fieldname;
-        $dlgvalue = $dlgValues[$this->getFieldName()];
-        $dbValue = str_replace(['&#40;', '&#41;'], ['(', ')'], trim($dbValue));
-        $dlgValue = trim($dlgvalue);
+        $dbValue = is_object($dbValues) ? ($dbValues->$fieldname ?? '') : ($dbValues[$fieldname] ?? '');
+        $dlgvalue = $dlgValues[$fieldname] ?? '';
+        $dbValue = str_replace(['&#40;', '&#41;'], ['(', ')'], trim(strval($dbValue)));
+        $dlgValue = trim(strval($dlgvalue));
         $result = null;
         if (strcmp($dbValue, $dlgValue) != 0) {
             $result = new C4GBrickFieldCompare($this, $dbValue, $dlgValue);

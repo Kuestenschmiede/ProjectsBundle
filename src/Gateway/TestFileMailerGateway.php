@@ -13,9 +13,35 @@ class TestFileMailerGateway extends MailerGateway
 {
     private bool $localRedirection = true;
 
+    public function __construct(
+        \Contao\CoreBundle\Framework\ContaoFramework $contaoFramework,
+        \Contao\CoreBundle\Filesystem\VirtualFilesystemInterface $filesStorage,
+        \Symfony\Component\Mailer\MailerInterface $mailer,
+        private readonly ?\Contao\CoreBundle\String\SimpleTokenParser $simpleTokenParser = null
+    ) {
+        parent::__construct($contaoFramework, $filesStorage, $mailer);
+    }
+
     public function setLocalRedirection(bool $enabled): void
     {
         $this->localRedirection = $enabled;
+    }
+
+    #[\Override]
+    protected function replaceTokens(\Terminal42\NotificationCenterBundle\Parcel\Parcel $parcel, string $value, \Terminal42\NotificationCenterBundle\Token\TokenCollection|null $tokenCollection = null): string
+    {
+        if ($this->simpleTokenParser) {
+            if (null === $tokenCollection) {
+                $tokenStamp = $parcel->getStamp(\Terminal42\NotificationCenterBundle\Parcel\Stamp\TokenCollectionStamp::class);
+                if ($tokenStamp instanceof \Terminal42\NotificationCenterBundle\Parcel\Stamp\TokenCollectionStamp) {
+                    $tokenCollection = $tokenStamp->tokenCollection;
+                }
+            }
+
+            return $this->simpleTokenParser->parse($value, $tokenCollection?->forSimpleTokenParser() ?? []);
+        }
+
+        return parent::replaceTokens($parcel, $value, $tokenCollection);
     }
 
     public function doSendParcel(Parcel $parcel): Receipt
@@ -81,7 +107,6 @@ class TestFileMailerGateway extends MailerGateway
             foreach ($emailData as $key => $value) {
                 if (is_string($value) && strpos($value, '##') !== false) {
                     $emailData[$key] = $this->replaceTokensAndInsertTags($parcel, $value);
-                    file_put_contents($projectDir . '/var/logs/mailer_debug.log', date('r') . " - After replaceTokensAndInsertTags ($key): " . $emailData[$key] . "\n", FILE_APPEND);
                 }
             }
 
@@ -169,6 +194,9 @@ class TestFileMailerGateway extends MailerGateway
         if (!empty($emailData)) {
             $content .= "To: " . ($emailData['to'] ?? '') . "\n";
             $content .= "From: " . ($emailData['from'] ?? '') . " (" . ($emailData['fromName'] ?? '') . ")\n";
+            $content .= "Reply-To: " . ($emailData['replyTo'] ?? '') . "\n";
+            $content .= "Cc: " . ($emailData['cc'] ?? '') . "\n";
+            $content .= "Bcc: " . ($emailData['bcc'] ?? '') . "\n";
             $content .= "Subject: " . ($emailData['subject'] ?? '') . "\n";
             $content .= "Date: " . date('r') . "\n";
             $content .= "--------------------------------------------------\n\n";

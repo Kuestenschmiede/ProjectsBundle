@@ -10,7 +10,6 @@
 
 namespace con4gis\ProjectsBundle\Classes\Notifications;
 
-// use NotificationCenter\Model\Notification;
 use con4gis\CoreBundle\Classes\C4GUtils;
 use Terminal42\NotificationCenterBundle\BulkyItem\FileItem;
 use Terminal42\NotificationCenterBundle\NotificationCenter;
@@ -45,7 +44,6 @@ class C4GNotification
 
     public function setTokenValue(string $token, $value)
     {
-        // Don't convert to empty string here, let the Gateway handle it if needed
         $this->tokens[$token] = $value;
     }
 
@@ -69,250 +67,98 @@ class C4GNotification
         \con4gis\CoreBundle\Resources\contao\models\C4gLogModel::addLogEntry('C4GNotification', 'Send started for IDs: ' . implode(',', $notificationIds));
         
         $adminEmail = \Contao\Config::get('adminEmail') ?: ($GLOBALS['TL_CONFIG']['adminEmail'] ?? '');
-        // Fallback for admin_email if it's empty or still the placeholder string
-        if (isset($this->tokens['admin_email'])) {
-            if ($this->tokens['admin_email'] === '' || $this->tokens['admin_email'] === '##admin_email##' || $this->tokens['admin_email'] === false || $this->tokens['admin_email'] === ' ' || $this->tokens['admin_email'] === null) {
-                $this->tokens['admin_email'] = $adminEmail;
-                \con4gis\CoreBundle\Resources\contao\models\C4gLogModel::addLogEntry('C4GNotification', "Applied fallback for 'admin_email': " . $this->tokens['admin_email']);
-            }
-        } else {
-            // Force admin_email token even if not defined in constructor
+        
+        // Ensure admin_email token is set and valid
+        if (!isset($this->tokens['admin_email']) || !$this->tokens['admin_email'] || $this->tokens['admin_email'] === '##admin_email##' || $this->tokens['admin_email'] === ' ') {
             $this->tokens['admin_email'] = $adminEmail;
-            \con4gis\CoreBundle\Resources\contao\models\C4GLogModel::addLogEntry('C4GNotification', "Forced 'admin_email' token: " . $this->tokens['admin_email']);
         }
+        $this->tokens['c4g_admin_email'] = $adminEmail;
 
         foreach ($this->tokens as $key => $token) {
             if (($token === '' || $token === null || $token === false) && !in_array($key, $this->optionalTokens)) {
-                // throw new \Exception("C4GNotification: The token '$key' has not been defined.");
-                \con4gis\CoreBundle\Resources\contao\models\C4gLogModel::addLogEntry('C4GNotification', "Warning: The token '$key' is empty and not marked as optional. Setting to empty string.");
                 $this->tokens[$key] = '';
             }
         }
 
-        $adminEmail = $this->tokens['admin_email'] ?: (\Contao\Config::get('adminEmail') ?: ($GLOBALS['TL_CONFIG']['adminEmail'] ?? ''));
-        if (!$adminEmail || $adminEmail === '##admin_email##' || $adminEmail === ' ') {
-            $adminEmail = '';
-        }
-        $this->tokens['admin_email'] = $adminEmail;
-        
+        // Final cleanup of tokens and recursive replacement of placeholders
         $recursiveReplace = function (&$array) use ($adminEmail, &$recursiveReplace) {
             foreach ($array as $key => &$val) {
                 if (is_string($val)) {
-                    $val = str_replace(['##admin_email##', '%23%23admin_email%23%23', '##admin_email_url##'], $adminEmail, $val);
+                    $val = str_replace(['##admin_email##', '%23%23admin_email%23%23', '##admin_email_url##', '##c4g_admin_email##'], $adminEmail, $val);
                 } elseif (is_array($val)) {
                     $recursiveReplace($val);
                 }
             }
         };
         $recursiveReplace($this->tokens);
-        
-        // Also ensure it is in the request for some gateways that might pick it up from there
-        if (\Contao\System::getContainer()->has('request_stack')) {
-            $request = \Contao\System::getContainer()->get('request_stack')->getCurrentRequest();
-            if ($request) {
-                $request->attributes->set('_c4g_admin_email', $adminEmail);
-                $request->attributes->set('admin_email', $adminEmail);
-            }
-        }
-
-        // Clean up tokens that are just a space (from constructor or earlier logic)
-        // Symfony Mailer / Contao 5 is strict about email addresses.
-        foreach ($this->tokens as $key => $token) {
-            if ($token === ' ' || $token === null || $token === false) {
-                $this->tokens[$key] = '';
-            }
-        }
 
         try {
             $notificationModel = \Contao\System::getContainer()->get(NotificationCenter::class);
-        } catch (\Exception $e) {
-            // Fallback for older versions or specific setups where the class is not directly available via type-hint
-            $notificationModel = \Contao\System::getContainer()->get('terminal42_notification_center');
         } catch (\Throwable $e) {
             $notificationModel = \Contao\System::getContainer()->get('terminal42_notification_center');
         }
 
+        // Handle file attachments
         foreach ($this->tokens as $key => $token) {
-            if ($token) {
-                foreach (C4GNotification::UUID_FILE_TOKEN as $idKey => $fieldName) {
-                    if ($key == $fieldName) {
-                        $filePath = C4GUtils::replaceInsertTags("{{file::$token}}");
-                        if ($filePath) {
-                            $rootDir = \Contao\System::getContainer()->getParameter('kernel.project_dir');
-                            $file = $rootDir . '/' . $filePath;
-                            $finfo = finfo_open(FILEINFO_MIME_TYPE);
-                            $mimeType = finfo_file($finfo, $file);
-                            finfo_close($finfo);
-                            $voucher = $notificationModel->getBulkyItemStorage()->store(
-                                FileItem::fromPath($file, basename($file), $mimeType, filesize($file))
-                            );
-                            if ($voucher) {
-                                $this->tokens[$key] = $voucher;
-                            }
-                        }
+            if ($token && is_string($token)) {
+                $fileToStore = null;
+                if (in_array($key, self::UUID_FILE_TOKEN)) {
+                    $filePath = C4GUtils::replaceInsertTags("{{file::$token}}");
+                    if ($filePath) {
+                        $fileToStore = \Contao\System::getContainer()->getParameter('kernel.project_dir') . '/' . $filePath;
                     }
+                } elseif (in_array($key, self::FILENAME_TOKEN)) {
+                    $fileToStore = \Contao\System::getContainer()->getParameter('kernel.project_dir') . '/' . $token;
                 }
-                foreach (C4GNotification::FILENAME_TOKEN as $idKey => $fieldName) {
-                    if ($key == $fieldName) {
-                        $filePath = $token;
-                        if ($filePath) {
-                            $rootDir = \Contao\System::getContainer()->getParameter('kernel.project_dir');
-                            $file = $rootDir . '/' . $filePath;
-                            $finfo = finfo_open(FILEINFO_MIME_TYPE);
-                            $mimeType = finfo_file($finfo, $file);
-                            finfo_close($finfo);
-                            $voucher = $notificationModel->getBulkyItemStorage()->store(
-                                FileItem::fromPath($file, basename($file), $mimeType, filesize($file))
-                            );
-                            if ($voucher) {
-                                $this->tokens[$key] = $voucher;
-                            }
-                        }
+
+                if ($fileToStore && file_exists($fileToStore)) {
+                    $finfo = finfo_open(FILEINFO_MIME_TYPE);
+                    $mimeType = finfo_file($finfo, $fileToStore);
+                    finfo_close($finfo);
+                    $voucher = $notificationModel->getBulkyItemStorage()->store(
+                        FileItem::fromPath($fileToStore, basename($fileToStore), $mimeType, (int)filesize($fileToStore))
+                    );
+                    if ($voucher) {
+                        $this->tokens[$key] = $voucher;
                     }
                 }
             }
         }
 
-        \con4gis\CoreBundle\Resources\contao\models\C4gLogModel::addLogEntry('C4GNotification', "Starting send for notification IDs: " . implode(',', $notificationIds));
+        $sendingResult = false;
         foreach ($notificationIds as $notificationId) {
-            $tokens = $this->tokens;
-            $adminEmail = $tokens['admin_email'] ?: (\Contao\Config::get('adminEmail') ?: ($GLOBALS['TL_CONFIG']['adminEmail'] ?? ''));
-            if (!$adminEmail || $adminEmail === '##admin_email##' || $adminEmail === ' ') {
-                $adminEmail = '';
-            }
-            $tokens['admin_email'] = $adminEmail;
+            if (!$notificationId) continue;
             
-            $recursiveReplace($tokens);
-
-            // Clean up tokens that are just a space
-            foreach ($tokens as $key => $val) {
-                if ($val === ' ' || $val === null || $val === false) {
-                    $tokens[$key] = '';
-                }
-            }
-
-            // Fallback for fields that might contain the placeholder but are not in tokens
-            // (e.g. if the notification center configuration has it statically)
-            $request = \Contao\System::getContainer()->get('request_stack')->getCurrentRequest();
-            if ($request) {
-                $request->attributes->set('_c4g_admin_email', $adminEmail);
-                foreach ($tokens as $key => $val) {
-                    if (is_string($val)) {
-                        $tokens[$key] = \Contao\Controller::replaceInsertTags($val);
-                        $tokens[$key] = str_replace(['##admin_email##', '%23%23admin_email%23%23', '##admin_email_url##'], $adminEmail, (string)$tokens[$key]);
-                        // Fix: If it's still a raw placeholder, try to replace it with the admin email from GLOBALS or Config
-                        if (strpos($tokens[$key], '##admin_email##') !== false) {
-                            $tokens[$key] = str_replace('##admin_email##', $adminEmail, $tokens[$key]);
-                        }
-                    }
-                }
-            }
-
-            $stamps = $notificationModel->createBasicStampsForNotification(
-                (int)$notificationId,
-                $tokens,
-            );
-
-            $adminEmail = $tokens['admin_email'] ?: (\Contao\Config::get('adminEmail') ?: ($GLOBALS['TL_CONFIG']['adminEmail'] ?? ''));
-            if (!$adminEmail || $adminEmail === '##admin_email##' || $adminEmail === ' ') {
-                $adminEmail = '';
-            }
-
-            $stampsArr = $stamps->toArray();
-            $stampsChanged = false;
-            foreach ($stampsArr as $index => $stamp) {
-                $reflection = new \ReflectionClass(get_class($stamp));
-                $dataChanged = false;
-                
-                $stampReplace = function ($data) use ($adminEmail, &$stampReplace) {
-                    if (is_array($data)) {
-                        foreach ($data as $k => &$v) {
-                            $v = $stampReplace($v);
-                        }
-                        return $data;
-                    } elseif (is_string($data)) {
-                        return str_replace(['##admin_email##', '%23%23admin_email%23%23', '##admin_email_url##'], $adminEmail, $data);
-                    }
-                    return $data;
-                };
-
-                if ($reflection->hasMethod('getTokens') && $reflection->hasMethod('withTokens')) {
-                    $stampTokens = $stamp->getTokens();
-                    $newTokens = $stampReplace($stampTokens);
-                    if ($newTokens !== $stampTokens) {
-                        $stamp = $stamp->withTokens($newTokens);
-                        $dataChanged = true;
-                    }
-                }
-                
-                if ($reflection->hasMethod('getValues') && $reflection->hasMethod('withValues')) {
-                    $stampValues = $stamp->getValues();
-                    $newValues = $stampReplace($stampValues);
-                    if ($newValues !== $stampValues) {
-                        $stamp = $stamp->withValues($newValues);
-                        $dataChanged = true;
-                    }
-                }
-                
-                if ($reflection->getName() === 'Terminal42\NotificationCenterBundle\Stamp\EmailStamp' ||
-                    $reflection->getName() === 'Terminal42\NotificationCenterBundle\Stamp\RecipientEmailStamp' ||
-                    $reflection->getName() === 'Terminal42\NotificationCenterBundle\Parcel\Stamp\Mailer\EmailStamp') {
-                    $properties = ['email', 'from', 'to', 'cc', 'bcc', 'replyTo', 'subject', 'text', 'html'];
-                    foreach ($properties as $propName) {
-                        try {
-                            $val = null;
-                            if ($reflection->hasProperty($propName)) {
-                                $p = $reflection->getProperty($propName);
-                                $p->setAccessible(true);
-                                $val = $p->getValue($stamp);
-                            } elseif ($reflection->hasMethod('get' . ucfirst($propName))) {
-                                $val = $stamp->{'get' . ucfirst($propName)}();
-                            }
-
-                            if (is_string($val) && (strpos($val, '##admin_email##') !== false || strpos($val, '%23%23admin_email%23%23') !== false)) {
-                                $val = str_replace(['##admin_email##', '%23%23admin_email%23%23', '##admin_email_url##'], $adminEmail, $val);
-                                $methodName = 'with' . ucfirst($propName);
-                                if ($reflection->hasMethod($methodName)) {
-                                    $stamp = $stamp->$methodName($val);
-                                } elseif ($reflection->hasProperty($propName)) {
-                                    $p = $reflection->getProperty($propName);
-                                    $p->setAccessible(true);
-                                    $p->setValue($stamp, $val);
-                                }
-                                $dataChanged = true;
-                            }
-                        } catch (\Exception $e) {}
-                    }
-                }
-                
-                if ($dataChanged) {
-                    $stampsArr[$index] = $stamp;
-                    $stampsChanged = true;
-                }
-            }
-
-            if ($stampsChanged) {
-                $stamps = new \Terminal42\NotificationCenterBundle\Parcel\StampCollection($stampsArr);
-            }
+            \con4gis\CoreBundle\Resources\contao\models\C4gLogModel::addLogEntry('C4GNotification', "Attempting to send notification ID $notificationId to Notification Center");
             
-            // The stamps created above might still contain placeholders in their values 
-            // because the Notification Center might have its own logic or fallback.
-            // We ensure that the admin_email is replaced in the stamp collection if possible.
-            // However, createBasicStampsForNotification already uses our $tokens.
+            $stamps = $notificationModel->createBasicStampsForNotification((int)$notificationId, $this->tokens);
             
+            // Add vouchers if present
             if (!empty($vouchers)) {
                 $stamps = $stamps->with(new BulkyItemsStamp($vouchers));
-            } elseif (!empty($voucher)) {
-                $stamps = $stamps->with(new BulkyItemsStamp([$voucher]));
-            } elseif ($this->voucher) {
-                $stamps = $stamps->with(new BulkyItemsStamp([$this->voucher]));
             }
-            \con4gis\CoreBundle\Resources\contao\models\C4gLogModel::addLogEntry('C4GNotification', "Attempting to send notification ID $notificationId to Notification Center");
-            $sendingResult = $notificationModel->sendNotificationWithStamps((int)$notificationId, $stamps) ? true : false;
-            if (!$sendingResult) {
-                \con4gis\CoreBundle\Resources\contao\models\C4gLogModel::addLogEntry('C4GNotification', 'Notification ' . $notificationId . ' could not be sent. Check Symfony Messenger/Queue or Mailer settings.');
+
+            $receipts = $notificationModel->sendNotificationWithStamps((int)$notificationId, $stamps);
+            $success = false;
+            foreach ($receipts as $receipt) {
+                if ($receipt->wasDelivered()) {
+                    $success = true;
+                    break;
+                }
+            }
+
+            if (!$success) {
+                \con4gis\CoreBundle\Resources\contao\models\C4gLogModel::addLogEntry('C4GNotification', 'Notification ' . $notificationId . ' could not be sent.');
             } else {
-                \con4gis\CoreBundle\Resources\contao\models\C4gLogModel::addLogEntry('C4GNotification', 'Successfully handed over notification ' . $notificationId . ' to Notification Center.');
+                \con4gis\CoreBundle\Resources\contao\models\C4gLogModel::addLogEntry('C4GNotification', 'Successfully sent notification ' . $notificationId);
+                $sendingResult = true;
+                
+                // Update the reservation to mark confirmation as sent if applicable
+                if (isset($this->tokens['reservation_id']) && $this->tokens['reservation_id']) {
+                    $db = \Contao\Database::getInstance();
+                    $db->prepare("UPDATE tl_c4g_reservation SET emailConfirmationSend = '1' WHERE id = ?")
+                        ->execute($this->tokens['reservation_id']);
+                }
             }
         }
 

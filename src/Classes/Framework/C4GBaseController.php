@@ -1674,7 +1674,12 @@ class C4GBaseController extends AbstractFrontendModuleController
             $this->initBrickModule($moduleId);
         } elseif ($values[0] == C4GBrickActionType::ACTION_BUTTONCLICK && isset($values[2]) && is_numeric($values[2])) {
             // this case is needed for the ACTION_BUTTONCLICK action
-            $this->initBrickModule($values[2]);
+            // but for reservation, the 3rd value is the event id, not the reservation id
+            if ($values[1] === 'clickReservation') {
+                $this->initBrickModule(-1);
+            } else {
+                $this->initBrickModule($values[2]);
+            }
         } else {
             $this->initBrickModule($moduleId);
         }
@@ -1739,7 +1744,8 @@ class C4GBaseController extends AbstractFrontendModuleController
             }
 
             //id lost with button field (ONCLICK_TYPE_SERVER)
-            if ($putVars && $values[2]) {
+            // but for reservation, the 3rd value is the event id, not the reservation id
+            if ($putVars && $values[2] && $values[1] !== 'clickReservation') {
                 $putVars['id'] = $values[2];
             }
 
