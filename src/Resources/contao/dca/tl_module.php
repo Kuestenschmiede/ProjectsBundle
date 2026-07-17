@@ -18,7 +18,7 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['searchFieldCaption'] = array
     'default'                 => &$GLOBALS['TL_LANG']['tl_module']['DEFAULT_FIELD_CAPTION'],
     'inputType'               => 'text',
     'eval'                    => array('tl_class'=>'w50','mandatory'=>true),
-    'sql'                     => array('type' => 'string', 'length' => 100, 'default' => '')
+    'sql'                     => array('type' => 'string','length' => 100,'default' => '')
 );
 $GLOBALS['TL_DCA']['tl_module']['fields']['hideSearchFieldCaption'] = array
 (
@@ -34,7 +34,7 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['searchFieldPlaceholder'] = array
     'default'                 => &$GLOBALS['TL_LANG']['tl_module']['DEFAULT_FIELD_CAPTION'],
     'inputType'               => 'text',
     'eval'                    => array('tl_class'=>'clr w50','mandatory'=>false),
-    'sql'                     => array('type' => 'string', 'length' => 255, 'default' => '')
+    'sql'                     => array('type' => 'string','length' => 255,'default' => '')
 );
 $GLOBALS['TL_DCA']['tl_module']['fields']['searchButtonCaption'] = array
 (
@@ -42,14 +42,14 @@ $GLOBALS['TL_DCA']['tl_module']['fields']['searchButtonCaption'] = array
     'default'                 => &$GLOBALS['TL_LANG']['tl_module']['DEFAULT_BUTTON_CAPTION'],
     'inputType'               => 'text',
     'eval'                    => array('tl_class'=>'w50','mandatory'=>false),
-    'sql'                     => array('type' => 'string', 'length' => 100, 'default' => '')
+    'sql'                     => array('type' => 'string','length' => 100,'default' => '')
 );
 $GLOBALS['TL_DCA']['tl_module']['fields']['listModule'] = array
 (
     'exclude'                 => true,
     'inputType'               => 'pageTree',
     'foreignKey'              => 'tl_page.title',
-    'eval'                    => array('tl_class'=>'w50 wizard','mandatory'=>true, 'fieldType'=>'radio'),
+    'eval'                    => array('tl_class'=>'w50 wizard','mandatory'=>true,'fieldType'=>'radio'),
     'sql'                     => "int(10) unsigned NOT NULL default '0'",
-    'relation'                => array('type'=>'hasOne', 'load'=>'eager')
+    'relation'                => array('type'=>'hasOne','load'=>'eager')
 );

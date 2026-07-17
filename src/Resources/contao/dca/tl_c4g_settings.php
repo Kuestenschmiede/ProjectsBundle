@@ -14,9 +14,9 @@ if (\Contao\System::getContainer()->hasParameter('kernel.packages')){
     $packages = \Contao\System::getContainer()->getParameter('kernel.packages');
     if (array_key_exists('con4gis/maps', $packages)) {
         Contao\CoreBundle\DataContainer\PaletteManipulator::create()
-            ->addLegend('projects_legend', 'expert_legend', Contao\CoreBundle\DataContainer\PaletteManipulator::POSITION_BEFORE, true)
-            ->addField('position_map', 'projects_legend', Contao\CoreBundle\DataContainer\PaletteManipulator::POSITION_APPEND)
-            ->applyToPalette('default', 'tl_c4g_settings');
+            ->addLegend('projects_legend','expert_legend', Contao\CoreBundle\DataContainer\PaletteManipulator::POSITION_BEFORE, true)
+            ->addField('position_map','projects_legend', Contao\CoreBundle\DataContainer\PaletteManipulator::POSITION_APPEND)
+            ->applyToPalette('default','tl_c4g_settings');
 
 
         $GLOBALS['TL_DCA']['tl_c4g_settings']['fields']['position_map'] = array
@@ -25,7 +25,7 @@ if (\Contao\System::getContainer()->hasParameter('kernel.packages')){
             'exclude'                 => true,
             'options_callback'        => array('\con4gis\ProjectsBundle\Classes\Common\C4GBrickCommon','getContentId'),
             'inputType'               => 'select',
-            'eval'                    => array('tl_class'=>'w50 wizard', 'includeBlankOption' => true),
+            'eval'                    => array('tl_class'=>'w50 wizard','includeBlankOption' => true),
             'sql'                     => "varchar(128) NULL"
         );
     }
