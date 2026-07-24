@@ -246,7 +246,7 @@ class C4GPrintoutPDF
             }
 
             $fieldName = $field->getFieldName();
-            if ($field->isPrintable() && ($fieldName && (isset($data[$fieldName]) || (isset($dataset) && isset($dataset->$fieldName))) && (($data[$fieldName] !== null && $data[$fieldName] !== '') || (isset($dataset->$fieldName) && $dataset->$fieldName !== null && $dataset->$fieldName !== '')) || (($field instanceof C4GSubDialogField) || ($field instanceof C4GForeignArrayField) || ($field instanceof C4GImageField) || ($field instanceof C4GRadioGroupField) || ($field instanceof C4GGridField)))) {
+            if ($field->isPrintable() && ($fieldName && (isset($data[$fieldName]) || (isset($dataset) && isset($dataset->$fieldName))) && ((isset($data[$fieldName]) && $data[$fieldName] !== null && $data[$fieldName] !== '') || (isset($dataset->$fieldName) && $dataset->$fieldName !== null && $dataset->$fieldName !== '')) || (($field instanceof C4GSubDialogField) || ($field instanceof C4GForeignArrayField) || ($field instanceof C4GImageField) || ($field instanceof C4GRadioGroupField) || ($field instanceof C4GGridField)))) {
                 $resultField = C4GPrintoutPDF::checkSubFields($field, $data);
                 if ($resultField) {
                     $data[$resultField->getFieldName()] = $resultField->getInitialValue();

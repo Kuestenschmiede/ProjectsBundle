@@ -133,7 +133,8 @@ class C4GDateField extends C4GBrickField
                             if ($data instanceof \stdClass) {
                                 $fieldValue = $data && property_exists($data,$conField) ? $data->$conField : '';
                             } else {
-                                $fieldValue = $data->row()[$conField];
+                                $row = $data->row();
+                                $fieldValue = isset($row[$conField]) ? $row[$conField] : '';
                             }
                         } elseif ($this->getInitialValue()) {
                             foreach($fieldList as $field) {
@@ -156,7 +157,8 @@ class C4GDateField extends C4GBrickField
                 } else {
                     $conField = $conditions->getFieldName();
                     $conValue = $conditions->getValue();
-                    $fieldValue = $data->row()[$conField];
+                    $row = $data->row();
+                    $fieldValue = isset($row[$conField]) ? $row[$conField] : '';
                     if (!$conditions->checkAgainstCondition($fieldValue)) {
                         $display = false;
                     }
