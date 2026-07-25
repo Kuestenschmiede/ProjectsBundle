@@ -67,7 +67,7 @@ class C4GModuleManager
                 return 'Forbidden';
             }
 
-            $this-import(FrontendUser::class, 'User');
+            // $this->import(FrontendUser::class, 'User');
             $groups = StringUtil::deserialize($objModule->groups);
 
             if (!is_array($groups) || count($groups) < 1 || count(array_intersect($groups, $this->User->groups)) < 1) {
@@ -79,12 +79,13 @@ class C4GModuleManager
         $strClass = Module::findClass($objModule->type);
 
         if (!class_exists($strClass)) {
-            $this->log(
-                'Controller class "' . $GLOBALS['FE_MOD'][$objModule->type] .
-                '" (module "' . $objModule->type . '") does not exist',
-                'Ajax getFrontendModule()',
-                TL_ERROR
-            );
+            // $this->log(
+            //     'Controller class "' . $GLOBALS['FE_MOD'][$objModule->type] .
+            //     '" (module "' . $objModule->type . '") does not exist',
+            //     'Ajax getFrontendModule()',
+            //     TL_ERROR
+            // );
+            \con4gis\CoreBundle\Resources\contao\models\C4gLogModel::addLogEntry("projects", "Controller class \"$strClass\" for module \"{$objModule->type}\" does not exist");
 
             header('HTTP/1.1 404 Not Found');
 
@@ -143,11 +144,9 @@ class C4GModuleManager
             return 'Missing frontend module ID';
         }
 
-        $objModule = Database::getInstance()->prepare('SELECT * FROM tl_module WHERE id=?')
-            ->limit(1)
-            ->execute($id);
+        $objModule = ModuleModel::findByPk($id);
 
-        if ($objModule->numRows < 1) {
+        if (!$objModule) {
             header('HTTP/1.1 404 Not Found');
 
             return 'Frontend module not found';
@@ -183,12 +182,13 @@ class C4GModuleManager
 
         $strClass = Module::findClass($objModule->type);
         if ($strClass === "Contao\ModuleProxy") {
-            $this->log(
-                'Module class "' . $GLOBALS['FE_MOD'][$objModule->type] .
-                '" (module "' . $objModule->type . '") does not exist',
-                'Ajax getFrontendModule()',
-                TL_ERROR
-            );
+            // $this->log(
+            //     'Module class "' . $GLOBALS['FE_MOD'][$objModule->type] .
+            //     '" (module "' . $objModule->type . '") does not exist',
+            //     'Ajax getFrontendModule()',
+            //     TL_ERROR
+            // );
+            \con4gis\CoreBundle\Resources\contao\models\C4gLogModel::addLogEntry("projects", "Module class for \"{$objModule->type}\" incorrectly integrated");
 
             header('HTTP/1.1 404 Not Found');
 
@@ -196,12 +196,13 @@ class C4GModuleManager
         } else {
             // Return if the class does not exist
             if (!class_exists($strClass)) {
-                $this->log(
-                    'Module class "' . $GLOBALS['FE_MOD'][$objModule->type] .
-                    '" (module "' . $objModule->type . '") does not exist',
-                    'Ajax getFrontendModule()',
-                    TL_ERROR
-                );
+                // $this->log(
+                //     'Module class "' . $GLOBALS['FE_MOD'][$objModule->type] .
+                //     '" (module "' . $objModule->type . '") does not exist',
+                //     'Ajax getFrontendModule()',
+                //     TL_ERROR
+                // );
+                \con4gis\CoreBundle\Resources\contao\models\C4gLogModel::addLogEntry("projects", "Module class \"$strClass\" for \"{$objModule->type}\" does not exist");
 
                 header('HTTP/1.1 404 Not Found');
 

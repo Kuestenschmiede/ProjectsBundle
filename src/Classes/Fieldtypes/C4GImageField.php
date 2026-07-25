@@ -43,6 +43,9 @@ class C4GImageField extends C4GBrickField
      */
     public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = [])
     {
+        $fieldName = $this->getHTMLFieldName();
+        $id = $this->getHTMLId();
+
         //If the Image-Field has another field as source, load the image from that field instead
         if ($this->getSource() == C4GBrickFieldSourceType::OTHER_FIELD) {
             $sourceFieldName = $this->getSourceField();
@@ -70,13 +73,11 @@ class C4GImageField extends C4GBrickField
                 //$path = \Contao\FilesModel::findOneBy('path', $value);
             }
         } else {
-            if (strpos($value, '/') !== false) {
+            $pathobj = C4GBrickCommon::loadFile($value);
+            if ($pathobj) {
+                $path = $pathobj->path;
+            } elseif (is_string($value) && (strpos($value, '/') !== false) && mb_check_encoding($value, 'UTF-8')) {
                 $path = $value;
-            } else {
-                $pathobj = C4GBrickCommon::loadFile($value);
-                if ($pathobj) {
-                    $path = $pathobj->path;
-                }
             }
         }
 
@@ -84,17 +85,12 @@ class C4GImageField extends C4GBrickField
 
         if ($this->isShowIfEmpty() || $path) {
             $condition = $this->createConditionData($fieldList, $data);
-            $description = $this->getC4GDescriptionLabel($this->getDescription(), $condition);
 
             if ($path) {
                 if ($dialogParams->isWithLabels() === false) {
                     $label = '';
                 } else {
                     $label = $this->getTitle();
-                }
-
-                if ($dialogParams->isWithDescriptions() === false) {
-                    $description = '';
                 }
 
                 $size = $this->getSize();
@@ -125,8 +121,8 @@ class C4GImageField extends C4GBrickField
                     }
                 }
 
-                $img = "<img src=\"$path\" title=\"" . $this->getTitle() . "\" $size/>";
-                $i = $this->getFieldName() . 'Link';
+                $img = "<img src=\"$path\" title=\"" . \Contao\StringUtil::specialchars($this->getTitle()) . "\" $size/>";
+                $i = $fieldName . 'Link';
                 $link = ($data && isset($data->$i)) ? $data->$i : '';
 
                 $lightBoxField = $this->lightBoxField;
@@ -143,13 +139,10 @@ class C4GImageField extends C4GBrickField
 
                 //ToDo <div class="c4g_image_src  c4g_' . $this->getFieldName() . '_src"></div>
 
-                $result = '<div class="c4g__form-group c4g__form-image formdata" '
-                    . $condition['conditionName']
-                    . $condition['conditionType']
-                    . $condition['conditionValue']
-                    . $condition['conditionDisable'] . '>
-                        <div class="c4g_image c4g_' . $this->getFieldName() . '">'.$imageLabel.'<div class="c4g_image_description">' .
-                    $img . $description . '</div></div></div>';
+                $fieldData = '<div class="c4g_image c4g_' . $fieldName . ' ' . $this->getStyleClass() . '">'.$imageLabel.'<div class="c4g_image_description">' .
+                    $img . '</div></div>';
+                
+                $result = $this->addC4GField($condition, $dialogParams, $fieldList, $data, $fieldData);
             }
         }
 

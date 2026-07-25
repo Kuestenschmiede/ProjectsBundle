@@ -215,8 +215,7 @@ window.c4g.projects = window.c4g.projects || {};
           // request initialization from server
           jQuery.ajax({
             internalId: options.id,
-            url: options.ajaxUrl,
-            data: options.ajaxData+'/initnav',
+            url: options.ajaxUrl + '/' + options.ajaxData + '/initnav',
             dataType: "json",
             type: "GET"
           }).done(function(data) {

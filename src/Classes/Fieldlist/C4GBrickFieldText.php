@@ -126,7 +126,7 @@ abstract class C4GBrickFieldText extends C4GBrickField
     /**
      * @return bool
      */
-    public function isReplaceInsertTag()
+    public function isReplaceInsertTag(): bool
     {
         return $this->replaceInsertTag;
     }
@@ -135,7 +135,7 @@ abstract class C4GBrickFieldText extends C4GBrickField
      * @param bool $replaceInsertTag
      * @return $this
      */
-    public function setReplaceInsertTag($replaceInsertTag = true)
+    public function setReplaceInsertTag(bool $replaceInsertTag = true): self
     {
         $this->replaceInsertTag = $replaceInsertTag;
 

@@ -47,7 +47,42 @@ class AjaxController extends ApiController
 
     public function ajaxAction(Request $request, $language, $classname, $module, $action)
     {
+        // SYNC REFERER QUERY PARAMS TO $_GET (needed for con4gis legacy logic)
+        $referer = $request->headers->get('referer');
+        if ($referer) {
+            $queryString = parse_url($referer, PHP_URL_QUERY);
+            if ($queryString) {
+                parse_str($queryString, $refererParams);
+                foreach ($refererParams as $key => $value) {
+                    if (!isset($_GET[$key])) {
+                        $_GET[$key] = $value;
+                        $request->query->set($key, $value);
+                    }
+                }
+            }
+        }
+
+        if ($module == 0 && !empty($request->query->all())) {
+            $keys = array_keys($request->query->all());
+            foreach ($keys as $key) {
+                if (preg_match('/^(\d+)\/(.*)$/', $key, $matches)) {
+                    $module = intval($matches[1]);
+                    $action = $matches[2];
+                    break;
+                }
+            }
+        }
+
         $moduleManager = new C4GModuleManager();
+        
+        // Log entry for debugging
+        if ($module == 0 && !empty($request->query->all())) {
+            // ... (already handled)
+        }
+        
+        if ($action === 'initnav') {
+             // System::log("AJAX initnav for module $module, class $classname", __METHOD__, TL_GENERAL);
+        }
         if ($request->getMethod() === "PUT") {
             $arrData = $request->request->all();
             $actionString = explode(":", $action);
@@ -62,7 +97,7 @@ class AjaxController extends ApiController
                 if ($classname) {
                     if ($strClass && class_exists($strClass)) {
                         // $objModule = new $classname($this->rootDir, $this->session, $this->framework, $objModule);
-                        $objModule = new $classname($this->rootDir, $this->srequestStack, $this->framework, $objModule);
+                        $objModule = new $classname($this->rootDir, $this->requestStack, $this->framework, $objModule);
                         $printoutPDF = new C4GPrintoutPDF($database, $language);
                         return $printoutPDF->printAction($objModule, $arrData, $id, true);
                     }
@@ -77,14 +112,24 @@ class AjaxController extends ApiController
 
             if ($classname) {
                 // $returnData = $moduleManager->getC4gFrontendController($this->rootDir, $this->session, $this->framework, $module, $language, $classname, $action, $arrData);
-                $returnData = $moduleManager->getC4gFrontendController($this->rootDir, $this->requestStack, $this->framework, $module, $language, $classname, $action, $arrData);
+                try {
+                    $returnData = $moduleManager->getC4gFrontendController($this->rootDir, $this->requestStack, $this->framework, $module, $language, $classname, $action, $arrData);
+                } catch (\Throwable $t) {
+                    \con4gis\CoreBundle\Resources\contao\models\C4gLogModel::addLogEntry("projects", "AJAX error in getC4gFrontendController for module $module: " . $t->getMessage() . "\n" . $t->getTraceAsString());
+                    return new JsonResponse(['error' => 'Internal Server Error in AJAX', 'message' => $t->getMessage()], 500);
+                }
             } else {
                 $returnData = $moduleManager->getC4gFrontendModule($module, $language, $action, $arrData);
             }
         } else {
             if ($classname) {
                 // $returnData = $moduleManager->getC4gFrontendController($this->rootDir, $this->session, $this->framework, $module, $language, $classname, $action);
-                $returnData = $moduleManager->getC4gFrontendController($this->rootDir, $this->requestStack, $this->framework, $module, $language, $classname, $action);
+                try {
+                    $returnData = $moduleManager->getC4gFrontendController($this->rootDir, $this->requestStack, $this->framework, $module, $language, $classname, $action);
+                } catch (\Throwable $t) {
+                    \con4gis\CoreBundle\Resources\contao\models\C4gLogModel::addLogEntry("projects", "AJAX error in getC4gFrontendController (GET) for module $module: " . $t->getMessage() . "\n" . $t->getTraceAsString());
+                    return new JsonResponse(['error' => 'Internal Server Error in AJAX (GET)', 'message' => $t->getMessage()], 500);
+                }
             } else {
                 $returnData = $moduleManager->getC4gFrontendModule($module, $language, $action);
             }
@@ -95,7 +140,27 @@ class AjaxController extends ApiController
             $referer = substr($referer, 0, strpos($referer, '?state'));
             $this->redirectToRoute($referer . '?state=list:-1');
         } else {
-            $response->setData(json_decode($returnData));
+            // Ensure no warnings are prepended to JSON
+            if (ob_get_length()) {
+                ob_clean();
+            }
+
+            if ($returnData instanceof \Symfony\Component\HttpFoundation\Response) {
+                return $returnData;
+            }
+
+            if (!is_string($returnData)) {
+                $response->setData($returnData);
+                return $response;
+            }
+
+            $decodedData = json_decode($returnData);
+            if ($decodedData === null && json_last_error() !== JSON_ERROR_NONE) {
+                 \con4gis\CoreBundle\Resources\contao\models\C4gLogModel::addLogEntry("projects", "AJAX invalid JSON response for module $module (Type: ".gettype($returnData)."): " . substr($returnData, 0, 500));
+                 $response->setData(['error' => 'Invalid JSON response', 'raw' => substr($returnData, 0, 1000)]);
+            } else {
+                $response->setData($decodedData);
+            }
             return $response;
         }
     }

@@ -2,9 +2,19 @@ con4gisProjectsBundle:
     path: /con4gis/brick_ajax_api/{language}/{classname}/{module}/{action}
     controller: con4gis\ProjectsBundle\Controller\AjaxController::ajaxAction
     methods: [ GET, PUT ]
+    defaults: { module: 0, action: 'initnav' }
     requirements:
         module: '\d+'
         action: '.*'
+        classname: '[^/]+'
+
+con4gisProjectsBundleLegacy:
+    path: /con4gis/brick_ajax_api/{language}/{classname}
+    controller: con4gis\ProjectsBundle\Controller\AjaxController::ajaxAction
+    methods: [ GET, PUT ]
+    defaults: { module: 0, action: 'initnav' }
+    requirements:
+        classname: '.*'
 
 editortab_service:
     path: /con4gis/editorTabService/{id}

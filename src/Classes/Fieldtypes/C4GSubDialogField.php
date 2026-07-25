@@ -349,10 +349,8 @@ class C4GSubDialogField extends C4GBrickField
             $class = 'class="c4g__form-group formdata '.$styleClass.'"';
 
             $conditionPrepare = $condition['conditionPrepare'] ?: '';
-            if (isset($_GET['event']) && intval($_GET['event']) > 0) {
-                 if (strpos($name, 'participants') !== false || strpos($name, 'Participants') !== false) {
-                     $conditionPrepare = ' style="display: block !important;"';
-                 }
+            if ($this->isForceVisible()) {
+                $conditionPrepare = ' style="display: block !important;"';
             } else if ($this->isInitInvisible()) {
                  $conditionPrepare = ' style="display: none;"';
             }

@@ -42,7 +42,8 @@ class C4GUrlField extends C4GBrickField
      */
     public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = [])
     {
-        $id = 'c4g_' . $this->getFieldName();
+        $id = $this->getHTMLId();
+        $fieldName = $this->getHTMLFieldName();
         $required = $this->generateRequiredString($data, $dialogParams, $fieldList);
         $value = $this->generateInitialValue($data);
         $result = '';
@@ -82,7 +83,7 @@ class C4GUrlField extends C4GBrickField
 
             $result =
                 $this->addC4GField($condition,$dialogParams,$fieldList,$data,
-                    $fieldDataBefore . '<input type="url" ' . $required . $conditionPrepare . ' id="' . $id . '" class="noformdata c4g__form-control c4g__form-url-input" name="' . $this->getFieldName() . '" title="' . $this->getTitle() . '" value="' . $value . '">' . $fieldDataAfter);
+                    $fieldDataBefore . '<input type="url" ' . $required . $conditionPrepare . ' id="' . $id . '" class="noformdata c4g__form-control c4g__form-url-input" name="' . $fieldName . '" title="' . $this->getTitle() . '" value="' . \Contao\StringUtil::specialchars($value) . '">' . $fieldDataAfter);
         }
 
         return $result;

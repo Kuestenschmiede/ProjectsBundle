@@ -33,13 +33,11 @@ class C4GTextField extends C4GBrickFieldText
 
     public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = [])
     {
-        $id = 'c4g_' . $this->getFieldName();
-        if ($this->getAdditionalID()) {
-            $id .= '_' . $this->getAdditionalID();
-        }
+        $id = $this->getHTMLId();
+        $fieldName = $this->getHTMLFieldName();
         $required = $this->generateRequiredString($data, $dialogParams, $fieldList);
         $value = $this->generateInitialValue($data);
-        if ($this->replaceInsertTag) {
+        if ($this->isReplaceInsertTag()) {
             $value = C4GUtils::replaceInsertTags($value);
         }
         $result = '';
@@ -48,8 +46,12 @@ class C4GTextField extends C4GBrickFieldText
             $condition = $this->createConditionData($fieldList, $data);
 
             if ($this->isSimpleTextWithoutEditing()) {
+                $style = $this->mergeStyles($condition['conditionPrepare'], '');
+                if ($this->isForceVisible()) {
+                    $style = $this->mergeStyles($style, 'visibility: visible !important; display: block !important;');
+                }
                 $result = $this->addC4GField($condition, $dialogParams, $fieldList, $data,
-                    '<div ' . $condition['conditionPrepare'] . " id=\"$id\" class=\"c4g_non_input formdata\">$value</div>");
+                    '<div ' . $style . ' id="' . $id . '" class="c4g_non_input formdata ' . $this->getStyleClass() . '">' . html_entity_decode($value, ENT_QUOTES | ENT_HTML5, 'UTF-8') . '</div>');
             } else {
                 if ($this->placeholder !== '') {
                     $placeholder = ' placeholder="' . $this->placeholder . '"';
@@ -63,7 +65,7 @@ class C4GTextField extends C4GBrickFieldText
                 }
 
                 $result = $this->addC4GField($condition, $dialogParams, $fieldList, $data,
-                    '<input ' . $required . ' ' . $condition['conditionPrepare'] . ' type="text" id="' . $id . '" class="formdata c4g__form-control c4g__form-text-input ' . $id . '" size="' . $this->size . '"  maxLength="' . $this->maxLength . '" name="' . $this->getFieldName() . '" value="' . $value . '"' . $placeholder . $aria . '>');
+                    '<input ' . $required . ' ' . $condition['conditionPrepare'] . ' type="text" id="' . $id . '" class="formdata c4g__form-control c4g__form-text-input ' . $id . '" size="' . $this->size . '"  maxLength="' . $this->maxLength . '" name="' . $fieldName . '" value="' . \Contao\StringUtil::specialchars($value) . '"' . $placeholder . $aria . '>');
             }
         }
 

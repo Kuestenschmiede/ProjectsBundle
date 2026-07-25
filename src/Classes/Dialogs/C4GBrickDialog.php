@@ -367,10 +367,8 @@ class C4GBrickDialog
                 $beforeDiv = '';
                 $afterDiv = '';
                 $forceVisible = false;
-                if (isset($_GET['event']) && intval($_GET['event']) > 0) {
-                    if (strpos($field->getFieldName(), 'participants') !== false || strpos($field->getFieldName(), 'desiredCapacity') !== false) {
-                        $forceVisible = true;
-                    }
+                if ($field->isForceVisible()) {
+                    $forceVisible = true;
                 }
                 if ($field->isHidden() && !$forceVisible) {
                     $beforeDiv = '<div class="c4g_brick_hidden_field" style="display:none">';

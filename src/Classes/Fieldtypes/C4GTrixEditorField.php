@@ -33,9 +33,12 @@ class C4GTrixEditorField extends C4GBrickField
      */
     public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = [])
     {
-        $id = 'c4g_' . $this->getFieldName();
+        $id = $this->getHTMLId();
+        $fieldName = $this->getHTMLFieldName();
         $value = $this->generateInitialValue($data);
-        $value = str_replace('"', '&quot;', $value);
+        if ($this->isReplaceInsertTag()) {
+            $value = \con4gis\CoreBundle\Classes\C4GUtils::replaceInsertTags($value);
+        }
 
         $result = '';
 
@@ -44,13 +47,14 @@ class C4GTrixEditorField extends C4GBrickField
             //$required = $this->generateRequiredString($data, $dialogParams, $fieldList);
 
             if ($this->isEditable()) {
-                $fieldData = '<input id="' . $id . '" class="formdata c4g__form-editor" name="' .
-                    $this->getFieldName() . '" value="' . $value . '" type="hidden" name="content">' .
+                $fieldData = '<input id="' . $id . '" class="formdata c4g__form-editor ' . $this->getStyleClass() . '" name="' .
+                    $fieldName . '" value="' . \Contao\StringUtil::specialchars($value) . '" type="hidden">' .
                     '<trix-editor class="trix-content ' . $this->getStyleClass() . '" input="' . $id . '"></trix-editor>';
             } else {
-                $fieldData = '<div disabled ' . $condition['conditionPrepare'] . ' id="' . $id .
-                    '" class="formdata c4g__form-editor-disabled ' . $id . '">' .
-                    html_entity_decode($value) . ' </div>';
+                $style = $this->isForceVisible() ? ' style="visibility: visible !important; display: block !important;"' : '';
+                $fieldData = '<div id="' . $id .
+                    '" class="formdata c4g__form-editor-disabled ' . $this->getStyleClass() . ' ' . $id . '"' . $style . '>' .
+                    html_entity_decode($value, ENT_QUOTES | ENT_HTML5, 'UTF-8') . ' </div>';
             }
 
             $result = $this->addC4GField($condition, $dialogParams, $fieldList, $data, $fieldData);

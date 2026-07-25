@@ -37,16 +37,26 @@ class C4GInfoTextField extends C4GBrickField
      */
     public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = [])
     {
-        $id = 'c4g_' . $this->getFieldName();
+        $id = $this->getHTMLId();
+        $fieldName = $this->getHTMLFieldName();
         $required = $this->generateRequiredString($data, $dialogParams, $fieldList);
         $value = $this->generateInitialValue($data);
+        if ($this->isReplaceInsertTag()) {
+            $value = \con4gis\CoreBundle\Classes\C4GUtils::replaceInsertTags($value);
+        }
         $result = '';
 
         if ($this->isShowIfEmpty() || !empty($value)) {
             $condition = $this->createConditionData($fieldList, $data);
 
-            $result = $this->addC4GField($condition, $dialogParams, $fieldList, $data,
-                '<input ' . $required . ' ' . $condition['conditionPrepare'] . ' type="text" id="' . $id . '" class="formdata c4g__form-control ' . $id . ' c4g_brick_info_text" name="' . $this->getFieldName() . '" value="' . $value . '" style="text-align:' . $this->align . '"">');
+            if ($this->isEditable()) {
+                $result = $this->addC4GField($condition, $dialogParams, $fieldList, $data,
+                    '<input ' . $required . ' type="text" id="' . $id . '" class="formdata c4g__form-control ' . $id . ' c4g_brick_info_text ' . $this->getStyleClass() . '" name="' . $fieldName . '" value="' . \Contao\StringUtil::specialchars($value) . '">');
+            } else {
+                $style = $this->isForceVisible() ? ' style="visibility: visible !important; display: block !important;"' : '';
+                $result = $this->addC4GField($condition, $dialogParams, $fieldList, $data,
+                    '<div id="' . $id . '" class="formdata c4g_brick_info_text_disabled ' . $id . ' ' . $this->getStyleClass() . '"' . $style . '>' . html_entity_decode($value, ENT_QUOTES | ENT_HTML5, 'UTF-8') . '</div>');
+            }
 
             /* TODO - wird mit label versehen, p ist dann ungültig.
                     $result = $this->addC4GField($condition, $dialogParams, $fieldList, $data,

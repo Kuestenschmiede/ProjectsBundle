@@ -148,6 +148,8 @@ abstract class C4GBrickField
     private $changeValueToIf = []; //Changes the field value to the 'to' value if it is the 'if' value.
     private $itemprop = '';
     private $itemType = '';
+    protected $replaceInsertTag = true;
+    private $forceVisible = false;
     private $defaultValue = '';
 
     /**
@@ -601,6 +603,7 @@ abstract class C4GBrickField
 
     protected function createConditionData($fieldList, $data)
     {
+        $conditionResult = true;
         $conditions = $this->getCondition();
         $conditionname = '';
         $conditiontype = '';
@@ -608,27 +611,30 @@ abstract class C4GBrickField
         $conditiondisable = '';
         $conditionPrepare = '';
         $conditionfunction = '';
-        $conditionResult = '';
-
         $class = 'formdata';
-
+        if ($this->isForceVisible()) {
+            return [
+                'conditionResult' => true,
+                'conditionPrepare' => ' style="display: block !important;"',
+                'class' => $class,
+                'conditionName' => '',
+                'conditionType' => '',
+                'conditionValue' => '',
+                'conditionFunction' => '',
+                'conditionDisable' => ($this->isEditable() ? 'data-condition-disable="false"' : 'data-condition-disable="true"'),
+            ];
+        }
         if (!empty($conditions)) {
             $conditionResult = $this->checkCondition($fieldList, $data, $conditions);
 
             if (!$conditionResult) {
                 $conditionPrepare = ' style="display: none;"';
             }
-            
-            // Safety check for reservation participants
-            if (isset($_GET['event']) && intval($_GET['event']) > 0) {
-                 if (strpos($this->getFieldName(), 'participants') !== false || strpos($this->getFieldName(), 'desiredCapacity') !== false) {
-                      $conditionPrepare = ' style="display: block !important;"';
-                      $conditionResult = true; // NEW: Force result to true for events
-                 }
-            } else if ($this->isInitInvisible()) {
-                 $conditionPrepare = ' style="display: none;"';
-            }
+        } else if ($this->isInitInvisible()) {
+            $conditionPrepare = ' style="display: none;"';
+        }
 
+        if (!empty($conditions)) {
             foreach ($conditions as $condition) {
                 if (empty($condition)) {
                     continue;
@@ -656,6 +662,10 @@ abstract class C4GBrickField
             $conditionPrepare = ' style="display: none;"';
         }
 
+        if (!isset($conditionResult)) {
+            $conditionResult = true;
+        }
+
         return [
             'conditionResult' => $conditionResult,
             'conditionPrepare' => $conditionPrepare,
@@ -674,10 +684,7 @@ abstract class C4GBrickField
             $condition = $this->createConditionData($fieldList,$data);
         }
         //ToDo change table to display:grid if feature released for all standard browsers
-        $id = 'c4g_' . $this->getFieldName();
-        if ($this->getAdditionalID()) {
-            $id .= '_' . $this->getAdditionalID();
-        }
+        $id = $this->getHTMLId();
         $value = $this->generateInitialValue($data);
 
         if ($value && ($this instanceof C4GEmailField || $this instanceof C4GUrlField) && $this->isWithLinkDescription()) {
@@ -721,10 +728,8 @@ abstract class C4GBrickField
 
         $styleClass = 'c4g__form-'.$this->type.' '.'c4g__form-'.$this->type.'--'.$this->getFieldName().' '.$this->styleClass;
         $classValue = 'c4g__form-group ' . $styleClass;
-        if (isset($_GET['event']) && intval($_GET['event']) > 0) {
-            if (strpos($this->getFieldName(), 'participants') !== false || strpos($this->getFieldName(), 'desiredCapacity') !== false) {
-                $classValue = str_replace('c4g_brick_hidden_field', '', $classValue);
-            }
+        if ($this->isForceVisible()) {
+            $classValue = str_replace('c4g_brick_hidden_field', '', $classValue);
         }
         $class = 'class="' . trim($classValue) . '" ';
 
@@ -738,9 +743,9 @@ abstract class C4GBrickField
         }
 
         if ($this->isConditionalDisplay()) {
-            // isset seems not to work with expression results
-            if ($this->getConditionalFieldName() != '' && ($this->displayValue !== '-1')) {
-                // all required properties are set
+            if ($this->isForceVisible()) {
+                // Force skip
+            } else if ($this->getConditionalFieldName() != '' && ($this->displayValue !== '-1')) {
                 $string = ' data-condition-field="c4g_' . $this->getConditionalFieldName() . '" data-condition-value="' . $this->getDisplayValue() . '" ';
                 $class .= $string;
             }
@@ -748,10 +753,8 @@ abstract class C4GBrickField
 
         if ($this->isPrintableTableRow()) {
             $style = $condition['conditionPrepare'] ?: '';
-            if (isset($_GET['event']) && intval($_GET['event']) > 0) {
-                if (strpos($this->getFieldName(), 'participants') !== false || strpos($this->getFieldName(), 'desiredCapacity') !== false) {
-                    $style = ' style="display: block !important;" ';
-                }
+            if ($this->isForceVisible()) {
+                $style = $this->mergeStyles($style, 'display: block !important');
             }
             return '<div '
                 . $class
@@ -766,10 +769,8 @@ abstract class C4GBrickField
                 $description . '</div>';
         } else {
             $style = $condition['conditionPrepare'] ?: '';
-            if (isset($_GET['event']) && intval($_GET['event']) > 0) {
-                if (strpos($this->getFieldName(), 'participants') !== false || strpos($this->getFieldName(), 'desiredCapacity') !== false) {
-                    $style = ' style="display: block !important;" ';
-                }
+            if ($this->isForceVisible()) {
+                $style = $this->mergeStyles($style, 'display: block !important');
             }
             return '<div '
                 . $class
@@ -789,29 +790,42 @@ abstract class C4GBrickField
      * @param $data
      * @return mixed
      */
-    protected function generateInitialValue($data, $deserialze = false)
+    public function generateInitialValue($data, $deserialze = false)
     {
-        if (!$data ||
-                (!$this->isDatabaseField()) && ($this->getSource() != C4GBrickFieldSourceType::OTHER_FIELD) &&
-                (!$this->getExternalIdField())) {
+        if (!$data) {
             $value = $this->getInitialValue();
         } else {
-            $fieldName = $this->getFieldName();
+            $origName = $this->getFieldName();
+            $fieldName = $origName;
+            $additionalID = $this->getAdditionalID();
 
-            if ($data && property_exists($data, $fieldName)) {
-                if (!$data->$fieldName) {
-                    if ($this->getAdditionalID()) {
-                        $fieldName .= '_' . $this->getAdditionalID();
-                    }
-                }
-            } else {
-                if ($this->getAdditionalID()) {
-                    $fieldName .= '_' . $this->getAdditionalID();
+            // Prioritize additionalID suffix if available in data
+            if ($additionalID) {
+                $testName = $origName . '_' . $additionalID;
+                if (is_array($data) ? array_key_exists($testName, $data) : property_exists($data, $testName)) {
+                    $fieldName = $testName;
                 }
             }
 
-            if ($data && property_exists($data, $fieldName)) {
-                $value = $data->$fieldName;
+            if ($data && (is_array($data) ? array_key_exists($fieldName, $data) : property_exists($data, $fieldName))) {
+                $dataVal = is_array($data) ? $data[$fieldName] : $data->$fieldName;
+                // If it's a default space from tokenDefaults, try fallback to other name if we used suffix or vice versa
+                if ($dataVal === ' ' && $additionalID) {
+                    $otherName = ($fieldName === $origName) ? ($origName . '_' . $additionalID) : $origName;
+                    if (is_array($data) ? array_key_exists($otherName, $data) : property_exists($data, $otherName)) {
+                        $otherVal = is_array($data) ? $data[$otherName] : $data->$otherName;
+                        if ($otherVal !== ' ' && $otherVal !== '') {
+                            $dataVal = $otherVal;
+                        }
+                    }
+                }
+
+                // FINAL FALLBACK: If still ' ' but initialValue is set and not empty, use initialValue
+                if (($dataVal === ' ' || $dataVal === '') && $this->initialValue && $this->initialValue !== ' ') {
+                    $dataVal = $this->initialValue;
+                }
+
+                $value = $dataVal;
             } else {
                 $value = $this->getInitialValue();
             }
@@ -1783,12 +1797,55 @@ abstract class C4GBrickField
         return $this;
     }
 
+    public function isReplaceInsertTag(): bool
+    {
+        return $this->replaceInsertTag;
+    }
+
+    public function setReplaceInsertTag(bool $replaceInsertTag): self
+    {
+        $this->replaceInsertTag = $replaceInsertTag;
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isForceVisible(): bool
+    {
+        return $this->forceVisible;
+    }
+
+    /**
+     * @param bool $forceVisible
+     * @return C4GBrickField
+     */
+    public function setForceVisible(bool $forceVisible): self
+    {
+        $this->forceVisible = $forceVisible;
+        return $this;
+    }
+
     /**
      * @return null
      */
     public function getFieldName()
     {
         return $this->fieldName;
+    }
+
+    public function getHTMLFieldName()
+    {
+        $fieldName = $this->getFieldName();
+        if ($this->getAdditionalID()) {
+            $fieldName .= '_' . $this->getAdditionalID();
+        }
+        return $fieldName;
+    }
+
+    public function getHTMLId()
+    {
+        return 'c4g_' . $this->getHTMLFieldName();
     }
 
     /**
@@ -2125,11 +2182,37 @@ abstract class C4GBrickField
         return $this;
     }
 
+    public function mergeStyles($conditionPrepare, $extraStyle)
+    {
+        if (empty($conditionPrepare)) {
+            return ' style="' . $extraStyle . '"';
+        }
+        if (empty($extraStyle)) {
+            return $conditionPrepare;
+        }
+
+        // if conditionPrepare contains style="..."
+        if (strpos($conditionPrepare, 'style="') !== false) {
+            $merged = str_replace('style="', 'style="' . $extraStyle . '; ', $conditionPrepare);
+            // If we force display block, we should remove display none
+            if (strpos($extraStyle, 'display: block') !== false) {
+                $merged = str_replace('display: none;', '', $merged);
+                $merged = str_replace('display: none', '', $merged);
+            }
+            return $merged;
+        }
+
+        return $conditionPrepare . ' style="' . $extraStyle . '"';
+    }
+
     /**
      * @return boolean
      */
     public function isHidden()
     {
+        if ($this->isForceVisible()) {
+            return false;
+        }
         return $this->hidden;
     }
 

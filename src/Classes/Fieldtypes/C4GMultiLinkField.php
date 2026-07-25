@@ -31,7 +31,8 @@ class C4GMultiLinkField extends C4GBrickField
 
     public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = [])
     {
-        $id = 'c4g_' . $this->getFieldName();
+        $id = $this->getHTMLId();
+        $fieldName = $this->getHTMLFieldName();
 
         $value = $this->generateInitialValue($data);
         $result = '';
@@ -51,17 +52,18 @@ class C4GMultiLinkField extends C4GBrickField
                     $rel = '';
                 }
 
+                $linkTitle = \Contao\StringUtil::specialchars($link['linkTitle']);
                 if (!$link['linkHref']) {
-                    $tags[] = '<span class="' . $this->linkClass . ' c4g__list-group-item">' . $link['linkTitle'] . '</span>';
+                    $tags[] = '<span class="' . $this->linkClass . ' c4g__list-group-item">' . $linkTitle . '</span>';
                 } else {
-                    $tags[] = '<a class="' . $this->linkClass . ' c4g__list-group-item c4g__list-group-item-action" href="' . $link['linkHref'] . "\" $rel>" . $link['linkTitle'] . '</a>';
+                    $tags[] = '<a class="' . $this->linkClass . ' c4g__list-group-item c4g__list-group-item-action" href="' . $link['linkHref'] . "\" $rel>" . $linkTitle . '</a>';
                 }
             }
 
             if ($this->wrapper) {
-                $fieldData = '<div class="' . $this->wrapperClass . '">' . implode('', $tags) . '</div>';
+                $fieldData = '<div class="' . $this->wrapperClass . ' ' . $this->getStyleClass() . '">' . implode('', $tags) . '</div>';
             } else {
-                $fieldData = implode('', $tags);
+                $fieldData = '<div class="' . $this->getStyleClass() . '">' . implode('', $tags) . '</div>';
             }
 
             if (!empty($tags)) {

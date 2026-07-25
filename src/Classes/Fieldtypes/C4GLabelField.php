@@ -33,7 +33,8 @@ class C4GLabelField extends C4GBrickField
      */
     public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = [])
     {
-        $id = 'c4g_' . $this->getFieldName();
+        $id = $this->getHTMLId();
+        $fieldName = $this->getHTMLFieldName();
         $required = $this->generateRequiredString($data, $dialogParams, $fieldList);
         $value = $this->generateInitialValue($data);
         $result = '';
@@ -41,8 +42,12 @@ class C4GLabelField extends C4GBrickField
         if ($this->isShowIfEmpty() || !empty($value)) {
             $condition = $this->createConditionData($fieldList, $data);
 
+            $style = $this->mergeStyles($condition['conditionPrepare'], 'text-align:' . $this->align);
+            if ($this->isForceVisible()) {
+                $style = $this->mergeStyles($style, 'visibility: visible !important; display: block !important;');
+            }
             $result = $this->addC4GField($condition, $dialogParams, $fieldList, $data,
-                '<input ' . $required . ' ' . $condition['conditionPrepare'] . ' type="text" id="' . $id . '" class="formdata c4g__form-control c4g__form-text-input ' . $id . ' c4g_brick_label" name="' . $this->getFieldName() . '" value="' . $value . '" style="text-align:' . $this->align . '"">');
+                '<input ' . $required . ' ' . $style . ' type="text" id="' . $id . '" class="formdata c4g__form-control c4g__form-text-input ' . $id . ' c4g_brick_label ' . $this->getStyleClass() . '" name="' . $fieldName . '" value="' . \Contao\StringUtil::specialchars($value) . '">');
         }
 
         return $result;

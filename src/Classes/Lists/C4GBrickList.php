@@ -674,10 +674,8 @@ class C4GBrickList
                 $beforeDiv = '<li class="c4g_brick_list_column c4g_brick_list_header_column ' . $field->getFieldName() . '">';
                 $afterDiv = '</li>';
                 $forceVisible = false;
-                if (isset($_GET['event']) && intval($_GET['event']) > 0) {
-                    if (strpos($field->getFieldName(), 'participants') !== false || strpos($field->getFieldName(), 'desiredCapacity') !== false) {
-                        $forceVisible = true;
-                    }
+                if ($field->isForceVisible()) {
+                    $forceVisible = true;
                 }
                 if ($field->isHidden() && !$forceVisible) {
                     $beforeDiv .= '<div class="c4g_brick_hidden_field" style="display:none">';
@@ -748,10 +746,8 @@ class C4GBrickList
                         '"' . $itemprop . $itemType . '>';
                     $afterDiv = '</li>';
                     $forceVisible = false;
-                    if (isset($_GET['event']) && intval($_GET['event']) > 0) {
-                        if (strpos($field->getFieldName(), 'participants') !== false || strpos($field->getFieldName(), 'desiredCapacity') !== false) {
-                            $forceVisible = true;
-                        }
+                    if ($field->isForceVisible()) {
+                        $forceVisible = true;
                     }
                     if ($field->isHidden() && !$forceVisible) {
                         $beforeDiv .= '<div class="c4g_brick_hidden_field" style="display:none">';

@@ -54,7 +54,7 @@ class C4GBrickCommon
     public static function loadFile($uuid)
     {
         $objFile = null;
-        if (Validator::isUuid($uuid)) {
+        if ($uuid && (Validator::isUuid($uuid) || (is_string($uuid) && (strlen($uuid) === 16 || strlen($uuid) === 36)))) {
             $objFile = FilesModel::findByUuid($uuid);
         }
 

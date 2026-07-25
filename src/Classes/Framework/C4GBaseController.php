@@ -443,7 +443,7 @@ class C4GBaseController extends AbstractFrontendModuleController
         $classname = rawurlencode(get_class($this));
 
         $data['id'] = $this->id;
-        $data['ajaxUrl'] = 'con4gis/brick_ajax_api/' . $GLOBALS['TL_LANGUAGE'] . '/' . $classname;
+        $data['ajaxUrl'] = '/' . 'con4gis/brick_ajax_api/' . $GLOBALS['TL_LANGUAGE'] . '/' . $classname;
         $data['ajaxData'] = $this->id;
         $data['height'] = 'auto';
         $data['width'] = '100%';
@@ -715,7 +715,7 @@ class C4GBaseController extends AbstractFrontendModuleController
                 // NEW: We skip this for AJAX requests or when Permalink parameters are present
                 // to maintain state within a single interaction or correctly handle entry links.
                 $isAjax = $request->query->has('req') || $request->headers->get('X-Requested-With') === 'XMLHttpRequest';
-                $hasPermalink = $request->query->has($this->permalink_name ?: 'item') || $request->query->has('event') || $request->query->has('item');
+                $hasPermalink = $request->query->has($this->permalink_name ?: 'item') || $request->query->has('item');
                 if ($this->session && $request->getMethod() === 'GET' && !$isAjax && !$hasPermalink) {
                     $this->session->remove('c4g_brick_dialog_values');
                     $this->session->remove('c4g_brick_dialog_id');
@@ -724,19 +724,6 @@ class C4GBaseController extends AbstractFrontendModuleController
                     $this->session->remove('c4g_brick_project_uuid');
                     $this->session->remove('c4g_brick_parent_id');
                     $this->session->remove('c4g_brick_group_id');
-
-                    // Clear Reservation specific cookies/session values
-                    $this->session->remove('reservationEventCookie');
-                    $this->session->remove('reservationSettings');
-                    $this->session->remove('reservationLangCookie');
-                    // We can't easily remove wildcard cookies like reservationInitialDateCookie_*,
-                    // but removing the main ones should force a reload.
-                }
-
-                if (class_exists(\con4gis\ReservationBundle\Classes\Utils\C4gReservationHandler::class)) {
-                    try {
-                        \con4gis\ReservationBundle\Classes\Utils\C4gReservationHandler::resetStaticCaches();
-                    } catch (\Throwable $t) {}
                 }
 
                 // Hard-Reset the brick Database connection to force new query execution
@@ -1284,7 +1271,6 @@ class C4GBaseController extends AbstractFrontendModuleController
      */
     public function generateAjax($request = null)
     {
-        // auf die benutzerdefinierte Fehlerbehandlung umstellen
         // $old_error_handler = set_error_handler("c4gGroupsErrorHandler");
         if ($request == null) {
 
@@ -1311,7 +1297,7 @@ class C4GBaseController extends AbstractFrontendModuleController
         }
 
         // Short fragment cache for the initial navigation payload (initnav → LIST:-1)
-        $isInitialState = ($request === 'initnav');
+        $isInitialState = false; // Temporarily disabled to resolve empty form issues
         $cache = null; $cacheKey = null; $cacheTtl = 900; // 15 minutes default
         if ($isInitialState) {
             try {
@@ -1637,6 +1623,10 @@ class C4GBaseController extends AbstractFrontendModuleController
         }
 
         $json = json_encode($result);
+        if ($json === false && json_last_error() === JSON_ERROR_UTF8) {
+            $result = $this->utf8ize($result);
+            $json = json_encode($result);
+        }
         // Store per-request memo
         if ($stateKey !== '') { $this->__ajaxMemo[$stateKey] = $json; }
         // Save fragment cache for initial state
@@ -1673,13 +1663,7 @@ class C4GBaseController extends AbstractFrontendModuleController
         if (is_numeric($moduleId)) {
             $this->initBrickModule($moduleId);
         } elseif ($values[0] == C4GBrickActionType::ACTION_BUTTONCLICK && isset($values[2]) && is_numeric($values[2])) {
-            // this case is needed for the ACTION_BUTTONCLICK action
-            // but for reservation, the 3rd value is the event id, not the reservation id
-            if ($values[1] === 'clickReservation') {
-                $this->initBrickModule(-1);
-            } else {
-                $this->initBrickModule($values[2]);
-            }
+            $this->initBrickModule($values[2]);
         } else {
             $this->initBrickModule($moduleId);
         }
@@ -1744,8 +1728,7 @@ class C4GBaseController extends AbstractFrontendModuleController
             }
 
             //id lost with button field (ONCLICK_TYPE_SERVER)
-            // but for reservation, the 3rd value is the event id, not the reservation id
-            if ($putVars && $values[2] && $values[1] !== 'clickReservation') {
+            if ($putVars && $values[2]) {
                 $putVars['id'] = $values[2];
             }
 
@@ -2331,5 +2314,23 @@ class C4GBaseController extends AbstractFrontendModuleController
     public function getPrintStyle(): string
     {
         return $this->printStyle;
+    }
+
+    private function utf8ize($mixed)
+    {
+        if (is_array($mixed)) {
+            foreach ($mixed as $key => $value) {
+                $mixed[$key] = $this->utf8ize($value);
+            }
+        } elseif (is_string($mixed)) {
+            if (strlen($mixed) === 16 && !mb_check_encoding($mixed, 'UTF-8')) {
+                if (class_exists('Contao\StringUtil')) {
+                    return \Contao\StringUtil::binToUuid($mixed);
+                }
+            }
+            return mb_convert_encoding($mixed, "UTF-8", "UTF-8");
+        }
+
+        return $mixed;
     }
 }
