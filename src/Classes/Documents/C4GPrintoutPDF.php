@@ -270,7 +270,7 @@ class C4GPrintoutPDF
         if ($module->getPrintStyle()) {
             $style = $module->getPrintStyle();
         } else {
-            $style = $rootDir . 'bundles/con4gisprojects/dist/css/c4g_brick_print.min.css';
+            $style = $rootDir . '/public/bundles/con4gisprojects/dist/css/c4g_brick_print.min.css';
         }
         $pdfManager->style = $style;
 
@@ -289,7 +289,7 @@ class C4GPrintoutPDF
         $pdfData['Attachment'] = false;
         $pdfData['fieldData'] = array_merge($dataset ? $dataset->row() : [], $data);
         $pdfData['fieldList'] = $printFieldList;
-        $pdfData['chroot'] = dirname($style);
+        $pdfData['chroot'] = $rootDir;
         $pdfData['style'] = $style;
 
         $pdfManager->setData($pdfData);
