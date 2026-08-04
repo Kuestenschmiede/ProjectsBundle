@@ -627,11 +627,11 @@ abstract class C4GBrickField
         if (!empty($conditions)) {
             $conditionResult = $this->checkCondition($fieldList, $data, $conditions);
 
-            if (!$conditionResult) {
-                $conditionPrepare = ' style="display: none;"';
+            if (!$conditionResult || $this->isInitInvisible()) {
+                $conditionPrepare = ' style="display: none;" hidden';
             }
         } else if ($this->isInitInvisible()) {
-            $conditionPrepare = ' style="display: none;"';
+            $conditionPrepare = ' style="display: none;" hidden';
         }
 
         if (!empty($conditions)) {
