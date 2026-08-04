@@ -14,6 +14,7 @@ use con4gis\CoreBundle\Classes\C4GUtils;
 use Terminal42\NotificationCenterBundle\BulkyItem\FileItem;
 use Terminal42\NotificationCenterBundle\NotificationCenter;
 use Terminal42\NotificationCenterBundle\Parcel\Stamp\BulkyItemsStamp;
+use Terminal42\NotificationCenterBundle\Parcel\Stamp\LanguageStamp;
 
 /**
  * Class C4GNotification
@@ -141,6 +142,10 @@ class C4GNotification
             \con4gis\CoreBundle\Resources\contao\models\C4gLogModel::addLogEntry('C4GNotification', "Attempting to send notification ID $notificationId to Notification Center");
             
             $stamps = $notificationModel->createBasicStampsForNotification((int)$notificationId, $this->tokens);
+
+            if ($language) {
+                $stamps = $stamps->with(new LanguageStamp($language));
+            }
             
             // Add vouchers if present
             if (!empty($vouchers)) {
