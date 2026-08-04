@@ -96,7 +96,7 @@ function trixConfig() {
             });
 
             function uploadFileAttachment(attachment) {
-            uploadFile(attachment.file, setProgress, setAttributes);
+            uploadFile(attachment, setProgress, setAttributes);
 
             function setProgress(progress) {
             attachment.setUploadProgress(progress);
@@ -107,7 +107,8 @@ function trixConfig() {
             }
             }
 
-            function uploadFile(file, progressCallback, successCallback) {
+            function uploadFile(attachment, progressCallback, successCallback) {
+            let file = attachment.file;
             let key = createStorageKey(file);
             let formData = createFormData(key, file);
             let xhr = new XMLHttpRequest();
@@ -127,13 +128,26 @@ function trixConfig() {
             });
 
             xhr.addEventListener('load', function(event) {
+            let response = {};
+            try {
+            response = JSON.parse(xhr.response);
+            } catch (e) {}
+
             if (xhr.status === 200) {
-            let response = JSON.parse(xhr.response);
+            if (response.url) {
             let attributes = {
             url: response.url,
             href: response.url
             };
             successCallback(attributes);
+            } else if (response.message) {
+            alert(response.message);
+            attachment.remove();
+            }
+            } else {
+            let msg = response.message || ("Upload failed with status " + xhr.status);
+            alert(msg);
+            attachment.remove();
             }
             });
 
