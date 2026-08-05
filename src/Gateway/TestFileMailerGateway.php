@@ -136,7 +136,7 @@ class TestFileMailerGateway extends MailerGateway
                         $val = '';
                     }
                     
-                    if (($v === 0 || $v === '0' || $v === '1:00' || $v === '01:00' || $v === '1.00') && strpos((string)$k, 'Time') !== false) {
+                    if (($v === null || $v === false) && strpos((string)$k, 'Time') !== false) {
                         $val = '00:00';
                     }
 
@@ -155,17 +155,6 @@ class TestFileMailerGateway extends MailerGateway
                     }
                 }
 
-                // DEEP CLEAN of searchMap: if we have a token that is '1:00' or '01:00' and it's a time token,
-                // and we also have '00:00' or '0' for it, we MUST prefer '00:00'.
-                // Actually, our logic above already tries to fix it.
-                // Let's force it for specific tokens:
-                if (isset($searchMap['##beginTime##']) && ($searchMap['##beginTime##'] === '1:00' || $searchMap['##beginTime##'] === '01:00')) {
-                    $searchMap['##beginTime##'] = '00:00';
-                }
-                if (isset($searchMap['##endTime##']) && ($searchMap['##endTime##'] === '1:00' || $searchMap['##endTime##'] === '01:00')) {
-                    // Check if it's really midnight or just 1 AM. For 23:59, we don't want to change it.
-                    // But if it's 1:00, it's very likely a TZ offset error for 00:00.
-                }
 
                 $search = array_keys($searchMap);
                 $replace = array_values($searchMap);
