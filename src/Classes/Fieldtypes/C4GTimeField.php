@@ -161,11 +161,18 @@ class C4GTimeField extends C4GBrickField
      */
     public function translateFieldValue($value)
     {
-        $timestamp = 0; //sollte nicht vorkommen.
+        $timestamp = 0;
         if ($value) {
-            $timestamp = strtotime($value);
+            if (is_numeric($value)) {
+                $timestamp = intval($value);
+            } else {
+                $timestamp = strtotime($value);
+                if ($timestamp === false) {
+                    $timestamp = 0;
+                }
+            }
         }
 
-        return date($GLOBALS['TL_CONFIG']['timeFormat'], $timestamp);
+        return date($GLOBALS['TL_CONFIG']['timeFormat'] ?: 'H:i', $timestamp);
     }
 }

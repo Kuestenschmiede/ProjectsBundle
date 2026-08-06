@@ -360,22 +360,28 @@ class C4GDateField extends C4GBrickField
      */
     public function translateFieldValue($value)
     {
-        if ($value === '') {
-            $value = 0;
+        if ($value === '' || $value === null) {
+            return '';
         }
 
-        if ($GLOBALS['TL_CONFIG']['dateFormat'] == 'd/m/Y') {
+        if (($GLOBALS['TL_CONFIG']['dateFormat'] ?? '') == 'd/m/Y') {
             $value = str_replace('/','.',$value);
         }
 
-        $timestamp = strtotime($value);
-        if (is_numeric($timestamp)) {
-            return date($GLOBALS['TL_CONFIG']['dateFormat'], $timestamp);
-        } elseif ($value == $GLOBALS['TL_LANG']['FE_C4G_DIALOG_COMPARE']['newEntry']) {
-            return $value;
+        $timestamp = 0;
+        if (is_numeric($value)) {
+            $timestamp = intval($value);
+        } else {
+            $timestamp = strtotime($value);
+            if ($timestamp === false) {
+                if ($value == ($GLOBALS['TL_LANG']['FE_C4G_DIALOG_COMPARE']['newEntry'] ?? '')) {
+                    return $value;
+                }
+                $timestamp = 0;
+            }
         }
 
-        return date($GLOBALS['TL_CONFIG']['dateFormat'], $value);
+        return date($GLOBALS['TL_CONFIG']['dateFormat'] ?: 'd.m.Y', $timestamp);
     }
 
     /**
