@@ -251,10 +251,17 @@ class C4GRadioGroupField extends C4GBrickField
     public function translateFieldValue($value)
     {
         if ($this->timeButtonSpecial) {
+            if (is_string($value) && strpos($value, '#') !== false) {
+                $parts = explode('#', $value);
+                $value = $parts[0];
+            }
             if (is_numeric($value)) {
-                $timeFormat = $GLOBALS['TL_CONFIG']['timeFormat'];
+                $timeFormat = ($GLOBALS['TL_CONFIG']['timeFormat'] ?? '') ?: 'H:i';
 
-                return date($timeFormat, $value);
+                return \Contao\Date::parse($timeFormat, (int)$value);
+            }
+            if (is_string($value) && strpos($value, ':') !== false) {
+                return $value;
             }
         }
 

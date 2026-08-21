@@ -173,6 +173,8 @@ class C4GTimeField extends C4GBrickField
             }
         }
 
-        return date($GLOBALS['TL_CONFIG']['timeFormat'] ?: 'H:i', $timestamp);
+        $timeFormat = ($GLOBALS['TL_CONFIG']['timeFormat'] ?? '') ?: 'H:i';
+
+        return \Contao\Date::parse($timeFormat, $timestamp);
     }
 }
