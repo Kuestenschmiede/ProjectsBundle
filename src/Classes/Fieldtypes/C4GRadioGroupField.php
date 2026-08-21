@@ -279,7 +279,7 @@ class C4GRadioGroupField extends C4GBrickField
         if (!empty($additionalId)) {
             $fieldName = $fieldName . '_' . $additionalId;
         }
-        $fieldData = $dlgValues[$fieldName];
+        $fieldData = $dlgValues[$fieldName] ?? ($dlgValues[$this->getFieldName()] ?? null);
         $conditions = $this->getCondition();
         if (($conditions) && ($this->getConditionType() != C4GBrickConditionType::BOOLSWITCH)) {
             $found = false;
@@ -291,7 +291,7 @@ class C4GRadioGroupField extends C4GBrickField
                     $conditionModel = $condition->getModel();
 
                     if ($conditionField && $conditionModel && $conditionFunction) {
-                        $conFieldValue = $dlgValues[$conditionField];
+                        $conFieldValue = $dlgValues[$conditionField] ?? null;
                         $found = $conditionModel::$conditionFunction($conFieldValue);
                         if ($found) {
                             break;
@@ -301,7 +301,7 @@ class C4GRadioGroupField extends C4GBrickField
                     $conditionField = $condition->getFieldName();
                     $conditionValue = $condition->getValue();
                     if ($conditionField) {
-                        $conFieldValue = $dlgValues[$conditionField];
+                        $conFieldValue = $dlgValues[$conditionField] ?? null;
                         $found = $conditionValue == $conFieldValue ? true : false;
                         if ($found) {
                             break;
@@ -312,6 +312,19 @@ class C4GRadioGroupField extends C4GBrickField
 
             if (!$found) {
                 return null;
+            }
+        }
+
+        if ($this->timeButtonSpecial && $fieldData !== null) {
+            if (is_string($fieldData) && strpos($fieldData, '#') !== false) {
+                $parts = explode('#', $fieldData);
+                $fieldData = $parts[0];
+            }
+            if (is_numeric($fieldData)) {
+                $fieldData = (int)$fieldData;
+            } elseif (is_string($fieldData) && strpos($fieldData, ':') !== false) {
+                $timeParts = explode(':', trim($fieldData));
+                $fieldData = ((int)($timeParts[0] ?? 0) * 3600) + ((int)($timeParts[1] ?? 0) * 60) + ((int)($timeParts[2] ?? 0));
             }
         }
 
