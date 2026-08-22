@@ -32,6 +32,11 @@ abstract class C4GBrickFieldText extends C4GBrickField
         parent::__construct($type);
     }
 
+    public function translateFieldValue($value)
+    {
+        return trim((string) $value);
+    }
+
     /**
      * Will be called by if the field value is longer than $maxChars. Return a value that will replace it.
      * This will not overwrite the value stored in the database.

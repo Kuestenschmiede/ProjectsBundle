@@ -25,6 +25,11 @@ class C4GTextareaField extends C4GBrickField
         $this->setSize(3);
     }
 
+    public function translateFieldValue($value)
+    {
+        return trim((string) $value);
+    }
+
     /**
      * @param $field
      * @param $data

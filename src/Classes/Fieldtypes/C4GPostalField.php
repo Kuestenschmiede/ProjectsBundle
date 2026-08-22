@@ -27,6 +27,11 @@ class C4GPostalField extends C4GBrickFieldNumeric
         parent::__construct($type);
     }
 
+    public function translateFieldValue($value)
+    {
+        return trim((string) $value);
+    }
+
     public function getC4GDialogField($fieldList, $data, C4GBrickDialogParams $dialogParams, $additionalParams = [])
     {
         $id = 'c4g_' . $this->getFieldName();

@@ -30,6 +30,11 @@ class C4GInfoTextField extends C4GBrickField
         parent::__construct($type);
     }
 
+    public function translateFieldValue($value)
+    {
+        return trim((string) $value);
+    }
+
     /**
      * @param $field
      * @param $data
