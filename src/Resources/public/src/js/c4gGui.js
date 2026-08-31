@@ -451,6 +451,76 @@ window.c4g.projects = window.c4g.projects || {};
         }
       };
 
+      var fnBindActions = function (element) {
+        element
+            .find('.c4gGuiAction')
+            .hover(function () {
+              if (jQuery(this).attr('data-hoverclass') !== 'undefined') {
+                if (jQuery(this).attr('data-hoverclass')) {
+                  jQuery(this).addClass(jQuery(this).attr('data-hoverclass'));
+                }
+              }
+            }, function () {
+              if (jQuery(this).attr('data-hoverclass') !== 'undefined') {
+                if (jQuery(this).attr('data-hoverclass')) {
+                  jQuery(this).removeClass(jQuery(this).attr('data-hoverclass'));
+                }
+              }
+
+            })
+            .click(function () {
+              if (typeof(jQuery(this).attr('data-href')) !== 'undefined') {
+                if (jQuery(this).attr('data-href_newwindow')) {
+                  fnJumpToLink(jQuery(this).attr('data-href'), true);
+                }
+                else {
+                  fnJumpToLink(jQuery(this).attr('data-href'));
+                }
+                return false;
+              }
+
+              if ((typeof ckeditor5instances !== 'undefined') && (ckeditor5instances)) {
+                var i = Object.keys(ckeditor5instances).length;
+                while (i > 0) {
+                  i -= 1;
+                  ckeditor5instances[i].updateSourceElement();
+                }
+              }
+
+              if (jQuery(this).hasClass('c4gGuiSend')) {
+                var formdata = {};
+                jQuery(scope.contentDiv).find('.formdata').each(function (index, element) {
+                  if (jQuery(element).attr('type') === 'checkbox') {
+                    formdata[jQuery(element).attr('name')] = jQuery(element).is(':checked');
+                  } else {
+                    formdata[jQuery(element).attr('name')] = jQuery(element).val();
+                  }
+                });
+
+                if (typeof(jQuery(this).attr('data-action')) !== 'undefined') {
+                  fnExecAjaxPut(
+                      options.ajaxUrl + '/' + options.ajaxData + '/' + jQuery(this).attr('data-action'),
+                      formdata);
+                }
+                return false;
+              }
+              else if (typeof(jQuery(this).attr('data-action')) !== 'undefined') {
+                if (jQuery(this).hasClass('c4g-reload-content')) {
+                  fnExecAjaxGet(options.ajaxData + '/' + jQuery(this).attr('data-action'), true);
+                } else {
+                  fnExecAjaxGet(options.ajaxData + '/' + jQuery(this).attr('data-action'));
+                }
+                return false;
+              }
+
+            });
+
+        fnAddButton(element);
+        fnAddTooltip(element);
+        fnAddAccordion(element);
+        fnMakeCollapsible(element);
+      };
+
       var fnAddContent = function (content, appendTo) {
         if (typeof appendTo === 'undefined') {
           appendTo = null;
@@ -627,70 +697,7 @@ window.c4g.projects = window.c4g.projects || {};
             aHtmlDiv.appendTo(scope.contentDiv);
           }
           aHtmlDiv.html(contentdata);
-
-          aHtmlDiv
-              .find('.c4gGuiAction')
-              .hover(function () {
-                if (jQuery(this).attr('data-hoverclass') !== 'undefined') {
-                  if (jQuery(this).attr('data-hoverclass')) {
-                    jQuery(this).addClass(jQuery(this).attr('data-hoverclass'));
-                  }
-                }
-              }, function () {
-                if (jQuery(this).attr('data-hoverclass') !== 'undefined') {
-                  if (jQuery(this).attr('data-hoverclass')) {
-                    jQuery(this).removeClass(jQuery(this).attr('data-hoverclass'));
-                  }
-                }
-
-              })
-              .click(function () {
-                if (typeof(jQuery(this).attr('data-href')) !== 'undefined') {
-                  if (jQuery(this).attr('data-href_newwindow')) {
-                    fnJumpToLink(jQuery(this).attr('data-href'), true);
-                  }
-                  else {
-                    fnJumpToLink(jQuery(this).attr('data-href'));
-                  }
-                  return false;
-                }
-
-                if ((typeof ckeditor5instances !== 'undefined') && (ckeditor5instances)) {
-                  var i = Object.keys(ckeditor5instances).length;
-                  while (i > 0) {
-                    i -= 1;
-                    ckeditor5instances[i].updateSourceElement();
-                  }
-                }
-
-                if (jQuery(this).hasClass('c4gGuiSend')) {
-                  var formdata = {};
-                  jQuery(scope.contentDiv).find('.formdata').each(function (index, element) {
-                    if (jQuery(element).attr('type') === 'checkbox') {
-                      formdata[jQuery(element).attr('name')] = jQuery(element).is(':checked');
-                    } else {
-                      formdata[jQuery(element).attr('name')] = jQuery(element).val();
-                    }
-                  });
-
-                  if (typeof(jQuery(this).attr('data-action')) !== 'undefined') {
-                    fnExecAjaxPut(
-                        options.ajaxUrl + '/' + options.ajaxData + '/' + jQuery(this).attr('data-action'),
-                        formdata);
-                  }
-                  return false;
-                }
-                else if (typeof(jQuery(this).attr('data-action')) !== 'undefined') {
-                  fnExecAjaxGet(options.ajaxData + '/' + jQuery(this).attr('data-action'));
-                  return false;
-                }
-
-              });
-
-          fnAddButton(aHtmlDiv);
-          fnAddTooltip(aHtmlDiv);
-          fnAddAccordion(aHtmlDiv);
-          fnMakeCollapsible(aHtmlDiv);
+          fnBindActions(aHtmlDiv);
         }
 
         //ToDo test
@@ -972,15 +979,19 @@ window.c4g.projects = window.c4g.projects || {};
         });
 
         if (typeof(content.precontent) !== 'undefined') {
-          jQuery(scope.contentDiv).prepend(
-            jQuery('<div />').attr('class', 'c4gGuiPreContent').html(content.precontent));
+          var aPreContentDiv = jQuery('<div />')
+            .attr('class', 'c4gGuiPreContent')
+            .html(content.precontent)
+            .prependTo(scope.contentDiv);
+          fnBindActions(aPreContentDiv);
         }
 
         if (typeof(content.postcontent) !== 'undefined') {
-          jQuery('<div />')
+          var aPostContentDiv = jQuery('<div />')
             .attr('class', 'c4gGuiPostContent')
             .html(content.postcontent)
             .appendTo(scope.contentDiv);
+          fnBindActions(aPostContentDiv);
         }
       }
 
